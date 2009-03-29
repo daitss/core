@@ -1,0 +1,33 @@
+<mets xmlns="http://www.loc.gov/METS/"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      OBJID="ateam.sip">
+
+  <dmdSec ID="DMD-0">
+    <mdWrap MDTYPE="MODS">
+      <xmlData>
+        <mods xmlns="http://www.loc.gov/mods/v3">
+          <titleInfo>
+            <title >The (fd)A Team</title>
+          </titleInfo>
+        </mods>
+      </xmlData>
+    </mdWrap>
+  </dmdSec>
+  
+  <fileSec>
+    <fileGrp>
+      <file ID="FILE-0" CHECKSUM="baf80e89047e19e6616597b6403a4e025bf3ebe0" CHECKSUMTYPE="SHA-1">
+        <FLocat xlink:href="ateam.tiff" LOCTYPE="URL"/>
+      </file>
+    </fileGrp>
+  </fileSec>
+
+  <structMap>
+    <div>
+      <fptr FILEID="FILE-0"/>
+    </div>
+  </structMap>
+
+</mets>
+
+OOPS!!!
