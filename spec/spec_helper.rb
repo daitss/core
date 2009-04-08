@@ -27,7 +27,7 @@ def test_web_server
   Mongrel::HttpServer.new "0.0.0.0", "3003"
 end
 
-class AipHandler < Mongrel::HttpHandler
+class MockHandler < Mongrel::HttpHandler
 
   attr_reader :aips, :incompletes
 
@@ -47,12 +47,13 @@ class AipHandler < Mongrel::HttpHandler
         make_new_aip request, response
 
       when "GET"
-
+        
         response.start(200) do |head, out|
           head['Content-Type'] = "application/tar"
-          out.write @routes[request.params["REQUEST_PATH"]]
+          pattern = @routes.keys.find { |pattern| pattern === request.params["REQUEST_PATH"] }
+          out.write @routes[pattern]
         end
-
+        
       end
 
     rescue => e

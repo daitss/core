@@ -2,47 +2,61 @@ require 'spec_helper'
 require 'aip'
 require 'archive'
 
-describe Aip do
+describe Daitss::Aip do
 
   before(:each) do
     @httpd = test_web_server
-    @handler = AipHandler.new
-    @httpd.register "/archive", @handler
+    @handler = MockHandler.new
+    @httpd.register "/", @handler
     @httpd.run
-    @archive = Archive.new "http://#{@httpd.host}:#{@httpd.port}/archive"
+    @archive = Daitss::Archive.new "http://#{@httpd.host}:#{@httpd.port}/archive"
   end
-
+  
   after(:each) do
     @httpd.stop
   end
 
-  it "should construct given an archive and a " do
-    given_aip = @archive.create_aip sip_by_name('ateam')
-    lambda { Aip.new @archive, 'ateam' }.should_not raise_error
-  end
-  
   describe "ingest" do
 
     before(:each) do
-      @aip = Aip.new @archive, 'aip-0'
+      @aip = Daitss::Aip.new @archive, 'aip-0'
     end
-    
-    it "should terminate when there are validation errors"
-    it "should "
-    
+
+    it "should terminate when there are any errors"
   end
-  
+
   describe "validation" do
-    it "should validate against a D2 validation service"
-    it "should provide errors from validation service"
-    it "should record event for validation outcome"
-  end
-  
-  # its here until it finds a home
-  describe "package level metadata" do
-    it "should provide issue when available"
-    it "should provide volume when available"
-    it "should provide title when available"
+    
+    before(:each) do
+      @aip = Daitss::Aip.new @archive, 'aip-0'
+      @handler.mock /^\/validity.*/, <<XML
+<validity outcome="pass">
+  <virus_check agent="vc-agent-uri" outcome="pass" />
+  <virus_check agent="vc-agent-uri" outcome="pass" />
+  <descriptor_valid agent="xml-validity-agent-uri" outcome="pass" />
+  <checksum_valid agent="message-digest-agent-uri" outcome="pass" />
+</validty>
+XML
+    end
+
+    it "should be validated if validation has been performed" do
+      pending "need aip resource functionality"
+      @aip.validate
+      @aip.should be_validated
+    end
+
+    it "should not be validated if validation has not been performed" do
+      pending "need aip resource functionality"
+      @aip.should_not be_validated
+    end
+
+    it "should have errors listed as events for an invalid aip" do
+      # TODO given some errors
+      @aip.validate
+      @aip.should_not be_valid
+      @aip.events.select { |e| e.agent =~ /validation/ }.should_not be_empty
+    end
+
   end
 
 end

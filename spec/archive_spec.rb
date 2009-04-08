@@ -1,11 +1,13 @@
-describe Archive do
+require 'archive'
+
+describe Daitss::Archive do
 
   before(:each) do
     @httpd = test_web_server
-    @handler = AipHandler.new
-    @httpd.register "/archive", @handler
+    @handler = MockHandler.new
+    @httpd.register "/", @handler
     @httpd.run
-    @archive = Archive.new "http://#{@httpd.host}:#{@httpd.port}/archive"
+    @archive = Daitss::Archive.new "http://#{@httpd.host}:#{@httpd.port}/archive"
   end
 
   after(:each) do
