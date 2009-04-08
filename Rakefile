@@ -23,7 +23,6 @@ spec = Gem::Specification.new do |spec|
     Dir["bin/*", "features/**/*", "lib/*", "spec/*", "tasks/*"]
   spec.executables << 'ingest'
   spec.has_rdoc = true
-  
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
