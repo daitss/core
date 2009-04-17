@@ -95,7 +95,7 @@ module Daitss
 
       end
 
-      add_validity_info doc
+      add_validity_info #doc
       add_event 'valid'
     end
 
