@@ -51,7 +51,7 @@ XML
     end
 
     it "should have errors listed as events for an invalid aip" do
-      pending "not working right now"
+      #pending "not working right now"
       # TODO given some errors
       @aip.validate
       # @aip.should_not be_valid
