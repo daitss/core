@@ -2,6 +2,7 @@
 
 require 'aip'
 
+raise "package url is required" if ARGV.empty?
 url = ARGV[0]
 
 aip = begin
@@ -11,28 +12,14 @@ aip = begin
         exit 1
       end
 
-# validation
+aip.extend Ingestable
+
 begin
-  aip.validate!
+  aip.ingest!
 rescue Reject => e
   puts "#{aip} is rejected: #{e.message}"
   exit 2
+rescue Snafu => e
+  puts "#{aip} is snafu: #{e.message}"
+  exit 3
 end
-
-# per file processing
-new_files = []
-
-aip.files.each do |file|
-  file.describe!
-  file.plan!
-  new_files << file.transform if file.has_transformation?
-end
-
-# describe all the new files
-new_files.each do |file|
-  aip.files << file
-  file.describe!
-end
-
-# store the aip
-aip.store!

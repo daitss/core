@@ -1,13 +1,31 @@
 require 'open-uri'
 
+# makes an aip ingestable
 module Ingestable
-  
-  def validate!
+
+  def ingest!
+    validate
+    process_files
+    aip.store
   end
 
-  def store!
+  def validate
+  end
+
+  def process_files
+    new_files = []
+
+    aip.files.each do |file|
+      file.describe!
+      file.plan!
+      new_files << file.transform if file.has_transformation?
+    end
+    
   end
   
+  def store
+  end
+
 end
 
 class Aip
@@ -21,8 +39,7 @@ class Aip
   def files
     Dir["#{@url.path}/**/*"]
   end
-  
-  include Ingestable
+
 end
 
 class Reject < StandardError; end

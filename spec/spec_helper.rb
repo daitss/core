@@ -5,6 +5,10 @@ require 'mongrel'
 # dir of test sips
 TEST_SIP_DIR = File.join 'spec', 'sips'
 
+def test_package name
+  File.join Dir.pwd, 'spec', 'packages', name
+end
+
 # Return the path of the named sip
 def sip_by_name(name)
 
