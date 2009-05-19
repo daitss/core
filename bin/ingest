@@ -1,8 +1,39 @@
 #!/usr/bin/ruby
 
-ieid = ARGV[0]
+url = ARGV[0]
 
-# does it match the pattern of an ieid?
+aip = begin
+        AIP.new url
+      rescue => e
+        $stderr.puts "cannot process #{url}: #{e.message}"
+        exit 1
+      end
 
-# does the moon exist?
-puts "EPIC WIN!"
+# validation
+begin
+  aip.validate!
+rescue Reject => e
+  $stderr.puts "#{aip} is rejected: #{e.message}"
+  exit 2
+end
+
+# per file processing
+new_files = []
+
+aip.files.each do |file|
+  file.describe!
+  file.plan!
+  new_files << file.transform if file.has_transformation?
+end
+
+# describe all the new files
+new_files.each do |file|
+  aip.files << file
+  file.describe!
+end
+
+# serialize aip
+tarball = aip.serialize
+
+# store the aip
+aip.store tarball
