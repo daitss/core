@@ -1,10 +1,15 @@
 Feature: Ingest
   Under certian conditions ingest should reject a package or snafu a package
   
-  Scenario: a bad package url is supplied
-    Given a non-existant ieid
+  Scenario Outline: a bad package urls
+    Given an <type> package url
      When I ingest it
-     Then I should get an error
+     Then I should get an <type> error
+
+  Examples: bad package urls
+            | type         |
+            | unknown      |
+            | unresolvable |
 
   Scenario: an invalid package
     Given a aip that will fail validation

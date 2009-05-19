@@ -7,7 +7,7 @@ url = ARGV[0]
 aip = begin
         Aip.new url
       rescue => e
-        $stderr.puts "cannot process #{url}: #{e.message}"
+        puts "cannot process #{url}: #{e.message}"
         exit 1
       end
 
@@ -15,7 +15,7 @@ aip = begin
 begin
   aip.validate!
 rescue Reject => e
-  $stderr.puts "#{aip} is rejected: #{e.message}"
+  puts "#{aip} is rejected: #{e.message}"
   exit 2
 end
 
@@ -35,4 +35,4 @@ new_files.each do |file|
 end
 
 # store the aip
-aip.store
+aip.store!
