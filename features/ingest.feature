@@ -1,7 +1,7 @@
 Feature: Ingest
   Under certian conditions ingest should reject a package or snafu a package
   
-  Scenario: a bad ieid is supplied
+  Scenario: a bad package url is supplied
     Given a non-existant ieid
      When I ingest it
      Then I should get an error
@@ -30,4 +30,4 @@ Feature: Ingest
     | per-file      | 400   | ingested |
     | serialization | any   | snafu    |
     | store         | any   | snafu    |
-    
+

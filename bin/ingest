@@ -1,9 +1,11 @@
 #!/usr/bin/ruby
 
+require 'aip'
+
 url = ARGV[0]
 
 aip = begin
-        AIP.new url
+        Aip.new url
       rescue => e
         $stderr.puts "cannot process #{url}: #{e.message}"
         exit 1
@@ -32,8 +34,5 @@ new_files.each do |file|
   file.describe!
 end
 
-# serialize aip
-tarball = aip.serialize
-
 # store the aip
-aip.store tarball
+aip.store
