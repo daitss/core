@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'aip'
 
-describe Daitss::Aip do
+describe Aip do
   it "should initialize from a url"
   it "should raise an error if it initialization fails"
   
@@ -15,4 +15,9 @@ describe Daitss::Aip do
   it "should allow the addition of files"
   
   it "should store copies"
+
+  it "should know if it is currently rejected"
+  it "should know if it is currently ingested"
+  it "should know if it is currently snafu"
+  
 end

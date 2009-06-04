@@ -1,34 +1,25 @@
 require 'open-uri'
+require 'cgi'
+require 'ingestable'
 
-# makes an aip ingestable
-module Ingestable
+# determine the status of a package
+module Status
 
-  def ingest!
-    validate
-    process_files
-    aip.store
+  def ingested?
   end
 
-  def validate
+  def rejected?
   end
 
-  def process_files
-    new_files = []
-
-    aip.files.each do |file|
-      file.describe!
-      file.plan!
-      new_files << file.transform if file.has_transformation?
-    end
-    
-  end
-  
-  def store
+  def snafu?
   end
 
 end
 
+# File System based AIP
 class Aip
+
+  attr_reader :url
 
   def initialize url
     @url = URI.parse url
@@ -36,11 +27,22 @@ class Aip
     raise "cannot locate package: #{url}" unless File.directory?(@url.path)
   end
 
+  def descriptor
+    File.join @url.path, 'descriptor.xml'
+  end
+  
   def files
     Dir["#{@url.path}/**/*"]
   end
 
+  def to_s
+    url.to_s
+  end
+  
 end
 
-class Reject < StandardError; end
+class Reject < StandardError
+  alias_method :reasons, :message
+end
 
+class Snafu < StandardError; end

@@ -35,4 +35,3 @@ Feature: Ingest
     | 400   | per-file      | ingested |
     | any   | serialization | snafu    |
     | any   | store         | snafu    |
-

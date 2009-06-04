@@ -23,10 +23,11 @@ Then /^I should get an (unresolvable|unknown) error$/ do |type|
 end
 
 Given /^an aip that will fail validation$/ do
-  @url = "file://" + test_package('empty')
+  @url = "file://" + test_package_instance('empty')
 end
 
 Given /^a partially ingested AIP$/ do
+  pending
   @url = "file://" + test_package('incomplete')
   # TODO build list of pre existing events
 end
@@ -41,6 +42,7 @@ Then /^there should be no duplicate events$/ do
 end
 
 Given /^a good AIP$/ do
+  pending
   @url = "file://" + test_package('ateam')
 end
 
@@ -51,6 +53,5 @@ Given /^a error of (any|\d{3}) error when performing (.+)$/ do |status, service|
 end
 
 Then /^the package should be (ingested|rejected|snafu)$/ do |status|
-  # TODO scan the events for the proper one
-  pending
+  @output.should match(/#{status}/m)
 end

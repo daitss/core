@@ -17,7 +17,12 @@ aip.extend Ingestable
 begin
   aip.ingest!
 rescue Reject => e
-  puts "#{aip} is rejected: #{e.message}"
+  puts "#{aip} rejected"
+  
+  e.reasons.each do |r|
+    puts "%s %s %s" % [ r[:time], r[:type], r[:message] ]
+  end
+
   exit 2
 rescue Snafu => e
   puts "#{aip} is snafu: #{e.message}"
