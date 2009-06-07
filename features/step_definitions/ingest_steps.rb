@@ -23,22 +23,25 @@ Then /^I should get an (unresolvable|unknown) error$/ do |type|
 end
 
 Given /^an aip that will fail validation$/ do
-  @url = "file://" + test_package_instance('empty')
+  @url = "file:" + package_instance('empty')
 end
 
 Given /^a partially ingested AIP$/ do
-  pending
-  @url = "file://" + test_package('incomplete')
-  # TODO build list of pre existing events
-end
-
-Then /^it should be ingested$/ do
-  pending
+  path = package_instance('incomplete')
+  @url = "file:" + path
 end
 
 Then /^there should be no duplicate events$/ do
-  # TODO check pre existing events for dupl
-  pending
+  descriptor = File.join URI.parse(@url).path, 'descriptor.xml'
+  doc = XML::Parser.file(descriptor).parse
+
+  types = []
+  doc.find('//premis:event', NS_MAP).each do |e|
+    et = e.find_first('premis:eventType', NS_MAP).content.strip
+    types.should_not include(et)
+    types << et
+  end
+  
 end
 
 Given /^a good AIP$/ do

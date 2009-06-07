@@ -16,6 +16,8 @@ aip.extend Ingestable
 
 begin
   aip.ingest!
+  puts "#{aip} ingested"
+  
 rescue Reject => e
   puts "#{aip} rejected"
   

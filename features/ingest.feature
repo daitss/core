@@ -1,5 +1,5 @@
 Feature: Ingest
-  Under certian conditions ingest should reject a package or snafu a package
+  Under certain conditions ingest should reject a package or snafu a package
   
   Scenario Outline: a bad package urls
     Given an <type> package url
@@ -19,7 +19,7 @@ Feature: Ingest
   Scenario: an ingest should pick up from where it left off
     Given a partially ingested AIP
      When I ingest it
-     Then it should be ingested
+     Then the package should be ingested
       And there should be no duplicate events
 
   Scenario Outline: a error occurs

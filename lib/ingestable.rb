@@ -7,11 +7,16 @@ include LibXML
 module Ingestable
 
   def ingest!
-    validate
+    validate unless already_validated?
     #retrieve_provenance
     #process_files
     #aip.store
     #aip.flush_files
+  end
+
+  def already_validated?
+    doc = XML::Parser.file(descriptor).parse
+    doc.find_first('//premis:event[premis:eventType[normalize-space(.)="SIP Validation"]]', NS_MAP)
   end
 
   def validate
