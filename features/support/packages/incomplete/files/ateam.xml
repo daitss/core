@@ -19,32 +19,21 @@
   </dmdSec>
 
 	<amdSec>
-		
-		<!-- other Validation based events should be here too -->
-		
 		<digiprovMD ID="DPMD-0">
-			<mdWrap MDTYPE="PREMIS">
+			<mdWrap MDTYPE="OTHER" OTHERMDTYPE="DAITSS">
 				<xmlData>
-					<event xmlns="info:lc/xmlns/premis-v2">
-						<eventIdentifier>
-							<eventIdentifierType>URI</eventIdentifierType>
-							<eventIdentifierValue>info:fcla/da/test-package/event1</eventIdentifierValue>
-						</eventIdentifier>
-						<eventType>SIP Validation</eventType>
-						<eventDateTime>2008-05-06T10:40:22-04:00</eventDateTime>
-						<eventOutcomeInformation>
-							<eventOutcome>success</eventOutcome>
-						</eventOutcomeInformation>
-					</event>
+					<daitss xmlns="http://www.fcla.edu/dls/md/daitss/">
+						<AGREEMENT_INFO ACCOUNT="ACT" PROJECT="PRJ"/>
+					</daitss>
 				</xmlData>
-			</mdWrap>		
+			</mdWrap>
 		</digiprovMD>
 	</amdSec>
-
+  
   <fileSec>
     <fileGrp>
       <file ID="FILE-0" CHECKSUM="baf80e89047e19e6616597b6403a4e025bf3ebe0" CHECKSUMTYPE="SHA-1">
-        <FLocat xlink:href="files/ateam.tiff" LOCTYPE="URL"/>
+        <FLocat xlink:href="ateam.tiff" LOCTYPE="URL"/>
       </file>
     </fileGrp>
   </fileSec>
