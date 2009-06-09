@@ -1,25 +1,39 @@
-require 'open-uri'
-require 'cgi'
+require 'uri'
+
 require 'ingestable'
+require 'described'
+require 'transformable'
+require 'planable'
 
-# determine the status of a package
-module Status
+class Snafu < StandardError; end
 
-  def ingested?
+class DFile
+
+  include Described
+  include Transformable
+  include Planable
+  
+  def initialize aip, path
+    @aip = aip
+    @path = path
   end
-
-  def rejected?
+  
+  def url
+    URI.parse "#{@aip.url.to_s}/#{@path}"
   end
-
-  def snafu?
+  
+  def to_s
+    url.to_s
   end
-
+  
 end
 
 # File System based AIP
 class Aip
 
   attr_reader :url
+
+  include Ingestable
 
   def initialize url
     @url = URI.parse url
@@ -32,7 +46,11 @@ class Aip
   end
   
   def files
-    Dir["#{@url.path}/**/*"]
+    
+    Dir.chdir(@url.path) do
+      Dir["files/**/*"].map { |f| DFile.new self, f }
+    end
+    
   end
 
   def to_s
@@ -40,9 +58,3 @@ class Aip
   end
   
 end
-
-class Reject < StandardError
-  alias_method :reasons, :message
-end
-
-class Snafu < StandardError; end

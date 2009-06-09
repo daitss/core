@@ -14,20 +14,8 @@ World do
 
   def package_instance name
     prototype = File.join File.dirname(__FILE__), 'packages', name
-    FileUtils::cp_r prototype, sandbox
-    File.join sandbox, name
-  end
-
-  def sandbox
-
-    if @sandbox.nil?
-      tf = Tempfile.new 'sandbox'
-      @sandbox = tf.path
-      tf.close!
-
-    end
-
-    @sandbox
+    FileUtils::cp_r prototype, $sandbox
+    File.join $sandbox, name
   end
 
   def app
@@ -48,9 +36,15 @@ World do
 end
 
 Before do
-  FileUtils::mkdir sandbox
+
+  # make a new sandbox
+  tf = Tempfile.new 'sandbox'
+  $sandbox = tf.path
+  tf.close!    
+  
+  FileUtils::mkdir $sandbox
 end
 
 After do
-  FileUtils::rm_rf sandbox
+  FileUtils::rm_rf $sandbox
 end

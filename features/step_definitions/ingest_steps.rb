@@ -27,7 +27,7 @@ Given /^an aip that will fail validation$/ do
 end
 
 Given /^a partially ingested AIP$/ do
-  path = package_instance('incomplete')
+  path = package_instance 'incomplete'
   @url = "file:" + path
 end
 
@@ -45,8 +45,8 @@ Then /^there should be no duplicate events$/ do
 end
 
 Given /^a good AIP$/ do
-  pending
-  @url = "file://" + test_package('ateam')
+  path = package_instance 'good'
+  @url = "file:" + path
 end
 
 Given /^a error of (any|\d{3}) error when performing (.+)$/ do |status, service|
