@@ -13,7 +13,7 @@ require 'aip'
 World do
 
   def package_instance name
-    prototype = File.join File.dirname(__FILE__), 'packages', name
+    prototype = File.join File.dirname(__FILE__), '..', '..', 'test-packages', 'aips', name
     FileUtils::cp_r prototype, $sandbox
     File.join $sandbox, name
   end
