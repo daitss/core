@@ -16,33 +16,16 @@ begin
   aip.ingest!
   puts "#{aip} ingested"
 rescue Reject => e
-  
-  open(File.join(aip.url.path, 'REJECT'), "w") do |io|
-    io.puts Time.now
-    
-    e.reasons.each do |r|
-      puts "%s %s: %s" % [ r[:time].strftime('%c'), r[:type], r[:message] ]
-    end
-    
-  end
-  
+  aip.write_reject_info e
   puts "Package #{aip} rejected"
   puts
   puts 'Reason(s) for rejection:'
-  e.reasons.each do |r|
-    puts "%s %s: %s" % [ r[:time].strftime('%c'), r[:type], r[:message] ]
-  end
-
+  e.reasons.each { |r| puts "%s %s: %s" % [ r[:time].strftime('%c'), r[:type], r[:message] ] }
   exit 2
 rescue => e
-  
-  open(File.join(aip.url.path, 'SNAFU'), "w") do |io|
-    io.puts Time.now
-    io.puts e.message
-  end
-  
+  aip.write_snafu_info e
   puts "Package #{aip} is snafu: #{e.message}"
-  
-  puts e.backtrace
+  puts
+  STDERR.puts e.backtrace
   exit 3
 end

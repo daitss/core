@@ -1,6 +1,6 @@
 require 'namespace'
 
-def import_events src, dst
+def Ximport_events src, dst
   
   events = src.find('//premis:event', NS_MAP)
 
@@ -46,7 +46,7 @@ def import_events src, dst
 
 end
 
-def events_by_type file, type
+def Xevents_by_type file, type
   doc = XML::Parser.file(file).parse
   doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
 end

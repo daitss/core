@@ -5,6 +5,9 @@
                           http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss.xsd
                           http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd"
       OBJID="ateam">
+
+	<amdSec>
+	</amdSec>
   
   <fileSec>
     <fileGrp>

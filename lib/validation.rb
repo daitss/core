@@ -13,19 +13,30 @@ end
 module Ingestable
 
   def validated?
-    events_by_type descriptor, "SIP Validation"
+    type = "SIP Validation"
+    
+    md_for(:digiprov).any? do |doc|
+      doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
+    end
+    
   end
 
   def validate
     s_url = "http://localhost:4567/?location=#{CGI::escape @url.to_s}"
-    results_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
-    descriptor_doc = XML::Parser.file(descriptor).parse
-    import_events results_doc, descriptor_doc
-    descriptor_doc.save(descriptor)
+    val_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
+    add_md :digiprov, val_doc
 
     # reject if needed
-    rr = reject_reasons results_doc
-    raise Reject, rr unless rr.empty?
+    val_doc.find("//premis:event[premis:eventType[normalize-space(.)='SIP passed all validation checks']]", NS_MAP) do |e|
+      eo = e.find_first("premis:eventOutcomeInformation/premis:eventOutcome")
+      
+      if eo.content.strip == 'failure'
+        rr = reject_reasons val_doc
+        raise Reject, rr unless rr.empty?        
+      end
+        
+    end
+    
   end
 
   protected

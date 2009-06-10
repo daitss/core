@@ -5,7 +5,10 @@
                           http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss.xsd
                           http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd"
       OBJID="ateam">
-  
+
+  <amdSec>
+	</amdSec>
+	
   <fileSec>
     <fileGrp>
       <file ID="FILE-0" CHECKSUM="baf80e89047e19e6616597b6403a4e025bf3ebe0" CHECKSUMTYPE="SHA-1">
