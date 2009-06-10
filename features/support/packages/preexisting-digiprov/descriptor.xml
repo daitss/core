@@ -7,11 +7,6 @@
       OBJID="ateam">
 
 	<amdSec>		
-
-  <digiprovMD>
-    <mdRef MDTYPE="PREMIS" xlink:href="md/aip/digiprov-0.xml"/>
-  </digiprovMD>
-
 	</amdSec>
 
   <fileSec>

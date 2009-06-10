@@ -32,14 +32,40 @@ Given /^a partially ingested AIP$/ do
 end
 
 Then /^there should be no duplicate events$/ do
-  descriptor = File.join URI.parse(@url).path, 'descriptor.xml'
-  doc = XML::Parser.file(descriptor).parse
+  
+  # package level events
+  p_pattern = File.join URI.parse(@url).path, 'md', 'aip', 'digiprov-*.xml'
 
-  types = []
-  doc.find('//premis:event', NS_MAP).each do |e|
-    et = e.find_first('premis:eventType', NS_MAP).content.strip
-    types.should_not include(et)
-    types << et
+  p_types = []
+  Dir[p_pattern].each do |file|
+    doc = XML::Parser.file(file).parse
+    
+    doc.find('//premis:event', NS_MAP).each do |e|
+      et = e.find_first('premis:eventType', NS_MAP).content.strip
+      p_types.should_not include(et)
+      p_types << et
+    end
+    
+  end
+  
+  
+  # file level events
+  f_pattern = File.join URI.parse(@url).path, 'md', '*'
+  file_md_dirs = Dir[p_pattern].reject { |file| file =~ %r{md/aip} }
+  
+
+  file_md_dirs.each do |file_md_dir|
+    Dir.chdir(file_md_dir) do
+      f_types = []
+      
+      Dir["digiprov-*.xml"].each do |file|
+        et = e.find_first('premis:eventType', NS_MAP).content.strip
+        f_types.should_not include(et)
+        f_types << et
+      end
+      
+    end
+    
   end
   
 end

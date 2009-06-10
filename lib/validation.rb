@@ -1,7 +1,6 @@
 require 'cgi'
 require 'libxml'
 require 'namespace'
-require 'util'
 require 'open-uri'
 
 include LibXML
@@ -10,7 +9,7 @@ class Reject < StandardError
   alias_method :reasons, :message
 end
 
-module Ingestable
+module Validate
 
   def validated?
     type = "SIP Validation"
@@ -18,7 +17,6 @@ module Ingestable
     md_for(:digiprov).any? do |doc|
       doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
     end
-    
   end
 
   def validate
@@ -31,9 +29,9 @@ module Ingestable
     policy_event = val_doc.find_first("//premis:event[premis:eventType='SIP passed all validation checks']", NS_MAP) 
 
     if policy_event
-      eo = policy_event.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NS_MAP)
+      outcome = policy_event.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NS_MAP).content.strip
       
-      if eo.content.strip == 'failure'
+      if outcome == 'failure'
         reasons = reject_reasons val_doc
         raise Reject, reasons unless reasons.empty?
       end

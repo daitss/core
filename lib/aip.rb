@@ -3,7 +3,7 @@ require 'uri'
 require 'metadata'
 require 'file'
 require 'ingestable'
-require 'validatable'
+require 'validation'
 
 # File System based AIP
 class Aip
@@ -12,7 +12,8 @@ class Aip
 
   include Metadata
   include Ingestable
-
+  include Validate
+  
   def initialize url
     @url = URI.parse url
     raise "unsupported url: #{@url}" unless @url.scheme == 'file'

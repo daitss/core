@@ -1,6 +1,5 @@
 require 'cgi'
 require 'libxml'
-require 'util'
 
 include LibXML
 

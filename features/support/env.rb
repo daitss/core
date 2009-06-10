@@ -47,4 +47,5 @@ end
 
 After do
   # FileUtils::rm_rf $sandbox
+  puts $sandbox
 end
