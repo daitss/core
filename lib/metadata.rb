@@ -23,12 +23,17 @@ module Metadata
     des_doc.save descriptor_file
   end
   
-  # Retruns a list of xml documents for the specified type
-  def md_for type
+  # Return a list of meta data files for the specified type
+  def md_files_for type
     pattern = File.join md_dir, "#{type.id2name}-*.xml"
-    Dir[pattern].map { |f| XML::Parser.file(f).parse }
+    Dir[pattern]
   end
   
+  # Retruns a list of xml documents for the specified type
+  def md_for type
+    md_files_for(type).map { |f| XML::Parser.file(f).parse }
+  end
+    
   protected
   
   # Return the next numerically based id for the meta data file

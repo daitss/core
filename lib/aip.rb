@@ -1,10 +1,10 @@
 require 'uri'
 
-require 'metadata'
 require 'file'
+require 'metadata'
 require 'ingest'
-require 'provenance'
 require 'validate'
+require 'provenance'
 
 # File System based AIP
 class Aip
@@ -72,6 +72,5 @@ class Aip
     end
     
   end
-  
   
 end
