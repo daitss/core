@@ -2,7 +2,7 @@ require 'libxml'
 
 include LibXML
 
-# depends on md_dir and descriptor_file methods
+# depends on package_dir, md_dir and descriptor_file methods
 module Metadata
   
   METS_MD_SECTIONS = [:digiprov, :tech, :rights, :source]
@@ -38,7 +38,7 @@ module Metadata
     
     mdRef = XML::Node.new 'mdRef'
     mdRef['MDTYPE'] = 'PREMIS'
-    relative_path = md_file[path.length+1..-1]
+    relative_path = md_file[(package_dir.length+1)..-1]
     mdRef['xlink:href'] = relative_path
     mdSec << mdRef
     

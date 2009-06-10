@@ -24,7 +24,11 @@ class DFile
     href = doc.find_first("//mets:file[@ID='#{@fid}']/mets:FLocat/@xlink:href", NS_MAP)
     href.value.strip
   end
-
+  
+  def package_dir
+    @aip.package_dir
+  end
+  
   def url
     URI.parse "#{@aip.url.to_s}/#{path}"
   end
@@ -34,7 +38,7 @@ class DFile
   end
   
   def md_dir
-    File.join @aip.path, 'md', @fid
+    File.join @aip.path, 'file-md', @fid
   end
   
   def descriptor_file

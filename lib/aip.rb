@@ -23,7 +23,9 @@ class Aip
   def path
     @url.path
   end
-
+  
+  alias_method :package_dir, :path
+    
   def descriptor_file
     File.join path, 'descriptor.xml'
   end
@@ -42,7 +44,7 @@ class Aip
   end
   
   def md_dir
-    File.join path, 'md', 'aip'
+    File.join path, 'aip-md'
   end
       
   def write_reject_info e
