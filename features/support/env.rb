@@ -46,5 +46,5 @@ Before do
 end
 
 After do
-  FileUtils::rm_rf $sandbox
+  # FileUtils::rm_rf $sandbox
 end

@@ -23,18 +23,23 @@ module Ingestable
 
   def validate
     s_url = "http://localhost:4567/?location=#{CGI::escape @url.to_s}"
+    puts s_url
     val_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
     add_md :digiprov, val_doc
 
     # reject if needed
-    val_doc.find("//premis:event[premis:eventType[normalize-space(.)='SIP passed all validation checks']]", NS_MAP) do |e|
-      eo = e.find_first("premis:eventOutcomeInformation/premis:eventOutcome")
+    policy_event = val_doc.find_first("//premis:event[premis:eventType='SIP passed all validation checks']", NS_MAP) 
+
+    if policy_event
+      eo = policy_event.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NS_MAP)
       
       if eo.content.strip == 'failure'
-        rr = reject_reasons val_doc
-        raise Reject, rr unless rr.empty?        
+        reasons = reject_reasons val_doc
+        raise Reject, reasons unless reasons.empty?
       end
-        
+      
+    else
+      raise "cannot determine validation of package"
     end
     
   end
