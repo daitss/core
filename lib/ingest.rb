@@ -1,7 +1,4 @@
-require 'validation'
-require 'provenance'
-
-module Ingestable
+module Ingest
 
   def ingest!
     validate unless validated?

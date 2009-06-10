@@ -1,4 +1,4 @@
-module Planable
+module Plan
   
   def plan
 

@@ -1,6 +1,6 @@
 require 'namespace'
 
-module Described
+module Describe
 
   def described?
     type = "Format Description"

@@ -2,8 +2,9 @@ require 'uri'
 
 require 'metadata'
 require 'file'
-require 'ingestable'
-require 'validation'
+require 'ingest'
+require 'provenance'
+require 'validate'
 
 # File System based AIP
 class Aip
@@ -11,8 +12,9 @@ class Aip
   attr_reader :url
 
   include Metadata
-  include Ingestable
+  include Ingest
   include Validate
+  include Provenance
   
   def initialize url
     @url = URI.parse url

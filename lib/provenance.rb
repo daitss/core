@@ -3,7 +3,7 @@ require 'libxml'
 
 include LibXML
 
-module Ingestable
+module Provenance
   
   def provenance_retrieved?
     type = "External Provenance Extraction"

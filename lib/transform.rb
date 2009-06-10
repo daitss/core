@@ -1,4 +1,4 @@
-module Transformable
+module Transform
   
   def transform
   end

@@ -1,18 +1,18 @@
 require 'libxml'
 
 require 'metadata'
-require 'described'
-require 'transformable'
-require 'planable'
+require 'describe'
+require 'transform'
+require 'plan'
 
 include LibXML
 
 class DFile
 
   include Metadata
-  include Described
-  include Transformable
-  include Planable
+  include Describe
+  include Transform
+  include Plan
   
   def initialize aip, id
     @aip = aip
