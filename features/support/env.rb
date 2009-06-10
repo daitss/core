@@ -46,6 +46,6 @@ Before do
 end
 
 After do
-  # FileUtils::rm_rf $sandbox
-  puts $sandbox
+  FileUtils::rm_rf $sandbox
+  # puts $sandbox
 end

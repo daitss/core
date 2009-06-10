@@ -1,5 +1,6 @@
 require 'uri'
 
+require 'create'
 require 'file'
 require 'metadata'
 require 'ingest'
@@ -56,7 +57,7 @@ class Aip
 
     # update the descriptor
     fid = next_file_id doc
-    fileGrp = doc.find_first('//mets:fileGrp', NS_MAP) << make_file_ref(fff, fid)
+    fileGrp = doc.find_first('//mets:fileGrp', NS_MAP) << make_file_ref(final_path, fid)
     doc.find_first('/mets:structMap/mets:div', NS_MAP) << make_fptr(fid)
     doc.save descriptor_file
     
