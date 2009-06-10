@@ -11,8 +11,8 @@ class DFile
 
   include Metadata
   include Describe
-  include Transform
   include Plan
+  include Transform
   
   def initialize aip, id
     @aip = aip

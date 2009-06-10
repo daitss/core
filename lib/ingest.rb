@@ -17,14 +17,16 @@ module Ingest
       
     end
 
-    aip.store
-    aip.flush_files
+    store
+    flush_files
   end
 
   def store
+    # TODO
   end
 
   def flush_files
+    # TODO
   end
 
 end

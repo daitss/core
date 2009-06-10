@@ -7,6 +7,7 @@ require 'metadata'
 require 'ingest'
 require 'validate'
 require 'provenance'
+require 'next'
 
 # File System based AIP
 class Aip
@@ -59,12 +60,20 @@ class Aip
     open(abs_path, "w") { |final_io| final_io.write io.read }
 
     # update the descriptor
-    fid = next_file_id doc
+    file_ids = doc.find("//mets:file/@ID", NS_MAP).map { |a| a.value.strip }
+    next_file_id = next_in_set(file_ids, /file-(\d+)/)
+    fid = "file-#{next_file_id}"
     fileGrp = doc.find_first('//mets:fileGrp', NS_MAP) << make_file_ref(abs_path[(path.length + 1)..-1], fid)
     doc.find_first('//mets:structMap/mets:div', NS_MAP) << make_fptr(fid)
     doc.save descriptor_file
+
+    # a file to return
+    dfile = DFile.new self, fid
     
-    DFile.new self, fid
+    # make the meta data dir for this file
+    FileUtils::mkdir dfile.md_dir
+    
+    dfile
   end
   
   def to_s
@@ -134,28 +143,6 @@ class Aip
     relative_path = tf.path[(path.length + 1)..-1]
     tf.close!  
     relative_path
-  end
-  
-  # Return the next file id
-  def next_file_id doc
-    
-    taken_nums = doc.find("//mets:file/@ID", NS_MAP).map do |a|
-      
-      if a.value.strip =~ /file-(\d+)/
-        $1.to_i
-      else
-        -1
-      end
-      
-    end
-    
-    next_num = if taken_nums.empty?
-      0
-    else
-      taken_nums.compact.max + 1
-    end
-
-    "file-#{next_num}"
   end
   
   # Make a new METS file element

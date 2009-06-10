@@ -13,6 +13,7 @@ class Aip
       FileUtils::mkdir File.join(path, d)
     end
     
+    # make blank descriptor
     descriptor_file = File.join(path, "descriptor.xml")
     obj_id = File.basename sip_path
     open(descriptor_file, 'w') { |io| io.write template_by_name('aip_descriptor').result(binding) }    
@@ -21,6 +22,7 @@ class Aip
     aip = Aip.new "file:#{path}"
     
     Dir.chdir sip_path do
+      # TODO handle arbitrary nested dirs (**/*)?
       sip_files = Dir['*'].select { |f| File.file? f }
       sip_files.each do |f| 
         open(f) { |io| aip.add_file io, f } 

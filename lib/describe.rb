@@ -39,7 +39,7 @@ module Describe
       dp_doc.root << dp_doc.import(node)
     end
 
-    add_md :digiprov, dp_doc    
+    add_md :digiprov, dp_doc
   end
   
 end
