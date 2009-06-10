@@ -17,8 +17,8 @@ module Ingest
       
     end
 
-    #aip.store
-    #aip.flush_files
+    aip.store
+    aip.flush_files
   end
 
   def store

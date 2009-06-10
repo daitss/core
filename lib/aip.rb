@@ -21,7 +21,7 @@ class Aip
   def initialize url
     @url = URI.parse url
     raise "unsupported url: #{@url}" unless @url.scheme == 'file'
-    raise "cannot locate package: #{url}" unless File.directory?(@url.path)
+    raise "cannot locate package: #{@url}" unless File.directory?(@url.path)
   end
   
   def path
@@ -55,11 +55,12 @@ class Aip
       new_file_path
     end
 
-    open(File.join(files_dir, final_path), "w") { |final_io| final_io.write io.read }
+    abs_path = File.join files_dir, final_path
+    open(abs_path, "w") { |final_io| final_io.write io.read }
 
     # update the descriptor
     fid = next_file_id doc
-    fileGrp = doc.find_first('//mets:fileGrp', NS_MAP) << make_file_ref(final_path, fid)
+    fileGrp = doc.find_first('//mets:fileGrp', NS_MAP) << make_file_ref(abs_path[(path.length + 1)..-1], fid)
     doc.find_first('//mets:structMap/mets:div', NS_MAP) << make_fptr(fid)
     doc.save descriptor_file
     

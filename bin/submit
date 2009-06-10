@@ -1,28 +1,15 @@
 #!/usr/bin/ruby
 
 require 'aip'
+require 'next'
+
+# XXX if we statically serve ARCHIVE_HOME, it is an AIP resource!!!!
 
 def next_aip
   
   Dir.chdir(ARCHIVE_HOME) do
-    
-    Dir["*"].map do |f|
-      
-      taken_nums = if f =~ /aip-(\d+)/
-        $1.to_i
-      else
-        -1
-      end
-      
-      next_num = if taken_nums.empty?
-        0
-      else
-        taken_nums.compact.max + 1
-      end
-
-      "aip-#{next_num}"
-    end
-    
+    n = next_in_set Dir["*"], /aip-(\d+)/
+    "aip-#{n}"
   end
   
 end

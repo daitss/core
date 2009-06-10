@@ -4,7 +4,8 @@ class Aip
 
   # Create an AIP from a sip
   def Aip.make_from_sip path, sip_path
-
+    path = File.expand_path path
+    
     # make the aip layout
     FileUtils::mkdir path
     
