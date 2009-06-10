@@ -1,0 +1,51 @@
+#!/usr/bin/ruby
+
+require 'aip'
+
+def next_aip
+  
+  Dir.chdir(ARCHIVE_HOME) do
+    
+    Dir["*"].map do |f|
+      
+      taken_nums = if f =~ /aip-(\d+)/
+        $1.to_i
+      else
+        -1
+      end
+      
+      next_num = if taken_nums.empty?
+        0
+      else
+        taken_nums.compact.max + 1
+      end
+
+      "aip-#{next_num}"
+    end
+    
+  end
+  
+end
+
+unless ENV['ARCHIVE_HOME'] && File.directory?(ENV['ARCHIVE_HOME'])
+  puts "ARCHIVE_HOME must be set"
+  exit 1
+end
+
+ARCHIVE_HOME = ENV['ARCHIVE_HOME']
+
+if ARGV.empty?
+  puts "sip path is required"
+  exit 2
+end
+
+sip_path = ARGV[0]
+
+begin
+  aip = Aip.make_from_sip File.join(ARCHIVE_HOME, next_aip), sip_path  
+  puts "#{aip} successfully submitted"
+rescue => e
+  puts e.message
+  puts e.backtrace
+  exit 3
+end

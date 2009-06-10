@@ -1,4 +1,5 @@
 require 'uri'
+require 'tempfile'
 
 require 'create'
 require 'file'
@@ -53,12 +54,13 @@ class Aip
     else
       new_file_path
     end
+
     open(File.join(files_dir, final_path), "w") { |final_io| final_io.write io.read }
 
     # update the descriptor
     fid = next_file_id doc
     fileGrp = doc.find_first('//mets:fileGrp', NS_MAP) << make_file_ref(final_path, fid)
-    doc.find_first('/mets:structMap/mets:div', NS_MAP) << make_fptr(fid)
+    doc.find_first('//mets:structMap/mets:div', NS_MAP) << make_fptr(fid)
     doc.save descriptor_file
     
     DFile.new self, fid
@@ -84,10 +86,17 @@ class Aip
   end
 
       
+  def reject_tag_file
+    File.join path, 'REJECT'
+  end
+  
+  def reject?
+    File.exist? reject_tag_file
+  end
+
   def write_reject_info e
-    reject_info_file = File.join(path, 'REJECT')
     
-    open(reject_info_file, "w") do |io|
+    open(reject_tag_file, "w") do |io|
       io.puts Time.now
 
       e.reasons.each do |r|
@@ -98,15 +107,23 @@ class Aip
     
   end
 
+  def snafu_tag_file
+    File.join path, 'SNAFU'
+  end
+  
+  def snafu?
+    File.exist? snafu_tag_file
+  end
+
   def write_snafu_info e
     
-    open(File.join(path, 'SNAFU'), "w") do |io|
+    open(snafu_tag_file, "w") do |io|
       io.puts Time.now
       io.puts e.message
       io.puts e.backtrace
     end
     
-  end
+  end  
   
   protected
   
@@ -120,7 +137,24 @@ class Aip
   
   # Return the next file id
   def next_file_id doc
-    # TODO
+    
+    taken_nums = doc.find("//mets:file/@ID", NS_MAP).map do |a|
+      
+      if a.value.strip =~ /file-(\d+)/
+        $1.to_i
+      else
+        -1
+      end
+      
+    end
+    
+    next_num = if taken_nums.empty?
+      0
+    else
+      taken_nums.compact.max + 1
+    end
+
+    "file-#{next_num}"
   end
   
   # Make a new METS file element
