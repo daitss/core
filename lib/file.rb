@@ -38,7 +38,7 @@ class DFile
   end
   
   def md_dir
-    File.join @aip.path, 'file-md', @fid
+    File.join @aip.file_md_dir , @fid
   end
   
   def descriptor_file

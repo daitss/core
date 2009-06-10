@@ -4,17 +4,17 @@ module Ingest
     validate unless validated?
     retrieve_provenance unless provenance_retrieved?
     
-    new_files = []
-
     files.each do |file|
       file.describe unless file.described?
       file.plan unless file.planned?
-      new_files << file.transform if file.has_transformation?
-    end
-
-    new_files.each do |file|
-      file.describe unless file.described?
-      file.plan unless file.planned?
+      
+      file.transformations.each do |t|
+        t.perform!
+        new_file = add_file t.data
+        new_file.add_md :tech, t.metadata
+        new_file.describe unless file.described?
+      end
+      
     end
 
     #aip.store
