@@ -11,11 +11,18 @@ module Transform
     
     # Perform the transformation via the service
     def perform!
+      s_url = "#{@url}/?location=#{CGI::escape @src.url}"
+      xform_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
+      @links = xform_doc.find('/links/link').map { |node| node.contents.strip }
     end
 
-    # Return an io object to this new data
+    # Return a yield io objects to this new data
     def data
-      StringIO.new 'everything is converted to plain text!'
+      
+      @links.each do |link|
+        open(link) { |io| yield io }
+      end
+      
     end
 
     # Return a PREMIS document describing the transformation (the new file)
@@ -36,12 +43,16 @@ module Transform
   def transformations
     type = "Action Plan Determination"
 
-    ap_event = md_for(:digiprov).first do |doc|
+    ap_doc = md_for(:digiprov).find do |doc|
       doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
     end
     
-    ap_event.find("//premis:eventOutcomeDetailExtension/*[transformation]", NS_MAP).map do |node|
-      t_url = node.find_first("transformation").contents.strip
+    ap_event = ap_doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
+    
+    puts ap_event
+    
+    ap_event.find("//premis:eventOutcomeDetailExtension/*[premis:transformation]", NS_MAP).map do |node|
+      t_url = node.find_first("premis:transformation").contents.strip
       
       case node.contents.strip
       when 'migration'
