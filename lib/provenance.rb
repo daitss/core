@@ -11,7 +11,6 @@ module Provenance
     md_for(:digiprov).any? do |doc|
       doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
     end
-
   end
 
   def retrieve_provenance
