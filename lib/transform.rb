@@ -11,7 +11,8 @@ module Transform
     
     # Perform the transformation via the service
     def perform!
-      s_url = "#{@url}/?location=#{CGI::escape @src.url}"
+      s_url = "#{@url}?location=#{CGI::escape @src.url.to_s}"
+      puts s_url
       xform_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
       @links = xform_doc.find('/links/link').map { |node| node.contents.strip }
     end
@@ -49,25 +50,21 @@ module Transform
     
     ap_event = ap_doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
     
-    puts ap_event
-    
     ap_event.find("//premis:eventOutcomeDetailExtension/*[premis:transformation]", NS_MAP).map do |node|
-      t_url = node.find_first("premis:transformation").contents.strip
+      t_url = node.find_first("premis:transformation", NS_MAP).content.strip
       
-      case node.contents.strip
+      case node.name
       when 'migration'
         Migration.new t_url, self
         
       when 'normalization'
         Normalization.new t_url, self
-        
+      else
+        raise "unknown transformation type #{node.name}"
       end
       
     end
     
-  end
-  
-  def transform
   end
       
 end
