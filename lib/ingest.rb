@@ -10,9 +10,13 @@ module Ingest
       
       file.transformations.each do |t|
         t.perform!
-        t.data { |io| new_file = add_file io }
-        new_file.add_md :tech, t.metadata
-        new_file.describe unless file.described?
+        
+        t.data do |io, fname| 
+          new_file = add_file io, fname
+          new_file.add_md :tech, t.metadata
+          new_file.describe unless file.described?
+        end
+        
       end
       
     end

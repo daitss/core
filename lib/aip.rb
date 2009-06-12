@@ -140,7 +140,7 @@ class Aip
   # Make a new path for a data file
   def new_file_path
     tf = Tempfile.new 'new-file', files_dir
-    relative_path = tf.path[(path.length + 1)..-1]
+    relative_path = tf.path[(files_dir.length + 1)..-1]
     tf.close!  
     relative_path
   end
