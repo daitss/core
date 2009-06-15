@@ -1,3 +1,4 @@
+require 'layout'
 require 'template'
 
 class Aip
@@ -9,7 +10,7 @@ class Aip
     # make the aip layout
     FileUtils::mkdir path
     
-    ['files', 'aip-md', 'file-md'].each do |d| 
+    [FILES_DIR, AIP_MD_DIR, FILE_MD_DIR].each do |d| 
       FileUtils::mkdir File.join(path, d)
     end
     

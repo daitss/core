@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <mets xmlns="http://www.loc.gov/METS/"
       xmlns:xlink="http://www.w3.org/1999/xlink"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -5,6 +6,8 @@
                           http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss.xsd
                           http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd"
       OBJID="ateam">
+
+INVALID!!!!
 
   <dmdSec ID="DMD-0">
     <mdWrap MDTYPE="MODS">
@@ -32,7 +35,7 @@
   
   <fileSec>
     <fileGrp>
-      <file ID="FILE-0" CHECKSUM="805ae75bc4595521e350564c90a56d28" CHECKSUMTYPE="SHA-1">
+      <file ID="FILE-0" CHECKSUM="baf80e89047e19e6616597b6403a4e025bf3ebe0" CHECKSUMTYPE="SHA-1">
         <FLocat xlink:href="ateam.tiff" LOCTYPE="URL"/>
       </file>
     </fileGrp>

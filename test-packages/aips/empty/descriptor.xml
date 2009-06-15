@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <mets xmlns="http://www.loc.gov/METS/"
       xmlns:xlink="http://www.w3.org/1999/xlink"
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -11,15 +12,15 @@
   
   <fileSec>
     <fileGrp>
-      <file ID="FILE-0" CHECKSUM="baf80e89047e19e6616597b6403a4e025bf3ebe0" CHECKSUMTYPE="SHA-1">
-        <FLocat xlink:href="files/ateam.tiff" LOCTYPE="URL"/>
+      <file ID="file-0" CHECKSUM="baf80e89047e19e6616597b6403a4e025bf3ebe0" CHECKSUMTYPE="SHA-1">
+        <FLocat xlink:href="rep-0/ateam.tiff" LOCTYPE="URL"/>
       </file>
     </fileGrp>
   </fileSec>
 
   <structMap>
     <div>
-      <fptr FILEID="FILE-0"/>
+      <fptr FILEID="file-0"/>
     </div>
   </structMap>
 

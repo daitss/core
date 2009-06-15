@@ -1,6 +1,7 @@
 require 'uri'
 require 'tempfile'
 
+require 'layout'
 require 'create'
 require 'file'
 require 'metadata'
@@ -82,25 +83,24 @@ class Aip
   
   # Returns the absolute path to the files directory
   def files_dir
-    File.join path, 'files'
+    File.join path, FILES_DIR
   end
   
   # Returns the absolute path to the package metadata directory
   def md_dir
-    File.join path, 'aip-md'
+    File.join path, AIP_MD_DIR
   end
 
   # Returns the absolute path to the file metadata directory
   def file_md_dir
-    File.join path, 'file-md'
+    File.join path, FILE_MD_DIR
   end
-
       
   def reject_tag_file
     File.join path, 'REJECT'
   end
   
-  def reject?
+  def rejected?
     File.exist? reject_tag_file
   end
 

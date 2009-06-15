@@ -18,6 +18,13 @@ def aip_instance name
   Aip.new "file:#{aip_instance_path name}"
 end
 
+def aip_instance_from_sip name
+  sip = test_sip_by_name name
+  aip_dir = File.join $sandbox, 'aip'
+  aip = Aip.make_from_sip aip_dir, sip
+  aip
+end
+
 def new_sandbox
   tf = Tempfile.new 'sandbox'
   path = tf.path

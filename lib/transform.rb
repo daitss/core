@@ -12,7 +12,6 @@ module Transform
     # Perform the transformation via the service
     def perform!
       s_url = "#{@url}?location=#{CGI::escape @src.url.to_s}"
-      puts s_url
       xform_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
       @links = xform_doc.find('/links/link').map { |node| node.content.strip }
     end
@@ -22,7 +21,6 @@ module Transform
       
       @links.each do |link|
         fname = File.basename URI.parse(link).path
-        puts fname
         open(link) { |io| yield io, fname }
       end
       

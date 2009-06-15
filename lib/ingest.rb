@@ -33,4 +33,12 @@ module Ingest
     # TODO
   end
 
+  def rejected?
+    File.exist? reject_tag_file
+  end
+
+  def snafu?
+    File.exist? snafu_tag_file
+  end
+
 end
