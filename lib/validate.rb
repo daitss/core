@@ -20,7 +20,7 @@ module Validate
   end
 
   def validate
-    s_url = "http://localhost:4567/?location=#{CGI::escape @url.to_s}"
+    s_url = "http://localhost:7000/validation/results?location=#{CGI::escape @url.to_s}"
     val_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
     add_md :digiprov, val_doc
 

@@ -77,6 +77,7 @@ describe Aip do
   end
   
   it "should know if it is currently ingested" do
+    pending
     aip = aip_instance 'good'
     aip.ingest! 
     aip.should_not be_rejected
@@ -88,28 +89,6 @@ describe Aip do
     aip = aip_instance 'good'
     aip.ingest!
     aip.should be_snafu
-  end
-  
-  it "should put data files in rep-0" do
-    aip = aip_instance_from_sip 'ateam'
-    
-    aip.files.each do |file|
-      dir = File.split(file.path).first
-      dir.should == 'rep-0'
-    end
-    
-  end
-  
-  it 'should put migrated files in rep-1' do
-    aip = aip_instance_from_sip 'glass'
-    puts aip.files.inspect
-        puts 'ingested!'
-    aip.ingest!
-
-    puts aip.files.inspect
-    file = aip.files.find { |f| puts f.path; File.basename(f.path) == 'transformed.wav' }
-    dir = File.split(file.path).first
-    dir.should == 'rep-1'
   end
   
   it "handle arbitrary nested dirs (**/*)"

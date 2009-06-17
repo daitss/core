@@ -13,12 +13,17 @@ module Transform
     def perform!
       s_url = "#{@url}?location=#{CGI::escape @src.url.to_s}"
       xform_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
-      @links = xform_doc.find('/links/link').map { |node| node.content.strip }
+      
+      @links = xform_doc.find('/links/link').map do |node| 
+        relative_url = node.content.strip
+        URI.join(s_url, relative_url).to_s
+      end
+      
     end
 
     # Return a yield io objects to this new data
     def data
-      
+      puts @links.inspect
       @links.each do |link|
         fname = File.basename URI.parse(link).path
         open(link) { |io| yield io, fname }

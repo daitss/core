@@ -12,7 +12,7 @@ module Describe
   end
   
   def describe
-    s_url = "http://localhost:4568/describe?location=#{CGI::escape to_s }"
+    s_url = "http://localhost:7000/description/describe?location=#{CGI::escape to_s }"
     premis_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
 
     # objects
