@@ -1,9 +1,9 @@
 require 'libxml'
 
 require 'metadata'
-require 'perfile/describe'
-require 'perfile/transform'
-require 'perfile/plan'
+require 'file/describe'
+require 'file/transform'
+require 'file/plan'
 
 include LibXML
 
