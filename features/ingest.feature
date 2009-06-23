@@ -30,8 +30,11 @@ Feature: Ingest
 
   Examples: interesting cases
     | level | service       | status   |
-    | any   | validation    | snafu    |
+    | 400   | validation    | snafu    |
+    | 500   | validation    | snafu    |
     | 500   | per-file      | snafu    |
     | 400   | per-file      | ingested |
-    | any   | serialization | snafu    |
-    | any   | store         | snafu    |
+    | 400   | serialization | snafu    |
+    | 500   | serialization | snafu    |
+    | 400   | store         | snafu    |
+    | 500   | store         | snafu    |

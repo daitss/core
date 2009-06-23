@@ -13,6 +13,20 @@ require File.join('..', 'describe', 'describe')
 $:.unshift File.join('..', 'transform', 'lib')
 require File.join('..', 'transform', 'transform')
 
+# dummy
+require 'sinatra'
+class Dummy < Sinatra::Base
+  
+  get '/code/:code' do |code|
+    if code.to_i == 200
+      'all good'
+    else
+      halt code, 'you asked for it'
+    end
+  end
+  
+end
+
 test_stack = Rack::Builder.new do
   
    use Rack::CommonLogger
@@ -38,6 +52,10 @@ test_stack = Rack::Builder.new do
      run Transform.new
    end
    
+   map "/dummy" do
+     use Rack::Lint
+     run Dummy.new
+   end
 end
 
 thin = Rack::Handler::Thin

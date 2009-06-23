@@ -3,23 +3,21 @@
 require 'aip'
 require 'next'
 
-# XXX if we statically serve ARCHIVE_HOME, it is an AIP resource!!!!
-
 def next_aip
   
-  Dir.chdir(ARCHIVE_HOME) do
+  Dir.chdir(DAITSS_WORKSPACE) do
     n = next_in_set Dir["*"], /aip-(\d+)/
     "aip-#{n}"
   end
   
 end
 
-unless ENV['ARCHIVE_HOME'] && File.directory?(ENV['ARCHIVE_HOME'])
-  puts "ARCHIVE_HOME must be set"
+unless ENV['DAITSS_WORKSPACE'] && File.directory?(ENV['DAITSS_WORKSPACE'])
+  puts "DAITSS_WORKSPACE must be set"
   exit 1
 end
 
-ARCHIVE_HOME = ENV['ARCHIVE_HOME']
+DAITSS_WORKSPACE = ENV['DAITSS_WORKSPACE']
 
 if ARGV.empty?
   puts "sip path is required"
@@ -29,7 +27,7 @@ end
 sip_path = ARGV[0]
 
 begin
-  aip = Aip.make_from_sip File.join(ARCHIVE_HOME, next_aip), sip_path  
+  aip = Aip.make_from_sip File.join(DAITSS_WORKSPACE, next_aip), sip_path  
   puts "#{aip} successfully submitted"
 rescue => e
   puts e.message
