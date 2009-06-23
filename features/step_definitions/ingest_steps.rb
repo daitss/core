@@ -76,9 +76,13 @@ Given /^a good AIP$/ do
 end
 
 Given /^a error of (any|\d{3}) error when performing (.+)$/ do |status, service|
-  # TODO mock up a server that will accept anything
-  # but return the http error code
   pending
+    case service
+    when 'validation'
+      $service_urls[:validation] = 'http://localhost:7000/dummy/#{level}'
+    else
+      pending
+    end
 end
 
 Then /^the package should be (ingested|rejected|snafu)$/ do |status|
