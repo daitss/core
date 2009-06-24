@@ -1,0 +1,875 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mets:mets xmlns:mets="http://www.loc.gov/METS/" xmlns:daitss="http://www.fcla.edu/dls/md/daitss/" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version18/mets.v1-8.xsd       http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd       http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss.xsd" OBJID="cornell">
+  <mets:amdSec ID="AMD-TIPR">
+<!-- TIPR Digiprov -->
+    <mets:digiprovMD ID="DPMD-TIPR">
+      <mets:mdWrap MDTYPE="PREMIS" LABEL="RXP">
+        <mets:xmlData>
+          <premis xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:mets="http://www.loc.gov/METS/" xmlns:fn="http://www.w3.org/2005/02/xpath-functions" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd" version="2.0">
+            <object xsi:type="representation">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746</objectIdentifierValue>
+              </objectIdentifier>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/tipr-rep-1.xml</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/tipr-rights.xml</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/tipr-digiprov.xml</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <event>
+              <eventIdentifier>
+                <eventIdentifierType>URI</eventIdentifierType>
+                <eventIdentifierValue>info:cul/archive/1813.001/test_oais3x3/event/EID/3s</eventIdentifierValue>
+              </eventIdentifier>
+              <eventType>ingestion</eventType>
+              <eventDateTime>2009-05-26T09:00:44+02:00</eventDateTime>
+              <eventOutcomeInformation>
+                <eventOutcome>successful</eventOutcome>
+              </eventOutcomeInformation>
+              <linkingAgentIdentifier>
+                <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+                <linkingAgentIdentifierValue>info:cul/archive/agent/CUL-OAISLoader/1.0</linkingAgentIdentifierValue>
+              </linkingAgentIdentifier>
+              <linkingAgentIdentifier>
+                <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+                <linkingAgentIdentifierValue>info:cul/archive/agent/CUL</linkingAgentIdentifierValue>
+              </linkingAgentIdentifier>
+              <linkingObjectIdentifier>
+                <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+                <linkingObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746</linkingObjectIdentifierValue>
+                <linkingObjectRole>associated representation</linkingObjectRole>
+              </linkingObjectIdentifier>
+            </event>
+            <agent>
+              <agentIdentifier>
+                <agentIdentifierType>URI</agentIdentifierType>
+                <agentIdentifierValue>info:cul/archive/agent/CUL-ZLoader/1.0</agentIdentifierValue>
+              </agentIdentifier>
+              <agentName>CUL-OAIS Loader v1.0</agentName>
+              <agentType>software</agentType>
+            </agent>
+            <agent>
+              <agentIdentifier>
+                <agentIdentifierType>URI</agentIdentifierType>
+                <agentIdentifierValue>info:cul/archive/agent/euclid.aaa</agentIdentifierValue>
+              </agentIdentifier>
+              <agentName>projecteuclid.org</agentName>
+              <agentType>organization</agentType>
+            </agent>
+            <agent>
+              <agentIdentifier>
+                <agentIdentifierType>URI</agentIdentifierType>
+                <agentIdentifierValue>info:cul/archive/agent/CUL</agentIdentifierValue>
+              </agentIdentifier>
+              <agentName>Cornell University Library, Ithaca, New York, USA</agentName>
+              <agentType>organization</agentType>
+            </agent>
+          </premis>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+<!-- Representation rights and provenance -->
+  <mets:amdSec ID="AMD-R0">
+    <mets:digiprovMD ID="DPMD0">
+      <mets:mdWrap MDTYPE="PREMIS">
+        <mets:xmlData>
+          <premis xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:mets="http://www.loc.gov/METS/" xmlns:fn="http://www.w3.org/2005/02/xpath-functions" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd" version="2.0">
+            <object xsi:type="representation">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746</objectIdentifierValue>
+              </objectIdentifier>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321747/1174321747.pdfview_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321748/1174321748.pdfview_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321749/1174321749.pdfview_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321750/1174321750.pdfview_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321751/1174321751.pdfview_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321752/1174321752.pdfview_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321753/1174321753.pdfview_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321754/1174321754.pdfview_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321755/1174321755.pdfview_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321756/1174321756.pdfview_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321757/1174321757.pdfview_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321758/1174321758.pdfview_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321759/1174321759.pdfview_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321747/1174321747.fulltext_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321748/1174321748.fulltext_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321749/1174321749.fulltext_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321750/1174321750.fulltext_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321751/1174321751.fulltext_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321752/1174321752.fulltext_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321753/1174321753.fulltext_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321754/1174321754.fulltext_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321755/1174321755.fulltext_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321756/1174321756.fulltext_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321757/1174321757.fulltext_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321758/1174321758.fulltext_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321759/1174321759.fulltext_1</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+              <relationship>
+                <relationshipType/>
+                <relationshipSubType/>
+                <relatedObjectIdentification>
+                  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                  <relatedObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/tipr-rep-1-digiprov.xml</relatedObjectIdentifierValue>
+                </relatedObjectIdentification>
+              </relationship>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321747/1174321747.pdfview_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321748/1174321748.pdfview_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321749/1174321749.pdfview_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321750/1174321750.pdfview_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321751/1174321751.pdfview_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321752/1174321752.pdfview_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321753/1174321753.pdfview_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321754/1174321754.pdfview_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321755/1174321755.pdfview_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321756/1174321756.pdfview_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321757/1174321757.pdfview_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321758/1174321758.pdfview_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321759/1174321759.pdfview_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321747/1174321747.fulltext_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321748/1174321748.fulltext_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321749/1174321749.fulltext_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321750/1174321750.fulltext_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321751/1174321751.fulltext_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321752/1174321752.fulltext_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321753/1174321753.fulltext_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321754/1174321754.fulltext_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321755/1174321755.fulltext_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321756/1174321756.fulltext_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321757/1174321757.fulltext_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321758/1174321758.fulltext_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/files/1174321759/1174321759.fulltext_1</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <object xsi:type="file">
+              <objectIdentifier>
+                <objectIdentifierType>URI</objectIdentifierType>
+                <objectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746/tipr-rep-1-digiprov.xml</objectIdentifierValue>
+              </objectIdentifier>
+              <objectCharacteristics>
+                <compositionLevel>0</compositionLevel>
+                <format>
+                  <formatDesignation>
+                    <formatName/>
+                  </formatDesignation>
+                </format>
+              </objectCharacteristics>
+            </object>
+            <event>
+              <eventIdentifier>
+                <eventIdentifierType>URI</eventIdentifierType>
+                <eventIdentifierValue>info:cul/archive/1813.001/test_oais3x3/event/EID/3s</eventIdentifierValue>
+              </eventIdentifier>
+              <eventType>ingestion</eventType>
+              <eventDateTime>2009-05-26T09:00:44+02:00</eventDateTime>
+              <eventOutcomeInformation>
+                <eventOutcome>successful</eventOutcome>
+              </eventOutcomeInformation>
+              <linkingAgentIdentifier>
+                <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+                <linkingAgentIdentifierValue>info:cul/archive/agent/CUL-OAISLoader/1.0</linkingAgentIdentifierValue>
+              </linkingAgentIdentifier>
+              <linkingAgentIdentifier>
+                <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+                <linkingAgentIdentifierValue>info:cul/archive/agent/CUL</linkingAgentIdentifierValue>
+              </linkingAgentIdentifier>
+              <linkingObjectIdentifier>
+                <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+                <linkingObjectIdentifierValue>info:cul/projecteuclid/euclid.aaa/1174321746</linkingObjectIdentifierValue>
+                <linkingObjectRole>associated representation</linkingObjectRole>
+              </linkingObjectIdentifier>
+            </event>
+            <agent>
+              <agentIdentifier>
+                <agentIdentifierType>URI</agentIdentifierType>
+                <agentIdentifierValue>info:cul/archive/agent/CUL-ZLoader/1.0</agentIdentifierValue>
+              </agentIdentifier>
+              <agentName>CUL-OAIS Loader v1.0</agentName>
+              <agentType>software</agentType>
+            </agent>
+            <agent>
+              <agentIdentifier>
+                <agentIdentifierType>URI</agentIdentifierType>
+                <agentIdentifierValue>info:cul/archive/agent/euclid.aaa</agentIdentifierValue>
+              </agentIdentifier>
+              <agentName>projecteuclid.org</agentName>
+              <agentType>organization</agentType>
+            </agent>
+            <agent>
+              <agentIdentifier>
+                <agentIdentifierType>URI</agentIdentifierType>
+                <agentIdentifierValue>info:cul/archive/agent/CUL</agentIdentifierValue>
+              </agentIdentifier>
+              <agentName>Cornell University Library, Ithaca, New York, USA</agentName>
+              <agentType>organization</agentType>
+            </agent>
+          </premis>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:fileSec>
+    <mets:fileGrp>
+      <mets:file ID="FILE-1" CHECKSUM="87a07ab0eabdf7cbd263c9befb2a8baecca61e1d" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321748/1174321748.pdfview_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-2" CHECKSUM="e39b9e05daa4003dfd3f32402c8bb9792825a1c4" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321749/1174321749.pdfview_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-3" CHECKSUM="f150cc10417667c68202da164ccb5ffa24df51ec" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321750/1174321750.pdfview_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-4" CHECKSUM="3ffa301f3515af1aec5df10bda6b7cba3429caea" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321751/1174321751.pdfview_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-5" CHECKSUM="6b39e8e1808718687a831eec1ea135cd88d33f15" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321752/1174321752.pdfview_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-6" CHECKSUM="673bcf0dfe15e658cd605d8a9d68481eb7b7a6c2" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321753/1174321753.pdfview_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-7" CHECKSUM="94cdafd62ccc75e5ef7726a228002edc25e0d3ef" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321754/1174321754.pdfview_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-8" CHECKSUM="d6b163eb60472540d579abd895fc0846bb58eba5" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321755/1174321755.pdfview_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-9" CHECKSUM="66e1b2178582ef5d86c59beaf98f36a66969c529" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321756/1174321756.pdfview_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-10" CHECKSUM="7c989a3f122058e43608f487608c8b594cfe7380" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321757/1174321757.pdfview_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-11" CHECKSUM="e61b3ee27af7b59a12499fa70acb4401b67afb94" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321758/1174321758.pdfview_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-12" CHECKSUM="de2e3b537dfc89aa724392cf00edafc47dcda21c" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321759/1174321759.pdfview_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-14" CHECKSUM="92e29e739288808e8450e8ae9796840ac354c885" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321748/1174321748.fulltext_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-15" CHECKSUM="e53207f6356f6207825d35e187cfa3b2fb50c27e" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321749/1174321749.fulltext_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-16" CHECKSUM="ec11b2cf6cd7377d360ff023d696583ccb68e516" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321750/1174321750.fulltext_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-17" CHECKSUM="2596c6097abd251a05a58a45df26f9506aadaaba" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321751/1174321751.fulltext_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-18" CHECKSUM="5d094fbea66ef7ea065cb49bbbccfece5e38e016" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321752/1174321752.fulltext_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-19" CHECKSUM="31cc51b50427d6b0d8fa22743bb34453c984b303" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321753/1174321753.fulltext_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-20" CHECKSUM="f2d06d280db6f3904c76ce87fe8ea1822342f0c9" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321754/1174321754.fulltext_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-21" CHECKSUM="dfa92751507465e0f1dcea7c0ad1c5a0d960c398" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321755/1174321755.fulltext_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-22" CHECKSUM="fe931779985c1ea21812b2a327394b668d454b94" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321756/1174321756.fulltext_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-23" CHECKSUM="7c19f3ae0077fbabaab69b58e405aa6d1bbe5119" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321757/1174321757.fulltext_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-24" CHECKSUM="5876962ddef3c33125522e056cb1dd741c678641" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321758/1174321758.fulltext_1" LOCTYPE="URL"/>
+      </mets:file>
+      <mets:file ID="FILE-25" CHECKSUM="60a5f1f4460ce3fb40fe58a278f8a65904bd2f6a" CHECKSUMTYPE="SHA-1">
+        <mets:FLocat xlink:href="1174321759/1174321759.fulltext_1" LOCTYPE="URL"/>
+      </mets:file>
+    </mets:fileGrp>
+  </mets:fileSec>
+  <mets:structMap>
+    <mets:div>
+      <mets:div ADMID="DPMD0">
+        <mets:fptr FILEID="FILE-1"/>
+        <mets:fptr FILEID="FILE-2"/>
+        <mets:fptr FILEID="FILE-3"/>
+        <mets:fptr FILEID="FILE-4"/>
+        <mets:fptr FILEID="FILE-5"/>
+        <mets:fptr FILEID="FILE-6"/>
+        <mets:fptr FILEID="FILE-7"/>
+        <mets:fptr FILEID="FILE-8"/>
+        <mets:fptr FILEID="FILE-9"/>
+        <mets:fptr FILEID="FILE-10"/>
+        <mets:fptr FILEID="FILE-11"/>
+        <mets:fptr FILEID="FILE-12"/>
+        <mets:fptr FILEID="FILE-14"/>
+        <mets:fptr FILEID="FILE-15"/>
+        <mets:fptr FILEID="FILE-16"/>
+        <mets:fptr FILEID="FILE-17"/>
+        <mets:fptr FILEID="FILE-18"/>
+        <mets:fptr FILEID="FILE-19"/>
+        <mets:fptr FILEID="FILE-20"/>
+        <mets:fptr FILEID="FILE-21"/>
+        <mets:fptr FILEID="FILE-22"/>
+        <mets:fptr FILEID="FILE-23"/>
+        <mets:fptr FILEID="FILE-24"/>
+        <mets:fptr FILEID="FILE-25"/>
+      </mets:div>
+    </mets:div>
+  </mets:structMap>
+</mets:mets>
