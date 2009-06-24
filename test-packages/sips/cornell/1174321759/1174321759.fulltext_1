@@ -1,0 +1,554 @@
+SURGERY AND THE RELATIVE INDEX IN ELLIPTIC THEORY
+V. E. NAZAIKINSKII AND B. YU. STERNIN Received 26 June 2005; Accepted 1 July 2005
+
+This is a survey article featuring the general index locality principle introduced by the authors, which can be used to obtain index formulas for elliptic operators and Fourier integral operators in various situations, including operators on stratified manifolds and manifolds w ith singular ities. Copyright © 2006 V. E. Nazaikinskii and B. Yu. Sternin. This is an open access article distributed under the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited. 1. Introduction This is a survey article intended as an elementary introduction to the general index locality principle introduced in [17]. We discuss it and give some examples of its consequences and applications showing that this principle often proves to be a powerful tool for obtaining index formulas in various situations. Having in mind the introductory character of the article, we try to keep the exposition at a level as elementary as possible and often give only the simplest versions of results. Proofs can be found elsewhere; we provide only references. A lack of reference usually means that more detailed explanations can be found in [17]. A detailed account of the history of the problem is also contained in [17]. Here we only cite papers where this is specifically needed in the text. 1.1. Elliptic operators. We start by recalling elementary notions of elliptic theory. Let M be a smooth compact manifold, and let D be a differential operator on M . In local coordinates, one has D=
+|
+|m
+
+-
+
+a ( x )
+
+ i x
+
+
+
+.
+
+(1.1)
+
+Hindawi Publishing Corporation Abstract and Applied Analysis Volume 2006, Article ID 98081, Pages 1­16 DOI 10.1155/AAA/2006/98081
+
+
+2
+
+Surgery and the relative index in elliptic theory
+
+The principal symbol (characteristic polynomial) of D, defined in local coordinates by the formula  (D ) =
+|
+|=m
+
+a ( x )   ,
+
+(1.2)
+
+is an invariantly defined function on the cotangent bundle T  M . Definition 1.1. The operator D is said to be elliptic if  (D) is everywhere invertible on  T0 M (i.e., for  = 0). The following theorem is the main assertion concerning the analytic properties of elliptic operators. Theorem 1.2 (finiteness theorem). If the operator D is elliptic, then it is Fredholm in the Sobolev spaces: D : H s (M ) - H s-m (M ). Recall that D is said to be Fredholm if the following properties hold: (i) Im D is closed; (ii) dim ker D < ; (iii) dim ker D < . 1.2. The index. Suppose that D is an elliptic operator on M . Then dim ker D and dim ker D are not invariant under homotopies of D in the class of elliptic operators, but their difference ind D is already a homotopy invariant and hence is of interest. The famous Atiyah-Singer theorem expresses the "infinite-dimensional" homotopy invariant ind D in terms of topological invariants of the principal symbol  (D). However, things become far more complicated if we abandon the smooth compact setting and consider operators on singular or noncompact manifolds. In this connection, a natural task is to give methods that can help one to solve the index problem (possibly reducing it to the Atiyah-Singer case) in situations not covered by the Atiyah-Singer theorem. The list of such situations includes (i) boundary value problems (for which the index formula was obtained by Atiyah and Bott [5]); (ii) elliptic operators on noncompact manifolds; (iii) elliptic operators on manifolds with singularities; (iv) quantized canonical transformations (Fourier integral operators); and possibly many other situations as well. 2. Surger y and the superposition principle There are numerous methods that can be applied in index problems. However, we focus our attention only on one method, namely, surgery, that is, cutting and pasting of manifolds and elliptic operators, together with the associated superposition principle valid for the relative index (or index increment) resulting from surgeries. (1.3)
+
+
+V. E. Nazaikinskii and B. Yu. Sternin 3
+M
+
+Su
+
+rg
+
+ery
+
+A
+
+B
+
+on A
+Surgery on A  B
+
+Su
+
+rg
+
+y er
+
+on
+
+B
+
+Surgery on B
+
+Surgery on A
+
+Figure 2.1. Commuting surgeries.
+
+We will (i) explain the superposition principle using a simple example; (ii) give the general statement of the superposition principle; (iii) provide some further examples and applications. 2.1. Example: operators on compact closed manifolds. Let D be an elliptic differential operator on a compact closed manifold M , and let A, B  M be disjoint closed subsets of M (see Figure 2.1). Let us modify the operator D on A via some surgery. Namely, we cut away the piece A from M and replace it by some other (smooth) piece and continue the operator from the rest of M into the new piece in such a way that the resulting operator is elliptic. (Of course, we need to assume that this is possible.) Let us denote this new operator by DA . The index of the new operator does not necessarily coincide with the index of D, and hence we see that our surgery at A results in the index increment (relative index)
+A = ind DA - ind D.
+def
+
+(2.1)
+
+In a similar way, we can modify the operator over B with the help of some surgery, thus obtaining a new operator DB and the index increment
+B = ind DB - ind D.
+def
+
+(2.2)
+
+These processes are completely independent: when we modify the operator over A, we do not touch anything away from A (in particular, on B) and vice versa. Hence we can apply both modifications (surgeries) simultaneously, and the result for the operator will be the same as if we applied first one surgery and then the other, their order being irrelevant (see
+
+
+4
+
+Surgery and the relative index in elliptic theory
+
+Figure 2.1). The resulting operator will be denoted by DAB and the index increment by
+AB = ind DAB - ind D.
+def
+
+(2.3)
+A
+
+It is natural to ask how this "total" increment is related to the "partial" increments and B. The answer is exactly as it should be. Lemma 2.1 (superposition principle).
+AB =
+
+A+
+
+B.
+
+(2.4)
+
+Proof. This follows from the local index formula
+M
+
+ind D =
+
+(x),
+
+(2.5)
+
+where the local index density (x) at a point x depends only on  (D) and its derivatives in  the fiber Tx M . Indeed, it suffices to note that, say,
+A
+A= 
+
+(x ) -  (x )
+
+,
+
+(2.6)
+o
+
+where  is the local index density corresponding to DA , since  =  R desired formula follows since the integral is an additive set function.
+
+utside A. The
+
+emark 2.2. The superposition principle means that index increments stemming from independent surgeries behave additively. 2.2. General elliptic operators. Beautiful as it is, the superposition principle on smooth closed manifolds is generally not of much help when computing the index for two reasons. (1) The index formula for the case of smooth closed manifold is already known (the Atiyah-Singer formula). (2) The proof given above is hardly satisfactory, since it relies on the fact that we already know the (local) index formula. Hence we wish to generalize this principle to cases beyond the Atiyah-Singer theorem and, moreover, invent a proof that does not rely on the presence of any a priori known index formula. Thus the problem is as follows: describe a sufficiently general framework in which the superposition principle for index increments is valid. One possible solution to this problem is to consider the class of general elliptic operators introduced by Atiyah [4]. Let us recall the relevant definitions. Definition of general elliptic operators. Let X be a Hausdorff compactum, and let C (X ) be the algebra of continuous functions on X . Further, let H1 and H2 be Hilbert -modules over C (X ), that is, Hilbert spaces equipped with a -action of the C  -algebra C (X ).
+
+
+V. E. Nazaikinskii and B. Yu. Sternin 5 Definition 2.3. An operator
+ A : H 1 - H2
+
+(2.7)
+
+is called a general elliptic operator if the following two conditions are satisfied: (i) A is Fredholm; (ii) A almost commutes with the action of C (X ): A - A  where H1 , H2
+
+
+  C (X ),
+
+(2.8)
+
+(H1 , H2 ) is the set of compact linear operators from H1 to H2 .
+
+Surgery and the superposition principle. To state the superposition principle, we should first define the notion of surgery for general elliptic operators. This is however intuitively clear. Let D1 and D2 be two general elliptic operators (with the same underlying compactum X ). Next, let A  X be a closed set. Definition 2.4. We say that D1 and D2 are obtained from each other by a modification (or surgery) on A if for each function   C (X ) whose support does not meet A (i.e., supp   A = ) one has D1   D2 
+A
+
+modulo compact operators.
+A
+
+(2.9)
+
+In this case, we write D1 - D2 or D2 - D1 .   This definition, however, needs further clarification: we did not assume that D1 and D2 act in the same spaces, so how can we compare D1  and D2 ? Let us give necessary explanations (which prove to be a bit technical). If H is a Hilbert -module over C (X ), then the notion of support supp u  X is well defined for all u  H in a natural way: a point x does not belong to the support of u if u = 0 for all   C (X ) supported in a sufficiently small neighborhood of x. We introduce the following notation: by HK  H we denote the closure of the set of elements u  H supported in K . Now if D1 : H1 - G1 ,  D2 : H2 - G2 (2.10)
+
+are general elliptic operators, then it makes sense to say that they are obtained from each other by a surgery on A if some isomorphisms
+ H1U - H2U ,
+
+G1U - G2U
+
+(2.11)
+
+of -modules over C (X ), where U = X \ A is the complement of A, are given and fixed. Definition 2.5 (definition of surgery on A revisited). We write D1 -- D2
+A
+
+(2.12)
+
+
+6
+
+Surgery and the relative index in elliptic theory
+
+if the diagram H1U H2U
+D1 
+
+G1U (2.13) H2U
+
+D1 
+
+commutes modulo compact operators for each   C (X ) such that supp   A = . (2.14)
+
+With this definition of surgery for general elliptic operators, the following superposition theorem holds for the index increments. Theorem 2.6. Let D
+B A
+
+DA
+B
+
+(2.15)
+
+DB
+
+A
+
+DAB
+
+be a commutative diagram (A diagram of surgeries is said to be commutative if the underlying isomorphisms of Hilbert spaces over X \ (A  B ) form a commutative diagram.) of independent surgeries (A  B = ) of general elliptic operators over C (X ). Then
+AB =
+
+A+
+
+B.
+
+(2.16)
+
+2.3. Operators in collar spaces. The theorem given in the preceding subsections does not cover applications related to Fourier integral operators (which do not almost commute with multiplication by functions). Furthermore, strictly speaking, it applies only to zero-order operators, since operators of positive order (in particular, any differential operators) do not compactly (or even boundedly) commute with continuous functions. So it is a good idea to devise a slightly different framework for the superposition principle, including the preceding as a special case. This was done in [17], and we describe the corresponding results very briefly. The main ideas of the approach are as follows. (1) We actually do not need arbitrary spaces X in applications of the superposition principle. If X is a compactum and A, B  X are closed disjoint subsets, then there always exists a continuous mapping f : X -
+-
+
+1, 1
+
+(
+
+2.17)
+
+such that A  f -1 (-1) and B  f -1 (1). The mapping f induces the structure of a C ([-1, 1])-module on every C (X )-module, and so we can always assume that X = [-1, 1], A = {-1}, and B = {1}.
+
+
+V. E. Nazaikinskii and B. Yu. Sternin 7 (2) Instead of C ([-1, 1])-modules one considers C  ([-1, 1])-modules (for brevity referred to as collar spaces), which permit one to cover the case of positive-order operators (in particular, differential operators). (3) Finally, instead of single operators one considers families of operators depending on a small parameter such that the "support of the kernel" for these operators tends to the diagonal as the parameter tends to zero. Thus for each given parameter value the operators need not be local; they are only "local in the limit." This permits one to consider a wider class of operators, including Fourier integral operators on manifolds with singularities, while the superposition principle remains t r ue . Let us give some more details; the reader uninterested in these details can skip the remaining part of the section and proceed to examples and applications. Collar spaces. Collar spaces are a natural framework in which one can deal with surgeries and prove a rather general relative index theorem. They were introduced in [14, 16­18]. Consider the algebra C  ([-1, 1]) of smooth functions (t ), t  [-1, 1], on the interval [-1, 1] with topology given by the standard system of seminorms
+
+k
+
+= sup
+
+(k)
+
+t [-1,1]
+
+(t )
+
+.
+
+(2.18)
+
+The multiplication in C  ([-1, 1]) is defined pointwise. Obviously, this is a unital topological algebra with unit 1 being the function identically equal to 1 for all t  [-1, 1]. Definition 2.7. A collar space is a separable Hilbert space H equipped with the structure of a module over the commutative algebra C  ([-1, 1]) (the action is continuous, and the unit function 1  C  ([-1, 1]) acts as the identity operator in H ). Elliptic operators in collar spaces. For operators in function spaces for which the Schwartz kernel theorem holds, there is an important notion of the support of the kernel, which is a closed subset of the direct product of the set where the functions are defined by itself. Although operators in collar spaces cannot be described as integral operators in general, the notion of the support of an operator defined as a subset of the square [-1, 1] × [-1, 1] is meaningful and proves useful in studying various questions pertaining to the relative index. Definition 2.8. Let A : H1  H2 be a continuous linear operator in collar spaces and K  [-1, 1] × [-1, 1] a closed subset. One says that the support of A is contained in K if supp Ah  K (supp h) (2.19)
+
+for every h  H . In formula (2.19), K is treated as a self-multimapping of the interval [-1, 1]: Kx =
+def
+
+y
+
+ [-1, 1] | (x, y )  K
+
+.
+
+(2.20)
+
+The intersection of all closed sets K with property (2.19) is called the support of A and denoted by supp A.
+
+
+8
+
+Surgery and the relative index in elliptic theory Let   [-1, 1] × [-1, 1] be the diagonal =
+(
+,
+
+x, x) | x  [-1, 1]
+
+(2.21)
+(
+
+a n d le t  = be the -neighborhood of . Definition 2.9. A proper operator in collar spaces H1 and H2 is a family of continuous linear operators A : H1 - H2 with parameter  > 0 such that (i) A continuously depends on  in the uniform operator topology; (ii) for each  > 0 there is a 0 > 0 such that supp A   for  < 0 . (2.24) (2.23)
+(
+
+x, y )  [-1, 1] × [-1, 1] | |x - y | < 
+
+2.22)
+
+Remark 2.10. Condition (2.24) can be restated as follows: for  < 0 , one has supp A h  U (supp h) for every h  H1 , where U (F ) is the -neighborhood of a set F . Now we can give the definition of elliptic operators in collar spaces. Definition 2.11. An elliptic operator in collar spaces H and G is a proper operator D : H - G (2.26) (2.25)
+
+[ such that D is Fredholm for each  and has an almost inverse D-1] such that the family [ D-1] is also a proper operator. Here, as usual, the almost inverse of a bounded operator A is defined as an operator A[-1] such that the products AA[-1] and A[-1] A differ from the identity operators by compact operators in the corresponding spaces.
+
+Definition 2.12. Let F  [-1, 1] be an open subset. One says that proper operators A1 and A2 coincide on F if for each compact subset K  F the following condition is satisfied: there is a number 0 = 0 (K ) > 0 such that A1 h = A2 h, whenever  < 0 and supp h  K . We note that for (2.27) to be well defined one has to assume that some isomorphisms of parts of the underlying Hilbert spaces where the operators act are given. In the conditions of Definition 2.12, we say that A1 is obtained from A2 by a modification on [-1, 1]\F (or A1 coincides with A2 on F ) and write A1 = A2 or A1
+F [-1,1]\F
+
+(2.27)
+
+A2 .
+
+
+V. E. Nazaikinskii and B. Yu. Sternin 9 Superposition principle. Now we are in a position to state the main theorem of this subsection. Theorem 2.13 [15, 17]. Suppose that the following commutative diagram of modifications of elliptic operators in collar spaces holds: D
+1
+-1
+
+D-
+1
+
+(2.28)
+
+D+ Then ind(D) - ind
+D
+-
+
+-1
+
+D±
+D
++
+
+=
+
+ind
+
+-
+
+ind
+
+D
+
+±
+
+.
+
+(2.29)
+
+A detailed proof of this theorem (which however occupies less than two pages) can be found in [15]. 3. Examples and applications We consider examples from the following areas: (i) elliptic operators on manifolds with singularities; (ii) elliptic operators on noncompact manifolds; (iii) boundary value problems; (iiii) Fourier integral operators. 3.1. Elliptic operators on manifolds with conical singularities. Cone-degenerate operators. Let M be a manifold with conical point a and base  of the cone (Figure 3.1; for definitions, e.g., see [6] or [13]). Cone-degenerate differential operators on M near the conical point have the form of finite sums: D=
+a
+-
+ j ( , r )
+
+ i 
+
+
+
+ ir r
+
+j
+
+,
+
+(3.1)
+
+where r is the distance from the conical point and  is a coordinate on the base of the cone. The operator family c (D) =
+a
+-
+ j ( , 0 )
+
+ i 
+
+
+
+pj
+
+(3.2)
+
+on  is called the conormal symbol of D. Cone-degenerate operators are considered in weighted Sobolev spaces H s, (M ) (for the definition, e.g., see [6]), and the ellipticity condition for cone-degenerate operators is that the interior principal symbol is invertible outside the zero section of the ("compressed" [11]) cotangent bundle of M minus the zero section and the conormal symbol is invertible on the weight line Im p = . (In what follows, we for simplicity always assume that  = 0.)
+
+
+10
+
+Surgery and the relative index in elliptic theory
+M a 
+
+Figure 3.1. A manifold with conical singularities.
+
+The index formula. Let M be a manifold with conical point a, and let D be an elliptic operator on M . Consider the problem of finding ind D. This problem can be solved with the help of the index increment superposition principle under certain symmetry conditions on the interior principal symbol of D. Namely, the following theorem holds. Theorem 3.1. Suppose that the interior principal symbol of D satisfies the symmetry condition  ( D ) ( , r , q , - p ) = f 1  ( D ) ( , r , q , p ) f 2 , where f1 and f2 are bundle isomorphisms on M . Then ind D =
+, 1i nd 2D + ind Dc 2
+
+(3.3)
+
+(3.4)
+
+where 2D is the elliptic operator on the double of M whose principal symbol is obtained by clutching with the use of symmetry conditions and Dc is an operator on the spindle S explicitly constructed from the conormal symbol of D. Thus the index of D is represented as the sum of two terms, one of which depends only on the interior principal symbol and can be expressed by the Atiyah-Singer index theorem (applied to the operator 2D on the compact closed manifold 2M ) and the other depends only on the conormal symbol. This theorem was first obtained in [19] under the slightly stronger symmetry condition c (D)( p) = f1 c (D)
+p
+0-
+
+p
+
+f
+
+2,
+
+(3.5)
+
+(where f1 and f2 are bundle automorphisms) imposed on the conormal rather than interior symbol. In this case, the second term in the index formula can be represented as a sum of multiplicities of poles of the operator family c (D)( p)-1 in a certain strip in the complex plane. For the general case, for example, see [17]; here the second term is expressed as the spectral flow of some homotopy of c (D)( p) to f1 c (D)( p0 - p) f2 . The proof of this index formula is given by surgery in conjunction with the superposition principle; the nontrivial part of the surgery diagram is shown in Figure 3.2. 3.2. Elliptic operators on noncompact manifolds. Let X0 and X1 be noncompact manifolds, and let D0 and D1 be Fredholm elliptic operators in certain L2 spaces on these manifolds. Suppose that these manifolds coincide at infinity. Namely, there are compact
+
+
+V. E. Nazaikinskii and B. Yu. Sternin 11
+M M
+
+2M
+
+S
+
+Figure 3.2. A surgery proving the index theorem for manifolds with conical singularities.
+
+sets K j  X j and a measure-preserving diffeomorphism X0 \ K0 such that D1 = D0 -1 , (3.7)
+a
+
+X1 \ K1
+
+(3.6)
+
+where  and  are vector bundle isomorphisms over a. We can compactify both manifolds by cutting the noncompact ends away along some compact hypersurface H and then glueing the same compact "cap" to both manifolds and continuing the operators in the same way to the cap. The new elliptic operators on the new compact manifolds X1 and X2 thus obtained will be denoted by D0 and D1 . The superposition theorem implies the following assertion. Theorem 3.2. One has ind D1 - ind D0 = ind D1 - ind D0 . (3.8)
+
+This theorem was proved for the special case of Dirac operators on complete Riemannian manifolds by Gromov and Lawson [8] and later extended to a more general class of operators by Anghel [3]. 3.3. Boundar y value problems. The index increment superposition principle has also well-known manifestations in boundary value problems.
+
+
+12
+
+Surgery and the relative index in elliptic theory
+
+Let M be a compact manifold with boundary M , and let D be an elliptic operator on M ; in local coordinates near the boundary, D=
+|
+|+m
+
+-
+
+a  ( x , t )
+
+ i x
+
+
+
+ -i t
+
+
+
+,
+
+(3.9)
+
+where we assume that the boundary is given by the equation M = {t = 0} and the interior of the manifold corresponds to positive t . We consider classical boundary value problems of the form Du = f , B u|M = g . (3.10)
+
+For short, we denote such a problem by (D, B ). Recall the ellipticity conditions for the problem (D, B). To obtain these conditions, one freezes the coefficients of the equation at some point (x, 0)  M , drops away lower-order terms, and makes the Fourier transform with respect to the variables tangent to the boundary. Thus we obtain the ordinary differential operator
+D (x ,  ) =
+
+|
+|+=m
+
+-
+
+a  ( x , 0 )  
+
+i
+
+ t
+
+
+
+(3.11)
+
+ on the half-line R+ . This operator depends on the parameters (x,  )  T0 M . Let L+  L+ (x,  ) be the subspace of initial data at t = 0 for solutions of Dv = 0 decaying as t  .
+
+Condition 3.3 (Shapiro-Lopatinskii). We require that  (B ) |L+ be an isomorphism for  = 0. The main analytic theorem of the theory of boundary value problems is as follows. Theorem 3.4. If the boundary value problem (D, B ) satisfies the Shapiro-Lopatinskii condition, then it is Fredholm. Now we are in a position to state two relative index theorems for boundary value problems. Let D1 and D2 be two elliptic operators coinciding near M , and let B be a boundary operator satisfying the Shapiro-Lopatinskii conditions with respect to one (and hence both) of the operators. The superposition principle implies the following assertion. Theorem 3.5. One has ind
+D
+1, B
+
+-
+
+ind
+
+D
+
+2, B
+
+=
+
+ind D ,
+
+(3.12)
+
+
+V. E. Nazaikinskii and B. Yu. Sternin 13
+r  M t M
+
+
+
+Figure 3.3. Cylindrical coordinates.
+
+where D is an elliptic operator on M such that  (D ) = 
+D
+1
+
+D2
+
+-1
+
+(3.13)
+
+and D acts as a system bundle isomorphism near M . Another relative index theorem deals, on the opposite, with the case of one operator and two boundary conditions. Let D be an elliptic operator on M , and let B1 and B2 be two boundary operators satisfying the Shapiro-Lopatinskii condition. Then it follows from the superposition principle that the theorem below holds. Theorem 3.6. One has ind
+D - D =
+
+, B1
+
+ind
+
+, B2
+
+ind C ,
+
+(3.14)
+
+where C is an elliptic operator on M with  (C ) = 
+B|
+1 L+
+
+
+
+B2
+
+|
+
+L+
+
+-1
+
+.
+
+(3.15)
+
+These two theorems are known as Agranovich and Agranovich-Dynin theorems (see [1, 2]). Surgery, in conjunction with the superposition principle, provides new, elementary proofs. 3.4. Quantized canonical transformations. The index problem for quantized canonical transformations (Fourier integral operators) was posed by Weinstein [20, 21], and its solution was obtained for smooth manifolds by Epstein and Melrose [7] in a particular case and by Leichtnam et al. [9] in the general case. The superposition principle permits one to derive an index formula for quantized contact transformations on singular manifolds. Let us briefly describe the construction of Fourier integral operators on a manifold with conical singularities. Let M be a manifold with a conical singular point  and base  of the cone. (We assume for simplicity that there is only one conical point.) We will use the cylindrical model, that is, pass to from the coordinate r to the cylindrical coordinate t by the formula r = e-t (see Figure 3.3). Quantized canonical transformations are obtained by the quantization of classical transformations, so let us say a few words about the latter.
+
+
+14
+
+Surgery and the relative index in elliptic theory
+
+Classical transformations. We will quantize homogeneous canonical (contact) transformations:
+  g : T0 M - T0 M.
+
+(3.16)
+
+Transformations associated with the conical structure should be continuous up to r = 0. In the t -coordinate, this corresponds to "exponential stabilization of the coefficients" as t  . For simplicity, we impose an even stronger condition that the coefficients "are independent of t for sufficiently large t ." Stated precisely, this means the following. Condition 3.7 (stabilization). The transformation g commutes with translations for along the t -axis for t 0. In other words, g |t
+0  = g : T0 C - T0 C , 
+
+(3.17)
+
+where C = R ×  is the infinite cylinder with base  and g commutes with translations. Quantization. The quantized transformation is given by the Fourier integral operator   associated with the graph Lg  T0 M × T0 M of the classical transformation g . This graph is a Lagrangian manifold, and we make the following assumption. Assumption 3.8. The quantization condition (e.g., see [10, 12]) is satisfied for Lg (i.e., the Maslov index is zero on Lg ). Then the quantized canonical transformation
+ Tg : L2 (M ) - L2 (M )
+
+(3.18)
+
+is defined in the usual manner as the Fourier integral operator with amplitude 1 associated with the Lagrangian manifold Lg . To ensure appropriate behavior near the conical point, we require that Tg commutes with translations along the t -axis for large t . This can be done in view of the similar condition imposed on g . We will assume that Tg is elliptic. The index theorem. We impose the simplest symmetry condition on the classical transformation. Condition 3.9. The transformation g commutes with the inversion (t , p)  (-t , - p). Then (in fact, after some homotopies) two copies of g can be glued into a canonical    transformation 2g : T0 2M  T0 2M of the double of the cotangent bundle T0 M . Surgery and the superposition principle give the following formula for the index of the quantized canonical transformation. Theorem 3.10. The index of an elliptic quantized canonical transformation is given by the formula ind Tg =
+, 1i nd T2g + ind Tg 2
+
+(3.19)
+
+
+V. E. Nazaikinskii and B. Yu. Sternin 15 where (i) T2g is a quantized canonical transformation on the smooth closed manifold 2M ; (ii) Tg is a quantized canonical transformation on the cylinder C . Remark 3.11. (1) The index ind T2g is computable by Epstein-Melrose theorem. (2) In special cases ind Tg can be computed as the sum of multiplicities of poles of an operator family (called the conormal symbol) associated with Tg . Acknowledgments The article arose from the talks given by the authors at the conferences "Differential and Functional-Differential Equations 2005" and "Sixteenth Crimean Autumn Mathematical School-Symposium" and submitted to the conference "Topological and Variational Methods of Nonlinear Analysis and Their Applications." We express our keen gratitude to the organizers of these conferences. References
+[1] M. S. Agranovich, Elliptic boundary problems, Partial Differential Equations, IX, Encyclopaedia Math. Sci., vol. 79, Springer, Berlin, 1997, pp. 1­144, 275­281. [2] M. S. Agranovich and A. S. Dynin, General boundary-value problems for elliptic systems in higherdimensional regions, Doklady Akademii Nauk SSSR 146 (1962), 511­514. [3] N. Anghel, An abstract index theorem on noncompact Riemannian manifolds, Houston Journal of Mathematics 19 (1993), no. 2, 223­237. [4] M. F. Atiyah, Global theory of elliptic operators, Proceedings of the International Symposium on Functional Analysis, University of Tokyo Press, Tokyo, 1969, pp. 21­30. [5] M. F. Atiyah and R. Bott, The index problem for manifolds with boundary, Differential Analysis, Bombay Colloquium, Oxford University Press, London, 1964, pp. 175­186. [6] Yu. V. Egorov and B.-W. Schulze, Pseudo-differential operators, singularities, applications, Oper¨ ator Theory: Advances and Applications, vol. 93, Birkhauser, Basel, 1997. [7] C. Epstein and R. Melrose, Contact degree and the index of Fourier integral operators, Mathematical Research Letters 5 (1998), no. 3, 363­381. [8] M. Gromov and H. B. Lawson Jr., Positive scalar curvature and the Dirac operator on complete ´ ´ Riemannian manifolds, Institut des Hautes Etudes Scientifiques. Publications Mathematiques 58 (1983), 83­196 (1984). [9] E. Leichtnam, R. Nest, and B. Tsygan, Local formula for the index of a Fourier integral operator, Journal of Differential Geometry 59 (2001), no. 2, 269­300. [10] V. P. Maslov, Th´orie des Perturbations et M´thod Asymptotiques, Dunod, Paris, 1972, French e e translation from the Russian 1965 edition. [11] R. B. Melrose, Transformation of boundary problems, Acta Mathematica 147 (1981), no. 3-4, 149­236. [12] A. S. Mishchenko, V. E. Shatalov, and B. Yu. Sternin, Lagrangian Manifolds and the Maslov Operator, Springer Series in Soviet Mathematics, Springer, Berlin, 1990. [13] V. E. Nazaikinskii, A. Savin, B.-W. Schulze, and B. Yu. Sternin, Elliptic Theory on Singular Manifolds, CRC-Press, Florida, 2005. [14] V. E. Nazaikinskii and B. Yu. Sternin, Localization and surgery in index theory of elliptic operators, Conference: Operator Algebras and Asymptotics on Manifolds with Singularities, Stefan ¨ ¨ Banach International Mathematical Center, Universitat Potsdam, Institut fur Mathematik, Warsaw, 1999, pp. 27­28.
+
+
+16
+[15] [16] [17] [18] [19]
+
+Surgery and the relative index in elliptic theory
+, A remark on elliptic theory on manifolds with isolated singularities, Rossiskaya i Akademiya Nauk. Doklady Akademii Nauk 374 (2000), no. 5, 606­610. , Localization and surgery in the index theory to elliptic operators, Russian Mathematics. Doklady 370 (2000), no. 1, 19­23. , On the local index principle in elliptic theory, Functional Analysis and Its Applications 35 (2001), no. 2, 111­123. ¨ , Surgery and the relative index in elliptic theory, University of Potsdam, Institut fur Mathematik, preprint N 99/17, Juli 1999. B.-W. Schulze, B. Yu. Sternin, and V. E. Shatalov, On the index of differential operators on manifolds with conical singularities, Annals of Global Analysis and Geometry 16 (1998), no. 2, 141­ 172. A. Weinstein, Fourier integral operators, quantization, and the spectra of Riemannian manifolds, ´´ ´ Geometrie symplectique et physique mathematique (Colloq. Internat. CNRS, No. 237, Aix-en´ Provence, 1974), Editions Centre Nat. Recherche Sci., Paris, 1975, pp. 289­298. , Some questions about the index of quantized contact transformations, ¯ ¯ ¯¯ Surikaisekikenkyusho Kokyuroku (1997), no. 1014, 1­14.
+
+[20]
+
+[21]
+
+V. E. Nazaikinskii: Institute for Problems in Mechanics, Russian Academy of Sciences, pr-t Vernadskogo 101-1, 119526 Moscow, Russia E-mail address: nazaikinskii@yandex.ru B. Yu. Sternin: Independent University of Moscow, Bolshoy Vlasyevskiy Pereulok 11, 119002 Moscow, Russia E-mail address: sternin@mail.ru
+
+

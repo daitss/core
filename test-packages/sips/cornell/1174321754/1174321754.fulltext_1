@@ -1,0 +1,1313 @@
+AN ORIENTED COINCIDENCE INDEX FOR NONLINEAR FREDHOLM INCLUSIONS WITH NONCONVEX-VALUED PERTURBATIONS
+VALERI OBUKHOVSKII, PIETRO ZECCA, AND VICTOR ZVYAGIN Received 26 June 2005; Accepted 1 July 2005
+
+We suggest the construction of an oriented coincidence index for nonlinear Fredholm operators of zero index and approximable multivalued maps of compact and condensing type. We describe the main properties of this characteristic, including applications to coincidence points. An example arising in the study of a mixed system, consisting of a first-order implicit differential equation and a differential inclusion, is given. Copyright © 2006 Valeri Obukhovskii et al. This is an open access article distributed under the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited. 1. Introduction The necessity of studying coincidence points of Fredholm operators and nonlinear (compact and condensing) maps of various classes arises in the investigation of many problems in the theory of partial differential equations and optimal control theory (see, e.g., [3, 4, 7, 13, 17, 18, 20­22]). The use of topological characteristics of coincidence degree type is a very effective tool for solving such type of problems. For inclusions with linear Fredholm operators, a number of such topological invariants was studied in the works [7, 8, 13, 18, 19]. In the present paper, we suggest the general construction of an oriented coincidence index for nonlinear Fredholm operators of zero index and approximable multivalued maps of compact and condensing type. A nonoriented analogue of such index was described earlier in the authors work [17]. The paper is organized in the following way. In Section 2, we give some preliminaries. In Section 3, we present the construction of the oriented coincidence index, first for a finite-dimensional case, and later, on that base, we develop the construction in the case of a compact triplet. In Section 4, using the technique of fundamental sets, we give the most general construction of the oriented index for a condensing triplet and describe its main properties, including its application to the existence of coincidence points. In Section 5, we consider an example of a condensing triplet arising in the study of a mixed system, consisting of a first-order implicit differential equation and a differential inclusion.
+Hindawi Publishing Corporation Abstract and Applied Analysis Volume 2006, Article ID 51794, Pages 1­21 DOI 10.1155/AAA/2006/51794
+
+
+2
+
+An oriented coincidence index
+
+2. Preliminaries By the symbols E, E , we will denote real Banach spaces. Everywhere, by Y we will denote an open bounded set U  E (case (i)) or U  E × [0, 1] (case (ii)). We recall some notions (see, e.g., [3]). Definition 2.1. A C 1 -map f : Y  E is Fredholm of index k  0 ( f  k C 1 (Y )) if for every y  Y the Frechet derivative f ( y ) is a linear Fredholm map of index k, that is, dim Ker f ( y ) < , dim C o ker f ( y ) < , and dim Ker f ( y ) - dim C o ker f ( y ) = k. (2.1)
+
+Definition 2.2. A map f : Y  E is proper if f -1 ( ) is compact for every compact set E . We recall now the notion of oriented Fredholm structure on Y . An atlas {(Yi , i )} on Y is said to be Fredholm if, for each pair of intersecting charts (Yi , i ) and (Y j ,  j ) and every y  Yi  Y j , it is
+
+j
+
+  -1 i
+
+
+
+i( y)
+
+
+
+C G (E
+
+,
+
+(2.2)
+
+where E is the corresponding model space, and C G(E) denotes the collection of all linear invertible operators in E of the form i + k, where i is the identity map and k is a compact linear operator. The set C G(E) is divided into two connected components. The component containing the identity map will be denoted by C G+ (E). Two Fredholm atlases are said to be equivalent if their union is still a Fredholm atlas. The class of equivalent atlases is called a Fredholm structure. A Fredholm structure on U is associated to a 0 C 1 -map f : U  E if it admits an atlas {(Yi , i )} with model space E for which
+f   -1 i 
+i( y)
+
+
+
+L C (E
+
+)
+
+(2.3)
+
+o at each point y  U , where LC (E ) denotes the collection of all linear operators in E g f the form: identity plus a compact map. Let us note that each 0 C 1 -map f : U  E enerates a Fredholm structure on U associated to f . A Fredholm atlas {(Yi , i )} on Y is said to be oriented if for each intersecting charts (Yi , i ) and (Y j ,  j ) and every y  Yi  Y j , it is true that
+
+
+j
+
+  -1 i
+
+
+
+i( y)
+
+
+
+C G + (E ).
+
+(2.4)
+
+Two oriented Fredholm atlases are called orientally equivalent if their union is an oriented Fredholm atlas on Y . The equivalence class with respect to this relation is said to be the oriented Fredholm structure on Y . We will need also the following result (see [3]).
+
+
+Valeri Obukhovskii et al. 3 Proposition 2.3. Let f  k C 1 (Y ); K  Y a compact set. Then there exist an open neighborhood , K   Y , and a finite-dimensional subspace En  E such that f -1
+En 
+
+= M n+k ,
+
+(2.5)
+
+where M n+k is an n + k dimensional manifold. Moreover, the restriction f| is transversal to En , that is, f (x)E + En = E for each x  . We describe now some notions of the theory of multivalued maps that will be used in the sequel (details can be found, e.g., in [1, 2, 9, 12]). Let (X , dX ), (Z , dZ ) be metric spaces. Given a subset A and  > 0, we denote by O (A) the -neighborhood of A. Let K (Z ) denote the collection of all nonempty compact subsets of Z . Given a multivalued map (multimap)  : X K(Z), a continuous map,  : X  Z ,  > 0, is said to be an -approximation of  if for every x  X , there exists x  O (x) such that  (x)  O ((x )). It is clear that the notion can be equivalently expressed saying that  (x)  O for all x  X , or that  
+
+
+
+
+
+O (x)
+,
+
+(
+
+2.6)
+
+(2.7)
+
+where  ,  denote the graphs of  and , respectively, while the metric in X × Z is defined in a natural way as d x , z ), (x , z
+(
+)
+
+=
+
+max
+
+d
+
+X (x , x
+
+)
+
+, dZ , z
+
+z
+
+)
+
+.
+
+(2.8)
+
+The fact that  is an -approximation of the multimap  will be denoted by   a(, ). K(Z) is said to be upper semicontinuous (u.s.c.) if for every open A multimap  : X set V  Z , the set -1 (V ) = {x  X : (x)  V } is open in X . + K(Z) is closed if its graph  is a closed subset of X × Z . An u.s.c. multimap  : X We can summarize some properties of -approximations in the following statement (see [9]).
+K(Z) be an u.s.c. multimap. Proposition 2.4. Let  : X (i) Let X1 be a compact subset of X . Then, for every  > 0, there exists  > 0 such that   a(,  ) implies |X1  a(|X1 , ). (ii) Let X be compact, Z1 a metric space, and  : Z  Z1 a continuous map. Then, for every  > 0, there exists  > 0 such that   a(,  ) implies     a(  , ). (iii) Let X be compact,  : X × [0, 1]  K (Z ) an u.s.c. multimap. Then, for every   [0, 1] and  > 0, there exists  > 0 such that   a( ,  ) implies that  (·, )  a( (·, ), ). K(Z1 ) an u.s.c. multimap. Then for every  > 0, (iv) Let Z1 be a metric space, 1 : X there exists  > 0 such that   a(,  ) and 1  a(1 ,  ) imply that  × 1  a( × 1 , ), where ( × 1 )(x) =  (x) × 1 (x), ( × 1 )(x) = (x) × 1 (x).
+
+In the sequel, we will use the following important property of -approximations.
+
+
+4
+
+An oriented coincidence index
+
+K Proposition 2.5. Let X , X , Z be metric spaces; f : X  X a continuous map;  : X (Z ) an u.s.c. multimap;  : Z  X a continuous map. Suppose that X1  X is a compact subs e t such that
+
+Coin( f ,   )  X1 = ,
+
+(2.9)
+
+where Coin( f ,   ) = {x  X : f (x)    (x)} is the coincidence points set. If  > 0 is sufficiently small and   a(, ), then Coin
+f
+
+,   
+
+
+
+X1 = .
+
+(2.10)
+
+Proof. Suppose, to the contrary, that there are sequences {xn }  X1 and n  0, n > 0, such that f
+x
+n
+
+=
+
+n
+
+x
+n
+
+(
+
+2.11)
+
+for a sequence n  a(, n ). From Proposition 2.4(i) and (ii) we can deduce that, without loss of generality, the maps n |X1 form a sequence of n -approximations of |X1 , with n  0 and hence
+x
+n , n
+
+x
+n
+
+
+
+On
+
+
+
+|X1
+
+.
+
+(2.12)
+
+The graph of the u.s.c. multimap |X1 is a compact set (see, e.g., [12, Theorem 1.1.7]), hence we can assume, without loss of generality, that
+x
+n , n
+
+x
+n
+
+- x  |X1 , -- -  0 , y0
+n
+
+(2.13)
+
+that is, y0  (x0 ). Passing to the limit in (2.11), we obtain that f (x0 ) = y0  (x0 ), thaT is, x0  Coin( f , ), giving the contradiction. t o present the class of multimaps which will be considered, we recall some notions. Definition 2.6 (see, e.g., [1, 9, 10, 15]). A nonempty compact subset A of a metric space Z is said to be aspheric (or U V  , or -proximally connected) if for every  > 0, there exists  , 0 <  < , such that for each n = 0, 1, 2, . . . , every continuous map g : Sn  O (A) can be extended to a continuous map g : Bn+1  O (A), where Sn = {x  Rn+1 : x = 1} and B n+1 = {x  Rn+1 : x  1}. Definition 2.7 (see [11]). A nonempty compact space A is said to be an R -set if it can be represented as the intersection of a decreasing sequence of compact, contractible spaces. Definition 2.8 (see [9]). An u.s.c. multimap  : X  K (Z ) is said to be a J -multimap (  J (X , Z )) if every value (x), x  X , is an aspheric set. We will use the notions of absolute retract (AR-space) and of absolute neighborhood retract (ANR-space) (see, e.g., [5, 9]).
+
+
+Valeri Obukhovskii et al. 5 Proposition 2.9 (see [9]). Let Z be an ANR-space. In each of the following cases, an u.s.c. multimap  : X  K (Z ) is a J -multimap: for each x  X , the value (x) is (a) a convex set; (b) a contractible set; (c) an R -set; (d) an AR-space. In particular, every continuous map  : X  Z is a J -multimap. The next statement describes the approximation properties of J -multimaps. Proposition 2.10 (see [9, 10, 15]). Let X be a compact ANR-space; Z a metric space;   J (X , Z ). Then (i) the multimap  is approximable; that is, for every  > 0, there exists   a(, ); (ii) for each  > 0, there exists 0 > 0 such that for every  (0 <  < 0 ) and for every two  -approximations  ,   a(,  ), there exists a continuous map (homotopy)  : X × [ 0 , 1 ]  Z s u c h t h a t (a)  (·, 0) =  ,  (·, 1) =  ; (b)  (·, )  a(, ) for all   [0, 1]. Definition 2.11. Denote by C J (X , X ) the collection of all multimaps G : X  K (X ) of the form G =   , where   J (X , Z ) for some metric space Z ,  : Z  X is a continuous map. The composition    will be called the representation (or decomposition, cf. [9]) of G. Denote G = (  )  C J (X , X ). It has to be noted that a multimap can admit different representations (see [9]). 3. Oriented coincidence index for compact triplets We will start from the following notion. Definition 3.1. The map f : Y  E , the multimap G = (  )  C J (X , X ), and the space Y form a compact triplet ( f , G, Y )C if the following conditions are satisfied: (h1) f is a continuous proper map, f|Y  k C 1 (Y ) with k = 0 in case (i), k = 1 in case (ii), and the Fredholm structure on Y generated by f is oriented; (h2) G is compact, that is, G(Y ) is a relatively compact subset of E ; (h3) Coin( f , G)  Y = . Let us mention that from hypotheses (h1), (h2), it follows that the coincidence points set Q = Coin( f , G) is compact. 3.1. The case of a finite-dimensional triplet. Given a triplet ( f , G, Y )C , from Proposition 2.3 we know that there exist an open neighborhood  Y of the set Q = Coin( f , G) and an n-dimensional subspace En  E such that f -1 (En )  = M , a manifold which is ndimensional in case (i) and (n + 1)-dimensional in case (ii). Now, suppose that the multimap G =    is finite-dimensional, that is, that there exists a finite-dimensional subspace Em  E such that G(Y )  Em . We can assume, without loss of generality, that Em  En . Then clearly Q  M . Let us mention also that the orientation on Y induces the orientation on M .
+
+
+6
+
+An oriented coincidence index
+
+A compact triplet ( f , G, Y )C such that G is finite-dimensional will be denoted by ( f , G, Y )Cm and will be called finite-dimensional. Lemma 3.2. For ( f , G = (  ), Y )Cm , let O be a  -neighborhood of Q. Then, |O is approximable provided that  > 0 is sufficiently small. Proof. Consider an open bounded set N satisfying the following conditions: (i) Q  N  N  M ; (ii) N is a compact ANR-space. Let us note that as N we can take a union of a finite collection of balls with centers in Q. Let us take  > 0 so that O  N . Then the statement follows from Propositions 2.10(i) N and 2.4(i). ow, let the neighborhood O be chosen so that  is approximable on O . From Proposition 2.5, we know that Coin
+f
+
+,   
+
+
+
+O = 
+
+(3.1)
+
+provided that   a(|O , ) and  > 0 is sufficiently small. So, we can consider the following map of pairs of spaces: f -    :
+O
+ , O
+
+- En n . , E \0 
+
+(3.2)
+
+Now we are in position to give the following notion. Definition 3.3. The oriented coincidence index of a finite-dimensional triplet ( f , G = (  ), U )Cm is defined by the equality
+f
+
+, G = (   ), U
+
+C
+m
+
+:= deg
+
+f
+
+-    , O
+
+,
+
+(3.3)
+
+where  > 0 and  > 0 are taken small enough and the right-hand part of equality (3.3) denotes the Brouwer topological degree. Now we will demonstrate that the given definition is consistent, that is, the coincidence index does not depend on the choice of an -approximation  and the neighborhood O . Lemma 3.4. Let  and   a(|O . , ) be two approximations. Then deg
+f -    , O = f (
+
+deg
+
+-    , O
+
+3.4)
+
+provided that  > 0 is sufficiently small. Proof. Let us take any neighborhood N of Q such that Q  N  N  O and N is an ANR-space. Then, by Propositions 2.4(i) and 2.5, we know that we can take  > 0 small enough to provide that |N and |N are 0 -approximations of |N and Coin Coin
+f f
+
+,    ,  
+
+
+O
+
+O
+
+ \N  \N
+
+= =
+
+, .
+
+(3.5)
+
+
+Valeri Obukhovskii et al. 7 Since |N is approximable, we can assume that  > 0 is chosen so small that there exists a map  : N × [0, 1]  Z with the following properties: (i) (·, 0) = |N , (·, 1) = |N ; (ii) (, ·)  a(|N , 1 ) for each   [0, 1], where 1 is arbitrary small; (iii) Coin( f ,   (·, ))  N =  for all   [0, 1] (see Propositions 2.10(ii) and 2.5). Each map f -   (·, ),   [0, 1], transforms the pair (N , N ) into the pair (En , En \0) for each   [0, 1], and by the homotopy property of the Brouwer degree we have deg( f -    , N ) = deg( f -    , N ). Further from (3.5) and the additive property of the Brouwer degree, we have deg deg proving equality (3.4). N ow, if O
+
+
+f f
+
+-    , O -    , O
+
+= =
+
+deg deg
+
+f f
+
+-    , N -    , N
+
+, (
+
+3.6)
+
+O , the equality deg
+f -    , O
+=
+
+deg
+
+f
+
+-    , O
+
+,
+
+(3.7)
+
+where  > 0 is sufficiently small, follows easily from Propositions 2.4(i), 2.5, and the additive property of the Brouwer degree. At last, let us mention also the independence of the construction on the choice of the transversal subspace En . In fact, if we take two subspaces En0 and En1 , we may assume, without loss of generality, that En0  En1 . As earlier, we assume that G(U )  Em  En0  En1 . Then, from the construction, we obtain two manifolds M n0 , M n1 , M n0  M n1 and n n n n two neighborhoods O0  M n0 , O1  M n1 , O0  O1 for  > 0 sufficiently small. Now, n take  > 0 small enough to provide that the degrees deg( f -    , O1 ) and deg( f -   n0  , O ) are well defined. Then the equality deg
+f -    , O1
+n
+
+=
+
+deg
+
+f
+
+-    , O0
+
+n
+
+(
+
+3.8)
+
+follows from the map restriction property of Brouwer degree. Now, let us mention the main properties of the defined characteristic. Directly from Definition 3.3 and Proposition 2.5, we deduce the following statement. Theorem 3.5 (the coincidence point property). If Ind( f , G, U )Cm = 0, then  = Coin( f , G)  U . To formulate the topological invariance property of the coincidence index, we will give the following definition. Definition 3.6. Two finite-dimensional triplets ( f0 , G0 = (0  0 ), U 0 )Cm and ( f1 , G1 = (1  1 ), U 1 )Cm are said to be homotopic,
+f
+0 , G0
+
+=
+
+
+
+0  0
+
+,
+
+U0
+
+C
+m
+
+
+
+f
+
+1 , G1
+
+=
+
+
+
+1  1
+
+,
+
+U1
+
+C
+m
+
+,
+
+(3.9)
+
+
+8
+
+An oriented coincidence index
+
+if there exists a finite-dimensional triplet ( f , G , U )Cm , where U  E × [0, 1] is an open set, such that (a) Ui = U  (E × {i}), i = 0, 1; (b) f|Ui = fi , i = 0, 1; (c) G has the form G (x, ) = 
+
+ (x ,  ), 
+
+,
+
+(3.10)
+
+where   J (U , Z ),  : Z × [0, 1]  E , is a continuous map, and |Ui = i ,
+f
+
+|Z ×{i} = i ,
+C
+m
+
+i = 0, 1 .
+C
+m
+
+(3.11)
+
+Theorem 3.7 (the homotopy invariance property). If
+0 , G0 , U 0
+
+
+
+f
+
+1 , G1 , U 1
+
+,
+C
+m
+
+(3.12)
+.
+
+then
+I
+
+nd
+
+f
+
+0 , G0 , U 0
+
+C
+m
+
+=I
+
+nd
+
+f
+
+1 , G1 , U 1
+
+(3.13)
+
+Proof. Let ( f , G , U )Cm be a finite-dimensional triplet connecting the triplets ( f0 , G0 , U 0 )Cm and ( f1 , G1 , U 1 )Cm . Let O  U be a  -neighborhood of Q = Coin( f , G ), where  > 0 is sufficiently small. Take   a(|O , ) for  > 0 sufficiently small. Applying Propositions 2.4 and 2.5, we can verify that the map    : O  E ,    (x, ) =  ( (x, ), ) is a  approximation of G|O for  > 0 arbitrary small and, moreover, Coin
+f
+ , 
+
+ 
+
+
+
+O = 
+
+(3.14)
+
+and   |Oi , for O i = O  Ui , i = 0, 1, are  -approximations of Gi|Oi , i = 0, 1, where  > 0 is arbitrary small. Denoting |Oi = i , i = 0, 1, we have
+d
+
+eg
+
+f
+
+0 - 0  0 , O 0
+
+=d
+
+eg
+
+f
+
+1 - 1  1 , O 1
+
+(
+
+3.15)
+
+R (see [22]), proving the theorem.
+
+emark 3.8. If the Fredholm map f is constant under the homotopy, that is, U has the form U = U × [0, 1], where U  E is an open set and f (x, ) = f (x) for all   [0, 1], where f  0 C 1 (U ), then deg (see [21, 22]). Hence Ind
+f f - 0  0 , U =
+
+deg
+
+f
+
+- 1  1 , U
+
+(
+
+3.16)
+
+, G0 , U
+
+C
+m
+
+= Ind
+
+f
+
+, G1 , U
+
+C
+m
+
+.
+
+(3.17)
+
+From Definition 3.3 and the additive property of the Brouwer degree, we obtain the following property of the oriented coincidence index.
+
+
+Valeri Obukhovskii et al. 9 Theorem 3.9 (additive dependence on the domain property). Let U0 and U1 be disjoint open subsets of an open bounded set U  E and let ( f , G, U )Cm be a finite-dimensional triplet such that Coin( f , G)  Then Ind( f , G, U )Cm =
+f
+U \ U
+0  U1
+
+=
+
+.
+
+(3.18)
+
+, G, U0
+
+C
+m
+
++
+
+f
+
+, G, U1
+
+C
+m
+
+.
+
+(3.19)
+
+3.2. The case of a compact triplet. Now, we want to define the oriented coincidence degree for the general case of a compact triplet ( f , G = (  ), U )C . From the properness property of f and the compactness of G, one can easily deduce the following statement. Proposition 3.10. Let ( f , G, U )C be a compact triplet;  : Y  K (E ) a multimap defined as ( y ) = f ( y ) - G( y ). Then, for every closed subset Y1  Y , the set (Y1 ) is closed. From the above assertion, it follows that, given a compact triplet ( f , G, U )C , there exists  > 0 such that B (0)  (U ) = , (3.21) (3.20)
+
+where B (0)  E is a  -neighborhood of the origin. Let us take a continuous map i : G(U )  Em , where Em  E is a finite-dimensional subspace, with the property that
+i
+ (v ) - v
+
+<
+
+
+
+(3.22)
+
+for each v  G(U ). As i , we can choose the Schauder projection (see, e.g., [14]). Now, if G has the representation G =   , consider the finite-dimensional multimap Gm = i    . From (3.21) and (3.22), it follows that f , Gm and U form a finite-dimensional triplet ( f , Gm , U )Cm . We can now define the oriented coincidence index for a compact triplet in the following way. Definition 3.11. The oriented coincidence index for a compact triplet ( f , G = (  ), U )C is defined by the equality Ind( f , G, U )C := Ind
+f
+
+, Gm , U
+
+C
+m
+
+,
+
+(3.23)
+
+where Gm = i     and the map i satisfies condition (3.22).
+
+
+10
+
+An oriented coincidence index
+
+To prove the consistency of the given definition, it is sufficient to mention that, given two different maps i0 , i1 : G(U )  Em satisfying property (3.22), we have the homotopy  of the corresponding finite-dimensional triplets
+f
+
+, G0 , U m
+
+C
+m
+
+
+
+f
+
+, G1 , U m
+
+C
+m
+
+,
+
+(3.24)
+
+where Gk = ik    , i = 0, 1. (It is clear that the finite-dimensional space Em can be m  taken the same for both maps i0 , i1 .)  In fact, the homotopy is realized by the multimap G : U × [0, 1]  K (Em ), defined as G (x, ) = 
+
+
+(x ,  )
+
+,
+
+where  (z, ) = (1 - )i0 (z) + i1 (z).  
+f C
+m
+
+(3.25)
+
+So, from Remark 3.8, it follows that Ind , G0 , U m
+= Ind
+f
+
+, G1 , U m
+
+C
+m
+
+.
+
+(3.26)
+
+Applying Proposition 3.10 and Theorem 3.5, we can deduce the following coincidence point property. Theorem 3.12. If Ind( f , G, U )C = 0, then  = Coin( f , G)  U . The definition of homotopy for compact triplets ( f , G0 , U )C  ( f , G1 , U )C has the same form as in Definition 3.6 with the only difference that the connected triplet ( f , G , U ) is assumed to be compact. Taking a finite-dimensional approximation of G =    as Gm = i     and applying Theorem 3.7 and Definition 3.11, we obtain the following homotopy invariance property. Theorem 3.13. If ( f , G0 , U )C  ( f , G1 , U )C , then
+I f C I f C
+
+nd
+
+0 , G0 , U 0
+
+=
+
+nd
+f
+
+1 , G1 , U 1
+
+.
+
+(3.27)
+
+Again, if f and U are constant, we have the equality Ind
+f
+
+, G0 , U
+
+C
+
+= Ind
+
+, G1 , U
+
+C
+
+.
+
+(3.28)
+
+An analog of the additive dependence on the domain property (see Theorem 3.9) for compact triplets also holds. 4. Oriented coincidence index for condensing triplets In this section, we extend the notion of the oriented coincidence index to the case of condensing triplets. At first we recall some notions (see, e.g., [12]). Denote by P (E ) the collection of all nonempty subsets of a Banach space E . Let ( ,) be a partially ordered set.
+i Definition 4.1. A map  : P (E )  f
+
+is called a measure of noncompactness (MNC) in E (4.1)
+
+(coD) = (D) for every D  P (E ).
+
+
+Valeri Obukhovskii et al.
+
+11
+
+An MNC  is called (i) monotone if D0 , D1  P (E ), D0  D1 , implies (D0 )  (D1 ); (ii) nonsingular if ({a}  D) = (D) for every a  E , D  P (E ); (iii) real if A = R+ = [0, +] with the natural ordering, and (D) < + for every bounded set D  P (E ). Among the known examples of MNC satisfying all the above properties we can consider the Hausdorff MNC  (D ) = i n f and the Kuratowski MNC (D) = inf
+d 
+
+> 0 : D has a finite -net
+
+,
+
+(4.2)
+
+> 0 : D has a finite partition with sets of diameter less than d
+a
+
+.
+
+(4.3)
+
+Let again Y = U  E, or U  E × [0, 1], open bounded sets, f : Y  E Y  K (E ) a multimap,  an MNC in E .
+
+map; G :
+
+Definition 4.2. Maps f , G and the space Y form a -condensing triplet ( f , G, Y ) if they satisfy conditions (h1) and (h3) in Definition 3.1, and (h2 ) a multimap G =     C J (Y , E ) is -condensing with respect to f , that is, 
+G
+
+( )
+
+
+
+f ( )
+
+(
+
+4.4)
+
+for every   Y such that G() is not relatively compact. Our target is to define the coincidence index for a -condensing triplet ( f , G, U ) . To this aim, let us recall the following notion (see, e.g., [1, 7, 8, 12, 16]). Definition 4.3. A convex, closed subset T  E is said to be fundamental for a triplet ( f , G , Y ) if ( i ) G ( f -1 ( T ) )  T ; (ii) for any point y  Y , the inclusion f ( y )  co(G( y )  T ) implies that f ( y )  T . The entire space E and the set coG(Y ) are natural examples of fundamental sets for ( f , G , U ) . It is easy to verify the following properties of a fundamental set. Proposition 4.4. (a) The set Coin( f , G) is included in f -1 (T ) for each fundamental set T of ( f , G, U ) . (b) Let T be a fundamental set of ( f , G, U ) , and P  T , then the set T = co(G( f -1 (T ))  P ) is also fundamental. (c) Let {T } be a system of fundamental sets of ( f , G, U ) . The set T =  T is also fundamental. Proposition 4.5. Each -condensing triplet ( f , G, U ) , where  is a monotone, nonsingular MNC, admits a nonempty, compact fundamental set T .
+
+
+12
+
+An oriented coincidence index
+
+Proof. Consider the collection {T } of all fundamental sets of ( f , G, U ) containing an arbitrary point a  E . This collection is nonempty since it contains E . Then, taking T =  T = , we obviously have T = co and hence 
+f f -1 G
+
+f -1 ( T )
+
+
+
+{ a}
+
+,
+
+(4.5)
+
+(T )
+
+
+
+ (T ) = 
+
+G
+
+f -1 ( T )
+
+,
+
+(4.6)
+
+so G( f -1 (T )) is relatively compact and T is compact. E verywhere from now on, we assume that the MNC  is monotone and nonsingular. Now, if T is a nonempty compact fundamental set of a -condensing triplet ( f , G = (  ), Y ) , let  : E  T be any retraction. Consider the multimap G =       C J (Y , E ). From Proposition 4.4(a), it follows that Coin( f , G) = Coin( f , G). (4.7)
+
+Hence, f , G, and Y form a compact triplet ( f , G, Y )C . We will say that ( f , G, Y )C is a compact approximation of the triplet ( f , G, Y ) . Definition 4.6. The oriented coincidence index of a -condensing triplet ( f , G, U ) is defined by the equality Ind( f , G, U ) := Ind
+f
+
+, G, U
+
+C
+
+,
+
+(4.8)
+
+where ( f , G, U )C is a compact approximation of ( f , G, U ) . To prove the consistency of the above definition, consider two nonempty, compact fundamental sets T0 and T1 of the triplet ( f , G =   , U ) with retractions 0 : E  T0  and 1 : E T1 , respectively. If T0  T1 = , then by Proposition 4.4(a) and (c), Coin( f , G0 ) = Coin( f , G1 ) = Coin( f , G) = , where Gi = i    , i = 0, 1. Hence, by Theorem 3.12, Ind( f , G0 , U )C = Ind( f , G1 , U )C = 0. Otherwise, we can assume, without loss of generality, that T0  T1 . In this case, consider the map  : Z × [0, 1]  E , given by (z, ) = 1  ((z) + (1 - )0  (z)) and the multimap G  C J (U × [0, 1], E ), G(x, ) = ((x), ). The compact triplet ( f , G, U × [0, 1])C realizes the homotopy
+f
+
+, G0 , U
+
+C
+
+
+
+f
+
+, G1 , U
+
+C
+
+.
+
+(4.9)
+
+Indeed, the only fact that we need to verify is that Coin( f , G) 
+
+
+U × [0, 1]
+
+=
+
+,
+
+(4.10)
+
+where f (x, )  f (x) is the natural extension.
+
+
+Valeri Obukhovskii et al. To the contrary, suppose that there exists (x, )  U × [0, 1] such that f (x) = 1 
+
+
+13
+
+(z) + (1 - )0  (z)
+
+(
+
+4.11)
+
+for some z  (x). But in this case, x  f -1 (T1 ) and hence (z)  T1 . Since also 0  (z)  T1 , we have (z) + (1 - )0  (z)  T1 a n d so f (x) = (z) + (1 - )0  (z)  co
+G
+
+(4.12)
+
+(x)  T0
+
+(
+
+4.13)
+
+and we obtain f (x)  T0 and x  f -1 (T0 ), implying (z)  T0 and 0  (z) = (z). We conclude that f (x) = (z)  G(x) giving the contradiction. Definition 4.7. Two -condensing triplets ( f0 , G0 , U 0 ) and ( f1 , G1 , U 1 ) are said to be homotopic:
+f
+0 , G0 , U 0
+
+
+
+
+
+f
+
+1 , G1 , U 1
+
+
+
+,
+
+(4.14)
+
+if there exists a -condensing triplet ( f , G , U  ) satisfying conditions (a), (b), (c) of Definition 3 .6 . Theorem 4.8 (the homotopy invariance property). If
+f
+0 , G0 , U 0
+
+
+
+
+
+f
+
+1 , G1 , U 1
+
+
+
+,
+
+(4.15)
+
+then
+I
+
+nd
+
+f
+
+0 , G0 , U 0
+
+
+
+=
+
+I
+
+nd
+
+f
+
+1 , G1 , U 1
+
+
+
+.
+
+(4.16)
+
+Proof. Let T be a nonempty compact fundamental set of the triplet ( f , G = (   ), U ) connecting ( f0 , G0 , U 0 ) with ( f1 , G1 , U 1 ) . It is easy to see that T is fundamental also for the triplets ( fk , Gk , U k ) , k = 0, 1. Let  : E  T be any retraction, and ( f , G =      , U  )C the corresponding compact approximation of ( f , G , U  ) . Then ( f , G , U  )C realizes a compact homotopy connecting the triplets ( fk ,   k  k , U k )C , k = 0, 1 which are compact approximations of ( fk , Gk , U k ) , k = 0, 1, respectively. By Theorem 3.13, we have
+I
+
+nd
+
+f
+
+0 ,   0  0 , U 0
+
+C
+
+=
+
+I
+
+nd
+
+f
+
+1 ,   1  1 , U 1
+
+C
+
+(4.17)
+
+giving the desired equality (4.16). R emark 4.9. Let us mention that in case of invariable f and U : U = U × [0, 1] f  (x ,  )  f (x ),
+  [0, 1 ],
+
+(4.18)
+
+
+14
+
+An oriented coincidence index
+
+the condition of -condensivity for a triplet ( f , G, U × [0, 1]) may be weakened: for the existence of a nonempty, compact fundamental set T , it is sufficient to demand that 
+G
+
+
+
+
+× [0, 1]
+
+
+
+f ( )
+
+(
+
+4.19)
+
+for every   U such that G ( × [0, 1]) is not relatively compact. - In fact, it is enough to notice that in this case f 1 (T ) = f -1 (T ) × [0, 1] and to follow the line of reasoning of Proposition 4.5. Taking into consideration the corresponding property of compact triplets, we can precise the above property of homotopy invariance. If ( f , G, U × [0, 1]) is a -condensing triplet, where G has the form (c) of Definition 3.6, then Ind where Gk = G (·, {k}), k = 0, 1. From relation (4.7) and Theorem 3.12, the following theorem follows immediately. Theorem 4.10 (coincidence point property). If Ind( f , G, U ) = 0, then  = Coin( f , G)  U . As an example of application of Theorems 4.8 and 4.10, consider the following coincidence point result. Theorem 4.11. Let f  0 C 1 (E, E ) be odd; G  C J (E, E ) -condensing with respect to f on bounded subsets of E, that is, (G()) ( f ()) for every bounded set   E such that G() is not relatively compact. If the set of solutions of one-parameter family of operator inclusions f (x )   G (x ) is a priori bounded, then Coin( f , G) = . Proof. From the condition it follows that there exists a ball  E centered at the origin whose boundary  does not contain solutions of (4.21). Let    be a representation of G. If G : × [0, 1]  K (E ) has the form G (x, ) = 
+ f
+
+, G0 , U
+
+
+
+= Ind
+
+f
+
+, G1 , U ,
+
+
+
+(4.20)
+
+(4.21)
+
+(x ), 
+
+,
+
+ (z, ) = (z),
+
+(z ,  ) 
+
+× [0, 1 ],
+
+(4.22)
+
+then f , G , and × [0, 1] form a -condensing triplet ( f , G, × [0, 1]) . In fact, suppose that (G ())  ( f ()) for some   . Since G ( × [0, 1]) = co(G()  {0}), we have (G())  ( f ()) implying that G(), and hence G ( × [0, 1]), is relatively compact. So the triplet ( f , G, × [0, 1]) induces a homotopy connecting the triplets ( f , G, ) and ( f , 0, ) . Since the triplet ( f , 0, ) is finite-dimensional, from the odd condition on f and the odd field property of the Brouwer degree, it follows that ( f , 0, ) is an odd number.
+
+
+Valeri Obukhovskii et al.
+
+15
+
+Then, from the equality Ind( f , G, ) = Ind( f , 0, ) , it follows that Ind( f , G, ) = 0 and we can apply the coincidence point property. I n conclusion of this section, let us formulate the additive dependence on the domain property for -condensing triplets. Theorem 4.12. Let U0 and U1 be disjoint open subsets of an open bounded set U  E. If ( f , G, U ) is a -condensing triplet such that Coin( f , G)  then, Ind( f , G, U ) = Ind 5. Example Consider a mixed problem of the following form: A , x (t ), x (t )
+(
+
+U
+
+\
+
+U
+
+0  U1
+
+=
+
+,
+
+(4.23)
+
+
+f
+
+, G, U 0
+
+
+
++ Ind
+
+f
+
+, G, U 1 .
+
+(4.24)
+
+t
+
+=
+
+B , x (t ), x (t ), y (t )
+t ,
+
+t
+
+,
+
+(5.1) (5.2) (5.3)
+
+y t )  C , x (t ), y (t ) x (0) = x0 ,
+
+y (0) = y 0 ,
+
+where A : [0, a] × Rn × Rn  Rn , B : [0, a] × Rn × Rn × Rm  Rn are continuous maps; Rm is a multimap, and x0  Rn ; y0  Rm . C : [0, a] × Rn × Rm By a solution of problem (5.1)­(5.3), we mean a pair of functions (x, y ), where x  C 1 ([0, a]; Rn ), y  AC ([0, a]; Rm ) satisfy initial conditions (5.1), (5.3) for all t  [0, a] and inclusion (5.2) for a.a. t  [0, a]. It should be noted that problem (5.1)­(5.3) may be treated as the law of evolution of a system x(t ), whose dynamics is described by the implicit differential equation (5.1) and the control y (t ) is the subject of the feedback relation (5.2). Our aim is to show that, under appropriate conditions, the problem of solving problem (5.1)­(5.3) can be reduced to the study of a condensing triplet of the above-mentioned form (see Section 4). Consider the following condition: (A) for each (t , u, v)  [0, a] × Rn × Rn , there exist continuous partial derivatives Au (t , u, v), Av (t , u, v), and moreover, det Av (t , u, v) = 0. Proposition 5.1. Under condition (A), a map f : C 1 ([0, a]; Rn )  C ([0, a]; Rn ) × Rn defined as f ( x ) (t ) =
+A
+
+t , x (t ), x (t ) x ( 0 )
+
+,
+
+(
+
+5.4)
+
+is a Fredholm map of index zero, whose restriction to each closed bounded set D  C 1 ([0, a]; Rn ) is proper. Proof. (i) At first, let us prove that f is a Fredholm map of index zero. It is sufficient to show that the map f : C 1 ([0, a]; Rn )  C ([0, a]; Rn ), f (x)(t ) = A(t , x(t ), x (t )) is Fredholm of index n.
+
+
+16
+
+An oriented coincidence index Let us note that f is a C 1 map and, moreover, its derivative can be written explicitly:
+f
+(
+
+x)h t ) = Au , x(t ), x (t ) (t ) + Av , x(t ), x (t )
+
+(
+
+t
+
+h
+
+t
+
+h
+
+(
+
+t)
+
+(5.5)
+
+for h  C 1 ([0, a]; Rn ). The linear operator f (x) : C 1 ([0, a]; Rn )  C ([0, a]; Rn ) is a Fredholm operator of index n. In fact, introducing the auxiliary operators
+[ - [ , fu (x) : C 1 0, a]; Rn  C 0, a]; Rn fu
+
+(x)h t ) = Au , x(t ), x (t ) (t ),
+
+(
+
+t
+
+h
+
+t  [0, a], (5.6)
+
+[ - [ , fv (x) : C 1 0, a]; Rn  C 0, a]; Rn fv
+
+(x)h t ) = Av , x(t ), x (t )
+
+(
+
+t
+
+h
+
+(
+
+t ),
+
+t  [0, a],
+
+we can write
+f (x )h = f u (x )h + f v (x )h.
+
+(5.7)
+
+The operator fu (x) is completely continuous since it can be represented as the composition of a completely continuous inclusion map i : C 1 ([0, a]; Rn )  C ([0, a]; Rn ) and a continuous linear operator M : C ([0, a]; Rn )  C ([0, a]; Rn ) (M h)(t ) = Au (t , x(t ), x (t ))h(t ). Now, it is sufficient to show that the operator fv (x) is a Fredholm operator of index n. Let us represent this operator as the composition of the differentiation operator d/ dt : C 1 ([0, a]; Rn )  C ([0, a]; Rn ) and the operator L : C ([0, a]; Rn )  C ([0, a]; Rn ), (Lz)(t ) = Av (t , x(t ), x (t ))z(t ). It is well known that the operator d/ dt is a Fredholm operator of index n. Since the matrix Av (t , x(t ), x (t )) is invertible, the operator L is invertible too. Hence, the operators fv (x) and, therefore, f (x) are Fredholm of index n and f (x) is a Fredholm map of index zero. So, f is a nonlinear Fredholm map of index zero. (ii) Now, let D  C 1 ([0, a]; Rn ) be a closed bounded set. Denoting the restriction of f on D by the same symbol, let us demonstrate its properness. Let  C ([0, a]; Rn ) -1 be any compact set, and let {xn }nN  f ( ) be an arbitrary sequence. Without loss of generality, we may assume that f (xn )  z  . Since the sequence {xn } is bounded in C 1 ([0, a]; Rn ) we may also assume, without loss of generality, that the sequence {xn } tends, in C ([0, a]; Rn ), to some   C ([0, a]; Rn ). Further, from the representation A ,  ( t ) , xn ( t )
+t =
+
+A , x n (t ), xn (t )
+
+t
+
++A
+
+t ,  ( t ) , xn ( t )
+
+-
+
+A , x n (t ), xn (t )
+
+t
+
+(
+
+5.8)
+
+it follows that the sequence zn = A(·, (·), xn (·)) tends to z in C ([0, a]; Rn ). From the inverse mapping theorem it follows that xn = (zn ), where  : C ([0, a]; Rn )  C ([0, a]; Rn ) is a continuous map, implying that xn tends to (z) in C ([0, a]; Rn ). So, the sequence {xn }nN is convergent in the space C 1 ([0, a]; Rn ) and, hence, the set f -1 ( ) is compact. The properness of f easily follows.
+
+
+Valeri Obukhovskii et al.
+
+17
+
+Now we will describe the assumptions on the map B and the multimap C . Denoting by the symbol K v(Rm ) the collection of all nonempty compact convex subsets of Rm , we suppose that the multimap C : [0, a] × Rn × Rm  K v(Rm ) satisfies the following conditions: (C1) the multifunction C (·, u, w) : [0, a]  K v(Rm ) has a measurable selection for all ( u , w )  Rn × R m ; (C2) the multimap C (t , ·, ·) : Rn × Rm  K v(Rm ) is upper semicontinuous for a.a. t  [ 0 , a] ; (C3) the multimap C is uniformly continuous in the second argument, in the following sense: for each  > 0, there exists  > 0 such that C (t , u , w )  W
+C
+
+(t , u, w )
+
+
+
+(t , w)  [0, a] × Rm
+
+(5.9)
+
+whenever u - u <  (where W denotes the -neighborhood of a set); (C4) there exists a function   L1 ([0, a]) such that +
+C
+
+(t , u, w) = sup
+
+:
+
+c
+
+: c  C (t , u, w )
+
+
+
+ (t )
+
+1
+
++u+w
+
+.
+
+(5.10)
+
+For a given function x  C 1 ([0, a]; Rn ) consider the multimap Cx : [0, a] × Rm  K v(Rm ) defined as Cx (t , w) = C (t , x(t ), w). From [12, Theorem 1.3.5], it follows that for each w  Rm the multifunction Cx (·, w) admits a measurable selection. Furthermore, from (C2) and (C3), it follows that for a.a. t  [0, a] the multimap Cx (t , w) depends upper semicontinuously on (x, w). Applying known results on existence, topological structure, ´ and continuous dependence of solutions for Caratheodory-type differential inclusions (see, e.g., [2, 6, 12]) we conclude the following. e Proposition 5.2. For each given x  C 1 ([0, a]; Rn ), the set x of the Carath´odory solutions of the Cauchy problem y (t )  C , x (t ), y (t ) y (0) = y 0
+t ,
+
+(5.11)
+
+is an R -set in C ([0, a]; Rm ). Moreover, the multimap  : C 1 ([0, a]; Rn )  K (C ([0, a]; Rm )), (x) = x is upper semicontinuous. Now, we will assume that the maps A and B satisfy the following Lypschitz-type condition: (AB) there exists a constant q, 0  q < 1, such that
+B
+
+(t , u, v , w ) - B (t , u, v , w )
+
+
+
+q
+
+A
+
+(t , u, v) - A(t , u, v )
+
+(
+
+5.12)
+
+for all t  [0, a], u, v, v  Rn , w  Rm .
+
+
+18
+
+An oriented coincidence index Consider the continuous map  : C 1 ([0, a]; Rn ) × C ([0, a]; Rm )  C ([0, a]; Rn ) defined
+
+as
+t (x, y )(t ) = B , x(t ), x (t ), y (t ) (
+
+5.13)
+
+and the multimap  : C 1 ([0, a]; Rn )  K (C 1 ([0, a]; Rn ) × C ([0, a]; Rm )), (x) = {x} × (x). From Propositions 5.2 and 2.9, it follows that  is a J -multimap, and hence the composition G =    : C 1 ([0, a]; Rn )  K (C ([0, a]; Rn )) is a C J -multimap. It is clear that the set G(x) consists of all functions of the form B (t , x(t ), x (t ), y (t )), where y  (x). Define now the C J -multimap G : C 1 ([0, a]; Rn )  K (C ([0, a]; Rn ) × Rn ) by G (x ) = G (x ) ×
+x.
+0
+
+(5.14)
+
+The solvability of problem (5.1)­(5.3) is equivalent to the existence of a coincidence point x  C 1 ([0, a]; Rn ) for the pair ( f , G). If U  C 1 ([0, a]; Rn ) is an open bounded set, then to show that ( f , G, U ) form a condensing triplet with respect to the Kuratowski MNC, it is sufficient to prove the following statement. Proposition 5.3. The triplet ( f , G, U ) is -condensing with respect to the Kuratowski MNC  in the space C ([0, a]; Rn ). Proof. Take any subset   U , and let ( f ()) = d. From the definition of Kuratowski MNC, it follows that taking an arbitrary  > 0 we may find a partition of the set f () into subsets f (i ), i = 1, . . . , s, such that diam( f (i ))  d + . Since the embedding C 1 ([0, a]; Rn ) C([0,a];Rn ) is completely continuous, the image C of  under this embedding is relatively compact. It is known (see, e.g., [2, 12]) that an u.s.c. compact-valued multimap sends compact sets to compact sets, then we can conclude that the set () is relatively compact. It means that taking a fixed  > 0 and any i , we may divide the sets iC and () into a finite number of subsets i j C , j = 1, . . . , pi , and balls Dik (zik ), k = 1, . . . , ri , centered at zik  C ([0, a]; Rm ), respectively, such that for each t  [0, a]; u1 (·), u2 (·)  i j C , v  Rn ; w1 (·), w2 (·)  Dik (zik ), we have
+A B
+
+t , u1 (t ), v
+
+- -
+
+A , u2 (t ), v
+t
+
+t
+
+<
+
+,
+
+t , u1 (t ), v, w1 (t )
+
+B , u2 (t ), v, w2 (t )
+
+<
+
+.
+
+(5.15)
+
+Now, the set G() is covered by a finite number of sets i j k , i = 1, . . . , s; j = 1, . . . , pi ; k = 1, . . . , ri of the form i j k =
+B
+·, x(·), x (·), y (·) :
+
+x  i j C , y  Dik
+
+z
+ik
+
+.
+
+(5.16)
+
+
+Valeri Obukhovskii et al.
+
+19
+
+Let us estimate the diameters of these sets. Taking arbitrary x1 , x2  i j C and y1 , y2  Dik (zik ) and applying (5.15), and condition (AB), for any t  [0, a], we have
+B
+
+t , x 1 (t ), x1 (t ), y 1 (t )
+B  +B
+1
+
+<
+
+-
+
+B , x 2 (t ), x2 (t ), y 2 (t )
+- -
+
+t
+
+t , x1 (t ), x1 (t ), zik (t )
+B
+
+B , x2 (t ), x2 (t ), zik (t )
+-
+
+t
+
++
+
+t , x1 (t ), x (t ), zik (t )
+-
+
+B , x1 (t ), x (t ), zik (t ) B , x2 (t ), x2 (t ), zik (t )
++ t
+
+t
+
+2
++
+
+2
+
+q t , x1 (t ), x1 (t ) A(t , x1 (t ), x2 (t ) +A -t q t , x 1 (t ), x1 (t ) A , x 2 (t ), x2 (t ) A - 2 2
+
+A
+
+t , x1 (t ), x2 (t ), zik (t )
+
+2
+
+3
++
+
+(5.17)
+
+q
+
+t , x2 (t ), x (t )
+
+A(t , x1 (t ), x (t )
+
+3
+
+< q(d + ) + q + 3. Now, if q = 0, it means, by the arbitrariness of the choice of  > 0, that (G()) = 0 and then the triplet ( f , G, U ), and therefore ( f , G, U ), is compact. Otherwise, let us take  > 0 a n d  > 0 s o s ma l l t h a t q  + ( q + 3 ) < (1 - q )d . (5.18)
+
+Then, q(d + ) + q + 3 = d, where 0 <  < 1 and, hence diam i j k  d, implying that 
+T
+G
+
+( )
+
+
+
+
+
+f
+
+( )
+
+.
+
+(5.19)
+
+he proved statement implies that the coincidence index theory, developed in the previous sections, can be applied to the study of the solvability of problem (5.1)­(5.3). Moreover, it is easy to see that the coincidence point set Coin( f , G) of a condensing triplet ( f , G, U ) is a compact set. In case when problem (5.1)­(5.3) is a model for a control system, this approach can be used also to obtain the existence of optimal solutions. As an example, we can consider the following statement. Proposition 5.4. Under the above conditions, suppose that the map A is odd: A(t ,-u,-v) = A(t , u, v) for all t  [0, a]; u, v  Rn and the set of functions x  C 1 ([0, a]; Rn ) satisfying the family of relations A , x (t ), x (t )
+t =
+(
+
+ B , x (t ), x (t ), y (t )
+t ,
+
+t
+
+,
+
+  [0, 1 ], (5.20)
+
+y t )  C , x (t ), y (t ) x (0) = x0 ,
+
+y (0) = y 0
+
+is a priori bounded. Then, there exists a solution (x , y ) of problem (5.1)­(5.3) minimizing a given lower-semicontinuous functional l : C 1 0, a]; Rn
+[ ×
+
+C 0, a]; Rm
+
+[
+
+-  R+ .
+
+(5.21)
+
+
+20
+
+An oriented coincidence index
+
+Proof. The application of Theorem 4.11 yields that the set Q = Coin( f , G) is nonempty and compact. It remains only to notice that the set of solutions {(x, y )} of (5.1)­(5.3) is closed and it is contained in the compact set Q × (Q)  C 1 ([0, a]; Rn ) × C ([0, a]; Rm ). A cknowledgments The first and third authors are supported by the Russian FBR Grants 04-01-00081 and 0501-00100. The second author is supported by the Italian Cofin 04-05. All authors' work is partially supported by the NATO Grant ICS.NR.CLG 981757. References
+ [1] Yu. G. Borisovich, B. D. Gelman, A. D. Myshkis, and V. Obukhovskii, Topological methods in the theory of fixed points of multivalued mappings, Uspekhi Matematicheskikh Nauk 35 (1980), no. 1(211), 59­129, English translation: Russian Mathematical Surveys 35 (1980), 65­143. , Introduction to the Theory of Multivalued Maps and Differential Inclusions, KomKniga, [2] Moscow, 2005. [3] Yu. G. Borisovich, V. Zvyagin, and Y. I. Sapronov, Nonlinear Fredholm mappings, and LeraySchauder theory, Uspekhi Matematicheskikh Nauk 32 (1977), no. 4(196), 3­54, English translation in Russian Mathematical Surveys 32 (1977), no. 4, 1­54. 2 [4] Yu. G. Borisovich, V. Zvyagin, and V. V. Shabunin, On the solvability in W p m+1 of the nonlinear Dirichlet problem in a narrow strip, Doklady Akademii Nauk 334 (1994), no. 6, 683­685, English translation in Russian Academy of Sciences Doklady Mathematics 49 (1994), no. 1, 179­182. ´ [5] K. Borsuk, Theory of Retracts, Monografie Matematyczne, vol. 44, Panstwowe Wydawnictwo Naukowe, Warsaw, 1967. [6] K. Deimling, Multivalued Differential Equations, de Gruyter Series in Nonlinear Analysis and Applications, vol. 1, Walter de Gruyter, Berlin, 1992. [7] D. Gabor, The coincidence index for fundamentally contractible multivalued maps with nonconvex values, Annales Polonici Mathematici 75 (2000), no. 2, 143­166. [8] D. Gabor and W. Kryszewski, A coincidence theory involving Fredholm operators of nonnegative index, Topological Methods in Nonlinear Analysis 15 (2000), no. 1, 43­59. ´ [9] L. Gorniewicz, Topological Fixed Point Theory of Multivalued Mappings, Mathematics and Its Applications, vol. 495, Kluwer Academic, Dordrecht, 1999. ´ [10] L. Gorniewicz, A. Granas, and W. Kryszewski, On the homotopy method in the fixed point index theory of multi-valued mappings of compact absolute neighborhood retracts, Journal of Mathematical Analysis and Applications 161 (1991), no. 2, 457­473. [11] D. M. Hyman, On decreasing sequences of compact absolute retracts, Fundamenta Mathematicae 64 (1969), 91­97. [12] M. Kamenskii, V. Obukhovskii, and P. Zecca, Condensing Multivalued Maps and Semilinear Differential Inclusions in Banach Spaces, de Gruyter Series in Nonlinear Analysis and Applications, vol. 7, Walter de Gruyter, Berlin, 2001. [13] S. V. Kornev and V. Obukhovskii, On some versions of the topological degree theory for nonconvexvalued multimaps, Trudy Matematicheskogo Fakul'teta. Novaya Seriya 8 (2004), 56­74 (Russian). [14] M. A. Krasnosel'ski and P. P. Zabreko, Geometrical Methods of Nonlinear Analysis, Fundamental i i Principles of Mathematical Sciences, vol. 263, Springer, Berlin, 1984. [15] A. D. Myshkis, Generalizations of the theorem on a fixed point of a dynamical system inside of a closed trajectory, Matematicheski Sbornik. Novaya Seriya 34(76) (1954), 525­540 (Russian). i
+
+
+Valeri Obukhovskii et al.
+
+21
+
+[16] V. Obukhovskii, Some fixed point principles for multivalued condensing operators, Trudy Matematicheskogo Fakul'teta. Voronezhskij Gosudarstvennyj Universitet (1970), no. 4, 70­79 (Russian). [17] V. Obukhovskii, P. Zecca, and V. Zvyagin, On coincidence index for multivalued perturbations on nonlinear Fredholm maps and some applications, Abstract and Applied Analysis 7 (2002), no. 6, 295­322. [18] T. Pruszko, A coincidence degree for L-compact convex-valued mappings and its application to ´ ´ the Picard problem of orientor, L'Acadeemie Polonaise des Sciences. Bulletin. Seerie des Sciences ´ Matheematiques 27 (1979), no. 11-12, 895­902 (1981). [19] E. Tarafdar and S. K. Teo, On the existence of solutions of the equation Lx  N x and a coincidence degree theory, Journal of Australian Mathematical Society. Series A 28 (1979), no. 2, 139­173. [20] V. G. Zvjagin, The existence of a continuous branch for the eigenfunctions of a nonlinear elliptic boundary value problem, Differencial'nye Uravnenija 13 (1977), no. 8, 1524­1527 (Russian). [21] V. Zvyagin, The oriented degree of a class of perturbations of Fredholm mappings and the bifurcation of the solutions of a nonlinear boundary value problem with noncompact perturbations, Matematicheskij Sbornik 182 (1991), no. 12, 1740­1768 (Russian), English translation in Mathematics of the USSR, Sbornik 74 (1993), no. 2, 487­512. [22] V. Zvyagin and N. M. Ratiner, Oriented degree of Fredholm maps of nonnegative index and its application to global bifurcation of solutions, Global Analysis--Studies and Applications, V, Lecture Notes in Math., vol. 1520, Springer, Berlin, 1992, pp. 111­137. Valeri Obukhovskii: Faculty of Mathematics, Voronezh University, 394006 Voronezh, Russia E-mail address: valerio@math.vsu.ru Pietro Zecca: Diparimento di Energetica "S. Stecco," Universita' di Firenze, 50139 Firenze, Italy E-mail address: pzecca@ing.unifi.it Victor Zvyagin: Faculty of Mathematics, Voronezh University, 394006 Voronezh, Russia E-mail address: zvg@main.vsu.ru
+
+

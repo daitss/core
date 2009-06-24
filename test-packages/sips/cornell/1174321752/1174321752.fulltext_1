@@ -1,0 +1,439 @@
+BOURGIN-YANG-TYPE THEOREM FOR a-COMPACT PERTURBATIONS OF CLOSED OPERATORS. PART I. THE CASE OF INDEX THEORIES WITH DIMENSION PROPERTY
+SERGEY A. ANTONYAN, ZALMAN I. BALANOV, AND BORIS D. GEL'MAN Received 26 June 2005; Accepted 1 July 2005
+
+A variant of the Bourgin-Yang theorem for a-compact perturbations of a closed linear operator (in general, unbounded and having an infinite-dimensional kernel) is proved. An application to integrodifferential equations is discussed. Copyright © 2006 Sergey A. Antonyan et al. This is an open access article distributed under the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited. 1. Introduction 1.1. Goal. Among several different, but equivalent, formulations of the famous BorsukUlam theorem, the following one is of our interest: if f : Sn  Rn is a continuous odd map, then there exists an x  Sn such that f (x) = f (-x) = 0 (see [17] for other formulations, generalizations, and applications, and [11, 13] for a connection with the corresponding Brouwer degree results). Under the "stronger" assumption that f : Sn  Rm , where m < n, one can expect that there are bigger coincidence sets. The results which measure the size of the set A := {x  Sn | f (-x) = f (x)} in topological terms, like dimension, (co)homology, genus (or other index theory), are usually called "Bourgin-Yang theorems." The simplest result in this direction (cf. [5, 19]) can be formulated as follows: (i) dim A( f )  n - m (covering or cohomological dimension) and (ii) g (A( f ))  n - m + 1, where g (·) stands for the genus with respect to the antipodal action (see Example 2.4). We refer to [17] for extensions of this result to more complicated (finite-dimensional) G-spaces, where G is a compact Lie group, as well as to index theories different from genus. Holm and Spanier were the first to extend the Bourgin-Yang theorem to infinite dimensions (see [10], where the solution set to the equation a(x) = f (x) was studied in the case a is a proper C  -smooth Fredholm operator and f is a compact map; both equivariant with respect to a free involution). It should be pointed out that the assumptions on a required in [10] allow a clear finite-dimensional reduction (the kernels and images in question are complementable). At the same time, the methods developed in [10] cannot be
+Hindawi Publishing Corporation Abstract and Applied Analysis Volume 2006, Article ID 78928, Pages 1­13 DOI 10.1155/AAA/2006/78928
+
+
+2
+
+Bourgin-Yang-type theorem
+
+applied to treat the case when F is not Fredholm. The first step in this direction was done in recent papers [8, 9], where the author studied the situation when a is a continuous (resp., linear closed) linear operator without any restrictions with respect to dim ker(a) (in fact, in these papers only, the "dimension part" of the Bourgin-Yang theorem was proved in the presence of the antipodal symmetry). The main new ingredient in [8, 9] allowing the author to go around the "complementability problem" is the application of the Michael selection theorem respecting the antipodal symmetry to the multivalued map a-1 . Observe, however, that the corresponding "equivariant selection theorem" was proved in [7] for free actions of a finite group--by no means to be extended to nonfree actions of compact Lie groups. The main goal of our paper is to extend the results from [8­10] in several directions: (i) a is an arbitrary closed linear map (in general, unbounded, and having an infinite-dimensional kernel) equivariant with respect to arbitrary compact Lie group representations; (ii) f is a so-called a-compact G-equivariant map (see Definition 4.1); (iii) the coincidence set is estimated in terms of an arbitrary index theory with the so-called "dimension property" (cf. [4, 17], [14, Chapter 5]). To this end, based on the results from [1], we establish a general equivariant version of the Michael selection theorem (without any restrictions with respect to G-actions) which, in our opinion, is interesting in its own. This result allows us to construct for a an equivariant section taking bounded sets to the bounded ones (see Lemma 3.6). Using this lemma, we reduce the coincidence problem to the fixed point problem. 1.2. Overview. After Section 1, the paper is organized as follows. In Section 2, we briefly discuss "index theories." Section 3 is devoted to the proof of the equivariant Michael selection theorem and Lemma 3.6. After the reduction to the fixed point problem (see Section 4), we prove the main result (Theorem 4.3) in Section 5. In the last section, we give an application of the main result to integrodifferential equations. For the equivariant jargon, frequently used in this paper, we refer to [6]. 2. Index theories Convention and notations. Hereafter, G stands for a compact Lie group. Without loss of generality, we will assume all Banach G-representations to be isometric. Given a Banach G-representation E, (i) SR stands for the sphere in E of radius R centered at the origin; (ii) EG = {x  E | g x = x, for all g  G}--the fixed point set. Let us recall the standard construction of the join. Definntion 2.1. Let X1 , . . . , Xn be topological spaces and n-1 = {(t1 , . . . , tn )  Rn | 0  ti  i 1, i=1 ti = 1}--the (n - 1)-dimensional standard simplex. The join X1  · · ·  Xn is the quotient space of the product X1 × · · · × Xn × n-1 under the following equivalence relation: (x1 , . . . , xn , t1 , . . . , tn )  (x1 , . . . , xn , t1 , . . . , tn ) if and only if ti = ti (i = 1, . . . , n) and xi = xi whenever ti = ti > 0.
+
+
+Sergey A. Antonyan et al. 3 It is convenient to denote a point of the join X1  · · ·  Xn in the form of a formal n convex combination: i=1 ti xi . If X1 = · · · = Xn = X , then write Jn X for X1  · · ·  Xn . n n If X1 , . . . , Xn are G-spaces, then so is X1  · · ·  Xn via g · i=1 ti xi := i=1 ti g xi , g  G. Example 2.2. Obviously, Jn S0 = Sn-1 , Jn S1 = S2n-1 , and Jn S3 = S4n-1 . Also, if we consider S0 (resp., S1 and S3 ) as free Z2 --(resp., S1 - and SU (2)-spaces), then the action of Z2 on Jn S0 (resp., S1 on Jn S1 and SU (2) on Jn S3 ) corresponds to the antipodal action (resp., scalar multiplication in S2n-1  Cn and scalar multiplication in S4n-1  Hn , where H stands for the quaternions). Following [4], [14, Chapter 5], [17], we give the following definition. Definition 2.3. A function "ind" that assigns to every G-space A a number ind(A)  N 
+{0} or {} is called an index theory if it satisfies the following properties. (i) ind(A) = 0 if and only if A = .
+
+(ii) Subadditivity. If a G-space A is the union of two of its closed invariant subsets A1 and A2 , then ind(A)  ind(A1 ) + ind(A2 ). (iii) Continuity. If A is a closed invariant subset of a G-space X , then there exists a closed invariant neighborhood of A in X such that ind(A) = ind( ). (iv) Monotonicity. If A1 and A2 are two G-spaces and there exists an equivariant map  : A1  A2 , then ind(A1 )  ind(A2 ). In particular, (a) if A1  A2 , then ind(A1 )  ind(A2 ), and (b) if  : A1  A2 is an equivariant homeomorphism, then ind(A1 ) = ind(A2 ). Example 2.4 (genus). For a G-space A set g (A) = k if there exist closed subgroups H1 , . . . , Hk of G, Hi = G, i = 1, . . . , k, and a G-equivariant map A  G/ H1  · · ·  G/ Hk , where k is minimal with this property (G acts on G/ Hi by left translations). If such k does not exist, put g (A) := . Also, g () = 0. It is easy to check (see [3]) that the function g satisfies all the properties required for an index theory. In fact, there is a "myriad" of nonequivalent index theories (mostly, cohomological (see [3] and references therein)). In this paper, we are dealing with index theories satisfying an additional property (cf. [4], [14, Chapter 5], [17]). Namely, we have the following definition. Definition 2.5 (dimension property). An index theory ind is said to satisfy the dimension property if there exists d  N such that for any Banach G-representation E, one has ind(Ekd  S1 ) = k for all invariant kd-dimensional subspaces Ekd of E satisfying Ekd  E G = {0 }. As an immediate consequence of the dimension property, one has (cf. [4]) that ind(A) <  for any compact invariant subset A  E of a Banach G-representation E with A  EG = . Although, in general, the genus does not satisfy the dimension property, there are some important (from the application point of view) classes of groups for which it does (see the examples following below).
+
+
+4
+
+Bourgin-Yang-type theorem
+
+Example 2.6. (i) If G = Z p × · · · × Z p ( p is prime), then the genus satisfies the dimension property with d = 1 (cf. [3]). (ii) If G = S1 × · · · × S1 , then the genus satisfies the dimension property with d = 2 (cf. [3]). Remark 2.7. Restricting the genus to free G-spaces, one can define a "restricted index theory" satisfying the dimension property with d = 1 + dim G (cf. [3]). Recall that if G acts freely on a finite-dimensional sphere, then G is either finite, or S1 , or S3 , or the normalizer of S1 in S3 (cf. [6, Chapter 4, Theorem 6.2]). All finite groups admitting a free action on a finite-dimensional sphere are described in [18]. 3. Equivariant selection theorem We begin this section with recalling the Michael selection theorem. To this end, we need several definitions. Definition 3.1. (i) Let X and Y be topological spaces. It will be said that F is a multivalued map from X to Y if F associates with each point x  X a nonempty subset F (x) of Y . If, in addition, X and Y are G-spaces, then F is called a multivalued Gmap or a multivalued equivariant map, if F (g x) = g F (x) for all g  G and x  X , where g F ( x ) = { g y | y  F ( x )} . (ii) A multivalued map F from X to Y is called lower semicontinuous (l.s.c.) if for any open subset U  Y , the set F -1 (U ) = {x  X | F (x)  U = } is open in X . Definition 3.2. (i) A continuous (single-valued) map f : X  Y is called a selection for a multivalued map F from X to Y if f (x)  F (x) for all x  X . (ii) Assume X and Y are G-spaces and F is a multivalued G-map. A selection f of F is called a G-selection if, in addition, f is a G-map. The following fact is well known as the Michael selection theorem. Theorem 3.3 (see [15]). Let X be a paracompact space, Y a Banach space, and F an l.s.c. multivalued map from X to Y such that F (x) is a nonempty, closed, convex set for all x  X . Then F admits a selection. Below, we formulate and prove an equivariant version of the Michael selection theorem. Theorem 3.4. Let X be a paracompact G-space, Y a Banach G-representation, and F a multivalued l.s.c. G-map from X to Y such that for all x  X , F (x) is a closed, convex set. Then F admits a G-selection. Proof. According to the Michael selection theorem (Theorem 3.3), there exists a continuous selection f : X  Y of F . Let dg be the normalized Haar measure on G. Define a new (3.1)
+
+
+Sergey A. Antonyan et al. 5 single-valued map  : X  Y by
+G
+
+(x) =
+
+g -1 f ( g x ) d g ,
+
+x  X,
+
+(3.2)
+
+(the symbol on the right-hand side denotes the vector-valued integral with respect to the Haar measure). We claim that  is the desired G-selection of F . Indeed, since f (g x)  F (g x) = g F (x), we see that g -1 f (g x)  g -1 (g F (x)) = F (x) for all g  G. Since F (x) is a closed convex set, we infer that the closed convex hull conv(A f ) of the set A f := {g -1 f (g x) | g  G} is contained in F (x). But the above integral belongs to conv(A f ) (see [16, Part 1, Theorem 3.27]). This yields that (x)  F (x). Continuity and equivariance of the map  : X  Y can be easily derived from the L corresponding properties of the integral presented in the following lemma emma 3.5 (see [1]). Assume that V is a complete (in the sense of the natural uniformity induced from Z ) convex invariant subset of a locally convex topological vector space Z on which a compact group G acts linearly. Let C (G, V ) denote the set of all continuous maps f :: G  V endowed with the compact-open topology. Then the vector-valued Haar integral C (G,hV )  Vf is a well-defined continuous map satisfying the following properties: f = h for any f  C (G, V ) and any h  G, where h f (g ) = f (hg ) and (a) f = fh (g ) = f (g h) for all g  G; g f  f =g for any f  C (G, V ) and any g  G, where the action g  f of G on (b) C ( G , V ) is de fined by ( g  f ) (x ) = g f ( x ) , x  G ; f = v0 , if f (G) = {v0 } for a point v0  V . (c) Also, assuming in addition that G is finite or Z is finite-dimensional, one can remove the completeness requirement on V . Next, we will apply Theorem 3.4 to prove the existence of a special G-selection of a linear G-equivariant closed map of Banach G-representations. Let E1 and E2 be Banach spaces, a : D(a)  E1  E2 a linear closed surjective map. Take the natural projection p : E1  E1 / Ker(a) := E1 and consider the (invertible) map a1 : D(a1 )  E1  E2 , where D(a1 ) := p(D(a)) and a1 ([x]) := a(x). Put (see, e.g., [8, 9]) (a) := sup
+a -1 y
+1
+
+( y)
+
+y E2 \{0}
+
+= y E2 \{0}
+
+sup
+
+inf
+
+x
+
+y | x  E1 , a(x) = y .
+
+(3.3)
+
+Lemma 3.6. Let E1 and E2 be Banach isometric G-representations, a : D(a)  E1  E2 a G-equivariant linear closed surjective map, and k > (a) (cf. (3.3)). Then there exists a Gequivariant continuous map q : E2  E1 satisfying the following conditions: (i) a(q( y )) = y for all y  E2 ; (ii) q( y )  k y for all y  E2 . Proof. Denote by a-1 a multivalued map from E2 to E1 "inverse" to a, that is, a-1 assigns to each y  E2 its full inverse image under a. Obviously, a-1 is a multivalued G-map with nonempty closed convex values. Moreover (cf. [2, Chapter 3], [8, 9]), a-1 is l.s.c. (even Lipschitzian with the Lipschitz constant (a)).
+
+
+6
+
+Bourgin-Yang-type theorem
+
+Consider together with a-1 another multivalued map  from E2 to E1 defined by ( y ) := Br ( y) [0], where Br ( y) [0] is the closed ball of radius r ( y ) = (a) y + 1 centered at the origin of E1 . Obviously,  is also G-equivariant. Put F ( y ) := a-1 ( y )  ( y ). Still F is a G-equivariant l.s.c map with nonempty closed convex values. By Theorem 3.4, there exists a G-equivariant selection q : E2  E1 of F . By construcR tion, q is as required. emark 3.7. Lemma 3.6 is quite obvious in the case dim ker(a) < . Indeed, one has a direct sum decomposition E1 = V  ker(a) and V is isomorphic to E2 as a G-representation. However, in general, ker(a) is not complementable and, therefore, one can think of q as a nonlinear equivariant replacement for the corresponding G-isomorphism (the use of G-selections in this case seems to be unavoidable). 4. Main result: formulation and reduction to a fixed point problem To formulate the main result of this paper (see Theorem 4.3), we need some preliminaries. Definition 4.1. Let E1 , E2 be Banach spaces, a : D(a)  E1  E2 a closed surjective linear map. A continuous map g : X  E1  E2 is said to be a-compact if the set g (B  a-1 (A)) is compact for any bounded sets A  E2 and B  X (the empty set is compact by definition). To give a simple criterion for the a-compactness of g , recall that the graph norm makes D(a) a Banach space, denoted by E. Clearly, the embedding j : E  E1 is continuous. Put X := j -1 (X ) and consider the map g : X  E2 defined by g(x) = g ( j (x)). Proposition 4.2. Under the above notations, g is a-compact if and only if g is compact. As the proof of this proposition is straightforward, we omit it. Here is our main result. Theorem 4.3. Take an index theory ind satisfying the dimension property with some natural number d (cf. Definitions 2.3 and 2.5). Let E1 , E2 be Banach G-representations and G E2 = {0}. Let, further, a : D(a)  E1  E2 be a closed surjective G-equivariant linear map G such that E1 is a proper finite-dimensional subspace of ker(a), and denote by p the codiG mension of E1 in ker(a) (the case p =  is not excluded). Let f : D( f )  SR  E2 satisfy the following conditions: (i) D( f ) = D(a)  SR ; (ii) f is G-equivariant; (iii) f is a-compact. Denote by N (a, f ) the solution set to the equation a(x) = f (x). Then, ind
+N
+
+(4.1)
+
+(a, f )
+
+p
+
+d
+
+.
+
+(4.2)
+
+
+Sergey A. Antonyan et al. 7 The proof of Theorem 4.3 will be given in the next section. Here, by means of Lemma 3.6, we will reduce the study of (4.1) to a G-equivariant fixed point problem with a compact operator. G By assumption, E1 is finite-dimensional, hence we have a direct sum G-decomposition G G E1 . Put a := a|E E1 = E1  --the restriction. Since, by assumption, E1  ker(a), we 1 D (a) still have that a is a closed G-equivariant surjective map. Let q : E2  E1 be the map provided by Lemma 3.6 (applied to a). Next, define the map g : D(a)  E1  E2 by g (x ) =  R 0,
+ x 
+R
+
+f
+
+x
+
+,
+
+x
+
+x = 0, x = 0.
+
+(4.3)
+
+G Further, take a direct sum G-decomposition ker(a) = E1  U (dim U = p), consider the Banach G-representation E := E2  U equipped with diagonal G-action and the norm (y, u) = y + u , and define the map  : E  E2 by ( y , u) := g (q( y ) + u). Since q and g are equivariant, so is . Let us show that  is a compact map. Take a bounded set A  E. Without loss of generality, one can assume that A = A1 × U1 with A1  E2 and U1  U . By Lemma 3.6(ii), the set A2 := {q( y ) + u | ( y , u)  A} is also bounded. Obviously, A2  a-1 (A1 ). By the a-compactness of g , one concludes that the set g (A2 ) = (A) is compact. Finally, take the unit sphere S  E and consider the equation
+
+( y , u) = y
+
+( y , u)  S.
+
+(4.4)
+
+Lemma 4.4. Let N () be the solution set to (4.4), and define the map  : N ()  S  E  SR  E1 by ( y , u) := R((q( y ) + u)/ q(y) + u ). Then (i)  is an equivariant homeomorphism onto its image; (ii) (N ())  N (a, f ). Statement (i) follows immediately from Lemma 3.6(i). To show statement (ii), take ( y0 , u0 )  S being a solution to (4.4). Obviously, z0 := q( y0 ) + u0 = 0. By direct computation,
+R
+
+f
+
+z
+
+z0
+0
+
+=z
+
+R
+0
+
+y0 .
+
+(4.5)
+
+On the other hand, using the linearity of a, one obtains a
+z
+0
+
+=
+
+y0 .
+
+(4.6)
+
+Combining (4.5) and (4.6) yields x0 := Rz0 / z0  N (a, f ). 5. Proof of the main result (Theorem 4.3) Throughout this section, we keep the same notations as in the previous section (in parG ticular, ker(a) = E1  U and E := E2  U ). The proof of Theorem 4.3 splits into three steps.
+
+
+8
+
+Bourgin-Yang-type theorem
+
+Step 1 (finite-dimensional case). Under the assumptions of Theorem 4.3, suppose that dim E <  and consider the equivariant map  : S  E  E2  E defined by ( y , u) := ( y , u) - y . Then N () = -1 (0). By the continuity property of ind, there exists a closed neighborhood of N () such that ind By the subadditivity property, one has ind(S)  ind( ) + ind(S \ ). Combining (5.1) and (5.2) yields ind
+N N
+
+()
+
+=
+
+ind( ).
+
+(5.1)
+
+(5.2)
+
+()
+
+
+
+ind(S) - ind(S \ ).
+
+(5.3)
+
+Observe that the equivariant map  takes S \ ity property, ind(S \ )  ind
+
+to E2 \ {0}. Therefore, by the monotonic-
+
+E
+
+2 \ {0 }
+
+.
+
+(5.4)
+
+Further, S  E2 is a G-retract of E2 \ {0}, therefore, it follows from (5.4) and monotonicity property that ind(S \ )  ind Combining (5.3) and (5.5) yields ind
+N S  E2 .
+
+(5.5)
+
+()
+
+
+
+ind(S) - ind
+
+S
+
+ E2
+
+.
+
+(5.6)
+
+Finally, using (5.6) and the dimension property of ind, one obtains
+N  dim E
+
+ind
+
+()
+
+d
+
+-
+
+dim E2 , d
+
+(5.7)
+
+and the result follows in the considered case.
+
+
+Sergey A. Antonyan et al. 9 Step 2 (finite-dimensional kernel). Under the assumptions of Theorem 4.3, suppose that dim U <  and reduce this situation to the previous step. Put X := conv((S))  E2 . For any  > 0, take the finite-dimensional G-equivariant Schauder projection p : X  X (see, e.g., [12, pages 69­70]) satisfying the property
+y - p ( y ) <
+
+
+
+( y  X ),
+
+(5.8)
+
+and put  := p . Denote by N ( ) the solution set to the equation  ( y , u) = y , ( y , u)  S. Lemma 5.1. Under the above notations, ind(N ( ))  ind(N ()) for all  small enough. Proof. By continuity property of ind, there exists a closed invariant neighborhood  N () such that ind( ) = ind(N ()). Since N () is compact, without loss of generality, one can assume that is a uniform  -neighborhood: = (N()) := {z  E | z - N () <  } for  > 0 small enough. Let us show, first, that there exists 0 > 0 such that N ( )  (N()) for all 0 <  < 0 . Arguing indirectly, assume that for any n  N, there exists ( yn , un )  N (1/n ) such that
+y
+n , un
+
+-
+
+N ()
+
+
+
+.
+
+(5.9)
+
+However, according to the definition of X and inequality (5.8), one has ( yn , un )  X and yn - ( yn , un ) < 1/ n. Since X and the unit sphere of U are compact, without loss of generality, one can assume that yn  y and un  u . Moreover, ( y , u )  S. By passing to the limit, one obtains ( y , u ) = y that contradicts (5.9). Therefore, the statement of Lemma 5.1 follows from monotonicity property of ind. R eturn to the proof of Theorem 4.3 in the considered case. Take  small enough and the Schauder projection p satisfying (5.8). Let Rk  E2 be the invariant finite-dimensional subspace containing p (X ). Put  :=  |Rk U and let N ( ) stand for the solution set to the equation  ( y , u) = y . Combining the result obtained at the previous step with the monotonicity property of ind, one obtains
+N  p  ind d  N
+
+
+ind
+
+
+
+ind
+
+N
+
+( )
+
+.
+
+(5.10)
+
+Step 3 (infinite-dimensional kernel). Under the assumptions of Theorem 4.3, suppose that p =  and take a finite-dimensional invariant subspace V  U (cf. [20, Section 4 and Appendix C] or [21, page 57]). Put E := E2  V and V := |E . Denote by N (V ) the solution set to the equation V ( y , u ) = y
+y  E2 , u  V .
+
+(5.11)
+
+
+10
+
+Bourgin-Yang-type theorem
+
+By monotonicity property, N (V )  N () implies that ind(N ())  ind(N (V )). However (see Step 2), ind(V )  dim V/ d. Bearing in mind that dim V can be chosen arbitrarily large (see again [20, Section 4 and Appendix C]), one obtains ind(N ()) = . To complete the proof of Theorem 4.3, it remains to combine Steps 2 and 3 with Lemma 4.4 and the monotonicity property of ind. Corollary 5.2. Under the assumptions of Theorem 4.3, suppose that p=. Then dim N (a, f ) = . Proof. Arguing indirectly, assume that dim N (a, f ) is finite. Then N (a, f ) is compact and, therefore, ind(N (a, f )) is finite as well. The obtained contradiction completes the proof. 6 . Application Let  be a finite-dimensional linear space (thought of as a parameter space) and b : 2 Rn ×   Rn a continuous map. Let, further, C[0,2 ] be the space of continuous funcn with x (0) = x (2 ) (equipped with the standard sup-norm). Put tions x : [0, 2 ]  R 2 E1 := C[0,2 ]   and (x, ) E1 := x +  . Consider the following problem. Problem 6.1. Given a real number R > 0, do there exist a differentiable 2 -periodic vectorfunction x : R  Rn and    such that x (t ) = b (t ), 
+x -1 2
+0
+
+2
+
+b (s),  s
+
+x
+
+d
+
+t  R,
+
+(6.1)
+
+and (x, ) E1 = R? In addition, what can be said about the topological structure of the solution set N (b) to the above problem? Assume, in addition,  is an (isometric) S1 -representation satisfying the condition 1 () S = {0}. In particular, dim  is even and we will assume that () dim  > 0. 2 Identify C[0,2 ] with the space of continuous functions x : S1  Rn and define on it the natural (isometric) S1 -representation: (hx)(t ) = x(t + ), where h = exp(i)  S1 . Equip E1 with the diagonal S1 -action. Assume, further, the map b from Problem 6.1 to be S1 -invariant in the second variable, that is, (  ) b(x, h) = b(x, ) for all x  Rn ,   , h  S1 . Proposition 6.2. Under the assumptions (), (), and (  ), one has the following genus estimate for N (b): g (in particular, N (b) = ).
+N
+
+(b )
+
+ dim 
+
+2
+
+(6.2)
+
+
+Sergey A. Antonyan et al. Proof. Observe, first, that by condition (),
+S E1 =
+1
+
+11
+
+x
+
+(·), 0
+
+|
+
+x(·) is a constant function
+
+.
+
+(6.3)
+
+Next, denote by C[0.2 ] the space of continuous functions from [0, 2 ] to Rn with the 2 standard sup-norm, and let d : D(d)  C[0,2 ]  C[0,2 ] be the differentiation operator, where D (d ) =
+x
+[2 (·)  C[0, ] ] 2
+
+x
+
+(·) is smooth and x (0) = x (2 )
+
+.
+
+(6.4)
+
+Obviously, d is closed and ker(d) coincides with the set of constant functions. Consider now the operator a : D(a)  E1  C[0,2 ] defined by a (·),  = x (·).
+x :
+
+(6.5)
+
+Obviously, D(a) = D(d)   and ker(a) = ker(d)  . Moreover, a is still a closed operator. Put
+y
+
+E2 := Im(a) =
+
+(·)  C[0,2 ]
+
+2
+0
+
+.
+
+y (s)ds = 0, y (0) = y (2 )
+
+(6.6)
+
+2 By direct computation, E2 is a closed S1 -invariant subset of C[0,2 ] , and a is equivariant. 1 S Also, E2 = {0}. Consider now a nonlinear continuous map f determined by the right-hand side of (6.1):
+
+y (t ) := f (x, )(t ) = b (t ), 
+2
+
+x
+
+-1
+
+2
+0
+
+2
+
+b (s),  s.
+
+x
+
+d
+
+(6.7)
+
+Obviously, y (0) = y (2 ) and 0 y (s)ds = 0. Hence, f takes E1 to E2 . Moreover, since  is assumed to be finite-dimensional, the map f is a-compact. To check that f is S1 equivariant, take h = exp(i)  S1 . Using condition (  ), we have f
+h
+
+x (t ), 
+
+=
+
+f
+
+h x
+
+x (t ), h
+
+=
+
+f
+
+h
+
+x (t ),  -
+x
+
+)
+
+=g
+
+(t + ), 
+
+-1
+
+2
+0
+
+1 2
+d
+
+g
+
+h
+
+x(s)  s
+x
+
+,
+
+d
+
+2
+
+g (s + ),  s = h f
+
+(t ), 
+
+.
+
+(6.8)
+
+To complete the proof of Proposition 6.2, take the sphere SR  E1 and apply Theorem 4.3 R (cf. condition () and Example 2.6(ii)). emark 6.3. (i) In Proposition 6.2, one can take any index theory (for S1 ) satisfying the dimension property. Also, the segment [0, 2 ] is taken to simplify the presentation.
+
+
+12
+
+Bourgin-Yang-type theorem
+
+(ii) In this paper, we restrict ourselves with the simplest illustrative example. In forthcoming papers, more involved applications (in particular, admitting closed operators with infinite-dimensional kernels) will be considered. Acknowledgments We are thankful to A. Kushkuley and H. Steinlein for improving our understanding of the subject. The first author acknowledges support from Grants IN-105803 from PAPIIT, ´ ´ Universidad Nacional Autonoma de Mexico (UNAM) and C02-42563 from CONACYT ´ (Mexico). The second author acknowledges support from the Alexander von Humboldt Foundation. The third author acknowledges support from the Grant 01-05-00100 from RFBR. References
+[1] S. A. Antonyan, Retracts in categories of G-spaces, Izvestiya Akademii Nauk Armyansko SSR. i Seriya Matematika 15 (1980), no. 5, 365­378, English translation in: Soviet Journal of Contemporary Mathematical Analysis 15 (1980), 30­43. [2] J.-P. Aubin and I. Ekeland, Applied Nonlinear Analysis, John Wiley & Sons, New York, 1984. [3] T. Bartsch, Topological Methods for Variational Problems with Symmetries, Lecture Notes in Mathematics, vol. 1560, Springer, Berlin, 1993. [4] V. Benci, On critical point theory for indefinite functionals in the presence of symmetries, Transactions of the American Mathematical Society 274 (1982), no. 2, 533­572. [5] D. G. Bourgin, On some separation and mapping theorems, Commentarii Mathematici Helvetici 29 (1955), 199­214. [6] G. Bredon, Introduction to Compact Transformation Groups, Academic Press, New York, 1972. [7] Z. Dzedzej, Equivariant selections and approximations, Topological Methods in Nonlinear Analysis, Gdansk Scientific Society, Gdansk, 1997, pp. 25­31. [8] B. D. Gel'man, The Borsuk-Ulam theorem in infinite-dimensional Banach spaces, Sbornik: Mathematics 193 (2002), no. 1, 83­91. , An infinite-dimensional version of the Borsuk-Ulam theorem, Functional Analysis and [9] Its Applications 38 (2004), no. 4, 1­5. [10] P. Holm and E. H. Spanier, Involutions and Fredholm maps, Topology 10 (1971), no. 3, 203­218. [11] J. Ize and A. Vignoli, Equivariant Degree Theory, De Gruyter Series in Nonlinear Analysis and Applications, vol. 8, Walter de Gruyter, Berlin, 2003. [12] W. Krawcewicz and J. Wu, Theory of Degrees with Applications to Bifurcations and Differential Equations, John Wiley & Sons, New York, 1997. [13] A. Kushkuley and Z. I. Balanov, Geometric Methods in Degree Theory for Equivariant Maps, Lecture Notes in Mathematics, vol. 1632, Springer, Berlin, 1996. [14] J. Mawhin and M. Willem, Critical Point Theory and Hamiltonian Systems, Applied Mathematical Sciences, vol. 74, Springer, New York, 1989. [15] E. Michael, Continuous selections I, Annals of Mathematics 63 (1956), 361­382. [16] W. Rudin, Functional Analysis, 2nd ed., McGraw-Hill, New York, 1991. [17] H. Steinlein, Borsuk's antipodal theorem and its generalizations and applications: a survey, Topo´ logical Methods in Nonlinear Analysis (A. Granas, ed.), Sem Mathematics Sup., vol. 95, Presses ´ ´ de l ' Universite of Montreal, Montreal, 1985, pp. 166­235. [18] I. A. Wolf, Spaces of Constant Curvature, McGraw-Hill, New York, 1967. [19] C.-T. Yang, On theorems of Borsuk-Ulam, Kakutani-Yamabe-Yujobo and Dyson I, Annals of Mathematics 60 (1954), 262­282.
+
+
+Sergey A. Antonyan et al.
+[20] D. P. Zhelobenko, Introduction to Representation Theory, Factorial Press, Moscow, 2001. [21] D. P. Zhelobenko and A. I. Shtern, Representations of Lie Groups, Nauka, Moscow, 1983. ´ Sergey A. Antonyan: Departamento de Matematicas, Facultad de Ciencias, ´ ´ ´ Universidad Nacional Autonoma de Mexico, 04510 Mexico DF, Mexico E-mail address: antonyan@servidor.unam.mx
+
+13
+
+Zalman I. Balanov: Department of Mathematics and Computer Science, Netanya Academic College, 42365 Netanya, Israel E-mail address: balanov@mail.netanya.ac.il Boris D. Gel'man: Faculty of Mathematics, Voronezh State University, 1 Universitetskaya Pl., 394006 Voronezh, Russia E-mail address: gelman boris@mail.ru
+
+

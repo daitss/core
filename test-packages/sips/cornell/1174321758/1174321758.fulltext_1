@@ -1,0 +1,898 @@
+THE MAPPINGS OF DEGREE 1
+MARIA N. KREIN Received 26 June 2005; Accepted 1 July 2005
+
+The maps of the form f (x) = i=1 ai · x · bi , called 1-degree maps, are introduced and investigated. For noncommutative algebras and modules over them 1-degree maps give an analogy of linear maps and differentials. Under some conditions on the algebra , contractibility of the group of 1-degree isomorphisms is proved for the module l2 ( ). It is shown that these conditions are fulfilled for the algebra of linear maps of a finitedimensional linear space. The notion of 1-degree map gives a possibility to define a nonlinear Fredholm map of l2 ( ) and a Fredholm manifold modelled by l2 ( ). 1-degree maps are also applied to some problems of Markov chains. Copyright © 2006 Maria N. Krein. This is an open access article distributed under the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited. 1. Motivation For the last several decades various algebras and algebra modules have been intensively investigated. Module maps are traditionally called linear if they preserve addition and multiplication by elements of the algebra (for noncommutative algebra--left or right multiplication). For nonlinear maps of modules it is easy to give a definition of the derivative similar to Freche derivative in linear spaces. In the case of noncommutative algebra, even simplest nonlinear maps, for example, power maps of the algebra (i.e., here a "onedimensional" module) do not have such derivatives, however there exists analogue of the differential, containing only first power of the "argument increment." Namely, (x + x)2 - x2 = x · x + x · x + (x)2 , (x + x)3 - x3 = x2 · x + x · x · x + x · x2 + (x)2 · x + x · x · x + x · (x)2 + (x)3 , (1.1) and so forth.
+
+n
+
+Hindawi Publishing Corporation Abstract and Applied Analysis Volume 2006, Article ID 90837, Pages 1­14 DOI 10.1155/AAA/2006/90837
+
+
+2
+
+The mappings of degree 1
+
+This was the reason for the author to introduce and investigate the maps as f1 (x) = x · x + x · x and f2 (x) = x2 · x + x · x · x + x · x2 . 2. 1-degree maps of algebras Let be an algebra. Definition 2.1 [2­10]. nThe map f :  is called a mapping of degree 1 (1-degree map for short) if f (x) = i=1 ai · x · bi for some n  N and a1 , a2 , . . . , an , b1 , b2 , . . . , bn  . By d1 ( ) denote the set of 1-degree maps. Obviously, for a commutative algebra a 1-degree map is a trivial multiplication by a specified element. That is why will denote further a noncommutative algebra. Let Map( ) be the algebra of all maps from to with usual addition and multiplication by number and with map composition as element's multiplication. Let A be without the element's multiplication. A is a linear space over some number field F . Let L(A) denote the algebra of its linear operators. It is obvious that d1 ( )  L(A)  Map( ). Definition 2.2. We say that Theorem 2.3. If is 1-algebra if d1 ( ) = L(A). is a 1-algebra. = L(F n ) for some field F , then
+
+Proof. It is sufficient to prove that L(A)  d1 ( ). Let X  . Since = L(F n ), then is isomorphic to the algebra of square F -matrices, that is, A is n2 -dimensional linear space with matrices 0 ··· 0 ··· 0 . . . . . . . . .   Pi j = 0 · · · 1 · · · 0   . . . . . . . . . 0 ··· 0 ··· 0
+
+
+
+(2.1)
+
+as a basis. (Matrix Pi j consists of zeroes except 1 at the intersection of ith row and j th column.) If x11 . . X = . xn 1
+n
+n
+
+
+
+··· ···
+
+x1n . . , . xn n
+
+
+
+(2.2)
+
+X = i=1 j =1 xi j Pi j and f (X ) = i=1 j =1 xi j f (Pi j ) for f  L(A). If xi j = 0, then Pi j = (1/ xi j )Pii X P j j = ((1/ xi j )Pii )X P j j = Pii X ((1/ xi j )P j j ). (Pi j can be obtained from X in another way as well.)
+
+n
+
+n
+
+
+Maria N. Krein 3 Let a  11 . f (P i j ) =  . .
+
+ij an1
+
+
+
+ij
+
+··· ···
+
+a1n nn  .  k l ij . = ak l P k l . .
+ij an n
+
+ij
+
+ 
+
+(2.3)
+
+=1 =1
+
+For any i, j  {1, 2, . . . , n} we have Pkl = Pki Pi j P j l . Hence f (X ) =
+= =
+in jn
+=1 =1
+
+xi j
+
+kn l n
+=1 =1
+
+ak l P k i P i j P j l 1 P ii X P j j P j l xi j (2.4)
+
+ij
+
+x
+i j =0
+
+kn
+
+ln
+
+ak l P k i x i j
+ij
+
+ij
+
+=1 =1
+
+x
+i j =0
+
+kn l n
+=1 =1
+
+ak l P k i P i i X P j j P j l .
+
+If xi j = 0, then Pii X P j j is a nil-matrix. So, f (X ) =
+i n j n k n l n ai j
+=1 =1 =1 =1
+
+k l P k i P ii
+
+X
+
+P j j P jl
+
+= i n j n k n l n ai j
+=1 =1 =1 =1
+
+k l Pk i
+
+X
+
+P jl
+
+,
+
+(2.5)
+
+thaRis, f  d1 ( ). Therefore d1 ( ) = L(A). The theorem follows. t eplace the multiplication x y in by x y = y x and denote the new algebra by n  d1 ( ),h( . There is an algebra homomorphism (epimorphism) h :  i=1 ai  n bi ) = f , where f (x) = i=1 ai · x · bi . Ker h is not trivial. Some conditions, under which n i=1 ai  bi  Ker h, are stated below. Theorem 2.4. If = L(E) for some linear space E over any field F , then (1) a  b  Ker h if and only if a = 0 or b = 0; (2) for a, b, c, d = 0 one gets a  b - c  d  Ker h if and only if   F is such that a = c and b = (1/ )d. Proof. (1) If a = 0 or b = 0, then, obviously, for any x  one gets axb = 0, that is, a  b  Ker h. If a = 0 and b = 0, then there exist e1 , e2  E such that b(e1 ) = 0 and a(e2 ) = 0. Since is the algebra of all linear maps from E to E, there is x  such that x(b(e1 )) = e2 . So, (axb)(e1 ) = (ax)(b(e1 )) = a(x(b(e1 ))) = a(e2 ) = 0. Therefore, axb = 0  , thus a  b  Ker h. (2) Suppose that a, b, c, d = 0 but there is no   F with properties formulated in this theorem. (If such  exists, then, evidently, a  b - c  d  Ker h.) Consider the following cases. (2.1) There exists   F such that  = 0, a = c, b = (1/ )d. As b = (1/ )d, b, d = 0, we can find e1  E such that e1 = 0, b(e1 ) = (1/ )d(e1 ), and at least one element b(e1 ) or d(e1 ) is not equal to zero. As a, c = 0, a = c, we can find e2  E such that e2 = 0, a(e2 ) = c(e2 ) = 0.
+
+
+4
+
+The mappings of degree 1
+
+If b(e1 ) = 0, then for any x  (axb)(e1 ) = 0. But again as far as = L(E) is the algebra of all linear maps from E to E, there exists x  such that x(d(e1 )) = e2 and (cxd)(e1 ) = c(x(d(e1 ))) = c(e2 ) = 0. So, (axb)(e1 ) = (cxd)(e1 ) and axb = cxd, that is, a  b - c  d  Ker h. If d(e1 ) = 0, then for any x  (cxd)(e1 ) = 0 and we take x  such that x(b(e1 )) = e2 . We obtain (axb)(e1 ) = a(x(b(e1 ))) = a(e2 ) = 0, that is, (axb)(e1 ) = (cxd)(e1 ), axb = cxd, a  b - c  d  Ker h. If b(e1 ) = 0, d(e1 ) = 0, we take x  such that x(b(e1 )) = e2 , x(d(e1 )) = e2 , where  = 0,  = . Therefore (axb)(e1 ) = a(x(b(e1 ))) = a(e2 ) = c(e2 ) = c((1/ )x(d(e1 ))) = (/ )c(x(d(e1 ))) = (/ )(cxd)(e1 ) = (cxd)(e1 ) and axb = cxd, that is, a  b - c  d  Ker h. (2.2) There exists   F such that  = 0, a = c, b = (1/ )d. As b = (1/ )d = 0, there exists e1  E such that e1 = 0, b(e1 ) = (1/ )d(e1 ) = 0. As a, c = 0, a = c, there exists e2  E such that e2 = 0, a(e2 ) = c(e2 ), and at least one element a(e2 ) or c(e2 ) is not equal to zero. Let us take x  such that x(b(e1 )) = e2 . If one element, either a(e2 ), or c(e2 ) is equal to zero, then, obviously, (axb)(e1 ) = (cxd)(e1 ) because only one of these elements is equal to zero. If a(e2 ) = 0, c(e2 ) = 0, then (axb)(e1 ) = a(x(b(e1 ))) = a(e2 ) = c(e2 ) = c(x(b(e1 ))) = c(x((1/ )d(e1 ))) = (1/ )c(x(d(e1 ))) = (cxd)(e1 ), hence axb = cxd. Thus a  b - c  d  Ker h. (2.3) a = c, b = (1/ )d for each   F ,  = 0. As b = 0, there exists e1  E such that e 1 = 0 , b ( e1 ) = 0 . If d(e1 ) = 0, then take e2  E such that e2 = 0, a(e2 ) = 0 that exists because a = 0 and x  is such that x(b(e1 )) = e2 . Then (axb)(e1 ) = a(e2 ) = 0 = (bxd)(e1 ), therefore axb = cxd and a  b - c  d  Ker h. If d(e1 ) = 0 and there exists   F such that  = 0, b(e1 ) = d(e1 ), then take e2  E and x  such that e2 = 0, a(e2 ) = (1/ )c(e2 ), x(b(e1 )) = e2 . We obtain (axb)(e1 ) = a(e2 ) = (1/ )c(e2 ) = (1/ )c(x(b(e1 ))) = (1/ )c(x(d(e1 ))) = (1/ )c(x(d(e1 ))) = (cxd)(e1 ). Thus axb = cxd and a  b - c  d  Ker h. If b(e1 ) and d(e1 ) are linearly independent (therefore b(e1 ) = 0 and d(e1 ) = 0), then take e2  E, x  such that e2 = 0, x(b(e1 )) = e2 . If a(x(b(e1 ))) = c(x(d(e1 ))), then axb = cxd and a  b - c  d  Ker h. If it appears to be a(x(b(e1 ))) = c(x(d(e1 ))), then replace x by x such that x(b(e1 )) = x(b(e1 )), x(d(e1 )) =  x(d(e1 )) where  = 0,  = 1. Thus we obtain (axb)(e1 ) = a(x(b(e1 ))) = a(x(b(e1 ))) = c(x(d(e1 ))) = c((1/  )x(d(e1 ))) = (1/  )c(x(d (e1 ))) = c(x(d(e1 ))). This yields axb = cxd, that is, a  b - c  d  Ker h. The theorem is L proved. et be an involutive algebra. Definition 2.5 [8, 9]. The elements f , f   d1 ( ) are called conjugate if f (x ) =
+in
+=1
+
+ai · x · bi ,
+
+f  (x ) =
+
+in
+=1
+
+bi · x · a . i
+
+(2.6)
+
+Operation f  f  is an involution for d1 ( ). It is clear that f  (x ) = ( f (x)) for all x .
+
+
+Maria N. Krein 5 Definition 2.6 [8, 9]. An element f  d1 ( ) is called self-conjugate if f = f  . Obviously, for self-conjugate f  d1 ( ) and for all x  one gets f (x ) = ( f (x)) . In addition f  d1 ( ) is self-conjugate if and only if for all i  {1, 2, . . . , n} either bi = a i or there exists j  {1, 2, . . . , n}, j = i such that a j = bi , b j = a . i Definition 2.7 [8, 9]. Self-conjugate f  d1 ( ) is called positive if
+in
+=1
+
+f (x ) =
+
+ai · x · a , i
+
+for some a1 , a2 , . . . , an 
+
+.
+
+(2.7)
+
+This notation is chosen since for C  -algebra a positive map sends positive elements one of definitions of positive of algebra to positive ones. Indeed, for C  -algebra elements is x = y y  for a certain y  . If f  d1 ( ) is positive and x  is positive, then
+in
+=1
+
+f (x ) =
+
+ai · x · a = i
+
+in
+=1
+
+ai ·
+
+y
+
+y
+
+·
+
+a = i
+
+in a
+=1
+
+iy
+
+· y
+
+a i
+
+= in a
+=1
+
+iy
+
+·a
+
+iy
+
+
+
+. (2.8)
+
+Since for C  -algebra the cone P of positive elements is convex, then f (x)  P . Now consider some properties of eigenvalues and eigenelements for self-conjugate and positive 1-degree maps. It is useful to note that characteristic values of self-conjugate maps are real. The next three theorems were announced in [9]. Theorem 2.8. If is a C  -algebra, f  d1 ( ) is a positive map,   R is a characteristic value of f , and there exists a positive characteristic element x  , corresponding to the characteristic value , then   0. Proof. Suppose that is a C  -algebra, f  d1 ( ) is a positive map, x  is a positive element (x = 0),   R, f (x) = x. If  < 0, then - > 0 and -x is positive, that is, x  (-P ), where P is the cone of positive elements. But x = f (x)  P . Hence x  P  (-P ) = {0}. It is impossible since for  = 0, x = 0, x = 0. Therefore the assumption T  < 0 is f a l s e a n d   0 . heorem 2.9. If is an involutive algebra, f  d1 ( ) is a self-conjugate map,   R is a characteristic value of f , then there exists a self-conjugate characteristic element x  (x = 0) corresponding to the characteristic value . Proof. For any x  there exists a unique representation as the sum of "real" and "imaginary" parts x = x1 + ix2 , where x1 , x2  are self-conjugate elements (x1 = (1/ 2)(x + x ), x2 = (1/ 2i)(x - x )). Therefore f (x)=x  f (x1 + ix2 )=(x1 + ix2 ) f (x1 ) + i f (x2 )=  x1 + ix2 . The elements x1 , x2 are self-conjugate. As f , x1 , x2 are self-conjugate, f (x1 ), f (x2 ) are self-conjugate as well. Since the representation as the sum of "real" and "imaginary"
+
+
+6
+
+The mappings of degree 1
+
+parts is unique, then f (x1 ) = x1 , f (x2 ) = x2 . For x = 0 at least one element x1 or x2 is T not equal to zero. This completes the proof. heorem 2.10. If is a C  -algebra, f  d1 ( ) is a positive map, and there is a characteristic value  < 0 of f , then there exist positive elements x1 , x2 , a  such that f (x1 ) - x1 = f (x2 ) - x2 = a. Proof. A positive map is self-conjugate. From Theorem 2.9 it follows that there is a selfi conjugate element x  such that x = 0 and f (x) = x. If is C  -algebra and x  s a self-conjugate element, then there exists unique couple of positive or equal to zero elements x1 , x2  such that x = x1 - x2 , x1 x2 = x2 x1 = 0. We have f (x) = f (x1 - x2 ) = (x1 - x2 ) = x1 - x2 . Therefore f (x1 ) - x1 = f (x2 ) - x2 . Denote this element by a. It follows from Theorem 2.8 that x1 = 0, x2 = 0. Hence both x1 and x2 are positive. As x1 , x2 , f , (-) are positive, then f (x1 ), f (x2 ), (-x1 ), I (-x2 ), and a are positive. This completes the proof. f is a normed algebra, then the standard norm on d1 ( ) is also given, since d1 ( )  L(A), that is, for f  d1 ( ),
+fx f = sup
+x=0
+
+(x )
+. n
+
+(2.9)
+
+Obviously, f  = f and if f (x) = i=1 ai · x · bi , then f  i=1 ai · bi . As far as L(A) is closed, d1 ( )  L(A), where d1 ( ) is the closure of d1 ( ). Definition 2.11. A normed algebra is 1-algebra if d1 ( ) = L(A). Obviously, if normed 1-algebra, then is a 1-algebra. is a
+
+n
+
+Definition 2.12. If is an involutive algebra, then the maps f , f   d1 ( ) are called conjugate if f (x) = limn fn (x), f  (x) = limn fn (x) for some f1 , f2 , . . . , fn , . . .  d1 ( ). 3. 1-degree maps of modules (A) Let 1, 2 be free finitely generated -modules, f1 f   2 F =  . , . . fm (3.1) where Pi : 2 is the projection of 2=   ···  onto ith term.
+
+
+
+1=
+
+n,
+
+2=
+
+m,
+
+F:
+
+1- 
+
+2,
+
+f i = Pi  F :
+
+1 -
+
+,
+
+Definition 3.1. F : 1  2 is called 1-degree (1-degree) map if for each i  {1, 2, . . . , m} the relation fi (x1 , x2 , . . . , xn ) = fi1 (x1 ) + fi2 (x2 ) + · · · + fin (xn ) holds, where fi1 , fi2 , . . . , fin  d1 ( )( d1 ( )).
+
+
+Maria N. Krein 7 Assign the following matrix to a 1-degree or a 1-degree map: f11 f  21 F   . . . fm1
+
+
+f12 f22 . . . fm2
+
+··· ··· ···
+
+f1n f2n   . . . . fmn
+
+
+
+(3.2)
+
+Definition 3.2. If is an involutive algebra, then the 1-degree or 1-degree maps F = ( fi j )m×n , F  = ( fi )m×n are called conjugate. j As well as it is for algebra maps, F  (x ) = (F (x)) . the norm can be If the modules i1, 2 are normed (e.g., for a normed algebra xi 2 ), then F is defined in the standard way defined as x =
+Fx F = sup
+x=0
+
+(x )
+. m
+
+(3.3)
+
+The straightforward computation gives
+m F i
+=1
+
+j
+
+n
+=1
+
+f
+ij
+
+2
+
+
+
+i
+
+jn
+
+f
+ij
+
+2
+
+(3.4)
+
+=1 =1
+
+and F = F  . (B) Let be a C  -algebra and let l2 ( ) be a Hilbert
+ F : l2 ( ) - l2 ( ),
+
+-module,
+
+
+ F =  f2  , .
+
+f1 . .
+
+(3.5)
+
+
+where fi = Pi  F , as above. Since F (x)  l2 ( ) it has to be F(x) 2 = i=1 fi (x) 2 <   for any x  l2 ( ). This is fulfilled, in particular, if i=1 fi 2 < . In this case
+F
+
+(x )
+
+2
+
+
+
+i
+=1
+
+f2
+i
+
+·x
+
+2
+
+,
+
+(3.6)
+
+therefore
+F i
+
+
+=1
+
+f2
+i
+
+Fx
+
+<  for F = sup
+x=0
+
+(x )
+.
+
+(3.7)
+
+Definition 3.3. A bounded map F : l2 ( )  l2 ( ) is called 1-degree map if for each i   N fi (x) = fi (x1 , x2 , . . .) = j =1 fi j (x j ), where fi j  d1 ( ) for any j  N , f11 f  21 F   . . .
+
+
+f12 f22 . . .
+
+ ··· · · · .  
+
+..
+
+(3.8)
+
+.
+
+
+8
+
+The mappings of degree 1
+n
+
+Since limn j =1 fi j (x j ) must exist for all x = (x1 , x2 , . . .)  l2 ( ), we assume that for each i  N there exists a constant MF ,i > 0 such that fi j  MF ,i for each j  N . Then
+f
+i (x )
+
+2
+
+=
+
+
+j j
+
+
+
+2
+
+f i j (x j )
+=1
+
+
+
+j
+=1
+
+f
+ij
+
+2
+
+·
+
+x2
+j
+
+2 MF , i ·
+
+x2
+j
+
+2 = MF , i
+
+j x 2
+j
+=1
+
+(3.9)
+
+=1
+
+2 and fi  MF ,i . Assume that i=1 MF ,i <  for each 1-degree map F . Then for each 1degree map F F < . By d1 (l2 ( )) denote the set of all 1-degree maps from l2 ( ) to l2 ( ) and by d1 (l2 ( )) denote its closure. We say that F : l2 ( )  l2 ( ) is a 1-degree map if F  d1 (l2 ( )). Obviously, F  d1 (l2 ( ))  fi j  d1 ( ) for all i, j  N . Let e1 = (1, 0, 0, . . .), e2 = (0, 1, 0, . . .), e3 = (0, 0, 1, . . .), and so forth be basic elements in l2 ( ) and let L, be a submodule of the module l2 ( ) generated by elements en+1 , en+2 , . . .. n
+
+
+
+Definition 3.4. Following [14], we say that a map F  d1 (l2 ( )) is compact if limn F|L, = 0. n Definition 3.5. A map F  d1 (l2 ( )) is called Fredholm 1-map if F = H + C , where H , C  d1 (l2 ( )), H is an isomorphism, and C is a compact map. The set C1 (l2 ( )) of all compact 1-degree maps from l2 ( ) to l2 ( ) is an ideal in the algebra d1 (l2 ( )). Definition 3.6. A manifold M modelled by l2 ( ) is called Fredholm 1-manifold if M has an atlas with transformation functions having the "derivatives" in the form I + C , where I is the identity map, C  C1 (l2 ( )). By GL1 (l2 ( )) denote the group of 1-degree isomorphisms of l2 ( ). Theorem 3.7. If is C  -1-algebra, then GL1 (l2 ( )) is contractible. Proof. Let E be the Banach space obtained from l2 ( ) by ignoring the element multiplication in , where · E = · l2 ( ) . we get d1 (l2 ( )) = B (E) and GL1 (l2 ( )) = GL(E). Hence GL1 For C  -1-algebra (l2 ( )) is an open subset of Banach space B (E). Therefore, by Milnor's theorem [13] GL1 (l2 ( )) has the homotopy type of a C W -complex and by Whitehead's theorem [16] the strong and weak homotopy trivialities of GL1 (l2 ( )) are equivalent. So, it is sufficient to prove the weak homotopy triviality. The proof technique repeats that for GL(H ) in [11] or for GL(l2 ( )) in [12]. First we use Atiyah's theorem on small balls: if f is a continuous map from n-dimensional sphere Sn to GL1 (l2 ( )), then f is homotopic to f so that f (Sn ) is a finite polyhedron lying in GL1 (l2 ( )) together with the homotopy. Then we use from [11, Lemma 3]: there exist a decomposition l2 ( ) in H  H1 , where H  H1  l2 ( ), and a continuous map f : Sn  GL1 (l2 ( )) homotopic to f such that = = f (s)(x) = x for all s  Sn , x  H .
+
+
+Maria N. Krein 9 Next we prove the statement similar to [11, Lemma 7], and [12, Lemma 7.1.4]: V = = I dH , g (H1 ) = H1 } is contractible to 1 in GL (l2 ( )). Here we 1 use the condition from the hypothesis of our theorem that is C  -1-algebra. If so, then for any u  GL1 (l2 ( )), u-1 and all linear combinations of u and u-1 belong to GL1 (l2 ( )) as well. The construction of homotopy is the same as in [11, 12]. Since H  l2 ( ), we can decompose H into the sum H = H2  H3  · · · Hi  l2 ( ), = = then we get l2 ( ) = H1  H2  H3  · · · . Let g  V on, then the matrix of g related to the above decomposition is g = diag(u, 1, 1, 1, . . .) = diag(u, u-1 u, 1, u-1 u, 1, . . .), where u = g |H1 . For t  [0,  / 2] we get gt |H1 = g |H1 = u and for each i  N ,
+{g  GL1 (l2 ( )) |g |H
+
+os t gt |H2i H2i+1 = sin t
+1
+
+=c
+
+- sin t
+
+u
+
+cos t
+
+0
+
+0 1
+
+os t - sin t
+
+c
+
+sin t cos t
+
+u .
+
+-1
+
+0
+
+0 1 (3.10)
+
+· cos2 t + u-1 sin2 t (1 - u-1 ) sin t cos t
+
+(u - 1) sin t cos t u sin2 t + 1 · cos2 t
+c
+
+For t  [ / 2,  ] and for each i  N os t gt |H2i-1 H2i = sin t
+1 =c - sin t u
+-1
+
+cos t
+
+0
+
+0 1
+
+os t - sin t
+
+sin t cos t
+,
+
+u
+
+0
+
+0 1 (3.11)
+
+· cos2 t + u sin2 t (1 - u) sin t cos t
+
+(u-1 - 1) sin t cos t u-1 sin2 t + 1 · cos2 t
+
+g0 = g , g /2 = diag(u, u-1 , u, u-1 , u, . . .) by both formulas of homotopies, and g = diag(1, 1 , 1 , 1 , . . . ). Since all these maps are linear isomorphisms in L(E), then by the hypothesis of the theorem they are 1-degree isomorphisms. At last we repeat [12, Lemma 7.1.5]: the set W=
+g
+ GL1 l
+2(
+
+) g |H
+
+|
+
+=
+
+I dH
+
+(3.12)
+
+is contractible to V . (In [12] this is proved for GL(l2 ( )).) This concludes the proof. 4 . Polynomials over a noncommutative algebra and nonlinear Fredholm maps Let be a noncommutative algebra, x  , x1 = x, xk · xl = xk+l for all k, l  N . Let us give the recurrent definition of a monomial in x. Definition 4.1. (1) Every element of is a 0-degree monomial. (2) x is a 1-degree monomial. (3) If m1 is a k-degree monomial for any k  N and m2 is an l-degree monomial for any l  N , then m1 · m2 is a (k + l)-degree monomial. (4) The other monomials do not exist. Definition 4.2. A finite sum of n-degree monomials is called a homogeneous n-degree polynomial.
+
+
+10
+
+The mappings of degree 1
+
+Definition 4.3. A finite sum of homogeneous polynomials is called an all linearn-degree polynomial, where n is the maximal degree of the terms. The set P of all polynomials forms a graded algebra P =  1 Pn , where Pn is the set of n= homogeneous n-degree polynomials. Obviously, P0  ,P1   . = = Definition 4.4. The map corresponding to the homogeneous n-degree polynomial is called an n-degree map and the map corresponding to any polynomial is called a polynomial map. The set d( ) of all polynomial maps forms a graded algebra as well: d( )= 1 dn ( ), n= where dn ( ) is the set of n-degree maps. There is a natural map of graded algebras h : P  d( ) assigning to the polynomial its corresponding map. For n = 1 it was shown  in Section 2 that h |P1 : P1 =   d1 ( ) is not injective. Polynomial maps defined above are maps that have 1-degree "derivatives." We will obtain the definition of a monomial in several variables x1 , x2 , . . . , xn , . . . if in Definition 4.1 we replace (2) by "xi is a 1-degree monomial for every i  N ." Then Definitions 4.2 and 4.3 give the notions of polynomials in x1 , x2 , . . . , xn , . . . and of corresponding polynomial maps from l2 ( ) to . Definition 4.5. The map F : U  l2 ( ) is called polynomial if fi are polynomial maps for all i  N , where U  l2 ( ) is an open domain and
+  F =  f2  . .
+
+f1 . .
+
+(4.1)
+
+The "derivative"
+
+d f1  d f 2  F (x ) =   . . . of a polynomial map F is a 1-degree map for every x  U .
+
+
+
+
+
+(4.2)
+
+Definition 4.6. The polynomial map F : U  l2 ( ) is called a Fredholm map if F (x) is a Fredholm 1-degree map for each x  U . 5. A certain application of 1-degree maps In probability theory a discrete Markov chain is described by the transition matrix consisting of elements from [0, 1]. Markov's theorem proclaims that if some power of this matrix does not contain zeroes, then limit transition probabilities exist. We assume that kth power of the transition matrix does not contain zeroes and so the question is arising: how the elements of transition matrix that can be changed for kth power of matrix remain without zeroes. Assume that the transition matrix is an n × n-matrix and consider the set of the real n × n-matrices as a normed involutive algebra with transposition as the involution and
+
+
+Maria N. Krein
+
+11
+
+the norm A = n · max1i, j n |ai j |, (equivalent to the norm A = supx=0 Ax / x but more suitable for the calculation). The inequality AB  A · B for the normed algebra is fulfilled. p n be the kth power of P and Let P = ( pi j )n×n be a transition matrix, let P k = i(k) j ×n k . Using the equality f (P + P ) - f (P ) = (P + P )k - P k = d f + o(P ) we apf (P ) = P proximate the difference at the left-hand side by the "differential" d f and instead of the inequality  f = f (P + P ) - f (P ) <  we solve the inequality df < . Here d f = P k-1 · P + P k-2 · P · P + · · · + P · P · P k-2 + P · P k-1 is a d1 -map of P , o(P ) =
+P k -2
++ · (P )2 + P k-3 · (P )2 · P + · · · + P · (P )2 · P k-3 · (P ) + · · ·
+3
+
+(5.1)
+
++ P k-3 · P · P · P + · · · + P · P · P · P k-3
+P k -3 + · · · + (P ) .
+k
+
+(5.2)
+
+Taking into account the estimate
+df   P · P P k -2 + P + · · · + P · P · P · k-1 · P · P = P k -2 + P + · · · + P · P · P · k-1 k· P P
+k -1
+
+P k -1 ·
+
+P +
+
+P k -2 ·
+
+· P + P
+
+k -2
+
+(5.3)
+k -1
+
+· P ,
+
+it is sufficient to solve the inequality k · P
+
+k -1 ·
+
+P < . Thus we get
+
+P < 1 () =
+
+ k· P
+k -1
+
+,
+
+(5.4)
+
+therefore for all i, j  {1, 2, . . . , n},
+| pi j | <
+
+ n·k· P
+
+k -1
+
+.
+
+(5.5)
+
+Further we will not reject o(P ) and obtain more exact estimate:
+o(P)  + P k-2 · P
+k -3 2 2
+
++P
+·P
+
+k -3 k -3
+
+· P
+
+2 2
+
+· P + ··· ·P
+k -2 k -3
+
++ P · P +P
+P
+
++ P
+
+· P · P · P + · · · + P · P · P · P + -3 k · P 3 + · · · · · · + P k
+2 3 + Ck · P k -3
+
+2 = Ck · P k-2 · P
+
++ · · · + P
+
+k
+
+=
+
+P
+
++ P
+
+k
+
+· P -P
+k
+
+3
+
+s + · · · + Ck · P k -1
+
+k -s
+
+· P
+
+s
+
+-k· P
+
+· P .
+
+(5.6)
+
+
+12
+
+The mappings of degree 1
+
+Let (x) = xk be a real function. Then for x = P , x = P we get  = (x + x) - (x) = 
+(
+
+P
+
++ P
+k -1
+
+-
+
+
+
+P
+
+=
+k -1
+
+P
+
++ P
+
+k
+
+-P 
+
+k
+
+,
+
+P
+
++ P
+
+k
+
+d =  x)x = kx
+-P
+k
+
+x = k · P
+
+· P ,
+
+-k· P
+
+k -1
+
+· P =  - d  = o(x) = o
+
+P. (5.7)
+
+Consider o(x) in the form ( (x + t · x)/ 2)(x)2 , where 0 < t < 1. For  (x) = k(k - 1)xk-2 , we obtain  (x + t · x) = k(k - 1)(x + t · x)k-2 . Since P and P + P are transition matrices, that is, their elements are probabilities, then | pi j |  1 for all i, j  {1, 2, . . . , n} and P  n. Thus for x = P , x = P we get x  0, 0 < x  n, x + t · x  x + x  x + n, and (x + t · x)k-2  (x + n)k-2 . Therefore o(P)  (k(k - 1)/ 2)( P + n)k-2 P 2 and
+(P + P )k - P k  df + o
+
+(P )
+
+
+
+k· P
+
+k -1
+
+· P +
+
+k (k - 1 ) 2
+
+P
+
++n
+
+k -2
+
+P
+
+. (5.8)
+
+2
+
+Now we have to solve the square inequality k· P
+k -1
+
+· P +
+
+k (k - 1 ) 2
+
+P
+
++n
+
+k -2
+
+P
+
+2
+
+<
+
+(5.9)
+
+for P . Taking into account P  0 we obtain
+k
+P < 2 () = P
+k -1
+
+2
+
++ 2  k (k - 1 ) k (k - 1 )
+
+P +n
+
+P
+
++n k -2
+
+k -2
+
+-k P
+
+k -1
+
+.
+
+(5.10)
+
+Since P = n · max1i, j n | pi j |, we get for all i, j  {1, 2, . . . , n},
+k | pi j | < P
+k -1
+
+2
+
++ 2  k (k - 1 ) n k (k - 1 )
+
+P
+
+P
+
++n
+
+k -2 +n -k P k -2
+
+k -1
+
+.
+
+(5.11)
+
+This is a sufficient condition for  f < . The number  must be chosen so that all elements of the matrix (P + P )k are strictly positive, that is, they differ from the corresponding elements of P k less than by m = min1i, j n pi(k) > 0. Hence it must be df = (P + P )k - P k < nm, therefore  has to j be chosen so that   nm, for example,  = nm. In this case the first formula yields | pi j | < m/ k P k-1 and the second formula yields
+
+
+pi j
+
+<
+
+k
+
+P
+
+k -1
+
+2
+
++ 2 nmk (k - 1 ) n k (k - 1 )
+P
+
+P +n
+
++n k -2
+
+k -2
+
+-k P
+
+k -1
+
+(5.12)
+
+for all i, j  {1, 2, . . . , n}. The formulae (5.5) and (5.12) were announced in [10].
+
+
+Maria N. Krein 6. Conclusion
+
+13
+
+Let us ascertain the interdependence between the notions defined in this paper and some other ones. (1) Let f be a polynomial in x with coefficients from , then d f is a 1-degree polynomial in x, where the coefficients are also polynomials in x. So, d : P  P  P (see with respect to Section 2 for the description of what is). Let g : P  P  P be an algebra homomorphism defined as g ( f1  f2 ) = f1 · f2 . Then  = g  d : P  P is a derivation of the algebra P , that is,  ( f1 · f2 ) =  ( f1 ) · f2 + f1 ·  ( f2 ) for all f1 , f2  P . If f is an n-degree polynomial, then  ( f ) is also an (n - 1)-degree polynomial. (2) For a noncommutative operator algebra consider the algebra homomorphisms A : 1 
+n
+
+and  1
+
+A1 ,...,An
+
+n
+
+: n
+
+that are defined, for example, in [15]. Here A, A1 , . . . ,
+
+1
+
+An  are called generators, 1 is a space of one-place symbols, n is a space of nplace symbols, numbers over letters are called Feynman numbers, and the set of letters with numbers over them is called Feynman set. The one-place or n-place symbols are real or complex functions of one or n variables, respectively. These homomorphisms A and  1 n may be called "evaluation homomorphisms" because they give a possibility
+A1 ,...,An
+
+to find in the values f (A) or f A1 , . . . , An or different f and specified A or A1 , . . . , An . For example, if f is a polynomial in one or several variables, it is necessary to substitute A or A1 , . . . , An for variables of f . If f is a polynomial in 2n + 1 variables, f = f ( y1 , . . . , yn , z, x1 , . . . , xn ) =
+1
+n 1 n i=1 yi · z · xi , n+1 n+2 2n+1 . b1 , . . . , bn , c , a 1 , . . . , a n Speci-
+
+1
+
+n
+
+f
+
+1
+
+n
+
+n
+
+then for a1 , . . . , an , c, b1 , . . . , bn  we can evaluate f fying a1 , . . . , an , b1 , . . . , bn and replacing c by , we obtain the 1-degree map correspondn ing to the 1-degree polynomial in x of the form i=1 ai · x · bi . Obviously, for another polynomial it is necessary to use another homomorphism and the quantity of generators depends on the quantity of polynomial terms. References
+[1] O. Bratteli and D. W. Robinson, Operator Algebras and Quantum Statistical Mechanics. Vol. 1, Texts and Monographs in Physics, Springer, New York, 1979. [2] M. N. Krein, 1-degree maps in non-commutative algebras and integration in them, Operators with Partial Integrals (2000), no. 4, 79­84 (Russian). , Differentiation in non-commutative algebras, Nonlinear Analysis and Functional[3] Differential Equations (MNK ADM, 2000). Abstracts of Reports, Voronezh, 2000, p. 135. , Fredholm GLG-maps in modules over non-commutative algebras, Modern Methods of [4] Function Theory and Adjoined Problems. Abstracts of Reports, Voronezh, 2001, p. 155. , On 1-degree maps in noncommutative C  -algebras, Voronezh Winter Mathematical [5] School, 2002, Voronezh, 2002, p. 46. , Symmetry of 1-degree maps and maps of arbitrary degree in C  -algebras, Modern Meth[6] ods in the Theory of Boundary Value Problems. Proceedings of Voronezh Spring Mathematical School, Voronezh, 2004, pp. 123­124.
+
+
+14
+[7]
+
+The mappings of degree 1
+, On the properties of 1-degree maps in non-commutative algebras, Topological and Variational Methods of Nonlinear Analysis and Their Applications. Abstracts of the Conference, Voronezh, 2005, pp. 67­68. , 1-degree maps in non-commutative algebras and modules over them, preprint, 2002. M. N. Krein and S. V. Grek, On the spectrum properties of positive 1-degree maps, Modern Problems of Functional Analysis and Differential Equations. Proceedings of the Conference, Voronezh, 2003, pp. 161­163. M. N. Krein and T. N. Korobova, 1-degree maps in non-commutative algebras and Markov chains, Modern Methods of Function Theory and Adjoined Problems. Proceedings of Voronezh Winter Mathematical School, Voronezh, 2005, pp. 128­129. N. H. Kuiper, The homotopy type of the unitary group of Hilbert space, Topology 3 (1965), no. 1, 19­30. V. M. Manuilov and E. V. Troitsky, Hilbert C  -Modules, Factorial Press, Moscow, 2001. J. Milnor, On spaces having the homotopy type of CW-complex, Transactions of the American Mathematical Society 90 (1959), 272­280.  A. S. Miscenko and A. T. Fomenko, The index of elliptic operators over C  -algebras, Izvestiya Akademii Nauk SSSR. Seriya Matematicheskaya 43 (1979), no. 4, 831­859, 967 (Russian). V. E. Nazaikinskii, V. E. Shatalov, and B. Yu. Sternin, Methods of Noncommutative Analysis. Theory and Applications, de Gruyter Studies in Mathematics, vol. 22, Walter de Gruyter, Berlin, 1996. J. H. C. Whitehead, Combinatorial homotopy. I, Bulletin of the American Mathematical Society 55 (1949), 213­245.
+
+[8] [9]
+
+[10]
+
+[11] [12] [13] [14] [15]
+
+[16]
+
+Maria N. Krein: Faculty of Physics and Mathematics, Lipetsk State Pedagogical University, ul. Lenina 42, 398020 Lipetsk, Russia E-mail address: travkin@lipetsk.ru
+
+

@@ -1,0 +1,2368 @@
+FLOW OF ELECTRORHEOLOGICAL FLUID UNDER CONDITIONS OF SLIP ON THE BOUNDARY
+R. H. W. HOPPE, M. Y. KUZMIN, W. G. LITVINOV, AND V. G. ZVYAGIN Received 26 June 2005; Accepted 1 July 2005
+
+We study a mathematical model describing flows of electrorheological fluids. A theorem of existence of a weak solution is proved. For this purpose the approximating-topological method is used. Copyright © 2006 R. H. W. Hoppe et al. This is an open access article distributed under the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited. 1. Introduction Electrorheological fluids are smart materials that are concentrated suspensions of polarizable particles in a nonconducting dielectric liquid. In moderately large electric fields the particles form chains along the field lines and these chains then aggregate into the form of columns. These chainlike and columnar structures yield dramatic changes in the rheological properties of the suspensions. The fluid becomes anisotropic, the apparent viscosity (the resistance to flow) in the direction, orthogonal to that of the electric field, abruptly increases, while the apparent viscosity in the direction of the electric field changes not so drastically. Let   Rn be a bounded domain, in which a fluid flows, n  {2, 3}. Let the boundary S of  be Lipschitz continuous. As it is well known, the stationary movement of any fluid is described by the equation in Cauchy form:
+jn
+=1
+
+uj
+
+ui j i j - = Fi , x j x j =1
+n
+
+(1.1)
+
+where x  , u = (u1 , . . . , un ) is the velocity field of the fluid, {i j }n, j =1 is the stress tensor, i F = (F1 , . . . , Fn ) is the volume force. We also add the condition of incompressibility to (1.1): div u =
+Hindawi Publishing Corporation Abstract and Applied Analysis Volume 2006, Article ID 43560, Pages 1­14 DOI 10.1155/AAA/2006/43560
+
+i n  ui
+=1
+
+xi
+
+= 0.
+
+(1.2)
+
+
+2
+
+ERF flow under slip boundary conditions We will consider the following constitutive equation (see [2]): i j ( p, u) = - pi j + 2 (u), |E|, (u, E)
+I 
+i j (u),
+
+(1.3)
+
+where i j are the components of the unit tensor, i j (u) are the components of the rate of strain tensor, i j (u) = (1/ 2)(ui / x j + u j / xi ), p is the spherical part of the stress tensor, n  is the viscosity function, I (u) = i, j =1 (i j (u))2 , E (x )  + u(x ) u ,E  n + (x ) (x )
+
+
+
+
+ ( u , E ) (x ) =
+
+2,
+Rn
+
+(1.4)
+
+ is a small positive constant, and Rn  = (1, . . . , 1), E = (E1 , . . . , En ) is the electric field strength. We consider the condition of slip on S (see [4, 6]). Let f = ( f1 , . . . , fn ) be an external surface force acting on the fluid,
+jn
+=1
+
+fi =
+
+-
+
+pi j + 2 (u), |E|, (u, E)
+
+I
+
+
+
+i j (u)
+
+
+
+j |S ,
+
+(1.5)
+
+where  = (1 , . . . , n ) is the unit outward normal to S. We represent f in the form f (s) = f  (s) + f  (s)
+s  S,
+
+(1.6)
+
+where f  and f  are the normal and the tangent vectors:
+in
+=1
+
+f  (s) = f (s)(s), f (s) = f (s) - f (s) =
+ 
+
+f (s) =
+
+fi (s)i (s), (1.7)
+
+in
+=1
+
+f i (s)ei ,
+
+f i (s) = fi (s) - f (s)i (s),
+
+{e1 , . . . , en } is an orthonormal basis in Rn .
+
+For the field u, a similar decomposition is valid. The slip conditions on the boundary are the following [4]: u (s) = 0 f  (s) = -
+f
+ (s),
+
+u
+
+(s)
+
+s  S, 2 u
+
+(1.8)
+s  S
+
+(s)
+
+(1.9)
+
+
+R. H. W. Hoppe et al. 3 (by | · | we denote the norm in Euclidian space Rn ). Instead of (1.9) we will consider the regularized condition f  (s) = -
+-
+f
+n , j =1 r  (s),
+
+u
+
+(s)
+
+2 u
+
+(s)
+
+s  S,  S
+i j (P u) i  j
+
+(1.10) , (1.11)
+
+f r  ( p , u) =
+
+Pp + P v (x ) =
+
+i
+
+2 (P u), |E|, (P u, E)
+R
+
+I
+
+n
+
+´´ ´  x - x | (x )d x ,
+
+|
+
+v
+
+x  ,
+R
+
+where   C  (R+ ), supp   [0, a], a  R+ , (z) 0 at z  R+ , n (|x|)dx = 1. Here R+ is the set of nonnegative numbers. Equation (1.10) means that the model of slip is not local, this is natural from the physical view point (see [1]). We assume that
+
+
+p (x )d x = 0 .
+
+(1.12)
+
+Let us describe the concept of a weak solution of (1.1)­(1.3), (1.8), (1.10), (1.12). We introduce some Hilbert spaces (see [4]):
+v
+
+
+Z=
+
+: v  H () , v |S = 0,
+1 n
+
+,
+
+[div v](x)dx = 0
+
+(1.13)
+
+W = {v : v  Z , div v = 0}. The expression ( u , v )Z =
+i
+n , j =1
+
+
+
+i j [u](x)i j [v](x)dx +
+
+in
+=1
+
+S
+
+u i (s)v i (s)ds
+
+(1.14)
+
+defines a scalar product on Z (and in W ). Multiplying (1.1) by a function h in L2 ()n , and using Green's formula and (1.3), (1.8), (1.10), we see that
+i
+n , j =1
+
+
+
+2  ( u ) (x ) , + +
+i in
+=1
+
+I
+
+E
+
+( x )  ( u , E ) [x ] (s), u(s)
+,u
+
+,
+
+
+
+i j [u](x )i j [h](x )d x
+
+S
+
+
+
+
+f
+rn
+
+p
+
+ (s)
+
+2 
+
+u i (s)h i (s)ds p(x)[div h](x)dx =
+in
+=1
+
+n , j =1
+
+u j (x )
+
+ ui ( x ) hi ( x ) d x - x j
+
+
+
+Fi ( x ) h i ( x ) d x (1.15)
+
+(here we suppose that F  L2 ()n ).
+
+
+4
+
+ERF flow under slip boundary conditions
+
+Definition 1.1. A couple of functions (u, p)  W × L2 () is a weak solution of problem (1.1)­(1.3), (1.8), (1.10), (1.12) if it satisfies equality (1.15) for all h  Z . The following conditions are imposed on the functions  and  . (C1) There are positive constants a1 and a2 such that a1
+
+y
+1 , y2 , y3
+
+a
+2
+
+
+
+y
+
+1 , y2 , y3
+
+
+
+R 2 × [ 0 , 1 ]. +
+
+(1.16)
+
+(C2) The function ( y1 , ·, y3 ) : R+  R is measurable in y2 for all specified ( y1 , y3 )  R+ × [0, 1 ]. (C3) The function (·, y2 , ·) : R+ × [0, 1]  R is jointly continuous in ( y1 , y3 ) for all y 2  R+ . 2 (C4) The function y1  ( y1 , y2 , y3 ) y1 is not decreasing at nonnegative values of y1 . (C5) There are positive constants b1 and b2 such that b1
+
+z
+1 , z2
+
+b
+2
+
+
+
+z
+
+1 , z2
+
+
+
+R × R+ .
+
+(1.17)
+
+(C6) The function  : R × R+  R is continuous. Note that conditions (C1)­(C6) have a physical meaning (see [2, 4]). The main result of this paper is the following theorem. Theorem 1.2. Suppose that conditions (C1)­(C6) are satisfied. Then there exists a weak solution of problems (1.1)­(1.3), (1.8), (1.10), (1.12). For the proof of Theorem 1.2 we use the approximating-topological method [8]. For this purpose, in the beginning, we determine an equivalent operational treatment of the problem under consideration. After that for the obtained operational equation, we introduce an approximating family of equations depending on a parameter  and by use of Skrypnik's version of the topological degree [7], on the basis of a priori estimates, we prove existence of solutions of the approximating equations. As a result, making limiting transition for   0, we obtain the solvability of problem (1.1)­(1.3), (1.8), (1.10), (1.12). 2. Operational treatment Let us introduce some notations. By X  we denote the space, conjugate to some Banach space X , g, y denotes the action of the functional g  X  on the element y  X , X m is the topological product of m copies of the space X . Determine several mappings as follows: A : Z - Z  ,
+A
+
+(u), h
+
+=i
+
+n , j =1
+
+
+
+2 (u), |E|, (u, E)
+
+I
+
+
+
+i j (u)i j (h)d x ,
+
+K
+
+(u, p ), h
+
+= in
+=1
+
+S
+
+K : Z × L2 () - Z  , 
+M f
+rn
+
+p
+
+(s), u(s)
+=i
+n , j =1
+
+,u 
+
+ (s)
+
+2
+
+u i (s)h i (s)ds,
+
+(2.1)
+
+M : Z - Z  ,
+
+(u), h
+
+u j (x )
+
+ ui ( x ) hi ( x ) d x . x j
+
+
+R. H. W. Hoppe et al. 5 Take
+ D : Z - L 2 ( ) ,
+
+D(u) = div u.
+
+
+(2.2)
+
+Identifying L2 ()n and (L2 ()n ) we obtain D  : L 2 ( )n 
+L
+n 2 ( )
+
+
+
+- Z, 
+
+D
+
+( p ), h
+
+=
+
+p(x)[div h](x)dx.
+
+(2.3)
+
+It is obvious that the set of weak solutions of problem (1.1)­(1.3), (1.8), (1.10), (1.12) coincides with the set of couples (u, p)  W × L2 () that satisfy the following operational equation: A(u) + K (u, p) + M (u) - D ( p) = F. 3. Properties of operators
+- Everywhere below the expressions vk - - v0 and vk
+k
+
+(2.4)
+
+weak convergences, respectively, of the sequence {vk } 1 to an element v0 . The case when k= v0 . the sequence {vk } 1 does not converge to v0 in strong sense is denoted as vk k=
+k
+
+k
+
+v0 will denote strong and
+
+Lemma 3.1. The following statements hold. - (1) The operator A is bounded and demicontinuous (the latter means that if uk - - u0 in Z , then A(uk ), h - - A(u0 ), h h  Z ). - (2) For the operator
+(
+k k
+
+u, v ), h
+
+=i
+
+n , j =1
+
+
+
+2 (u), |E|, (v, E)
+
+I
+
+
+
+i j (u)i j (h)d x ,
+
+(3.1)
+
+the following inequality holds
+u
+1, v
+
+-
+
+(u2 , v), u1 - u2
+
+0
+
+u1 , u2 , v  Z .
+
+(3.2)
+
+(3) Specify an element u  Z . Then from any bounded sequence {vk } 1 in Z it is possible k= - to choose a subsequence {vkl } 1 such that (u,vkl ) - - (u,v0 ) in Z  . l=
+l
+
+Proof. (a) Boundedness of the operator A is obvious. Let us show that it is demicontinu- ous. So, let uk - - u0 in Z . Clearly, there is a subsequence {ukl } 1 , for which l=
+k
+
+I
+
+u
+kl
+
+[
+
+x] - - I -
+l
+
+u[
+0
+
+x ],
+
+ukl [x] - - u0 [x] for a.e. x  . -
+l
+
+(3.3)
+
+ Assume that A(uk ), h
+
+a sequence {ukl } 1 the following inequality holds with some  > 0: l=
+A , -A ,   ukl h u0 h >
+
+k
+
+ A(u0 ), h
+
+ for some h  Z . Without loss of generality for
+
+.
+
+(3.4)
+
+
+6
+
+ERF flow under slip boundary conditions
+A -n + 2 i
+, j =1
+
+We estimate ukl A
+u,
+0
+
+ h
+I 
+
+
+
+2
+i n
+
+
+
+
+ukl |E|,  I
+u
+kl
+
+,
+
+u
+
+kl , E
+
+
+ij
+
+u
+kl
+
+- u0 I
+
+
+
+i j (h)d x
+
+
+
+2
+, j =1
+
+,
+
+|E|, 
+
+u
+
+kl , E
+
+-
+
+
+
+u0 |E|, 
+
+,
+
+u
+
+0, E
+
+
+ij
+
+u
+0
+
+i j (h ) d x
+
+
+
+a2 ukl - u0 Z h Z 
+
+
++2
+
+
+
+I
+
+u
+kl
+
+,
+
+|E|, 
+
+u
+
+kl , E
+
+-
+
+
+
+I
+
+u0 |E|, 
+
+,
+
+u
+
+0, E
+
+2ud
+
+1/2
+
+I
+
+0
+
+x
+
+ h Z.
+
+(3.5) The first component in the last part of inequality (3.5) tends to zero because of the convergence of uk - - u0 in Z , the second component tends to zero by the Lebesgue theorem. - k  - Hence, A(uk ) - A(u0 ), h - - 0, that contradicts inequality (3.4).
+l
+
+(b) Introduce the notation (u, v) = (I (u), |E|, (v, E)). With the help of the Cauchy inequality and condition (C4) we obtain that
+u=
+1, v
+
+l
+
+-
+n
+
+i
+
+
+
+u2 , v u1 - u2
+
+
+,
+
+2
+, j =1
+
+u1 , v
+I
+
+
+ij
+
+u
+1
+
+- u
+
+
+
+u I
+
+2, v
+
+
+ij
+
+u
+2
+
+
+ij
+
+u
+
+1 - u2
+
+d
+
+x (3.6)
+
+
+n
+
+=2
+- i
+
+
+
+u1 , v
+ 
+
+u1 u1 , v
+
++ 
+
+
+
+2, v
+
+u2
+-
+2
+
+d
+
+x
+u
+2, v
+
+2
+, j =1
+
+u
+ij 1 ij
+
+u
+
+
+
+
+ij
+
+u
+1 ij
+
+u
+2
+
+d u
+2
+
+x
+d
+
+
+
+2
+
+
+
+v , u1
+
+I 1/2 u
+
+-
+1
+
+
+
+u
+
+2, v
+
+I 1/2 u
+
+2
+
+I 1/2 u
+
+-
+1
+
+I 1/2
+
+x
+
+0.
+
+(c) Let {vk } 1 be a bounded sequence in Z , u  Z . There is a subsequence {vkl } 1 and k= l= an element v0  Z such that
+- vkl (x) - - v0 (x) for a.e. x  .
+l
+
+(3.7)
+
+We have
+u
+
+, vkl
+h
+
+- i 
+
+u,v0
+n
+
+Z
+
+
+
+
+= sup
+
+2
+, j =1
+
+
+
+I (u), E , 
+v
+kl , E
+
+v
+
+Z =1
+
+kl , E
+
+ I
+
+i j (u) - 
+
+I
+
+(u), E , 
+2
+
+v
+
+0, E
+
+
+
+i j (u)
+
+
+
+i j (h)d x
+
+2n
+
+
+
+I (u), E , 
+
+-
+
+ (u), E , 
+
+v
+
+1/2
+
+0, E
+
+I (u)d x
+
+. (3.8)
+
+
+R. H. W. Hoppe et al. 7 The last expression in inequality (3.8) tends to zero by conditions (C1)­(C3) and by the L Lebesgue theorem. emma 3.2. The operator K possesses the following properties. (1) For any sequence {uk , hk , pk } 1 from Z × Z × L2 ()n , for which (uk , hk , pk ) k=
+
+k l
+
+(u0 , h0 , p0 ), there is a subsequence {ukl , hkl , pkl } 1 such that K (ukl , pkl ), hkl - - - l=
+K (u0 , p0 ), h0 (from this property, in particular, it follows that the operator K is
+
+bounded and demicontinuous). (2) The operator K (·, T (·)) is compact for any operator T : Z  L2 (). Proof. (a) So, let the limits from the condition take place. Using the fact that the embedding Z L2 (S)n is compact, we take a subsequence {ukl , hkl } 1 such that l=
+- u i n L2 (S)n × L2 (S)n , -  0 , h0 - l uk - u i l [s], hkl [s] -- n R2n for a.e. s  S.  0 [s], h0 [s]
+l
+
+uk
+
+, hkl
+
+(3.9) (3.10)
+
+l
+
+Extend the functions of the sequence { pk } 1 (and the function p0 ) onto the entire space k= Rn . For this purpose we take pk (x) = pk (x) if x  , otherwise pk (x) = 0. It is obvious p0 in L2 (Rn ). Thus we have that pkl
+l
+
+R
+n
+
+´   - x|
+
+|
+
+pk
+
+l
+
+´´ (x )d x = P
+
+pk [
+l
+
+] - - P -
+l
+
+p0 [
+
+ ]   S.
+
+(3.11)
+
+Similarly
+-
+
+Pp +
+= fr 
+
+kl
+
+i
+
+n
+
+2
+, j =1
+
+I [
+
+Pu
+
+kl
+
+,
+
+|E|, 
+
+P p0
+
+u ,E
+0
+
+kl
+
+
+ij
+
+P
+
+u
+
+kl
+
+
+
+(
+i j
+
+s) (3.12)
+
+pk
+
+l
+
+,u
+
+kl
+
+s] - - fr  -
+l
+
+,u
+
+[
+
+s]
+
+for all s  S. We estimate
+K uk n
+l
+
++ i
+
+, pkl hkl
+
+,
+
+- K u0
+
+S S S
+
+, p 0 h0
+, uk 2 -
+
+l
+
+,
+
+fr 
+ 
+
+pk
+
+l
+
+, ukl
+pk pk
+l
+
+
+
+f
+r
+
+p0
+
+, u0
+
+, u0 2
+
+
+u
+
+00  i h i d s
+
++in
+=1
+
+=1
+
+fr  fr 
+
+, ukl , ukl
+
+, uk 2
+
+l
+
+u u
+
+kl 0  i - u i
+
+h0
+
+ i ds
+
+(3.13)
+.
+
+in
+=1
+
+l
+
+, uk 2
+
+l
+
+kl i
+
+h0
+
+kl  i - h i
+
+d
+
+s
+
+Using condition (C5) and (3.11), (1.2) we conclude that the first summand in the righthand side of inequality (3.13) tends to zero by the Lebesgue theorem, the other summands tend to zero by (3.9).
+
+
+8
+
+ERF flow under slip boundary conditions
+
+(b) We will use Gelfand's criterion, having reformulated it according to the following lemma. Lemma 3.3. The subset M of a separable Banach space is relatively compact, if from any sequence of functionals {fk } 1 belonging to  and such that k=
+- fk ( y ) - - 0
+k
+
+y 
+
+,
+
+(3.14)
+
+it is possible to take a subsequence {fkl } 1 such that (3.14) is valid for it uniformly for all y l= from M. The proof of Lemma 3.3 is similar to that of [3, Theorem 3(1.IX), page 274], minor changes are connected with transition to a subsequence in the formulation of the statement. Now, let T : Z  L2 () be an operator, let M be some bounded set from Z , and let hk 0 in the space (Z  )  Z . For all u from M we have
+k
+
+h
+
+k , K (u, T u)
+
+b
+2
+
+u
+
+h
+L 2 ( S )n k
+
+L
+2 (S ) n
+
+.
+
+(3.15)
+
+However, the embedding Z L2 (S)n is compact, therefore for some subsequence {hkl } 1 l= we obtain that hkl , K (u, T u) - - 0 uniformly for all u from M. Hence, the set K (M, - T (M)) is relatively compact as it was required to show. L emma 3.4. Let M ,  > 0, be an approximation of the operator M , that is M : Z - Z  ,
+M
+ (u), h l
+
+=
+
+1 1 +  1/4 u
+
+i
+
+n
+
+
+
+L4 ()n , j =1
+
+uj
+
+ ui hi d x . x j
+
+(3.16)
+
+(1) The operator M is compact. (2) Take any sequences {uk } 1 and {hk } 1 in the space Z such that uk k= k= Z , hk
+M
+k kl ), hkl (u
+
+k
+
+u0 in
+
+h0 in Z . Then there are subsequences {ukl } 1 and {hkl } 1 such that l= l=
+- - M ( u 0 ) , h 0 . -
+l
+
+Proof. (1) The proof of boundedness and continuity of the operator M is standard. The property of compactness is shown similarly to item (2) of Lemma 3.2. Here the following inequality is in use:
+M
+ (u), h
+
+u L4 ()n u H 1 ()n h 1 +  1/4 u L4 ()n
+
+L4 ()n .
+
+(3.17)
+
+(2) Let uk sequences
+
+k {ukl } 1 l=
+
+u0 a n d hk
+uk
+
+k
+
+h0 in Z . It follows from here that there are the subi L 2
+
+and {hkl } 1 such that l=
+l
+
+, hkl
+
+- u -  0 , h0 -
+l
+
+n
+
+4 ( )
+
+n
+
+.
+
+(3.18)
+
+
+R. H. W. Hoppe et al. 9 Thus
+M u0 ,
+
+
+h0
+
+-1 M uk ,
+
+l
+
+hkl
+i
+n
+
++
+
+1 +  1/4
++
+
+u
+
+0
+
+L
+
+
+
+
+
+1
+
+n , j =1 4 ()
+
+u0 j
+
+
+u0 ukl i -i x j x j
+l j - uj
+
+h
+0 i dx
+
+1 +  1/4
++
+
+u 1
+
+0
+
+L
+
+i
+
+n
+
+u0
+
+k
+
+ukl i
+
+n , j =1 4 ()
+
+x j
+
+h0 d x i
+
+(3.19)
+
+1 +  1/4
+
+u
+
+0
+
+L
+4 () n
+
+i
+
+n , j =1
+
+
+
+ukl j
+
+ukl h0 kl d i x i - hi x j 1
+u
+kl
+
+1
+
+1 +  1/4
+
+u
+
+0
+
+L
+4 () n
+
+-
+
+1 +  1/4
+
+L
+4 () n
+
+i
+
+n
+, j =1
+
+
+
+ukl j
+
+ukl kl i h dx x j i
+
+.
+
+The first summand on the right-hand side of (3.19) tends to zero since ukl
+4 Z , the other summands tend to zero by (3.18).
+
+l
+
+u0 in
+
+. Approximation equation and an a priori estimate For any  > 0 we introduce an auxiliary equation in the unknown function u : A+ where
+K
+ (u), h
+
+u +
+
+A
+
+u +
+
+K
+
+u +
+
+M
+
+u +
+
+ -1 D  D
+
+u =
+
+F,
+
+(4.1)
+
+= in
+=1
+
+S
+
+
+
+f
+rn
+
+-
+n
+
+ -1 D u , u
+
+
+,u
+
+
+2u
+
+ i h i d s,
+
+A+ n
+i =1
+
+(u), h
+
+=i
+
+(4.2) i j (u)i j (h)dx.
+
+
+
+, j =1
+
+Let K + (u), h = (b1 / 2)
+
+S
+
+u i h i ds.
+
+Lemma 4.1. For the following family of the operational equations, depending on the parameter t  [0, 1]:  t
+u = + + u +
+
+A
+
+t the estimate
+
+A
+
+K+
++
+
+u u -
+
+u
+
+K
+
+K+
+
+u +
+
+M
+
+u +
+
+ -1 D  D
+
+u -
+
+F
+
+=
+
+0,
+
+(4.3)
+
+u Z
+
+C
+
+F
+
+Z , a1 , b1 , n, 
+
+(
+
+4.4)
+
+holds for 0 <  parameters.
+
+c(a1 , b1 , n, ). Here c and C are variables that depend only on the specified
+
+
+10
+
+ERF flow under slip boundary conditions
+
+Proof. For t = 0 there is only a zero solution, in this case estimation (4.4) is obvious. Let u be a solution of (4.3) for some t  (0, 1]. Apply both sides of (4.3) to u . We obtain
+A+ u +
+
+K+
+
+u ,
+
+u
+
+0
+
+,
+
+(4.5)
+
+thus
+A
+
+u u
+
+,
+
++ K u ,
+
+
+u
+
+- K + u ,
+
+u
+
++ M u ,
+
+
+u
+
++
+
+ -1
+
+D
+
+D
+
+u ,
+
+u
+
+f
+
+, u (4.6)
+
+.
+
+Notice that
+A
+
+u u
+
+,
+
++ K u ,
+
+
+u
+
+- K + u ,
+
+u
+
+m
+
+in
+
+2
+
+a1 , b1 / 2
+
+u 2
+
+Z.
+
+(4.7)
+
+At the same time
+M u ,
+
+
+u
+
+
+
+= =
+
+1 1 +  1/4
+n
+
+u
+
+
+
+L
+4 () n
+
+i
+
+n
+, j =1
+
+
+
+u j
+-
+
+ u  i u dx x j i
+u |
+
+1
+D
+
+1 +  1/4 u
+
+
+u
+
+
+
+L
+4 () n
+
+1 2
+
+
+
+D
+n
+
+L
+2 ()
+
+u 2
+
+1i u | dx + 2 =1
+n 2
+
+S
+
+u i  i 
+
+u 2
+
+ds
+n n
+
+2
+D
+
+1 +  1/4
+
+) L u4 (L 
+
+u
+
+L
+2 ()
+
+4 ()
+
+n
+
+n 2
+u
+
+D 2
+
+u
+
+
+
+L
+2 ()
+
+u 2
+
+ 1/4
+
+ u L4 (L ) 
+
+4 ()
+
+ 1/2
+
+nuZ  1/4   2
+
+D
+
+L2 ()
+
+2
+
++  1/2
+
+n 2 2 u 2  Z 8
+
+(4.8)
+
+( is the norm of the operator of embedding of the space Z into the space L4 ()n ). It is easy to see that  -1
+D
+
+D
+
+u , F
+
+u
+Z
+
+=
+
+ -1
+
+D
+
+u D
+lF 2
+2 2 Z
+
+,
+
+u
+
+=
+
+ -1 D
+
+u
+
+2
+
+L2 () ,
+
+u Z
+
++
+
+1 u 2 Z. 2l 2
+
+(4.9)
+
+Now for sufficiently large l and small  we obtain the required estimate (4.4). 5 . Existence of a solution of the approximation equation For the proof of existence of a solution of the approximation equation we apply the method of topological degree for generalized monotonous maps (see [7]). We show that the family  carries out homotopy of the maps  and  . For this purpose, we will t 0 1 notice first that from the a priori estimate (4.4) it follows that there is a sphere of nonzero radius R, with the center at zero, such that on its boundary there are no solutions of the equation  (u ) = 0(t  [0, 1]). t
+
+
+R. H. W. Hoppe et al.
+
+11
+
+For our purpose it is necessary to prove first the following statements. (a) For any sequence {uk } 1 on the border of the sphere R , and for any sequence k= u0 in Z , k (uk ) {tk } 1 of points from the interval [0, 1] such that uk 0 t k=
+k k
+
+- - in Z  , and k (uk ), uk - u0 - - 0, the convergence uk - - u0 in Z also takes place. t
+
+(b) For any sequence {uk } 1 from the closure of the sphere R such that uk - - u0 - k= in Z , for any sequence of points {tk } 1 (tk  [0, 1]) such that tk - - t0 , there is a limit - k=
+k k
+
+k
+
+k
+
+k (uk ) t
+
+k
+
+0 (u0 ) t
+
+in Z  .
+k
+
+Proof. (a) Assume the contrary, that is, let uk
+{ukl } 1 and some fixed number l=
+
+u0 in Z . Then for some subsequence
+
+> 0 the following inequality: u Z > kl - u0
+
+(5.1)
+
+holds. We will show that this inequality is not valid. From the hypothesis of statement (a) we have
+l
+
+lim
+
+ u
+tk l
+
+,
+kl
+
+ukl - u0
+
+=
+
+l
+
+lim
+
+ u
+tk l
+
+-
+kl
+
+0 t
+
+u
+kl
+
++
+
+0 t
+
+u
+kl
+
+-
+
+0 t
+
+u,
+0
+
+ukl - u0
+
+=
+
+0. (5.2)
+
+Without loss of generality we may suppose that the subsequence {tkl } 1 is such that l= - tkl - - t0  [0, 1]. All operators, that we have determined, are bounded. Hence
+l l
+
+lim
+
+ u =
+tk l
+
+-
+kl
+
+l
+
+lim
+
+t
+kl
+
+0 t
+- t0
+
+u
+kl
+
+, A +
+
+ukl - u0 ukl
++ u
+kl
+
+K
++
+
+u
+kl
+-1
+
+-
+
+K+
+
+u
+kl
+
+(5.3)
+-
+
+M
+
+ DD
+
+
+
+u
+kl
+
+F ukl - u0
+
+,
+
+=
+
+0.
+
+At the same time, from the properties of the operator, that we have proved, it follows that from the sequence {ukl } 1 it is possible to take a subsequence {uklm }=1 such that m l=
+m m 0
+
+lim
+u
+
+A
+
+uklm
+u u
+
+-
+
+uklm , u0 uklm - u0
+-
+
+,
+
+=
+
+0, ,
+u,
+0
+
+lim
+
+klm , u0
+
+A
+
+u,
+0
+
+uklm - u0 M
+u
+klm
+
+0 -
+
+m
+
+lim
+
+Ku
+ klm
+
+-
+
+K
+
++
+
+K+
+
+-
+klm
+
+K+
+
+u
+0
+
++
+
+M
+
+uklm - u0
+
+=
+
+0. (5.4)
+
+Clearly,
+m
+
+lim
+
+ -1
+
+D D
+
+u
+klm
+
+, - u0 uklm - u0
+
+0
+
+.
+
+(5.5)
+
+From (5.3)­(5.5) it follows that
+m
+
+lim
+
+A+
+
++ K+
+
+u
+klm
+
+, - u0 uklm - u0
+
+0
+
+.
+
+(5.6)
+
+
+12
+
+ERF flow under slip boundary conditions
+
+The limiting relation (5.6) contradicts (5.1), since the operator A+ + K + is strictly monotonous:
+A+
+
++ K+
+
+u
+
+, -w u-w
+
+m
+
+
+
+in
+
+,
+
+b1 2
+
+u -w 2 Z u, w  Z .
+
+(5.7)
+
+Proof of statement (b). Obviously for any h  Z the equality
+k
+
+lim
+
+ u -
+tk k
+
+0 t
+
+u,
+0
+
+h
+
+=
+
+k
+
+lim
+
+ u
+tk
+
+-
+k
+
+0 t
+
+u,
+k
+
+h
+
++
+
+k
+
+li m
+
+ u -
+t0 k
+
+0 t
+
+u ,(
+0
+
+h
+
+5.8)
+k
+
+holds. The first summand in equality (5.8) tends to zero since tk - - t0 , the second - summand tends to zero since all operators in (5.8) are demicontinuous. T hus, the maps  and  are homotopic, at the same time the degree deg ( , R , 0) is 0 1 0 an odd number, as  is an odd map. Therefore, the solutions of the equation  (u ) = 0 0 1 exist for sufficiently small  , as it was required to show. 6. Limiting transition
+- Take a sequence k - - 0 and assign to every k the solution uk  Z of the equation
+
+k (uk ) = 0. We have 1
+
+k
+
+- k 1 D  D
+
+u
+k
+
+=
+
+F - A+
+
+u
+k
+
+-
+
+A
+
+u
+k
+
+-
+
+Kk
+
+u
+k
+
+-
+
+Mk
+
+u.
+k
+
+(6.1)
+
+From the results of [5] it follows that the operator D carries the out isomorphism of the spaces 0= W0 =
+ f
+  L 2 ( ) : ,
+
+ (x )d x = 0
+.
+
+(6.2)
+
+ Z  : f, u = 0 u  W
+
+From the a priori estimate and (6.1) it follows that there are elements u0  Z , p0  L2 () such that uk uk - - u0 -
+k k
+
+u0
+
+in Z ,
+
+in norm of L2 ()n , a.e. in , in norm of L2 (S)n , a.e. on S,
+u
+k
+
+- uk - - u0
+k
+
+D
+
+- -0 -
+k
+
+(6.3)
+
+i n L 2 ( ) ,
+- p0
+
+- k 1 D
+
+u
+k
+
+k
+
+
+in
+
+0.
+
+
+R. H. W. Hoppe et al. Let 
+u =+ + u A +
+k
+
+13
+
+k, v
+
+M k
+
+u
+k
+
+-
+
+A
+
+u
+k
+
+- u
+0
+
+M
+
++
+
+v,uk
+-1
+
++
+
+
+K k
+u
+k
+
+u +
+k
+
+-
+
+K
+
+u
+0
+
+k D D
+,
+
+D
+0
+
+
+
+p,
+
+0 , p0
+
+uk - v
+
+.
+
+(6.4)
+
+Taking into account Lemmas 3.1­3.4 and (6.3), we obtain
+K
+k
+
+k
+
+lim
+
+uv -
+k
+
+k
+
+lim
+
+A
+
+uv k
+u
+
+- +
+
+v,uv uv - v k k M k D
+uv -
+k
+
+,
+-v =
+
+K
+
+0 , p0 k
+
+M
+
+u
+
+v 0 ), uk
+
+0, (6.5)
+
+k
+
+lim
+
+ -1
+k
+
+D D
+
+uv +
+k
+
+p,
+0
+
+uv - v k
+=
+
+=
+
+0,
+
+k
+
+lim
+
+A+ uv ,
+
+uv - v k
+
+0.
+
+It follows from relations (6.5) that
+k
+
+lim 
+
+uv
+
+k, v
+
+0
+
+v  Z .
+
+(6.6)
+
+On the other hand,
+k
+
+lim 
+
+uv
+
+k, v
+
+=+ +
+
+k
+
+lim
+
+A+ uv , A -
+k
+
+uv - v k
++
+
+=
+
+k
+
+li m li m
+-
+
+uv k
+
+K k
+
+uv +
+k
+
+M k
+-
+
+uv -
+
+F
+
+k
+
+v,uv k
+-
+
+- u
+
+K
+
+u
+
+k b i g ) + k
+
+-1
+
+D D
+0
+
+uv ,
+k
+
+0 , p0
+
+M
+0
+
+u
+
++
+
+0
+
+D
+p,
+0
+
+p,
+
+uv - v k
+
+
+v,u0
+
+K
+
+0 , p0
+
+M
+
+u
+
++
+
+uv - v k
+
+D
+
+u0 - v
+
+v  Z. (6.7)
+
+Now, take v = u0 - h, where  > 0, h  Z , and pass to the limit as   0. From relations (6.6) and (6.7) we get the inequality
+F -A u
+0
+
+-
+
+K
+
+u
+
+0 , p0
+
+-
+
+M
+
+u
+0
+
++
+
+D
+
+p,
+0
+
+h
+
+0
+
+h  Z .
+
+(6.8)
+
+Since h is arbitrary, after replacing h with -h, we obtain that (u = u0 , p = p0 ) is the solution of (2.4). Acknowledgments The work was supported by the German National Science Foundation (DFG) within the Collaborative Research Center SFB 438. The work was partially supported by Grant 0101-00425 of Russian Foundation of Basic Research, Grant VZ-010-0 of Ministry of Education of Russia and CRDF, Grant ICS (CLG - 981757). References
+[1] A. C. Eringen, Nonlocal Continuum Field Theories, Springer, New York, 2002. [2] R. H. W. Hoppe and W. G. Litvinov, Problems on electrorheological fluid flows, Communications on Pure and Applied Analysis 3 (2004), no. 4, 809­848.
+
+
+14
+
+ERF flow under slip boundary conditions
+
+[3] A. V. Kantorovich and G. P. Akilov, Functional Analysis in the Normalized Spaces, Fizmatgiz, Moscow, 1959. [4] W. G. Litvinov, Motion of a Nonlinearly Viscous Fluid, Nauka, Moscow, 1982. , Optimization in Elliptic Problems with Applications to Mechanics of Deformable Bodies [5] ¨ and Fluid Mechanics, Operator Theory: Advances and Applications, vol. 119, Birkhauser, Basel, 2000. [6] K. R. Rajagopal, On some unsolved problems in nonlinear fluid dynamics, Russian Mathematical Surveys 58 (2003), no. 2, 319­330. [7] I. V. Skrypnik, Methods of Investigation of the Nonlinear Elliptic Boundary Problems, Fizmatgiz, Moscow, 1990. [8] V. G. Zvyagin and V. T. Dmitrienko, Approximating-Topological Approach to Investigation of Problems of Hydrodynamics. Navier-Stokes System, Editorial URSS, Moscow, 2004. R. H. W. Hoppe: Department of Mathematics, University of Houston, Houston, TX 77204, USA E-mail address: rohop@math.uh.edu M. Y. Kuzmin: Department of Mathematics, Voronezh State University, Universitetskaya Pl. 1, 394006 Voronezh, Russia E-mail address: kuzmin@math.vsu.ru W. G. Litvinov: Institute of Mathematics, University of Augsburg, 86159 Augsburg, Germany E-mail address: litvinov@math.uni-augsburg.de V. G. Zvyagin: Department of Mathematics, Voronezh State University, Universitetskaya Pl. 1, 394006 Voronezh, Russia E-mail address: zvg@main.vsu.ru
+
+
