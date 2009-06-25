@@ -12,20 +12,14 @@ aip = begin
         exit 1
       end
 
-begin
-  aip.ingest!
-  puts "#{aip} ingested"
-rescue Reject => e
-  aip.write_reject_info e
-  puts "Package #{aip} rejected"
-  puts
-  puts 'Reason(s) for rejection:'
-  e.reasons.each { |r| puts "%s %s: %s" % [ r[:time].strftime('%c'), r[:type], r[:message] ] }
+aip.ingest!
+
+if aip.rejected?
+  puts "#{aip} is rejected"
   exit 2
-rescue => e
-  aip.write_snafu_info e
-  puts "Package #{aip} is snafu: #{e.message}"
-  puts
-  STDERR.puts e.backtrace
+elsif aip.snafu?
+  puts "#{aip} is snafu"
   exit 3
+else
+  puts "#{aip} is ingested"
 end

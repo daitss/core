@@ -1,14 +1,16 @@
 require 'libxml'
 
 require 'metadata'
-require 'file/describe'
-require 'file/transform'
-require 'file/plan'
+require 'fileprocess'
+require 'service/describe'
+require 'service/transform'
+require 'service/plan'
 
 include LibXML
 
 class DFile
 
+  include FileProcess
   include Metadata
   include Describe
   include Plan
