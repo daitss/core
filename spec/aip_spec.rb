@@ -1,19 +1,7 @@
-require 'tempfile'
-require 'fileutils'
-
 require 'spec_helper'
 require 'aip'
 
 describe Aip do
-
-  before(:each) do
-    $sandbox = new_sandbox
-    FileUtils::mkdir $sandbox
-  end
-  
-  after(:each) do
-    FileUtils::rm_rf $sandbox
-  end
   
   it 'should create from a sip' do
     aip = aip_instance_from_sip 'ateam'
@@ -31,29 +19,7 @@ describe Aip do
   it "should raise an error if it initialization fails" do
     lambda { Aip.new 'http://example.com/not/an/aip' }.should raise_error
   end
-
-  it "should validate" do
-    aip = aip_instance 'good'
-    aip.should_not be_validated
-    lambda { aip.validate }.should_not raise_error(Reject)
-    aip.should be_validated
-  end
-
-  it "should raise a rejection error if validation fails" do
-    aip = aip_instance 'invalid-descriptor'
-    aip.should_not be_validated
-    lambda { aip.validate }.should raise_error(Reject)
-    aip.should be_validated
-  end
-
-  it "should record incoming provenance" do
-    pending "external provenance extractor not returning an event, might be a bug"
-    aip = aip_instance 'preexisting-digiprov'
-    aip.should_not be_provenance_retrieved
-    lambda { aip.retrieve_provenance }.should_not raise_error
-    aip.should be_provenance_retrieved
-  end
-    
+      
   it "should provide a set of files" do
     aip = aip_instance 'good'
     aip.files.size.should == 2

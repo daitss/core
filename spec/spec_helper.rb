@@ -31,3 +31,16 @@ def new_sandbox
   tf.close!    
   path
 end
+
+Spec::Runner.configure do |config|
+
+  config.before(:each) do
+    $sandbox = new_sandbox
+    FileUtils::mkdir $sandbox
+  end
+
+  config.after(:each) do
+    FileUtils::rm_rf $sandbox
+  end
+
+end
