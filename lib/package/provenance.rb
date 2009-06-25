@@ -25,8 +25,19 @@ module Provenance
 
   def retrieve_rxp_provenance
     s_url = "http://localhost:7000/provenance/rxp?location=#{CGI::escape @url.to_s}"
-    rxp_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
-    add_rxp_md rxp_doc
+    
+      response = Net::HTTP.get_response URI.parse(s_url)
+      
+      case response
+      when Net::HTTPSuccess
+        rxp_doc = XML::Parser.string(response.body).parse
+        add_rxp_md rxp_doc      
+      when Net::HTTPNotFound
+        # XXX do nothing, no rxp data here, possibly want to write we tried
+      else
+        raise "cannot retrieve RXP provenance: #{response.code} #{response.msg}: #{r.body}"
+      end    
+
   end
   
   def representations_retrieved?
