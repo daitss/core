@@ -51,13 +51,14 @@ class Aip
         
     # write the data
     final_path = if fpath
-      raise 'file paths must be relative' if fpath =~ %r{/}
+      raise 'file paths must be relative' if fpath =~ %r{^/}
       fpath
     else
       new_file_path
     end
 
     abs_path = File.join files_dir, final_path
+    FileUtils::mkdir_p File.dirname(abs_path)
     open(abs_path, "w") { |final_io| final_io.write io.read }
 
     # update the descriptor
