@@ -11,7 +11,7 @@ module Plan
     
   end
   
-  def plan
+  def plan!
     obj_file = md_files_for(:tech).first
     s_url = "http://localhost:4000/instructions?description=#{CGI::escape "file:#{obj_file}" }"
     response = Net::HTTP.get_response URI.parse(s_url)

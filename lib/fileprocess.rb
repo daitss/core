@@ -5,8 +5,8 @@ module FileProcess
   def process!
 
     begin
-      describe unless described?
-      plan unless planned?
+      describe! unless described?
+      plan! unless planned?
 
       transformations.each do |t|
         t.perform!

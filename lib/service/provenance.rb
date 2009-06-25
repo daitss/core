@@ -14,7 +14,7 @@ module Provenance
     end
   end
 
-  def retrieve_provenance
+  def retrieve_provenance!
     s_url = "http://localhost:7000/provenance/events?location=#{CGI::escape @url.to_s}"
     extp_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
     add_md :digiprov, extp_doc
@@ -24,7 +24,7 @@ module Provenance
     File.exist? rxp_md_file
   end
 
-  def retrieve_rxp_provenance
+  def retrieve_rxp_provenance!
     s_url = "http://localhost:7000/provenance/rxp?location=#{CGI::escape @url.to_s}"    
     response = Net::HTTP.get_response URI.parse(s_url)
 
@@ -49,7 +49,7 @@ module Provenance
     
   end
   
-  def retrieve_representations
+  def retrieve_representations!
     
     s_url = "http://localhost:7000/provenance/representations?location=#{CGI::escape to_s }"
     premis_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
