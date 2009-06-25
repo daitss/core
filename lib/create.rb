@@ -24,7 +24,7 @@ class Aip
     
     Dir.chdir sip_path do
       # TODO handle arbitrary nested dirs (**/*)?
-      sip_files = Dir['*'].select { |f| File.file? f }
+      sip_files = Dir['**/*'].select { |f| File.file? f }
       sip_files.each do |f| 
         open(f) { |io| aip.add_file io, f } 
       end

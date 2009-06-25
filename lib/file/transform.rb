@@ -37,6 +37,10 @@ module Transform
       XML::Parser.string(raw).parse
     end
     
+    def to_s
+      @url
+    end
+    
   end
   
   class Migration < Transformation

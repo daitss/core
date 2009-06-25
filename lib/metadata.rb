@@ -33,9 +33,31 @@ module Metadata
     Dir[pattern]
   end
   
-  # Retruns a list of xml documents for the specified type
+  # Returns a list of xml documents for the specified type
   def md_for type
     md_files_for(type).map { |f| XML::Parser.file(f).parse }
+  end
+    
+  # Adds an RXP meta data record, overwrites if already present
+  def add_rxp_md doc
+    raise "must be a PREMIS document" unless doc.root.namespaces.namespace.to_s == NS_MAP['premis']
+    
+    md_file = File.join md_dir, "rxp.xml"
+    raise 'cannot write metadata, file already exists #{md_file}' if File.exist? md_file
+    doc.save md_file
+    
+    # reference the file in the aip descriptor
+    des_doc = XML::Parser.file(descriptor_file).parse
+    amdSec = des_doc.find_first("//mets:amdSec", NS_MAP)
+    md_ref = make_md_ref(:digiprov, md_file, des_doc)
+    md_ref["TYPE"] = 'PREMIS'
+    md_ref["LABEL"] = 'RXP'
+    amdSec << md_ref
+    des_doc.save descriptor_file
+  end
+  
+  def rxp_md_file
+    File.join md_dir, "rxp.xml"
   end
     
   protected

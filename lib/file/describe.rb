@@ -42,4 +42,12 @@ module Describe
     add_md :digiprov, dp_doc
   end
   
+  def format_known?
+    
+    not md_for(:tech).any? do |doc|
+      doc.find_first("//premis:formatName[normalize-space(.)='unknown']", NS_MAP)
+    end
+    
+  end
+  
 end
