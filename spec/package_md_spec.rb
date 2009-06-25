@@ -20,14 +20,14 @@ describe Aip do
   it "should collect incoming provenance" do
     aip = aip_instance 'preexisting-digiprov'
     aip.should_not be_provenance_retrieved
-    lambda { aip.retrieve_provenance }.should_not raise_error
+    aip.retrieve_provenance
     aip.should be_provenance_retrieved
   end
 
   it "should collect incoming tipr provenance" do
     aip = aip_instance_from_sip 'rxp'
     aip.should_not be_rxp_provenance_retrieved
-    lambda { aip.retrieve_rxp_provenance }.should_not raise_error
+    aip.retrieve_rxp_provenance
     aip.should be_rxp_provenance_retrieved
     aip.should_not be_provenance_retrieved
   end

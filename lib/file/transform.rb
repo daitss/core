@@ -23,7 +23,6 @@ module Transform
 
     # Return a yield io objects to this new data
     def data
-      puts @links.inspect
       @links.each do |link|
         fname = File.basename URI.parse(link).path
         open(link) { |io| yield io, fname }
