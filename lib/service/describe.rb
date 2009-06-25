@@ -11,7 +11,7 @@ module Describe
 
   end
   
-  def describe
+  def describe!
     s_url = "http://localhost:7000/description/describe?location=#{CGI::escape to_s }"
     response = Net::HTTP.get_response URI.parse(s_url)
     

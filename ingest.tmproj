@@ -16,7 +16,7 @@
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>177</integer>
+	<integer>204</integer>
 	<key>metaData</key>
 	<dict/>
 	<key>shellVariables</key>
@@ -33,6 +33,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{621, 28}, {737, 811}}</string>
+	<string>{{265, 178}, {879, 815}}</string>
 </dict>
 </plist>

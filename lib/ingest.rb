@@ -3,14 +3,14 @@ module Ingest
   def ingest!
     
     begin
-      validate unless validated?
-      retrieve_provenance unless provenance_retrieved?
-      retrieve_rxp_provenance unless rxp_provenance_retrieved?
-      retrieve_representations unless representations_retrieved?
+      validate! unless validated?
+      retrieve_provenance! unless provenance_retrieved?
+      retrieve_rxp_provenance! unless rxp_provenance_retrieved?
+      retrieve_representations! unless representations_retrieved?
       files.each { |f| f.process! }
-      store
+      store!
       save_to_db
-      flush_files
+      flush_files!
     rescue Reject => e
       write_reject_info e
     rescue => e
@@ -19,7 +19,7 @@ module Ingest
     
   end
 
-  def store
+  def store!
     # TODO
   end
   
@@ -27,7 +27,7 @@ module Ingest
     # TODO
   end
 
-  def flush_files
+  def flush_files!
     # TODO
   end
 
