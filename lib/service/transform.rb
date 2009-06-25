@@ -1,3 +1,5 @@
+require 'service/error'
+
 module Transform
   
   class Transformation
@@ -12,7 +14,14 @@ module Transform
     # Perform the transformation via the service
     def perform!
       s_url = "#{@url}?location=#{CGI::escape @src.url.to_s}"
-      xform_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
+      
+      response = Net::HTTP.get_response URI.parse(s_url)
+      xform_doc = case response
+                  when Net::HTTPSuccess
+                    XML::Parser.string(response.body).parse
+                  else
+                    raise ServiceError, "cannot perform transformation: #{response.code} #{response.msg}: #{response.body}"
+                  end
       
       @links = xform_doc.find('/links/link').map do |node| 
         relative_url = node.content.strip
@@ -55,22 +64,27 @@ module Transform
     ap_doc = md_for(:digiprov).find do |doc|
       doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
     end
-    
-    ap_event = ap_doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
-    
-    ap_event.find("//premis:eventOutcomeDetailExtension/*[premis:transformation]", NS_MAP).map do |node|
-      t_url = node.find_first("premis:transformation", NS_MAP).content.strip
-      
-      case node.name
-      when 'migration'
-        Migration.new t_url, self
-        
-      when 'normalization'
-        Normalization.new t_url, self
-      else
-        raise "unknown transformation type #{node.name}"
+
+    if ap_doc    
+      ap_event = ap_doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
+
+      ap_event.find("//premis:eventOutcomeDetailExtension/*[premis:transformation]", NS_MAP).map do |node|
+        t_url = node.find_first("premis:transformation", NS_MAP).content.strip
+
+        case node.name
+        when 'migration'
+          Migration.new t_url, self
+
+        when 'normalization'
+          Normalization.new t_url, self
+        else
+          raise "unknown transformation type #{node.name}"
+        end
+
       end
       
+    else
+      []
     end
     
   end

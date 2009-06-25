@@ -6,8 +6,8 @@ require 'create'
 require 'file'
 require 'metadata'
 require 'ingest'
-require 'package/validate'
-require 'package/provenance'
+require 'service/validate'
+require 'service/provenance'
 require 'next'
 
 # File System based AIP

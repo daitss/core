@@ -12,8 +12,8 @@
 			<eventOutcome>failure</eventOutcome>
 			<eventOutcomeDetail>
 				<eventOutcomeDetailNote>
-          <%= e.message %>
-          <%= e.backtrace.join "\n" %>
+          <%= h e.message %>
+          <%= h e.backtrace.join("\n") %>
 				</eventOutcomeDetailNote>
 			</eventOutcomeDetail>
 		</eventOutcomeInformation>

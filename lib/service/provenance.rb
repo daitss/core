@@ -1,5 +1,6 @@
 require 'cgi'
 require 'libxml'
+require "service/error"
 
 include LibXML
 
@@ -24,19 +25,18 @@ module Provenance
   end
 
   def retrieve_rxp_provenance
-    s_url = "http://localhost:7000/provenance/rxp?location=#{CGI::escape @url.to_s}"
-    
-      response = Net::HTTP.get_response URI.parse(s_url)
-      
-      case response
-      when Net::HTTPSuccess
-        rxp_doc = XML::Parser.string(response.body).parse
-        add_rxp_md rxp_doc      
-      when Net::HTTPNotFound
-        # XXX do nothing, no rxp data here, possibly want to write we tried
-      else
-        raise "cannot retrieve RXP provenance: #{response.code} #{response.msg}: #{r.body}"
-      end    
+    s_url = "http://localhost:7000/provenance/rxp?location=#{CGI::escape @url.to_s}"    
+    response = Net::HTTP.get_response URI.parse(s_url)
+
+    case response
+    when Net::HTTPSuccess
+      rxp_doc = XML::Parser.string(response.body).parse
+      add_rxp_md rxp_doc      
+    when Net::HTTPNotFound
+      # XXX do nothing, no rxp data here, possibly want to write we tried
+    else
+      raise ServiceError, "cannot retrieve RXP provenance: #{response.code} #{response.msg}: #{response.body}"
+    end    
 
   end
   
