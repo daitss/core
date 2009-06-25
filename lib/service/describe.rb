@@ -13,7 +13,14 @@ module Describe
   
   def describe
     s_url = "http://localhost:7000/description/describe?location=#{CGI::escape to_s }"
-    premis_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
+    response = Net::HTTP.get_response URI.parse(s_url)
+    
+    premis_doc = case response
+    when Net::HTTPSuccess
+      XML::Parser.string(response.body).parse
+    else
+      raise ServiceError, "cannot describe file: #{response.code} #{response.msg}: #{response.body}"
+    end
 
     # objects
     obj_doc = XML::Document.new

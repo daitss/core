@@ -7,7 +7,7 @@
     <eventIdentifierType>URI</eventIdentifierType>
     <eventIdentifierValue>info:fcla/da/test-package/event1</eventIdentifierValue>
   </eventIdentifier>
-  <eventType>SIP Validation</eventType>
+  <eventType>SIP passed all validation checks</eventType>
   <eventDateTime>2008-05-06T10:40:22-04:00</eventDateTime>
   <eventOutcomeInformation>
     <eventOutcome>success</eventOutcome>

@@ -36,26 +36,26 @@ describe Aip do
   it "should store copies"
   
   it "should know if it is currently rejected" do
-    pending "reject file is written by ingest script"
     aip = aip_instance 'invalid-descriptor'
-    lambda { aip.ingest! }.should raise_error(Reject)
+    aip.ingest!
     aip.should be_rejected
   end
   
-  it "should know if it is currently ingested" do
-    pending
-    aip = aip_instance 'good'
-    aip.ingest! 
-    aip.should_not be_rejected
-    aip.should_not be_snafu
-  end
-  
   it "should know if it is currently snafu" do
-    pending "we need a test stack to make a snafu"
+    pending "need to work dummy into the configuration, but lets configure later"
     aip = aip_instance 'good'
     aip.ingest!
     aip.should be_snafu
   end
   
-  it "handle arbitrary nested dirs (**/*)"
+  it "should continue an incomplete ingest" do
+    xpath = "//premis:event[premis:eventType[normalize-space(.)='SIP passed all validation checks']]"
+    aip = aip_instance 'incomplete'
+    aip.should be_validated
+    pre_size = aip.md_for(:digiprov).select { |doc| doc.find_first(xpath, NS_MAP) }.size    
+    aip.ingest!
+    post_size = aip.md_for(:digiprov).select { |doc| doc.find_first(xpath, NS_MAP) }.size
+    post_size.should == pre_size
+  end
+  
 end

@@ -20,7 +20,7 @@ end
 DAITSS_WORKSPACE = ENV['DAITSS_WORKSPACE']
 
 if ARGV.empty?
-  puts "sip path is required"
+  puts "sip is required"
   exit 2
 end
 
