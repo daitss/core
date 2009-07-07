@@ -29,10 +29,18 @@
 			<key>variable</key>
 			<string>RUBYLIB</string>
 		</dict>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<string>/tmp</string>
+			<key>variable</key>
+			<string>DAITSS_WORKSPACE</string>
+		</dict>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{265, 178}, {879, 815}}</string>
+	<string>{{522, 67}, {879, 811}}</string>
 </dict>
 </plist>
