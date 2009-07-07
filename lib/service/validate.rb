@@ -1,6 +1,7 @@
 require 'cgi'
 require 'libxml'
 require 'namespace'
+require 'net/http'
 require 'open-uri'
 
 include LibXML
@@ -22,7 +23,22 @@ module Validate
 
   def validate!
     s_url = "http://localhost:7000/validation/results?location=#{CGI::escape @url.to_s}"
-    val_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
+        
+    u = URI.parse s_url
+    req = Net::HTTP::Get.new u.request_uri
+    response = Net::HTTP.start(u.host, u.port) do |http|
+      http.read_timeout = 10 * 60
+      http.request(req)
+    end
+    
+    val_doc = case response
+    when Net::HTTPSuccess
+      XML::Parser.string(response.body).parse
+    else
+      raise "cannot validate aip: #{response.code} #{response.msg}: #{response.body}"
+    end
+    
+    
     add_md :digiprov, val_doc
 
     # reject if needed
