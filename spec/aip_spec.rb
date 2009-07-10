@@ -54,10 +54,19 @@ describe Aip do
     aip.should be_validated
     pre_size = aip.md_for(:digiprov).select { |doc| doc.find_first(xpath, NS_MAP) }.size    
     aip.ingest!
+    aip.should_not be_snafu
     post_size = aip.md_for(:digiprov).select { |doc| doc.find_first(xpath, NS_MAP) }.size
     aip.should be_validated
     post_size.should == pre_size
   end
+
+  it "should write the descriptor to the database" do
+    aip = aip_instance 'good'
+    aip.ingest!
+    aip.should_not be_snafu
+    lambda { air = AipResource.get! File.basename(aip.path)}.should_not raise_error(ObjectNotFoundError)
+  end
+
   
   it "should clean itself up" do
     aip = aip_instance_from_sip 'ateam'
