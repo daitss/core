@@ -8,6 +8,7 @@ require 'metadata'
 require 'ingest'
 require 'service/validate'
 require 'service/provenance'
+require 'service/store'
 require 'next'
 
 # File System based AIP
@@ -19,6 +20,7 @@ class Aip
   include Ingest
   include Validate
   include Provenance
+  include Store
   
   def initialize url
     @url = URI.parse url
@@ -135,6 +137,10 @@ class Aip
     end
     
   end  
+  
+  def cleanup!
+    FileUtils::rm_r path
+  end
   
   protected
   

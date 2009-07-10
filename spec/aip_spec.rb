@@ -55,7 +55,14 @@ describe Aip do
     pre_size = aip.md_for(:digiprov).select { |doc| doc.find_first(xpath, NS_MAP) }.size    
     aip.ingest!
     post_size = aip.md_for(:digiprov).select { |doc| doc.find_first(xpath, NS_MAP) }.size
+    aip.should be_validated
     post_size.should == pre_size
+  end
+  
+  it "should clean itself up" do
+    aip = aip_instance_from_sip 'ateam'
+    aip.cleanup!
+    File.exist?(aip.path).should == false
   end
   
 end
