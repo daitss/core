@@ -12,7 +12,7 @@ module FileProcess
         t.perform!
 
         t.data do |io, fname| 
-          new_file = add_file io, fname
+          new_file = @aip.add_file io, fname
           new_file.add_md :tech, t.metadata
           new_file.describe unless described?
         end

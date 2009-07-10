@@ -1,0 +1,8 @@
+#!/bin/sh
+
+sandbox=$(mktemp -d -t silo.test)
+pushd ../store
+ruby -Ilib bin/disk-server --silo one:$sandbox
+popd
+chmod -R +w $sandbox
+rm -rf $sandbox

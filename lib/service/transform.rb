@@ -1,3 +1,4 @@
+require 'template'
 require 'service/error'
 
 module Transform

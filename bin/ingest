@@ -1,5 +1,7 @@
 #!/usr/bin/ruby
 
+$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+
 require 'aip'
 
 raise "package url is required" if ARGV.empty?

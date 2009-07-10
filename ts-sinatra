@@ -1,5 +1,7 @@
-require 'rack'
+#!/usr/bin/ruby
+ENV["PATH"] = "/Applications/ffmpegX.app/Contents/Resources:#{ENV["PATH"]}"
 
+require 'rack'
 
 # validation & provenance
 $:.unshift File.join('..', 'validate-service', 'lib')
@@ -57,6 +59,7 @@ test_stack = Rack::Builder.new do
      use Rack::Lint
      run Dummy.new
    end
+   
 end
 
 thin = Rack::Handler::Thin
