@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'aip'
 require 'dm-core'
+require "libxml"
 
 describe Aip do
   
@@ -73,6 +74,23 @@ describe Aip do
     aip = aip_instance_from_sip 'ateam'
     aip.cleanup!
     File.exist?(aip.path).should == false
+  end
+  
+  it "should compact the descriptor" do
+    pending 'wip'
+    xpath = "//mets:amdSec/*/mets:mdWrap"
+    
+    aip = aip_instance_from_sip 'ateam'
+    aip.ingest!
+    
+    aip.should_not be_snafu
+    aip.should_not be_rejected
+    
+    doc = LibXML::XML::Document.file aip.descriptor_file
+    
+    (doc.find xpath, NS_MAP).length.should == 10
+    
+    
   end
   
 end
