@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'aip'
+require 'dm-core'
 
 describe Aip do
   
@@ -48,7 +49,7 @@ describe Aip do
     aip.should be_snafu
   end
   
-  it "should continue an incomplete ingest" do
+  it "should continue an incomplete ingest (pick up where it left off)" do
     xpath = "//premis:event[premis:eventType[normalize-space(.)='SIP passed all validation checks']]"
     aip = aip_instance 'incomplete'
     aip.should be_validated
@@ -64,7 +65,7 @@ describe Aip do
     aip = aip_instance 'good'
     aip.ingest!
     aip.should_not be_snafu
-    lambda { air = AipResource.get! File.basename(aip.path)}.should_not raise_error(ObjectNotFoundError)
+    lambda { air = AipResource.get! File.basename(aip.path)}.should_not raise_error(DataMapper::ObjectNotFoundError)
   end
 
   
