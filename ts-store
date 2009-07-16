@@ -1,6 +1,7 @@
 #!/bin/sh
 
-sandbox=$(mktemp -d -t silo.test)
+sandbox=/tmp/silo_sandbox #$(mktemp -d -t silo.test)
+mkdir -p $sandbox
 pushd ../store
 ruby -Ilib bin/disk-server --silo one:$sandbox
 popd

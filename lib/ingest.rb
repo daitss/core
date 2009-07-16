@@ -1,3 +1,5 @@
+require "aip_record"
+
 module Ingest
 
   def ingest!
@@ -28,7 +30,7 @@ module Ingest
 
   def save_to_db!
     xml_blob = open(descriptor_file) { |io| io.read }    
-    air = AipRecord.new :name => File.basename(path), :blob => xml_blob, :needs_work => true
+    air = AipRecord.new :name => File.basename(path), :xml => xml_blob, :needs_work => true
     air.save
   end
   
