@@ -45,8 +45,6 @@ class Bitstream
   belongs_to :datafile # a bitstream is belong to a datafile
 end
 
-
-
 class FormatProperty
   include DataMapper::Resource
   property :name, String
@@ -66,8 +64,8 @@ end
 class Image
   include DataMapper::Resource
   property :id, String, :key => true, :length => 16
-  property :width, Integer
-  property :height, Integer
+  property :width, Integer # positive integer, TODO min = 0
+  property :height, Integer  # positive int, TODO min = 0
   property :compressionScheme, Enum[:Uncompressed, :CCITT_Group_4, :LZW, :JPEG_BasedlineSequential, 
     :JPEG_2000_Lossy, :JPEG_2000_Lossless, :JBIG2, :Deflate_zlib]
   property :colorspace, Enum[:WhiteIsZero, :BlackIsZero, :RGB, :PaletteColor, :TransparencyMask, 
@@ -76,11 +74,11 @@ class Image
   property :orientation, Enum[:normal, :flipped, :rotated_180, :flipped_rotated_180, :flipped_rotated_cw_90,
     :rotated_ccw_90, :flipped_rotated_ccw_90, :rotated_cw_90, :unknown], :default => :unknown
   property :sample_frequency_unit, Enum[:no_absolute_unit_of_measurement, :in, :centimeter]
-  property :x_sampling_frequency, Integer
-  property :y_sample_frequency, Integer
-  property :bits_per_sample, Integer
-  property :samples_per_pixel, Integer
-  property :extra_samples, Integer
+  property :x_sampling_frequency, Float
+  property :y_sampling_frequency, Float
+  property :bits_per_sample, Integer # positive int, TODO min = 0
+  property :samples_per_pixel, Integer # positive int, TODO min = 0
+  property :extra_samples, String
   
   belongs_to :p_object, :child_key => [:id] # Image is associated with a PObject (either Datafile or Bitstream).
 end
@@ -155,10 +153,14 @@ end
 
 class Representation
   include DataMapper::Resource  
+  property :id, String, :key => true, :length => 16
   property :name, String
   property :namespace, Enum[:local]
   
+  belongs_to :p_object , :child_key => [:id]
+    # Representation is inherited from PObject by sharing the same id.
   belongs_to :intentity
+    # representation is part of an int entity
   has n, :datafiles
 end
 
@@ -170,7 +172,10 @@ class Event
   property :outcome, String
   property :detail, String  
   
-  belongs_to :agents # an event must be associated with an agent
+  belongs_to :p_object
+   # the PObject (datafile, bitstream, prepresentation) that associated with the event
+  belongs_to :agents 
+   # an event must be associated with an agent
 end
 
 class Agent
