@@ -2,7 +2,8 @@ require 'dm-core'
 require 'dm-types'
 
 #DataMapper.setup(:default, 'sqlite3::memory:')
-DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/test.db")
+#DataMapper.setup(:default, "sqlite3:///#{Dir.pwd}/test.db")
+DataMapper.setup(:default, 'mysql://root@localhost/daitss2')
 
 class Datafile
   include DataMapper::Resource

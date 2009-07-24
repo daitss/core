@@ -12,7 +12,7 @@ class PObject
   property :format_designation_name, String # format name, ex: "TIFF"
   property :format_designation_version, String # version, ex: "5.0"
   property :format_registry, String # ex. pronom_name/formatid, 
-  # ex: "http://www.nationalarchives.gov.uk/pronom/fmt/10"
+    # ex: "http://www.nationalarchives.gov.uk/pronom/fmt/10"
   property :type, Discriminator
 end
 

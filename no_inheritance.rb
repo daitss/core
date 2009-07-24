@@ -5,12 +5,6 @@ require 'dm-types'
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, 'mysql://root@localhost/daitss2')
 
-class PObject
-  include DataMapper::Resource
-  property :id, String, :key => true, :length => 16
-  property :type, Enum[:Datafile, :Bitstream], :nullable => false
-end
-
 class Datafile 
   include DataMapper::Resource
   property :id, String, :key => true, :length => 16
@@ -26,8 +20,6 @@ class Datafile
     # map from package_path + file_title + file_ext
   property :creator_prog, String, :length => (0..255)
 
-  belongs_to :p_object , :class_name => 'PObject', :child_key => [:id] 
-    # Datafile is inherited from PObject by sharing the same id.
   has 0..n, :bitstream # a datafile may contain 0-n bitstream(s)
 end
 
@@ -40,13 +32,12 @@ class Bitstream
   property :format_registry, String # ex. pronom_name/formatid 
   # ex: "http://www.nationalarchives.gov.uk/pronom/fmt/10"
 
-  belongs_to :p_object , :child_key => [:id]
-    # Bitstream is inherited from PObject by sharing the same id.
   belongs_to :datafile # a bitstream is belong to a datafile
 end
 
 class FormatProperty
   include DataMapper::Resource
+  property :id, Serial, :key => true
   property :name, String
   property :value, String
   
@@ -55,6 +46,7 @@ end
 
 class SevereElement
   include DataMapper::Resource
+  property :id, Serial, :key => true
   property :name, String
   property :type, Enum[:inhibitor, :anomaly]
   
@@ -63,7 +55,7 @@ end
 
 class Image
   include DataMapper::Resource
-  property :id, String, :key => true, :length => 16
+  property :id, Serial, :key => true
   property :width, Integer # positive integer, TODO min = 0
   property :height, Integer  # positive int, TODO min = 0
   property :compressionScheme, Enum[:Uncompressed, :CCITT_Group_4, :LZW, :JPEG_BasedlineSequential, 
@@ -80,24 +72,35 @@ class Image
   property :samples_per_pixel, Integer # positive int, TODO min = 0
   property :extra_samples, String
   
-  belongs_to :p_object, :child_key => [:id] # Image is associated with a PObject (either Datafile or Bitstream).
+  belongs_to :datafile, :index => true # Image may be associated with a Datafile, 
+     # null if the image is associated with a bitstream
+  belongs_to :bitstream, :index => true # Image may be associated with a bitstream, 
+     # null if the image is associated with a datafile
+  # TODO: need to make sure either dfid or bsid is not null.
 end
 
 class Audio
   include DataMapper::Resource
-  property :id, String, :key => true, :length => 16
-  property :sampling_frequency, Integer
-  property :bit_depth, Integer
-  property :channels, Integer
+  property :id, Serial, :key => true
+  property :encoding, String
+  property :sampling_frequency, Float
+  property :bit_depth, Integer # TODO positive int
+  property :channels, Integer # TODO positive int
   property :duration, Integer
   property :channel_map, String
   
-  belongs_to :p_object, :child_key => [:id]   # Audio is associated with a PObject (either Datafile or Bitstream).
+  belongs_to :datafile # Audio may be associated with a Datafile, 
+    # null if the audio is associated with a bitstream
+  belongs_to :bitstream # Audio may be associated with a bitstream, 
+    # null if the audio is associated with a datafile
+  # TODO: need to make sure either dfid or bsid is not null.
 end
 
 class Text
   include DataMapper::Resource
-  property :id, String, :key => true, :length => 16
+  property :id, Serial, :key => true
+  property :dfid, String, :key => true, :length => 16
+  property :bsid, String, :key => true, :length => 16
   property :charset, String
   property :byte_order, Enum[:little, :big, :middle, :unknown]
   property :byte_size, Integer
@@ -110,12 +113,18 @@ class Text
   property :pageSequence, Enum[:reading_order, :inverse_reading_order]
   property :lineOrientation, Enum[:vertical, :horizontal]
   
-  belongs_to :p_object, :child_key => [:id]  # Text is associated with a PObject (either Datafile or Bitstream).
+  belongs_to :datafile # Text may be associated with a Datafile, 
+    # null if the text is associated with a bitstream
+  belongs_to :bitstream # Text may be associated with a bitstream, 
+    # null if the text is associated with a datafile
+  # TODO: need to make sure either dfid or bsid is not null.
 end
 
 class Document
   include DataMapper::Resource
-  property :id, String, :key => true, :length => 16
+  property :id, Serial, :key => true
+  property :dfid, String, :key => true, :length => 16
+  property :bsid, String, :key => true, :length => 16
   property :pageCount, Integer
   property :wordCount, Integer
   property :characterCount, Integer
@@ -127,12 +136,17 @@ class Document
   property :features, Flag[:isTagged, :hasOutline, :hasThumbnails, :hasLayers, :hasForms, 
     :hasAnnotations, :hasAttachments, :useTransparency]
   
-  has n, :fonts # A document can contain 0-n fonts
-  belongs_to :p_object, :child_key => [:id]  # Document is associated with a PObject (either Datafile or Bitstream).
+  has 0..n, :fonts # A document can contain 0-n fonts
+  belongs_to :datafile # Text may be associated with a Datafile, 
+      # null if the document is associated with a bitstream
+  belongs_to :bitstream # Text may be associated with a bitstream, 
+      # null if the document is associated with a datafile
+  # TODO: need to make sure either dfid or bsid is not null.
 end
 
 class Font
   include DataMapper::Resource
+  property :id, Serial, :key => true
   property :fontname, String
   property :embedded, Boolean
   
@@ -148,7 +162,7 @@ class Intentity
   property :issue, String
   property :title, Text
   
-  has n, :representations
+  has 1..n, :representations
 end
 
 class Representation
@@ -156,12 +170,10 @@ class Representation
   property :id, String, :key => true, :length => 16
   property :name, String
   property :namespace, Enum[:local]
-  
-  belongs_to :p_object , :child_key => [:id]
-    # Representation is inherited from PObject by sharing the same id.
+
   belongs_to :intentity
     # representation is part of an int entity
-  has n, :datafiles
+  has 1..n, :datafiles
 end
 
 class Event
@@ -172,8 +184,6 @@ class Event
   property :outcome, String
   property :detail, String  
   
-  belongs_to :p_object
-   # the PObject (datafile, bitstream, prepresentation) that associated with the event
   belongs_to :agents 
    # an event must be associated with an agent
 end
@@ -184,7 +194,7 @@ class Agent
   property :name, String
   property :type, String
   
-  has n, :events # an agent can create 0-n events.
+  has 0..n, :events # an agent can create 0-n events.
 end
 
 DataMapper::auto_migrate!
