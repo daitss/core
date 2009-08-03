@@ -108,9 +108,9 @@ class Audio
   property :channel_map, String
     # channel mapping, mono, stereo, etc, TBD
     
-  belongs_to :datafile # Audio may be associated with a Datafile, 
+  belongs_to :datafile, :index => true  # Audio may be associated with a Datafile, 
     # null if the audio is associated with a bitstream
-  belongs_to :bitstream # Audio may be associated with a bitstream, 
+  belongs_to :bitstream, :index => true  # Audio may be associated with a bitstream, 
     # null if the audio is associated with a datafile
   # TODO: need to make sure either dfid or bsid is not null.
 end
@@ -118,8 +118,6 @@ end
 class Text
   include DataMapper::Resource
   property :id, Serial, :key => true
-  property :dfid, String, :key => true, :length => 16
-  property :bsid, String, :key => true, :length => 16
   property :charset, String 
     # character set employed by the text, see http://www.iana.org/assignments/character-sets
   property :byte_order, Enum[:little, :big, :middle, :unknown] 
@@ -143,9 +141,9 @@ class Text
   property :lineOrientation, Enum[:vertical, :horizontal]
     # The orientation of the lines on the page
   
-  belongs_to :datafile # Text may be associated with a Datafile, 
+  belongs_to :datafile, :index => true  # Text may be associated with a Datafile, 
     # null if the text is associated with a bitstream
-  belongs_to :bitstream # Text may be associated with a bitstream, 
+  belongs_to :bitstream, :index => true  # Text may be associated with a bitstream, 
     # null if the text is associated with a datafile
   # TODO: need to make sure either dfid or bsid is not null.
 end
@@ -153,8 +151,6 @@ end
 class Document
   include DataMapper::Resource
   property :id, Serial, :key => true
-  property :dfid, String, :key => true, :length => 16
-  property :bsid, String, :key => true, :length => 16
   property :pageCount, Integer 
     # total number of pages in the document
   property :wordCount, Integer 
@@ -170,9 +166,9 @@ class Document
     # additional document features.
     
   has 0..n, :fonts # A document can contain 0-n fonts
-  belongs_to :datafile # Text may be associated with a Datafile, 
+  belongs_to :datafile, :index => true  # Text may be associated with a Datafile, 
       # null if the document is associated with a bitstream
-  belongs_to :bitstream # Text may be associated with a bitstream, 
+  belongs_to :bitstream, :index => true  # Text may be associated with a bitstream, 
       # null if the document is associated with a datafile
   # TODO: need to make sure either dfid or bsid is not null.
 end
@@ -215,7 +211,7 @@ end
 
 class Agent
   include DataMapper::Resource
-  property :id, String
+  property :id, String, :key => true
   property :name, String
   property :type, String
   
@@ -276,5 +272,10 @@ class DatafileEvent
   has n, :datafiles, :through => :datafile_event_links, :mutable => true
 
 end
+# 
+# class Relationship
+#   include DataMapper::Resource
+#   property :df
+# end
 
 DataMapper::auto_migrate!
