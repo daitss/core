@@ -26,7 +26,6 @@ class AIP2DB < Sinatra::Base
     puts "post"
 
     # read in the posted AIP descriptor
-    # puts params[:data][:tempfile].readlines
     puts params[:data][:tempfile]
     XML.default_keep_blanks = false
     doc = XML::Document.io params[:data][:tempfile]

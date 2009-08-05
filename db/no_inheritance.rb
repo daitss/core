@@ -21,6 +21,8 @@ class Datafile
   property :creator_prog, String, :length => (0..255)
 
   has 0..n, :bitstream # a datafile may contain 0-n bitstream(s)
+  has 0..n, :format_property # a datafile may contain 0-n additional format properties
+  has 0..n, :severe_element # a datafile may contain 0-n severe_elements
   has n, :datafile_event_links
   has n, :datafile_events, :through => :datafile_event_links, :mutable => true
 end
@@ -189,7 +191,7 @@ class Intentity
   property :id, String, :key => true, :length => 16
   property :original_name, String
   property :entity_id, String
-  property :volumn, String
+  property :volume, String
   property :issue, String
   property :title, Text
   
@@ -213,7 +215,7 @@ class Agent
   include DataMapper::Resource
   property :id, String, :key => true
   property :name, String
-  property :type, String
+  property :type, String # ex. software/person/organization
   
   has 0..n, :intentity_events # an agent can create 0-n int entity events.
   has 0..n, :representation_events # an agent can create 0-n  representation events.
@@ -225,8 +227,9 @@ class IntentityEvent
   property :id, String, :key => true, :length => 16
   property :type, Enum[:submit, :validate, :ingest, :disseminate, :withdraw, :fixitycheck]
   property :datetime, DateTime
-  property :outcome, String
-  property :details, String  
+  property :details, String # additional detail information about the event
+  property :outcome, String  # ex. sucess, failed.  TODO:change to Enum.
+  property :outcome_details, String  # additional information about the event outcome.
   
   belongs_to :agent
    # an event must be associated with an agent
@@ -238,10 +241,10 @@ end
 class RepresentationEvent
   include DataMapper::Resource
   property :id, String, :key => true, :length => 16
-  property :type, String # TODO: 
+  property :type, String # TODO: type?
   property :datetime, DateTime
-  property :outcome, String
-  property :details, String  
+  property :outcome, String  # TODO: determine representation event come.    TODO:change to Enum.
+  property :details, String  # additional information about the event outcome.
   
   belongs_to :agent
     # an event must be associated with an agent
@@ -260,22 +263,30 @@ end
 class DatafileEvent
   include DataMapper::Resource
   property :id, String, :key => true, :length => 16
-  property :type, Enum[:describe, :actionPlan, :migrate, :normalize] # or use transform?
+  property :type, Enum[:describe, :migrated_from, :normalized_from, :fixitycheck] # or use transform?
+  # if checksum is provided in the SIP and pass the fixity check, a fixitycheck event will be
+  # recorded.
+  # migration and normalization events will be created on the transformed_to datafile.
   property :datetime, DateTime
-  property :outcome, String
-  property :details, String  
+  property :outcome, String # ex. sucess, failed, welformed and valid?, any other?   TODO:change to Enum.
+  property :details, String # additional information about the event outcome.
   
   belongs_to :agents 
    # an event must be associated with an agent
    
   has n, :datafile_event_links
   has n, :datafiles, :through => :datafile_event_links, :mutable => true
-
 end
-# 
-# class Relationship
-#   include DataMapper::Resource
-#   property :df
-# end
+
+class Relationship
+  include DataMapper::Resource
+  property :dfid1, String, :key => true, :length => 16
+  property :type, Enum[:migrated_to, :normalized_to, :unknown]
+  property :dfid2, String, :length => 16
+
+  belongs_to :datafile_event
+  # the relationship table only describe derivative relationship.  Whole-part relationship is denoted
+  # by the has and belongs_to associations.
+end
 
 DataMapper::auto_migrate!
