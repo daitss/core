@@ -1,7 +1,9 @@
 require 'spec_helper'
 require 'aip'
 require 'dm-core'
+
 require "libxml"
+include LibXML
 
 describe Aip do
   
@@ -68,7 +70,6 @@ describe Aip do
     aip.should_not be_snafu
     lambda { air = AipResource.get! File.basename(aip.path)}.should_not raise_error(DataMapper::ObjectNotFoundError)
   end
-
   
   it "should clean itself up" do
     aip = aip_instance_from_sip 'ateam'
@@ -76,21 +77,16 @@ describe Aip do
     File.exist?(aip.path).should == false
   end
   
-  it "should compact the descriptor" do
-    pending 'wip'
-    xpath = "//mets:amdSec/*/mets:mdWrap"
-    
+  it "should compact the descriptor into a single file" do
     aip = aip_instance_from_sip 'ateam'
     aip.ingest!
-    
     aip.should_not be_snafu
     aip.should_not be_rejected
     
-    doc = LibXML::XML::Document.file aip.descriptor_file
+    doc = XML::Document.file aip.descriptor_file
     
-    (doc.find xpath, NS_MAP).length.should == 10
-    
-    
+    (doc.find '//mets:amdSec/*/mets:mdWrap', NS_MAP).should_not be_empty
+    (doc.find '//mets:amdSec/*/mets:mdRef', NS_MAP).should be_empty
   end
   
 end
