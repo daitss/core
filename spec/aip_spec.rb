@@ -11,7 +11,7 @@ describe Aip do
     aip = aip_instance_from_sip 'ateam'
     aip.files.size.should == 2
     
-    doc = XML::Parser.file(aip.descriptor_file).parse
+    doc = XML::Parser.file(aip.poly_descriptor_file).parse
     doc.find('//mets:file', NS_MAP).size.should == 2
   end
   
@@ -83,10 +83,8 @@ describe Aip do
     aip.should_not be_snafu
     aip.should_not be_rejected
     
-    doc = XML::Document.file aip.descriptor_file
+    File.exist?(aip.mono_descriptor_file).should == true
     
-    (doc.find '//mets:amdSec/*/mets:mdWrap', NS_MAP).should_not be_empty
-    (doc.find '//mets:amdSec/*/mets:mdRef', NS_MAP).should be_empty
   end
   
 end

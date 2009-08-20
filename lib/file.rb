@@ -22,7 +22,7 @@ class DFile
   end
   
   def path
-    doc = XML::Parser.file(descriptor_file).parse
+    doc = XML::Parser.file(poly_descriptor_file).parse
     href = doc.find_first("//mets:file[@ID='#{@fid}']/mets:FLocat/@xlink:href", NS_MAP)
     href.value.strip
   end
@@ -43,8 +43,8 @@ class DFile
     File.join @aip.file_md_dir , @fid
   end
   
-  def descriptor_file
-    @aip.descriptor_file
+  def poly_descriptor_file
+    @aip.poly_descriptor_file
   end
   
 end

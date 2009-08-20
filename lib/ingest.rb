@@ -33,7 +33,7 @@ module Ingest
   end
 
   def save_to_db!
-    xml_blob = open(descriptor_file) { |io| io.read }
+    xml_blob = open(mono_descriptor_file) { |io| io.read }
     aipr = AipRecord.new :name => File.basename(path), :xml => xml_blob, :needs_work => true
     aipr.save
   end

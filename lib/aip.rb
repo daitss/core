@@ -34,12 +34,16 @@ class Aip
   
   alias_method :package_dir, :path
     
-  def descriptor_file
-    File.join path, 'descriptor.xml'
+  def poly_descriptor_file
+    File.join path, POLY_DESCRIPTOR_FILE
+  end
+
+  def mono_descriptor_file
+    File.join path, MONO_DESCRIPTOR_FILE
   end
   
   def files
-    doc = XML::Parser.file(descriptor_file).parse
+    doc = XML::Parser.file(poly_descriptor_file).parse
     
     doc.find('//mets:file', NS_MAP).map do |file_node|
       DFile.new self, file_node['ID']
@@ -49,7 +53,7 @@ class Aip
 
   # Creates a new file with the data read from io
   def add_file io, fpath=nil
-    doc = XML::Parser.file(descriptor_file).parse
+    doc = XML::Parser.file(poly_descriptor_file).parse
         
     # write the data
     final_path = if fpath
@@ -69,7 +73,7 @@ class Aip
     fid = "file-#{next_file_id}"
     fileGrp = doc.find_first('//mets:fileGrp', NS_MAP) << make_file_ref(abs_path[(path.length + 1)..-1], fid)
     doc.find_first('//mets:structMap/mets:div', NS_MAP) << make_fptr(fid)
-    doc.save descriptor_file
+    doc.save poly_descriptor_file
 
     # a file to return
     dfile = DFile.new self, fid
@@ -146,7 +150,7 @@ class Aip
     
     id_map = Hash.new {|h, k| h[k] = 0 unless h.has_key? k }
     
-    doc = XML::Parser.file(descriptor_file).parse
+    doc = XML::Parser.file(poly_descriptor_file).parse
     
     doc.find('//mets:amdSec/*/mets:mdRef', NS_MAP).each do |ref|
       
@@ -167,10 +171,10 @@ class Aip
         wrap << doc.import(premis_el)
       end
       
-      ref.parent.remove!  
+      ref.parent.remove!
     end
     
-    doc.save descriptor_file    
+    doc.save mono_descriptor_file    
   end
   
   protected
