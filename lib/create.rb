@@ -15,7 +15,7 @@ class Aip
     end
     
     # make blank descriptor
-    descriptor_file = File.join(path, "descriptor.xml")
+    descriptor_file = File.join path, POLY_DESCRIPTOR_FILE
     obj_id = File.basename sip_path
     open(descriptor_file, 'w') { |io| io.write template_by_name('aip_descriptor').result(binding) }    
     

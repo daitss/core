@@ -3,7 +3,7 @@ require 'next'
 
 include LibXML
 
-# depends on package_dir, md_dir and descriptor_file methods
+# depends on package_dir, md_dir and poly_descriptor_file methods
 module Metadata
   
   METS_MD_SECTIONS = [:digiprov, :tech, :rights, :source]
@@ -21,10 +21,10 @@ module Metadata
     md_doc.save md_file  
 
     # reference the file in the aip descriptor
-    des_doc = XML::Parser.file(descriptor_file).parse
+    des_doc = XML::Parser.file(poly_descriptor_file).parse
     amdSec = des_doc.find_first("//mets:amdSec", NS_MAP)
     amdSec << make_md_ref(type, md_file, des_doc)
-    des_doc.save descriptor_file
+    des_doc.save poly_descriptor_file
   end
   
   # Return a list of meta data files for the specified type
@@ -47,13 +47,13 @@ module Metadata
     doc.save md_file
     
     # reference the file in the aip descriptor
-    des_doc = XML::Parser.file(descriptor_file).parse
+    des_doc = XML::Parser.file(poly_descriptor_file).parse
     amdSec = des_doc.find_first("//mets:amdSec", NS_MAP)
     md_ref = make_md_ref(:digiprov, md_file, des_doc)
     md_ref["TYPE"] = 'PREMIS'
     md_ref["LABEL"] = 'RXP'
     amdSec << md_ref
-    des_doc.save descriptor_file
+    des_doc.save poly_descriptor_file
   end
   
   def rxp_md_file
