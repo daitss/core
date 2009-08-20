@@ -68,7 +68,11 @@ describe Aip do
     aip = aip_instance 'good'
     aip.ingest!
     aip.should_not be_snafu
-    lambda { air = AipResource.get! File.basename(aip.path)}.should_not raise_error(DataMapper::ObjectNotFoundError)
+    
+    lambda { 
+      AipResource.get! File.basename(aip.path)
+    }.should_not raise_error(DataMapper::ObjectNotFoundError)
+    
   end
   
   it "should clean itself up" do
@@ -82,9 +86,7 @@ describe Aip do
     aip.ingest!
     aip.should_not be_snafu
     aip.should_not be_rejected
-    
     File.exist?(aip.mono_descriptor_file).should == true
-    
   end
   
 end
