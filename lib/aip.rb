@@ -21,6 +21,7 @@ class Aip
   include Validate
   include Provenance
   include Store
+  include Layout
   
   def initialize url
     @url = URI.parse url
