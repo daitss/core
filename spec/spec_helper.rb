@@ -10,7 +10,7 @@ Spec::Runner.configure do |config|
 
   config.after(:each) do
     FileUtils::rm_rf $sandbox
-    # puts $sandbox
+    #puts $sandbox
     FileUtils::chmod_R 0777, "/tmp/silo_sandbox"
     `rm -rf /tmp/silo_sandbox/*`
   end

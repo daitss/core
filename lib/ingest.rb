@@ -10,7 +10,11 @@ module Ingest
       retrieve_rxp_provenance! unless rxp_provenance_retrieved?
       retrieve_representations! unless representations_retrieved?
       files.each { |f| f.process! }
+      unite_descriptor!
+      
       store! unless stored?
+      unite_descriptor!
+      
       save_to_db!
     rescue Reject => e
       write_reject_info e
@@ -29,9 +33,9 @@ module Ingest
   end
 
   def save_to_db!
-    xml_blob = open(descriptor_file) { |io| io.read }    
-    air = AipRecord.new :name => File.basename(path), :xml => xml_blob, :needs_work => true
-    air.save
+    xml_blob = open(descriptor_file) { |io| io.read }
+    aipr = AipRecord.new :name => File.basename(path), :xml => xml_blob, :needs_work => true
+    aipr.save
   end
   
 end

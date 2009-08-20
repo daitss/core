@@ -142,6 +142,37 @@ class Aip
     FileUtils::rm_r path
   end
   
+  def unite_descriptor!
+    
+    id_map = Hash.new {|h, k| h[k] = 0 unless h.has_key? k }
+    
+    doc = XML::Parser.file(descriptor_file).parse
+    
+    doc.find('//mets:amdSec/*/mets:mdRef', NS_MAP).each do |ref|
+      
+      location = File.join path, ref['href'] # XXX does namespace matter here?
+      md_doc = XML::Parser.file(location).parse
+      
+      md_doc.find('//premis:premis/premis:*', NS_MAP).each do |premis_el|
+        md_name = ref.parent.name
+        md_section = doc.import XML::Node.new(md_name)
+        md_section['ID'] = md_name + '-' + (id_map[md_name] += 1).to_s
+
+        ref.parent.prev = md_section
+        
+        wrap = doc.import XML::Node.new('mdWrap')
+        wrap['MDTYPE'] = 'PREMIS'
+        md_section << wrap
+        
+        wrap << doc.import(premis_el)
+      end
+      
+      ref.parent.remove!  
+    end
+    
+    doc.save descriptor_file    
+  end
+  
   protected
   
   # Make a new path for a data file
