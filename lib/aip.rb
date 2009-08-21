@@ -168,8 +168,11 @@ class Aip
         wrap = doc.import XML::Node.new('mdWrap')
         wrap['MDTYPE'] = 'PREMIS'
         md_section << wrap
+      
+        xml_data = doc.import XML::Node.new('xmlData')
+        wrap << xml_data
         
-        wrap << doc.import(premis_el)
+        xml_data << doc.import(premis_el)
       end
       
       ref.parent.remove!
@@ -193,7 +196,7 @@ class Aip
     node = XML::Node.new 'file'
     node['ID'] = fid
     fLocat = XML::Node.new 'FLocat'
-    fLocat['LOCTYPE'] = 'URI'
+    fLocat['LOCTYPE'] = 'URL'
     fLocat['xlink:href'] = path
     node << fLocat
     node

@@ -6,7 +6,3 @@ class AipRecord
   property :xml, Text
   property :needs_work, Boolean
 end
-
-# An in-memory Sqlite3 connection:
-DataMapper.setup(:default, 'sqlite3::memory:')
-DataMapper.auto_migrate!
