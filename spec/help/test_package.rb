@@ -1,10 +1,16 @@
+require "aip"
+
+def test_package_dir
+  File.join File.dirname(__FILE__), '..', '..', 'test-packages'
+end
+
 def test_sip_by_name name
-  p = File.join File.dirname(__FILE__), '..', 'test-packages', 'sips', name
+  p = File.join test_package_dir, 'sips', name
   File.expand_path p
 end
 
 def test_aip_by_name name
-  p = File.join File.dirname(__FILE__), '..', 'test-packages', 'aips', name
+  p = File.join test_package_dir, 'aips', name
   File.expand_path p
 end
 

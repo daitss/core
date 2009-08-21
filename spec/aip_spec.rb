@@ -53,7 +53,8 @@ describe Aip do
   end
   
   it "should continue an incomplete ingest (pick up where it left off)" do
-    xpath = "//premis:event[premis:eventType[normalize-space(.)='SIP passed all validation checks']]"
+    etype = "SIP passed all validation checks"
+    xpath = "//premis:event[premis:eventType[normalize-space(.)='#{etype}']]"
     aip = aip_instance 'incomplete'
     aip.should be_validated
     pre_size = aip.md_for(:digiprov).select { |doc| doc.find_first(xpath, NS_MAP) }.size    
@@ -79,14 +80,6 @@ describe Aip do
     aip = aip_instance_from_sip 'ateam'
     aip.cleanup!
     File.exist?(aip.path).should == false
-  end
-  
-  it "should compact the descriptor into a single file" do
-    aip = aip_instance_from_sip 'ateam'
-    aip.ingest!
-    aip.should_not be_snafu
-    aip.should_not be_rejected
-    File.exist?(aip.mono_descriptor_file).should == true
   end
   
 end
