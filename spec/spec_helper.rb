@@ -1,7 +1,8 @@
 require "help/test_package"
 require "help/sandbox"
 require "help/fs"
-require "help/xml"
+require "help/xmlvalidation"
+require "help/schematron"
 require "help/snafu"
 
 Spec::Runner.configure do |config|

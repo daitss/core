@@ -19,7 +19,6 @@ describe "aip descriptor" do
   end
   
   it "should pass PREMIS in METS best practice" do
-    pending 'waiting for stron integration'
     @descriptor.should conform_to_pim_bp
   end
   

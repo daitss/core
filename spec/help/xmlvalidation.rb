@@ -40,6 +40,8 @@ Spec::Matchers.define :be_valid_xml do
   end
 
   failure_message_for_should do |file|
+    lines = [nil] + open(file).readlines
+    
     buf = StringIO.new
     buf.puts "Expected valid xml in #{file}:"
     buf.puts "Fatals: #{@fatals.size}" 
@@ -47,10 +49,9 @@ Spec::Matchers.define :be_valid_xml do
       buf.puts "#{e.getLineNumber}: #{e.getMessage}"
       buf.puts lines[e.getLineNumber]
     end
-    buf.puts    
+    buf.puts
     
     buf.puts "Errors: #{@errors.size}" 
-    lines = [nil, open(file).readlines]
     @errors.each do |e|
       buf.puts"#{e.getLineNumber}: #{e.getMessage}"
       buf.puts lines[e.getLineNumber]
@@ -68,14 +69,6 @@ Spec::Matchers.define :be_valid_xml do
 
   failure_message_for_should_not do |file|
     "Expected invalid xml in #{file}, validated"
-  end
-
-end
-
-Spec::Matchers.define :conform_to_pim_bp do
-
-  match do |file|
-    File.exist? file
   end
 
 end
