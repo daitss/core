@@ -177,8 +177,9 @@ class Aip
       
       ref.parent.remove!
     end
-    
-    doc.save mono_descriptor_file    
+
+    XML.indent_tree_output
+    doc.save mono_descriptor_file 
   end
   
   protected
