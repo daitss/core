@@ -9,6 +9,7 @@ module Metadata
   METS_MD_SECTIONS = [:digiprov, :tech, :rights, :source]
   
   # Creates a new metadata file for the incoming document and references it in the descriptor
+  # Returns the id of the newly created meta data section
   def add_md type, md_doc
     raise "invalid meta data type: #{type.id2name}" unless METS_MD_SECTIONS.include? type
     
@@ -18,13 +19,33 @@ module Metadata
     next_md_file = next_in_set current_md_files, /#{file_base}-(\d+).xml/
     md_file = File.join md_dir, "#{file_base}-#{next_md_file}.xml"
     raise 'cannot write metadata, file already exists #{md_file}' if File.exist? md_file
-    md_doc.save md_file  
-
+    md_doc.save md_file
+    
     # reference the file in the aip descriptor
     des_doc = XML::Parser.file(poly_descriptor_file).parse
+    md_sec = make_md_sec_ref(type, md_file, des_doc)
     amdSec = des_doc.find_first("//mets:amdSec", NS_MAP)
-    amdSec << make_md_ref(type, md_file, des_doc)
+    amdSec << md_sec
+    
+    # save it to the file
     des_doc.save poly_descriptor_file
+
+    # Return the ID   
+    md_sec['ID']
+  end
+  
+  # adds a ADMID ref to a file, should not be called from non-file
+  # XXX refactor this to a file md module?
+  def add_admid_ref admid
+    doc = XML::Parser.file(poly_descriptor_file).parse
+    file_node = doc.find_first("//mets:file[@ID='#{@fid}']", NS_MAP)
+    file_node['ADMID'] = if file_node['ADMID'].nil?
+                           admid
+                         else
+                           (file_node['ADMID'].split << admid).join ' '
+                         end
+    
+    doc.save poly_descriptor_file
   end
   
   # Return a list of meta data files for the specified type
@@ -63,7 +84,7 @@ module Metadata
   protected
   
   # Return a METS mdSecType instance that references the metadata file
-  def make_md_ref type, md_file, doc
+  def make_md_sec_ref type, md_file, doc
     relative_path = md_file[(package_dir.length + 1)..-1]
 
     # the section

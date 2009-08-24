@@ -149,7 +149,10 @@ class Aip
   
   def unite_descriptor!
     
-    id_map = Hash.new {|h, k| h[k] = 0 unless h.has_key? k }
+    # keep track of the id numbers
+    id_counter = Hash.new {|h, k| h[k] = 0 unless h.has_key? k }
+    
+    # map the old ids to new ids
     
     doc = XML::Parser.file(poly_descriptor_file).parse
     
@@ -161,7 +164,7 @@ class Aip
       md_doc.find('//premis:premis/premis:*', NS_MAP).each do |premis_el|
         md_name = ref.parent.name
         md_section = doc.import XML::Node.new(md_name)
-        md_section['ID'] = md_name + '-' + (id_map[md_name] += 1).to_s
+        md_section['ID'] = md_name + '-' + (id_counter[md_name] += 1).to_s
 
         ref.parent.prev = md_section
         
