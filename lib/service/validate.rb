@@ -38,9 +38,8 @@ module Validate
       raise "cannot validate aip: #{response.code} #{response.msg}: #{response.body}"
     end
     
-    
     add_md :digiprov, val_doc
-
+        
     # reject if needed
     policy_event = val_doc.find_first("//premis:event[premis:eventType='SIP passed all validation checks']", NS_MAP) 
 
