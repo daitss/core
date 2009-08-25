@@ -25,7 +25,10 @@ module Describe
     # objects
     obj_doc = XML::Document.new
     obj_doc.root = XML::Node.new 'premis'
-    obj_doc.root.namespaces.namespace = premis_doc.root.namespaces.namespace
+
+    ns = XML::Namespace.new(obj_doc.root, "premis", NS_MAP['premis'])
+    obj_doc.root.namespaces.namespace = ns
+
 
     premis_doc.find("//premis:object", NS_MAP).each do |node|
       obj_doc.root << obj_doc.import(node)
@@ -37,7 +40,9 @@ module Describe
     # events & agents
     dp_doc = XML::Document.new
     dp_doc.root = XML::Node.new 'premis'
-    dp_doc.root.namespaces.namespace = premis_doc.root.namespaces.namespace
+    
+    ns = XML::Namespace.new(dp_doc.root, "premis", NS_MAP['premis'])
+    dp_doc.root.namespaces.namespace = ns
 
     premis_doc.find("//premis:event", NS_MAP).each do |node|
       dp_doc.root << dp_doc.import(node)

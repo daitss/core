@@ -19,7 +19,8 @@ module Plan
     case response
     when Net::HTTPSuccess
       plan_doc = XML::Parser.string(response.body).parse
-      add_md :digiprov, plan_doc
+      dp_md_id = add_md :digiprov, plan_doc
+      add_admid_ref dp_md_id
     when Net::HTTPNotFound
       # XXX do nothing, no rxp data here, possibly want to write we tried
     else

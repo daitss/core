@@ -88,9 +88,10 @@ module Metadata
     relative_path = md_file[(package_dir.length + 1)..-1]
 
     # the section
-    mdSec = XML::Node.new "#{type.id2name}MD"    
-    md_ids = doc.find("//mets:#{type.id2name}MD/@ID", NS_MAP).map { |node| node.value }
-    mdSec['ID'] = next_in_set(md_ids, /#{type.id2name}-(\d+)/).to_s
+    md_name = type.id2name
+    mdSec = XML::Node.new "#{md_name}MD"
+    md_ids = doc.find("//mets:#{md_name}MD/@ID", NS_MAP).map { |node| node.value }
+    mdSec['ID'] = md_name + '-' + next_in_set(md_ids, /#{md_name}-(\d+)/).to_s
 
     # the reference
     mdRef = XML::Node.new 'mdRef'
