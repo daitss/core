@@ -26,7 +26,7 @@ module Metadata
       md_sec = make_md_sec_ref(type, md_file, des_doc)
       amdSec = des_doc.find_first("//mets:amdSec", NS_MAP)
       amdSec << md_sec
-      md_sec['ID']      
+      md_sec['ID']
     end
 
   end
@@ -91,7 +91,7 @@ module Metadata
     mdSec = XML::Node.new "#{type.id2name}MD"    
     md_ids = doc.find("//mets:#{type.id2name}MD/@ID", NS_MAP).map { |node| node.value }
     mdSec['ID'] = next_in_set(md_ids, /#{type.id2name}-(\d+)/).to_s
-    
+
     # the reference
     mdRef = XML::Node.new 'mdRef'
     mdRef['MDTYPE'] = 'PREMIS'
