@@ -22,30 +22,29 @@ module Metadata
     md_doc.save md_file
     
     # reference the file in the aip descriptor
-    des_doc = XML::Parser.file(poly_descriptor_file).parse
-    md_sec = make_md_sec_ref(type, md_file, des_doc)
-    amdSec = des_doc.find_first("//mets:amdSec", NS_MAP)
-    amdSec << md_sec
-    
-    # save it to the file
-    des_doc.save poly_descriptor_file
+    modify_poly_descriptor do |des_doc|
+      md_sec = make_md_sec_ref(type, md_file, des_doc)
+      amdSec = des_doc.find_first("//mets:amdSec", NS_MAP)
+      amdSec << md_sec
+      md_sec['ID']      
+    end
 
-    # Return the ID   
-    md_sec['ID']
   end
   
   # adds a ADMID ref to a file, should not be called from non-file
-  # XXX refactor this to a file md module?
   def add_admid_ref admid
-    doc = XML::Parser.file(poly_descriptor_file).parse
-    file_node = doc.find_first("//mets:file[@ID='#{@fid}']", NS_MAP)
-    file_node['ADMID'] = if file_node['ADMID'].nil?
-                           admid
-                         else
-                           (file_node['ADMID'].split << admid).join ' '
-                         end
+
+    modify_poly_descriptor do |doc|
+      file_node = doc.find_first("//mets:file[@ID='#{@fid}']", NS_MAP)
+      
+      file_node['ADMID'] = if file_node['ADMID'].nil?
+        admid
+      else
+        (file_node['ADMID'].split << admid).join ' '
+      end
+      
+    end
     
-    doc.save poly_descriptor_file
   end
   
   # Return a list of meta data files for the specified type
@@ -68,13 +67,14 @@ module Metadata
     doc.save md_file
     
     # reference the file in the aip descriptor
-    des_doc = XML::Parser.file(poly_descriptor_file).parse
-    amdSec = des_doc.find_first("//mets:amdSec", NS_MAP)
-    md_ref = make_md_ref(:digiprov, md_file, des_doc)
-    md_ref["TYPE"] = 'PREMIS'
-    md_ref["LABEL"] = 'RXP'
-    amdSec << md_ref
-    des_doc.save poly_descriptor_file
+    modify_poly_descriptor do |des_doc|
+      amdSec = des_doc.find_first("//mets:amdSec", NS_MAP)
+      md_ref = make_md_ref(:digiprov, md_file, des_doc)
+      md_ref["TYPE"] = 'PREMIS'
+      md_ref["LABEL"] = 'RXP'
+      amdSec << md_ref      
+    end
+
   end
   
   def rxp_md_file
