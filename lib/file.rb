@@ -46,5 +46,10 @@ class DFile
   def poly_descriptor_file
     @aip.poly_descriptor_file
   end
+
+  def modify_poly_descriptor &block
+    @aip.modify_poly_descriptor &block
+  end
+
   
 end
