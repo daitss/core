@@ -171,6 +171,7 @@ class Aip
       old_id = ref.parent['ID']
       
       md_doc.find('//premis:premis/premis:*', NS_MAP).each do |premis_el|
+        puts premis_el.name
         md_name = ref.parent.name
         md_section = doc.import XML::Node.new(md_name)
         new_id = (id_counter[md_name] += 1).to_s
