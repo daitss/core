@@ -4,13 +4,18 @@ $:.unshift File.join(File.dirname(__FILE__), 'lib')
 require 'rubygems'
 require 'sinatra'
 require 'xml'
+# 
+# NAMESPACES = {
+#   'mets' => 'http://www.loc.gov/METS/',
+#   'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+#   'premis' => 'info:lc/xmlns/premis-v2',
+#   'mix' => 'http://www.loc.gov/mix/v20',
+#   'aes' => 'http://www.aes.org/audioObject'
+# }
 
 NAMESPACES = {
   'mets' => 'http://www.loc.gov/METS/',
-  'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-  'premis' => 'info:lc/xmlns/premis-v2',
-  'mix' => 'http://www.loc.gov/mix/v20',
-  'aes' => 'http://www.aes.org/audioObject'
+  'premis' => 'info:lc/xmlns/premis-v2'
 }
 
 class AIP2DB < Sinatra::Base
@@ -29,11 +34,10 @@ class AIP2DB < Sinatra::Base
     puts params[:data][:tempfile]
     XML.default_keep_blanks = false
     doc = XML::Document.io params[:data][:tempfile]
-    
-    files = doc.find("//premis:object[@type='file']", NAMESPACES)
-    puts files
-    files.each do |obj|
-      puts obj
+    fileObjects = doc.find("//premis:object[@type='file']", NAMESPACES)
+    puts fileObjects
+    fileObjects.each do |obj|
+      puts obj.content
     end
   end
 

@@ -34,11 +34,9 @@ class Agent
   include DataMapper::Resource
   property :id, String, :key => true
   property :name, String
-  property :type, String # ex. software/person/organization
+  property :type, Enum[:software, :person, :organization]
   
-  has 0..n, :intentity_events # an agent can create 0-n int entity events.
-  has 0..n, :representation_events # an agent can create 0-n  representation events.
-  # has 0..n, :datafile_events # an agent can create 0-n datafile events.
+  has 0..n, :events # an agent can create 0-n int entity events.
 end
 
 
