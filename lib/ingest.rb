@@ -12,7 +12,7 @@ module Ingest
       files.each { |f| f.process! }
       unite_descriptor!
       store! unless stored?
-      unite_descriptor!
+      # TODO uncomment this: unite_descriptor!
       save_to_db!
     rescue Reject => e
       write_reject_info e
