@@ -18,7 +18,7 @@
           <premis version="2.0" xsi:schemaLocation="info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/v2/premis-v2-0.xsd">
 
             <!-- NOTE: file object -->
-            <object type='file'>
+            <object xsi:type='file'>
               <objectIdentifier>
                 <objectIdentifierType>DAITSS</objectIdentifierType>
                 <objectIdentifierValue>/var/daitss2/aip-0/files/ateam.tiff</objectIdentifierValue>

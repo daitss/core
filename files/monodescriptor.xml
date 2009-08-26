@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mets xmlns="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd" OBJID="ateam">
+  <amdSec>
+    <digiprovMD ID="digiprovMD-1">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>http://daitss/validation</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>Validation Service</agentName>
+            <agentType>Web Service</agentType>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-2">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>Temporary Local</eventIdentifierType>
+              <eventIdentifierValue>1</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>SIP passed all validation checks</eventType>
+            <eventDateTime>Tue Aug 25 17:14:37 -0400 2009</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>
+        success  
+      </eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>
+        file:///var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip
+      </linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-3">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>Temporary Local</eventIdentifierType>
+              <eventIdentifierValue>2</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>Specified AIP Directory Exists</eventType>
+            <eventDateTime>Tue Aug 25 17:14:37 -0400 2009</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>
+        success  
+      </eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>
+        file:///var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip
+      </linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-4">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>Temporary Local</eventIdentifierType>
+              <eventIdentifierValue>3</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>SIP Descriptor Present</eventType>
+            <eventDateTime>Tue Aug 25 17:14:37 -0400 2009</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>
+        success  
+      </eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>
+        file:///var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip
+      </linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-5">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>Temporary Local</eventIdentifierType>
+              <eventIdentifierValue>4</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>SIP Descriptor is a File</eventType>
+            <eventDateTime>Tue Aug 25 17:14:37 -0400 2009</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>
+        success  
+      </eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>
+        file:///var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip
+      </linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-6">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>Temporary Local</eventIdentifierType>
+              <eventIdentifierValue>5</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>Content File Present</eventType>
+            <eventDateTime>Tue Aug 25 17:14:37 -0400 2009</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>
+        success  
+      </eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>
+        file:///var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip
+      </linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-7">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>Temporary Local</eventIdentifierType>
+              <eventIdentifierValue>6</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>Descriptor is valid</eventType>
+            <eventDateTime>Tue Aug 25 17:14:37 -0400 2009</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>
+        success  
+      </eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>
+        file:///var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip
+      </linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-8">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>Temporary Local</eventIdentifierType>
+              <eventIdentifierValue>7</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>Virus Check</eventType>
+            <eventDateTime>Tue Aug 25 17:14:37 -0400 2009</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>
+        success  
+      </eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>
+        file:///var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip/files/ateam.tiff
+      </linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-9">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>Temporary Local</eventIdentifierType>
+              <eventIdentifierValue>8</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>Virus Check</eventType>
+            <eventDateTime>Tue Aug 25 17:14:37 -0400 2009</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>
+        success  
+      </eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>
+        file:///var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip/files/ateam.xml
+      </linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-10">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>Temporary Local</eventIdentifierType>
+              <eventIdentifierValue>9</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>Described File Present</eventType>
+            <eventDateTime>Tue Aug 25 17:14:37 -0400 2009</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>
+        success  
+      </eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>
+        file:///var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip/files/ateam.tiff
+      </linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-11">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>Temporary Local</eventIdentifierType>
+              <eventIdentifierValue>10</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>MD5 Checksum Comparison</eventType>
+            <eventDateTime>Tue Aug 25 17:14:37 -0400 2009</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>
+            success  
+          </eventOutcome>
+            </eventOutcomeInformation>
+            <eventOutcomeDetail>
+              <eventOutcomeDetailNote>
+            Described checksum: 805AE75BC4595521E350564C90A56D28
+            Computed checksum: 805AE75BC4595521E350564C90A56D28
+          </eventOutcomeDetailNote>
+            </eventOutcomeDetail>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>
+            file:///var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip/files/ateam.tiff
+          </linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-12">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>http://daitss/external_provenance_extraction</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>External Provenance Extractor</agentName>
+            <agentType>Web Service</agentType>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-13">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>Temporary Local</eventIdentifierType>
+              <eventIdentifierValue>1</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>External Provenance Extraction</eventType>
+            <eventDateTime>Tue Aug 25 17:14:37 -0400 2009</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>
+      
+        failure
+      
+      </eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://daitss/external_provenance_extraction</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>
+        file:/var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip
+      </linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <techMD ID="techMD-1">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" type="file">
+            <objectIdentifier>
+              <objectIdentifierType>DAITSS</objectIdentifierType>
+              <objectIdentifierValue>/var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip/files/ateam.tiff</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <size>921972</size>
+              <format>
+                <formatDesignation>
+                  <formatName>TIFF</formatName>
+                  <formatVersion>6.0</formatVersion>
+                </formatDesignation>
+                <formatRegistry>
+                  <formatRegistryName>http://www.nationalarchives.gov.uk/pronom</formatRegistryName>
+                  <formatRegistryKey>fmt/10</formatRegistryKey>
+                </formatRegistry>
+              </format>
+              <format>
+                <formatDesignation>
+                  <formatName>Baseline RGB (Class R)</formatName>
+                </formatDesignation>
+              </format>
+              <fixity>
+                <messageDigestAlgorithm>MD5</messageDigestAlgorithm>
+                <messageDigest>805ae75bc4595521e350564c90a56d28</messageDigest>
+              </fixity>
+              <objectCharacteristicsExtension>
+                <objectCharacteristicsExtension/>
+              </objectCharacteristicsExtension>
+              <relationship>
+                <relationshipType>structural</relationshipType>
+                <relationshipSubtype>includes</relationshipSubtype>
+                <relatedObjectIdentification>
+					/var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip/files/ateam.tiff/1
+				</relatedObjectIdentification>
+              </relationship>
+            </objectCharacteristics>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="techMD-2">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" type="bitstream">
+            <objectIdentifier>
+              <objectIdentifierType>DAITSS</objectIdentifierType>
+              <objectIdentifierValue>/var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip/files/ateam.tiff/1</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <format>
+                <formatDesignation>
+                  <formatName>Uncompressed</formatName>
+                </formatDesignation>
+              </format>
+              <objectCharacteristicsExtension>
+                <mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+                  <mix:BasicDigitalObjectInformation>
+                    <mix:ObjectIdentifier>
+                      <mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+                    </mix:ObjectIdentifier>
+                    <mix:byteOrder>big endian</mix:byteOrder>
+                    <mix:Compression>
+                      <mix:compressionScheme>Uncompressed</mix:compressionScheme>
+                    </mix:Compression>
+                  </mix:BasicDigitalObjectInformation>
+                  <mix:BasicImageInformation>
+                    <mix:BasicImageCharacteristics>
+                      <mix:imageWidth>640</mix:imageWidth>
+                      <mix:imageHeight>480</mix:imageHeight>
+                      <mix:PhotometricInterpretation>
+                        <mix:colorSpace>RGB</mix:colorSpace>
+                        <mix:ReferenceBlackWhite>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>R</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>G</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>B</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                        </mix:ReferenceBlackWhite>
+                      </mix:PhotometricInterpretation>
+                    </mix:BasicImageCharacteristics>
+                  </mix:BasicImageInformation>
+                  <mix:ImageCaptureMetadata>
+                    <mix:orientation>normal*</mix:orientation>
+                  </mix:ImageCaptureMetadata>
+                  <mix:ImageAssessmentMetadata>
+                    <mix:SpatialMetrics>
+                      <mix:samplingFrequencyUnit>in.</mix:samplingFrequencyUnit>
+                      <mix:xSamplingFrequency>
+                        <mix:numerator>1207959552</mix:numerator>
+                        <mix:denominator>16777216</mix:denominator>
+                      </mix:xSamplingFrequency>
+                      <mix:ySamplingFrequency>
+                        <mix:numerator>1207959552</mix:numerator>
+                        <mix:denominator>16777216</mix:denominator>
+                      </mix:ySamplingFrequency>
+                    </mix:SpatialMetrics>
+                    <mix:ImageColorEncoding>
+                      <mix:BitsPerSample>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+                      </mix:BitsPerSample>
+                      <mix:samplesPerPixel>3</mix:samplesPerPixel>
+                    </mix:ImageColorEncoding>
+                  </mix:ImageAssessmentMetadata>
+                </mix:mix>
+              </objectCharacteristicsExtension>
+            </objectCharacteristics>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <digiprovMD ID="digiprovMD-14">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>Temporary Local</eventIdentifierType>
+              <eventIdentifierValue>1</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>Format Description</eventType>
+            <eventDateTime>Tue Aug 25 17:14:37 -0400 2009</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>Well-Formed and valid</eventOutcome>
+            </eventOutcomeInformation>
+            <eventOutcomeDetail>
+              <eventOutcomeDetailExtension>
+				
+				
+				
+			</eventOutcomeDetailExtension>
+            </eventOutcomeDetail>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://archive/format_description</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>DAITSS</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>/var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip/files/ateam.tiff</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-15">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>http://archive/format_description</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>Format Description Service</agentName>
+            <agentType>Web Service</agentType>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-16">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>Temporary Local</eventIdentifierType>
+              <eventIdentifierValue>1</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>Action Plan Determination</eventType>
+            <eventDateTime>Tue Aug 25 17:14:37 -0400 2009</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>success</eventOutcome>
+              <eventOutcomeDetail>
+                <eventOutcomeDetailExtension>
+				</eventOutcomeDetailExtension>
+              </eventOutcomeDetail>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://archive/action-plan</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-17">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>http://archive/action-plan</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>Action Plan Service</agentName>
+            <agentType>Web Service</agentType>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <techMD ID="techMD-3">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" type="file">
+            <objectIdentifier>
+              <objectIdentifierType>DAITSS</objectIdentifierType>
+              <objectIdentifierValue>/var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip/files/ateam.xml</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel/>
+              <size>1358</size>
+              <format>
+                <formatDesignation>
+                  <formatName>unknown</formatName>
+                </formatDesignation>
+              </format>
+              <fixity>
+                <messageDigestAlgorithm>MD5</messageDigestAlgorithm>
+                <messageDigest>e3f0bcf2a1d54c3a077c367d252dad67</messageDigest>
+              </fixity>
+            </objectCharacteristics>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <digiprovMD ID="digiprovMD-18">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>Temporary Local</eventIdentifierType>
+              <eventIdentifierValue>1</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>Format Description</eventType>
+            <eventDateTime>Tue Aug 25 17:14:37 -0400 2009</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>cannot identify this file: /var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip/files/ateam.xml</eventOutcome>
+            </eventOutcomeInformation>
+            <eventOutcomeDetail>
+              <eventOutcomeDetailExtension>
+				
+			</eventOutcomeDetailExtension>
+            </eventOutcomeDetail>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://archive/format_description</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>DAITSS</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>/var/folders/bp/bpa9KUGOF5WuonNvTrsEK++++TI/-Tmp-/sandbox.56752.0/aip/files/ateam.xml</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprovMD-19">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>http://archive/format_description</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>Format Description Service</agentName>
+            <agentType>Web Service</agentType>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+  </amdSec>
+  <fileSec>
+    <fileGrp>
+      <file ID="file-0" ADMID="tech-1 digiprov-3 digiprov-4">
+        <FLocat LOCTYPE="URL" xlink:href="files/ateam.tiff"/>
+      </file>
+      <file ID="file-1" ADMID="tech-2 digiprov-5">
+        <FLocat LOCTYPE="URL" xlink:href="files/ateam.xml"/>
+      </file>
+    </fileGrp>
+  </fileSec>
+  <structMap>
+    <div>
+      <fptr FILEID="file-0"/>
+      <fptr FILEID="file-1"/>
+    </div>
+  </structMap>
+</mets>
