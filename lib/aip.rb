@@ -170,13 +170,12 @@ class Aip
       md_doc = XML::Parser.file(location).parse
       old_id = ref.parent['ID']
       
-      md_doc.find('//premis:premis/premis:*', NS_MAP).each do |premis_el|
-        puts premis_el.name
+      md_doc.find('/premis:premis/premis:*', NS_MAP).each do |premis_el|
         md_name = ref.parent.name
         md_section = doc.import XML::Node.new(md_name)
         new_id = (id_counter[md_name] += 1).to_s
-        md_section['ID'] = md_name + '-' + new_id
-        id_map[old_id] << new_id
+        md_section['ID'] = md_name.sub(/MD$/, '') + '-' + new_id
+        id_map[old_id] << md_name.sub(/MD$/, '') + '-' + new_id
         ref.parent.prev = md_section
         wrap = doc.import XML::Node.new('mdWrap')
         wrap['MDTYPE'] = 'PREMIS'
@@ -185,15 +184,15 @@ class Aip
         wrap << xml_data
         xml_data << doc.import(premis_el)
       end
-      
-      # update all the ADMIDs
-      id_map.keys.each do |old_id|
-        doc.find('//*/@ADMID', NS_MAP) do |admid|
-          admid.value = admid.split.map { |i| id_map[i].join }.join
-        end
-      end
-      
+            
       ref.parent.remove!
+    end
+
+    # update all the ADMIDs
+    id_map.keys.each do |old_id|
+      doc.find('//*/@ADMID', NS_MAP) do |admid|
+        admid.value = admid.split.map { |xid| id_map[xid].join }.join
+      end
     end
 
     XML.indent_tree_output
