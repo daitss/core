@@ -6,7 +6,9 @@ include LibXML
 # depends on package_dir, md_dir and poly_descriptor_file methods
 module Metadata
   
-  METS_MD_SECTIONS = [:digiprov, :tech, :rights, :source]
+  # XXX technically, rights and source would be valid metadata document types, but here we expect either digiprov or tech 
+    
+  METS_MD_SECTIONS = [:digiprov, :tech]
   
   # Creates a new metadata file for the incoming document and references it in the descriptor
   # Returns the id of the newly created meta data section
@@ -24,8 +26,14 @@ module Metadata
     # reference the file in the aip descriptor
     modify_poly_descriptor do |des_doc|
       md_sec = make_md_sec_ref(type, md_file, des_doc)
-      amdSec = des_doc.find_first("//mets:amdSec", NS_MAP)
-      amdSec << md_sec
+      amd_sec = des_doc.find_first("//mets:amdSec", NS_MAP)
+      
+      if amd_sec.empty? or type == :digiprov
+        amd_sec << md_sec
+      elsif type == :tech
+        amd_sec.first.prev = md_sec
+      end
+      
       md_sec['ID']
     end
 
