@@ -88,6 +88,23 @@ module Metadata
   def rxp_md_file
     File.join md_dir, "rxp.xml"
   end
+
+  # Adds a R0 meta data record, overwrites if already present
+  def add_r0_md doc
+    raise "must be a PREMIS document" unless doc.root.namespaces.namespace.to_s == NS_MAP['premis']
+    md_file = File.join md_dir, "r0.xml"
+    doc.save md_file
+    
+    # reference the file in the aip descriptor
+    modify_poly_descriptor do |des_doc|
+      amdSec = des_doc.find_first("//mets:amdSec", NS_MAP)
+      md_ref = make_md_sec_ref(:tech, md_file, des_doc)
+      md_ref["TYPE"] = 'PREMIS'
+      md_ref.children[0]["LABEL"] = 'R0'
+      amdSec << md_ref      
+    end
+
+  end
     
   protected
   

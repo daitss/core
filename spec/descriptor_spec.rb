@@ -23,6 +23,10 @@ describe "aip descriptor" do
     @descriptor.should conform_to_pim_bp
   end
   
+  it "should have a premis representation for the package" do
+    @descriptor.should have_r0_representation
+  end
+  
   # it "should have globally unique identifiers (across the FDA) for events agents and objects"
   # it "We need to add representations, next iteration"
   # 

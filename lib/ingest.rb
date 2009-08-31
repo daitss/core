@@ -10,6 +10,7 @@ module Ingest
       retrieve_rxp_provenance! unless rxp_provenance_retrieved?
       retrieve_representations! unless representations_retrieved?
       files.each { |f| f.process! }
+      represent! unless represented?
       unite_descriptor!
       store! unless stored?
       # TODO uncomment this: unite_descriptor!
