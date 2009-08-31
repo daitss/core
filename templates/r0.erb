@@ -3,19 +3,20 @@
   <object xsi:type="representation">
     <objectIdentifier>
       <objectIdentifierType>URI</objectIdentifierType>
-      <objectIdentifierValue>info:fcla/daitss/E20090225_AAAIWH</objectIdentifierValue>
+      <objectIdentifierValue><%= url %></objectIdentifierValue>
     </objectIdentifier>
 
   
   <% files.each do |f| %>
-    <relationshipType>structural</relationshipType>
-		<relationshipSubType>includes</relationshipSubType>
-		
-  	<relatedObjectIdentification>
-  	  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-  	  <relatedObjectIdentifierValue><%= f.url %></relatedObjectIdentifierValue>
-    </relatedObjectIdentification>
-    
+    <relationship>
+      <relationshipType>structural</relationshipType>
+      <relationshipSubType>includes</relationshipSubType>
+
+      <relatedObjectIdentification>
+        <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+        <relatedObjectIdentifierValue><%= f.url %></relatedObjectIdentifierValue>
+      </relatedObjectIdentification>
+    </relationship>
   <% end %>
   
   </object>  

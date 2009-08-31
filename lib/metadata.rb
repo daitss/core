@@ -77,7 +77,7 @@ module Metadata
     # reference the file in the aip descriptor
     modify_poly_descriptor do |des_doc|
       amdSec = des_doc.find_first("//mets:amdSec", NS_MAP)
-      md_ref = make_md_ref(:digiprov, md_file, des_doc)
+      md_ref = make_md_sec_ref(:digiprov, md_file, des_doc)
       md_ref["TYPE"] = 'PREMIS'
       md_ref["LABEL"] = 'RXP'
       amdSec << md_ref      
@@ -97,11 +97,12 @@ module Metadata
     
     # reference the file in the aip descriptor
     modify_poly_descriptor do |des_doc|
-      amdSec = des_doc.find_first("//mets:amdSec", NS_MAP)
+      amd_sec = des_doc.find_first("//mets:amdSec", NS_MAP)
       md_ref = make_md_sec_ref(:tech, md_file, des_doc)
       md_ref["TYPE"] = 'PREMIS'
-      md_ref.children[0]["LABEL"] = 'R0'
-      amdSec << md_ref      
+      md_ref.first["LABEL"] = 'R0'
+      
+      amd_sec.first.prev = md_ref      
     end
 
   end
