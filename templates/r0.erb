@@ -1,0 +1,22 @@
+<premis xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+  
+  <object xsi:type="representation">
+    <objectIdentifier>
+      <objectIdentifierType>URI</objectIdentifierType>
+      <objectIdentifierValue>info:fcla/daitss/E20090225_AAAIWH</objectIdentifierValue>
+    </objectIdentifier>
+
+  
+  <% files.each do |f| %>
+    <relationshipType>structural</relationshipType>
+		<relationshipSubType>includes</relationshipSubType>
+		
+  	<relatedObjectIdentification>
+  	  <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+  	  <relatedObjectIdentifierValue><%= f.url %></relatedObjectIdentifierValue>
+    </relatedObjectIdentification>
+    
+  <% end %>
+  
+  </object>  
+</premis>

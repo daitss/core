@@ -4,6 +4,7 @@ require "help/fs"
 require "help/xmlvalidation"
 require "help/schematron"
 require "help/snafu"
+require "help/reps"
 
 Spec::Runner.configure do |config|
 
@@ -18,8 +19,8 @@ Spec::Runner.configure do |config|
   end
 
   config.after(:each) do
-    FileUtils::rm_rf $sandbox
-    #puts $sandbox
+    # FileUtils::rm_rf $sandbox
+    puts $sandbox
     FileUtils::chmod_R 0777, "/tmp/silo_sandbox"
     `rm -rf /tmp/silo_sandbox/*`
   end

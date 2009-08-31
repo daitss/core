@@ -179,6 +179,7 @@ class Aip
         ref.parent.prev = md_section
         wrap = doc.import XML::Node.new('mdWrap')
         wrap['MDTYPE'] = 'PREMIS'
+        wrap['LABEL']  = ref['LABEL'] if ref['LABEL']
         md_section << wrap
         xml_data = doc.import XML::Node.new('xmlData')
         wrap << xml_data
@@ -196,6 +197,20 @@ class Aip
     
     XML.indent_tree_output
     doc.save mono_descriptor_file 
+  end
+  
+  def represented?    
+    md_for(:techmd).any? do |doc|
+      xpath = "//mets:techMD/mets:mdRef[@LABEL='R0']"
+      doc.find_first(xpath, NS_MAP)
+    end  
+  end
+  
+  def represent!
+    t = template_by_name 'r0'
+    s = t.result binding
+    doc = XML::Parser.string(s).parse
+    add_r0_md doc
   end
   
   protected
