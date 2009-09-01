@@ -129,7 +129,7 @@ class Aip
       io.puts Time.now
 
       e.reasons.each do |r|
-        io.puts "%s %s: %s" % [ r[:time].strftime('%c'), r[:type], r[:message] ]
+        io.puts "#{ r[:time].strftime('%c') } #{ r[:type] }: #{ r[:message] }"
       end
 
     end
