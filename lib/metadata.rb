@@ -50,10 +50,9 @@ module Metadata
     raise "must be a PREMIS document" unless doc.root.namespaces.namespace.to_s == NS_MAP['premis']
     doc.save rxp_md_file
     
-    make_md_ref! :digiprov, rxp_md_file do |amd_sec, md_sec|
+    make_md_ref! :digiprov, rxp_md_file do |md_sec|
       md_sec["TYPE"] = 'PREMIS'
       md_sec["LABEL"] = 'RXP'
-      amd_sec << md_sec
     end
 
   end
@@ -69,10 +68,9 @@ module Metadata
     md_file = File.join md_dir, "r0.xml"
     doc.save md_file
     
-    make_md_ref! :tech, md_file do |amd_sec, md_sec|
+    make_md_ref! :tech, md_file do |md_sec|
       md_sec["TYPE"] = 'PREMIS'
       md_sec.first["LABEL"] = 'R0'
-      amd_sec.first.prev = md_sec      
     end
 
   end
@@ -97,18 +95,13 @@ module Metadata
     
     modify_poly_descriptor do |des_doc|
       md_sec = make_md_sec_ref(type, md_file, des_doc)
-      amd_sec = des_doc.find_first("//mets:amdSec", NS_MAP)
+      amd_sec = des_doc.find_first("//mets:amdSec", NS_MAP)      
+      yield md_sec if block_given?
       
-      if block_given?
-        yield amd_sec, md_sec
-      else
-        
-        if amd_sec.empty? or type == :digiprov
-          amd_sec << md_sec
-        elsif type == :tech
-          amd_sec.first.prev = md_sec
-        end
-        
+      if amd_sec.empty? or type == :digiprov
+        amd_sec << md_sec
+      elsif type == :tech
+        amd_sec.first.prev = md_sec
       end
       
       md_sec['ID']
