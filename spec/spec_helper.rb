@@ -5,6 +5,7 @@ require "help/xmlvalidation"
 require "help/schematron"
 require "help/snafu"
 require "help/reps"
+require "help/store"
 
 Spec::Runner.configure do |config|
 
