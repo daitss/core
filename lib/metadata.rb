@@ -6,37 +6,16 @@ include LibXML
 # depends on package_dir, md_dir and poly_descriptor_file methods
 module Metadata
   
-  # XXX technically, rights and source would be valid metadata document types, but here we expect either digiprov or tech 
-    
+  # XXX technically, rights and source would be valid metadata document types,
+  # but here we expect either digiprov or tech
   METS_MD_SECTIONS = [:digiprov, :tech]
   
   # Creates a new metadata file for the incoming document and references it in the descriptor
   # Returns the id of the newly created meta data section
-  def add_md type, md_doc
+  def add_md type, doc
     raise "invalid meta data type: #{type.id2name}" unless METS_MD_SECTIONS.include? type
-    
-    # make a new metadata file for the incoming metadata
-    file_base = type.id2name
-    current_md_files = Dir[File.join(md_dir, "#{file_base}-*.xml")]
-    next_md_file = next_in_set current_md_files, /#{file_base}-(\d+).xml/
-    md_file = File.join md_dir, "#{file_base}-#{next_md_file}.xml"
-    raise 'cannot write metadata, file already exists #{md_file}' if File.exist? md_file
-    md_doc.save md_file
-    
-    # reference the file in the aip descriptor
-    modify_poly_descriptor do |des_doc|
-      md_sec = make_md_sec_ref(type, md_file, des_doc)
-      amd_sec = des_doc.find_first("//mets:amdSec", NS_MAP)
-      
-      if amd_sec.empty? or type == :digiprov
-        amd_sec << md_sec
-      elsif type == :tech
-        amd_sec.first.prev = md_sec
-      end
-      
-      md_sec['ID']
-    end
-
+    md_file = make_md_file! type, doc
+    make_md_ref! type, md_file
   end
   
   # adds a ADMID ref to a file, should not be called from non-file
@@ -66,48 +45,76 @@ module Metadata
     md_files_for(type).map { |f| XML::Parser.file(f).parse }
   end
     
-  # Adds an RXP meta data record, overwrites if already present
+  # Saves RXP metadata. Returns the ID of the created metadata section
   def add_rxp_md doc
     raise "must be a PREMIS document" unless doc.root.namespaces.namespace.to_s == NS_MAP['premis']
+    doc.save rxp_md_file
     
-    md_file = File.join md_dir, "rxp.xml"
-    raise 'cannot write metadata, file already exists #{md_file}' if File.exist? md_file
-    doc.save md_file
-    
-    # reference the file in the aip descriptor
-    modify_poly_descriptor do |des_doc|
-      amdSec = des_doc.find_first("//mets:amdSec", NS_MAP)
-      md_ref = make_md_sec_ref(:digiprov, md_file, des_doc)
-      md_ref["TYPE"] = 'PREMIS'
-      md_ref["LABEL"] = 'RXP'
-      amdSec << md_ref      
+    make_md_ref! :digiprov, rxp_md_file do |amd_sec, md_sec|
+      md_sec["TYPE"] = 'PREMIS'
+      md_sec["LABEL"] = 'RXP'
+      amd_sec << md_sec
     end
 
   end
   
+  # Returns the path to the rxp meta data file
   def rxp_md_file
     File.join md_dir, "rxp.xml"
   end
 
-  # Adds a R0 meta data record, overwrites if already present
+  # Saves R0 representation metadata. Returns the ID of the created metadata section
   def add_r0_md doc
     raise "must be a PREMIS document" unless doc.root.namespaces.namespace.to_s == NS_MAP['premis']
     md_file = File.join md_dir, "r0.xml"
     doc.save md_file
     
-    # reference the file in the aip descriptor
-    modify_poly_descriptor do |des_doc|
-      amd_sec = des_doc.find_first("//mets:amdSec", NS_MAP)
-      md_ref = make_md_sec_ref(:tech, md_file, des_doc)
-      md_ref["TYPE"] = 'PREMIS'
-      md_ref.first["LABEL"] = 'R0'
-      
-      amd_sec.first.prev = md_ref      
+    make_md_ref! :tech, md_file do |amd_sec, md_sec|
+      md_sec["TYPE"] = 'PREMIS'
+      md_sec.first["LABEL"] = 'R0'
+      amd_sec.first.prev = md_sec      
     end
 
   end
     
-  protected
+  private
+  
+  # make a meta data file in the package. return the path to the file
+  def make_md_file! type, doc
+    file_base = type.id2name
+    current_md_files = Dir[File.join(md_dir, "#{file_base}-*.xml")]
+    next_md_file = next_in_set current_md_files, /#{file_base}-(\d+).xml/
+    md_file = File.join md_dir, "#{file_base}-#{next_md_file}.xml"
+    raise 'cannot write metadata, file already exists #{md_file}' if File.exist? md_file
+    doc.save md_file
+    md_file
+  end
+  
+  # make a METS mdRef to a file. return the id of the mdRef. if a block is
+  # given then assembly of the amdSec and the metadata section is expected to
+  # happen in the block given.
+  def make_md_ref! type, md_file
+    
+    modify_poly_descriptor do |des_doc|
+      md_sec = make_md_sec_ref(type, md_file, des_doc)
+      amd_sec = des_doc.find_first("//mets:amdSec", NS_MAP)
+      
+      if block_given?
+        yield amd_sec, md_sec
+      else
+        
+        if amd_sec.empty? or type == :digiprov
+          amd_sec << md_sec
+        elsif type == :tech
+          amd_sec.first.prev = md_sec
+        end
+        
+      end
+      
+      md_sec['ID']
+    end
+    
+  end
   
   # Return a METS mdSecType instance that references the metadata file
   def make_md_sec_ref type, md_file, doc
