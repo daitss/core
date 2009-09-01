@@ -42,11 +42,6 @@ class Aip
   def poly_descriptor_file
     File.join path, POLY_DESCRIPTOR_FILE
   end
-
-  # The final single descriptor file that is stored
-  def mono_descriptor_file
-    File.join path, MONO_DESCRIPTOR_FILE
-  end
   
   # Returns an array of DFile objects
   def files

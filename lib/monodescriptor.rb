@@ -1,10 +1,15 @@
 module Monodescriptor
   
+  # The final single descriptor file that is stored
+  def mono_descriptor_file
+    File.join path, MONO_DESCRIPTOR_FILE
+  end
+  
   def unite_descriptor!
 
     # map the old ids to new ids
-    id_counter = Hash.new {|h, k| h[k] = 0 unless h.has_key? k }
-    id_map = Hash.new {|h, k| h[k] = [] unless h.has_key? k }
+    id_counter = Hash.new { |h, k| h[k] = 0 unless h.has_key? k }
+    id_map = Hash.new { |h, k| h[k] = [] unless h.has_key? k }
     doc = XML::Parser.file(poly_descriptor_file).parse
 
     # change the mdRefs to mdWraps
