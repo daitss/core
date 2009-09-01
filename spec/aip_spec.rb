@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'aip'
 require 'dm-core'
-
 require "libxml"
+
 include LibXML
 
 describe Aip do
@@ -37,18 +37,19 @@ describe Aip do
     aip.files.size.should == 3
   end
   
-  it "should store copies"
+  it "should store copies" do
+    aip = aip_instance_from_sip 'ateam'
+    aip.ingest!
+    aip.should be_stored
+  end
   
   it "should know if it is currently rejected" do
-    aip = aip_instance 'invalid-descriptor'
-    aip.ingest!
+    aip = aip_instance 'rejected'
     aip.should be_rejected
   end
   
   it "should know if it is currently snafu" do
-    pending "need to work dummy into the configuration, but lets configure later"
-    aip = aip_instance 'good'
-    aip.ingest!
+    aip = aip_instance 'snafu'
     aip.should be_snafu
   end
   
