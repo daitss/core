@@ -7,11 +7,7 @@ include LibXML
 module Provenance
   
   def provenance_retrieved?
-    type = "External Provenance Extraction"
-    
-    md_for(:digiprov).any? do |doc|
-      doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
-    end
+    md_for_event? "External Provenance Extraction"    
   end
 
   def retrieve_provenance!
@@ -41,12 +37,7 @@ module Provenance
   end
   
   def representations_retrieved?
-    type = "Representation Retrieval"
-    
-    md_for(:digiprov).any? do |doc|
-      doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
-    end
-    
+    md_for_event? "Representation Retrieval"    
   end
   
   def retrieve_representations!

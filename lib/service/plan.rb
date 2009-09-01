@@ -3,12 +3,7 @@ require 'service/error'
 module Plan
   
   def planned?
-    type = "Action Plan Determination"
-
-    md_for(:digiprov).any? do |doc|
-      doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
-    end
-    
+    md_for_event? "Action Plan Determination"    
   end
   
   def plan!

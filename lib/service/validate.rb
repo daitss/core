@@ -13,12 +13,7 @@ end
 module Validate
 
   def validated?
-    type = "SIP passed all validation checks"
-    
-    md_for(:digiprov).any? do |doc|
-      doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
-    end
-    
+    md_for_event? "SIP passed all validation checks"    
   end
 
   def validate!

@@ -7,12 +7,7 @@ include Layout
 module Store
   
   def stored?
-    type = "Copy Stored"
-
-    md_for(:digiprov).any? do |doc|
-      doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
-    end
-    
+    md_for_event? "Copy Stored"
   end
   
   def store!
