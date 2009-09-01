@@ -40,6 +40,11 @@ module Metadata
     Dir[pattern]
   end
   
+  def md_for_event? type
+    xpath = "//premis:event[premis:eventType[normalize-space(.)='#{type}']]"
+    md_for(:digiprov).any? { |doc| doc.find_first xpath, NS_MAP }
+  end
+  
   # Returns a list of xml documents for the specified type
   def md_for type
     md_files_for(type).map { |f| XML::Parser.file(f).parse }

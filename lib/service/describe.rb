@@ -3,12 +3,7 @@ require 'namespace'
 module Describe
 
   def described?
-    type = "Format Description"
-
-    md_for(:digiprov).any? do |doc|
-      doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
-    end
-
+    md_for_event? "Format Description"
   end
   
   def describe!
