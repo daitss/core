@@ -5,6 +5,7 @@ require 'layout'
 require 'create'
 require 'file'
 require 'metadata'
+require 'monodescriptor'
 require 'ingest'
 require 'service/validate'
 require 'service/provenance'
@@ -17,32 +18,37 @@ class Aip
   attr_reader :url
 
   include Metadata
+  include Monodescriptor
   include Ingest
   include Validate
   include Provenance
   include Store
   include Layout
   
+  # Returns a new AIP based at the url, only file urls are supported.
   def initialize url
     @url = URI.parse url
     raise "unsupported url: #{@url}" unless @url.scheme == 'file'
     raise "cannot locate package: #{@url}" unless File.directory?(@url.path)
   end
   
+  # Returns the path to the aip on the file system
   def path
     @url.path
   end
-  
   alias_method :package_dir, :path
-    
+
+  # The interim descriptor that is built
   def poly_descriptor_file
     File.join path, POLY_DESCRIPTOR_FILE
   end
 
+  # The final single descriptor file that is stored
   def mono_descriptor_file
     File.join path, MONO_DESCRIPTOR_FILE
   end
   
+  # Returns an array of DFile objects
   def files
     doc = XML::Parser.file(poly_descriptor_file).parse
     
@@ -106,14 +112,17 @@ class Aip
     File.join path, FILE_MD_DIR
   end
       
+  # Returns the path to the reject tag file
   def reject_tag_file
     File.join path, 'REJECT'
   end
   
+  # Returns true if this package is rejected
   def rejected?
     File.exist? reject_tag_file
   end
 
+  # Writes the set of errors to the reject tag file
   def write_reject_info e
     
     open(reject_tag_file, "w") do |io|
@@ -127,14 +136,17 @@ class Aip
     
   end
 
+  # Returns a path to the snafu tag file
   def snafu_tag_file
     File.join path, 'SNAFU'
   end
   
+  # Returns true if the aip is snafu
   def snafu?
     File.exist? snafu_tag_file
   end
 
+  # Writes the error to the snafu tag file
   def write_snafu_info e
     
     open(snafu_tag_file, "w") do |io|
@@ -144,7 +156,8 @@ class Aip
     end
     
   end  
-  
+
+  # Removes the aip from the file system
   def cleanup!
     FileUtils::rm_r path
   end
@@ -156,49 +169,7 @@ class Aip
     doc.save poly_descriptor_file
     rval
   end
-  
-  def unite_descriptor!
     
-    # map the old ids to new ids
-    id_counter = Hash.new {|h, k| h[k] = 0 unless h.has_key? k }
-    id_map = Hash.new {|h, k| h[k] = [] unless h.has_key? k }
-    doc = XML::Parser.file(poly_descriptor_file).parse
-
-    # change the mdRefs to mdWraps
-    doc.find('//mets:amdSec/*/mets:mdRef', NS_MAP).each do |ref|
-      location = File.join path, ref['href'] # XXX does namespace matter here?
-      md_doc = XML::Parser.file(location).parse
-      old_id = ref.parent['ID']
-      
-      md_doc.find('/premis:premis/premis:*', NS_MAP).each do |premis_el|
-        md_name = ref.parent.name
-        md_section = doc.import XML::Node.new(md_name)
-        new_id = (id_counter[md_name] += 1).to_s
-        md_section['ID'] = md_name.sub(/MD$/, '') + '-' + new_id
-        id_map[old_id] << md_section['ID']
-        ref.parent.prev = md_section
-        wrap = doc.import XML::Node.new('mdWrap')
-        wrap['MDTYPE'] = 'PREMIS'
-        wrap['LABEL']  = ref['LABEL'] if ref['LABEL']
-        md_section << wrap
-        xml_data = doc.import XML::Node.new('xmlData')
-        wrap << xml_data
-        xml_data << doc.import(premis_el)
-      end
-            
-      ref.parent.remove!
-    end
-
-    # update all the ADMIDs  
-    doc.find('//mets:*/@ADMID', NS_MAP).each do |admid|
-      xpath_result = admid.value.split
-      admid.value = xpath_result.map { |xid| id_map[xid].join(" ") }.join(" ")
-    end
-    
-    XML.indent_tree_output
-    doc.save mono_descriptor_file 
-  end
-  
   def represented?    
     md_for(:techmd).any? do |doc|
       xpath = "//mets:techMD/mets:mdRef[@LABEL='R0']"
