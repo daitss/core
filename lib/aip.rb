@@ -28,6 +28,7 @@ class Aip
   # Returns a new AIP based at the url, only file urls are supported.
   def initialize url
     @url = URI.parse url
+    @url.scheme = 'file' unless @url.scheme
     raise "unsupported url: #{@url}" unless @url.scheme == 'file'
     raise "cannot locate package: #{@url}" unless File.directory?(@url.path)
   end
