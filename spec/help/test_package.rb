@@ -30,3 +30,18 @@ def aip_instance_from_sip name
   aip = Aip.make_from_sip aip_dir, sip
   aip
 end
+
+def next_aip_dir
+
+  taken = Dir["#{$sandbox}/*"].map do |e|
+    e =~ /aip-(\d+)/ ? $1.to_i : -1
+  end      
+
+  File.join $sandbox, "aip-#{ taken.empty? ? 0 : taken.max + 1 }"
+end
+
+def submit_sip name
+  sip = test_sip_by_name name
+  aip = Aip.make_from_sip next_aip_dir, sip
+  aip
+end
