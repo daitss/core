@@ -5,16 +5,23 @@ require 'rack'
 
 # validation & provenance
 $:.unshift File.join('..', 'validate-service', 'lib')
-require File.join('..', 'validate-service', 'validation')
-require File.join('..', 'validate-service', 'provenance')
+$:.unshift File.join('..', 'validate-service')
+require "validation"
+require "provenance"
 
 # description
 $:.unshift File.join('..', 'describe', 'lib')
-require File.join('..', 'describe', 'describe')
+$:.unshift File.join('..', 'describe')
+require "describe"
+
+# actionplan
+$:.unshift File.join('..', 'actionplan-s', 'lib')
+require "actionpland"
 
 # transformation
 $:.unshift File.join('..', 'transform', 'lib')
-require File.join('..', 'transform', 'transform')
+$:.unshift File.join('..', 'transform')
+require "transform"
 
 # dummy
 require 'sinatra'
@@ -48,6 +55,11 @@ test_stack = Rack::Builder.new do
    map "/description" do
      use Rack::Lint
      run Describe.new
+   end
+
+   map "/actionplan" do
+     use Rack::Lint
+     run ActionPlanD.new
    end
 
    map "/transformation" do
