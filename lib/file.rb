@@ -12,9 +12,9 @@ class DFile
 
   include FileProcess
   include Metadata
-  include Describe
+  include Service::Describe
   include Plan
-  include Transform
+  include Service::Transform
   
   def initialize aip, id
     @aip = aip

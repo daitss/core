@@ -1,27 +1,30 @@
 #!/usr/bin/ruby
-ENV["PATH"] = "/Applications/ffmpegX.app/Contents/Resources:#{ENV["PATH"]}"
 
 require 'rack'
 
 # validation & provenance
-$:.unshift File.join('..', 'validate-service', 'lib')
-$:.unshift File.join('..', 'validate-service')
-require "validation"
-require "provenance"
+vendor_dir =  File.join(File.dirname(__FILE__), 'vendor')
+
+validation_dir = File.join(vendor_dir, 'validation')
+$:.unshift File.join(validation_dir, 'lib')
+require File.join(validation_dir, 'validation')
+require File.join(validation_dir, 'provenance')
 
 # description
-$:.unshift File.join('..', 'describe', 'lib')
-$:.unshift File.join('..', 'describe')
-require "describe"
+description_dir = File.join(vendor_dir, 'description')
+$:.unshift File.join(description_dir, 'lib')
+require File.join(description_dir, 'describe')
 
 # actionplan
-$:.unshift File.join('..', 'actionplan-s', 'lib')
-require "actionpland"
+actionplan_dir = File.join(vendor_dir, 'actionplan')
+$:.unshift File.join(actionplan_dir, 'lib')
+require File.join(actionplan_dir, 'app')
 
 # transformation
-$:.unshift File.join('..', 'transform', 'lib')
-$:.unshift File.join('..', 'transform')
-require "transform"
+ENV["PATH"] = "/Applications/ffmpegX.app/Contents/Resources:#{ENV["PATH"]}"
+transformation_dir = File.join(vendor_dir, 'transformation')
+$:.unshift File.join(transformation_dir, 'lib')
+require File.join(transformation_dir, 'transform')
 
 # dummy
 require 'sinatra'
@@ -39,40 +42,35 @@ end
 
 test_stack = Rack::Builder.new do
   
-   use Rack::CommonLogger
-   use Rack::ShowExceptions
-   
+   #use Rack::CommonLogger
+   #use Rack::ShowExceptions
+   #use Rack::Lint
+        
    map "/validation" do
-     use Rack::Lint
      run Validation.new
    end
    
    map "/provenance" do
-     use Rack::Lint
      run Provenance.new
    end
 
    map "/description" do
-     use Rack::Lint
      run Describe.new
    end
 
    map "/actionplan" do
-     use Rack::Lint
      run ActionPlanD.new
    end
 
    map "/transformation" do
-     use Rack::Lint
      run Transform.new
    end
    
    map "/dummy" do
-     use Rack::Lint
      run Dummy.new
    end
    
 end
 
 thin = Rack::Handler::Thin
-thin.run test_stack, :Port => '7000'
+thin.run test_stack, :Port => ARGV.first

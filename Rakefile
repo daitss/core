@@ -29,3 +29,32 @@ end
 Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_tar = true
 end
+
+VENDOR_DIR = File.join File.dirname(__FILE__), 'vendor'
+
+# TODO checkout/update all the vendor test services
+task :vendor => [:clobber_vendor] do
+  
+  FileUtils::mkdir VENDOR_DIR
+  
+  vc_urls = {
+    'description' => "svn://tupelo.fcla.edu/daitss2/describe/trunk",
+    'storage' => "svn://tupelo.fcla.edu/daitss2/store/trunk",
+    'actionplan' => "svn://tupelo.fcla.edu/daitss2/actionplan/trunk",
+    'validation' => "svn://tupelo/shades/validate-service",
+    'transformation' => "svn://tupelo.fcla.edu/daitss2/transform/trunk"
+  }
+
+  Dir.chdir VENDOR_DIR do
+    vc_urls.each do |name, url|
+      puts "retrieving #{name}"
+      `svn export #{url} #{name}`
+      raise "error retrieving #{name}" unless $? == 0
+    end
+  end
+  
+end
+
+task :clobber_vendor do
+  FileUtils::rm_rf VENDOR_DIR
+end
