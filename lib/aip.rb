@@ -21,7 +21,7 @@ class Aip
   include Monodescriptor
   include Ingest
   include Validate
-  include Provenance
+  include Service::Provenance
   include Store
   include Layout
   

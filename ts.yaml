@@ -1,0 +1,5 @@
+description: http://localhost:7000/description/describe
+validation: http://localhost:7000/validation/results
+storage: http://localhost:3000/one/data
+actionplan: http://localhost:7000/actionplan/instructions
+provenance: http://localhost:7000/provenance

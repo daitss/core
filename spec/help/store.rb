@@ -1,7 +1,7 @@
 Spec::Matchers.define :be_stored do
 
   match do |aip|
-    storage_url = URI.parse "http://localhost:3000/one/data/#{File.basename aip.path}"
+    storage_url = URI.parse "#{SERVICE_URLS['storage']}/#{File.basename aip.path}"
     req = Net::HTTP::Get.new storage_url.request_uri
     response = Net::HTTP.start(storage_url.host, storage_url.port) { |http| http.request(req) }
     Net::HTTPOK === response
