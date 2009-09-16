@@ -42,9 +42,9 @@ end
 
 test_stack = Rack::Builder.new do
   
-   #use Rack::CommonLogger
-   #use Rack::ShowExceptions
-   #use Rack::Lint
+   use Rack::CommonLogger
+   use Rack::ShowExceptions
+   use Rack::Lint
         
    map "/validation" do
      run Validation.new
@@ -72,5 +72,11 @@ test_stack = Rack::Builder.new do
    
 end
 
-thin = Rack::Handler::Thin
-thin.run test_stack, :Port => ARGV.first
+require 'logger'
+
+log = File.new("sinatra.log", "a")
+STDOUT.reopen(log)
+STDERR.reopen(log)
+
+httpd = Rack::Handler::Thin
+httpd.run test_stack, :Port => ARGV.first
