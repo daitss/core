@@ -1,73 +1,91 @@
-require 'socket'
+require 'rack'
 
-module TestStack
+# echo the status back to the requestor
+require 'sinatra/base'
 
-  def start_sinatra
-    @sinatra_port = 7000
-    sinatra_dir = File.join File.dirname(__FILE__), '..', '..'
-    @sinatra_pid = fork do
-      Dir.chdir sinatra_dir do
-        exec "./ts-sinatra", @sinatra_port.to_s
-      end
+class StatusEcho < Sinatra::Base
+  
+  get '/code/:code' do |code|
+    
+    if code.to_i == 200
+      'all good'
+    else
+      halt code, 'you asked for it'
     end
-
-    wait_for_service("0.0.0.0", @sinatra_port)
+    
   end
+  
+end
 
-  def start_storage
-    @storage_port = 7001
-    @silo_sandbox = new_sandbox
-    FileUtils::mkdir @silo_sandbox
-    storage_dir = File.join(VENDOR_DIR, 'storage')
-    @storage_pid = fork do
-      Dir.chdir storage_dir do
-        exec "ruby -Ilib bin/disk-server --network-port #{@storage_port} --silo one:#{@silo_sandbox}"
-      end
-    end
+# validation & provenance
+validation_dir = File.join TS_DIR, 'validation'
+$:.unshift File.join(validation_dir, 'lib')
+require File.join(validation_dir, 'validation')
+require File.join(validation_dir, 'provenance')
 
-    wait_for_service "0.0.0.0", @storage_port
+# description
+description_dir = File.join TS_DIR, 'description'
+$:.unshift File.join(description_dir, 'lib')
+require File.join(description_dir, 'describe')
+
+# actionplan
+actionplan_dir = File.join TS_DIR, 'actionplan'
+$:.unshift File.join(actionplan_dir, 'lib')
+require File.join(actionplan_dir, 'app')
+
+# transformation
+ENV["PATH"] = "/Applications/ffmpegX.app/Contents/Resources:#{ENV["PATH"]}"
+transformation_dir = File.join TS_DIR, 'transformation'
+$:.unshift File.join(transformation_dir, 'lib')
+require File.join(transformation_dir, 'transform')
+
+# storage
+storage_dir = File.join TS_DIR, 'simplestorage'
+$:.unshift File.join(storage_dir, 'lib')
+require File.join(storage_dir, 'app')
+
+def test_stack
+  
+  Rack::Builder.new do
+
+     use Rack::CommonLogger
+     use Rack::ShowExceptions
+     use Rack::Lint
+
+     map "/validation" do
+       run Validation.new
+     end
+
+     map "/provenance" do
+       run Provenance.new
+     end
+
+     map "/description" do
+       run Describe.new
+     end
+
+     map "/actionplan" do
+       run ActionPlanD.new
+     end
+
+     map "/transformation" do
+       run Transform.new
+     end
+
+     map "/silo" do
+       run SimpleStorage::App.new(SILO_SANDBOX)
+     end
+
   end
+  
+end
 
-  def stop_sinatra
-    Process.kill 'INT', @sinatra_pid
-    Process.wait @sinatra_pid
-  end
+def nuke_silo_sandbox
+  FileUtils::rm_rf SILO_SANDBOX
+  FileUtils::mkdir_p SILO_SANDBOX
+end
 
-  def stop_storage
-    Process.kill 'INT', @storage_pid
-    Process.wait @storage_pid
-  end
-
-  def nuke_silo_sandbox
-    FileUtils::chmod_R 0777, @silo_sandbox # XXX strange silo perms bullshit going on here
-    FileUtils::rm_rf @silo_sandbox
-    FileUtils::mkdir @silo_sandbox
-  end
-
-  private
-
-  def listening?(host, port)
-    begin
-      socket = TCPSocket.new(host, port)
-      socket.close unless socket.nil?
-      true
-    rescue Errno::ECONNREFUSED,
-      Errno::EBADF,           # Windows
-      Errno::EADDRNOTAVAIL    # Windows
-      false
-    end
-  end
-
-  def wait_for_service(host, port, timeout = 5)
-    start_time = Time.now
-
-    until listening?(host, port)
-      if timeout && (Time.now > (start_time + timeout))
-        raise SocketError.new("Socket did not open within #{timeout} seconds")
-      end
-    end
-
-    true
-  end
-
+def run_test_stack
+  httpd = Rack::Handler::Thin
+  httpd.run test_stack, :Port => 7000
 end
