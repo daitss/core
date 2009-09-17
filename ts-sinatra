@@ -3,7 +3,7 @@
 require 'rack'
 
 # validation & provenance
-vendor_dir =  File.join(File.dirname(__FILE__), 'vendor')
+vendor_dir =  File.join(File.dirname(__FILE__), 'test-stack')
 
 validation_dir = File.join(vendor_dir, 'validation')
 $:.unshift File.join(validation_dir, 'lib')
@@ -26,9 +26,14 @@ transformation_dir = File.join(vendor_dir, 'transformation')
 $:.unshift File.join(transformation_dir, 'lib')
 require File.join(transformation_dir, 'transform')
 
+# storage
+storage_dir = File.join(vendor_dir, 'simplestorage')
+$:.unshift File.join(storage_dir, 'lib')
+require File.join(storage_dir, 'app')
+
 # dummy
-require 'sinatra'
-class Dummy < Sinatra::Base
+require 'sinatra/base'
+class StatusEcho < Sinatra::Base
   
   get '/code/:code' do |code|
     if code.to_i == 200
@@ -39,6 +44,9 @@ class Dummy < Sinatra::Base
   end
   
 end
+
+SILO_SANDBOX='/tmp/silo_sandbox'
+FileUtils::mkdir_p SILO_SANDBOX
 
 test_stack = Rack::Builder.new do
   
@@ -66,17 +74,21 @@ test_stack = Rack::Builder.new do
      run Transform.new
    end
    
-   map "/dummy" do
-     run Dummy.new
+   map "/silo" do
+     run SimpleStorage::App.new(SILO_SANDBOX)
+   end
+   
+   map "/statusecho" do
+     run StatusEcho.new
    end
    
 end
 
 require 'logger'
 
-log = File.new("sinatra.log", "a")
-STDOUT.reopen(log)
-STDERR.reopen(log)
+# log = File.new("sinatra.log", "a")
+# STDOUT.reopen(log)
+# STDERR.reopen(log)
 
 httpd = Rack::Handler::Thin
 httpd.run test_stack, :Port => ARGV.first

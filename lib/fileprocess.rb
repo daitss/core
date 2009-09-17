@@ -20,7 +20,7 @@ module FileProcess
 
       end
 
-    rescue ServiceError => e
+    rescue Service::Error => e
       t = template_by_name 'per_file_error'
       s = t.result binding
       error_doc = XML::Parser.string(s).parse

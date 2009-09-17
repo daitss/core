@@ -30,31 +30,47 @@ Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_tar = true
 end
 
-VENDOR_DIR = File.join File.dirname(__FILE__), 'vendor'
+TS_DIR = File.join File.dirname(__FILE__), 'test-stack'
 
-# TODO checkout/update all the vendor test services
-task :vendor => [:clobber_vendor] do
+task :get_ts do
   
-  FileUtils::mkdir VENDOR_DIR
+  FileUtils::mkdir_p TS_DIR
   
   vc_urls = {
     'description' => "svn://tupelo.fcla.edu/daitss2/describe/trunk",
-    'storage' => "svn://tupelo.fcla.edu/daitss2/store/trunk",
+    #'storage' => "svn://tupelo.fcla.edu/daitss2/store/trunk",
+    'simplestorage' => "ssh://sake/var/git/simplestorage.git",
     'actionplan' => "svn://tupelo.fcla.edu/daitss2/actionplan/trunk",
     'validation' => "svn://tupelo/shades/validate-service",
     'transformation' => "svn://tupelo.fcla.edu/daitss2/transform/trunk"
   }
 
-  Dir.chdir VENDOR_DIR do
+  Dir.chdir TS_DIR do
     vc_urls.each do |name, url|
+      next if File.exist? name
       puts "retrieving #{name}"
-      `svn export #{url} #{name}`
+      
+      if url =~ %r{^svn://}
+        `svn export #{url} #{name}`  
+      else
+        `git archive --remote='#{url}' --format=tar --prefix='simplestorage/' master | tar xf -`
+      end
+      
       raise "error retrieving #{name}" unless $? == 0
     end
   end
   
 end
 
-task :clobber_vendor do
-  FileUtils::rm_rf VENDOR_DIR
+task :clobber_ts do
+  FileUtils::rm_rf TS_DIR
+end
+
+task :ts do
+  $:.unshift 'spec'
+  require 'help/test_stack'
+  include TestStack
+  
+  start_sinatra
+  puts 'sinatra stack started'  
 end

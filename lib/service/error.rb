@@ -1,1 +1,3 @@
-class ServiceError < StandardError; end
+module Service
+  class Error < StandardError; end
+end
