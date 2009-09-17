@@ -174,10 +174,20 @@ class Aip
   end
   
   def represent!
-    t = template_by_name 'r0'
-    s = t.result binding
+    
+    b = binding
+    
+    # make r0
+    t = template_by_name 'rep_0'
+    s = t.result b
     doc = XML::Parser.string(s).parse
     add_r0_md doc
+    
+    # # make rC
+    # t = template_by_name 'rep_C'
+    # s = t.result b
+    # doc = XML::Parser.string(s).parse
+    # add_rc_md doc  
   end
   
   protected

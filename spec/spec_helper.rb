@@ -6,9 +6,6 @@ require "help/schematron"
 require "help/snafu"
 require "help/reps"
 require "help/store"
-require 'help/test_stack'
-
-VENDOR_DIR = File.join(File.dirname(__FILE__), '..', 'vendor')
 
 # Make it the configuration
 SERVICE_URLS = {
@@ -16,22 +13,12 @@ SERVICE_URLS = {
   "validation" => "http://localhost:7000/validation/results",
   "provenance" => "http://localhost:7000/provenance",
   "description" => "http://localhost:7000/description/describe",
-  "storage" => "http://localhost:7001/one/data"
+  "storage" => "http://localhost:7000/silo"
 }
 
+SILO_SANDBOX='/tmp/silo_sandbox'
 
-include TestStack
 Spec::Runner.configure do |config|
-
-  config.before(:all) do
-    start_sinatra
-    start_storage    
-  end
-
-  config.after(:all) do
-    stop_sinatra
-    stop_storage    
-  end
 
   config.before(:each) do
     # Make a new fs sandbox
@@ -47,7 +34,10 @@ Spec::Runner.configure do |config|
     # kill the sandbox
     FileUtils::rm_rf $sandbox
     
-    nuke_silo_sandbox
+    FileUtils::rm_rf SILO_SANDBOX
+    FileUtils::mkdir_p SILO_SANDBOX
+    
+    FileUtils::rm_rf File.join(File.dirname(__FILE__), '..', 'DescribeService.log')
   end
   
 end

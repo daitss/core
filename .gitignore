@@ -2,4 +2,4 @@
 pkg
 *.log
 *.tmproj
-vendor
+test-stack

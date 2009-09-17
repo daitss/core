@@ -69,19 +69,34 @@ module Metadata
 
   # Saves R0 representation metadata. Returns the ID of the created metadata section
   def add_r0_md doc
-    raise "must be a PREMIS document" unless doc.root.namespaces.namespace.to_s == NS_MAP['premis']
-    md_file = File.join md_dir, "r0.xml"
-    doc.save md_file
-    
-    make_md_ref! :tech, md_file do |md_sec|
-      md_sec["TYPE"] = 'PREMIS'
-      md_sec.first["LABEL"] = 'R0'
-    end
+    add_representation_md 'r0', doc
+  end
 
+  def add_rc_md doc
+    add_representation_md 'rc', doc
   end
     
+  def succeeded?
+    @aip.files.any? { |file| file.succeeds? self }
+  end    
+    
+  def succeeds?
+    md_for_event? "Transformation"
+  end
+  
   private
   
+  def add_representation_md rname, doc
+    raise "must be a PREMIS document" unless doc.root.namespaces.namespace.to_s == NS_MAP['premis']
+    md_file = File.join md_dir, "#{rname}.xml".downcase
+    doc.save md_file
+
+    make_md_ref! :tech, md_file do |md_sec|
+      md_sec["TYPE"] = 'PREMIS'
+      md_sec.first["LABEL"] = rname.upcase
+    end
+  end
+    
   # make a meta data file in the package. return the path to the file
   def make_md_file! type, doc
     file_base = type.id2name

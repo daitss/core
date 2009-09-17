@@ -13,7 +13,7 @@ class DFile
   include FileProcess
   include Metadata
   include Service::Describe
-  include Plan
+  include Service::Plan
   include Service::Transform
   
   def initialize aip, id

@@ -16,7 +16,7 @@ module Service
       when Net::HTTPSuccess
         XML::Parser.string(response.body).parse
       else
-        raise ServiceError, "cannot describe file: #{response.code} #{response.msg}: #{response.body}"
+        raise Error, "cannot describe file: #{response.code} #{response.msg}: #{response.body}"
       end
 
       # objects

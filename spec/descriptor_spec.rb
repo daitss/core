@@ -24,8 +24,10 @@ describe "aip descriptor" do
     @descriptor.should conform_to_pim_bp
   end
   
-  it "should have a premis representation for the package" do
+  it "should have two premis representations for the package" do
     @descriptor.should have_r0_representation
+    @descriptor.should have_rC_representation
+    # all files should overlap but the succeeded ones
   end
   
   # it "should have globally unique identifiers (across the FDA) for events agents and objects"
