@@ -19,7 +19,6 @@ end
 
 TS_DIR = File.join File.dirname(__FILE__), '..', 'test-stack'
 
-
 def test_stack
 
   # validation & provenance
@@ -108,19 +107,19 @@ namespace :ts do
       #'storage' => "svn://tupelo.fcla.edu/daitss2/store/trunk",
       'simplestorage' => "ssh://sake/var/git/simplestorage.git",
       'actionplan' => "svn://tupelo.fcla.edu/daitss2/actionplan/trunk",
-      'validation' => "svn://tupelo/shades/validate-service",
+      'validation' => "svn://tupelo.fcla.edu/shades/validate-service",
       'transformation' => "svn://tupelo.fcla.edu/daitss2/transform/trunk"
     }
 
     Dir.chdir TS_DIR do
       vc_urls.each do |name, url|
-        print "fetching #{name} ... "
         
         if File.exist? name
-          puts "already here"
+          puts "exists:\t#{name}"
           next
         else
-
+          puts "fetch:\t#{name}"
+          
           if url =~ %r{^svn://}
             `svn export #{url} #{name}`  
           else
@@ -128,7 +127,6 @@ namespace :ts do
           end
 
           raise "error retrieving #{name}" unless $? == 0
-          puts 'done'
         end
         
       end
@@ -143,7 +141,7 @@ namespace :ts do
   end
   
   desc "run the test stack"
-  task :run do
+  task :run  => [:fetch] do
 
     SERVICE_URLS = {
       "actionplan" => "http://localhost:7000/actionplan/instructions", 
@@ -155,7 +153,6 @@ namespace :ts do
 
     # nuke the storage stuff
     SILO_SANDBOX = '/tmp/silo_sandbox'
-    require 'spec/help/test_stack'
     nuke_silo_sandbox
     run_test_stack
   end
