@@ -1,10 +1,7 @@
 to run the test suite against real servers:
 
-# get the test stack
-rake get_ts
-
 # run the test stack, kill it with ^C
-rake ts
+rake ts:run
 
 # in another terminal (or whatever)
 rake spec
