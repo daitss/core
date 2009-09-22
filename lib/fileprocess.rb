@@ -15,7 +15,7 @@ module FileProcess
           new_file = @aip.add_file io, fname
           md_id = new_file.add_md :tech, t.metadata
           new_file.add_admid_ref md_id
-          new_file.describe unless described?
+          new_file.describe! unless described?
         end
 
       end

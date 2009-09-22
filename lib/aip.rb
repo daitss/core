@@ -174,20 +174,25 @@ class Aip
   end
   
   def represent!
-    
-    b = binding
+    # make r0
+    s = template_by_name('rep_0').result binding
+    doc = XML::Parser.string(s).parse
+    add_representation_md 'r0', doc    
     
     # make r0
-    t = template_by_name 'rep_0'
-    s = t.result b
+    s = template_by_name('rep_c').result binding
     doc = XML::Parser.string(s).parse
-    add_r0_md doc
-    
-    # # make rC
-    # t = template_by_name 'rep_C'
-    # s = t.result b
-    # doc = XML::Parser.string(s).parse
-    # add_rc_md doc  
+    add_representation_md 'rC', doc    
+  end
+  
+  # Returns all the files that are not transformed
+  def rep_0_files
+    files
+  end
+
+  # Returns all the files but with transformantions substituted
+  def rep_c_files
+    files
   end
   
   protected
