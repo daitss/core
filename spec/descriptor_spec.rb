@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'set'
 
 describe "aip descriptor" do
   
@@ -27,7 +28,16 @@ describe "aip descriptor" do
   it "should have two premis representations for the package" do
     @descriptor.should have_r0_representation
     @descriptor.should have_rC_representation
-    # all files should overlap but the succeeded ones
+  end
+  
+  it "should have r0 without products of transformations" do
+    pending 'not all transformation md is available'
+    r_0_files(@descriptor).to_s.should == transformations(@descriptor).keys.to_set
+  end
+
+  it "should have rC with products of transformations replacing predecessors" do
+    pending 'not all transformation md is available'
+    r_c_files(@descriptor).to_s.should == transformations(@descriptor).values.to_set
   end
   
   # it "should have globally unique identifiers (across the FDA) for events agents and objects"

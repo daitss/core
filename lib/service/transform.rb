@@ -54,11 +54,9 @@ module Service
     
     end
   
-    class Migration < Transformation
-    end
+    class Migration < Transformation; end
   
-    class Normalization < Transformation
-    end
+    class Normalization < Transformation; end
   
     # Return a list of transformation URL
     def transformations
