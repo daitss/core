@@ -14,7 +14,7 @@ class Datafile
   property :format_registry, String # ex. format registry namespace + formatid, 
     # ex: "http://www.nationalarchives.gov.uk/pronom/fmt/10"
   
-  property :create_date, DateTime, :nullable => false
+  property :create_date, DateTime
   property :origin, Enum[:archive, :depositor, :unknown], :default => :unknown, :nullable => false
   property :original_path, String, :length => (0..255),  :nullable => false 
     # map from package_path + file_title + file_ext

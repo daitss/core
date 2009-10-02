@@ -23,7 +23,7 @@ class AIP2DB < Sinatra::Base
     puts params[:data][:tempfile]
     XML.default_keep_blanks = false
     doc = XML::Document.io params[:data][:tempfile]
-    fileObjects = doc.find("//premis:object[@type='file']", NAMESPACES)
+    fileObjects = doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
     fileObjects.each do |obj|
       fileobj = FileObject.new
       fileobj.fromPremis obj
