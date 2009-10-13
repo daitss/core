@@ -33,3 +33,4 @@ end
 
 tasks_dir = File.join File.dirname(__FILE__), 'tasks'
 require 'tasks/test_stack'
+require 'tasks/console'
