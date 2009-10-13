@@ -10,6 +10,8 @@ include LibXML
 
 class DFile
 
+  attr_reader :fid
+
   include FileProcess
   include Metadata
   include Service::Describe
