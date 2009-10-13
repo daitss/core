@@ -6,6 +6,7 @@ require "help/schematron"
 require "help/snafu"
 require "help/reps"
 require "help/store"
+require "help/xpath"
 
 # Make it the configuration
 SERVICE_URLS = {
@@ -33,6 +34,7 @@ Spec::Runner.configure do |config|
   config.after(:each) do
     # kill the sandbox
     FileUtils::rm_rf $sandbox
+    #puts $sandbox
     
     FileUtils::rm_rf SILO_SANDBOX
     FileUtils::mkdir_p SILO_SANDBOX

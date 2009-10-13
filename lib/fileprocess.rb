@@ -11,11 +11,18 @@ module FileProcess
       transformations.each do |t|
         t.perform!
 
-        t.data do |io, fname| 
+        t.data do |io, fname|
           new_file = @aip.add_file io, fname
-          md_id = new_file.add_md :tech, t.metadata
+          md_id = new_file.add_md :digiprov, t.metadata
           new_file.add_admid_ref md_id
-          new_file.describe! unless described?
+          
+          # get the event id and type
+          doc = md_for_id md_id
+          t_event = {
+            :type => doc.find_first("/premis:premis/premis:event/premis:eventIdentifier/premis:eventIdentifierType", NS_MAP).content.strip,
+            :value => doc.find_first("/premis:premis/premis:event/premis:eventIdentifier/premis:eventIdentifierValue", NS_MAP).content.strip
+          }
+          new_file.describe! t_event unless new_file.described?
         end
 
       end

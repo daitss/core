@@ -40,9 +40,17 @@ module Metadata
     Dir[pattern]
   end
   
+  # Returns a if a premis events that match the event type exists
   def md_for_event? type
     xpath = "//premis:event[premis:eventType[normalize-space(.)='#{type}']]"
     md_for(:digiprov).any? { |doc| doc.find_first xpath, NS_MAP }
+  end
+  
+  def md_for_id id
+    doc = XML::Parser.file(poly_descriptor_file).parse
+    href = doc.find_first "//mets:*[@ID='#{id}']/mets:mdRef/@xlink:href", NS_MAP
+    f = File.join(@aip.path, href.value)
+    XML::Parser.file(f).parse
   end
   
   # Returns a list of xml documents for the specified type
@@ -78,15 +86,7 @@ module Metadata
     end
     
   end
-    
-  def succeeded?
-    @aip.files.any? { |file| file.succeeds? self }
-  end    
-    
-  def succeeds?
-    md_for_event? "Transformation"
-  end
-  
+      
   private
       
   # make a meta data file in the package. return the path to the file
