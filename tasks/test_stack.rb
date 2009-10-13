@@ -51,9 +51,9 @@ def test_stack
   
   Rack::Builder.new do
 
-     use Rack::CommonLogger
-     use Rack::ShowExceptions
-     use Rack::Lint
+     # use Rack::CommonLogger
+     # use Rack::ShowExceptions
+     # use Rack::Lint
 
      map "/validation" do
        run Validation.new
@@ -67,7 +67,7 @@ def test_stack
        run Describe.new
      end
 
-     map "/actionplan" do
+     map "/actionplan" do       
        run ActionPlanD.new
      end
 
@@ -76,6 +76,7 @@ def test_stack
      end
 
      map "/silo" do
+       use Rack::ShowExceptions
        run SimpleStorage::App.new(SILO_SANDBOX)
      end
 
@@ -105,25 +106,33 @@ namespace :ts do
     vc_urls = {
       'description' => "svn://tupelo.fcla.edu/daitss2/describe/trunk",
       #'storage' => "svn://tupelo.fcla.edu/daitss2/store/trunk",
-      'simplestorage' => "ssh://sake/var/git/simplestorage.git",
-      'actionplan' => "svn://tupelo.fcla.edu/daitss2/actionplan/trunk",
+      'simplestorage' => "ssh://retsina.fcla.edu/var/git/simplestorage.git",
+      'actionplan' => "ssh://retsina.fcla.edu/var/git/actionplan.git",
       'validation' => "svn://tupelo.fcla.edu/shades/validate-service",
       'transformation' => "svn://tupelo.fcla.edu/daitss2/transform/trunk"
     }
 
     Dir.chdir TS_DIR do
+      
       vc_urls.each do |name, url|
         
         if File.exist? name
-          puts "exists:\t#{name}"
-          next
+          puts "updating:\t#{name}"
+          
+          if url =~ %r{^svn://}
+            Dir.chdir(name) { `svn up` }
+          else
+            Dir.chdir(name) { `git pull` }
+          end
+          
+          raise "error updating #{name}" unless $? == 0
         else
           puts "fetch:\t#{name}"
           
           if url =~ %r{^svn://}
-            `svn export #{url} #{name}`  
+            `svn co #{url} #{name}`  
           else
-            `git archive --remote='#{url}' --format=tar --prefix='simplestorage/' master | tar xf -`
+            `git clone #{url} #{name}`
           end
 
           raise "error retrieving #{name}" unless $? == 0
