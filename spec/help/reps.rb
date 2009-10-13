@@ -47,7 +47,7 @@ end
 def r_0_files descriptor
   doc = XML::Document.file descriptor
 
-  doc.find("mets:techMD[@LABEL='R0']/premis:object[@xsi:type='representation']/premis:relationship/premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NS_MAP).map do |node|
+  doc.find("//mets:techMD/mets:mdWrap[@LABEL='R0']/mets:xmlData/premis:object[@xsi:type='representation']/premis:relationship/premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NS_MAP).map do |node|
     node.content.strip
   end
     
@@ -56,7 +56,7 @@ end
 def r_c_files descriptor
   doc = XML::Document.file descriptor
   
-  doc.find("mets:techMD[@LABEL='RC']/premis:object[@xsi:type='representation']/premis:relationship/premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NS_MAP).map do |node|
+  doc.find("mets:techMD/mets:mdWrap[@LABEL='RC']/mets:xmlData/premis:object[@xsi:type='representation']/premis:relationship/premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NS_MAP).map do |node|
     node.content.strip
   end
 
