@@ -21,7 +21,7 @@ module Service
       when Net::HTTPNotFound
         # XXX do nothing, no rxp data here, possibly want to write we tried
       else
-        raise Service::Error, "cannot retrieve RXP provenance: #{response.code} #{response.msg}: #{response.body}"
+        raise Service::Error, "cannot action plan determination: #{response.code} #{response.msg}: #{response.body}"
       end
 
     end
