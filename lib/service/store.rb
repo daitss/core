@@ -18,15 +18,16 @@ module Store
     req = Net::HTTP::Put.new storage_url.request_uri
     req.body = tardata
     req['Content-MD5'] = Base64.encode64(Digest::MD5.digest(req.body)).chomp
+    req.content_type = 'application/tar'
     response = Net::HTTP.start(storage_url.host, storage_url.port) { |http| http.request(req) }
     
     val_doc = case response
-    when Net::HTTPCreated
-      raw = template_by_name('storage_event').result(binding)
-      XML::Parser.string(raw).parse
-    else
-      raise "cannot store aip: #{response.code} #{response.msg}: #{response.body}"
-    end
+              when Net::HTTPCreated
+                raw = template_by_name('storage_event').result(binding)
+                XML::Parser.string(raw).parse
+              else
+                raise "cannot store aip: #{response.code} #{response.msg}: #{response.body}"
+              end
     
   end
   
