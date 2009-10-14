@@ -1,7 +1,13 @@
-to run the test suite against real servers:
+DAITSS2: ingest
+===============
 
-# run the test stack, kill it with ^C
-rake ts:run
+testing
+-------
 
-# in another terminal (or whatever)
-rake spec
+start the test stack
+
+    % rake ts:run
+
+run the specs (or ingest) any way you like
+
+    % rake spec
