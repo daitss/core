@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'aip'
 
 describe Aip do
+
+  after(:each) { nuke_sandbox! }
   
   it "should validate" do
     aip = aip_instance 'good'
