@@ -150,7 +150,7 @@ namespace :ts do
   end
   
   desc "run the test stack"
-  task :run  => [:fetch] do
+  task :run do
 
     SERVICE_URLS = {
       "actionplan" => "http://localhost:7000/actionplan/instructions", 
