@@ -32,5 +32,5 @@ Rake::GemPackageTask.new(spec) do |pkg|
 end
 
 tasks_dir = File.join File.dirname(__FILE__), 'tasks'
-require 'tasks/test_stack'
-require 'tasks/console'
+require File.join(tasks_dir, "test_stack")
+require File.join(tasks_dir, "console")
