@@ -21,24 +21,22 @@ SILO_SANDBOX='/tmp/silo_sandbox'
 
 Spec::Runner.configure do |config|
 
-  config.before(:each) do
-    # Make a new fs sandbox
+  config.before :each do
+    # new sandbox
     $sandbox = new_sandbox
-    FileUtils::mkdir $sandbox
-    
+    FileUtils::mkdir $sandbox    
+
+    # silo sandbox
+    FileUtils::mkdir_p SILO_SANDBOX    
+
     # An in-memory Sqlite3 connection
     DataMapper.setup(:default, 'sqlite3::memory:')
     DataMapper.auto_migrate!
   end
 
-  config.after(:each) do
-    # kill the sandbox
+  config.after :each do
     FileUtils::rm_rf $sandbox
-    #puts $sandbox
-    
     FileUtils::rm_rf SILO_SANDBOX
-    FileUtils::mkdir_p SILO_SANDBOX
-    
     FileUtils::rm_rf File.join(File.dirname(__FILE__), '..', 'DescribeService.log')
   end
   
