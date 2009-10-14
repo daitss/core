@@ -21,7 +21,7 @@ SILO_SANDBOX='/tmp/silo_sandbox'
 
 Spec::Runner.configure do |config|
 
-  config.before :each do
+  config.before :all do
     # new sandbox
     $sandbox = new_sandbox
     FileUtils::mkdir $sandbox    
@@ -34,7 +34,7 @@ Spec::Runner.configure do |config|
     DataMapper.auto_migrate!
   end
 
-  config.after :each do
+  config.after :all do
     FileUtils::rm_rf $sandbox
     FileUtils::rm_rf SILO_SANDBOX
     FileUtils::rm_rf File.join(File.dirname(__FILE__), '..', 'DescribeService.log')

@@ -17,7 +17,8 @@ end
 def aip_instance_path name
   prototype = test_aip_by_name name
   FileUtils::cp_r prototype, $sandbox
-  File.join $sandbox, name
+  path = File.join $sandbox, name
+  path
 end
 
 def aip_instance name
@@ -26,8 +27,8 @@ end
 
 def aip_instance_from_sip name
   sip = test_sip_by_name name
-  aip_dir = File.join $sandbox, 'aip'
-  aip = Aip.make_from_sip aip_dir, sip
+  path = File.join $sandbox, 'aip'
+  aip = Aip.make_from_sip path, sip
   aip
 end
 
@@ -42,6 +43,7 @@ end
 
 def submit_sip name
   sip = test_sip_by_name name
-  aip = Aip.make_from_sip next_aip_dir, sip
+  path = next_aip_dir
+  aip = Aip.make_from_sip path, sip
   aip
 end

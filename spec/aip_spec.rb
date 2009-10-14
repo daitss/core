@@ -6,6 +6,8 @@ require "libxml"
 include LibXML
 
 describe Aip do
+
+  after(:each) { nuke_sandbox! }
   
   it 'should create from a sip' do
     aip = aip_instance_from_sip 'ateam'
@@ -36,13 +38,7 @@ describe Aip do
     aip.add_file io
     aip.files.size.should == 3
   end
-  
-  it "should store copies" do
-    aip = aip_instance_from_sip 'ateam'
-    aip.ingest!
-    aip.should be_stored
-  end
-  
+    
   it "should know if it is currently rejected" do
     aip = aip_instance 'rejected'
     aip.should be_rejected
@@ -62,6 +58,12 @@ describe Aip do
       AipResource.get! File.basename(aip.path)
     }.should_not raise_error(DataMapper::ObjectNotFoundError)
     
+  end
+  
+  it "should store copies" do
+    aip = aip_instance_from_sip 'ateam'
+    aip.ingest!
+    aip.should be_stored
   end
   
   it "should clean itself up" do
