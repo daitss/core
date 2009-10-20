@@ -187,16 +187,19 @@ class Aip
   
   # Returns all the files that are not transformed
   def rep_0_files
-    files
+    files.reject { |f| f.md_for_event?('Normalization') || f.md_for_event?('Migration') }
   end
 
   # Returns all the files but with transformantions substituted
   def rep_c_files
-    files
+    file_digiprov_docs = files.map { |f| f.md_for :digiprov }.flatten
+    transformation_events = file_digiprov_docs.map { |e| e.find_first("//premis:event[premis:eventType = 'Normalization' or premis:eventType = 'Migration']//premis:linkingObjectIdentifierValue", NS_MAP) }.compact
+    fids = transformation_events.compact.map { |e| e.content.strip }
+    files.reject { |f| fids.member? f.fid }
   end
   
   protected
-  
+    
   # Make a new path for a data file
   def new_file_path
     tf = Tempfile.new 'new-file', files_dir
