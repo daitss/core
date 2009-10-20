@@ -33,9 +33,9 @@ module Service
         
         # if this object is the product of a transformation, then add a linking event identifier
         if t_event
-          lei = XML::Node.new('premis:linkingEventIdentifier')
-          lei << (XML::Node.new('premis:linkingEventIdentifierType') << t_event[:type])
-          lei << (XML::Node.new('premis:linkingEventIdentifierValue') << t_event[:value])
+          lei = XML::Node.new('linkingEventIdentifier')
+          lei << (XML::Node.new('linkingEventIdentifierType') << t_event[:type])
+          lei << (XML::Node.new('linkingEventIdentifierValue') << t_event[:value])
           
           insertion_point = node.find_first "premis:linkingIntellectualEntityIdentifier|premis:linkingRightsStatementIdentifier", NS_MAP
           
