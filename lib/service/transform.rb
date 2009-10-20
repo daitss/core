@@ -63,11 +63,11 @@ module Service
       type = "Action Plan Determination"
 
       ap_doc = md_for(:digiprov).find do |doc|
-        doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
+        doc.find_first("//premis:event[premis:eventType = '#{type}']", NS_MAP)
       end
 
       if ap_doc    
-        ap_event = ap_doc.find_first("//premis:event[premis:eventType[normalize-space(.)='#{type}']]", NS_MAP)
+        ap_event = ap_doc.find_first("//premis:event[premis:eventType = '#{type}']", NS_MAP)
 
         ap_event.find("//premis:eventOutcomeDetailExtension/*[premis:transformation]", NS_MAP).map do |node|
           t_url = node.find_first("premis:transformation", NS_MAP).content.strip
@@ -87,7 +87,7 @@ module Service
       else
         []
       end
-    
+        
     end
       
   end
