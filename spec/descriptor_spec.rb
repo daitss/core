@@ -12,11 +12,10 @@ describe "aip descriptor" do
   
   after :all do
     nuke_sandbox!
+    #puts $sandbox
   end
   
-  subject do
-    @aip.mono_descriptor_file
-  end
+  subject { @aip.mono_descriptor_file }
   
   it { should exist_on_fs }
   it { pending 'tcf schemalocation is unavailable'; should be_valid_xml }
@@ -33,13 +32,15 @@ describe "aip descriptor" do
   end
   
   it "should have r0 without products of transformations" do
-    pending 'not all transformation md is available'
-    r_0_files(@descriptor).to_s.should == transformations(@descriptor).keys.to_set
+    pending "all events have the same id"
+    r_0_files(subject).should include(*source_files)
+    r_0_files(subject).should_not include(*destination_files)
   end
 
   it "should have rC with products of transformations replacing predecessors" do
-    pending 'not all transformation md is available'
-    r_c_files(@descriptor).to_s.should == transformations(@descriptor).values.to_set
+    pending "all events have the same id"
+    r_c_files(subject).should include(*destination_files)
+    r_c_files(subject).should_not include(*source_files)
   end
 
   it "should have a transformed file" do
@@ -48,8 +49,8 @@ describe "aip descriptor" do
     files.size.should == 3
 
     # there should be a transformation event
-    doc.find_first("//premis:event[premis:eventType = 'Service::Transform::Normalization']", NS_MAP).should_not be_nil
-    doc.find("//premis:event[premis:eventType = 'Service::Transform::Normalization']", NS_MAP).each do |event_node|
+    doc.find_first("//premis:event[premis:eventType = 'Normalization']", NS_MAP).should_not be_nil
+    doc.find("//premis:event[premis:eventType = 'Normalization']", NS_MAP).each do |event_node|
       event_node.should_not be_nil
 
       # it should link to an object
@@ -82,5 +83,5 @@ describe "aip descriptor" do
   # it "should only have representation retrieval if it is found"
   # it "should only have eventOutcomeDetail if there are anomalies to report"
   # it "should not have an action plan event"
-  # 
+  
 end
