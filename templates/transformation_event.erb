@@ -3,8 +3,8 @@
 	
 	<event>
 		<eventIdentifier>
-			<eventIdentifierType>Temporary Local</eventIdentifierType>
-			<eventIdentifierValue>1</eventIdentifierValue>
+			<eventIdentifierType>d2</eventIdentifierType>
+			<eventIdentifierValue>event-<%= event_id %></eventIdentifierValue>
 		</eventIdentifier>
 		<eventType><%= self.class.name.sub "Service::Transform::", ""  %></eventType>
 		<eventDateTime><%= Time.now.xmlschema %></eventDateTime>
@@ -17,8 +17,8 @@
 			</eventOutcomeDetail>
 		</eventOutcomeInformation>
     <linkingAgentIdentifier>
-      <linkingAgentIdentifierType>Temporary Local</linkingAgentIdentifierType>
-      <linkingAgentIdentifierValue>2</linkingAgentIdentifierValue>
+      <linkingAgentIdentifierType>URL</linkingAgentIdentifierType>
+      <linkingAgentIdentifierValue><%= @url %></linkingAgentIdentifierValue>
     </linkingAgentIdentifier>
 		<linkingObjectIdentifier>
       <linkingObjectIdentifierType>d2</linkingObjectIdentifierType>
@@ -28,8 +28,8 @@
 	
 	<agent>
     <agentIdentifier>
-      <agentIdentifierType>Temporary Local</agentIdentifierType>
-      <agentIdentifierValue>2</agentIdentifierValue>
+      <agentIdentifierType>URL</agentIdentifierType>
+      <agentIdentifierValue><%= @url %></agentIdentifierValue>
     </agentIdentifier>
     <agentName>Transformation Service</agentName>
     <agentType>Web Service</agentType>
