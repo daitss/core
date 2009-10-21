@@ -1,5 +1,6 @@
 require 'namespace'
 require 'next'
+require 'premismd'
 
 module Service
   
@@ -20,7 +21,7 @@ module Service
                      raise Error, "cannot describe file: #{response.code} #{response.msg}: #{response.body}"
                    end
 
-      fix_identifiers premis_doc
+      premis_doc.fix_premis_ids! @aip
       
       # objects
       obj_doc = XML::Document.new
@@ -72,78 +73,7 @@ module Service
         doc.find_first("//premis:formatName[normalize-space(.)='unknown']", NS_MAP)
       end
 
-    end
-
-    private
-   
-    # event ids are global to the package
-    # one file object should exist, id from the data file
-    # bitstream objects should be fileid/n 
-    def fix_identifiers doc
-      
-      # file ##################
-      # assuming there is one file here
-      
-      # incoming id of the file
-      old_fid_node = doc.find_first("//premis:object[@xsi:type='file']/premis:objectIdentifier", NS_MAP)
-      old_f_type = old_fid_node.find_first("premis:objectIdentifierType", NS_MAP).content.strip
-      old_f_value = old_fid_node.find_first("premis:objectIdentifierValue", NS_MAP).content.strip
-
-      doc.find("//premis:object[@xsi:type='bitstream' or @xsi:type='file']/premis:objectIdentifier", NS_MAP).each do |obj_id_node|
-        t_node = obj_id_node.find_first("premis:objectIdentifierType", NS_MAP)
-        v_node = obj_id_node.find_first("premis:objectIdentifierValue", NS_MAP)
-        
-        old_t = t_node.content.strip
-        old_v = v_node.content.strip
-        
-        t_node.content = 'd2'
-        v_node.content = old_v.sub old_f_value, fid
-
-        doc.find("//premis:linkingObjectIdentifier[premis:linkingObjectIdentifierType = '#{old_t}' and premis:linkingObjectIdentifierValue = '#{old_v}']", NS_MAP).each do |link_node|
-          link_node.find_first("premis:linkingObjectIdentifierType", NS_MAP).content = t_node.content
-          link_node.find_first("premis:linkingObjectIdentifierValue", NS_MAP).content = v_node.content
-        end
-        
-      end
-            
-      # events ################
-      event_id_index = next_event_id_index
-      
-      doc.find("//premis:eventIdentifier", NS_MAP).each do |event_id_node|
-        t_node = event_id_node.find_first("premis:eventIdentifierType", NS_MAP)
-        v_node = event_id_node.find_first("premis:eventIdentifierValue", NS_MAP)
-        
-        old_t = t_node.content.strip
-        old_v = v_node.content.strip
-        
-        t_node.content = 'd2'
-        v_node.content = "event-#{event_id_index}"
-        
-        # TODO links to this event
-        doc.find("//premis:linkingEventIdentifier[premis:linkingEventIdentifierType = '#{old_t}' and premis:linkingEventIdentifierValue = '#{old_v}']", NS_MAP).each do |link_node|
-          link_node.find_first("premis:linkingEventIdentifierType", NS_MAP).content = t_node.content
-          link_node.find_first("premis:linkingEventIdentifierValue", NS_MAP).content = v_node.content
-        end
-        
-        event_id_index += 1
-      end
-      
-    end
-    
-    def next_event_id_index
-      
-      event_ids = @aip.files.inject([]) do |acc,f|
-                
-                    l = f.md_for(:digiprov).map do |doc|
-                          xpath = "//premis:event/premis:eventIdentifier[premis:eventIdentifierType = 'd2']/premis:eventIdentifierValue"
-                          doc.find(xpath, NS_MAP).map { |e| e.content.strip }
-                        end
-                    
-                    acc + l.flatten            
-                  end
-      
-      event_ids.next_in %r{event-(\d+)}
-    end
+    end 
 
   end
 
