@@ -43,8 +43,7 @@ module Service
       end
 
       # Return a PREMIS document describing the transformation (the new file)
-      def metadata(files)
-        event_id = next_event_id_index(files)
+      def metadata
         raw = template_by_name('transformation_event').result(binding)
         XML::Parser.string(raw).parse
       end
@@ -52,23 +51,6 @@ module Service
       def to_s
         @url
       end
-    
-      private
-      
-      def next_event_id_index(files)
-
-         event_ids = files.inject([]) do |acc,f|
-
-           l = f.md_for(:digiprov).map do |doc|
-             xpath = "//premis:event/premis:eventIdentifier[premis:eventIdentifierType = 'd2']/premis:eventIdentifierValue"
-             doc.find(xpath, NS_MAP).map { |e| e.content.strip }
-           end
-
-           acc + l.flatten            
-         end
-
-         event_ids.next_in %r{event-(\d+)}
-       end
        
     end
   
