@@ -17,3 +17,11 @@ def next_in_set set, regex
     end
 
 end
+
+module Enumerable
+  
+  def next_in pattern
+    next_in_set self, pattern
+  end
+  
+end
