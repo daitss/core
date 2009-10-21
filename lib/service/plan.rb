@@ -16,7 +16,7 @@ module Service
       case response
       when Net::HTTPSuccess
         plan_doc = XML::Parser.string(response.body).parse
-        fix_identifiers plan_doc
+        fix_event_identifiers plan_doc
         dp_md_id = add_md :digiprov, plan_doc
         add_admid_ref dp_md_id
         
@@ -30,7 +30,8 @@ module Service
     
     private
     
-    def fix_identifiers doc
+    def fix_event_identifiers doc
+            
       event_id_index = next_event_id_index
 
       doc.find("//premis:eventIdentifier", NS_MAP).each do |event_id_node|

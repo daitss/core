@@ -99,9 +99,7 @@ module Service
         t_node.content = 'd2'
         v_node.content = old_v.sub old_f_value, fid
 
-        puts obj_id_node.to_s
-
-        doc.find("//premis:linkingObjectIdentifer[premis:linkingObjectIdentifierType = '#{old_t}' and premis:linkingObjectIdentifierValue = '#{old_v}']", NS_MAP).each do |link_node|
+        doc.find("//premis:linkingObjectIdentifier[premis:linkingObjectIdentifierType = '#{old_t}' and premis:linkingObjectIdentifierValue = '#{old_v}']", NS_MAP).each do |link_node|
           link_node.find_first("premis:linkingObjectIdentifierType", NS_MAP).content = t_node.content
           link_node.find_first("premis:linkingObjectIdentifierValue", NS_MAP).content = v_node.content
         end
@@ -122,7 +120,7 @@ module Service
         v_node.content = "event-#{event_id_index}"
         
         # TODO links to this event
-        doc.find("//premis:linkingEventIdentifer[premis:linkingEventIdentifierType = '#{old_t}' and premis:linkingEventIdentifierValue = '#{old_v}']", NS_MAP).each do |link_node|
+        doc.find("//premis:linkingEventIdentifier[premis:linkingEventIdentifierType = '#{old_t}' and premis:linkingEventIdentifierValue = '#{old_v}']", NS_MAP).each do |link_node|
           link_node.find_first("premis:linkingEventIdentifierType", NS_MAP).content = t_node.content
           link_node.find_first("premis:linkingEventIdentifierValue", NS_MAP).content = v_node.content
         end
