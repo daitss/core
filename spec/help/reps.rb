@@ -34,7 +34,6 @@ def transformations descriptor
     node = event_node.find_first 'premis:eventIdentifier/premis:eventIdentifierValue', NS_MAP
     event_id = node.content.strip
     
-    puts src, event_id
     # find the object that links to this event
     node = doc.find_first "//premis:object[@xsi:type='file'][premis:linkingEventIdentifier[premis:linkingEventIdentifierValue='#{event_id}']]/premis:objectIdentifier/premis:objectIdentifierValue", NS_MAP
     dst = node.content.strip
@@ -51,7 +50,6 @@ def source_files
 end
 
 def destination_files 
-  puts transformations(subject).inspect
   transformations(subject).values
 end
 
