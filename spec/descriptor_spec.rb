@@ -11,8 +11,8 @@ describe "aip descriptor" do
   end
   
   after :all do
-    nuke_sandbox!
-    #puts $sandbox
+    #nuke_sandbox!
+    puts $sandbox
   end
   
   subject { @aip.mono_descriptor_file }
@@ -32,13 +32,13 @@ describe "aip descriptor" do
   end
   
   it "should have r0 without products of transformations" do
-    pending "all events have the same id"
+    #pending "all events have the same id"
     r_0_files(subject).should include(*source_files)
     r_0_files(subject).should_not include(*destination_files)
   end
 
   it "should have rC with products of transformations replacing predecessors" do
-    pending "all events have the same id"
+    #pending "all events have the same id"
     r_c_files(subject).should include(*destination_files)
     r_c_files(subject).should_not include(*source_files)
   end
