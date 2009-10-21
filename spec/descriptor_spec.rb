@@ -33,7 +33,7 @@ describe "aip descriptor" do
   
   it "should have r0 without products of transformations" do
     r_0_files(subject).should include(*source_files)
-    r_0_files(subject).should_not include(*destination_files)
+    r_0_files(subject).should_not include(*destination_files) 
   end
 
   it "should have rC with products of transformations replacing predecessors" do
@@ -75,6 +75,8 @@ describe "aip descriptor" do
     end
     
   end
+  
+  it "should have the file url for the original name"
   
   # it "should only have top level validation events, checksum check and failure events only"
   # it "should only have external provenance events if it is found"
