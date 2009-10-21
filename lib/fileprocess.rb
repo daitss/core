@@ -13,7 +13,9 @@ module FileProcess
 
         t.data do |io, fname|
           new_file = @aip.add_file io, fname
-          md_id = new_file.add_md :digiprov, t.metadata(@aip.files)
+          transform_md = t.metadata
+          transform_md.fix_premis_ids! @aip
+          md_id = new_file.add_md :digiprov, transform_md
           new_file.add_admid_ref md_id
           
           # get the event id and type

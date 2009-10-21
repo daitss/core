@@ -3,8 +3,8 @@
 	
 	<event>
 		<eventIdentifier>
-			<eventIdentifierType>d2</eventIdentifierType>
-			<eventIdentifierValue>event-<%= event_id %></eventIdentifierValue>
+			<eventIdentifierType>Temporary Local</eventIdentifierType>
+			<eventIdentifierValue>1</eventIdentifierValue>
 		</eventIdentifier>
 		<eventType><%= self.class.name.sub "Service::Transform::", ""  %></eventType>
 		<eventDateTime><%= Time.now.xmlschema %></eventDateTime>
