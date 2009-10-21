@@ -19,6 +19,7 @@ module Metadata
   end
   
   # adds a ADMID ref to a file, should not be called from non-file
+  # XXX refactor to a file metadata module ???
   def add_admid_ref admid
 
     modify_poly_descriptor do |doc|
