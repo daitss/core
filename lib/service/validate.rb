@@ -18,7 +18,7 @@ module Validate
   end
 
   def validate!
-    s_url = "#{SERVICE_URLS['validation']}?location=#{CGI::escape @url.to_s}"
+    s_url = "#{Config::Service['validation']}?location=#{CGI::escape @url.to_s}"
         
     u = URI.parse s_url
     req = Net::HTTP::Get.new u.request_uri

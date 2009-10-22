@@ -50,43 +50,44 @@ def test_stack
 
   
   Rack::Builder.new do
+    # TODO take paths from Config::Service
+    
+    # use Rack::CommonLogger
+    # use Rack::ShowExceptions
+    # use Rack::Lint
 
-     # use Rack::CommonLogger
-     # use Rack::ShowExceptions
-     # use Rack::Lint
+    map "/validation" do
+      run Validation.new
+    end
 
-     map "/validation" do
-       run Validation.new
-     end
+    map "/provenance" do
+      run Provenance.new
+    end
 
-     map "/provenance" do
-       run Provenance.new
-     end
+    map "/description" do
+      run Describe.new
+    end
 
-     map "/description" do
-       run Describe.new
-     end
+    map "/actionplan" do       
+      run ActionPlanD.new
+    end
 
-     map "/actionplan" do       
-       run ActionPlanD.new
-     end
+    map "/transformation" do
+      run Transform.new
+    end
 
-     map "/transformation" do
-       run Transform.new
-     end
-
-     map "/silo" do
-       use Rack::ShowExceptions
-       run SimpleStorage::App.new(SILO_SANDBOX)
-     end
+    map "/silo" do
+      use Rack::ShowExceptions
+      run SimpleStorage::App.new($silo_sandbox)
+    end
 
   end
   
 end
 
 def nuke_silo_sandbox
-  FileUtils::rm_rf SILO_SANDBOX
-  FileUtils::mkdir_p SILO_SANDBOX
+  FileUtils::rm_rf $silo_sandbox
+  FileUtils::mkdir_p $silo_sandbox
 end
 
 def run_test_stack
@@ -151,20 +152,12 @@ namespace :ts do
   
   desc "run the test stack"
   task :run do
-
-    SERVICE_URLS = {
-      "actionplan" => "http://localhost:7000/actionplan/instructions", 
-      "validation" => "http://localhost:7000/validation/results", 
-      "provenance" => "http://localhost:7000/provenance", 
-      "storage" => "http://localhost:7000/silo", 
-      "description" => "http://localhost:7000/description/describe"
-    }
-
-    # nuke the storage stuff
-    SILO_SANDBOX = '/tmp/silo_sandbox'
+    #$:.unshift File.dirname(__FILE__), '..', 'spec'
+    #$:.unshift File.dirname(__FILE__), '..', 'lib'
+    #require 'help/test_stack'
+    $silo_sandbox='/tmp/silo_sandbox'
     nuke_silo_sandbox
     run_test_stack
   end
-
   
 end

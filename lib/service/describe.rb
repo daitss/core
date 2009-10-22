@@ -11,7 +11,7 @@ module Service
     end
     
     def describe! t_event=nil
-      s_url = "#{SERVICE_URLS['description']}?location=#{CGI::escape to_s}"
+      s_url = "#{Config::Service['description']}?location=#{CGI::escape to_s}"
       response = Net::HTTP.get_response URI.parse(s_url)
     
       premis_doc = case response
