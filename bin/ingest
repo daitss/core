@@ -3,10 +3,31 @@
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'aip'
+require 'optiflag'
 
-raise "package url is required" if ARGV.empty?
-url = ARGV[0]
+module IngestOptions extend OptiFlagSet
+  
+  flag "aip" do
+    description "the aip to ingest"
+  end
+  
+  flag "config" do
+    description "the configuration file to use"
+  end
+    
+  and_process!
+end
 
+url = IngestOptions.flags.aip
+config_file = IngestOptions.flags.config
+
+# load the configuration
+SERVICE_URLS = YAML.load open(config_file) { |io| io.read }
+
+# configure the database
+DataMapper.setup(:default, SERVICE_URLS["database"])
+
+# load the aip
 aip = begin
         Aip.new url
       rescue => e
@@ -16,6 +37,7 @@ aip = begin
 
 aip.ingest!
 
+# handle it
 if aip.rejected?
   puts "#{aip} is rejected"
   exit 2
