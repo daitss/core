@@ -30,6 +30,8 @@ module Service
       obj_doc.root.namespaces.namespace = ns
       
       premis_doc.find("//premis:object[@xsi:type='file']", NS_MAP).each do |node|
+        
+        node.find_first("premis:originalName", NS_MAP).content = path
                 
         # if this object is the product of a transformation, then add a linking event identifier
         if t_event

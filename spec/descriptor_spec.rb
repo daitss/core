@@ -87,7 +87,17 @@ describe "aip descriptor" do
     
   end
   
-  it "should have the file url for the original name"
+  it "should have the file url for the original name" do
+    doc = XML::Document.file subject
+
+    doc.find("//mets:file", NS_MAP).each do |file_node|
+      fid = file_node['ID']
+      f_locat = file_node.find_first("mets:FLocat/@xlink:href", NS_MAP).value
+      original_name = doc.find_first("//premis:object[@xsi:type='file'][premis:objectIdentifier/premis:objectIdentifierValue = '#{fid}']/premis:originalName", NS_MAP).content
+      original_name.should == f_locat
+    end    
+    
+  end
   
   # it "should only have top level validation events, checksum check and failure events only"
   # it "should only have external provenance events if it is found"
