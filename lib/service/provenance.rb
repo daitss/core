@@ -16,7 +16,8 @@ module Service
       s_url = "#{SERVICE_URLS['provenance']}/events?location=#{CGI::escape @url.to_s}"
       extp_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
       extp_doc.fix_premis_ids! self
-      add_md :digiprov, extp_doc
+      dp_id = add_md :digiprov, extp_doc
+      add_div_link dp_id
     end
   
     def rxp_provenance_retrieved?
@@ -58,7 +59,8 @@ module Service
         obj_doc.root << obj_doc.import(node)
       end
 
-      add_md :tech, obj_doc
+      tech_id = add_md :tech, obj_doc
+      add_div_link tech_id
 
       # events & agents
       dp_doc = XML::Document.new

@@ -35,8 +35,8 @@ module Validate
     end
     
     val_doc.fix_premis_ids! self
-    
-    add_md :digiprov, val_doc
+    dp_id = add_md :digiprov, val_doc
+    add_div_link dp_id
         
     # reject if needed
     policy_event = val_doc.find_first("//premis:event[premis:eventType='SIP passed all validation checks']", NS_MAP) 
