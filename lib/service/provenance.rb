@@ -15,6 +15,7 @@ module Service
     def retrieve_provenance!
       s_url = "#{SERVICE_URLS['provenance']}/events?location=#{CGI::escape @url.to_s}"
       extp_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
+      extp_doc.fix_premis_ids! self
       add_md :digiprov, extp_doc
     end
   
@@ -29,6 +30,7 @@ module Service
       case response
       when Net::HTTPSuccess
         rxp_doc = XML::Parser.string(response.body).parse
+        rxp_doc.fix_premis_ids! self
         add_rxp_md rxp_doc      
       when Net::HTTPNotFound
         # XXX do nothing, no rxp data here, possibly want to write we tried
@@ -70,7 +72,9 @@ module Service
       premis_doc.find("//premis:agent", NS_MAP).each do |node|
         dp_doc.root << dp_doc.import(node)
       end
-
+      
+      dp_doc.fix_premis_ids! self
+      
       add_md :digiprov, dp_doc
     
     end

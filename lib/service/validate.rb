@@ -3,6 +3,7 @@ require 'libxml'
 require 'namespace'
 require 'net/http'
 require 'open-uri'
+require "premismd"
 
 include LibXML
 
@@ -32,6 +33,8 @@ module Validate
     else
       raise "cannot validate aip: #{response.code} #{response.msg}: #{response.body}"
     end
+    
+    val_doc.fix_premis_ids! self
     
     add_md :digiprov, val_doc
         
