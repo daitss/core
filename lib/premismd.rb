@@ -71,23 +71,20 @@ module LibXML
       end
       
       def file_id_map aip
+        
         aip.files.inject({}) do |acc, file|
           acc[file.url.path] = file.fid
           acc
         end
+        
       end
       
       def next_event_id_index(aip)
-
-        event_ids = aip.files.inject([]) do |acc,f|
-
-          l = f.md_for(:digiprov).map do |doc|
-            doc.find("//premis:event/premis:eventIdentifier[premis:eventIdentifierType = 'd2']/premis:eventIdentifierValue", NS_MAP).map { |e| e.content.strip }
-          end
-
-          acc + l.flatten            
-        end
-
+        dp_domain = aip.files
+        dp_domain.unshift aip
+        dp_docs = dp_domain.map { |e| e.md_for(:digiprov) }.flatten
+        xpath = "//premis:eventIdentifier[premis:eventIdentifierType = 'd2']/premis:eventIdentifierValue"
+        event_ids = dp_docs.map { |doc| doc.find(xpath, NS_MAP).map { |e| e.content.strip } }.flatten
         event_ids.next_in %r{event-(\d+)}
       end
             
