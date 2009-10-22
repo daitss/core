@@ -22,7 +22,7 @@ describe "aip descriptor" do
   it { should have_rC_representation }
   
   it "should be valid xml" do
-    pending 'tcf schemalocation is unavailable'
+    pending 'tcf schema is unstable'
     should be_valid_xml
   end
   
