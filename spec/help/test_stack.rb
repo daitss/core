@@ -1,11 +1,8 @@
-# Make it the configuration
-SERVICE_URLS = {
-  "actionplan" => "http://localhost:7000/actionplan/instructions",
-  "validation" => "http://localhost:7000/validation/results",
-  "provenance" => "http://localhost:7000/provenance",
-  "description" => "http://localhost:7000/description/describe",
-  "storage" => "http://localhost:7000/silo",
-  "database" => 'sqlite3::memory:'
-}
+require "config"
 
-SILO_SANDBOX='/tmp/silo_sandbox'
+# configuration for the test stack
+TEST_STACK_CONFIG_FILE = File.join File.dirname(__FILE__), '..', 'config', 'teststack.yml'
+Config::load TEST_STACK_CONFIG_FILE
+
+# place to put stored copies
+$silo_sandbox='/tmp/silo_sandbox'

@@ -1,0 +1,7 @@
+--- 
+actionplan: http://localhost:7000/actionplan/instructions
+validation: http://localhost:7000/validation/results
+provenance: http://localhost:7000/provenance
+storage: http://localhost:7000/silo
+description: http://localhost:7000/description/describe
+database: sqlite3:///tmp/db_sandbox

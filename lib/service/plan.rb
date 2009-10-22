@@ -11,7 +11,7 @@ module Service
 
     def plan!
       obj_file = md_files_for(:tech).first
-      s_url = "#{SERVICE_URLS['actionplan']}?description=#{CGI::escape "file:#{obj_file}" }"
+      s_url = "#{Config::Service['actionplan']}?description=#{CGI::escape "file:#{obj_file}" }"
       response = Net::HTTP.get_response URI.parse(s_url)
 
       case response

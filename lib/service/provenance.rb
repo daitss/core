@@ -13,7 +13,7 @@ module Service
     end
 
     def retrieve_provenance!
-      s_url = "#{SERVICE_URLS['provenance']}/events?location=#{CGI::escape @url.to_s}"
+      s_url = "#{Config::Service['provenance']}/events?location=#{CGI::escape @url.to_s}"
       extp_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
       extp_doc.fix_premis_ids! self
       dp_id = add_md :digiprov, extp_doc
@@ -25,7 +25,7 @@ module Service
     end
 
     def retrieve_rxp_provenance!
-      s_url = "#{SERVICE_URLS['provenance']}/rxp?location=#{CGI::escape @url.to_s}"    
+      s_url = "#{Config::Service['provenance']}/rxp?location=#{CGI::escape @url.to_s}"    
       response = Net::HTTP.get_response URI.parse(s_url)
 
       case response

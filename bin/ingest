@@ -2,10 +2,11 @@
 
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
-require 'aip'
 require 'optiflag'
+require "config"
+require 'aip'
 
-module IngestOptions extend OptiFlagSet
+module CommandLineOptions extend OptiFlagSet
   
   flag "aip" do
     description "the aip to ingest"
@@ -18,26 +19,19 @@ module IngestOptions extend OptiFlagSet
   and_process!
 end
 
-url = IngestOptions.flags.aip
-config_file = IngestOptions.flags.config
+Config::load CommandLineOptions.flags.config
+DataMapper.setup(:default, Config::Service["database"])
 
-# load the configuration
-SERVICE_URLS = YAML.load open(config_file) { |io| io.read }
-
-# configure the database
-DataMapper.setup(:default, SERVICE_URLS["database"])
-
-# load the aip
 aip = begin
-        Aip.new url
+        Aip.new CommandLineOptions.flags.aip
       rescue => e
-        puts "cannot process #{url}: #{e.message}"
+        puts "cannot process #{CommandLineOptions.flags.aip}: #{e.message}"
         exit 1
       end
 
 aip.ingest!
 
-# handle it
+# handle the aftermath
 if aip.rejected?
   puts "#{aip} is rejected"
   exit 2
