@@ -160,6 +160,7 @@ class Aip
   
   # yields a xml document read from the poly descriptor and saves it when done
   def modify_poly_descriptor
+    # TODO flick this?
     doc = XML::Parser.file(poly_descriptor_file).parse
     rval = yield doc
     doc.save poly_descriptor_file
@@ -177,12 +178,27 @@ class Aip
     # make r0
     s = template_by_name('rep_0').result binding
     doc = XML::Parser.string(s).parse
-    add_representation_md 'r0', doc    
+    r0_id = add_representation_md 'r0', doc
     
     # make r0
     s = template_by_name('rep_c').result binding
     doc = XML::Parser.string(s).parse
-    add_representation_md 'rC', doc    
+    rC_id = add_representation_md 'rC', doc
+    
+    # link both of these from the structmap's div
+    add_div_link r0_id
+    add_div_link rC_id    
+  end
+  
+  def add_div_link md_id
+    
+    modify_poly_descriptor do |des_doc|
+      div = des_doc.find_first "//mets:structMap/mets:div", NS_MAP
+      admids = div['ADMID'] ? div['ADMID'].split(%r{\s+}) : []
+      admids << md_id
+      div['ADMID'] = admids.join ' '
+    end
+    
   end
   
   # Returns all the files that are not transformed
