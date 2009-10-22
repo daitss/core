@@ -11,8 +11,8 @@ describe "aip descriptor" do
   end
   
   after :all do
-    #nuke_sandbox!
-    puts $sandbox
+    nuke_sandbox!
+    #puts $sandbox
   end
   
   subject { @aip.mono_descriptor_file }
@@ -29,6 +29,12 @@ describe "aip descriptor" do
     premis_ids = doc.find(xpath, NS_MAP).map { |node| node.content.strip }
     mets_ids = doc.find("//mets:file/@ID", NS_MAP).map { |node| node.value.strip }
     mets_ids.to_set.should == premis_ids.to_set
+  end
+  
+  it "should have unique premis event ids" do
+    doc = XML::Document.file subject
+    event_ids = doc.find("//premis:eventIdentifier/premis:eventIdentifierValue", NS_MAP).map { |ei| ei.content.strip }
+    event_ids.should == event_ids.uniq
   end
   
   it "should have r0 without products of transformations" do
