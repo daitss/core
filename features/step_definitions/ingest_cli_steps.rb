@@ -1,6 +1,7 @@
 When /^I ingest$/ do
-  @aip.to_s
-  @output = `ruby -Ilib bin/ingest #{@aip.to_s}`
+  config_file = File.join $sandbox, 'd2.config'
+  open(config_file, 'w') { |io| io.write YAML.dump(SERVICE_URLS) }
+  @output = `ruby -Ilib bin/ingest -aip #{@aip.to_s} -config #{config_file}`
 end
 
 Given /^an? (non\-existent|good|invalid) aip$/ do |type|
