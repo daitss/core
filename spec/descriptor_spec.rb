@@ -18,11 +18,16 @@ describe "aip descriptor" do
   subject { @aip.mono_descriptor_file }
   
   it { should exist_on_fs }
-  it { pending 'tcf schemalocation is unavailable'; should be_valid_xml }
-  it { pending 'package level metadata requires a representation, structMap will reference the rep'; should conform_to_pim_bp }
   it { should have_r0_representation }
   it { should have_rC_representation }
   
+  it "should be valid xml" do
+    pending 'tcf schemalocation is unavailable'
+    should be_valid_xml
+  end
+  
+  it { should conform_to_pim_bp }
+    
   it "should use mets file/@ID for all premis file object ids" do
     doc = XML::Document.file subject
     xpath = "//premis:object[@xsi:type='file']/premis:objectIdentifier/premis:objectIdentifierValue"
