@@ -42,9 +42,8 @@ module Monodescriptor
       xpath_result = admid.value.split
       admid.value = xpath_result.map { |xid| id_map[xid].join(" ") }.join(" ")
     end
-
-    XML.indent_tree_output
-    doc.save mono_descriptor_file 
+        
+    doc.save mono_descriptor_file
   end
 
 end
