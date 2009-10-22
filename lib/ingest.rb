@@ -1,5 +1,7 @@
 require "aip_record"
 
+XML.default_keep_blanks = false
+
 module Ingest
 
   def ingest!
