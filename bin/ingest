@@ -29,7 +29,15 @@ aip = begin
         exit 1
       end
 
-aip.ingest!
+if aip.rejected?
+  puts "#{aip} is rejected"
+  exit 2
+elsif aip.snafu?
+  puts "#{aip} is snafu"
+  exit 3
+else  
+  aip.ingest!
+end
 
 # handle the aftermath
 if aip.rejected?
