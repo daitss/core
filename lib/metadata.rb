@@ -18,19 +18,21 @@ module Metadata
     make_md_ref! type, md_file
   end
   
+  def add_file_md_link md_id
+    add_admid_ref md_id, "//mets:file[@ID='#{@fid}']"
+  end
+  
+  def add_div_md_link md_id
+    add_admid_ref md_id, "//mets:structMap/mets:div"
+  end
+  
   # adds a ADMID ref to a file, should not be called from non-file
-  # XXX refactor to a file metadata module ???
-  def add_admid_ref admid
-
+  def add_admid_ref md_id, xpath
     modify_poly_descriptor do |doc|
-      file_node = doc.find_first("//mets:file[@ID='#{@fid}']", NS_MAP)
-      
-      file_node['ADMID'] = if file_node['ADMID'].nil?
-        admid
-      else
-        (file_node['ADMID'].split << admid).join ' '
-      end
-      
+      node = doc.find_first xpath, NS_MAP
+      admids = node['ADMID'] ? node['ADMID'].split(%r{\s+}) : []
+      admids << md_id
+      node['ADMID'] = admids.join ' '
     end
     
   end

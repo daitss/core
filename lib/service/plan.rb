@@ -19,7 +19,7 @@ module Service
         plan_doc = XML::Parser.string(response.body).parse
         plan_doc.fix_premis_ids! @aip
         dp_md_id = add_md :digiprov, plan_doc
-        add_admid_ref dp_md_id
+        add_file_md_link dp_md_id
         
       when Net::HTTPNotFound
         # XXX do nothing, no rxp data here, possibly want to write we tried

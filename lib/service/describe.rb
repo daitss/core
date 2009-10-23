@@ -53,7 +53,7 @@ module Service
       end
 
       tech_md_id = add_md :tech, obj_doc
-      add_admid_ref tech_md_id
+      add_file_md_link tech_md_id
 
       # events & agents
       dp_doc = XML::Document.new
@@ -66,7 +66,7 @@ module Service
       premis_doc.find("//premis:agent", NS_MAP).each { |node| dp_doc.root << dp_doc.import(node) }
 
       dp_md_id = add_md :digiprov, dp_doc
-      add_admid_ref dp_md_id
+      add_file_md_link dp_md_id
     end
   
     def format_known?
