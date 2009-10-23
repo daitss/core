@@ -16,7 +16,7 @@ module FileProcess
           transform_md = t.metadata
           transform_md.fix_premis_ids! @aip
           md_id = new_file.add_md :digiprov, transform_md
-          new_file.add_admid_ref md_id
+          new_file.add_file_md_link md_id
           
           # get the event id and type
           doc = md_for_id md_id

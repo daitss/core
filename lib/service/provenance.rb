@@ -17,7 +17,7 @@ module Service
       extp_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
       extp_doc.fix_premis_ids! self
       dp_id = add_md :digiprov, extp_doc
-      add_div_link dp_id
+      add_div_md_link dp_id
     end
   
     def rxp_provenance_retrieved?
@@ -60,7 +60,7 @@ module Service
       end
 
       tech_id = add_md :tech, obj_doc
-      add_div_link tech_id
+      add_div_md_link tech_id
 
       # events & agents
       dp_doc = XML::Document.new
