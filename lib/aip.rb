@@ -44,11 +44,15 @@ class Aip
     File.join path, POLY_DESCRIPTOR_FILE
   end
   
+  # An xml document of the poly-descriptor
+  def poly_descriptor_doc
+    open(poly_descriptor_file) { |io| XML::Parser.io(io).parse }
+  end
+  
   # Returns an array of DFile objects
   def files
-    doc = XML::Parser.file(poly_descriptor_file).parse
     
-    doc.find('//mets:file', NS_MAP).map do |file_node|
+    poly_descriptor_doc.find('//mets:file', NS_MAP).map do |file_node|
       DFile.new self, file_node['ID']
     end
     
@@ -159,10 +163,9 @@ class Aip
   end
   
   # yields a xml document read from the poly descriptor and saves it when done
+  # TODO flock this?
   def modify_poly_descriptor
-    # TODO flick this?
-    doc = XML::Parser.file(poly_descriptor_file).parse
-    rval = yield doc
+    rval = yield poly_descriptor_doc
     doc.save poly_descriptor_file
     rval
   end

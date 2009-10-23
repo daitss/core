@@ -38,7 +38,7 @@ Then /^there should be no duplicate events$/ do
 
   p_types = []
   Dir[p_pattern].each do |file|
-    doc = XML::Parser.file(file).parse
+    doc = open(file) { |io| XML::Parser.io(io).parse }
     
     doc.find('//premis:event', NS_MAP).each do |e|
       et = e.find_first('premis:eventType', NS_MAP).content.strip

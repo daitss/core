@@ -10,12 +10,12 @@ module Monodescriptor
     # map the old ids to new ids
     id_counter = Hash.new { |h, k| h[k] = 0 unless h.has_key? k }
     id_map = Hash.new { |h, k| h[k] = [] unless h.has_key? k }
-    doc = XML::Parser.file(poly_descriptor_file).parse
+    doc = poly_descriptor_doc
 
     # change the mdRefs to mdWraps
     doc.find('//mets:amdSec/*/mets:mdRef', NS_MAP).each do |ref|
       location = File.join path, ref['href'] # XXX does namespace matter here?
-      md_doc = XML::Parser.file(location).parse
+      md_doc = open(location) { |io| XML::Parser.io(io).parse }
       old_id = ref.parent['ID']
 
       md_doc.find('/premis:premis/premis:*', NS_MAP).each do |premis_el|
