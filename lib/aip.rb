@@ -165,7 +165,8 @@ class Aip
   # yields a xml document read from the poly descriptor and saves it when done
   # TODO flock this?
   def modify_poly_descriptor
-    rval = yield poly_descriptor_doc
+    doc = poly_descriptor_doc
+    rval = yield doc
     doc.save poly_descriptor_file
     rval
   end
