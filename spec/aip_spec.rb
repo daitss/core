@@ -12,9 +12,7 @@ describe Aip do
   it 'should create from a sip' do
     aip = aip_instance_from_sip 'ateam'
     aip.files.size.should == 2
-    
-    doc = XML::Parser.file(aip.poly_descriptor_file).parse
-    doc.find('//mets:file', NS_MAP).size.should == 2
+    aip.poly_descriptor_doc.find('//mets:file', NS_MAP).size.should == 2
   end
   
   it "should initialize from a url" do

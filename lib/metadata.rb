@@ -48,15 +48,14 @@ module Metadata
   end
   
   def md_for_id id
-    doc = XML::Parser.file(poly_descriptor_file).parse
-    href = doc.find_first "//mets:*[@ID='#{id}']/mets:mdRef/@xlink:href", NS_MAP
+    href = poly_descriptor_doc.find_first "//mets:*[@ID='#{id}']/mets:mdRef/@xlink:href", NS_MAP
     f = File.join(@aip.path, href.value)
-    XML::Parser.file(f).parse
+    open(f) { |io| XML::Parser.io(io).parse }
   end
   
   # Returns a list of xml documents for the specified type
   def md_for type
-    md_files_for(type).map { |f| XML::Parser.file(f).parse }
+    md_files_for(type).map { |f| open(f) { |io| XML::Parser.io(io).parse } }
   end
     
   # Saves RXP metadata. Returns the ID of the created metadata section

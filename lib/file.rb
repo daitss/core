@@ -24,8 +24,7 @@ class DFile
   end
   
   def path
-    doc = XML::Parser.file(poly_descriptor_file).parse
-    href = doc.find_first("//mets:file[@ID='#{@fid}']/mets:FLocat/@xlink:href", NS_MAP)
+    href = @aip.poly_descriptor_doc.find_first("//mets:file[@ID='#{@fid}']/mets:FLocat/@xlink:href", NS_MAP)
     href.value.strip
   end
   
@@ -47,6 +46,10 @@ class DFile
   
   def poly_descriptor_file
     @aip.poly_descriptor_file
+  end
+
+  def poly_descriptor_doc
+    @aip.poly_descriptor_doc
   end
 
   def modify_poly_descriptor &block
