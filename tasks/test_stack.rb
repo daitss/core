@@ -152,11 +152,19 @@ namespace :ts do
   
   desc "run the test stack"
   task :run do
-    #$:.unshift File.dirname(__FILE__), '..', 'spec'
-    #$:.unshift File.dirname(__FILE__), '..', 'lib'
-    #require 'help/test_stack'
+
+    # make the database sandbox
+    $db_sandbox='sqlite3:///tmp/db_sandbox'
+    require File.join(File.dirname(__FILE__), '..', 'lib', 'aip_record')
+    DataMapper.setup(:default, $db_sandbox)
+    DataMapper.auto_migrate!
+    
+    # make the silo sandbox
     $silo_sandbox='/tmp/silo_sandbox'
     nuke_silo_sandbox
+    FileUtils::mkdir_p $silo_sandbox
+        
+    # run the test stack
     run_test_stack
   end
   
