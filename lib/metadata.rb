@@ -65,10 +65,7 @@ module Metadata
     raise "must be a PREMIS document" unless doc.root.namespaces.namespace.to_s == NS_MAP['premis']
     doc.save rxp_md_file
     
-    make_md_ref! :digiprov, rxp_md_file do |md_sec|
-      md_sec["TYPE"] = 'PREMIS'
-      md_sec["LABEL"] = 'RXP'
-    end
+    make_md_ref! :digiprov, rxp_md_file, 'RXP'
 
   end
   
@@ -105,10 +102,10 @@ module Metadata
   # make a METS mdRef to a file. return the id of the mdRef. if a block is
   # given then assembly of the amdSec and the metadata section is expected to
   # happen in the block given.
-  def make_md_ref! type, md_file
+  def make_md_ref! type, md_file, label=nil
     
     modify_poly_descriptor do |des_doc|
-      md_sec = make_md_sec_ref(type, md_file, des_doc)
+      md_sec = make_md_sec_ref type, md_file, des_doc, label
       amd_sec = des_doc.find_first("//mets:amdSec", NS_MAP)      
       yield md_sec if block_given?
       
@@ -124,7 +121,7 @@ module Metadata
   end
   
   # Return a METS mdSecType instance that references the metadata file
-  def make_md_sec_ref type, md_file, doc
+  def make_md_sec_ref type, md_file, doc, label
     relative_path = md_file[(package_dir.length + 1)..-1]
 
     # the section
@@ -136,6 +133,7 @@ module Metadata
     # the reference
     mdRef = XML::Node.new 'mdRef'
     mdRef['MDTYPE'] = 'PREMIS'
+    mdRef["LABEL"] = label if label
     mdRef['xlink:href'] = relative_path
     mdSec << mdRef
     
