@@ -18,7 +18,15 @@ module Monodescriptor
       md_doc = open(location) { |io| XML::Parser.io(io).parse }
       old_id = ref.parent['ID']
 
+      
+      
+
       md_doc.find('/premis:premis/premis:*', NS_MAP).each do |premis_el|
+        
+        # if its an action plan skip it
+        next if md_doc.find_first("//premis:event[premis:eventType = 'Action Plan Determination']", NS_MAP)
+        
+        # move over everything else
         md_name = ref.parent.name
         md_section = doc.import XML::Node.new(md_name)
         new_id = (id_counter[md_name] += 1).to_s
