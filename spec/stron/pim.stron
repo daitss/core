@@ -59,7 +59,7 @@
 
     <rule context="//mets:xmlData/pre:object[@xsi:type='representation']">
       <assert test="parent::mets:xmlData/parent::mets:mdWrap/parent::mets:techMD |
-                    parent::mets:xmlData/parent::mets:mdWrap/parent::mets:techMD" see="bp-1a">
+                    parent::mets:xmlData/parent::mets:mdWrap/parent::mets:digiprovMD" see="bp-1a">
 	    PREMIS representation objects must be contained in a METS techMD or 
 	    a METS digiprovMD
       </assert> 
