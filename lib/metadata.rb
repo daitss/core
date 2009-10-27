@@ -18,10 +18,12 @@ module Metadata
     make_md_ref! type, md_file
   end
   
+  # link to a file
   def add_file_md_link md_id
     add_admid_ref md_id, "//mets:file[@ID='#{@fid}']"
   end
-  
+
+  # link to the div's structmap
   def add_div_md_link md_id
     add_admid_ref md_id, "//mets:structMap/mets:div"
   end
@@ -49,6 +51,7 @@ module Metadata
     md_for(:digiprov).any? { |doc| doc.find_first xpath, NS_MAP }
   end
   
+  # Returns a document for the mets ID
   def md_for_id id
     href = poly_descriptor_doc.find_first "//mets:*[@ID='#{id}']/mets:mdRef/@xlink:href", NS_MAP
     f = File.join(@aip.path, href.value)
@@ -66,7 +69,6 @@ module Metadata
     doc.save rxp_md_file
     
     make_md_ref! :digiprov, rxp_md_file, 'RXP'
-
   end
   
   # Returns the path to the rxp meta data file
@@ -74,6 +76,7 @@ module Metadata
     File.join md_dir, "rxp.xml"
   end
 
+  # add a representation
   def add_representation_md rname, doc
     raise "must be a PREMIS document" unless doc.root.namespaces.namespace.to_s == NS_MAP['premis']
     md_file = File.join md_dir, "#{rname}.xml".downcase
