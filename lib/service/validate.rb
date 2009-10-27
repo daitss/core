@@ -35,18 +35,22 @@ module Validate
     end
     
     val_doc.fix_premis_ids! self
-    dp_id = add_md :digiprov, val_doc
-    add_div_md_link dp_id
         
     # reject if needed
     if need_to_reject? val_doc
+      dp_id = add_md :digiprov, val_doc
+      add_div_md_link dp_id
       reasons = reject_reasons val_doc
       raise Reject, reasons unless reasons.empty? # XXX reasons is disjoint from outcome
+    else
+      strip_cruft! val_doc
+      dp_id = add_md :digiprov, val_doc
+      add_div_md_link dp_id      
     end 
     
   end
 
-  protected
+  private
 
   def reject_reasons doc
     failed_event_xpath = "//premis:event[premis:eventOutcomeInformation/premis:eventOutcome[normalize-space(.)='failure']]"
@@ -62,9 +66,17 @@ module Validate
   end
 
   def need_to_reject? doc
-    policy_event = doc.find_first("//premis:event[premis:eventType='SIP passed all validation checks']", NS_MAP) 
+    policy_event = doc.find_first("//premis:event[premis:eventType='SIP passed all validation checks']", NS_MAP)
     raise "cannot determine validation of package" unless policy_event
-    policy_event.find_first("premis:eventOutcomeInformation[premis:eventOutcome='failure']", NS_MAP).nil?
+    policy_event.find_first("premis:eventOutcomeInformation[normalize-space(premis:eventOutcome)='failure']", NS_MAP)
+  end
+  
+  def strip_cruft! doc
+    
+    doc.find("/premis:premis/premis:event[premis:eventType != 'SIP passed all validation checks']", NS_MAP).each do |node|
+      node.remove!
+    end
+    
   end
   
 end

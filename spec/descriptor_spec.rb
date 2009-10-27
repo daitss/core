@@ -108,13 +108,14 @@ describe "aip descriptor" do
     doc = XML::Document.file subject
     doc.find("//premis:event[premis:eventType = 'Action Plan Determination']", NS_MAP).should be_empty
   end
+    
+  it "should only have top level validation events, checksum check and failure events only" do
+    doc = XML::Document.file subject
+    doc.find("//premis:event[premis:eventType = 'Specified AIP Directory Exists']", NS_MAP).should be_empty  
+  end
   
   it "should move owner ids from the sip descriptor to the aip descriptor"
-  it "should only have top level validation events, checksum check and failure events only"
-  it "should only have external provenance events if it is found"
-  it "should only have representation retrieval if it is found"
+  
   it "should only have eventOutcomeDetail if there are anomalies to report"
-  
   it "should not have repeated metadata"
-  
 end
