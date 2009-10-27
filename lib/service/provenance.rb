@@ -14,10 +14,18 @@ module Service
 
     def retrieve_provenance!
       s_url = "#{Config::Service['provenance']}/events?location=#{CGI::escape @url.to_s}"
-      extp_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
-      #extp_doc.fix_premis_ids! self
-      dp_id = add_md :digiprov, extp_doc
-      add_div_md_link dp_id
+      response = Net::HTTP.get_response URI.parse(s_url)
+      case response
+      when Net::HTTPSuccess
+        extp_doc = XML::Parser.string(response.body).parse
+        dp_id = add_md :digiprov, extp_doc
+        add_div_md_link dp_id        
+      when Net::HTTPNotFound
+        # XXX do nothing, no rxp data here, possibly want to write we tried
+      else
+        raise ServiceError, "cannot retrieve RXP provenance: #{response.code} #{response.msg}: #{response.body}"
+      end    
+        
     end
   
     def rxp_provenance_retrieved?
