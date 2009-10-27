@@ -31,8 +31,9 @@ module Service
       case response
       when Net::HTTPSuccess
         rxp_doc = XML::Parser.string(response.body).parse
-        rxp_doc.fix_premis_ids! self
-        add_rxp_md rxp_doc      
+        dp_id = add_rxp_md rxp_doc
+        add_div_md_link dp_id                
+        
       when Net::HTTPNotFound
         # XXX do nothing, no rxp data here, possibly want to write we tried
       else
