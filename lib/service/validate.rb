@@ -39,19 +39,10 @@ module Validate
     add_div_md_link dp_id
         
     # reject if needed
-    policy_event = val_doc.find_first("//premis:event[premis:eventType='SIP passed all validation checks']", NS_MAP) 
-
-    if policy_event
-      outcome = policy_event.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NS_MAP).content.strip
-      
-      if outcome == 'failure'
-        reasons = reject_reasons val_doc
-        raise Reject, reasons unless reasons.empty?
-      end
-      
-    else
-      raise "cannot determine validation of package"
-    end
+    if need_to_reject? val_doc
+      reasons = reject_reasons val_doc
+      raise Reject, reasons unless reasons.empty? # XXX reasons is disjoint from outcome
+    end 
     
   end
 
@@ -68,6 +59,12 @@ module Validate
       }
     end
 
+  end
+
+  def need_to_reject? doc
+    policy_event = doc.find_first("//premis:event[premis:eventType='SIP passed all validation checks']", NS_MAP) 
+    raise "cannot determine validation of package" unless policy_event
+    policy_event.find_first("premis:eventOutcomeInformation[premis:eventOutcome='failure']", NS_MAP).nil?
   end
   
 end
