@@ -11,8 +11,8 @@ describe "aip descriptor" do
   end
   
   after :all do
-    #nuke_sandbox!
-    puts $sandbox
+    nuke_sandbox!
+    #puts $sandbox
   end
   
   subject { @aip.mono_descriptor_file }
@@ -114,7 +114,10 @@ describe "aip descriptor" do
     doc.find("//premis:event[premis:eventType = 'Specified AIP Directory Exists']", NS_MAP).should be_empty  
   end
   
-  it "should move owner ids from the sip descriptor to the aip descriptor"
+  it "should move owner ids from the sip descriptor to the aip descriptor" do
+    doc = XML::Document.file subject
+    doc.find("//mets:file[@OWNERID]", NS_MAP).should_not be_empty
+  end
   
   it "should only have eventOutcomeDetail if there are anomalies to report"
   it "should not have repeated metadata"

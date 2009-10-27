@@ -26,7 +26,7 @@ Spec::Runner.configure do |config|
   end
 
   config.after :all do
-    FileUtils::rm_rf $sandbox
+    #FileUtils::rm_rf $sandbox
     FileUtils::rm_rf $silo_sandbox
     FileUtils::rm_rf File.join(File.dirname(__FILE__), '..', 'DescribeService.log')
   end

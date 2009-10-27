@@ -59,7 +59,7 @@ class Aip
   end
 
   # Creates a new file with the data read from io
-  def add_file io, fpath=nil
+  def add_file io, fpath=nil, owner_id=nil
     
     modify_poly_descriptor do |doc|
 
@@ -79,7 +79,7 @@ class Aip
       file_ids = doc.find("//mets:file/@ID", NS_MAP).map { |a| a.value.strip }
       next_file_id = next_in_set(file_ids, /file-(\d+)/)
       fid = "file-#{next_file_id}"
-      fileGrp = doc.find_first('//mets:fileGrp', NS_MAP) << make_file_ref(abs_path[(path.length + 1)..-1], fid)
+      fileGrp = doc.find_first('//mets:fileGrp', NS_MAP) << make_file_ref(abs_path[(path.length + 1)..-1], fid, owner_id)
       doc.find_first('//mets:structMap/mets:div', NS_MAP) << make_fptr(fid)
       
       # a file to return
@@ -229,9 +229,10 @@ class Aip
   end
   
   # Make a new METS file element
-  def make_file_ref path, fid
+  def make_file_ref path, fid, owner_id
     node = XML::Node.new 'file'
     node['ID'] = fid
+    node['OWNERID'] = owner_id if owner_id
     fLocat = XML::Node.new 'FLocat'
     fLocat['LOCTYPE'] = 'URL'
     fLocat['xlink:href'] = path
