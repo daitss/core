@@ -15,7 +15,7 @@ module Service
     def retrieve_provenance!
       s_url = "#{Config::Service['provenance']}/events?location=#{CGI::escape @url.to_s}"
       extp_doc = open(s_url) { |resp| XML::Parser.io(resp).parse }
-      extp_doc.fix_premis_ids! self
+      #extp_doc.fix_premis_ids! self
       dp_id = add_md :digiprov, extp_doc
       add_div_md_link dp_id
     end
