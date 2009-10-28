@@ -8,6 +8,7 @@ require "help/reps"
 require "help/store"
 require "help/xpath"
 require "help/test_stack"
+require "ruby-debug"
 
 Spec::Runner.configure do |config|
 
