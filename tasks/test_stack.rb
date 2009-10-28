@@ -105,7 +105,8 @@ namespace :ts do
     FileUtils::mkdir_p TS_DIR
 
     vc_urls = {
-      'description' => "svn://tupelo.fcla.edu/daitss2/describe/trunk",
+      #'description' => "svn://tupelo.fcla.edu/daitss2/describe/trunk",
+      'description' => "ssh://retsina.fcla.edu/var/git/describe.git",
       #'storage' => "svn://tupelo.fcla.edu/daitss2/store/trunk",
       'simplestorage' => "ssh://retsina.fcla.edu/var/git/simplestorage.git",
       'actionplan' => "ssh://retsina.fcla.edu/var/git/actionplan.git",
