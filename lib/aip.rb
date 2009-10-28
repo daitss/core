@@ -184,7 +184,7 @@ class Aip
     doc = XML::Parser.string(s).parse
     r0_id = add_representation_md 'r0', doc
     
-    # make r0
+    # make rC
     s = template_by_name('rep_c').result binding
     doc = XML::Parser.string(s).parse
     rC_id = add_representation_md 'rC', doc
