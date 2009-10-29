@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
@@ -26,7 +26,7 @@ if ARGV.empty?
   exit 2
 end
 
-sip_path = ARGV[0]
+sip_path = File.expand_path ARGV[0]
 
 begin
   aip = Aip.make_from_sip File.join(DAITSS_WORKSPACE, next_aip), sip_path  
