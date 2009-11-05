@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+def state_file
+  File.join ENV['DAITSS_WORKSPACE'], ".boss"
+end
+
+# start all packages in the workspace
+command = ARGV.shift
+
+case command
+when "start"
+  config_file = File.join File.dirname(__FILE__), '../spec/config/teststack.yml'
+  
+  aips = Dir[File.join(ENV['DAITSS_WORKSPACE'], "*")]
+
+  aips.each do |p|
+    open(state_file, "a") { |io| io.puts p }
+    fork { exec "ruby -Ilib bin/ingest -aip #{p} -config #{config_file}" }
+  end
+  
+when "list"
+  exec "cat #{state_file}"
+  
+else
+  puts "#{command} is not a boss command"
+  exit 1
+end
