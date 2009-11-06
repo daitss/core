@@ -4,27 +4,33 @@ Feature: Start submissions
   I want to start and stop ingests in the workspace
 
   Scenario: start all packages
-    Given a workspace with many aips
-    When I type boss start for all packages
-    And I type boss list
-    Then they should show up in the list
+    Given I submit a package
+    Given I submit another package
+    When I type "boss start all"
+    And I type "boss list"
+    Then they should be in the list
     
   Scenario: stop all packages
-    Given a workspace with many aips
-    When I type boss start for all packages
-    And I type boss stop for all packages
-    And I type boss list
-    Then they should not show up in the list
+    Given I submit a package
+    Given I submit another package
+    When I type "boss start all"
+    And I type "boss stop all"
+    And I type "boss list"
+    Then they should not be in the list
 
   Scenario: start a single package
-    Given a workspace with many aips
-    When I type boss start for a single package
-    And I type boss list
-    Then it should show up in the list
+    Given I submit a package
+    Given I submit another package
+    And aip-0 is one of them
+    When I type "boss start aip-0"
+    And I type "boss list"
+    Then it should be in the list
 
   Scenario: stop a single package
-    Given a workspace with many aips
-    When I type boss start for a single package
-    And I type boss stop for that single package
-    And I type boss list
-    Then it should not show up in the list
+    Given I submit a package
+    Given I submit another package
+    And aip-0 is one of them
+    When I type "boss start aip-0"
+    And I type "boss stop aip-0"
+    And I type "boss list"
+    Then it should not be in the list
