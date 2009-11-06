@@ -29,17 +29,19 @@ def append_state aip, pid
 end
 
 # start all packages in the workspace
+puts ARGV.inspect
 command = ARGV.shift
 
 case command
 when "start"
   
   config_file = File.join File.dirname(__FILE__), '../spec/config/teststack.yml'
+  aip = ARGV.shift
   
-  aips = if ARGV.empty?
+  aips = if aip == "all"
            Dir[File.join(ENV['DAITSS_WORKSPACE'], "*")] 
          else
-            ARGV.map { |aip| File.join ENV['DAITSS_WORKSPACE'], aip }
+           [ File.join ENV['DAITSS_WORKSPACE'], aip ]
          end
 
   aips.each do |aip|
@@ -48,12 +50,13 @@ when "start"
   end
   
 when "stop"
+  target = ARGV.shift
 
-  kill_predicate = if ARGV.empty?
-    lambda { true }
-  else
-    lambda { |aip, md| ARGV.include? aip }
-  end
+  kill_predicate = if target == "all"
+                     lambda { |aip, pid| true }
+                   else
+                     lambda { |aip, pid| target == File.basename(aip) }
+                   end
 
   to_kill, to_keep = read_state.partition &kill_predicate
 
