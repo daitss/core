@@ -1,4 +1,4 @@
-Feature: Stop submissions
+Feature: Boss stop
   In order stop an ingest
   As an operator
   I want to stop ingests
@@ -19,3 +19,5 @@ Feature: Stop submissions
     And I type "boss stop aip-0"
     And I type "boss list"
     Then it should not be in the list
+    
+  Scenario: stop a non-ingesting package

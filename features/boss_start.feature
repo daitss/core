@@ -1,4 +1,4 @@
-Feature: Start submissions
+Feature: Boss start
   In order ingest submissions
   As an operator
   I want to start ingests
@@ -17,3 +17,5 @@ Feature: Start submissions
     When I type "boss start aip-0"
     And I type "boss list"
     Then it should be in the list
+
+  Scenario: start a non-pending package
