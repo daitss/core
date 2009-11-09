@@ -5,28 +5,20 @@ Feature: Boss list
 
   Scenario: list all packages
     
-  Scenario: list ingesting packages (all ingesting)
+  Scenario Outline: list ingesting packages (all ingesting)
     Given I submit a package
     And I submit another package
-    When I type "boss start all"
+    When I <action> "boss start <package>"
     And I type "boss list ingesting"
-    Then they should be in the list
-    And the list should have 2 aips
+    Then <cardinality> <condition> be in the list
+    And the list should have <count> aips
     
-  Scenario: list ingesting packages (some ingesting)
-    Given I submit a package
-    And I submit another package
-    When I type "boss start aip-0"
-    And I type "boss list ingesting"
-    Then it should be in the list
-    And the list should have 1 aip
-
-  Scenario: list ingesting packages (none ingesting)
-    Given I submit a package
-    And I submit another package
-    When I type "boss list ingesting"
-    Then they should not be in the list
-    And the list should have 0 aips
+    Examples:
+      | package | action          | count | cardinality | condition  |
+      | all     | type            | 2     | they        | should     |
+      | aip-0   | type            | 1     | it          | should     |
+      | aip-0   | murmur | 0     | they        | should not |
+    
     
   Scenario: list pending packages  
   Scenario: list stopped packages

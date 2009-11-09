@@ -9,8 +9,8 @@ Given /^aip\-0 is one of them$/ do
   aips.should include("aip-0")
 end
 
-When /^I type "([^\"]*)"$/ do |command|
-  @last_output = bin "#{command}"
+When /^I (type|murmur) "([^\"]*)"$/ do |action, command|
+  @last_output = bin "#{command}" if action == 'type'
 end
 
 Then /^the list should have (\d+) aips?$/ do |size|
