@@ -57,3 +57,12 @@ Feature: Boss list
     Then the list should have 0 aips
   
   Scenario: list snafu packages
+    Given I submit a package
+    And it is snafued
+    And I type "boss list snafu"
+    Then the list should have 1 aip
+    
+  Scenario: list snafued packages where none are snafu
+    Given I submit a package
+    And I type "boss list snafu"
+    Then the list should have 0 aips    
