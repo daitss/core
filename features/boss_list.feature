@@ -33,5 +33,27 @@ Feature: Boss list
     Then the list should have 0 aips
     
   Scenario: list stopped packages
+    Given I submit a package
+    When I type "boss start all"
+    And I type "boss stop all"
+    And I type "boss list stopped"
+    Then the list should have 1 aip
+    
+  Scenario: list stopped packages where none are stopped
+    Given I submit a package
+    When I type "boss start all"
+    And I type "boss list stopped"
+    Then the list should have 0 aips
+
   Scenario: list rejected packages
+    Given I submit a package
+    And it is rejected
+    And I type "boss list rejected"
+    Then the list should have 1 aip
+  
+  Scenario: list rejected packages where none are rejected
+    Given I submit a package
+    And I type "boss list rejected"
+    Then the list should have 0 aips
+  
   Scenario: list snafu packages

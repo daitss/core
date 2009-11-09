@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require "fileutils"
+
 # the file that stores the state
 def state_file
   File.join ENV['DAITSS_WORKSPACE'], ".boss"
@@ -71,6 +73,8 @@ when "stop"
       Process.kill "INT", pid.to_i
     rescue Errno::ESRCH
       # OK if its done
+    ensure
+      FileUtils.touch File.join(aip, "STOP")
     end
     
   end
@@ -90,9 +94,21 @@ when "list"
     puts pending
         
   when "ingesting"
-    ingesting = read_state.map {|aip, pid| aip } 
+    ingesting = read_state.map { |aip, pid| aip } 
     puts ingesting    
 
+  when "stopped"
+    in_workspace = Dir[File.join(ENV['DAITSS_WORKSPACE'], "*")] 
+    stopped = in_workspace.select { |aip| File.exists? File.join(aip, "STOP")  }
+    puts stopped    
+
+  when "rejected"
+    in_workspace = Dir[File.join(ENV['DAITSS_WORKSPACE'], "*")] 
+    rejected = in_workspace.select { |aip| File.exists? File.join(aip, "REJECT")  }
+    puts rejected
+        
+  else 
+    raise "Unknown list option #{option.inspect}"
   end
   
 else
