@@ -8,8 +8,14 @@ end
 # read the state into an array of entries
 def read_state
   
-  open(state_file) do |io|
-    io.readlines.map { |line| line.chomp.split }
+  begin
+    
+    open(state_file) do |io|
+      io.readlines.map { |line| line.chomp.split }
+    end
+    
+  rescue Errno::ENOENT
+    []
   end
   
 end
@@ -29,7 +35,6 @@ def append_state aip, pid
 end
 
 # start all packages in the workspace
-puts ARGV.inspect
 command = ARGV.shift
 
 case command
@@ -73,7 +78,10 @@ when "stop"
   write_state to_keep
     
 when "list"
-  exec "cat #{state_file}"
+  
+  read_state.each do |aip, pid|
+    puts "#{aip} #{pid}"
+  end
   
 else
   puts "#{command} is not a boss command"
