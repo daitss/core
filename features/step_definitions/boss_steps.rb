@@ -13,6 +13,11 @@ When /^I type "([^\"]*)"$/ do |command|
   @last_output = bin "#{command}"
 end
 
+Then /^the list should have (\d+) aips?$/ do |size|
+  @last_output.lines.map.size.should == size.to_i
+end
+
+
 Then /^(they|it) (should|should not) be in the list$/ do |cardinality, condition|
   state = @last_output.lines.map { |line| line.chomp.split.first }
   
