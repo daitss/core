@@ -9,8 +9,13 @@ Given /^aip\-0 is one of them$/ do
   aips.should include("aip-0")
 end
 
+Given /^it is rejected$/ do
+  aip = @aips.first 
+  FileUtils.touch File.join(aip, "REJECT")
+end
+
 When /^I (type|murmur) "([^\"]*)"$/ do |action, command|
-  @last_output = bin "#{command}" if action == 'type'
+  @last_output = bin command if action == 'type'
 end
 
 Then /^the list should have (\d+) aips?$/ do |size|
