@@ -107,6 +107,11 @@ when "list"
     rejected = in_workspace.select { |aip| File.exists? File.join(aip, "REJECT")  }
     puts rejected
         
+  when "snafu"
+    in_workspace = Dir[File.join(ENV['DAITSS_WORKSPACE'], "*")] 
+    snafued = in_workspace.select { |aip| File.exists? File.join(aip, "SNAFU")  }
+    puts snafued
+    
   else 
     raise "Unknown list option #{option.inspect}"
   end

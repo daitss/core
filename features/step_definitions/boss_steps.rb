@@ -14,6 +14,11 @@ Given /^it is rejected$/ do
   FileUtils.touch File.join(aip, "REJECT")
 end
 
+Given /^it is snafued$/ do
+  aip = @aips.first 
+  FileUtils.touch File.join(aip, "SNAFU")
+end
+
 When /^I (type|murmur) "([^\"]*)"$/ do |action, command|
   @last_output = bin command if action == 'type'
 end
