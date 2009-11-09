@@ -78,9 +78,21 @@ when "stop"
   write_state to_keep
     
 when "list"
+  option = ARGV.shift
   
-  read_state.each do |aip, pid|
-    puts "#{aip} #{pid}"
+  case option
+    
+  when "pending"
+    in_workspace = Dir[File.join(ENV['DAITSS_WORKSPACE'], "*")] 
+    ingesting = read_state.map { |aip, pid| aip }
+    
+    pending = in_workspace.reject { |package_in_workspace| ingesting.include? package_in_workspace }
+    puts pending
+        
+  when "ingesting"
+    ingesting = read_state.map {|aip, pid| aip } 
+    puts ingesting    
+
   end
   
 else
