@@ -60,5 +60,5 @@ def bin command
 end
 
 def bin_nw command
-  system "ruby -Ilib bin/#{command} 2 &>1  > /dev/null"
+  system "ruby -Ilib bin/#{command} > /dev/null 2>&1"
 end
