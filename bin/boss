@@ -1,49 +1,35 @@
 #!/usr/bin/env ruby
 
-# the file that stores the state
-def state_file
-  File.join ENV['DAITSS_WORKSPACE'], ".boss"
-end
+require "fileutils"
+require "workspace"
+require "pp"
 
-# read the state into an array of entries
-def read_state
-  
-  open(state_file) do |io|
-    io.readlines.map { |line| line.chomp.split }
-  end
-  
-end
-
-# write an arrary of entries as the state
-def write_state state
-
-  open(state_file, "w") do |io|
-    state.each { |aip, pid| io.puts "#{aip} #{pid}" }
-  end
-  
-end
-
-# append an entry to the state
-def append_state aip, pid
-  open(state_file, "a") { |io| io.puts "#{aip} #{pid}" }
-end
+include Workspace
 
 # start all packages in the workspace
-puts ARGV.inspect
 command = ARGV.shift
 
 case command
 when "start"
-  
+
   config_file = File.join File.dirname(__FILE__), '../spec/config/teststack.yml'
   aip = ARGV.shift
   
   aips = if aip == "all"
-           Dir[File.join(ENV['DAITSS_WORKSPACE'], "*")] 
+           in_workspace
          else
-           [ File.join ENV['DAITSS_WORKSPACE'], aip ]
+           path = File.join ENV['DAITSS_WORKSPACE'], aip
+           exit(2) unless File.directory? path
+           exit(2) if ingesting.include? path
+           exit(2) if File.exists? File.join(path, "SNAFU")
+           exit(2) if File.exists? File.join(path, "STOP")
+           exit(2) if File.exists? File.join(path, "REJECT")
+           [path]
          end
+         
 
+  aips.reject! {|aip| ingesting.include? aip }
+  
   aips.each do |aip|
     pid = fork { exec "ruby -Ilib bin/ingest -aip #{aip} -config #{config_file}" }
     append_state aip, pid
@@ -66,6 +52,8 @@ when "stop"
       Process.kill "INT", pid.to_i
     rescue Errno::ESRCH
       # OK if its done
+    ensure
+      FileUtils.touch File.join(aip, "STOP")
     end
     
   end
@@ -73,8 +61,35 @@ when "stop"
   write_state to_keep
     
 when "list"
-  exec "cat #{state_file}"
+  option = ARGV.shift
   
+  list = case option
+    
+         when "pending"
+           ingesting = read_state.map { |aip, pid| aip }
+           in_workspace.reject { |package_in_workspace| ingesting.include? package_in_workspace }
+               
+         when "ingesting"
+           read_state.map { |aip, pid| aip } 
+         
+         when "stopped"
+           tagged_packages "STOP"
+         
+         when "rejected"
+           tagged_packages "REJECT"
+               
+         when "snafu"
+           tagged_packages "SNAFU"
+           
+         when "all"
+           in_workspace
+           
+         else 
+           raise "Unknown list option #{option.inspect}"
+           
+         end
+  
+  puts list
 else
   puts "#{command} is not a boss command"
   exit 1
