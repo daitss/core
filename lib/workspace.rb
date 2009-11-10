@@ -43,4 +43,9 @@ module Workspace
     in_workspace.select { |aip| File.exists? File.join(aip, tag)  }
   end
   
+  # returns ingesting aips
+  def ingesting
+    read_state.map { |aip, pid| aip }
+  end
+  
 end

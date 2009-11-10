@@ -2,6 +2,7 @@
 
 require "fileutils"
 require "workspace"
+require "pp"
 
 include Workspace
 
@@ -17,9 +18,15 @@ when "start"
   aips = if aip == "all"
            in_workspace
          else
-           [ File.join ENV['DAITSS_WORKSPACE'], aip ]
+           path = File.join ENV['DAITSS_WORKSPACE'], aip
+           exit(2) unless File.directory? path
+           exit(2) if ingesting.include? path
+           [path]
          end
+         
 
+  aips.reject! {|aip| ingesting.include? aip }
+  
   aips.each do |aip|
     pid = fork { exec "ruby -Ilib bin/ingest -aip #{aip} -config #{config_file}" }
     append_state aip, pid
