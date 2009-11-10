@@ -20,7 +20,15 @@ Given /^it is snafued$/ do
 end
 
 When /^I (type|murmur) "([^\"]*)"$/ do |action, command|
-  @last_output = bin command if action == 'type'
+  
+   if action == 'type'
+     if command =~ /^boss start/
+       @last_output = bin_nw command
+     else
+       @last_output = bin command
+     end
+     
+   end
 end
 
 Then /^the list should have (\d+) aips?$/ do |size|
@@ -49,4 +57,8 @@ def bin command
   output = %x{ruby -Ilib bin/#{command}}
   $?.should == 0
   output
+end
+
+def bin_nw command
+  system "ruby -Ilib bin/#{command} 2 &>1  > /dev/null"
 end
