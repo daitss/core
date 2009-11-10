@@ -28,4 +28,15 @@ Feature: Boss start
     And I type "boss list ingesting"
     Then it should be in the list
 
-  Scenario: start a non-pending package
+  Scenario Outline: start a non-pending package
+    Given I submit a package
+    And it is tagged <tag>
+    When I type "boss start aip-0"
+    Then it should return an exit status of 2
+    
+    Examples:
+    |tag|
+    |REJECT|
+    |SNAFU|
+    |STOP|
+    
