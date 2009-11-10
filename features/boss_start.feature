@@ -11,6 +11,14 @@ Feature: Boss start
     Then they should be in the list
     
   Scenario: start an ingesting package
+    Given I submit a package
+    When I type "boss start all"
+    And I type "boss start aip-0"
+    Then it should return an exit status of 2
+
+  Scenario: start an ingesting package that does not exist
+    When I type "boss start aip-0"
+    Then it should return an exit status of 2
   
   Scenario: start a single package
     Given I submit a package

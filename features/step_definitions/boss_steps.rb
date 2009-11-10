@@ -35,7 +35,6 @@ Then /^the list should have (\d+) aips?$/ do |size|
   @last_output.lines.map.size.should == size.to_i
 end
 
-
 Then /^(they|it) (should|should not) be in the list$/ do |cardinality, condition|
   state = @last_output.lines.map { |line| line.chomp.split.first }
   
@@ -50,8 +49,12 @@ Then /^(they|it) (should|should not) be in the list$/ do |cardinality, condition
   when "should not"
     state.should_not include(*subject)
   end
-
 end
+
+Then /^it should return an exit status of 2$/ do
+  $?.exitstatus.should == 2
+end
+
 
 def bin command
   output = %x{ruby -Ilib bin/#{command}}
