@@ -47,7 +47,7 @@ Feature: Boss list
 
   Scenario: list rejected packages
     Given I submit a package
-    And it is rejected
+    And it is tagged REJECT
     And I type "boss list rejected"
     Then the list should have 1 aip
   
@@ -58,7 +58,7 @@ Feature: Boss list
   
   Scenario: list snafu packages
     Given I submit a package
-    And it is snafued
+    And it is tagged SNAFU
     And I type "boss list snafu"
     Then the list should have 1 aip
     
