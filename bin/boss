@@ -21,6 +21,9 @@ when "start"
            path = File.join ENV['DAITSS_WORKSPACE'], aip
            exit(2) unless File.directory? path
            exit(2) if ingesting.include? path
+           exit(2) if File.exists? File.join(path, "SNAFU")
+           exit(2) if File.exists? File.join(path, "STOP")
+           exit(2) if File.exists? File.join(path, "REJECT")
            [path]
          end
          

@@ -9,14 +9,9 @@ Given /^aip\-0 is one of them$/ do
   aips.should include("aip-0")
 end
 
-Given /^it is rejected$/ do
+Given /^it is tagged (\w+)$/ do |tag|
   aip = @aips.first 
-  FileUtils.touch File.join(aip, "REJECT")
-end
-
-Given /^it is snafued$/ do
-  aip = @aips.first 
-  FileUtils.touch File.join(aip, "SNAFU")
+  FileUtils.touch File.join(aip, tag)
 end
 
 When /^I (type|murmur) "([^\"]*)"$/ do |action, command|
