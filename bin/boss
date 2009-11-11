@@ -37,10 +37,15 @@ when "start"
   
 when "stop"
   target = ARGV.shift
-
+  
+  unless target == "all"
+    path = File.join ENV['DAITSS_WORKSPACE'], target
+    exit(2) unless ingesting.include? path
+  end
+  
   kill_predicate = if target == "all"
                      lambda { |aip, pid| true }
-                   else
+                   else                     
                      lambda { |aip, pid| target == File.basename(aip) }
                    end
 
@@ -66,12 +71,11 @@ when "list"
   list = case option
     
          when "pending"
-           ingesting = read_state.map { |aip, pid| aip }
            in_workspace.reject { |package_in_workspace| ingesting.include? package_in_workspace }
                
          when "ingesting"
-           read_state.map { |aip, pid| aip } 
-         
+           ingesting
+
          when "stopped"
            tagged_packages "STOP"
          
@@ -82,7 +86,15 @@ when "list"
            tagged_packages "SNAFU"
            
          when "all"
-           in_workspace
+
+           in_workspace.map do |aip|
+             state = "pending"
+             state = "ingesting" if ingesting.include? aip
+             state = "STOP" if File.file? File.join(aip, "STOP")
+             state = "REJECT" if File.file? File.join(aip, "REJECT")
+             state = "SNAFU" if File.file? File.join(aip, "SNAFU")
+             "#{File.basename aip} #{state}"
+           end
            
          else 
            raise "Unknown list option #{option.inspect}"

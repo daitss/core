@@ -35,8 +35,8 @@ Feature: Boss start
     Then it should return an exit status of 2
     
     Examples:
-    |tag|
-    |REJECT|
-    |SNAFU|
-    |STOP|
+      |tag|
+      |REJECT|
+      |SNAFU|
+      |STOP|
     

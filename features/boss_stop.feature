@@ -21,3 +21,6 @@ Feature: Boss stop
     Then it should not be in the list
     
   Scenario: stop a non-ingesting package
+    Given I submit a package
+    When I type "boss stop aip-0"
+    Then it should return an exit status of 2
