@@ -18,7 +18,7 @@ Then /^it should print "([^\"]*)"$/ do |message|
   @output.should =~ /#{message}/
 end
 
-Given /^a systemic problem$/ do
+Given /^there is a systemic problem$/ do
   pattern = File.join ENV['DAITSS_WORKSPACE'], "**", "descriptor.xml"
   f = Dir[pattern].first || ENV['DAITSS_WORKSPACE']
   FileUtils::chmod 555, f
