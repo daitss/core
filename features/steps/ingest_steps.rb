@@ -8,7 +8,8 @@ Given /^an (unresolvable|unknown) package url$/ do |type|
 end
 
 When /^I ingest it$/ do
-  @output = `ruby -Ilib bin/ingest #{@url}`
+  config_file = File.join File.dirname(__FILE__), '../../spec/config/teststack.yml'
+  @output = bin "ingest -aip #{@url} -config #{config_file}"
 end
 
 Then /^I should get an (unresolvable|unknown) error$/ do |type|
@@ -68,11 +69,6 @@ Then /^there should be no duplicate events$/ do
     
   end
   
-end
-
-Given /^a good AIP$/ do
-  path = package_instance 'good'
-  @url = "file:" + path
 end
 
 Given /^a error of (any|\d{3}) error when performing (.+)$/ do |status, service|
