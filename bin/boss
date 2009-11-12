@@ -102,6 +102,15 @@ when "list"
          end
   
   puts list
+
+when "stash"
+  aip_name = ARGV.shift
+  stash_location = ARGV.shift
+puts aip_name
+puts stash_location
+
+  FileUtils.mv File.join(ENV['DAITSS_WORKSPACE'], aip_name), File.join(stash_location, aip_name)
+  
 else
   puts "#{command} is not a boss command"
   exit 1
