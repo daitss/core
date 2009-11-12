@@ -8,7 +8,7 @@ Feature: Ingest
     And it should return status 0
 
   Scenario: non aip argument
-    Given an non-existent aip
+    Given a non-existent aip
     When I ingest
     Then it should print "cannot process"
     And it should return status 1

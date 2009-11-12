@@ -9,19 +9,12 @@ Given /^it is invalid$/ do
   open(sip_descriptor, 'a') { |io| io.puts 'this should make it invalid' }
 end
 
-Given /^an non\-existent aip$/ do
+Given /^a non\-existent aip$/ do
   @aips = ['XXXX']
 end
 
-# Given /^an? (non\-existent|invalid) aip$/ do |type|
-#   
-#   @aip = case type
-#          when 'non-existent'
-#            'XXXXX'
-#          when 'good'
-#            aip_instance 'good'
-#          when 'invalid'
-#            aip_instance 'invalid-descriptor'
-#          end
-#    
-# end
+Given /^there is a systemic problem$/ do
+  pattern = File.join ENV['DAITSS_WORKSPACE'], "**", "descriptor.xml"
+  f = Dir[pattern].first || ENV['DAITSS_WORKSPACE']
+  FileUtils::chmod 555, f
+end

@@ -14,7 +14,6 @@ Feature: Boss stop
   Scenario: stop a single package
     Given I submit a package
     Given I submit another package
-    And aip-0 is one of them
     When I type "boss start aip-0"
     And I type "boss stop aip-0"
     And I type "boss list ingesting"
@@ -23,4 +22,4 @@ Feature: Boss stop
   Scenario: stop a non-ingesting package
     Given I submit a package
     When I type "boss stop aip-0"
-    Then it should return an exit status of 2
+    Then it should return status 2
