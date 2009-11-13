@@ -35,9 +35,7 @@ end
 
 # execute a command and waits for the output
 def bin command
-  output = %x{ruby -Ilib bin/#{command}}
-  $?.should == 0
-  output
+  %x{ruby -Ilib bin/#{command}}
 end
 
 # execute a command but don't care about output
