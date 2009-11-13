@@ -109,7 +109,12 @@ when "stash"
   stash_location = ARGV.shift
   exit 2 if ingesting? aip_path
   FileUtils.mv aip_path, File.join(stash_location, aip_name)
-  
+
+when "unsnafu"
+  aip = ARGV.shift
+  snafu_tag_file = File.join ENV['DAITSS_WORKSPACE'], aip, "SNAFU"
+  FileUtils::rm snafu_tag_file
+
 else
   puts "#{command} is not a boss command"
   exit 1
