@@ -20,7 +20,7 @@ when "start"
          else
            path = File.join ENV['DAITSS_WORKSPACE'], aip
            exit(2) unless File.directory? path
-           exit(2) if ingesting.include? path
+           exit(2) if ingesting? path
            exit(2) if File.exists? File.join(path, "SNAFU")
            exit(2) if File.exists? File.join(path, "STOP")
            exit(2) if File.exists? File.join(path, "REJECT")
@@ -28,7 +28,7 @@ when "start"
          end
          
 
-  aips.reject! {|aip| ingesting.include? aip }
+  aips.reject! {|aip| ingesting? aip }
   
   aips.each do |aip|
     pid = fork { exec "ruby -Ilib bin/ingest -aip #{aip} -config #{config_file}" }
@@ -40,7 +40,7 @@ when "stop"
   
   unless target == "all"
     path = File.join ENV['DAITSS_WORKSPACE'], target
-    exit(2) unless ingesting.include? path
+    exit(2) unless ingesting? path
   end
   
   kill_predicate = if target == "all"
@@ -71,7 +71,7 @@ when "list"
   list = case option
     
          when "pending"
-           in_workspace.reject { |package_in_workspace| ingesting.include? package_in_workspace }
+           in_workspace.reject { |package_in_workspace| ingesting? package_in_workspace }
                
          when "ingesting"
            ingesting
@@ -89,7 +89,7 @@ when "list"
 
            in_workspace.map do |aip|
              state = "pending"
-             state = "ingesting" if ingesting.include? aip
+             state = "ingesting" if ingesting? aip
              state = "STOP" if File.file? File.join(aip, "STOP")
              state = "REJECT" if File.file? File.join(aip, "REJECT")
              state = "SNAFU" if File.file? File.join(aip, "SNAFU")
@@ -105,11 +105,10 @@ when "list"
 
 when "stash"
   aip_name = ARGV.shift
+  aip_path = File.join(ENV['DAITSS_WORKSPACE'], aip_name)
   stash_location = ARGV.shift
-puts aip_name
-puts stash_location
-
-  FileUtils.mv File.join(ENV['DAITSS_WORKSPACE'], aip_name), File.join(stash_location, aip_name)
+  exit 2 if ingesting? aip_path
+  FileUtils.mv aip_path, File.join(stash_location, aip_name)
   
 else
   puts "#{command} is not a boss command"

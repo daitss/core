@@ -18,11 +18,28 @@ Then /^(they|it) (should|should not) be in the list$/ do |cardinality, condition
   end
 end
 
-Then /^the package should be in \/tmp$/ do 
+Then /^the package (should|should not) be in \/tmp$/ do |option|
   aip_name = File.basename @aips.first
-  File.join("/tmp", aip_name).should exist_on_fs
+
+  case option
+  when "should"
+    File.join("/tmp", aip_name).should exist_on_fs
+  when "should not"
+    File.join("/tmp", aip_name).should_not exist_on_fs
+  end
 
   $cleanup.push(File.join("/tmp", aip_name))
+end
+
+Then /^it (should|should not) be in the workspace$/ do |option|
+
+  case option
+  when "should"
+    @aips.first.should exist_on_fs
+  when "should not"
+    @aips.first.should_not exist_on_fs
+  end
+
 end
 
 Given /^the following packages with states:$/ do |table|  
@@ -47,10 +64,6 @@ Given /^the following packages with states:$/ do |table|
   end
   
   @expected_state_table = table
-end
-
-Then /^it should not be in the workspace$/ do
-  File.join(ENV['DAITSS_WORKSPACE'], @aips.first).should_not exist_on_fs
 end
 
 Then /^I should see the packages with the expected states$/ do
