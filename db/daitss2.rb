@@ -16,7 +16,6 @@ class Datafile
   property :creator_prog, String, :length => (0..255)
 
   has 0..n, :bitstream # a datafile may contain 0-n bitstream(s)
-  has 0..n, :format_property # a datafile may contain 0-n additional format properties
   has 0..n, :severe_element # a datafile may contain 0-n severe_elements
   has 0..n, :file_format # a datafile may have 0-n file_formats
   has n, :datafile_events
@@ -49,15 +48,6 @@ class FileFormat
   
   belongs_to :format, :index => true # the format of the datafile or bitstream. 
   belongs_to :datafile, :index => true # The data file which may exibit the specific format
-end
-
-class FormatProperty
-  include DataMapper::Resource
-  property :id, Serial, :key => true
-  property :name, String
-  property :value, String
-  
-  belongs_to :datafile
 end
 
 class SevereElement
@@ -285,4 +275,3 @@ end
 # a reprensentation, and thus if the shapefiles representation is migrated to another collection 
 # of files, a relationship among representation would be needed.
  
-DataMapper::auto_migrate!

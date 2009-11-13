@@ -12,7 +12,6 @@ class FileObject
     @fsize = premis.find_first("premis:objectCharacteristics/premis:size", NAMESPACES).content
     puts @fsize
 
-  
     list = premis.find("premis:objectCharacteristics/premis:format", NAMESPACES)
 
     firstNode = true
@@ -44,7 +43,10 @@ class FileObject
     node = premis.find_first("premis:objectCharacteristics/premis:creatingApplication/premis:dateCreatedByApplication", NAMESPACES)
     @create_date = node.content if node
     
-    #TODO  need storage data model
+    node = premis.find_first("premis:originalName", NAMESPACES)
+    @originalName = node.content if node
+    
+    #TODO need storage data model
     @mdtype = premis.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigestAlgorithm", NAMESPACES).content
     @mdvalue = premis.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigest", NAMESPACES).content
   end
@@ -58,7 +60,7 @@ class FileObject
     df.format_registry = @formatRegistry
     df.create_date = @create_date if @create_date
     df.creator_prog = @creator_prog if @creator_prog
-    df.original_path = ""
+    df.original_path = @originalName if @originalName
 
     df.save
   end

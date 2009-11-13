@@ -2,6 +2,7 @@ require 'rake'
 require 'rake/rdoctask'
 require 'spec/rake/spectask'
 require 'cucumber/rake/task'
+require 'db/daitss2'
 
 Cucumber::Rake::Task.new
 
@@ -11,5 +12,5 @@ Spec::Rake::SpecTask.new do |t|
 end
 
 task :migrate do
-  DataMapper.update!
+  DataMapper::auto_migrate!
 end
