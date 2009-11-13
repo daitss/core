@@ -57,4 +57,20 @@ describe PackageSubmitter do
     File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "aip-#{ieid}", "ateam.xml")).should == true
   end
 
+  it "should unzip zipped AIP (with package in a directory) to temporary directory in DAITSS_WORKSPACE" do
+    ieid = PackageSubmitter.create_aip_from_zip ZIP_SIP
+
+    File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "aip-#{ieid}", "ateam.tiff")).should == true
+    File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "aip-#{ieid}", "ateam.xml")).should == true
+    File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "aip-#{ieid}", "ateam")).should_not == true
+  end
+
+  it "should unzip tarred AIP (with package in a directory) to temporary directory in DAITSS_WORKSPACE" do
+    ieid = PackageSubmitter.create_aip_from_tar TAR_SIP
+
+    File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "aip-#{ieid}", "ateam.tiff")).should == true
+    File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "aip-#{ieid}", "ateam.xml")).should == true
+    File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "aip-#{ieid}", "ateam")).should_not == true
+  end
+
 end

@@ -1,4 +1,6 @@
 require 'fileutils'
+require 'aip'
+require 'pp'
 
 class PackageSubmitter
 
@@ -10,7 +12,6 @@ class PackageSubmitter
     ieid = generate_ieid
     unzip_sip ieid, path_to_zip_file
 
-    # unzip or untar to temp dir
     # call Aip.make_from_sip
     # add submission event to polydescriptor 
     return ieid
@@ -74,6 +75,13 @@ class PackageSubmitter
     raise "unzip utility not found on this system!" if zip_command =~ /not found/
 
     output = `#{zip_command} #{path_to_zip_file} -d #{destination}`
+    contents = Dir.entries destination
+
+    # if package was zipped in a single directory, move files out
+    if contents.length == 3 and File.directory? File.join(destination, contents[2])
+      FileUtils.mv Dir.glob(File.join(destination, "#{contents[2]}/*")), destination
+      FileUtils.rm_rf File.join(destination, contents[2])
+    end
 
     raise "unzip utility exited with non-zero status: #{output}" if $?.exitstatus != 0 
   end
@@ -91,11 +99,21 @@ class PackageSubmitter
     FileUtils.mkdir_p destination
     output = `#{tar_command} -xf #{path_to_tar_file} -C #{destination}`
 
+    contents = Dir.entries destination
+
+    # if package was zipped in a single directory, move files out
+    if contents.length == 3 and File.directory? File.join(destination, contents[2])
+      FileUtils.mv Dir.glob(File.join(destination, "#{contents[2]}/*")), destination
+      FileUtils.rm_rf File.join(destination, contents[2])
+    end
+
     raise "tar utility exited with non-zero status: #{output}" if $?.exitstatus != 0 
   end
 
   def self.create_submission_event
   end
+
+  # creates a .submit directory under DAITSS_WORKSPACE
 
   def self.create_submit_dir
     FileUtils.mkdir_p File.join(ENV["DAITSS_WORKSPACE"], ".submit")
