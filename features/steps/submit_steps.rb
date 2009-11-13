@@ -10,6 +10,6 @@ Given /^no sip as an argument$/ do
   @sip_path = ''
 end
 
-Given /^a good sip$/ do
+Given /^a sip$/ do
   @sip_path = test_sip_by_name 'ateam'
 end

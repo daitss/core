@@ -4,7 +4,7 @@ Feature: submission command line interface
   I want to be able to submit via the command line
 
   Scenario: normal submission
-    Given a good sip
+    Given a sip
     When I submit
     Then it should print "successfully submitted"
     And it should return status 0
@@ -22,8 +22,8 @@ Feature: submission command line interface
     And it should return status 2
 
   Scenario: any other problem
-    Given a systemic problem
-    And a good sip
+    And a sip
+    Given there is a systemic problem
     When I submit
     Then it should print an error message
     And it should print a backtrace
