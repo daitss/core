@@ -111,9 +111,9 @@ when "stash"
   FileUtils.mv aip_path, File.join(stash_location, aip_name)
 
 when "unsnafu"
-  aip = ARGV.shift
-  snafu_tag_file = File.join ENV['DAITSS_WORKSPACE'], aip, "SNAFU"
-  FileUtils::rm snafu_tag_file
+  target = ARGV.shift
+  pattern = File.join ENV['DAITSS_WORKSPACE'], (target == "all" ? "*" : target), "SNAFU"
+  Dir[pattern].each { |tag| FileUtils::rm tag }
 
 else
   puts "#{command} is not a boss command"
