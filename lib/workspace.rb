@@ -47,5 +47,9 @@ module Workspace
   def ingesting
     read_state.map { |aip, pid| aip }
   end
+
+  def ingesting? aip
+    ingesting.include? aip
+  end
   
 end
