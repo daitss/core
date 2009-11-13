@@ -25,6 +25,20 @@ describe PackageSubmitter do
     lambda { PackageSubmitter.create_aip_from_tar TAR_SIP }.should raise_error
   end
 
+  it "should generate a unique IEID for each AIP created" do
+    ieid_1 = PackageSubmitter.create_aip_from_zip ZIP_SIP
+    ieid_2 = PackageSubmitter.create_aip_from_tar TAR_SIP
+
+    ieid_1.should_not == ieid_2
+  end
+
+  #it "should unzip zipped AIP to temporary directory in DAITSS_WORKSPACE" do
+    #PackageSubmitter.create_aip_from_zip ZIP_SIP
+#
+    #File.directory? File.join(ENV["DAITSS_WORKSPACE"], .submit).should == true
+    #File.directory? File.join(ENV["DAITSS_WORKSPACE"], .submit).should == true
+  #end
+
     #puts File.exists? ZIP_SIP
     #puts File.exists? TAR_SIP
 end
