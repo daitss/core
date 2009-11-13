@@ -9,11 +9,6 @@ class Datafile
   include DataMapper::Resource
   property :id, String, :key => true, :length => 16
   property :size, Integer, :length => (0..20),  :nullable => false 
-  property :format_name, String, :nullable => false # format name, ex: "TIFF"
-  property :format_version, String # version, ex: "5.0"
-  property :format_registry, String # ex. format registry namespace + formatid, 
-    # ex: "http://www.nationalarchives.gov.uk/pronom/fmt/10"
-  
   property :create_date, DateTime
   property :origin, Enum[:archive, :depositor, :unknown], :default => :unknown, :nullable => false
   property :original_path, String, :length => (0..255),  :nullable => false 
@@ -23,6 +18,7 @@ class Datafile
   has 0..n, :bitstream # a datafile may contain 0-n bitstream(s)
   has 0..n, :format_property # a datafile may contain 0-n additional format properties
   has 0..n, :severe_element # a datafile may contain 0-n severe_elements
+  has 0..n, :file_format # a datafile may have 0-n file_formats
   has n, :datafile_events
 end
 
@@ -30,12 +26,29 @@ class Bitstream
   include DataMapper::Resource
   property :id, String, :key => true, :length => 16
   property :size, Integer
-  property :format_designation_name, String # format name, ex: "TIFF"
-  property :format_designation_version, String # version, ex: "5.0"
-  property :format_registry, String # ex. pronom_name/formatid 
-  # ex: "http://www.nationalarchives.gov.uk/pronom/fmt/10"
 
   belongs_to :datafile # a bitstream is belong to a datafile
+  belongs_to :format # bitstream format
+end
+
+class Format
+  include DataMapper::Resource
+  property :id, Serial, :key => true
+  property :registry, String # the namespace of the format registry, ex:http://www.nationalarchives.gov.uk/pronom
+  property :registry_id, String # the format identifier in the registry, ex: fmt/10
+  property :format_name, String # common format name, ex:  "TIFF"
+  property :format_version, String #format version,  ex: "5.0"
+  property :format_variation, String # format profile, ex: "GeoTiff"
+end
+
+class FileFormat
+  include DataMapper::Resource
+  property :id, Serial, :key => true
+  property :type, Enum[:primary, :secondary] # indicate if this format is perceived to be 
+    # the primary or secondary format for this data file
+  
+  belongs_to :format, :index => true # the format of the datafile or bitstream. 
+  belongs_to :datafile, :index => true # The data file which may exibit the specific format
 end
 
 class FormatProperty
