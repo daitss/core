@@ -112,6 +112,7 @@ when "stash"
 
 when "unsnafu"
   target = ARGV.shift
+  exit 2 if target != "all" and !File.file? File.join(ENV['DAITSS_WORKSPACE'], target, "SNAFU")
   pattern = File.join ENV['DAITSS_WORKSPACE'], (target == "all" ? "*" : target), "SNAFU"
   Dir[pattern].each { |tag| FileUtils::rm tag }
 

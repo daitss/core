@@ -20,3 +20,6 @@ Feature: Boss unsnafu
     Then it should not be in the list
 
   Scenario: unsnafu a non-snafu package
+    Given I submit a package
+    When I type "boss unsnafu aip-0" 
+    Then it should return status 2
