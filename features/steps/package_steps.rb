@@ -1,12 +1,29 @@
-Given /^I submit (a|another) package$/ do |article|
+Given /^I submit (a|another|\d+) packages?$/ do |article|
   sip = test_sip_by_name('ateam')
-  bin "submit #{sip}"  
+
+  count = case article
+          when "a", "another" then 1
+          when /\d+/ then article.to_i
+          end
+
+  count.times { bin "submit #{sip}" }
+
   @aips = Dir["#{ENV['DAITSS_WORKSPACE']}/*"]
 end
 
-Given /^it is tagged (\w+)$/ do |tag|
-  aip = @aips.first 
-  FileUtils.touch File.join(aip, tag)
+
+
+Given /^(they|it) (are|is) tagged (\w+)$/ do |pronoun, verb, tag|
+
+  to_tag = case pronoun
+           when "they" then @aips
+           when "it" then @aips[0..0]
+           end
+
+  to_tag.each do |aip|
+    FileUtils.touch File.join(aip, tag)
+  end 
+
 end
 
 Given /^it is invalid$/ do

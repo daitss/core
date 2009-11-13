@@ -11,11 +11,10 @@ Then /^(they|it) (should|should not) be in the list$/ do |cardinality, condition
             end
 
   case condition
-  when "should"
-    state.should include(*subject)
-  when "should not"
-    state.should_not include(*subject)
+  when "should" then state.should include(*subject)
+  when "should not" then state.should_not include(*subject)
   end
+
 end
 
 Then /^the package (should|should not) be in \/tmp$/ do |option|
