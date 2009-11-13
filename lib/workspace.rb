@@ -39,6 +39,7 @@ module Workspace
     Dir[File.join(ENV['DAITSS_WORKSPACE'], "*")]
   end
 
+  # returns all aips tagged with tag
   def tagged_packages tag
     in_workspace.select { |aip| File.exists? File.join(aip, tag)  }
   end
@@ -46,6 +47,10 @@ module Workspace
   # returns ingesting aips
   def ingesting
     read_state.map { |aip, pid| aip }
+  end
+
+  def ingesting? aip
+    ingesting.include? aip
   end
   
 end

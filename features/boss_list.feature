@@ -3,8 +3,17 @@ Feature: Boss list
   As an operator
   I want to list packages by attributes
 
-  Scenario: list all packages
-    
+  Scenario: list all packages with status
+    Given the following packages with states:
+      | package | state     |
+      | aip-0   | pending   |
+      | aip-1   | ingesting |
+      | aip-2   | REJECT    |
+      | aip-3   | SNAFU     |
+      | aip-4   | STOP      |
+    When I type "boss list all"
+    Then I should see the packages with the expected states
+        
   Scenario Outline: list ingesting packages (all ingesting)
     Given I submit a package
     And I submit another package
