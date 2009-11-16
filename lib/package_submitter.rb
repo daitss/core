@@ -7,12 +7,16 @@ class PackageSubmitter
   # creates a new aip in the workspace from SIP in zip file located at path_to_zip_file
   # returns the newly minted IEID of the created AIP
   
-  def self.create_aip_from_zip path_to_zip_file
+  def self.create_aip_from_zip path_to_zip_file, package_name
     check_workspace
     ieid = generate_ieid
-    unzip_sip ieid, path_to_zip_file
+    unzip_sip ieid, path_to_zip_file, package_name
 
-    # call Aip.make_from_sip
+    aip_path = File.join(ENV["DAITSS_WORKSPACE"], "aip-#{ieid}")
+    sip_path = File.join(ENV["DAITSS_WORKSPACE"], ".submit", package_name)
+
+    Aip.make_from_sip aip_path, sip_path
+
     # add submission event to polydescriptor 
     return ieid
   end
@@ -20,12 +24,16 @@ class PackageSubmitter
   # creates a new aip in the workspace from SIP in tar file located at path_to_tar_file
   # returns the newly minted IEID of the created AIP
 
-  def self.create_aip_from_tar path_to_tar_file
+  def self.create_aip_from_tar path_to_tar_file, package_name
     check_workspace
     ieid = generate_ieid
-    untar_sip ieid, path_to_tar_file
+    untar_sip ieid, path_to_tar_file, package_name
 
-    # call Aip.make_from_sip
+    aip_path = File.join(ENV["DAITSS_WORKSPACE"], "aip-#{ieid}")
+    sip_path = File.join(ENV["DAITSS_WORKSPACE"], ".submit", package_name)
+
+    Aip.make_from_sip aip_path, sip_path
+
     # add submission event to polydescriptor 
     
     return ieid
@@ -66,11 +74,11 @@ class PackageSubmitter
 
   # unzips specified zip file to $DAITSS_WORKSPACE/.submit/aip-IEID/
 
-  def self.unzip_sip ieid, path_to_zip_file
+  def self.unzip_sip ieid, path_to_zip_file, package_name
     create_submit_dir unless File.directory? File.join(ENV["DAITSS_WORKSPACE"], ".submit")
 
     zip_command = `which unzip`.chomp
-    destination = File.join ENV["DAITSS_WORKSPACE"], ".submit", "aip-#{ieid}"
+    destination = File.join ENV["DAITSS_WORKSPACE"], ".submit", package_name
 
     raise "unzip utility not found on this system!" if zip_command =~ /not found/
 
@@ -88,11 +96,11 @@ class PackageSubmitter
 
   # unzips specified tar file to $DAITSS_WORKSPACE/.submit/aip-IEID/
 
-  def self.untar_sip ieid, path_to_tar_file
+  def self.untar_sip ieid, path_to_tar_file, package_name
     create_submit_dir unless File.directory? File.join(ENV["DAITSS_WORKSPACE"], ".submit")
 
     tar_command = `which tar`.chomp
-    destination = File.join ENV["DAITSS_WORKSPACE"], ".submit", "aip-#{ieid}"
+    destination = File.join ENV["DAITSS_WORKSPACE"], ".submit", package_name
 
     raise "tar utility not found on this system!" if tar_command =~ /not found/
 
