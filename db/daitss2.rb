@@ -6,7 +6,7 @@ DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, 'mysql://root@localhost/daitss2')
 
 class Datafile 
-  include DataMapper::Resource
+  include DataMapper::Resource 
   property :id, String, :key => true, :length => 16
   property :size, Integer, :length => (0..20),  :nullable => false 
   property :create_date, DateTime
@@ -19,6 +19,22 @@ class Datafile
   has 0..n, :severe_element # a datafile may contain 0-n severe_elements
   has 0..n, :file_format # a datafile may have 0-n file_formats
   has n, :datafile_events
+  
+  def fromPremis premis
+    attribute_set(:id, premis.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content)
+    attribute_set(:size, premis.find_first("premis:objectCharacteristics/premis:size", NAMESPACES).content)
+
+    # creating app. info
+    node = premis.find_first("premis:objectCharacteristics/premis:creatingApplication/premis:creatingApplicationName", NAMESPACES)
+    attribute_set(:creator_prog, node.content) if node
+    
+    node = premis.find_first("premis:objectCharacteristics/premis:creatingApplication/premis:dateCreatedByApplication", NAMESPACES)
+    attribute_set(:create_date, node.content) if node
+    
+    node = premis.find_first("premis:originalName", NAMESPACES)
+    attribute_set(:original_path, node.content) if node
+  end
+  
 end
 
 class Bitstream
@@ -32,22 +48,42 @@ end
 
 class Format
   include DataMapper::Resource
-  property :id, Serial, :key => true
-  property :registry, String # the namespace of the format registry, ex:http://www.nationalarchives.gov.uk/pronom
-  property :registry_id, String # the format identifier in the registry, ex: fmt/10
+  property :registry, String, :key => true # the namespace of the format registry, ex:http://www.nationalarchives.gov.uk/pronom
+  property :registry_id, String, :key => true # the format identifier in the registry, ex: fmt/10
   property :format_name, String # common format name, ex:  "TIFF"
   property :format_version, String #format version,  ex: "5.0"
   property :format_variation, String # format profile, ex: "GeoTiff"
+  
+  def fromPremis premis
+    attribute_set(:format_name, premis.find_first("premis:formatDesignation/premis:formatName", NAMESPACES).content)
+    if premis.find_first("premis:formatDesignation/premis:formatVersion", NAMESPACES)
+      attribute_set(:format_version, premis.find_first("premis:formatDesignation/premis:formatVersion", NAMESPACES).content)
+    end
+
+    if premis.find_first("premis:formatRegistry", NAMESPACES)
+      attribute_set(:registry, premis.find_first("premis:formatRegistry/premis:formatRegistryName", NAMESPACES).content)
+      attribute_set(:registry_id, premis.find_first("premis:formatRegistry/premis:formatRegistryKey", NAMESPACES).content)
+    end
+  end
 end
 
 class FileFormat
   include DataMapper::Resource
   property :id, Serial, :key => true
-  property :type, Enum[:primary, :secondary] # indicate if this format is perceived to be 
+  property :type, Enum[:primary, :secondary], :default => :primary # indicate if this format is perceived to be 
     # the primary or secondary format for this data file
   
   belongs_to :format, :index => true # the format of the datafile or bitstream. 
   belongs_to :datafile, :index => true # The data file which may exibit the specific format
+
+  def setPrimary
+    attribute_set(:type, :primary)
+  end
+  
+  def setSecondary
+    attribute_set(:type, :secondary)
+  end
+     
 end
 
 class SevereElement
@@ -94,6 +130,29 @@ class Image
   belongs_to :bitstream, :index => true # Image may be associated with a bitstream, 
      # null if the image is associated with a datafile
   # TODO: need to make sure either dfid or bsid is not null.
+  
+  def setDFID dfid
+    attribute_set(:datafile_id, dfid)
+  end
+
+  def setBFID bfid
+    attribute_set(:bitstream_id, bfid)
+  end
+    
+  def fromPremis premis
+    attribute_set(:width, premis.find_first("mix:imageWidth", NAMESPACES).content)
+    attribute_set(:height, premis.find_first("mix:imageHeight", NAMESPACES).content)
+    attribute_set(:compressionScheme, premis.find_first("mix:Compression", NAMESPACES).content)
+    attribute_set(:colorSpace, premis.find_first("mix:colorSpace", NAMESPACES).content)  
+    attribute_set(:orientation, premis.find_first("mix:orientation", NAMESPACES).content)  
+    attribute_set(:sample_frequency_unit, premis.find_first("mix:", NAMESPACES).content)  
+    attribute_set(:x_sampling_frequency, premis.find_first("mix:xSamplingFrequency", NAMESPACES).content)  
+    attribute_set(:y_sampling_frequency, premis.find_first("mix:xSamplingFrequency", NAMESPACES).content)  
+    attribute_set(:bits_per_sample, premis.find_first("mix:", NAMESPACES).content)  
+    attribute_set(:samples_per_pixel, premis.find_first("mix:samplesPerPixel", NAMESPACES).content)  
+    attribute_set(:extra_samples, premis.find_first("mix:extraSamples", NAMESPACES).content)  
+
+  end
 end
 
 class Audio
@@ -117,6 +176,32 @@ class Audio
   belongs_to :bitstream, :index => true  # Audio may be associated with a bitstream, 
     # null if the audio is associated with a datafile
   # TODO: need to make sure either dfid or bsid is not null.
+  
+  def setDFID dfid
+    attribute_set(:datafile_id, dfid)
+  end
+
+  def setBFID bfid
+    attribute_set(:bitstream_id, bfid)
+  end
+    
+  def fromPremis premis
+    attribute_set(:encoding, premis.find_first("aes:audioDataEncoding", NAMESPACES).content)
+    attribute_set(:sampling_frequency, premis.find_first("aes:sampleRate", NAMESPACES).content)
+    attribute_set(:bit_depth, premis.find_first("aes:bitDepth", NAMESPACES).content)
+    attribute_set(:channels, premis.find_first("aes:numChannels", NAMESPACES).content)  
+
+    # calculate the duration in number of seconds
+    hours = premis.find_first("aes:timeline/tcf:duration/tcf:hours", NAMESPACES).content
+    minutes = premis.find_first("aes:timeline/tcf:duration/tcf:minutes", NAMESPACES).content
+    seconds = premis.find_first("aes:timeline/tcf:duration/tcf:seconds", NAMESPACES).content  
+    durationInS = seconds + minutes * 60 + hours * 3600
+    attribute_set(:duration, durationInS)
+    channelsAssignment =  
+    channelMap = premis.find_first("aes:channelAssignment[@mapLocation]", NAMESPACES).content 
+    attribute_set(:channel_map, channelMap)
+  end
+  
 end
 
 class Text

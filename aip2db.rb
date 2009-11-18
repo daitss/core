@@ -5,7 +5,7 @@ require 'rubygems'
 require 'sinatra'
 require 'xml'
 require 'lib/namespaces.rb'
-require 'lib/FileObject.rb'
+require 'lib/AIPInPremis.rb'
 
 class AIP2DB < Sinatra::Base
   enable :logging 
@@ -15,19 +15,17 @@ class AIP2DB < Sinatra::Base
     'Encounter Error ' + env['sinatra.error'].name
   end
 
-  # curl -F "data=@file/monodescriptor.xml" http://localhost:4567/aip2db
+  # curl -F "data=@files/descriptor.xml" http://localhost:4567/aip2db
   post '/aip2db' do
-    puts "post"
-
     # read in the posted AIP descriptor
     puts params[:data][:tempfile]
     XML.default_keep_blanks = false
     doc = XML::Document.io params[:data][:tempfile]
     fileObjects = doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
     fileObjects.each do |obj|
-      fileobj = FileObject.new
-      fileobj.fromPremis obj
-      fileobj.toDB
+      aip = AIPInPremis.new
+      aip.processDatafile obj
+      # fileobj.toDB
     end
   end
 
