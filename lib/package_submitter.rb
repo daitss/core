@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'aip'
 require 'pp'
+require 'libxml'
 
 class PackageSubmitter
 
@@ -15,9 +16,11 @@ class PackageSubmitter
     aip_path = File.join(ENV["DAITSS_WORKSPACE"], "aip-#{ieid}")
     sip_path = File.join(ENV["DAITSS_WORKSPACE"], ".submit", package_name)
 
-    Aip.make_from_sip aip_path, sip_path
+    aip = Aip.make_from_sip aip_path, sip_path
+    submission_event_doc = LibXML::XML::Document.string(create_submission_event(aip_path))
 
-    # add submission event to polydescriptor 
+    aip.add_md :digiprov, submission_event_doc
+
     return ieid
   end
 
@@ -32,10 +35,11 @@ class PackageSubmitter
     aip_path = File.join(ENV["DAITSS_WORKSPACE"], "aip-#{ieid}")
     sip_path = File.join(ENV["DAITSS_WORKSPACE"], ".submit", package_name)
 
-    Aip.make_from_sip aip_path, sip_path
+    aip = Aip.make_from_sip aip_path, sip_path
+    submission_event_doc = LibXML::XML::Document.string(create_submission_event(aip_path))
 
-    # add submission event to polydescriptor 
-    
+    aip.add_md :digiprov, submission_event_doc
+
     return ieid
   end
 
@@ -118,7 +122,44 @@ class PackageSubmitter
     raise "tar utility exited with non-zero status: #{output}" if $?.exitstatus != 0 
   end
 
-  def self.create_submission_event
+  # returns a string containing the XML for the submission event
+
+  def self.create_submission_event aip_path
+    submission_event = <<-event
+<premis>
+  <event>
+    <eventIdentifier>
+      <eventIdentifierType>Temporary Local</eventIdentifierType>
+      <eventIdentifierValue>1</eventIdentifierValue>
+    </eventIdentifier>
+    <eventType>Submission</eventType>
+    <eventDateTime>#{Time.now.to_s}</eventDateTime>
+    <eventOutcomeInformation>
+      <eventOutcome>success</eventOutcome>
+    </eventOutcomeInformation>
+    <linkingAgentIdentifier>
+      <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+      <linkingAgentIdentifierValue>http://daitss/submission</linkingAgentIdentifierValue>
+    </linkingAgentIdentifier>
+    <linkingObjectIdentifier>
+      <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+      <linkingObjectIdentifierValue>
+        file:///#{aip_path}
+      </linkingObjectIdentifierValue>
+    </linkingObjectIdentifier>
+  </event>
+ <agent>
+   <agentIdentifier>
+     <agentIdentifierType>URI</agentIdentifierType>
+       <agentIdentifierValue>http://daitss/submission</agentIdentifierValue>
+     </agentIdentifier>
+   <agentName>DAITSS Submission</agentName>
+   <agentType>Web Service</agentType>
+ </agent>
+</premis>
+event
+
+    return submission_event
   end
 
   # creates a .submit directory under DAITSS_WORKSPACE
