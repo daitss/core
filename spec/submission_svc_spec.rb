@@ -15,22 +15,22 @@ describe "Submission Service" do
   before(:each) do
   end
 
-  it "returns 400 on GET" do
+  it "returns 405 on GET" do
     get '/'
 
-    last_response.status.should == 400
+    last_response.status.should == 405
   end
 
-  it "returns 400 on DELETE" do
+  it "returns 405 on DELETE" do
     delete '/'
 
-    last_response.status.should == 400
+    last_response.status.should == 405
   end
 
-  it "returns 400 on HEAD" do
+  it "returns 405 on HEAD" do
     head '/'
 
-    last_response.status.should == 400
+    last_response.status.should == 405
   end
 
   it "returns 400 on POST if request is missing X-Package-Name header" do
@@ -52,5 +52,8 @@ describe "Submission Service" do
 
     last_response.status.should == 400
     last_response.body.should == "Missing body"
+  end
+
+  it "returns 400 on POST if md5 checksum of body does not match md5 query parameter" do
   end
 end

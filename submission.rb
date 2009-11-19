@@ -5,15 +5,15 @@ require 'pp'
 
 # return 400 on HEAD, GET, or DELETE 
 head "/" do
-  halt 400
+  halt 405
 end
 
 get "/" do
-  halt 400
+  halt 405
 end
 
 delete "/" do
-  halt 400
+  halt 405
 end
 
 # All submissions are expected to be POST requests
