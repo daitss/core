@@ -23,6 +23,8 @@ post '/' do
   halt 400, "Missing parameter: package_name" unless params[:package_name]
   halt 400, "Missing parameter: md5" unless params[:md5]
 
+  # All incoming requests must include a body 
+  halt 400, "Missing body" unless body
 
 
   "foo"
