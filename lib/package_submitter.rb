@@ -2,35 +2,25 @@ require 'fileutils'
 require 'aip'
 require 'pp'
 require 'libxml'
+require 'submission_history'
 
 class PackageSubmitter
 
-  # creates a new aip in the workspace from SIP in zip file located at path_to_zip_file
-  # returns the newly minted IEID of the created AIP
+  # creates a new aip in the workspace from SIP in a zip or tar file located at path_to_archive.
+  # This method:
+  #
+  # checks DAITSS_WORKSPACE environment var for validity
+  # persists a record of the submission, generating a new IEID
+  # unarchives the zip/tar to a special place in DAITSS_WORKSPACE
+  # makes an AIP from extracted files
+  # writes a submission event to package provenance
+  # returns new minted IEID of the created AIP
   
-  def self.create_aip_from_zip path_to_zip_file, package_name
+  def self.submit_sip archive_type, path_to_archive, package_name, submitter_ip, md5
     check_workspace
-    ieid = generate_ieid
-    unzip_sip ieid, path_to_zip_file, package_name
+    ieid = persist_request package_name, submitter_ip, md5
 
-    aip_path = File.join(ENV["DAITSS_WORKSPACE"], "aip-#{ieid}")
-    sip_path = File.join(ENV["DAITSS_WORKSPACE"], ".submit", package_name)
-
-    aip = Aip.make_from_sip aip_path, sip_path
-    submission_event_doc = LibXML::XML::Document.string(create_submission_event(aip_path))
-
-    aip.add_md :digiprov, submission_event_doc
-
-    return ieid
-  end
-
-  # creates a new aip in the workspace from SIP in tar file located at path_to_tar_file
-  # returns the newly minted IEID of the created AIP
-
-  def self.create_aip_from_tar path_to_tar_file, package_name
-    check_workspace
-    ieid = generate_ieid
-    untar_sip ieid, path_to_tar_file, package_name
+    unarchive_sip archive_type, ieid, path_to_archive, package_name
 
     aip_path = File.join(ENV["DAITSS_WORKSPACE"], "aip-#{ieid}")
     sip_path = File.join(ENV["DAITSS_WORKSPACE"], ".submit", package_name)
@@ -51,65 +41,59 @@ class PackageSubmitter
     raise "DAITSS_WORKSPACE is not set to a valid directory." unless File.directory? ENV["DAITSS_WORKSPACE"]
   end
 
-  # generates a unique IEID
-  # TODO: eventually, this should be taken from the submission history, which will be a database
-  def self.generate_ieid
-    ieid_history_filepath = File.join(File.dirname(__FILE__), ".ieid_history")
+  # saves a record of the submission to database, generating a new ieid
 
-    new_ieid = File.open(ieid_history_filepath, "a+") do |status_file|
-      status_file.rewind
-      
-      while not status_file.eof?
-        last_ieid = status_file.gets
-      end
+  def self.persist_request package_name, submitter_ip, md5
+    request = Submission.new
 
-      if last_ieid == nil
-        ieid = 0
-      else
-        ieid = last_ieid.to_i + 1
-      end
+    request.attributes = {  
+      :package_name => package_name,
+      :submission_checksum => md5,
+      :timestamp => Time.now,
+      :submitter_ip => submitter_ip
+    }
 
-      status_file.puts ieid
-      ieid
-    end
+    request.save
 
-    return new_ieid 
+    return request.ieid
   end
 
-  # unzips specified zip file to $DAITSS_WORKSPACE/.submit/aip-IEID/
+  # returns string corresponding to unzip command to extract SIP from a zip file 
 
-  def self.unzip_sip ieid, path_to_zip_file, package_name
-    create_submit_dir unless File.directory? File.join(ENV["DAITSS_WORKSPACE"], ".submit")
-
+  def self.zip_command_string package_name, path_to_archive, destination
     zip_command = `which unzip`.chomp
-    destination = File.join ENV["DAITSS_WORKSPACE"], ".submit", package_name
-
     raise "unzip utility not found on this system!" if zip_command =~ /not found/
 
-    output = `#{zip_command} #{path_to_zip_file} -d #{destination}`
-    contents = Dir.entries destination
-
-    # if package was zipped in a single directory, move files out
-    if contents.length == 3 and File.directory? File.join(destination, contents[2])
-      FileUtils.mv Dir.glob(File.join(destination, "#{contents[2]}/*")), destination
-      FileUtils.rm_rf File.join(destination, contents[2])
-    end
-
-    raise "unzip utility exited with non-zero status: #{output}" if $?.exitstatus != 0 
+    return "#{zip_command} #{path_to_archive} -d #{destination}"
   end
 
-  # unzips specified tar file to $DAITSS_WORKSPACE/.submit/aip-IEID/
+  # returns string corresponding to unzip command to extract SIP from a tar file 
 
-  def self.untar_sip ieid, path_to_tar_file, package_name
-    create_submit_dir unless File.directory? File.join(ENV["DAITSS_WORKSPACE"], ".submit")
-
+  def self.tar_command_string package_name, path_to_archive, destination
     tar_command = `which tar`.chomp
-    destination = File.join ENV["DAITSS_WORKSPACE"], ".submit", package_name
-
     raise "tar utility not found on this system!" if tar_command =~ /not found/
 
-    FileUtils.mkdir_p destination
-    output = `#{tar_command} -xf #{path_to_tar_file} -C #{destination}`
+    return "#{tar_command} -xf #{path_to_archive} -C #{destination}"
+  end
+
+  # unzips/untars specified archive file to $DAITSS_WORKSPACE/.submit/package_name/
+  # if the zip/tar file had all files in a single directory inside the archive, files inside are moved one
+  #   directory level up 
+  # Raises exception if unarchiving tool returns non-zero exit status
+
+  def self.unarchive_sip archive_type, ieid, path_to_archive, package_name
+    create_submit_dir unless File.directory? File.join(ENV["DAITSS_WORKSPACE"], ".submit")
+
+    destination = File.join ENV["DAITSS_WORKSPACE"], ".submit", package_name
+
+    if archive_type == :zip
+      output = `#{zip_command_string package_name, path_to_archive, destination}`
+    elsif archive_type == :tar
+      FileUtils.mkdir_p destination
+      output = `#{tar_command_string package_name, path_to_archive, destination}`
+    else
+      raise "Unrecognized archive type"
+    end
 
     contents = Dir.entries destination
 
@@ -119,7 +103,7 @@ class PackageSubmitter
       FileUtils.rm_rf File.join(destination, contents[2])
     end
 
-    raise "tar utility exited with non-zero status: #{output}" if $?.exitstatus != 0 
+    raise "archive utility exited with non-zero status: #{output}" if $?.exitstatus != 0 
   end
 
   # returns a string containing the XML for the submission event
