@@ -13,6 +13,8 @@ describe "Submission Service" do
   end
 
   before(:each) do
+    header "X_PACKAGE_NAME", "ateam"
+    header "CONTENT_MD5", "cccccccccccccccccccccccccccccccc"
   end
 
   it "returns 405 on GET" do
@@ -34,24 +36,28 @@ describe "Submission Service" do
   end
 
   it "returns 400 on POST if request is missing X-Package-Name header" do
-    post '/', {:md5 => "cccccccccccccccccccccccccccccccc"}
+    header "X_PACKAGE_NAME", nil
+
+    post "/", "FOO"
 
     last_response.status.should == 400
-    last_response.body.should == "Missing parameter: package_name"
+    last_response.body.should == "Missing header: X_PACKAGE_NAME" 
   end
 
   it "returns 400 on POST if request is missing Content-MD5 header" do
-    post '/', {:package_name => "ateam"}
+    header "CONTENT_MD5", nil
+
+    post "/", "FOO"
 
     last_response.status.should == 400
-    last_response.body.should == "Missing parameter: md5"
+    last_response.body.should == "Missing header: CONTENT_MD5" 
   end
 
   it "returns 400 on POST if there is no body" do
-    post '/', {:package_name => "ateam", :md5 => "cccccccccccccccccccccccccccccccc" }
+    post "/"
 
     last_response.status.should == 400
-    last_response.body.should == "Missing body"
+    last_response.body.should == "Missing body" 
   end
 
   it "returns 400 on POST if md5 checksum of body does not match md5 query parameter" do
