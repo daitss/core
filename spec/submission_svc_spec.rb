@@ -46,4 +46,11 @@ describe "Submission Service" do
     last_response.status.should == 400
     last_response.body.should == "Missing parameter: md5"
   end
+
+  it "returns 400 on POST if there is no body" do
+    post '/', {:package_name => "ateam", :md5 => "cccccccccccccccccccccccccccccccc" }
+
+    last_response.status.should == 400
+    last_response.body.should == "Missing body"
+  end
 end
