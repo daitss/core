@@ -29,7 +29,7 @@ describe PackageSubmitter do
     Aip.stub!(:make_from_sip).and_return true
     true.stub!(:add_md).and_return true
 
-    lambda { PackageSubmitter.create_aip_from_zip ZIP_SIP, "ateam" }.should raise_error
+    lambda { PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error
   end
 
   it "should raise error on create AIP from TAR file if DAITSS_WORKSPACE is not set to a valid dir" do
@@ -39,7 +39,7 @@ describe PackageSubmitter do
     Aip.stub!(:make_from_sip).and_return true
     true.stub!(:add_md).and_return true
 
-    lambda { PackageSubmitter.create_aip_from_tar TAR_SIP, "ateam" }.should raise_error
+    lambda { PackageSubmitter.submit_sip :tar, TAR_SIP, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error
   end
 
   it "should generate a unique IEID for each AIP created" do
@@ -48,8 +48,8 @@ describe PackageSubmitter do
     Aip.stub!(:make_from_sip).and_return true
     true.stub!(:add_md).and_return true
 
-    ieid_1 = PackageSubmitter.create_aip_from_zip ZIP_SIP, "ateam"
-    ieid_2 = PackageSubmitter.create_aip_from_tar TAR_SIP, "ateam"
+    ieid_1 = PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc" 
+    ieid_2 = PackageSubmitter.submit_sip :tar, TAR_SIP, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
     ieid_1.should_not == ieid_2
   end
@@ -58,7 +58,7 @@ describe PackageSubmitter do
     Aip.stub!(:make_from_sip).and_return true
     true.stub!(:add_md).and_return true
 
-    ieid = PackageSubmitter.create_aip_from_zip ZIP_SIP_NODIR, "ateam"
+    ieid = PackageSubmitter.submit_sip :zip, ZIP_SIP_NODIR, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
     File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "ateam", "ateam.tiff")).should == true
     File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "ateam", "ateam.xml")).should == true
@@ -68,7 +68,7 @@ describe PackageSubmitter do
     Aip.stub!(:make_from_sip).and_return true
     true.stub!(:add_md).and_return true
 
-    ieid = PackageSubmitter.create_aip_from_tar TAR_SIP_NODIR, "ateam"
+    ieid = PackageSubmitter.submit_sip :tar, TAR_SIP_NODIR, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
     File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "ateam", "ateam.tiff")).should == true
     File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "ateam", "ateam.xml")).should == true
@@ -78,7 +78,7 @@ describe PackageSubmitter do
     Aip.stub!(:make_from_sip).and_return true
     true.stub!(:add_md).and_return true
 
-    ieid = PackageSubmitter.create_aip_from_zip ZIP_SIP, "ateam"
+    ieid = PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
     File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "ateam", "ateam.tiff")).should == true
     File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "ateam", "ateam.xml")).should == true
@@ -89,7 +89,7 @@ describe PackageSubmitter do
     Aip.stub!(:make_from_sip).and_return true
     true.stub!(:add_md).and_return true
     
-    ieid = PackageSubmitter.create_aip_from_tar TAR_SIP, "ateam"
+    ieid = PackageSubmitter.submit_sip :tar, TAR_SIP, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
     File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "ateam", "ateam.tiff")).should == true
     File.exists?(File.join(ENV["DAITSS_WORKSPACE"], ".submit", "ateam", "ateam.xml")).should == true
@@ -99,7 +99,7 @@ describe PackageSubmitter do
   it "should create an AIP from the zip-extracted SIP in the workspace" do
     Aip.stub!(:add_md).and_return true
 
-    ieid = PackageSubmitter.create_aip_from_zip ZIP_SIP_NODIR, "ateam"
+    ieid = PackageSubmitter.submit_sip :zip, ZIP_SIP_NODIR, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
     File.directory?(File.join(ENV["DAITSS_WORKSPACE"], "aip-#{ieid}", "aip-md")).should == true
     File.directory?(File.join(ENV["DAITSS_WORKSPACE"], "aip-#{ieid}", "file-md")).should == true
@@ -113,7 +113,7 @@ describe PackageSubmitter do
   it "should create an AIP from the tar-extracted SIP in the workspace" do
     Aip.stub!(:add_md).and_return true
 
-    ieid = PackageSubmitter.create_aip_from_tar TAR_SIP_NODIR, "ateam"
+    ieid = PackageSubmitter.submit_sip :tar, TAR_SIP_NODIR, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
     File.directory?(File.join(ENV["DAITSS_WORKSPACE"], "aip-#{ieid}", "aip-md")).should == true
     File.directory?(File.join(ENV["DAITSS_WORKSPACE"], "aip-#{ieid}", "file-md")).should == true
@@ -125,7 +125,7 @@ describe PackageSubmitter do
   end
 
   it "should add a submission event to the polydescriptor on submission of a tar-extracted SIP" do
-    ieid = PackageSubmitter.create_aip_from_tar TAR_SIP_NODIR, "ateam"
+    ieid = PackageSubmitter.submit_sip :tar, TAR_SIP_NODIR, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
     File.exists?(File.join(ENV["DAITSS_WORKSPACE"], "aip-#{ieid}", "aip-md", "digiprov-0.xml")).should == true
 
@@ -136,7 +136,7 @@ describe PackageSubmitter do
   end
 
   it "should add a submission event to the polydescriptor on submission of a zip-extracted SIP" do
-    ieid = PackageSubmitter.create_aip_from_zip ZIP_SIP_NODIR, "ateam"
+    ieid = PackageSubmitter.submit_sip :zip, ZIP_SIP_NODIR, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
     File.exists?(File.join(ENV["DAITSS_WORKSPACE"], "aip-#{ieid}", "aip-md", "digiprov-0.xml")).should == true
 
