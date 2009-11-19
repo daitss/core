@@ -1,6 +1,7 @@
 require 'submission'
 require 'spec'
 require 'rack/test'
+require 'digest/md5'
 require 'pp'
 
 set :environment, :test
@@ -14,7 +15,7 @@ describe "Submission Service" do
 
   before(:each) do
     header "X_PACKAGE_NAME", "ateam"
-    header "CONTENT_MD5", "cccccccccccccccccccccccccccccccc"
+    header "CONTENT_MD5", "901890a8e9c8cf6d5a1a542b229febff"
   end
 
   it "returns 405 on GET" do
@@ -60,6 +61,18 @@ describe "Submission Service" do
     last_response.body.should == "Missing body" 
   end
 
-  it "returns 400 on POST if md5 checksum of body does not match md5 query parameter" do
+  it "returns 412 on POST if md5 checksum of body does not match md5 query parameter" do
+    header "CONTENT_MD5", "cccccccccccccccccccccccccccccccc"
+
+    post "/", "FOO"
+
+    last_response.status.should == 412
+    last_response.body.should == "MD5 of body does not match provided CONTENT_MD5" 
+  end
+
+  it "should return 200 on valid get request" do
+    post "/", "FOO"
+
+    last_response.status.should == 200
   end
 end
