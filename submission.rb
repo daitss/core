@@ -3,7 +3,7 @@
 require 'sinatra'
 require 'pp'
 
-# return 400 on HEAD, GET, or DELETE 
+# return 405 on HEAD, GET, or DELETE 
 head "/" do
   halt 405
 end
@@ -18,14 +18,14 @@ end
 
 # All submissions are expected to be POST requests
 post '/' do 
+  halt 400, "Missing header: CONTENT_MD5" unless @env["HTTP_CONTENT_MD5"]
+  halt 400, "Missing header: X_PACKAGE_NAME" unless @env["HTTP_X_PACKAGE_NAME"]
 
-  # All incoming requests must include package_name and md5 query parameters
-  halt 400, "Missing parameter: package_name" unless params[:package_name]
-  halt 400, "Missing parameter: md5" unless params[:md5]
+  request.body.rewind
 
-  # All incoming requests must include a body 
-  halt 400, "Missing body" unless body
+  halt 400, "Missing body" if request.body.eof?
 
 
-  "foo"
+
+
 end
