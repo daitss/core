@@ -20,7 +20,7 @@ delete "/" do
 end
 
 # All submissions are expected to be POST requests
-post '/' do 
+post '/*' do 
 
   begin
     # return 400 if missing any expected headers
