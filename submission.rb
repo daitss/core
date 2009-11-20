@@ -44,7 +44,7 @@ post '/' do
     end
 
     # return 412 if md5 of body does not match the provided CONTENT_MD5
-    halt 412, "MD5 of body does not match provided CONTENT_MD5" unless @env["HTTP_CONTENT_MD5"] == body_md5.hexdigest
+    halt 412, "MD5 of body (#{body_md5.hexdigest}) does not match provided CONTENT_MD5 (#{@env["HTTP_CONTENT_MD5"]})" unless @env["HTTP_CONTENT_MD5"] == body_md5.hexdigest
 
     # write body to a temporary file
     request.body.rewind
@@ -62,6 +62,9 @@ post '/' do
     elsif @env["HTTP_X_ARCHIVE_TYPE"] == "tar"
       ieid = PackageSubmitter.submit_sip :tar, tf.path, @env["HTTP_X_PACKAGE_NAME"], @env["REMOTE_ADDR"], @env["HTTP_CONTENT_MD5"]
     end
+    
+    headers["X_IEID"] = ieid.to_s
+    "Submission successful"
 
   rescue ArchiveExtractionError => e
     halt 400, "Error extracting files in request body, is it malformed?"
