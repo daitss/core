@@ -6,117 +6,132 @@ require "pp"
 
 include Workspace
 
-# start all packages in the workspace
-command = ARGV.shift
+class CommandError < RuntimeError; end
 
-case command
-when "start"
+begin
+  
+  # start all packages in the workspace
+  command = ARGV.shift or raise CommandError, "must specify command"
 
-  config_file = File.join File.dirname(__FILE__), '../spec/config/teststack.yml'
-  aip = ARGV.shift
-  
-  aips = if aip == "all"
-           in_workspace
-         else
-           path = File.join ENV['DAITSS_WORKSPACE'], aip
-           exit(2) unless File.directory? path
-           exit(2) if ingesting? path
-           exit(2) if File.exists? File.join(path, "SNAFU")
-           exit(2) if File.exists? File.join(path, "STOP")
-           exit(2) if File.exists? File.join(path, "REJECT")
-           [path]
-         end
-         
+  case command
+  when "start"
 
-  aips.reject! {|aip| ingesting? aip }
-  
-  aips.each do |aip|
-    pid = fork { exec "ruby -Ilib bin/ingest -aip #{aip} -config #{config_file}" }
-    append_state aip, pid
-  end
-  
-when "stop"
-  target = ARGV.shift
-  
-  unless target == "all"
-    path = File.join ENV['DAITSS_WORKSPACE'], target
-    exit(2) unless ingesting? path
-  end
-  
-  kill_predicate = if target == "all"
-                     lambda { |aip, pid| true }
-                   else                     
-                     lambda { |aip, pid| target == File.basename(aip) }
-                   end
-
-  to_kill, to_keep = read_state.partition &kill_predicate
-
-  to_kill.each do |aip, pid|
+    config_file = File.join File.dirname(__FILE__), '../spec/config/teststack.yml'
+    aip = ARGV.shift or raise CommandError, "must specify a package or all"
     
-    begin
-      Process.kill "INT", pid.to_i
-    rescue Errno::ESRCH
-      # OK if its done
-    ensure
-      FileUtils.touch File.join(aip, "STOP")
+    aips = if aip == "all"
+             in_workspace
+           else
+             path = File.join ENV['DAITSS_WORKSPACE'], aip
+             raise "#{aip} is not in the workspace" unless File.directory? path
+             raise "#{aip} is ingesting" if ingesting? path
+             raise "#{aip} is SNAFU" if File.exists? File.join(path, "SNAFU")
+             raise "#{aip} is STOPPED" if File.exists? File.join(path, "STOP")
+             raise "#{aip} is REJECTED" if File.exists? File.join(path, "REJECT")
+             [path]
+           end
+    
+
+    aips.reject! {|aip| ingesting? aip }
+    
+    aips.each do |aip|
+      pid = fork { exec "ruby -Ilib bin/ingest -aip #{aip} -config #{config_file}" }
+      append_state aip, pid
     end
     
+  when "stop"
+    target = ARGV.shift or raise CommandError, "must specify a package or all"
+    
+    unless target == "all"
+      path = File.join ENV['DAITSS_WORKSPACE'], target
+      raise "#{aip} is not ingesting" unless ingesting? path
+    end
+    
+    kill_predicate = if target == "all"
+                       lambda { |aip, pid| true }
+                     else                     
+                       lambda { |aip, pid| target == File.basename(aip) }
+                     end
+
+    to_kill, to_keep = read_state.partition &kill_predicate
+
+    to_kill.each do |aip, pid|
+      
+      begin
+        Process.kill "INT", pid.to_i
+      rescue Errno::ESRCH
+        # OK if its done
+      ensure
+        FileUtils.touch File.join(aip, "STOP")
+      end
+      
+    end
+
+    write_state to_keep
+    
+  when "list"
+    option = ARGV.shift or raise CommandError, "must specify [pending|ingesting|stopped|rejected|snafu|all]"
+    
+    list = case option
+             
+           when "pending"
+             in_workspace.reject { |package_in_workspace| ingesting? package_in_workspace }
+             
+           when "ingesting"
+             ingesting
+
+           when "stopped"
+             tagged_packages "STOP"
+             
+           when "rejected"
+             tagged_packages "REJECT"
+             
+           when "snafu"
+             tagged_packages "SNAFU"
+             
+           when "all"
+
+             in_workspace.map do |aip|
+               state = "pending"
+               state = "ingesting" if ingesting? aip
+               state = "STOP" if File.file? File.join(aip, "STOP")
+               state = "REJECT" if File.file? File.join(aip, "REJECT")
+               state = "SNAFU" if File.file? File.join(aip, "SNAFU")
+               "#{File.basename aip} #{state}"
+              end
+             
+           else 
+             raise CommandError, "Unknown list option #{option.inspect}"
+             
+           end
+    
+    puts list
+
+  when "stash"
+    aip_name = ARGV.shift or raise CommandError, "must specify a package"
+    aip_path = File.join(ENV['DAITSS_WORKSPACE'], aip_name)
+    stash_location = ARGV.shift or raise CommandError, "must specify a destination"
+    raise "#{aip_name is ingesting}" if ingesting? aip_path
+    FileUtils.mv aip_path, File.join(stash_location, aip_name)
+
+  when "unsnafu"
+    target = ARGV.shift or raise CommandError, "must specify a package or all"
+    raise "#{target} is not SNAFU" if target != "all" and !File.file? File.join(ENV['DAITSS_WORKSPACE'], target, "SNAFU")
+    pattern = File.join ENV['DAITSS_WORKSPACE'], (target == "all" ? "*" : target), "SNAFU"
+    Dir[pattern].each { |tag| FileUtils::rm tag }
+
+  else
+    raise CommandError, "#{command} is not a boss command"
   end
 
-  write_state to_keep
-    
-when "list"
-  option = ARGV.shift
-  
-  list = case option
-    
-         when "pending"
-           in_workspace.reject { |package_in_workspace| ingesting? package_in_workspace }
-               
-         when "ingesting"
-           ingesting
-
-         when "stopped"
-           tagged_packages "STOP"
-         
-         when "rejected"
-           tagged_packages "REJECT"
-               
-         when "snafu"
-           tagged_packages "SNAFU"
-           
-         when "all"
-
-           in_workspace.map do |aip|
-             state = "pending"
-             state = "ingesting" if ingesting? aip
-             state = "STOP" if File.file? File.join(aip, "STOP")
-             state = "REJECT" if File.file? File.join(aip, "REJECT")
-             state = "SNAFU" if File.file? File.join(aip, "SNAFU")
-             "#{File.basename aip} #{state}"
-           end
-           
-         else 
-           raise "Unknown list option #{option.inspect}"
-           
-         end
-  
-  puts list
-
-when "stash"
-  aip_name = ARGV.shift
-  aip_path = File.join(ENV['DAITSS_WORKSPACE'], aip_name)
-  stash_location = ARGV.shift
-  exit 2 if ingesting? aip_path
-  FileUtils.mv aip_path, File.join(stash_location, aip_name)
-
-when "unsnafu"
-  target = ARGV.shift
-  exit 2 if target != "all" and !File.file? File.join(ENV['DAITSS_WORKSPACE'], target, "SNAFU")
-  pattern = File.join ENV['DAITSS_WORKSPACE'], (target == "all" ? "*" : target), "SNAFU"
-  Dir[pattern].each { |tag| FileUtils::rm tag }
-
-else
-  puts "#{command} is not a boss command"
+rescue CommandError => e
+  puts e.message
+  puts "Usage: boss [start|stop|list|stash|unsnafu] options"
   exit 1
+
+rescue => e
+  puts e.message
+  exit 2
+
 end
+
