@@ -8,10 +8,8 @@ Given /^I submit (a|another|\d+) packages?$/ do |article|
 
   count.times { bin "submit #{sip}" }
 
-  @aips = Dir["#{ENV['DAITSS_WORKSPACE']}/*"]
+  @aips = Dir["#{ENV['DAITSS_WORKSPACE']}/*"].map { |a| File.basename a }
 end
-
-
 
 Given /^(they|it) (are|is) tagged (\w+)$/ do |pronoun, verb, tag|
 
@@ -21,7 +19,7 @@ Given /^(they|it) (are|is) tagged (\w+)$/ do |pronoun, verb, tag|
            end
 
   to_tag.each do |aip|
-    FileUtils.touch File.join(aip, tag)
+    FileUtils.touch File.join(ENV['DAITSS_WORKSPACE'], aip, tag)
   end 
 
 end

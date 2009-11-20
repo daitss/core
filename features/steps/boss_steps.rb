@@ -34,9 +34,9 @@ Then /^it (should|should not) be in the workspace$/ do |option|
 
   case option
   when "should"
-    @aips.first.should exist_on_fs
+    File.join(ENV['DAITSS_WORKSPACE'], @aips.first).should exist_on_fs
   when "should not"
-    @aips.first.should_not exist_on_fs
+    File.join(ENV['DAITSS_WORKSPACE'], @aips.first).should_not exist_on_fs
   end
 
 end
