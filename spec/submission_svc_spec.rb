@@ -98,16 +98,25 @@ describe "Submission Service" do
 
   end
 
-  #it "should return 400 if submitted package is not a tar or zip file" do
-    #post "/", "FOO"
-#
-    #last_response.status.should == 400
-    #last_response.body.should == "Request body does not appear to be a zip or tar file" 
-  #end
-
-  it "should return 200 on valid post request" do
+  it "should return 400 if submitted package is not a zip file when request header says it should be" do
     post "/", "FOO"
 
-    last_response.status.should == 200
+    last_response.status.should == 400
+    last_response.body.should == "Error extracting files in request body, is it malformed?" 
   end
+
+  it "should return 400 if submitted package is not a tar file when request header says it should be" do
+    header "X_ARCHIVE_TYPE", "tar"
+
+    post "/", "FOO"
+
+    last_response.status.should == 400
+    last_response.body.should == "Error extracting files in request body, is it malformed?" 
+  end
+
+  #it "should return 200 on valid post request" do
+    #post "/", "FOO"
+#
+    #last_response.status.should == 200
+  #end
 end

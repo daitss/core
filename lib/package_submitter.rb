@@ -4,6 +4,8 @@ require 'pp'
 require 'libxml'
 require 'submission_history'
 
+class ArchiveExtractionError < StandardError; end
+
 class PackageSubmitter
 
   # creates a new aip in the workspace from SIP in a zip or tar file located at path_to_archive.
@@ -64,7 +66,7 @@ class PackageSubmitter
     zip_command = `which unzip`.chomp
     raise "unzip utility not found on this system!" if zip_command =~ /not found/
 
-    return "#{zip_command} #{path_to_archive} -d #{destination}"
+    return "#{zip_command} #{path_to_archive} -d #{destination} 2>&1"
   end
 
   # returns string corresponding to unzip command to extract SIP from a tar file 
@@ -73,7 +75,7 @@ class PackageSubmitter
     tar_command = `which tar`.chomp
     raise "tar utility not found on this system!" if tar_command =~ /not found/
 
-    return "#{tar_command} -xf #{path_to_archive} -C #{destination}"
+    return "#{tar_command} -xf #{path_to_archive} -C #{destination} 2>&1"
   end
 
   # unzips/untars specified archive file to $DAITSS_WORKSPACE/.submit/package_name/
@@ -103,7 +105,7 @@ class PackageSubmitter
       FileUtils.rm_rf File.join(destination, contents[2])
     end
 
-    raise "archive utility exited with non-zero status: #{output}" if $?.exitstatus != 0 
+    raise ArchiveExtractionError, "archive utility exited with non-zero status: #{output}" if $?.exitstatus != 0 
   end
 
   # returns a string containing the XML for the submission event
