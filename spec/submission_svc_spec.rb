@@ -2,6 +2,7 @@ require 'submission'
 require 'spec'
 require 'rack/test'
 require 'digest/md5'
+require 'stringio'
 require 'pp'
 
 set :environment, :test
@@ -14,9 +15,16 @@ describe "Submission Service" do
   end
 
   before(:each) do
+    FileUtils.mkdir_p "/tmp/d2ws"
+    ENV["DAITSS_WORKSPACE"] = "/tmp/d2ws"
+
     header "X_PACKAGE_NAME", "ateam"
     header "CONTENT_MD5", "901890a8e9c8cf6d5a1a542b229febff"
     header "X_ARCHIVE_TYPE", "zip"
+  end
+
+  after(:each) do
+    FileUtils.rm_rf "/tmp/d2ws"
   end
 
   it "returns 405 on GET" do
@@ -87,7 +95,7 @@ describe "Submission Service" do
     post "/", "FOO"
 
     last_response.status.should == 412
-    last_response.body.should == "MD5 of body does not match provided CONTENT_MD5" 
+    last_response.body.should =~ /does not match/
   end
 
   it "should return 500 if there is an unexpected exception" do
@@ -114,9 +122,54 @@ describe "Submission Service" do
     last_response.body.should == "Error extracting files in request body, is it malformed?" 
   end
 
-  #it "should return 200 on valid post request" do
-    #post "/", "FOO"
-#
-    #last_response.status.should == 200
-  #end
+  it "should return 200 on valid post request with a zip file" do
+    sip_string = StringIO.new
+    sip_md5 = Digest::MD5.new
+
+    # read file into string io
+    File.open "spec/test-sips/ateam.zip" do |sip_file|
+      sip_string << sip_file.read 
+    end
+
+    # read into md5 object
+    sip_string.rewind
+    sip_md5 << sip_string.read
+
+    # send the correct md5 header
+    header "CONTENT_MD5", sip_md5.hexdigest
+    
+    # send request with real zip file
+    post "/", sip_string
+
+    # we should get back a 200 OK, with an encouraging word and the IEID in the header
+    last_response.status.should == 200
+    last_response.body.should == "Submission successful"
+    last_response.headers["X_IEID"].should_not be_nil
+  end
+
+  it "should return 200 on valid post request with a tar file" do
+    sip_string = StringIO.new
+    sip_md5 = Digest::MD5.new
+
+    # read file into string io
+    File.open "spec/test-sips/ateam.tar" do |sip_file|
+      sip_string << sip_file.read 
+    end
+
+    # read into md5 object
+    sip_string.rewind
+    sip_md5 << sip_string.read
+
+    # send the correct md5 header
+    header "CONTENT_MD5", sip_md5.hexdigest
+    header "X_ARCHIVE_TYPE", "tar"
+    
+    # send request with real zip file
+    post "/", sip_string
+
+    # we should get back a 200 OK, with an encouraging word and the IEID in the header
+    last_response.status.should == 200
+    last_response.body.should == "Submission successful"
+    last_response.headers["X_IEID"].should_not be_nil
+  end
 end
