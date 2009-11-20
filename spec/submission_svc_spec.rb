@@ -16,6 +16,7 @@ describe "Submission Service" do
   before(:each) do
     header "X_PACKAGE_NAME", "ateam"
     header "CONTENT_MD5", "901890a8e9c8cf6d5a1a542b229febff"
+    header "X_ARCHIVE_TYPE", "zip"
   end
 
   it "returns 405 on GET" do
@@ -54,6 +55,25 @@ describe "Submission Service" do
     last_response.body.should == "Missing header: CONTENT_MD5" 
   end
 
+  it "returns 400 on POST if request is missing X_ARCHIVE_TYPE header" do
+    header "X_ARCHIVE_TYPE", nil
+
+    post "/", "FOO"
+
+    last_response.status.should == 400
+    last_response.body.should == "Missing header: X_ARCHIVE_TYPE" 
+  end
+
+
+  it "returns 400 on POST if X_ARCHIVE_TYPE is a value different from 'tar' or 'zip'" do
+    header "X_ARCHIVE_TYPE", "foo"
+
+    post "/", "FOO"
+
+    last_response.status.should == 400
+    last_response.body.should == "X_ARCHIVE_TYPE header must be either 'tar' or 'zip'" 
+  end
+
   it "returns 400 on POST if there is no body" do
     post "/"
 
@@ -70,7 +90,22 @@ describe "Submission Service" do
     last_response.body.should == "MD5 of body does not match provided CONTENT_MD5" 
   end
 
-  it "should return 200 on valid get request" do
+  it "should return 500 if there is an unexpected exception" do
+    Digest::MD5.stub!(:new).and_raise(StandardError)
+    
+    post "/", "FOO"
+    last_response.status.should == 500
+
+  end
+
+  #it "should return 400 if submitted package is not a tar or zip file" do
+    #post "/", "FOO"
+#
+    #last_response.status.should == 400
+    #last_response.body.should == "Request body does not appear to be a zip or tar file" 
+  #end
+
+  it "should return 200 on valid post request" do
     post "/", "FOO"
 
     last_response.status.should == 200
