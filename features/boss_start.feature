@@ -31,11 +31,11 @@ Feature: Boss start
     Given I submit a package
     And it is tagged <tag>
     When I type "boss start aip-0"
-    Then it should return status 2
+    Then it should return status <status>
     
     Examples:
-      |tag|
-      |REJECT|
-      |SNAFU|
-      |STOP|
+      |tag| status |
+      |REJECT| 2 |
+      |SNAFU| 2 |
+      |STOP| 0 |
     
