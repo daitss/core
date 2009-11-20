@@ -54,13 +54,19 @@ post '/' do
       tf << buffer
     end
 
+    tf.rewind
 
+    # call PackageSubmitter to extract file, generate IEID, and write AIP to workspace
+    if @env["HTTP_X_ARCHIVE_TYPE"] == "zip"
+      ieid = PackageSubmitter.submit_sip :zip, tf.path, @env["HTTP_X_PACKAGE_NAME"], @env["REMOTE_ADDR"], @env["HTTP_CONTENT_MD5"]
+    elsif @env["HTTP_X_ARCHIVE_TYPE"] == "tar"
+      ieid = PackageSubmitter.submit_sip :tar, tf.path, @env["HTTP_X_PACKAGE_NAME"], @env["REMOTE_ADDR"], @env["HTTP_CONTENT_MD5"]
+    end
 
+  rescue ArchiveExtractionError => e
+    halt 400, "Error extracting files in request body, is it malformed?"
   rescue => e
     halt 500, e.message
   end
-
-
-
 
 end
