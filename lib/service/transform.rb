@@ -23,7 +23,7 @@ module Service
                     when Net::HTTPSuccess
                       XML::Parser.string(response.body).parse
                     else
-                      raise ServiceError, "cannot perform transformation: #{response.code} #{response.msg}: #{response.body}"
+                      raise Service::Error, "cannot perform transformation: #{response.code} #{response.msg}: #{response.body}"
                     end
       
         @links = xform_doc.find('/links/link').map do |node| 
