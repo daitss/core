@@ -32,6 +32,9 @@ class PackageSubmitter
 
     aip.add_md :digiprov, submission_event_doc
 
+    # clean up
+    FileUtils.rm_rf sip_path
+
     return ieid
   end
 
