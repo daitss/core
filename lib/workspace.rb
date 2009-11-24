@@ -31,7 +31,12 @@ class Workspace
   # stops ingests for a package (:all for any ingesting package)
   def stop target
 
-    raise "#{target} is not ingesting" unless target == :all and ingesting? target
+    # don't stop something that is not processing
+    if target != :all
+      if not ingesting? target
+        raise "#{target} is not ingesting"
+      end
+    end
     
     kill_pred = if target == :all
                   lambda { |aip, pid| true }
@@ -40,8 +45,7 @@ class Workspace
                 end
 
     to_kill, to_keep = read_state.partition &kill_pred
-puts to_kill.inspect
-puts to_keep.inspect
+
     to_kill.each do |aip, pid|
       
       begin
