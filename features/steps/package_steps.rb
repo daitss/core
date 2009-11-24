@@ -25,7 +25,7 @@ Given /^(they|it) (are|is) tagged (\w+)$/ do |pronoun, verb, tag|
 end
 
 Given /^it is invalid$/ do
-  sip_descriptor = File.join @aips.first, 'files/ateam.xml'
+  sip_descriptor = File.join ENV['DAITSS_WORKSPACE'], @aips.first, 'files/ateam.xml'
   open(sip_descriptor, 'a') { |io| io.puts 'this should make it invalid' }
 end
 
