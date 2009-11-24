@@ -5,7 +5,7 @@ Feature: Boss stop
     
   Scenario: stop all packages
     Given I submit a package
-    Given I submit another package
+    And I submit another package
     When I type "boss start all"
     And I type "boss stop all"
     And I type "boss list ingesting"
