@@ -18,17 +18,16 @@ begin
 
   case command
   when "start"
-    target = ARGV.shift or raise CommandError, "must specify a package or all"
+    target = ARGV.shift or raise CommandError, "must specify [package|all]"
     aip = (target == "all" ? :all : target)
     @workspace.start aip, TS_CONFIG_FILE
     
   when "stop"
-    target = ARGV.shift or raise CommandError, "must specify a package or all"
+    target = ARGV.shift or raise CommandError, "must specify [package|all]"
     aip = (target == "all" ? :all : target)
     @workspace.stop aip
-    
-  when "list"
 
+  when "list"
     list = case ARGV.shift
            when "pending" then @workspace.pending
            when "ingesting" then @workspace.ingesting
@@ -47,7 +46,7 @@ begin
     @workspace.stash package, destination
 
   when "unsnafu"
-    target = ARGV.shift or raise CommandError, "must specify a package or all"
+    target = ARGV.shift or raise CommandError, "must specify [package|all]"
     @workspace.unsnafu target
 
   else
