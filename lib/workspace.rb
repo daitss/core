@@ -78,7 +78,7 @@ class Workspace
   end
 
   def tagged_with tag
-    in_here.select { |aip| File.exists? File.join(aip, tag)  }
+    in_here.select { |aip| File.exists? File.join(@dir, aip, tag)  }
   end
 
   def all_with_status
