@@ -1,78 +1,13 @@
-class State
- 
-  include Enumerable
-
-  def initialize path
-    @path = path
-  end
-
-  def empty?
-    jobs.empty?
-  end
-
-  def append aip, job
-    FileUtils::touch job_file aip, job
-  end
-
-  def write new_jobs
-    clear!
-    new_jobs.each { |aip, job| append aip, job }
-  end
-
-  def each
-
-    jobs.each do |aip, job| 
-
-      if running? job
-        yield [aip, job]
-      else
-        clear! job_file(aip, job)
-      end
-
-    end
-
-  end
-
-
-private
-
-  def files
-    Dir[File.join @path, "*"]
-  end
-
-  SEP = ' '
-
-  def jobs
-    files.map { |f| File.basename(f).split(SEP) }
-  end
-
-  def job_file aip, job
-    File.join @path, [aip, job].join(SEP)
-  end
-
-  def clear! f=nil
-    FileUtils::rm f ? f : files
-  end
-
-  def running? job
-
-    begin
-      Process.kill(0, job.to_i)
-      true
-    rescue Errno::ESRCH
-      false
-    end
-
-  end
-
-end
+require 'workspace/state'
 
 class Workspace
 
   # make a new worksapce out of a directory
   def initialize dir
     @dir = dir
-  end
+    @state = State.new state_path
+    FileUtils::mkdir_p state_path
+end
 
   # start ingests for a package (:all for any ingestable package)
   def start target, config_file
@@ -92,7 +27,7 @@ class Workspace
       FileUtils::rm_rf File.join(@dir, aip, "STOP")
       path = File.join @dir, aip
       pid = fork { exec "ruby -Ilib bin/ingest -aip #{path} -config #{config_file}" }
-      append_state aip, pid
+      @state.append aip, pid
     end
 
   end
@@ -113,7 +48,7 @@ class Workspace
                   lambda { |aip, pid| aip == target }
                 end
 
-    to_kill, to_keep = read_state.partition &kill_pred
+    to_kill, to_keep = @state.partition &kill_pred
 
     to_kill.each do |aip, pid|
       
@@ -127,7 +62,7 @@ class Workspace
       
     end
 
-    write_state to_keep
+    @state.write to_keep
   end
 
   def pending
@@ -136,14 +71,6 @@ class Workspace
       %(REJECT SNAFU STOP).any? { |tag| File.exist? File.join(@dir, aip, tag) } or ingesting?(aip)
     end
 
-  end
-
-  def ingesting
-    read_state.map { |aip, pid| aip }
-  end
-
-  def ingesting? aip
-    ingesting.include? aip
   end
 
   def tagged_with tag
@@ -174,40 +101,19 @@ class Workspace
     Dir[pattern].each { |tag| FileUtils::rm tag }
   end
 
+  def ingesting
+    @state.map { |aip, pid| aip }
+  end
+
+  def ingesting? aip
+    ingesting.include? aip
+  end
+
   private
   
   # the file that stores the state
-  def state_file
+  def state_path
     File.join @dir, ".boss"
-  end
-
-  # read the state into an array of entries
-  def read_state
-
-    begin
-
-      open(state_file) do |io|
-        io.readlines.map { |line| line.chomp.split }
-      end
-
-    rescue Errno::ENOENT
-      []
-    end
-
-  end
-
-  # write an arrary of entries as the state
-  def write_state state
-
-    open(state_file, "w") do |io|
-      state.each { |aip, pid| io.puts "#{aip} #{pid}" }
-    end
-
-  end
-
-  # append an entry to the state
-  def append_state aip, pid
-    open(state_file, "a") { |io| io.puts "#{aip} #{pid}" }
   end
 
   # returns all aips paths in the workspace
