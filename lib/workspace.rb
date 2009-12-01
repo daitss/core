@@ -1,13 +1,9 @@
-require 'workspace/state'
-
 class Workspace
 
   # make a new worksapce out of a directory
   def initialize dir
     @dir = dir
-    @state = State.new state_path
-    FileUtils::mkdir_p state_path
-end
+  end
 
   # start ingests for a package (:all for any ingestable package)
   def start target, config_file
@@ -17,7 +13,7 @@ end
            else
              aip = target
              raise "#{aip} is not in the workspace" unless in_here? aip
-             raise "#{aip} is ingesting" if ingesting? aip
+             raise "#{aip} is ingesting" if File.exists? File.join(@dir, aip, "INGEST")
              raise "#{aip} is SNAFU" if File.exists? File.join(@dir, aip, "SNAFU")
              raise "#{aip} is REJECTED" if File.exists? File.join(@dir, aip, "REJECT")
              [aip]
@@ -27,7 +23,7 @@ end
       FileUtils::rm_rf File.join(@dir, aip, "STOP")
       path = File.join @dir, aip
       pid = fork { exec "ruby -Ilib bin/ingest -aip #{path} -config #{config_file}" }
-      @state.append aip, pid
+      open(File.join(path, "INGEST"), "w") { |io| io.puts pid }
     end
 
   end
@@ -37,51 +33,43 @@ end
 
     # don't stop something that is not processing
     if target != :all
-      if not ingesting? target
-        raise "#{target} is not ingesting"
-      end
+      aip = target
+      raise "#{aip} is not ingesting" unless File.file? File.join(@dir, aip, "INGEST")
     end
-    
-    kill_pred = if target == :all
-                  lambda { |aip, pid| true }
-                else                     
-                  lambda { |aip, pid| aip == target }
-                end
 
-    to_kill, to_keep = @state.partition &kill_pred
+    tagged_with("INGEST").each do |aip|
+      pid = open(File.join(@dir, aip, "INGEST")) { |io| io.readline.chomp }
 
-    to_kill.each do |aip, pid|
-      
       begin
         Process.kill "INT", pid.to_i
       rescue Errno::ESRCH
         # OK if its done
       ensure
-        FileUtils.touch File.join(@dir, aip, "STOP")
+        FileUtils:rm File.join(@dir, aip, "INGEST")
+        FileUtils:touch File.join(@dir, aip, "STOP")
       end
       
     end
 
-    @state.write to_keep
   end
 
   def pending
 
     in_here.reject do |aip|
-      %(REJECT SNAFU STOP).any? { |tag| File.exist? File.join(@dir, aip, tag) } or ingesting?(aip)
+      %(INGEST REJECT SNAFU STOP).any? { |tag| File.exist? File.join(@dir, aip, tag) }
     end
 
   end
 
   def tagged_with tag
-    in_here.select { |aip| File.exists? File.join(@dir, aip, tag)  }
+    in_here.select { |aip| File.exists? File.join(@dir, aip, tag) }
   end
 
   def all_with_status
 
     in_here.map do |aip|
       state = "pending"
-      state = "ingesting" if ingesting? aip
+      state = "ingesting" if File.file? File.join(@dir, aip, "INGEST")
       state = "STOP" if File.file? File.join(@dir, aip, "STOP")
       state = "REJECT" if File.file? File.join(@dir, aip, "REJECT")
       state = "SNAFU" if File.file? File.join(@dir, aip, "SNAFU")
@@ -91,7 +79,7 @@ end
   end
 
   def stash aip, destination
-    raise "#{aip} is ingesting" if ingesting? aip
+    raise "#{aip} is ingesting" if File.file? File.join(@dir, aip, "INGEST")
     FileUtils::mv File.join(@dir, aip), File.join(destination, aip)
   end
 
@@ -101,21 +89,8 @@ end
     Dir[pattern].each { |tag| FileUtils::rm tag }
   end
 
-  def ingesting
-    @state.map { |aip, pid| aip }
-  end
-
-  def ingesting? aip
-    ingesting.include? aip
-  end
-
   private
   
-  # the file that stores the state
-  def state_path
-    File.join @dir, ".boss"
-  end
-
   # returns all aips paths in the workspace
   def in_here
     Dir[ File.join(@dir, "*") ].map { |p| File.basename p }
