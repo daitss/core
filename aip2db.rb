@@ -21,12 +21,24 @@ class AIP2DB < Sinatra::Base
     puts params[:data][:tempfile]
     XML.default_keep_blanks = false
     doc = XML::Document.io params[:data][:tempfile]
+    aip = AIPInPremis.new
+    
     fileObjects = doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
     fileObjects.each do |obj|
-      aip = AIPInPremis.new
       aip.processDatafile obj
-      # fileobj.toDB
     end
+    
+    repObjects = doc.find("//premis:object[@xsi:type='representation']", NAMESPACES)
+    repObjects.each do |obj|
+      aip.processRepresentation obj    
+    end
+    
+    eventObjects = doc.find("//premis:event", NAMESPACES)
+    eventObjects.each do |obj|
+      aip.processEvent obj
+    end
+     
+    aip.toDB
   end
 
 end 
