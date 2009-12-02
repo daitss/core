@@ -20,7 +20,7 @@ end
 Before do
   $sandbox = new_sandbox
   FileUtils::mkdir $sandbox
-  ENV['DAITSS_WORKSPACE'] = $sandbox
+  ENV['WORKSPACE'] = $sandbox
   
   # silo sandbox
   FileUtils::mkdir_p $silo_sandbox

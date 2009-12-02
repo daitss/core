@@ -45,8 +45,8 @@ class Workspace
       rescue Errno::ESRCH
         # OK if its done
       ensure
-        FileUtils:rm File.join(@dir, aip, "INGEST")
-        FileUtils:touch File.join(@dir, aip, "STOP")
+        FileUtils::rm File.join(@dir, aip, "INGEST")
+        FileUtils::touch File.join(@dir, aip, "STOP")
       end
       
     end

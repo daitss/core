@@ -1,5 +1,14 @@
+require 'workspace'
+require 'spec_helper'
+
 describe Workspace do
-  it "should start all pending packages"
+  subject { Workspace.new $sandbox }
+
+  it "should start all pending packages" do
+    subject.start :all, TEST_STACK_CONFIG_FILE
+    subject.tagged_with("INGEST").should_not be_empty
+  end
+
   it "should start one pending package"
   it "should not start an ingesting package"
 
