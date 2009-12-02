@@ -32,9 +32,26 @@ describe Workspace do
     lambda { subject.start aip, TEST_STACK_CONFIG_FILE }.should raise_error("#{aip} is ingesting")
   end
 
-  it "should stop all ingesting packages"
-  it "should stop one ingesting package"
-  it "should not stop an pending package"
+  it "should stop all ingesting packages" do
+    subject.start :all, TEST_STACK_CONFIG_FILE
+    subject.stop :all
+    subject.tagged_with("INGEST").should have_exactly(0).items
+  end
+
+  it "should stop one ingesting package" do
+    subject.start :all, TEST_STACK_CONFIG_FILE
+    aip = @aips.first
+    subject.stop aip
+    subject.tagged_with("INGEST").should_not include(aip)
+    subject.tagged_with("INGEST").should_not have_exactly(@aips.size - 1).items
+  end
+
+  it "should not stop an pending package" do
+    subject.start :all, TEST_STACK_CONFIG_FILE
+    aip = @aips.first
+    subject.stop aip
+    lambda { subject.stop aip }.should raise_error("#{aip} is not ingesting")
+  end
 
   it "should stash"
   it "should not stash an ingesting package"
