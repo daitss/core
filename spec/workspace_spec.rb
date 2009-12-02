@@ -2,15 +2,35 @@ require 'workspace'
 require 'spec_helper'
 
 describe Workspace do
+
   subject { Workspace.new $sandbox }
+
+  before(:each) do
+    @aips = %w(haskell-nums-pdf ateam wave).map do |s| 
+              File.basename submit_sip(s).path
+            end
+  end
+
+  after(:each) { FileUtils::rm_r Dir["#{$sandbox}/*"] }
 
   it "should start all pending packages" do
     subject.start :all, TEST_STACK_CONFIG_FILE
-    subject.tagged_with("INGEST").should_not be_empty
+    subject.tagged_with("INGEST").should include(*@aips)
+    subject.tagged_with("INGEST").should have_exactly(@aips.size).items
   end
 
-  it "should start one pending package"
-  it "should not start an ingesting package"
+  it "should start one pending package" do
+    aip = @aips.first
+    subject.start aip, TEST_STACK_CONFIG_FILE
+    subject.tagged_with("INGEST").should include(aip)
+    subject.tagged_with("INGEST").should have_exactly(1).items
+  end
+
+  it "should not start an ingesting package" do
+    aip = @aips.first
+    subject.start aip, TEST_STACK_CONFIG_FILE
+    lambda { subject.start aip, TEST_STACK_CONFIG_FILE }.should raise_error("#{aip} is ingesting")
+  end
 
   it "should stop all ingesting packages"
   it "should stop one ingesting package"
