@@ -7,7 +7,7 @@ Then /^(they|it) (should|should not) be in the list$/ do |cardinality, condition
   
   subject = case cardinality
             when "they" then @aips
-            when "it" then [@aips.first]
+            when "it" then @aips[0..0]
             end
 
   case condition

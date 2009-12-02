@@ -9,9 +9,9 @@ TS_CONFIG_FILE = File.join File.dirname(__FILE__), '../spec/config/teststack.yml
 
 begin
 
-  # check for DAITSS_WORKSPACE
-  raise "DAITSS_WORKSPACE must be set" unless File.directory? ENV['DAITSS_WORKSPACE']
-  @workspace = Workspace.new ENV['DAITSS_WORKSPACE']
+  # check for WORKSPACE
+  raise "WORKSPACE must be set" unless ENV['WORKSPACE'] and File.directory? ENV['WORKSPACE']
+  @workspace = Workspace.new ENV['WORKSPACE']
   
   # the base command
   command = ARGV.shift or raise CommandError, "must specify command"
@@ -28,7 +28,7 @@ begin
   when "list"
     list = case ARGV.shift
            when "pending" then @workspace.pending
-           when "ingesting" then @workspace.ingesting
+           when "ingesting" then @workspace.tagged_with "INGEST"
            when "stopped" then @workspace.tagged_with "STOP"
            when "rejected" then @workspace.tagged_with "REJECT"
            when "snafu" then @workspace.tagged_with "SNAFU"
@@ -57,6 +57,7 @@ rescue CommandError => e
 
 rescue => e
   puts e.message
+  # puts e.backtrace
   exit 2
 
 end
