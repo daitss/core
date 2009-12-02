@@ -41,7 +41,7 @@ describe Workspace do
     subject.start :all, TEST_STACK_CONFIG_FILE
     subject.stop @aip
     subject.tagged_with("INGEST").should_not include(@aip)
-    subject.tagged_with("INGEST").should_not have_exactly(@aips.size - 1).items
+    subject.tagged_with("INGEST").should have_exactly(@aips.size - 1).items
   end
 
   it "should not stop an pending package" do
@@ -80,11 +80,36 @@ describe Workspace do
     lambda { subject.unsnafu @aip }.should raise_error("#{@aip} is not SNAFU")
   end
 
+  it "should list rejected packages" do
+    FileUtils::touch File.join($sandbox, @aip, "REJECT")
+    subject.tagged_with("REJECT").should include(@aip)
+  end
 
-  it "should list all packages with state"
-  it "should list ingesting packages"
-  it "should list stopped packages"
-  it "should list rejected packages"
-  it "should list pending packages"
-  it "should list snafued packages"
+  it "should list pending packages" do
+    subject.pending.should include(*@aips)
+  end
+
+  it "should list all packages with state (ingest, STOP, pending)" do
+    subject.start @aips[0], TEST_STACK_CONFIG_FILE
+    subject.start @aips[1], TEST_STACK_CONFIG_FILE
+    subject.stop @aips[1]
+
+    status = subject.all_with_status
+    status.should include("#{@aips[0]} ingesting")
+    status.should include("#{@aips[1]} STOP")
+    status.should include("#{@aips[2]} pending")
+    status.should have_exactly(3).items
+  end
+
+  it "should list all packages with state (REJECT, SNAFU, pending)" do
+    FileUtils::touch File.join($sandbox, @aips[0], "REJECT")
+    FileUtils::touch File.join($sandbox, @aips[1], "SNAFU")
+
+    status = subject.all_with_status
+    status.should include("#{@aips[0]} REJECT")
+    status.should include("#{@aips[1]} SNAFU")
+    status.should include("#{@aips[2]} pending")
+    status.should have_exactly(3).items
+  end
+
 end

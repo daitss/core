@@ -32,12 +32,15 @@ class Workspace
   def stop target
 
     # don't stop something that is not processing
-    if target != :all
-      aip = target
-      raise "#{aip} is not ingesting" unless File.file? File.join(@dir, aip, "INGEST")
-    end
+    to_stop = if target == :all
+                tagged_with("INGEST")
+              else
+                aip = target
+                raise "#{aip} is not ingesting" unless File.file? File.join(@dir, aip, "INGEST")
+                [aip]
+              end
 
-    tagged_with("INGEST").each do |aip|
+    to_stop.each do |aip|
       pid = open(File.join(@dir, aip, "INGEST")) { |io| io.readline.chomp }
 
       begin
