@@ -1,5 +1,5 @@
-Given /^a bogus DAITSS_WORKSPACE$/ do
-  ENV['DAITSS_WORKSPACE'] = '/does/not/exist'
+Given /^a bogus WORKSPACE$/ do
+  ENV['WORKSPACE'] = '/does/not/exist'
 end
 
 When /^I submit$/ do

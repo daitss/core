@@ -8,7 +8,7 @@ Given /^I submit (a|another|\d+) packages?$/ do |article|
 
   count.times { bin "submit #{sip}" }
 
-  @aips = Dir["#{ENV['DAITSS_WORKSPACE']}/*"].map { |a| File.basename a }
+  @aips = Dir["#{ENV['WORKSPACE']}/*"].map { |a| File.basename a }
 end
 
 Given /^(they|it) (are|is) tagged (\w+)$/ do |pronoun, verb, tag|
@@ -19,13 +19,13 @@ Given /^(they|it) (are|is) tagged (\w+)$/ do |pronoun, verb, tag|
            end
 
   to_tag.each do |aip|
-    FileUtils.touch File.join(ENV['DAITSS_WORKSPACE'], aip, tag)
+    FileUtils.touch File.join(ENV['WORKSPACE'], aip, tag)
   end 
 
 end
 
 Given /^it is invalid$/ do
-  sip_descriptor = File.join ENV['DAITSS_WORKSPACE'], @aips.first, 'files/ateam.xml'
+  sip_descriptor = File.join ENV['WORKSPACE'], @aips.first, 'files/ateam.xml'
   open(sip_descriptor, 'a') { |io| io.puts 'this should make it invalid' }
 end
 

@@ -34,9 +34,9 @@ Then /^it (should|should not) be in the workspace$/ do |option|
 
   case option
   when "should"
-    File.join(ENV['DAITSS_WORKSPACE'], @aips.first).should exist_on_fs
+    File.join(ENV['WORKSPACE'], @aips.first).should exist_on_fs
   when "should not"
-    File.join(ENV['DAITSS_WORKSPACE'], @aips.first).should_not exist_on_fs
+    File.join(ENV['WORKSPACE'], @aips.first).should_not exist_on_fs
   end
 
 end
@@ -55,7 +55,7 @@ Given /^the following packages with states:$/ do |table|
       $?.exitstatus.should == 0
       
     when "REJECT", "SNAFU", "STOP"
-      tag_file = File.join(ENV['DAITSS_WORKSPACE'], aip, state)
+      tag_file = File.join(ENV['WORKSPACE'], aip, state)
       FileUtils.touch tag_file
       
     end
