@@ -5,7 +5,15 @@ def new_sandbox
   tf = Tempfile.new 'sandbox'
   path = tf.path
   tf.close!
-  path
+
+  if block_given?
+    FileUtils::mkdir_p path
+    yield path
+    FileUtils::rm_rf path
+  else
+    path
+  end
+
 end
 
 def nuke_sandbox!
