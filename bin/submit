@@ -7,19 +7,19 @@ require 'next'
 
 def next_aip
   
-  Dir.chdir(DAITSS_WORKSPACE) do
+  Dir.chdir(WORKSPACE) do
     n = next_in_set Dir["*"], /aip-(\d+)/
     "aip-#{n}"
   end
   
 end
 
-unless ENV['DAITSS_WORKSPACE'] && File.directory?(ENV['DAITSS_WORKSPACE'])
-  puts "DAITSS_WORKSPACE must be set"
+unless ENV['WORKSPACE'] and File.directory?(ENV['WORKSPACE'])
+  puts "WORKSPACE must be set"
   exit 1
 end
 
-DAITSS_WORKSPACE = ENV['DAITSS_WORKSPACE']
+WORKSPACE = ENV['WORKSPACE']
 
 if ARGV.empty?
   puts "sip is required"
@@ -29,7 +29,7 @@ end
 sip_path = File.expand_path ARGV[0]
 
 begin
-  aip = Aip.make_from_sip File.join(DAITSS_WORKSPACE, next_aip), sip_path  
+  aip = Aip.make_from_sip File.join(WORKSPACE, next_aip), sip_path  
   puts "#{aip} successfully submitted"
 rescue => e
   puts e.message
