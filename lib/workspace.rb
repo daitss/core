@@ -59,7 +59,11 @@ class Workspace
   def pending
 
     in_here.reject do |aip|
-      %(INGEST REJECT SNAFU STOP).any? { |tag| File.exist? File.join(@dir, aip, tag) }
+
+      %w(INGEST REJECT SNAFU STOP).any? do |tag|
+        File.exist? File.join(@dir, aip, tag)
+      end
+
     end
 
   end
@@ -96,7 +100,7 @@ class Workspace
   
   # returns all aips paths in the workspace
   def in_here
-    Dir[ File.join(@dir, "*") ].map { |p| File.basename p }
+    Dir[ File.join(@dir, "*") ].map { |f| File.basename f }
   end
   
   # returns true if this aip is in the workspace

@@ -18,23 +18,31 @@ describe Workspace do
     subject.start :all, TEST_STACK_CONFIG_FILE
     subject.tagged_with("INGEST").should include(*@aips)
     subject.tagged_with("INGEST").should have_exactly(@aips.size).items
+    subject.pending.should be_empty
   end
 
   it "should start one pending package" do
     subject.start @aip, TEST_STACK_CONFIG_FILE
     subject.tagged_with("INGEST").should include(@aip)
     subject.tagged_with("INGEST").should have_exactly(1).items
+    subject.pending.should have_exactly(2).items
+    subject.pending.should include(*@aips[1..-1])
   end
 
   it "should not start an ingesting package" do
     subject.start @aip, TEST_STACK_CONFIG_FILE
     lambda { subject.start @aip, TEST_STACK_CONFIG_FILE }.should raise_error("#{@aip} is ingesting")
+    subject.pending.should include(*@aips[1..-1])
+    subject.pending.should have_exactly(2).items
   end
 
   it "should stop all ingesting packages" do
     subject.start :all, TEST_STACK_CONFIG_FILE
     subject.stop :all
     subject.tagged_with("INGEST").should be_empty
+    subject.tagged_with("STOP").should have_exactly(3).items
+    subject.tagged_with("STOP").should include(*@aips) 
+    subject.pending.should be_empty
   end
 
   it "should stop one ingesting package" do
@@ -42,12 +50,19 @@ describe Workspace do
     subject.stop @aip
     subject.tagged_with("INGEST").should_not include(@aip)
     subject.tagged_with("INGEST").should have_exactly(@aips.size - 1).items
+    subject.tagged_with("STOP").should include(@aip)
+    subject.tagged_with("STOP").should have_exactly(1).items
+    subject.pending.should be_empty
   end
 
   it "should not stop an pending package" do
     subject.start :all, TEST_STACK_CONFIG_FILE
     subject.stop @aip
     lambda { subject.stop @aip }.should raise_error("#{@aip} is not ingesting")
+    subject.tagged_with("STOP").should include(@aip)
+    subject.tagged_with("STOP").should have_exactly(1).items
+    subject.tagged_with("INGEST").should_not include(@aip)
+    subject.tagged_with("INGEST").should have_exactly(@aips.size - 1).items
   end
 
   it "should stash a non ingesting package" do
