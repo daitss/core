@@ -6,6 +6,16 @@ require 'digest/md5'
 require 'tempfile'
 require 'pp'
 
+HTTP_USERNAME = "fda"
+HTTP_PASSWORD = "subm1t"
+
+# support http basic authentication
+# TODO: eventually, we need to get allowed credentials from a common source, like a config file 
+
+use Rack::Auth::Basic do |username, password|
+  [username, password] == [HTTP_USERNAME, HTTP_PASSWORD]
+end
+
 # return 405 on HEAD, GET, or DELETE 
 head "/" do
   halt 405
