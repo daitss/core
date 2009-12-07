@@ -10,7 +10,7 @@ HTTP_USERNAME = "fda"
 HTTP_PASSWORD = "subm1t"
 
 # support http basic authentication
-# TODO: eventually, we need to get allowed credentials from a common source, like a config file 
+# TODO: eventually, we need to get allowed credentials from a common source, like a database of allowed credentials
 
 use Rack::Auth::Basic do |username, password|
   [username, password] == [HTTP_USERNAME, HTTP_PASSWORD]
