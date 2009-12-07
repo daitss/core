@@ -8,7 +8,19 @@
   <ns prefix="P" uri="info:lc/xmlns/premis-v2"/>
   <ns prefix="xsi" uri="http://www.w3.org/2001/XMLSchema-instance"/>
 
+  <xsl:key name="admids" match="*" use="@ADMID"/>
+
   <let name="aipuri" value="/M:mets/@OBJID"/>
+
+  <pattern>
+    <title>account</title>
+    <rule context="/M:mets">
+      <assert test="M:metsHdr/M:agent[@ROLE='OTHER' and @OTHERROLE='SUBMITTER' and M:name]">
+        submitter agent must exist
+      </assert>
+    </rule>
+
+  </pattern>
 
   <pattern>
     <title>package events</title>
@@ -65,15 +77,6 @@
 
   </pattern>
 
-  <pattern>
-    <title>account</title>
-    <rule context="/M:mets">
-      <assert test="M:metsHdr/M:agent[@ROLE='OTHER' and @OTHERROLE='SUBMITTER' and M:name]">
-        submitter agent must exist
-      </assert>
-    </rule>
-
-  </pattern>
 
   <pattern>
 
@@ -91,6 +94,11 @@
       </assert>
     </rule>
 
+  </pattern>
+
+  <pattern>
+    <title></title>
+    <rule></rule>
   </pattern>
 
 </schema>
