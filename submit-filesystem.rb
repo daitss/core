@@ -7,6 +7,9 @@ require 'digest/md5'
 require 'fileutils'
 require 'pp'
 
+HTTP_USERNAME = "fda"
+HTTP_PASSWORD = "subm1t"
+
 # option parsing
 
 def get_options(args)
@@ -69,7 +72,7 @@ end
 # calls curl to submit package to service
 
 def submit_to_svc url, path_to_zip, package_name, md5
-  output = `curl -X POST -H "CONTENT_MD5:#{md5}" -H "X_PACKAGE_NAME:#{package_name}" -H "X_ARCHIVE_TYPE:zip" -T "#{path_to_zip}" -v #{url} 2>&1`
+  output = `curl -X POST -H "CONTENT_MD5:#{md5}" -H "X_PACKAGE_NAME:#{package_name}" -u #{HTTP_USERNAME}:#{HTTP_PASSWORD} -H "X_ARCHIVE_TYPE:zip" -T "#{path_to_zip}" -v #{url} 2>&1`
 
   return output
 end
@@ -82,4 +85,4 @@ md5_of_zipfile = md5 zipfile
 curl_output = submit_to_svc config.url, zipfile, config.package_name, md5_of_zipfile
 FileUtils.rm_rf zipfile
 
-puts curl_output 
+puts curl_output
