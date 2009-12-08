@@ -103,6 +103,8 @@ class PackageSubmitter
     contents = Dir.entries destination
 
     # if package was zipped in a single directory, move files out
+    # in general, contents[0] == ".", contents[1] == ".."
+
     if contents.length == 3 and File.directory? File.join(destination, contents[2])
       FileUtils.mv Dir.glob(File.join(destination, "#{contents[2]}/*")), destination
       FileUtils.rm_rf File.join(destination, contents[2])
