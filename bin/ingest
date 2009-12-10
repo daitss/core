@@ -2,50 +2,44 @@
 
 $:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
-require 'optiflag'
 require "config"
-require 'aip'
+require 'wip'
 
-module CommandLineOptions extend OptiFlagSet
-  
-  flag "aip" do
-    description "the aip to ingest"
-  end
-  
-  flag "config" do
-    description "the configuration file to use"
-  end
-    
-  and_process!
+unless ENV['WORKSPACE'] and File.directory?(ENV['WORKSPACE'])
+  puts "WORKSPACE must be set"
+  exit 1
 end
 
-Config::load CommandLineOptions.flags.config
-DataMapper.setup(:default, Config::Service["database"])
+config_file = ARGV.shift
+Config::load config_file
+DataMapper.setup :default, Config::Service["database"]
 
-aip = begin
-        Aip.new CommandLineOptions.flags.aip
+wip_name = ARGV.shift
+wip_path = File.join WORKSPACE, wip_name
+
+wip = begin
+        Wip.new wip_path
       rescue => e
-        puts "cannot process #{CommandLineOptions.flags.aip}: #{e.message}"
+        puts "cannot process #{wip_name}: #{e.message}"
         exit 1
       end
 
-if aip.rejected?
-  puts "#{aip} is rejected"
-  exit 2
-elsif aip.snafu?
-  puts "#{aip} is snafu"
-  exit 3
-else  
-  aip.ingest!
-end
+wip.ingest!
 
 # handle the aftermath
-if aip.rejected?
-  puts "#{aip} is rejected"
-  exit 2
-elsif aip.snafu?
-  puts "#{aip} is snafu"
-  exit 3
+unless wip.nuked?
+
+  if wip.tags['REJECT']?
+    puts "#{wip} is rejected"
+    exit 2
+  elsif wip.tags['SNAFU']
+    puts "#{wip} is snafu"
+    exit 3
+  else
+    puts "#{wip} abnormally terminated"
+    exit 4
+  end
+
 else
-  puts "#{aip} is ingested"
+  puts "#{wip} ingested"
 end

@@ -1,18 +1,7 @@
 #!/usr/bin/env ruby
 
-$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
-
-require 'aip'
-require 'next'
-
-def next_aip
-  
-  Dir.chdir(WORKSPACE) do
-    n = next_in_set Dir["*"], /aip-(\d+)/
-    "aip-#{n}"
-  end
-  
-end
+require 'uuid'
+require 'wip/create'
 
 unless ENV['WORKSPACE'] and File.directory?(ENV['WORKSPACE'])
   puts "WORKSPACE must be set"
@@ -26,11 +15,13 @@ if ARGV.empty?
   exit 2
 end
 
-sip_path = File.expand_path ARGV[0]
+sip = Sip.new ARGV.shift
 
 begin
-  aip = Aip.make_from_sip File.join(WORKSPACE, next_aip), sip_path  
-  puts "#{aip} successfully submitted"
+  name = UUID.new.generate
+  path = File.join WORKSPACE, name
+  aip = Wip.make_from_sip path, sip
+  puts "#{name} successfully submitted"
 rescue => e
   puts e.message
   puts e.backtrace
