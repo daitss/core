@@ -1,0 +1,13 @@
+<%
+  md_section_name = case doc.root.name
+                    when 'object' then 'techMD'
+                    when 'event', 'agent' then 'digiprovMD'
+                    end
+%>
+<<%=md_section_name%> ID='<%=id%>'>
+  <mdWrap MDTYPE='PREMIS'>
+    <xmlData>
+      <%= doc.root.to_s %>
+    </xmlData>
+  </mdWrap>
+</<%=md_section_name%>>

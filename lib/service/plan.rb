@@ -1,33 +1,33 @@
 require 'service/error'
-require "premismd"
 
 module Service
   
   module Plan
 
-    def planned?
-      md_for_event? "Action Plan Determination"    
+    def migration
+      transform_url =  "#{Config::Service['actionplan']}/migration?description=#{CGI::escape "file:#{obj_file}" }"
     end
 
-    def plan!
-      obj_file = md_files_for(:tech).first
-      s_url = "#{Config::Service['actionplan']}?description=#{CGI::escape "file:#{obj_file}" }"
-      response = Net::HTTP.get_response URI.parse(s_url)
+    def normalizations
+      ask_for_redirect "#{Config::Service['actionplan']}/normalization?description=#{CGI::escape "file:#{obj_file}" }"
+    end
 
-      case response
-      when Net::HTTPSuccess
-        plan_doc = XML::Parser.string(response.body).parse
-        plan_doc.fix_premis_ids! @aip
-        dp_md_id = add_md :digiprov, plan_doc
-        add_file_md_link dp_md_id
-        
-      when Net::HTTPNotFound
-        # XXX do nothing, no rxp data here, possibly want to write we tried
-      else
-        raise Service::Error, "cannot action plan determination: #{response.code} #{response.msg}: #{response.body}"
-      end
+    private
+
+    def transform url
+      response = Net::HTTP.get_response URI.parse(url)
+
+      transform_url = case response
+                      when Net::HTTPRedirection
+                        response['location']
+                      else
+                        raise Service::Error, "no transformation given: #{response.code} #{response.msg}: #{response.body}"
+                      end
+
+
 
     end
+
         
   end
   
