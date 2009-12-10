@@ -61,6 +61,9 @@
         <value-of select="P:objectIdentifier/P:objectIdentifierValue"/> must have a METS file 
       </assert>
     </rule>
+    <rule context="M:FLocat/@xlink:href">
+      <assert test="//P:object[@xsi:type='file']/P:originalName = ."></assert>
+    </rule>
   </pattern>
 
   <pattern>
@@ -88,4 +91,9 @@
     </rule>
   </pattern>
 
+  <!-- optional things:
+  have rxp labels when there is rxp data
+  can have owner id on files
+  no anomalies unless there are actual anomalies
+  -->
 </schema>
