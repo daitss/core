@@ -5,8 +5,8 @@ class ObjectFormat
     # the primary or secondary format for this data file
   
   belongs_to :format, :index => true # the format of the datafile or bitstream. 
-  belongs_to :datafile, :index => true # The data file which may exibit the specific format
-  belongs_to :bitstream, :index => true # The data file which may exibit the specific format
+  belongs_to :datafile, :index => true, :default => :null # The data file which may exibit the specific format
+  belongs_to :bitstream, :index => true, :default => :null # The data file which may exibit the specific format
   
   def setPrimary
     attribute_set(:type, :primary)

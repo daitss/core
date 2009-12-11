@@ -8,6 +8,11 @@ class Intentity
   property :issue, String
   property :title, Text
   
-  has 0..n, :intentity_events
+  # has 0..n, :intentity_events
   has 1..n, :representations
+  
+  def fromPremis
+    # TODO: imlement
+    attribute_set(:id, "E00000000_000000")
+  end
 end

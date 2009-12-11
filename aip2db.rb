@@ -32,13 +32,20 @@ class AIP2DB < Sinatra::Base
     repObjects.each do |obj|
       aip.processRepresentation obj    
     end
+         
+    agentObjects = doc.find("//premis:agent", NAMESPACES)
+    agentObjects.each do |obj|
+      aip.processAgent obj
+    end
     
     eventObjects = doc.find("//premis:event", NAMESPACES)
     eventObjects.each do |obj|
       aip.processEvent obj
     end
-     
+    
     aip.toDB
+    
+    response.finish
   end
 
 end 

@@ -3,46 +3,48 @@ require 'db/daitss2.rb'
 
 class AIPInPremis
   def initialize 
+    @int_entity = Intentity.new
+    @int_entity.fromPremis
     @representations = Array.new
     @datafiles = Hash.new
     @bitstreams = Array.new
     @formats = Array.new
     @events = Array.new
-    @agents = Array.new
+    @agents = Hash.new
   end
 
   def processRepresentation premis
-    puts premis
-    
     rep = Representation.new
     rep.fromPremis premis
-    
+
     files = premis.find("premis:relationship", NAMESPACES)
     files.each do |f|
       dfid = f.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
       df = @datafiles[dfid]
       puts df.inspect
       unless df.nil?
-        rep.datafiles << df
+        # rep.datafiles << df
         df.representations << rep
       end
     end
-      
+
+    @int_entity.representations << rep
     @representations << rep
   end
-  
+
   def processDatafile premis
     df = Datafile.new
     df.fromPremis premis
 
     # process all matched formats
     processFormats(df, premis)
-    
+
     # process object characteristic extension
     node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
     @obj = nil
     if (node)
       @obj = processObjectCharacteristicExtension(df, node)
+      @obj.bitstream_id = :null
     end
     @datafiles[df.id] = df
 
@@ -69,7 +71,6 @@ class AIPInPremis
     elsif doc = objExt.find_first("doc:doc/doc:document", NAMESPACES)
       object = Document.new
       object.fromPremis doc
-      puts p.inspect
       p.documents << object
     end
 
@@ -78,89 +79,94 @@ class AIPInPremis
 
   def processFormats(p, premis)
     # process all matched formats
-     list = premis.find("premis:objectCharacteristics/premis:format", NAMESPACES)
-     firstNode = true
-     list.each do |node|
-       format = Format.new
-       format.fromPremis node
-       puts format.inspect
+    list = premis.find("premis:objectCharacteristics/premis:format", NAMESPACES)
+    firstNode = true
+    list.each do |node|
+      format = Format.new
+      format.fromPremis node
+      puts format.inspect
 
-       # determine if this format is already at our format table
-       record = Format.first(:format_name => format.format_name)
-       record = format if record.nil?      
+      # determine if this format is already at our format table
+      record = Format.first(:format_name => format.format_name)
+      record = format if record.nil?      
 
-       objectformat = ObjectFormat.new
+      objectformat = ObjectFormat.new
 
-       if (p.instance_of? Datafile)
-         objectformat.datafile_id = p.id
-       else
-         objectformat.bitstream_id = p.id
-       end
-       
-       puts record.inspect
-       record.object_format << objectformat
-       @formats << record
-       # objectformat.format_id << record
-       
-       puts objectformat.inspect
-       p.object_formats << objectformat
-       
-       # first format element is designated for the primary object (file/bitstream) format.  
-       # Subsequent format elements are used for format profiles
-       if (firstNode)
-         objectformat.setPrimary
-         firstNode = false
-       else
-         objectformat.setSecondary
-       end
- 
-       puts objectformat.inspect
+      if (p.instance_of? Datafile)
+        objectformat.datafile_id = p.id
+        objectformat.bitstream_id = :null
+      else
+        objectformat.bitstream_id = p.id
+        objectformat.datafile_id = :null
+      end
 
-     end
+      puts record.inspect
+      record.object_format << objectformat
+      @formats << record
+      # objectformat.format_id << record
+
+      puts objectformat.inspect
+      p.object_format << objectformat
+
+      # first format element is designated for the primary object (file/bitstream) format.  
+      # Subsequent format elements are used for format profiles
+      if (firstNode)
+        objectformat.setPrimary
+        firstNode = false
+      else
+        objectformat.setSecondary
+      end
+      puts objectformat.inspect
+    end
   end
-  
+
   def processBitstream premis
     bs = Bitstream.new
     bs.fromPremis premis
-
     processFormats(bs, premis)
-    
     # process object characteristic extension
     node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
     @obj = nil
     if (node)
       @obj = processObjectCharacteristicExtension(bs, node)
+      @obj.datafile_id = :null
       puts @obj.inspect
     end
-    
     @bitstreams << bs
   end
 
-  def toDB
-    @representations.each {|rep| rep.save }
-  
-    @formats.each {|fmt| fmt.save }
-
-#   @datafiles.each {|dfid, df| df.save } -- not necessary since representations will save datafiles through associations
-
-    @bitstreams.each {|bs| bs.save }
+  def processAgent premis
+    agent = Agent.new
+    agent.fromPremis premis
+    @agents[agent.id] = agent
   end
 
-
   def processEvent premis
-     puts premis
+    id = premis.find_first("premis:linkingObjectIdentifier/premis:linkingObjectIdentifierValue", NAMESPACES)
+    # check if this event related to a datafile
+    df = @datafiles[id.content] unless id.nil?
 
-     event = Event.new
-     event.fromPremis premis
-       dfid = f.find_first("premis:linkingObjectIdentifier/premis:linkingObjectIdentifierValue", NAMESPACES).content
-       df = @datafiles[dfid]
-       puts df.inspect
-       unless df.nil?
-         event.datafiles << df
-       end
-     end
+    agent_id = premis.find_first("premis:linkingAgentIdentifier/premis:linkingAgentIdentifierValue", NAMESPACES)
+    agent = @agents[agent_id.content] unless agent_id.nil?   
 
-     @events << event
-   end
-   
+    unless df.nil?
+      event = DatafileEvent.new
+      event.fromPremis premis
+      event.setRelatedObject id.content
+      agent.events << event unless agent.nil?
+      @events << event
+    end  
+  end
+
+  def toDB
+    # @int_entity.save
+    @formats.each {|fmt| fmt.save }
+    # @representations.each {|rep| rep.save }
+    # not necessary since representations will save datafiles through associations
+    @datafiles.each {|dfid, df| df.save } 
+    @bitstreams.each {|bs| bs.save }
+    @agents.each {|id, ag| ag.save }
+    @events.each {|e| e.save }
+  end
+
 end

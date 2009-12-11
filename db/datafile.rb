@@ -11,8 +11,7 @@ class Datafile
   has 1..n, :representations, :through => Resource
   has 0..n, :bitstream # a datafile may contain 0-n bitstream(s)
   has 0..n, :severe_element # a datafile may contain 0-n severe_elements
-  has 0..n, :object_formats # a datafile may have 0-n file_formats
-  has n, :datafile_events
+  has 0..n, :object_format # a datafile may have 0-n file_formats
   has 0..n, :documents
   has 0..n, :texts
   has 0..n, :audios
