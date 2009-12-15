@@ -14,7 +14,7 @@ class FsHash
   end
 
   def [] key
-    open(key_path(key)) { |io| io.read }
+    open(key_path(key)) { |io| io.read } rescue nil
   end
 
   def keys
@@ -38,4 +38,5 @@ class FsHash
   def key_path key
     File.join @path, key
   end
+
 end
