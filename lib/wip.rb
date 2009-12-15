@@ -1,46 +1,45 @@
+require 'forwardable'
 require 'fileutils'
 require 'fshash'
 require 'datafile'
 
 class Wip
+  extend Forwardable
 
-  attr_reader :path, :metadata, :tags
+  attr_reader :id, :uri, :path, :metadata, :tags
 
-  AIP_MD_DIR = 'aip-md'
+  METADATA_DIR = 'metadata'
   FILES_DIR = 'files'
   TAGS_DIR = 'tags'
 
   # make a new proto-aip at a path
-  def initialize path
+  def initialize path, uri_prefix
     @path = File.expand_path path
+    @id = File.basename @path
+    @uri_prefix = uri_prefix
+    @uri = URI.join(@uri_prefix, @id).to_s
     FileUtils::mkdir_p @path
-    @metadata = FsHash.new File.join(@path, AIP_MD_DIR)
+    @metadata = FsHash.new File.join(@path, METADATA_DIR)
     @tags = FsHash.new File.join(@path, TAGS_DIR)
   end
 
-  # returns a list of data files
-  def files
+  def_delegators :@metadata, :[]=, :[], :has_key?, :delete
+
+  # returns a list of datafiles
+  def datafiles
     pattern = File.join @path, FILES_DIR, '*'
 
     Dir[pattern].map do |path| 
-      name = File.basename(path)
-      DataFile.new self, name
+      df_id = File.basename(df_id)
+      DataFile.new self, df_id
     end
 
   end
 
   # returns a new data file that will persist in this aip
-  def new_datafile name
-    DataFile.new self, name
-  end
-
-  def nuke!
-    FileUtils::rm_r @path
-  end
-
-  def nuked?
-    File.exist? @path
+  def new_datafile
+    new_id = (datafiles.map { |df| df.id.to_i }.max || 0).to_s
+    DataFile.new self, new_id
   end
 
 end
-
