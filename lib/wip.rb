@@ -30,7 +30,7 @@ class Wip
     pattern = File.join @path, FILES_DIR, '*'
 
     Dir[pattern].map do |path| 
-      df_id = File.basename(df_id)
+      df_id = File.basename path
       DataFile.new self, df_id
     end
 
@@ -38,8 +38,9 @@ class Wip
 
   # returns a new data file that will persist in this aip
   def new_datafile
-    new_id = (datafiles.map { |df| df.id.to_i }.max || 0).to_s
-    DataFile.new self, new_id
+    max_id = (datafiles.map { |df| df.id.to_i }.max || -1)
+    new_id = max_id + 1
+    DataFile.new self, new_id.to_s
   end
 
 end
