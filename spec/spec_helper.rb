@@ -20,6 +20,10 @@ def new_sandbox
 
 end
 
+SIP_DIR = File.join File.dirname(__FILE__), 'sips'
+
+URI_PREFIX = "test:/"
+
 Spec::Runner.configure do |config|
 
   config.before :all do
