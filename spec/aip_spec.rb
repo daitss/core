@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'aip'
 
 describe Aip do
   it "should require a tarball to save"
