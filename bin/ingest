@@ -12,7 +12,7 @@ end
 
 config_file = ARGV.shift
 Config::load config_file
-DataMapper.setup :default, CONFIG["database"]
+DataMapper.setup :default, CONFIG["database-uri"]
 
 wip_name = ARGV.shift
 wip_path = File.join WORKSPACE, wip_name

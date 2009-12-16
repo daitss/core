@@ -20,8 +20,8 @@ Spec::Runner.configure do |config|
     FileUtils::mkdir_p $silo_sandbox
 
     # An in-memory Sqlite3 connection
-    CONFIG["database"] = 'sqlite3::memory:'
-    DataMapper.setup(:default, CONFIG["database"])
+    CONFIG["database-uri"] = 'sqlite3::memory:'
+    DataMapper.setup(:default, CONFIG["database-uri"])
     DataMapper.auto_migrate!
   end
 

@@ -10,11 +10,11 @@ require "help/test_stack"
 require "help/fs"
 
 # Sqlite3 connection
-DataMapper.setup(:default, CONFIG["database"])
+DataMapper.setup(:default, CONFIG["database-uri"])
 DataMapper.auto_migrate!
 
 at_exit do
-  FileUtils::rm_rf URI.parse(CONFIG["database"]).path
+  FileUtils::rm_rf URI.parse(CONFIG["database-uri"]).path
 end
 
 Before do
