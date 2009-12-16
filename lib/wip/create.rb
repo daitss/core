@@ -1,4 +1,12 @@
+require 'libxml'
+require 'wip'
+require 'xmlns'
+
+include LibXML
+
 class Sip
+  
+  attr_reader :path
 
   def initialize path
     @path = File.expand_path path
@@ -7,16 +15,16 @@ class Sip
   def files
 
     Dir.chdir @path do
-      sip_files = Dir['**/*'].select { |f| File.file? f }.each { |f| yield f }
+      Dir['**/*'].select { |f| File.file? f }.map { |f| f }.sort
     end
 
   end
 
   def owner_id f
-    name = File.basename sip_path
+    name = File.basename @path
     descriptor_file = File.join @path, "#{name}.xml"
     doc = open(descriptor_file) { |io| XML::Document.io io  }
-    doc.find_first("//M:file[M:FLocat/@xlink:href='#{f}']/@ID", NS_PREFIX).value rescue nil
+    doc.find_first("//M:file[M:FLocat/@xlink:href='#{f}']/@OWNERID", NS_PREFIX).value rescue nil
   end
 
 end
@@ -24,14 +32,15 @@ end
 class Wip
 
   # Create an AIP from a sip
-  def Wip.make_from_sip path, sip
-    wip = Wip.new path
+  def Wip.make_from_sip path, uri_prefix, sip
+    wip = Wip.new path, uri_prefix
    
     sip.files.each do |f|
-        df = Wip.new_datafile
-        FileUtis::mkdir_p File.dirname(df.path) unless File.dirname(f) == '.'
-        FileUtils::cp f, df.path
-        df.metadata['owner-id'] = sip.owner_id f
+      df = wip.new_datafile
+      open(File.join(sip.path, f)) { |i| df.open("w") { |o| o.write i.read } }
+      df['sip-path'] = f
+      owner_id = sip.owner_id f
+      df['owner-id'] = owner_id if owner_id
     end
     
     wip
