@@ -1,4 +1,5 @@
-require "aip"
+require "wip"
+require "uuid"
 
 def test_package_dir
   File.join File.dirname(__FILE__), '..', '..', 'test-packages'
@@ -28,22 +29,11 @@ end
 def aip_instance_from_sip name
   sip = test_sip_by_name name
   path = File.join $sandbox, 'aip'
-  aip = Aip.make_from_sip path, sip
-  aip
-end
-
-def next_aip_dir
-
-  taken = Dir["#{$sandbox}/*"].map do |e|
-    e =~ /aip-(\d+)/ ? $1.to_i : -1
-  end      
-
-  File.join $sandbox, "aip-#{ taken.empty? ? 0 : taken.max + 1 }"
+  Wip.make_from_sip path, sip
 end
 
 def submit_sip name
-  sip = test_sip_by_name name
-  path = next_aip_dir
-  aip = Aip.make_from_sip path, sip
-  aip
+  sip = Sip.new test_sip_by_name name
+  path = File.join $sandbox, UUID.new.generate
+  Wip.make_from_sip path, sip
 end
