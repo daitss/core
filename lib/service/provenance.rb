@@ -13,7 +13,7 @@ module Service
     end
 
     def retrieve_provenance!
-      ask_service 'external-provenance', "#{Config::Service['provenance']}/events?location=#{CGI::escape @url.to_s}"
+      ask_service 'external-provenance', "#{CONFIG['provenance']}/events?location=#{CGI::escape @url.to_s}"
     end
   
     def rxp_provenance_retrieved?
@@ -21,7 +21,7 @@ module Service
     end
 
     def retrieve_rxp_provenance!
-      ask_service 'rxp-provenance', "#{Config::Service['provenance']}/rxp?location=#{CGI::escape @url.to_s}"    
+      ask_service 'rxp-provenance', "#{CONFIG['provenance']}/rxp?location=#{CGI::escape @url.to_s}"    
     end
   
     def representations_retrieved?
@@ -29,7 +29,7 @@ module Service
     end
   
     def retrieve_representations!
-      ask_service 'external-provenance', "#{Config::Service['provenance']}/representations?location=#{CGI::escape to_s}"
+      ask_service 'external-provenance', "#{CONFIG['provenance']}/representations?location=#{CGI::escape to_s}"
     end
  
     private

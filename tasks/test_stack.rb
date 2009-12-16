@@ -50,7 +50,7 @@ def test_stack
 
   
   Rack::Builder.new do
-    # TODO take paths from Config::Service
+    # TODO take paths from CONFIG
     
     # use Rack::CommonLogger
     # use Rack::ShowExceptions

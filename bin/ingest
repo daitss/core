@@ -12,13 +12,13 @@ end
 
 config_file = ARGV.shift
 Config::load config_file
-DataMapper.setup :default, Config::Service["database"]
+DataMapper.setup :default, CONFIG["database"]
 
 wip_name = ARGV.shift
 wip_path = File.join WORKSPACE, wip_name
 
 wip = begin
-        Wip.new wip_path
+        Wip.new wip_path, CONFIG['uri-prefix']
       rescue => e
         puts "cannot process #{wip_name}: #{e.message}"
         exit 1

@@ -9,7 +9,7 @@ module Service
     end
     
     def describe! 
-      response = Net::HTTP.get_response URI.parse("#{Config::Service['description']}?location=#{CGI::escape to_s}")
+      response = Net::HTTP.get_response URI.parse("#{CONFIG['description']}?location=#{CGI::escape to_s}")
     
       case response
       when Net::HTTPSuccess

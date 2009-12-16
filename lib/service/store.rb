@@ -14,7 +14,7 @@ module Store
     relative_path = File.basename(path)
     excludes = [POLY_DESCRIPTOR_FILE, FILE_MD_DIR, AIP_MD_DIR].map { |e| "--exclude #{File.join(relative_path, e)}" }.join ' '
     tardata = Dir.chdir(File.dirname(path)) { `tar #{excludes} -cf - #{ relative_path }` }
-    storage_url = URI.parse "#{Config::Service['storage']}/#{relative_path}"
+    storage_url = URI.parse "#{CONFIG['storage']}/#{relative_path}"
     req = Net::HTTP::Put.new storage_url.request_uri
     req.body = tardata
     req['Content-MD5'] = Base64.encode64(Digest::MD5.digest(req.body)).chomp
