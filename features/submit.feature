@@ -7,12 +7,14 @@ Feature: submission command line interface
     Given a sip
     When I submit
     Then it should print "successfully submitted"
+    And it should have a submit agent
+    And it should have a submit event
     And it should return status 0
   
   Scenario: bad environment
-    Given a bogus DAITSS_WORKSPACE
+    Given a bogus WORKSPACE
     When I submit
-    Then it should print "DAITSS_WORKSPACE must be set"
+    Then it should print "WORKSPACE must be set"
     And it should return status 1
 
   Scenario: no sip specified

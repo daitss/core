@@ -1,13 +1,16 @@
 require 'spec/expectations'
 
+$:.unshift File.join(File.dirname(__FILE__), '..', '..', '..', 'd2aip', 'lib')
 $:.unshift File.join(File.dirname(__FILE__), '..', '..', 'lib')
-require 'aip'
+require 'wip'
 
 $:.unshift File.join(File.dirname(__FILE__), '..', '..', 'spec')
 require "help/sandbox"
 require "help/test_package"
 require "help/test_stack"
 require "help/fs"
+
+require 'datamapper'
 
 # Sqlite3 connection
 DataMapper.setup(:default, CONFIG["database-uri"])

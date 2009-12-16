@@ -1,5 +1,5 @@
 --- 
-uri-prefix: daitsstest:/
+uri-prefix: test:/
 actionplan-url: http://localhost:7000/actionplan/instructions
 validation-url: http://localhost:7000/validation/results
 provenance-url: http://localhost:7000/provenance

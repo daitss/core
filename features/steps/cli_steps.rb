@@ -14,12 +14,12 @@ When /^I (type|murmur) "([^\"]*)"$/ do |action, command|
 end
 
 Then /^it should print an error message$/ do
-  @output.split("\n")[0].should_not be_empty
+  @last_output.split("\n")[0].should_not be_empty
 end
 
 Then /^it should print a backtrace$/ do
   
-  @output.split("\n")[1..-1].each do |frame|
+  @last_output.split("\n")[1..-1].each do |frame|
     frame.should =~ %r{.+:\d+(:.+)?}
   end
   
@@ -30,7 +30,7 @@ Then /^it should return status (\d)$/ do |n|
 end
 
 Then /^it should print "([^\"]*)"$/ do |message|
-  @output.should =~ /#{message}/
+  @last_output.should =~ /#{message}/
 end
 
 # execute a command and waits for the output
