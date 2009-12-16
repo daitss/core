@@ -1,5 +1,4 @@
-require "digest/sha1"
-require "aip_record"
+require 'aip'
 
 module Ingest
 
@@ -9,46 +8,71 @@ module Ingest
 
       # aip level stuff
       validate! unless validated?
+      retrieve_dmd! unless dmd_retrieved?
       retrieve_provenance! unless provenance_retrieved?
       retrieve_rxp_provenance! unless rxp_provenance_retrieved?
       retrieve_representations! unless representations_retrieved?
 
       # file level stuff
-      files.each { |f| f.process! }
-      
-      # storage stuff
-      tarball = Tarball.new do |t|
-        t.add File.join(id, "descriptor.xml"), xml
-        
-        files.each do |f| 
-          tar_path = File.join name, 'files', f.path
-          t.add tar_path, f.data
+      original_representation ||= Representation.new *files
+      new_current_representation = current_representation || Representation.new *files
+      new_normalized_representation = Representation.new
+      files.each { |f| f.describe! unless f.described? }
+
+      original_representation.each do |f| 
+
+        f.normalize do |new_data|
+          new_normalized_representation << new_file
+          new_file.describe!
+          new_file.prove_normalization! unless new_file.normalization_proved?
         end
 
       end
 
-      # TODO put the copy at the silo
-      copy_url = nil
+      current_representation.each do |f| 
 
-      # make an aip
-      aip = Aip.new
-      aip.xml = describe!
-      aip.needs_work = true
-      aip.sha1 = Digest::SHA1.hexdigest tarball
-      aip.size = tarball.size
-      aip.url = copy_url
+        f.migrate do |new_data|
+          new_current_representation << new_file
+          new_file.describe!
+          new_file.prove_migration unless new_file.migration_proved?
+        end
 
-      unless aip.save
-        raise "could not save aip"
       end
+      
+      current_representation = new_current_representation unless new_current_representation.empty?
+      normalized_representation = new_normalized_representation unless new_normalized_representation.empty?
+      unrepresented_files.each { |f| prove_file_obsolete f.prove_obsolete! unless f.proven_obsolete? }
 
-      # TODO clean it off the disk
+      prove_ingest! unless ingest_proven?
+      make_aip!
     rescue Reject => e
       @tags['REJECT'] = message
     rescue => e
       @tags['SNAFU'] = message
     end
     
+  end
+
+  private
+
+  def make_aip!
+
+    aip = Aip.new
+    aip.xml = describe!
+    aip.needs_work = true
+    aip.url = "#{Config::Service['storage']}/#{id}"
+
+    aip.tarball = Tarball.new do |t|
+      t.add File.join(id, "descriptor.xml"), xml
+
+      represented_files.each do |f| 
+        tar_path = File.join name, 'files', f.path
+        t.add tar_path, f.data
+      end
+
+    end
+
+    aip.save || raise "could not save aip"
   end
 
 end
