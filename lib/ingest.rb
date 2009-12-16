@@ -60,7 +60,7 @@ module Ingest
     aip = Aip.new
     aip.xml = describe!
     aip.needs_work = true
-    aip.url = "#{CONFIG['storage']}/#{id}"
+    aip.url = "#{CONFIG['storage-url']}/#{id}"
 
     aip.tarball = Tarball.new do |t|
       t.add File.join(id, "descriptor.xml"), xml
