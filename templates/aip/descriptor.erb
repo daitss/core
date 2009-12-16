@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mets OBJID="<%= name %>"
+      xmlns="http://www.loc.gov/METS/"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd
+                          info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd">
+
+  <%= md_section metadata['dmd'], :type => 'dmdSection', :id => 'intellectual-entity-dmd' %>
+
+  <amdSec>
+
+  <!-- ieid tech -->
+  <%= md_section intellectual_entity_object, :type => 'techMD', :id => 'intellectual-entity-techmd' %>
+  <%= md_section representation_object(original_representation), :type => 'techMD', :id => 'representation-original-techmd' %>
+  <%= md_section representation_object(current_representation), :type => 'techMD', :id => 'representation-current-techmd' %>
+  <%= md_section representation_object(normalized_representation), :type => 'techMD', :id => 'representation-normalized-techmd' %>
+
+  <!-- file tech -->
+  <% files.each_with_index do |f, i| %>
+    <%= md_section f.metadata['describe-object'], :type => 'techMD', :id => "file-#{i}-description-techmd" %>
+  <% end %>
+
+  <!-- ieid digiprov (events) -->
+  <%
+    {
+      'intellectual-entity-submit-event-digiprov' => metadata['submit-event'],
+      'intellectual-entity-validation-event-digiprovi' => metadata['validate-event'],
+      'intellectual-entity-ingest-event-digiprov' => metadata['ingest-event']
+    }.each do |id, doc| 
+  %>
+    <%= md_section doc, :type => 'digiprovMD',  :id => id %>
+  <% end %>
+
+  <%#TODO the optional package level digiprov%>
+
+  <!-- file digiprov (events) -->
+  <% files.each_with_index do |f, i| %>
+    <%= md_section f.metadata['describe-event'], :type => 'digiprovMD', :id => "file-#{i}-describe-event-digiprov" %>
+    <%= md_section f.metadata['migrate-event'], :type => 'digiprovMD', :id => "file-#{i}-migrate-event-digiprov" if f.metadata['migrate-event] %>
+    <%= md_section f.metadata['normalize-event'], :type => 'digiprovMD', :id => "file-#{i}-normalize-event-digiprov" if f.metadata['normalize-event'] %>
+  <% end %>
+
+  <!-- ieid digiprov (agents) -->
+  <% # TODO make the agents for the package %>
+
+  <!-- file digiprov (agents) -->
+  <% files.each do |f| %>
+    <%= md_section f.metadata['describe-agent'], :type=> 'digiprovMD', :id => "file-#{i}-describe-agent-digiprov" %>
+    <%= md_section f.metadata['migrate-agent'], :type=> 'digiprovMD', :id => "file-#{i}-migrate-agent-digiprov" if f.metadata['migrate-agent'] %>
+    <%= md_section f.metadata['normalize-agent'], :type=> 'digiprovMD', :id => "file-#{i}-normalize-agent-digiprov" if f.metadata['normalize-agent'] %>
+  <% end %>
+  </amdSec>
+	
+  <fileSec>
+    <fileGrp>
+    <% files.each_with_index do |f, i| 
+      <%= file_element f, :id => "file-#{i}"  %>
+    <% end %>
+    </fileGrp>
+  </fileSec>
+
+  <structMap ID="representation-original" ADMID="representation-original-techmd">
+    <%= representation_div original_representation %>
+  </structMap>
+
+  <structMap ID="representation-current" ADMID="representation-current-techmd">
+    <%= representation_div current_representation %>
+  </structMap>
+
+  <structMap ID="representation-normalized" ADMID="representation-normalized-techmd">
+    <%= representation_div normalized_representation %>
+  </structMap>
+
+</mets>
