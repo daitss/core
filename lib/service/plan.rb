@@ -5,11 +5,11 @@ module Service
   module Plan
 
     def migration
-      transform_url =  "#{Config::Service['actionplan']}/migration?description=#{CGI::escape "file:#{obj_file}" }"
+      transform_url =  "#{CONFIG['actionplan']}/migration?description=#{CGI::escape "file:#{obj_file}" }"
     end
 
     def normalizations
-      ask_for_redirect "#{Config::Service['actionplan']}/normalization?description=#{CGI::escape "file:#{obj_file}" }"
+      ask_for_redirect "#{CONFIG['actionplan']}/normalization?description=#{CGI::escape "file:#{obj_file}" }"
     end
 
     private
