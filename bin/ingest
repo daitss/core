@@ -1,45 +1,45 @@
 #!/usr/bin/env ruby
 
-$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
-
+require "datamapper"
 require "config"
 require 'wip'
-
-unless ENV['WORKSPACE'] and File.directory?(ENV['WORKSPACE'])
-  puts "WORKSPACE must be set"
-  exit 1
-end
-
-config_file = ARGV.shift
-Config::load config_file
-DataMapper.setup :default, CONFIG["database-uri"]
-
-wip_name = ARGV.shift
-wip_path = File.join WORKSPACE, wip_name
+require 'ingest'
 
 wip = begin
+
+        # workspace
+        raise "WORKSPACE must be set" unless ENV['WORKSPACE']
+        raise "WORKSPACE must be a directory" unless File.directory?(ENV['WORKSPACE'])
+
+        # wip
+        wip_name = ARGV.shift
+        wip_path = File.join ENV['WORKSPACE'], wip_name
+        raise "wip not found" unless File.directory? wip_path
+
+        # config file
+        config_file = ARGV.shift
+        CONFIG::load config_file
+
+        # database
+        DataMapper.setup :default, CONFIG["database-uri"]
+
+        # load the wip
         Wip.new wip_path, CONFIG['uri-prefix']
       rescue => e
         puts "cannot process #{wip_name}: #{e.message}"
         exit 1
       end
 
+wip.extend Ingest
 wip.ingest!
 
-# handle the aftermath
-unless wip.nuked?
-
-  if wip.tags['REJECT']?
-    puts "#{wip} is rejected"
-    exit 2
-  elsif wip.tags['SNAFU']
-    puts "#{wip} is snafu"
-    exit 3
-  else
-    puts "#{wip} abnormally terminated"
-    exit 4
-  end
-
+if wip.tags['REJECT']
+  puts "#{wip} is rejected"
+  exit 2
+elsif wip.tags['SNAFU']
+  puts "#{wip} is snafu"
+  exit 3
 else
   puts "#{wip} ingested"
 end
+
