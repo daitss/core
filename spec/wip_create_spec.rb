@@ -27,6 +27,10 @@ describe "Sip -> Wip" do
     subject.datafiles.should have_exactly(2).items
   end
 
+  it "should have sip-name in it" do
+      subject['sip-name'].should == 'haskell-nums-pdf'
+  end
+
   it "all files should have a sip path" do
     subject.datafiles[0]['sip-path'].should == 'Haskell98numbers.pdf'
     subject.datafiles[1]['sip-path'].should == 'haskell-nums-pdf.xml'

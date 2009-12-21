@@ -12,6 +12,10 @@ class Sip
     @path = File.expand_path path
   end
 
+  def name
+    File.basename @path
+  end
+
   def files
 
     Dir.chdir @path do
@@ -34,7 +38,8 @@ class Wip
   # Create an AIP from a sip
   def Wip.make_from_sip path, uri_prefix, sip
     wip = Wip.new path, uri_prefix
-   
+    wip['sip-name'] = sip.name
+
     sip.files.each do |f|
       df = wip.new_datafile
       open(File.join(sip.path, f)) { |i| df.open("w") { |o| o.write i.read } }
