@@ -10,4 +10,4 @@ start the test stack
 
 run the specs (or ingest) any way you like
 
-    % rake spec
+    % spec spec
