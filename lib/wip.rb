@@ -43,4 +43,8 @@ class Wip
     DataFile.new self, new_id.to_s
   end
 
+  def to_s
+    uri
+  end
+
 end
