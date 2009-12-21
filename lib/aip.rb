@@ -1,4 +1,5 @@
 require "dm-core"
+require 'dm-validations'
 
 require 'libxml'
 require 'schematron'
@@ -35,10 +36,8 @@ class Aip
 
     case res
     when Net::HTTPSuccess
-    when HTTPNotFound
-      [false, "aip is not stored: #{res.code} #{res.msg}: #{res.body}"]
-    else
-      raise "cannot query aip copy: #{res.code} #{res.msg}: #{res.body}"
+    when HTTPNotFound then [false, "aip is not stored: #{res.code} #{res.msg}: #{res.body}"]
+    else res.error!
     end
 
     [false, "fixity is wrong: #{sha1} (record) != #{res['Content-SHA1']} (silo)"] unless res['Content-SHA1'] == sha1
@@ -56,8 +55,7 @@ class Aip
 
     case res
     when Net::HTTPSuccess
-    else
-      raise "cannot store aip: #{res.code} #{res.msg}: #{res.body}"
+    else res.error!
     end
 
   end
