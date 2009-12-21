@@ -22,5 +22,12 @@ describe DataFile do
   it "should have a uri" do
     subject.uri.should == URI.join(subject.wip.uri, subject.id).to_s
   end
-  
+
+  it "should equal datafiles with the same path" do
+      df_1 = subject.wip.datafiles.first
+      df_2 = subject.wip.datafiles.first
+
+      df_1.should == df_2
+  end
+
 end

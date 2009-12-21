@@ -8,6 +8,7 @@ class DataFile
   extend Forwardable
 
   attr_reader :id, :uri, :wip, :metadata, :datapath 
+  #alias_method :uri, :to_s
 
   METADATA_DIR = 'metadata'
   DATA_FILE = 'data'
@@ -33,5 +34,10 @@ class DataFile
     end
 
   end
-  
+
+  def == other
+    id == other.id and wip == other.wip
+  end
+  alias_method :eql?, :==
+
 end
