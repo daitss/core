@@ -52,11 +52,11 @@ def test_stack
   Rack::Builder.new do
     # TODO take paths from CONFIG
     
-    # use Rack::CommonLogger
-    # use Rack::ShowExceptions
-    # use Rack::Lint
 
     map "/validation" do
+      use Rack::CommonLogger
+      use Rack::ShowExceptions
+      use Rack::Lint
       run Validation.new
     end
 
@@ -154,7 +154,8 @@ namespace :ts do
 
     # make the database sandbox
     $db_sandbox='sqlite3:///tmp/db_sandbox'
-    require File.join(File.dirname(__FILE__), '..', 'lib', 'aip_record')
+    $:.unshift '/Users/franco/Code/d2aip/lib'
+    require 'aip'
     DataMapper.setup(:default, $db_sandbox)
     DataMapper.auto_migrate!
     
