@@ -1,9 +1,10 @@
 require "wip"
+require "wip/create"
 require "uuid"
 
-def test_package_dir
-  File.join File.dirname(__FILE__), '..', '..', 'test-packages'
-end
+TEST_PACKAGE_DIR = File.join File.dirname(__FILE__), '..', '..', 'test-packages'
+TEST_SIPS_DIR = File.join TEST_PACKAGE_DIR, 'sips'
+URI_PREFIX = 'test:/'
 
 def test_sip_by_name name
   p = File.join test_package_dir, 'sips', name
@@ -33,7 +34,7 @@ def aip_instance_from_sip name
 end
 
 def submit_sip name
-  sip = Sip.new test_sip_by_name name
+  sip = Sip.new File.join(TEST_SIPS_DIR, name)
   path = File.join $sandbox, UUID.new.generate
-  Wip.make_from_sip path, sip
+  Wip.make_from_sip path, URI_PREFIX, sip
 end
