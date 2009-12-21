@@ -9,6 +9,8 @@ require "help/store"
 require "help/xpath"
 require "help/test_stack"
 
+require 'datamapper'
+
 Spec::Runner.configure do |config|
 
   config.before :all do
