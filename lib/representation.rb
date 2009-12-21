@@ -1,8 +1,26 @@
 module Representation
 
+  def original_rep
+    get_representation 'original-representation'
+  end
+
+  def original_rep= dfs
+    set_representation 'original-representation', dfs
+  end
+
+  private
+
+  def get_representation key
+    metadata[key].split.map { |id| Datafile.new self, id }
+  end
+
+  def set_representation key, dfs 
+    metadata[key] = dfs.map { |df| df.id }.join "\n"
+  end
+
   # Returns all files that are of the original representation
   def original_representation
-    files.reject { |f| f.migration_src or f.normalization_src }
+    datafiles.reject { |f| f.migration_src or f.normalization_src }
   end
 
   # Returns all files that are of the current representation
