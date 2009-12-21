@@ -108,7 +108,7 @@ namespace :ts do
       'description' => "git://github.com/cchou/describe.git",
       'simplestorage' => "ssh://retsina.fcla.edu/var/git/simplestorage.git",
       'actionplan' => "ssh://retsina.fcla.edu/var/git/actionplan.git",
-      'validation' => "svn://tupelo.fcla.edu/shades/validate-service",
+      'validation' => "ssh://retsina.fcla.edu/var/git/validate.git",
       'transformation' => "svn://tupelo.fcla.edu/daitss2/transform/trunk"
     }
 
