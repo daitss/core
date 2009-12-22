@@ -4,7 +4,7 @@ require 'rack/test'
 require 'digest/md5'
 require 'stringio'
 require 'sinatra'
-require 'pp'
+require 'base64'
 
 set :environment, :test
 
