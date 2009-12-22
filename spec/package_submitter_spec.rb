@@ -19,7 +19,7 @@ describe PackageSubmitter do
   end
 
   after(:each) do
-    #FileUtils.rm_rf "/tmp/d2ws"
+    FileUtils.rm_rf "/tmp/d2ws"
   end
 
   it "should raise error on create AIP from ZIP file if DAITSS_WORKSPACE is not set to a valid dir" do
