@@ -26,7 +26,7 @@ class PackageSubmitter
 
     unarchive_sip archive_type, ieid, path_to_archive, package_name
 
-    wip_path = File.join(ENV["DAITSS_WORKSPACE"], "wip-#{ieid}")
+    wip_path = File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s)
     sip_path = File.join(ENV["DAITSS_WORKSPACE"], ".submit", package_name)
 
     sip = Sip.new sip_path
