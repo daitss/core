@@ -44,7 +44,7 @@ describe PackageSubmitter do
   it "should submit a package creating a wip with submission event from a tar-extracted SIP" do
     ieid = PackageSubmitter.submit_sip :tar, TAR_SIP_NODIR, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
-    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], "wip-#{ieid}"), URI_PREFIX
+    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s), URI_PREFIX
 
     wip.datafiles.each do |datafile|
       (["ateam.tiff", "ateam.xml"].include? datafile.metadata["sip-path"]).should == true
@@ -57,7 +57,7 @@ describe PackageSubmitter do
 
     (event_doc.find_first "//xmlns:eventOutcome", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "success"
     (event_doc.find_first "//xmlns:eventType", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "submit"
-    (event_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == URI_PREFIX + "wip-" + ieid.to_s
+    (event_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == URI_PREFIX + ieid.to_s
 
     event_linking_agent = event_doc.find_first("//xmlns:linkingAgentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
     agent_identifier = agent_doc.find_first("//xmlns:agentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
@@ -68,7 +68,7 @@ describe PackageSubmitter do
   it "should submit a package creating a wip with submission event from a zip-extracted SIP" do
     ieid = PackageSubmitter.submit_sip :zip, ZIP_SIP_NODIR, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
-    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], "wip-#{ieid}"), URI_PREFIX
+    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s), URI_PREFIX
 
     wip.datafiles.each do |datafile|
       (["ateam.tiff", "ateam.xml"].include? datafile.metadata["sip-path"]).should == true
@@ -81,7 +81,7 @@ describe PackageSubmitter do
 
     (event_doc.find_first "//xmlns:eventOutcome", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "success"
     (event_doc.find_first "//xmlns:eventType", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "submit"
-    (event_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == URI_PREFIX + "wip-" + ieid.to_s
+    (event_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == URI_PREFIX + ieid.to_s
 
     event_linking_agent = event_doc.find_first("//xmlns:linkingAgentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
     agent_identifier = agent_doc.find_first("//xmlns:agentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
