@@ -1,12 +1,14 @@
 require 'fileutils'
-require 'aip'
-require 'pp'
-require 'libxml'
+require 'wip/create'
+require 'template/premis'
 require 'submission_history'
+require 'uri'
 
 class ArchiveExtractionError < StandardError; end
 
 class PackageSubmitter
+
+  URI_PREFIX = "test:/"
 
   # creates a new aip in the workspace from SIP in a zip or tar file located at path_to_archive.
   # This method:
@@ -17,20 +19,28 @@ class PackageSubmitter
   # makes an AIP from extracted files
   # writes a submission event to package provenance
   # returns new minted IEID of the created AIP
-  
+
   def self.submit_sip archive_type, path_to_archive, package_name, submitter_ip, md5
     check_workspace
     ieid = persist_request package_name, submitter_ip, md5
 
     unarchive_sip archive_type, ieid, path_to_archive, package_name
 
-    aip_path = File.join(ENV["DAITSS_WORKSPACE"], "aip-#{ieid}")
+    wip_path = File.join(ENV["DAITSS_WORKSPACE"], "wip-#{ieid}")
     sip_path = File.join(ENV["DAITSS_WORKSPACE"], ".submit", package_name)
 
-    aip = Aip.make_from_sip aip_path, sip_path
-    submission_event_doc = LibXML::XML::Document.string(create_submission_event(aip_path))
+    sip = Sip.new sip_path
+    wip = Wip.make_from_sip wip_path, URI_PREFIX, sip
 
-    aip.add_md :digiprov, submission_event_doc
+    wip['submit-event'] = event :id => URI.join(wip.uri, 'event', 'submit').to_s, 
+      :type => 'submit', 
+      :outcome => 'success', 
+      :linking_objects => [ wip.uri ],
+      :linking_agents => [ 'info:fcla/daitss/submission_service' ]
+
+    wip['submit-agent'] = agent :id => 'info:fcla/daitss/submission_service',
+      :name => 'DAITSS 2 submission service', 
+      :type => 'software'
 
     # clean up
     FileUtils.rm_rf sip_path
@@ -69,7 +79,7 @@ class PackageSubmitter
     zip_command = `which unzip`.chomp
     raise "unzip utility not found on this system!" if zip_command =~ /not found/
 
-    return "#{zip_command} #{path_to_archive} -d #{destination} 2>&1"
+      return "#{zip_command} #{path_to_archive} -d #{destination} 2>&1"
   end
 
   # returns string corresponding to unzip command to extract SIP from a tar file 
@@ -78,7 +88,7 @@ class PackageSubmitter
     tar_command = `which tar`.chomp
     raise "tar utility not found on this system!" if tar_command =~ /not found/
 
-    return "#{tar_command} -xf #{path_to_archive} -C #{destination} 2>&1"
+      return "#{tar_command} -xf #{path_to_archive} -C #{destination} 2>&1"
   end
 
   # unzips/untars specified archive file to $DAITSS_WORKSPACE/.submit/package_name/
@@ -111,46 +121,6 @@ class PackageSubmitter
     end
 
     raise ArchiveExtractionError, "archive utility exited with non-zero status: #{output}" if $?.exitstatus != 0 
-  end
-
-  # returns a string containing the XML for the submission event
-
-  def self.create_submission_event aip_path
-    submission_event = <<-event
-<premis>
-  <event>
-    <eventIdentifier>
-      <eventIdentifierType>Temporary Local</eventIdentifierType>
-      <eventIdentifierValue>1</eventIdentifierValue>
-    </eventIdentifier>
-    <eventType>Submission</eventType>
-    <eventDateTime>#{Time.now.to_s}</eventDateTime>
-    <eventOutcomeInformation>
-      <eventOutcome>success</eventOutcome>
-    </eventOutcomeInformation>
-    <linkingAgentIdentifier>
-      <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-      <linkingAgentIdentifierValue>http://daitss/submission</linkingAgentIdentifierValue>
-    </linkingAgentIdentifier>
-    <linkingObjectIdentifier>
-      <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-      <linkingObjectIdentifierValue>
-        file:///#{aip_path}
-      </linkingObjectIdentifierValue>
-    </linkingObjectIdentifier>
-  </event>
- <agent>
-   <agentIdentifier>
-     <agentIdentifierType>URI</agentIdentifierType>
-       <agentIdentifierValue>http://daitss/submission</agentIdentifierValue>
-     </agentIdentifier>
-   <agentName>DAITSS Submission</agentName>
-   <agentType>Web Service</agentType>
- </agent>
-</premis>
-event
-
-    return submission_event
   end
 
   # creates a .submit directory under DAITSS_WORKSPACE
