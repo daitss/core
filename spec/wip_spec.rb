@@ -14,6 +14,20 @@ describe Wip do
     Wip.new path, uri
   end
 
+  it "should require a uri if one does not exist" do
+    lambda { 
+      uuid = gen.generate
+      path = File.join $sandbox, uuid
+      Wip.new path
+    }.should raise_error(/wip .+ has no uri/)
+  end
+
+  it "should not require a uri if one already exists" do
+    lambda { 
+      Wip.new subject.path, subject.uri
+    }.should raise_error(/wip .+ has a uri/)
+  end
+
   it "should let addition of new files" do
     df = subject.new_datafile 
     df['sip-path'] = 'foo/bar.png'
@@ -21,8 +35,8 @@ describe Wip do
 
   it "should let addition of new metadata" do
     subject['submit-event'] = "submitted at #{Time.now}"
-    
-    wip_prime = Wip.new File.join($sandbox, subject.id), "bogus:/"
+
+    wip_prime = Wip.new File.join($sandbox, subject.id)
     subject['submit-event'].should == wip_prime['submit-event']
   end
 
@@ -32,7 +46,7 @@ describe Wip do
   end
 
   it "should have a uri" do
-   subject.uri.should == URI.join("bogus:/", subject.id).to_s 
+    subject.uri.should == URI.join("bogus:/", subject.id).to_s 
   end
 
 end
