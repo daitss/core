@@ -36,8 +36,8 @@ end
 class Wip
 
   # Create an AIP from a sip
-  def Wip.make_from_sip path, uri_prefix, sip
-    wip = Wip.new path, uri_prefix
+  def Wip.make_from_sip path, uri, sip
+    wip = Wip.new path, uri
     wip['sip-name'] = sip.name
 
     sip.files.each do |f|
