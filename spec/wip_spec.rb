@@ -1,12 +1,18 @@
 require 'spec_helper'
 require 'wip'
 require 'uuid'
+require 'uri'
 gen = UUID.new
 
 # Proto AIP: Work In Progress
 describe Wip do
 
-  subject { Wip.new File.join($sandbox, gen.generate), "bogus:/" }
+  subject do
+    uuid = gen.generate
+    path = File.join $sandbox, uuid
+    uri = URI.join('bogus:/', uuid) .to_s
+    Wip.new path, uri
+  end
 
   it "should let addition of new files" do
     df = subject.new_datafile 
