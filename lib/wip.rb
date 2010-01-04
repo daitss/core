@@ -13,13 +13,21 @@ class Wip
   TAGS_DIR = 'tags'
 
   # make a new proto-aip at a path
-  def initialize path, uri
+  def initialize path, uri=nil
     @path = File.expand_path path
     @id = File.basename @path
     FileUtils::mkdir_p @path
+
     @metadata = FsHash.new File.join(@path, METADATA_DIR)
     @tags = FsHash.new File.join(@path, TAGS_DIR)
-    @metadata['uri'] = URI.parse(uri).to_s
+  
+    if uri
+      raise "wip #{@path} has a uri" if metadata.has_key? 'uri'
+      metadata['uri'] = uri
+    else
+      raise "wip #{@path} has no uri" unless metadata.has_key? 'uri'
+    end
+
   end
 
   def_delegators :@metadata, :[]=, :[], :has_key?, :delete
