@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'service/validate'
 
-describe Service::Validate do
+describe 'validating a wip' do
 
   subject do
     wip = submit_sip 'haskell-nums-pdf'
@@ -16,15 +16,20 @@ describe Service::Validate do
   end
 
   it "should have a validation event" do
+    subject.validate!
     subject.should have_key('validate-event')
   end
 
   it "should have a validation agent" do
+    subject.validate!
     subject.should have_key('validate-agent')
   end
 
   it "should reject if something fails validation" do
-    subject.files[0].open(:a) { |io| io.puts "oops" }
+    descriptor = subject.datafiles.find { |df| df['sip-path'] == "#{subject['sip-name']}.xml" }
+    doc = descriptor.open { |io| XML::Document.io io }
+    doc.find("//@ID").each { |node| node.remove! }
+    descriptor.open('w') { |io| io.write doc.to_s }
     lambda { subject.validate! }.should raise_error Reject
   end
 
