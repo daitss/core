@@ -42,7 +42,7 @@ module Service
     end
 
     def reject_reasons doc
-      xpath = "//P:event[P:eventOutcomeInformation/P:eventOutcome ='failure' ]"
+      xpath = "//P:event[P:eventOutcomeInformation/P:eventOutcome = 'failure' ]"
 
       doc.find(xpath, NS_PREFIX).map do |e|
         { :type => e.find_first('P:eventType', NS_PREFIX).content.strip,
@@ -53,12 +53,12 @@ module Service
     end
 
     def validate_event doc
-      xpath = "//P:event[P:eventType = 'SIP passed all validation checks']"
+      xpath = "//P:event[P:eventType = 'comprehensive validation']"
       doc.find_first(xpath, NS_PREFIX).to_s
     end
 
     def validate_agent doc
-      xpath = "/P:agent[P:agentName = 'Validation Service']"
+      xpath = "/P:agent[P:agentName = 'validation service']"
       doc.find_first(xpath, NS_PREFIX).to_s
     end
 
