@@ -4,64 +4,46 @@ require 'rack'
 require 'sinatra/base'
 
 class StatusEcho < Sinatra::Base
-  
+
   get '/code/:code' do |code|
-    
+
     if code.to_i == 200
       'all good'
     else
       halt code, 'you asked for it'
     end
-    
+
   end
-  
+
 end
 
 TS_DIR = File.join File.dirname(__FILE__), '..', 'test-stack'
 
 def test_stack
 
-  # validation & provenance
-  validation_dir = File.join TS_DIR, 'validation'
-  $:.unshift File.join(validation_dir, 'lib')
-  require File.join(validation_dir, 'validation')
-  require File.join(validation_dir, 'provenance')
-
-  # description
-  description_dir = File.join TS_DIR, 'description'
-  $:.unshift File.join(description_dir, 'lib')
-  require File.join(description_dir, 'describe')
-
-  # actionplan
-  actionplan_dir = File.join TS_DIR, 'actionplan'
-  $:.unshift File.join(actionplan_dir, 'lib')
-  require File.join(actionplan_dir, 'app')
-
-  # transformation
   ENV["PATH"] = "/Applications/ffmpegX.app/Contents/Resources:#{ENV["PATH"]}"
-  transformation_dir = File.join TS_DIR, 'transformation'
-  $:.unshift File.join(transformation_dir, 'lib')
-  require File.join(transformation_dir, 'transform')
 
-  # storage
-  storage_dir = File.join TS_DIR, 'simplestorage'
-  $:.unshift File.join(storage_dir, 'lib')
-  require File.join(storage_dir, 'app')
+  # access the services code
+  %w(validation description actionplan transformation simplestorage).each do |service|
+    service_dir = File.join TS_DIR, service
+    $:.unshift File.join(service_dir, 'lib')
 
-  
+    app_filename = case service
+                   when 'description' then 'describe'
+                   when 'transformation' then 'transform'
+                   else 'app'
+                   end
+
+    require File.join(service_dir, app_filename)
+  end
+
   Rack::Builder.new do
-    # TODO take paths from CONFIG
-    
+    use Rack::CommonLogger
+    use Rack::ShowExceptions
+    use Rack::Lint
 
     map "/validation" do
-      use Rack::CommonLogger
-      use Rack::ShowExceptions
-      use Rack::Lint
-      run Validation.new
-    end
-
-    map "/provenance" do
-      run Provenance.new
+      run Validation::App.new
     end
 
     map "/description" do
@@ -77,12 +59,11 @@ def test_stack
     end
 
     map "/silo" do
-      use Rack::ShowExceptions
       run SimpleStorage::App.new($silo_sandbox)
     end
 
   end
-  
+
 end
 
 def nuke_silo_sandbox
@@ -95,10 +76,9 @@ def run_test_stack
   httpd.run test_stack, :Port => 7000
 end
 
-# test stack dir
 
 namespace :ts do
-  
+
   desc "fetch the test stack"
   task :fetch do
 
@@ -113,22 +93,22 @@ namespace :ts do
     }
 
     Dir.chdir TS_DIR do
-      
+
       vc_urls.each do |name, url|
-        
+
         if File.exist? name
           puts "updating:\t#{name}"
-          
+
           if url =~ %r{^svn://}
             Dir.chdir(name) { `svn up` }
           else
             Dir.chdir(name) { `git pull` }
           end
-          
+
           raise "error updating #{name}" unless $? == 0
         else
           puts "fetch:\t#{name}"
-          
+
           if url =~ %r{^svn://}
             `svn co #{url} #{name}`  
           else
@@ -137,18 +117,18 @@ namespace :ts do
 
           raise "error retrieving #{name}" unless $? == 0
         end
-        
+
       end
-      
+
     end
 
   end
-  
+
   desc "nuke the test stack"
   task :clobber do
     FileUtils::rm_rf TS_DIR
   end
-  
+
   desc "run the test stack"
   task :run do
 
@@ -158,14 +138,14 @@ namespace :ts do
     require 'aip'
     DataMapper.setup(:default, $db_sandbox)
     DataMapper.auto_migrate!
-    
+
     # make the silo sandbox
     $silo_sandbox='/tmp/silo_sandbox'
     nuke_silo_sandbox
     FileUtils::mkdir_p $silo_sandbox
-        
+
     # run the test stack
     run_test_stack
   end
-  
+
 end
