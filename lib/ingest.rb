@@ -13,10 +13,6 @@ module Ingest
 
       # aip level stuff
       validate! unless validated?
-      retrieve_dmd! unless dmd_retrieved?
-      retrieve_provenance! unless provenance_retrieved?
-      retrieve_rxp_provenance! unless rxp_provenance_retrieved?
-      retrieve_representations! unless representations_retrieved?
 
       # describe all files
       datafiles.each { |f| f.describe! unless f.described? }
