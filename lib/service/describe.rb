@@ -1,25 +1,45 @@
-require 'service'
+require 'datafile'
+require 'net/http'
+require 'cgi'
 
-module Service
-  
-  module Describe
+class DataFile
 
-    def described?
-      metadata.has_key? 'format-description'
-    end
-    
-    def describe! 
-      response = Net::HTTP.get_response URI.parse("#{CONFIG['description']}?location=#{CGI::escape to_s}")
-    
-      case response
-      when Net::HTTPSuccess
-        @metadata['format-description'] = XML::Parser.string(response.body).parse
-      else
-        raise Error, "cannot describe file: #{response.code} #{response.msg}: #{response.body}"
-      end
+  def described?
+    metadata.has_key? 'describe-event'
+  end
 
-    end
+  def describe! 
+    file_url = URI.join 'file:/', File.expand_path(datapath)
+    url = URI.join CONFIG['description-url'], "?location=#{CGI::escape file_url.to_s}"
+    res = Net::HTTP.get_response url
 
+    doc = case res
+          when Net::HTTPSuccess then XML::Document.string(res.body).parse
+          else res.error!
+          end
+
+    metadata['describe-file-object'] = describe_file_object doc
+    metadata['describe-event'] = describe_event doc
+    metadata['describe-agent'] = describe_agent doc
+    metadata['describe-bitstream-objects'] = describe_bitstream_objects doc
+  end
+
+  private
+
+  def describe_file_object doc
+    doc.find_first("//P:object[@xsi:type='file']", NS_PREFIX).to_s
+  end
+
+  def describe_event doc
+    doc.find_first("//P:event", NS_PREFIX).to_s
+  end
+
+  def describe_agent doc
+    doc.find_first("//P:agent", NS_PREFIX).to_s
+  end
+
+  def describe_bitstream_objects doc
+    doc.find("//P:object[@xsi:type='bitstream']", NS_PREFIX).to_s
   end
 
 end
