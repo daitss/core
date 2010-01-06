@@ -4,9 +4,7 @@ require 'service/validate'
 describe 'validating a wip' do
 
   subject do
-    wip = submit_sip 'haskell-nums-pdf'
-    wip.extend Service::Validate
-    wip
+    submit_sip 'haskell-nums-pdf'
   end
 
   it "should know if something is validated" do
