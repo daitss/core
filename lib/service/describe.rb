@@ -14,7 +14,7 @@ class DataFile
     res = Net::HTTP.get_response url
 
     doc = case res
-          when Net::HTTPSuccess then XML::Document.string(res.body).parse
+          when Net::HTTPSuccess then XML::Document.string res.body
           else res.error!
           end
 
@@ -39,7 +39,7 @@ class DataFile
   end
 
   def describe_bitstream_objects doc
-    doc.find("//P:object[@xsi:type='bitstream']", NS_PREFIX).to_s
+    doc.find("//P:object[@xsi:type='bitstream']", NS_PREFIX).inject("") { |str,node| str + node.to_s }
   end
 
 end
