@@ -18,7 +18,9 @@ describe 'describing a datafile' do
     before(:all) { subject.describe! }
     it { should have_key('describe-event') }
     it { should have_key('describe-agent') }
-    it { should have_key('describe-object') }
+    it { should have_key('describe-file-object') }
+    it { should have_key('describe-bitstream-objects') }
+
   end
 
   it "should raise an error if something goes wrong"

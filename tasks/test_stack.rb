@@ -24,7 +24,8 @@ def test_stack
   ENV["PATH"] = "/Applications/ffmpegX.app/Contents/Resources:#{ENV["PATH"]}"
 
   # access the services code
-  %w(validation description actionplan transformation simplestorage).each do |service|
+  #%w(validation description actionplan transformation simplestorage).each do |service|
+  %w(description validation actionplan transformation simplestorage).each do |service|
     service_dir = File.join TS_DIR, service
     $:.unshift File.join(service_dir, 'lib')
 
@@ -42,12 +43,12 @@ def test_stack
     use Rack::ShowExceptions
     use Rack::Lint
 
-    map "/validation" do
-      run Validation::App.new
-    end
-
     map "/description" do
       run Describe.new
+    end
+
+    map "/validation" do
+      run Validation::App.new
     end
 
     map "/actionplan" do       
