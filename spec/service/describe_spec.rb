@@ -12,6 +12,9 @@ describe 'describing a datafile' do
     subject.should_not be_described
     subject.describe!
     subject.should be_described
+
+    subject.wip.tags.delete "describe-#{subject.id}"
+    subject.should_not be_described
   end
 
   describe "premis metadata" do

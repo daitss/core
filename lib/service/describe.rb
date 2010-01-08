@@ -5,7 +5,7 @@ require 'cgi'
 class DataFile
 
   def described?
-    metadata.has_key? 'describe-event'
+    @wip.tags.has_key? "describe-#{id}"
   end
 
   def describe! 
@@ -22,6 +22,7 @@ class DataFile
     metadata['describe-event'] = describe_event doc
     metadata['describe-agent'] = describe_agent doc
     metadata['describe-bitstream-objects'] = describe_bitstream_objects doc
+    @wip.tags["describe-#{id}"] = Time.now.xmlschema
   end
 
   private
