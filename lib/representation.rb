@@ -1,38 +1,39 @@
-module Representation
+require 'wip'
+
+class Wip
 
   def original_rep
-    get_representation 'original-representation'
+    load_rep 'original-representation'
   end
 
   def original_rep= dfs
-    set_representation 'original-representation', dfs
+    store_rep 'original-representation', dfs
+  end
+
+  def current_rep
+    load_rep 'current-representation'
+  end
+
+  def current_rep= dfs
+    store_rep 'current-representation', dfs
+  end
+
+  def normalized_rep
+    load_rep 'normalized-representation'
+  end
+
+  def normalized_rep= dfs
+    store_rep 'normalized-representation', dfs
   end
 
   private
 
-  def get_representation key
+  def load_rep key
     metadata[key].split.map { |id| Datafile.new self, id }
   end
 
-  def set_representation key, dfs 
+  def store_rep key, dfs 
     metadata[key] = dfs.map { |df| df.id }.join "\n"
-  end
-
-  # Returns all files that are of the original representation
-  def original_representation
-    datafiles.reject { |f| f.migration_src or f.normalization_src }
-  end
-
-  # Returns all files that are of the current representation
-  def current_representation
-    non_norms = files.reject { |f| f.normalization_src }
-    non_norms.map { |f| f.migration_src or f }.uniq 
-  end
-
-  # Returns all the files that are of the normalized representation
-  def normalized_representation
-    non_migrs = files.reject { |f| f.normalization_src }
-    non_migrs.map { |f| f.normalization_src or f }.uniq
   end
 
 end

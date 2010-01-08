@@ -26,7 +26,7 @@ sip = Sip.new ARGV.shift
 begin
   id = UUID.new.generate
   path = File.join WORKSPACE, id
-  wip = Wip.make_from_sip path, CONFIG['uri-prefix'], sip
+  wip = Wip.make_from_sip path, URI.join(CONFIG['uri-prefix'], id).to_s, sip
 
   wip['submit-event'] = event :id => URI.join(wip.uri, 'event', 'submit').to_s, 
                               :type => 'submit', 
