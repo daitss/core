@@ -1,33 +1,32 @@
 require 'aip'
+require 'wip'
 require 'service/validate'
-
-class Reject < StandardError; end
+require 'service/describe'
 
 module Ingest
 
-  include Service::Validate
 
   def ingest!
     
+    # TODO all milestones are "since last ingest" if a previous ingest exist
+    # TODO all incoming provenance is imported at the end
+    # TODO all obsolete files need their object to persist
+
     begin
-
-      # aip level stuff
       validate! unless validated?
-
-      # describe all files
       datafiles.each { |f| f.describe! unless f.described? }
 
       # determine existing original_rep and current_rep
-      original_rep = datafiles if original_rep.empty?
-      current_rep = original_rep if current_rep.empty?
+      (original_rep = datafiles if original_rep.empty?) unless original_rep_set?
+      (current_rep = original_rep if current_rep.empty?) unless current_rep_set?
 
       # new reps
-      new_current_rep = current_rep.map { |df| df.migrate || df }
+      new_current_rep = current_rep.map { |df| df.migrate || df } # unless we already migrated this file, cleanup entire new file for damage control
       new_normalized_rep = original_rep.map { |df| df.normalize || df }
     
       # persist the representations
-      current_rep = new_current_rep unless new_current_rep.empty?
-      normalized_rep = new_normalized_rep unless new_normalized_rep.empty?
+      (current_rep = new_current_rep unless new_current_rep.empty?) unless current_rep_updated?
+      (normalized_rep = new_normalized_rep unless new_normalized_rep.empty?) unless normalized_rep_updated?
 
       # clean out
       represented_files = (original_rep + current_rep + normalized_rep).uniq

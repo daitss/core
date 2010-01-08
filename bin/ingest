@@ -12,21 +12,24 @@ wip = begin
         raise "WORKSPACE must be a directory" unless File.directory?(ENV['WORKSPACE'])
 
         # wip
-        wip_name = ARGV.shift
-        wip_path = File.join ENV['WORKSPACE'], wip_name
-        raise "wip not found" unless File.directory? wip_path
+        wip_id = ARGV.shift
+        raise "no wip id specified" unless wip_id
+        wip_path = File.join ENV['WORKSPACE'], wip_id
+        raise "wip #{wip_id} not found in #{ENV['WORKSPACE']}" unless File.directory? wip_path
 
         # config file
         config_file = ARGV.shift
+        raise "no config file specified" unless config_file
         CONFIG::load config_file
 
         # database
         DataMapper.setup :default, CONFIG["database-uri"]
 
         # load the wip
-        Wip.new wip_path, CONFIG['uri-prefix']
+        Wip.new wip_path
       rescue => e
         puts "cannot process #{wip_name}: #{e.message}"
+        puts e.backtrace
         exit 1
       end
 
