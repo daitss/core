@@ -10,7 +10,7 @@ class Reject < StandardError; end
 class Wip
 
   def validated?
-    metadata.has_key? 'validate-event'
+    tags.has_key? 'validate'
   end
 
   def validate!
@@ -19,6 +19,7 @@ class Wip
     raise Reject, rr unless rr.empty?
     metadata['validate-event'] = validate_event doc
     metadata['validate-agent'] = validate_agent doc
+    tags['validate'] = Time.now.xmlschema
   end
 
   private
