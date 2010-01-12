@@ -9,8 +9,15 @@ class DataFile
   end
 
   def describe! 
-    file_url = URI.join 'file:/', File.expand_path(datapath)
-    url = URI.join CONFIG['description-url'], "?location=#{CGI::escape file_url.to_s}"
+
+    query = {
+      :location => URI.join('file:/', File.expand_path(datapath)).to_s,
+      :uri => uri, 
+      :originalName => metadata['sip-path']
+    }
+
+    query_str = query.map { |key, value| "#{key.id2name}=#{CGI::escape value}" }.join '&'
+    url = URI.join CONFIG['description-url'], "?#{query_str}"
     res = Net::HTTP.get_response url
 
     doc = case res
@@ -18,29 +25,24 @@ class DataFile
           else res.error!
           end
 
-    metadata['describe-file-object'] = describe_file_object doc
-    metadata['describe-event'] = describe_event doc
-    metadata['describe-agent'] = describe_agent doc
-    metadata['describe-bitstream-objects'] = describe_bitstream_objects doc
+    metadata['describe-file-object'] = element_doc_as_str doc, "//P:object[@xsi:type='file']" 
+    metadata['describe-event'] = element_doc_as_str doc, "//P:event"
+    metadata['describe-agent'] = element_doc_as_str doc, "//P:agent" 
+    metadata['describe-bitstream-objects'] = element_doc_as_str doc, "//P:object[@xsi:type='bitstream']"
     @wip.tags["describe-#{id}"] = Time.now.xmlschema
   end
 
   private
 
-  def describe_file_object doc
-    doc.find_first("//P:object[@xsi:type='file']", NS_PREFIX).to_s
-  end
+  def element_doc_as_str doc, xpath
+    n = doc.find_first xpath, NS_PREFIX
 
-  def describe_event doc
-    doc.find_first("//P:event", NS_PREFIX).to_s
-  end
+    if n
+      d = XML::Document.new
+      d.root = d.import n
+      d.to_s
+    end
 
-  def describe_agent doc
-    doc.find_first("//P:agent", NS_PREFIX).to_s
-  end
-
-  def describe_bitstream_objects doc
-    doc.find("//P:object[@xsi:type='bitstream']", NS_PREFIX).inject("") { |str,node| str + node.to_s }
   end
 
 end
