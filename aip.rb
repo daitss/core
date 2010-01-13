@@ -12,7 +12,7 @@ class AIP
   def process aip_file
     # read in the posted AIP descriptor
   
-    doc = XML::Document.io aip_file
+    doc = XML::Document.file aip_file
     aip = AIPInPremis.new
     
     fileObjects = doc.find("//premis:object[@xsi:type='file']", NAMESPACES)

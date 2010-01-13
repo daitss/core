@@ -11,6 +11,11 @@ Spec::Rake::SpecTask.new do |t|
   t.libs << 'spec'
 end
 
-task :migrate do
+task :db_migrate do
   DataMapper::auto_migrate!
+end
+
+
+task :db_upgrade do
+  DataMapper::auto_upgrade!
 end

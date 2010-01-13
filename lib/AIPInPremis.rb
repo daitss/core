@@ -159,14 +159,18 @@ class AIPInPremis
   end
 
   def toDB
-    # @int_entity.save
-    @formats.each {|fmt| fmt.save }
-    # @representations.each {|rep| rep.save }
-    # not necessary since representations will save datafiles through associations
-    @datafiles.each {|dfid, df| df.save } 
-    @bitstreams.each {|bs| bs.save }
-    @agents.each {|id, ag| ag.save }
-    @events.each {|e| e.save }
+    Intentity.transaction do 
+      # @int_entity.save
+      @formats.each { |fmt| raise 'error saving format records'  unless fmt.save }
+
+      # @representations.each {|rep| rep.save }
+      # not necessary since representations will save datafiles through associations
+      @datafiles.each {|dfid, df|  raise 'error saving datafile records' unless  df.save } 
+      @bitstreams.each {|bs|  raise 'error saving bitstream records' unless bs.save }
+      @agents.each {|id, ag|  raise 'error saving agent records' unless ag.save }
+      @events.each {|e|  raise 'error saving event records' unless e.save }
+    end
+    
   end
 
 end

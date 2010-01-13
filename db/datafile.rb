@@ -1,10 +1,10 @@
 class Datafile 
   include DataMapper::Resource 
   property :id, String, :key => true, :length => 16
-  property :size, Integer, :length => (0..20),  :nullable => false 
+  property :size, Integer, :length => (0..20),  :required => true 
   property :create_date, DateTime
-  property :origin, Enum[:archive, :depositor, :unknown], :default => :unknown, :nullable => false
-  property :original_path, String, :length => (0..255),  :nullable => false 
+  property :origin, Enum[:archive, :depositor, :unknown], :default => :unknown, :required => true 
+  property :original_path, String, :length => (0..255), :required => true 
     # map from package_path + file_title + file_ext
   property :creator_prog, String, :length => (0..255)
 

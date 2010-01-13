@@ -12,7 +12,7 @@ class Intentity
   has 1..n, :representations
   
   def fromPremis
-    # TODO: imlement
+    # TODO: implement
     attribute_set(:id, "E00000000_000000")
   end
 end
