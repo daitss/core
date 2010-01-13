@@ -9,15 +9,6 @@ describe 'describing a datafile' do
     wip.datafiles.find { |df| df['sip-path'] =~ %r{\.pdf$} }
   end
 
-  it "should know if something is described" do
-    subject.should_not be_described
-    subject.describe!
-    subject.should be_described
-
-    subject.wip.tags.delete "describe-#{subject.id}"
-    subject.should_not be_described
-  end
-
   describe "premis metadata" do
     before(:all) { subject.describe! }
     it { should have_key('describe-event') }
