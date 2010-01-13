@@ -4,27 +4,10 @@ require 'cgi'
 
 class DataFile
 
-  def described?
-    @wip.tags.has_key? "describe-#{id}"
-  end
-
   def describe! 
-
-    query = {
-      :location => URI.join('file:/', File.expand_path(datapath)).to_s,
-      :uri => uri, 
-      :originalName => metadata['sip-path']
-    }
-
-    query_str = query.map { |key, value| "#{key.id2name}=#{CGI::escape value}" }.join '&'
-    url = URI.join CONFIG['description-url'], "?#{query_str}"
-    res = Net::HTTP.get_response url
-
-    doc = case res
-          when Net::HTTPSuccess then XML::Document.string res.body
-          else res.error!
-          end
-
+    doc = ask_description_service(:location => URI.join('file:/', File.expand_path(datapath)),
+                                  :uri => uri, 
+                                  :originalName => metadata['sip-path'])
     metadata['describe-file-object'] = element_doc_as_str doc, "//P:object[@xsi:type='file']" 
     metadata['describe-event'] = element_doc_as_str doc, "//P:event"
     metadata['describe-agent'] = element_doc_as_str doc, "//P:agent" 
@@ -33,6 +16,18 @@ class DataFile
   end
 
   private
+
+  def ask_description_service query={}
+    query_str = query.map { |key, value| "#{key.id2name}=#{CGI::escape value.to_s}" }.join '&'
+    url = URI.join CONFIG['description-url'], "?#{query_str}"
+    res = Net::HTTP.get_response url
+
+    case res
+    when Net::HTTPSuccess then XML::Document.string res.body
+    else res.error!
+    end
+
+  end
 
   def element_doc_as_str doc, xpath
     n = doc.find_first xpath, NS_PREFIX
