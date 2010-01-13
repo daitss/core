@@ -1,26 +1,18 @@
 $:.unshift File.join(File.dirname(__FILE__), 'lib')
 
-# aip2db.rb
+# aip.rb
 require 'rubygems'
-require 'sinatra'
 require 'xml'
 require 'lib/namespaces.rb'
 require 'lib/AIPInPremis.rb'
 
-class AIP2DB < Sinatra::Base
-  enable :logging 
-  set :root, File.dirname(__FILE__)
-
-  error do
-    'Encounter Error ' + env['sinatra.error'].name
-  end
-
+class AIP
   # curl -F "data=@files/descriptor.xml" http://localhost:4567/aip2db
-  post '/aip2db' do
+ 
+  def process aip_file
     # read in the posted AIP descriptor
-    puts params[:data][:tempfile]
-    XML.default_keep_blanks = false
-    doc = XML::Document.io params[:data][:tempfile]
+  
+    doc = XML::Document.io aip_file
     aip = AIPInPremis.new
     
     fileObjects = doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
@@ -44,10 +36,6 @@ class AIP2DB < Sinatra::Base
     end
     
     aip.toDB
-    
-    response.finish
   end
 
 end 
-
-AIP2DB.run! if __FILE__ == $0
