@@ -215,6 +215,18 @@
               <linkingEventIdentifierType>d2</linkingEventIdentifierType>
               <linkingEventIdentifierValue>event-4</linkingEventIdentifierValue>
             </linkingEventIdentifier>
+			<relationship>
+				<relationshipType>derivation</relationshipType>
+				<relationshipSubType>has source</relationshipSubType>
+				<relatedObjectIdentification>
+					<relatedObjectIdentifierType>d2</relatedObjectIdentifierType>
+					<relatedObjectIdentifierValue>file-0</relatedObjectIdentifierValue>
+				</relatedObjectIdentification>
+				<relatedEventIdentification>
+					<relatedEventIdentifierType>DAITSS</relatedEventIdentifierType>
+					<relatedEventIdentifierValue>event-4</relatedEventIdentifierValue>
+				</relatedEventIdentification>
+			</relationship>
           </object>
         </xmlData>
       </mdWrap>

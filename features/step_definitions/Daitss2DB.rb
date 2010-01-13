@@ -15,6 +15,14 @@ Given /^an aip containing a wave file$/ do
   @file = "#{abs}/files/audio_wave.xml"
 end
 
+Given /^an aip with a normalized wave file$/ do
+   @file = "#{abs}/files/audio_wave.xml"
+end
+
+Given /^an aip containing a xml$/ do
+  @file = "#{abs}/files/pdf-monodescriptor.xml"
+end
+
 When /^populating the aip$/ do
   aip.process @file
 end
@@ -51,6 +59,28 @@ Then /^I should have many image bitstreams$/ do
   puts bitstreams
 end
 
-Then /^I should have an audio stream$/ do
-  pending # express the regexp above with the code you wish you had
+Then /^the datafile should be associated an audio stream$/ do
+  audio = Audio.first(:datafile_id => @dfid)
+  audio.should_not be_nil
+end
+
+Then /^the datafile should be associated a text stream$/ do
+  text = Text.first(:datafile_id => @dfid)
+  text.should_not be_nil
+end
+
+When /^the datafile should be associated with a normalization event$/ do
+  event = Event.first(:relatedObjectId => @dfid, :e_type =>:normalize)
+  event.should_not be_nil
+end
+
+When /^there should be a normalization relationship links to normalized file$/ do
+  relationship = Relationship.first(:object1 => @dfid, :type => :normalized_to)
+  relationship.should_not be_nil
+  @norm_fileid = relationship.object2
+end
+
+When /^the normalized file should be associated an audio stream$/ do
+  audio = Audio.first(:datafile_id => @norm_fileid)
+  audio.should_not be_nil
 end

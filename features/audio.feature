@@ -5,4 +5,4 @@ Scenario: an aip containing a wave file
 	Then I should see E00000000_000000 intentitiy record
 	And all E00000000_000000 representations should exist
 	And I should have a datafile named files/obj1.wav
-	And I should have an audio stream
+	And the datafile should be associated an audio stream

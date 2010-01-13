@@ -35,6 +35,12 @@ class AIP
       aip.processEvent obj
     end
     
+    # process derived relationships associated with the file
+    fileObjects = doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
+    fileObjects.each do |obj|
+      aip.processRelationship obj
+    end 
+    
     aip.toDB
   end
 

@@ -1,16 +1,22 @@
 Event_Types = { 
-  "Format Description" => :describe
-}
+  "Ingest" => :ingest,
+  "Submit" => :submit,
+  "Validate" => :validate,
+  "Dissemination" => :disseminate,
+  "Withdraw" => :withdraw,
+  "Fixity Check" => :fixitycheck,
+  "Format Description" => :describe,
+  "Normalization" => :normalize, 
+  "Migration" => :migrate }
 
 class Event
   include DataMapper::Resource
   property :id, String, :key => true, :length => 16
   property :idType, String # identifier type
-  property :type, Enum[:submit, :validate, :ingest, :disseminate, :withdraw, :fixitycheck, :describe, :migrate_from, :normalize_from, :deletion]
+  property :e_type, Enum[:submit, :validate, :ingest, :disseminate, :withdraw, :fixitycheck, :describe, :migrate, :normalize, :deletion]
   property :datetime, DateTime
-  property :details, String # additional detail information about the event
   property :outcome, String  # ex. sucess, failed.  TODO:change to Enum.
-  property :outcome_details, String  # additional information about the event outcome.
+  property :outcome_details, String, :length => 255  # additional information about the event outcome.
   # property :relatedObjectType, String # the type of the related object, ex. intentity
   property :relatedObjectId, String # the identifier of the related object.
   # if object A migrated to object B, the object B will be associated with a migrated_from event
@@ -27,11 +33,11 @@ class Event
     attribute_set(:id, premis.find_first("premis:eventIdentifier/premis:eventIdentifierValue", NAMESPACES).content)
     attribute_set(:idType, premis.find_first("premis:eventIdentifier/premis:eventIdentifierType", NAMESPACES).content)
     type = premis.find_first("premis:eventType", NAMESPACES).content
-    attribute_set(:type, Event_Types[type])
+    attribute_set(:e_type, Event_Types[type])
     attribute_set(:datetime, premis.find_first("premis:eventDateTime", NAMESPACES).content)
     attribute_set(:outcome, premis.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NAMESPACES).content)
     details = premis.find_first("premis:eventOutcomeInformation/premis:eventOutcomeDetail", NAMESPACES)
-    attribute_set(:outcome_details, details.content) unless details.nil?
+    attribute_set(:outcome_details, details.content.strip!) unless details.nil?
   end
 
 end

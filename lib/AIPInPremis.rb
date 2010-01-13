@@ -8,9 +8,10 @@ class AIPInPremis
     @representations = Array.new
     @datafiles = Hash.new
     @bitstreams = Array.new
-    @formats = Array.new
-    @events = Array.new
+    @formats = Hash.new
+    @events = Hash.new
     @agents = Hash.new
+    @relationships = Array.new
   end
 
   def processRepresentation premis
@@ -47,7 +48,7 @@ class AIPInPremis
       @obj.bitstream_id = :null
     end
     @datafiles[df.id] = df
-
+    
     # TODO need storage data model
     @mdtype = premis.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigestAlgorithm", NAMESPACES).content
     @mdvalue = premis.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigest", NAMESPACES).content
@@ -82,13 +83,19 @@ class AIPInPremis
     list = premis.find("premis:objectCharacteristics/premis:format", NAMESPACES)
     firstNode = true
     list.each do |node|
-      format = Format.new
-      format.fromPremis node
-      puts format.inspect
+      # create a temporary format record with the info. from the premis
+      newFormat = Format.new
+      newFormat.fromPremis node
+      puts newFormat.inspect
 
-      # determine if this format is already at our format table
-      record = Format.first(:format_name => format.format_name)
-      record = format if record.nil?      
+      # only create a new format record if the format has NOT been seen before, both 
+      # in format table and in the @formats hash
+      format = Format.first(:format_name => newFormat.format_name)
+      # if it's not already in the format table, check if it was processed earlier.
+      format = @formats[newFormat.format_name] if format.nil?
+     
+      # create a new format record since the format name has not been seen before. 
+      format = newFormat if format.nil?     
 
       objectformat = ObjectFormat.new
 
@@ -100,9 +107,9 @@ class AIPInPremis
         objectformat.datafile_id = :null
       end
 
-      puts record.inspect
-      record.object_format << objectformat
-      @formats << record
+      puts format.inspect
+      format.object_format << objectformat
+      @formats[format.format_name] = format
       # objectformat.format_id << record
 
       puts objectformat.inspect
@@ -143,7 +150,7 @@ class AIPInPremis
 
   def processEvent premis
     id = premis.find_first("premis:linkingObjectIdentifier/premis:linkingObjectIdentifierValue", NAMESPACES)
-    # check if this event related to a datafile
+    # make sure this event related to a datafile
     df = @datafiles[id.content] unless id.nil?
 
     agent_id = premis.find_first("premis:linkingAgentIdentifier/premis:linkingAgentIdentifierValue", NAMESPACES)
@@ -153,22 +160,51 @@ class AIPInPremis
       event = DatafileEvent.new
       event.fromPremis premis
       event.setRelatedObject id.content
+      #associate agent to the event
       agent.events << event unless agent.nil?
-      @events << event
+      @events[event.id] = event
     end  
+  end
+  
+  def processRelationship(premis)
+    # find the file id
+    dfid = premis.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
+    
+    # process derived relationship
+    relationship_element = premis.find_first("premis:relationship", NAMESPACES)
+
+    # check if there is a valid datafile and there is a relationship associated with it
+    unless (@datafiles[dfid].nil? || relationship_element.nil?)
+      type = relationship_element.find_first("premis:relationshipType", NAMESPACES).content
+      source = relationship_element.find_first("premis:relationshipSubType", NAMESPACES).content
+
+      # check if this relationship link to an event
+      event_id = relationship_element.find_first("premis:relatedEventIdentification/premis:relatedEventIdentifierValue", NAMESPACES)
+      # find the event that ties to this relationship
+      event = @events[event_id.content] unless event_id.nil?
+
+      # only create relationship record if there is a valid linking event and it is
+      # for derived relationships such as normalization and migration.
+      unless (event.nil? && type.eql?("derivation") && source.eql?("has source"))
+        relationship = Relationship.new      
+        relationship.fromPremis(dfid, event.e_type, relationship_element)
+        @relationships << relationship
+      end
+    end
   end
 
   def toDB
     Intentity.transaction do 
       # @int_entity.save
-      @formats.each { |fmt| raise 'error saving format records'  unless fmt.save }
+      @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
 
       # @representations.each {|rep| rep.save }
       # not necessary since representations will save datafiles through associations
       @datafiles.each {|dfid, df|  raise 'error saving datafile records' unless  df.save } 
       @bitstreams.each {|bs|  raise 'error saving bitstream records' unless bs.save }
       @agents.each {|id, ag|  raise 'error saving agent records' unless ag.save }
-      @events.each {|e|  raise 'error saving event records' unless e.save }
+      @events.each {|id, e|  raise 'error saving event records' unless e.save }
+      @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
     end
     
   end
