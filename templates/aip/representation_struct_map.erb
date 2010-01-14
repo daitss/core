@@ -1,0 +1,7 @@
+<structMap ID='<%= options[:id] %>'>
+  <div ADMID='<%= options[:admid] %>'>
+<% rep.each do |df| %>
+    <fptr FILEID='file-<%= df.id %>'/>
+<% end %>
+  </div>
+</structMap>

@@ -2,6 +2,18 @@ require 'wip'
 
 class Wip
 
+  def represented_partitions
+
+    o = original_rep
+    c = current_rep
+    n = normalized_rep
+
+    datafiles.partition do |df|
+      o.include?(df) or c.include?(df) or n.include?(df)
+    end
+
+  end
+
   def original_rep
     load_rep 'original-representation'
   end
@@ -29,7 +41,7 @@ class Wip
   private
 
   def load_rep key
-    metadata[key].split.map { |id| Datafile.new self, id }
+    (metadata[key] or '').split.map { |id| DataFile.new self, id }
   end
 
   def store_rep key, dfs 

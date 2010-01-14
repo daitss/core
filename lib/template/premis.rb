@@ -2,8 +2,8 @@ require 'template'
 require 'time'
 
 def event options={}
-  options[:related_objects] ||= []
-  options[:related_agents] ||= []
+  options[:linking_objects] ||= []
+  options[:linking_agents] ||= []
   template_by_name('premis/event').result binding
 end
 

@@ -9,18 +9,19 @@
     <eventOutcome><%= options[:outcome] %></eventOutcome>
   </eventOutcomeInformation>
 
-  <% options[:linking_objects].each do |uri| %>
-  <linkingObjectIdentifier>
-    <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-    <linkingObjectIdentifierValue><%= uri %></linkingObjectIdentifierValue>
-  </linkingObjectIdentifier>
-  <% end %>
 
   <% options[:linking_agents].each do |uri| %>
   <linkingAgentIdentifier>
     <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
     <linkingAgentIdentifierValue><%= uri %></linkingAgentIdentifierValue>
   </linkingAgentIdentifier>
+  <% end %>
+
+  <% options[:linking_objects].each do |uri| %>
+  <linkingObjectIdentifier>
+    <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+    <linkingObjectIdentifierValue><%= uri %></linkingObjectIdentifierValue>
+  </linkingObjectIdentifier>
   <% end %>
 
 </event>

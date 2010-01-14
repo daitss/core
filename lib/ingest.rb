@@ -1,39 +1,58 @@
 require 'aip'
 require 'wip'
+require 'representation'
 require 'service/validate'
 require 'service/describe'
+require 'descriptor'
+require 'template/premis'
 
-module Ingest
+class Wip
 
+  def step key
+
+    unless tags.has_key? key
+      yield
+      tags[key] = Time.now.xmlschema
+    end
+
+  end
 
   def ingest!
     
-    # TODO all milestones are "since last ingest" if a previous ingest exist
-    # TODO all incoming provenance is imported at the end
-    # TODO all obsolete files need their object to persist
-
     begin
-      validate! unless validated?
-      datafiles.each { |f| f.describe! unless f.described? }
+      #step('ingest') # mark the start of this ingest
+      step('validate') { validate! }
+      datafiles.each { |df| step("describe-#{df.id}") { df.describe! } }
 
       # determine existing original_rep and current_rep
-      (original_rep = datafiles if original_rep.empty?) unless original_rep_set?
-      (current_rep = original_rep if current_rep.empty?) unless current_rep_set?
+      step('set-original-representation') { self.original_rep = datafiles if original_rep.empty? }
+      step('set-current-representation') { self.current_rep = original_rep if current_rep.empty? }
 
       # new reps
-      new_current_rep = current_rep.map { |df| df.migrate || df } # unless we already migrated this file, cleanup entire new file for damage control
-      new_normalized_rep = original_rep.map { |df| df.normalize || df }
+      #new_current_rep = current_rep.map { |df| df.migrate || df } 
+      #new_normalized_rep = original_rep.map { |df| df.normalize || df }
     
       # persist the representations
-      (current_rep = new_current_rep unless new_current_rep.empty?) unless current_rep_updated?
-      (normalized_rep = new_normalized_rep unless new_normalized_rep.empty?) unless normalized_rep_updated?
+      #step('update-current-representation') { current_rep = new_current_rep unless new_current_rep.empty? }
+      #step('update-normalized-representation') { normalized_rep = new_normalized_rep unless new_normalized_rep.empty? }
 
-      # clean out
-      represented_files = (original_rep + current_rep + normalized_rep).uniq
-      unrepresented_files = datafiles - represented_files
-      unrepresented_files.each { |f| f.prove_obsolete! unless f.proven_obsolete? }
+      # clean out undescribed files
+      represented_files, unrepresented_files = represented_partitions
+      unrepresented_files.each { |df| step("obsolete-#{df.id}") { df.obsolete! } }
 
-      prove_ingest! unless ingest_proven?
+      # TODO write ingest event
+      # step('prove-ingest') { metadata[''] }
+      
+      # TODO import old package level provenance
+      # TODO make sure obsolete datafiles have premis objects
+      # TODO import old data file level provenance for each data file even obsolete ones
+
+      step('write-ingest-event') do
+        metadata['ingest-event'] = event(:id => URI.join(uri, 'event', 'ingest').to_s, 
+                                         :type => 'ingest', 
+                                         :outcome => 'success', 
+                                         :linking_objects => [ uri ])
+      end
 
       make_aip! represented_files
     rescue Reject => e
@@ -41,7 +60,7 @@ module Ingest
     rescue => e
       tags['SNAFU'] = ( [e.message] + e.backtrace ).join "\n"
     end
-    
+
   end
 
   private
@@ -49,8 +68,10 @@ module Ingest
   def make_aip! files
 
     aip = Aip.new
-    aip.id = uri
-    aip.xml = describe!
+    aip.id = id
+    aip.uri = uri
+    aip.xml = descriptor.to_s
+    puts aip.xml
     aip.needs_work = true
     aip.url = "#{CONFIG['storage-url']}/#{id}"
 

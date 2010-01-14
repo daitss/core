@@ -1,14 +1,15 @@
 <object xsi:type='representation' xmlns='info:lc/xmlns/premis-v2'>
   <objectIdentifier>
     <objectIdentifierType>URI</objectIdentifierType>
-    <objectIdentifierValue><%= representation.uri %></objectIdentifierValue>
+    <objectIdentifierValue><%= 'rep.uri'  %></objectIdentifierValue>
   </objectIdentifier>
-<% representation.files.each do |f| %>
+<% rep.each do |df| %>
   <relationship>
-    <relationshipType>includes</relationshipType>
+    <relationshipType>structural</relationshipType>
+    <relationshipSubType>includes</relationshipSubType>
     <relatedObjectIdentification>
-      <relatedObjectIdentificationType>URI</relatedObjectIdentificationType>
-      <relatedObjectIdentificationValue><%= f.uri %></relatedObjectIdentificationValue>
+      <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+      <relatedObjectIdentifierValue><%= df.uri %></relatedObjectIdentifierValue>
     </relatedObjectIdentification>
   </relationship>
 <% end %>
