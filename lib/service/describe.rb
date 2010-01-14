@@ -35,7 +35,7 @@ class DataFile
     if n
       d = XML::Document.new
       d.root = d.import n
-      d.to_s
+      d.root.to_s
     end
 
   end

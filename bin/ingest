@@ -28,12 +28,11 @@ wip = begin
         # load the wip
         Wip.new wip_path
       rescue => e
-        puts "cannot process #{wip_name}: #{e.message}"
+        puts "cannot process #{wip_id}: #{e.message}"
         puts e.backtrace
         exit 1
       end
 
-wip.extend Ingest
 wip.ingest!
 
 if wip.tags['REJECT']

@@ -1,6 +1,6 @@
 require 'cgi'
 require 'libxml'
-require 'namespace'
+require 'xmlns'
 require 'net/http'
 
 include LibXML

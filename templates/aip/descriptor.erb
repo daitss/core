@@ -5,20 +5,21 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd
                           info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd">
-
-  <%= md_section metadata['dmd'], :type => 'dmdSection', :id => 'intellectual-entity-dmd' %>
+<% if metadata.has_key? 'dmd' %>
+  <%= md_section metadata['dmd'], :type => 'dmdSec', :id => 'intellectual-entity-dmd' %>
+<% end %>
 
   <amdSec>
 
   <!-- ieid tech -->
   <%= md_section intellectual_entity_object, :type => 'techMD', :id => 'intellectual-entity-techmd' %>
-  <%= md_section representation_object(original_representation), :type => 'techMD', :id => 'representation-original-techmd' %>
-  <%= md_section representation_object(current_representation), :type => 'techMD', :id => 'representation-current-techmd' %>
-  <%= md_section representation_object(normalized_representation), :type => 'techMD', :id => 'representation-normalized-techmd' %>
+  <%= md_section representation_object(original_rep), :type => 'techMD', :id => 'representation-original-techmd' %>
+  <%= md_section representation_object(current_rep), :type => 'techMD', :id => 'representation-current-techmd' %>
+  <%= md_section representation_object(normalized_rep), :type => 'techMD', :id => 'representation-normalized-techmd' %>
 
   <!-- file tech -->
-  <% files.each_with_index do |f, i| %>
-    <%= md_section f.metadata['describe-object'], :type => 'techMD', :id => "file-#{i}-description-techmd" %>
+  <% datafiles.each do |df| %>
+    <%= md_section df.metadata['describe-file-object'], :type => 'techMD', :id => "file-#{df.id}-description-techmd" %>
   <% end %>
 
   <!-- ieid digiprov (events) -->
@@ -35,41 +36,32 @@
   <%#TODO the optional package level digiprov%>
 
   <!-- file digiprov (events) -->
-  <% files.each_with_index do |f, i| %>
-    <%= md_section f.metadata['describe-event'], :type => 'digiprovMD', :id => "file-#{i}-describe-event-digiprov" %>
-    <%= md_section f.metadata['migrate-event'], :type => 'digiprovMD', :id => "file-#{i}-migrate-event-digiprov" if f.metadata['migrate-event] %>
-    <%= md_section f.metadata['normalize-event'], :type => 'digiprovMD', :id => "file-#{i}-normalize-event-digiprov" if f.metadata['normalize-event'] %>
+  <% datafiles.each do |df| %>
+    <%= md_section df.metadata['describe-event'], :type => 'digiprovMD', :id => "file-#{df.id}-describe-event-digiprov" %>
+    <%= md_section df.metadata['migrate-event'], :type => 'digiprovMD', :id => "file-#{df.id}-migrate-event-digiprov" if df.metadata['migrate-event'] %>
+    <%= md_section df.metadata['normalize-event'], :type => 'digiprovMD', :id => "file-#{df.id}-normalize-event-digiprov" if df.metadata['normalize-event'] %>
   <% end %>
 
   <!-- ieid digiprov (agents) -->
   <% # TODO make the agents for the package %>
 
   <!-- file digiprov (agents) -->
-  <% files.each do |f| %>
-    <%= md_section f.metadata['describe-agent'], :type=> 'digiprovMD', :id => "file-#{i}-describe-agent-digiprov" %>
-    <%= md_section f.metadata['migrate-agent'], :type=> 'digiprovMD', :id => "file-#{i}-migrate-agent-digiprov" if f.metadata['migrate-agent'] %>
-    <%= md_section f.metadata['normalize-agent'], :type=> 'digiprovMD', :id => "file-#{i}-normalize-agent-digiprov" if f.metadata['normalize-agent'] %>
+  <% datafiles.each do |df| %>
+    <%= md_section df.metadata['describe-agent'], :type=> 'digiprovMD', :id => "file-#{df.id}-describe-agent-digiprov" %>
+    <%= md_section df.metadata['migrate-agent'], :type=> 'digiprovMD', :id => "file-#{df.id}-migrate-agent-digiprov" if df.metadata['migrate-agent'] %>
+    <%= md_section df.metadata['normalize-agent'], :type=> 'digiprovMD', :id => "file-#{df.id}-normalize-agent-digiprov" if df.metadata['normalize-agent'] %>
   <% end %>
   </amdSec>
 	
   <fileSec>
     <fileGrp>
-    <% files.each_with_index do |f, i| 
-      <%= file_element f, :id => "file-#{i}"  %>
+    <% datafiles.each do |df| %>
+      <%= file_element df %>
     <% end %>
     </fileGrp>
   </fileSec>
 
-  <structMap ID="representation-original" ADMID="representation-original-techmd">
-    <%= representation_div original_representation %>
-  </structMap>
-
-  <structMap ID="representation-current" ADMID="representation-current-techmd">
-    <%= representation_div current_representation %>
-  </structMap>
-
-  <structMap ID="representation-normalized" ADMID="representation-normalized-techmd">
-    <%= representation_div normalized_representation %>
-  </structMap>
-
+  <%= representation_struct_map original_rep, :id => 'representation-original', :admid => 'representation-original-techmd' %>
+  <%= representation_struct_map current_rep, :id => 'representation-current', :admid => 'representation-current-techmd' %>
+  <%= representation_struct_map normalized_rep, :id => 'representation-normalized', :admid => 'representation-normalized-techmd' %>
 </mets>
