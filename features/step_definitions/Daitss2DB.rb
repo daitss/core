@@ -19,6 +19,14 @@ Given /^an aip with a normalized wave file$/ do
    @file = "#{abs}/files/audio_wave.xml"
 end
 
+Given /^an aip containing a jpeg file$/ do
+  @file = "#{abs}/files/jpeg.xml"
+end
+
+Given /^an aip containing a jp2 file$/ do
+  @file = "#{abs}/files/jp2.xml"
+end
+
 Given /^an aip containing a xml$/ do
   @file = "#{abs}/files/pdf-monodescriptor.xml"
 end
@@ -62,6 +70,18 @@ end
 Then /^the datafile should be associated an audio stream$/ do
   audio = Audio.first(:datafile_id => @dfid)
   audio.should_not be_nil
+end
+
+
+Then /^the datafile should be associated an image stream$/ do
+  image = Image.first(:datafile_id => @dfid)
+  image.should_not be_nil
+end
+
+Then /^there should be an image for bitstream in the datafile$/ do
+  bitstream = Bitstream.first(:datafile_id => @dfid)
+  image = Image.first(:bitstream_id => bitstream.id)
+  image.should_not be_nil
 end
 
 Then /^the datafile should be associated a text stream$/ do

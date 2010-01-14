@@ -18,7 +18,7 @@ class Document
   has 0..n, :fonts # A document can contain 0-n fonts
   belongs_to :datafile, :index => true
     # Document may be associated with a Datafile, null if the document is associated with a bitstream
- belongs_to :bitstream, :index => true
+  belongs_to :bitstream, :index => true
     # Document may be associated with a bitstream, null if the document is associated with a datafile
     # TODO: need to make sure either dfid or bsid is not null.
   

@@ -24,7 +24,12 @@ class AIP
     repObjects.each do |obj|
       aip.processRepresentation obj    
     end
-         
+    
+    bitObjects = doc.find("//premis:object[@xsi:type='bitstream']", NAMESPACES)
+    bitObjects.each do |obj|
+      aip.processBitstream obj    
+    end
+          
     agentObjects = doc.find("//premis:agent", NAMESPACES)
     agentObjects.each do |obj|
       aip.processAgent obj

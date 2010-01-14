@@ -7,7 +7,7 @@ class AIPInPremis
     @int_entity.fromPremis
     @representations = Array.new
     @datafiles = Hash.new
-    @bitstreams = Array.new
+    @bitstreams = Hash.new
     @formats = Hash.new
     @events = Hash.new
     @agents = Hash.new
@@ -22,9 +22,7 @@ class AIPInPremis
     files.each do |f|
       dfid = f.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
       df = @datafiles[dfid]
-      puts df.inspect
       unless df.nil?
-        # rep.datafiles << df
         df.representations << rep
       end
     end
@@ -139,7 +137,7 @@ class AIPInPremis
       @obj.datafile_id = :null
       puts @obj.inspect
     end
-    @bitstreams << bs
+    @bitstreams[bs.id] = bs
   end
 
   def processAgent premis
@@ -169,39 +167,47 @@ class AIPInPremis
   def processRelationship(premis)
     # find the file id
     dfid = premis.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
-    
-    # process derived relationship
     relationship_element = premis.find_first("premis:relationship", NAMESPACES)
 
+    puts relationship_element
     # check if there is a valid datafile and there is a relationship associated with it
     unless (@datafiles[dfid].nil? || relationship_element.nil?)
       type = relationship_element.find_first("premis:relationshipType", NAMESPACES).content
-      source = relationship_element.find_first("premis:relationshipSubType", NAMESPACES).content
+      subtype = relationship_element.find_first("premis:relationshipSubType", NAMESPACES).content
 
       # check if this relationship link to an event
       event_id = relationship_element.find_first("premis:relatedEventIdentification/premis:relatedEventIdentifierValue", NAMESPACES)
+
       # find the event that ties to this relationship
       event = @events[event_id.content] unless event_id.nil?
-
       # only create relationship record if there is a valid linking event and it is
       # for derived relationships such as normalization and migration.
-      unless (event.nil? && type.eql?("derivation") && source.eql?("has source"))
-        relationship = Relationship.new      
-        relationship.fromPremis(dfid, event.e_type, relationship_element)
-        @relationships << relationship
+      if (type.eql?("derivation") && subtype.eql?("has source"))
+        unless (event.nil?)
+          relationship = Relationship.new      
+          relationship.fromPremis(dfid, event.e_type, relationship_element)
+          @relationships << relationship
+        end
+        # process whole-part relationship among datafile and bitstreams
+       elsif (type.eql?("structural") && subtype.eql?("includes"))
+        bsid = relationship_element.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
+        puts bsid
+        puts @datafiles[dfid].inspect
+        puts @bitstreams[bsid].inspect
+        @datafiles[dfid].bitstream << @bitstreams[bsid]
+        puts @bitstreams[bsid].inspect
       end
     end
   end
 
   def toDB
     Intentity.transaction do 
-      # @int_entity.save
+      
+      #TODO: @int_entity.save  
       @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
-
-      # @representations.each {|rep| rep.save }
-      # not necessary since representations will save datafiles through associations
+      # not necessary to explicitely save representations since representations will be saved through datafiles associations
       @datafiles.each {|dfid, df|  raise 'error saving datafile records' unless  df.save } 
-      @bitstreams.each {|bs|  raise 'error saving bitstream records' unless bs.save }
+      @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
       @agents.each {|id, ag|  raise 'error saving agent records' unless ag.save }
       @events.each {|id, e|  raise 'error saving event records' unless e.save }
       @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
