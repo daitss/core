@@ -7,7 +7,7 @@ Scenario: an aip containing a jpeg file
 	And I should have a datafile named DSC04975_small.jpg
 	And the datafile should be associated an image stream
 	
-Scenario: an aip containing a jpeg file
+Scenario: an aip containing a jp2 file
 	Given an aip containing a jp2 file
 	When populating the aip
 	Then I should see E00000000_000000 intentitiy record
