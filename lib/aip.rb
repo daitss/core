@@ -10,7 +10,8 @@ include LibXML
 class Aip
 
   include DataMapper::Resource
-  property :name, String, :key => true
+  property :id, String, :key => true
+  property :uri, String, :unique => true, :nullable => false
   property :xml, Text, :nullable => false
   property :url, String, :nullable => false
   property :sha1, String, :length => 40, :format => %r([a-f0-9]{40}), :nullable => false

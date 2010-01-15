@@ -16,7 +16,7 @@ class DataFile
   def initialize wip, id
     @id = id
     @wip = wip
-    @uri = URI.join(@wip.uri, @id).to_s
+    @uri = @wip.uri + '/file/' + @id
     @dir = File.join @wip.path, Wip::FILES_DIR, @id
     @metadata = FsHash.new File.join(@dir, METADATA_DIR)
     @datapath = File.join @dir, DATA_FILE
@@ -36,6 +36,8 @@ class DataFile
   end
 
   def == other
+    #puts "#{id} #{other.id} => #{id == other.id}"
+    #puts "#{wip} #{other.wip} => #{wip == other.wip}"
     id == other.id and wip == other.wip
   end
   alias_method :eql?, :==
