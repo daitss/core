@@ -35,7 +35,7 @@ end
 
 def submit_sip name
   sip = Sip.new File.join(TEST_SIPS_DIR, name)
-  uuid = name # UUID.new.generate
+  uuid = UUID.new.generate
   path = File.join $sandbox, uuid
   uri = URI.join(URI_PREFIX, uuid).to_s
   Wip.make_from_sip path, uri, sip
