@@ -5,17 +5,9 @@ require 'service/validate'
 require 'service/describe'
 require 'descriptor'
 require 'template/premis'
+require 'tar'
 
 class Wip
-
-  def step key
-
-    unless tags.has_key? key
-      yield
-      tags[key] = Time.now.xmlschema
-    end
-
-  end
 
   def ingest!
     
@@ -40,13 +32,11 @@ class Wip
       represented_files, unrepresented_files = represented_partitions
       unrepresented_files.each { |df| step("obsolete-#{df.id}") { df.obsolete! } }
 
-      # TODO write ingest event
-      # step('prove-ingest') { metadata[''] }
-      
       # TODO import old package level provenance
       # TODO make sure obsolete datafiles have premis objects
       # TODO import old data file level provenance for each data file even obsolete ones
 
+      # write the ingest event
       step('write-ingest-event') do
         metadata['ingest-event'] = event(:id => URI.join(uri, 'event', 'ingest').to_s, 
                                          :type => 'ingest', 
@@ -65,13 +55,21 @@ class Wip
 
   private
 
+  def step key
+
+    unless tags.has_key? key
+      yield
+      tags[key] = Time.now.xmlschema
+    end
+
+  end
+
   def make_aip! files
 
     aip = Aip.new
     aip.id = id
     aip.uri = uri
     aip.xml = descriptor.to_s
-    puts aip.xml
     aip.needs_work = true
     aip.url = "#{CONFIG['storage-url']}/#{id}"
 
