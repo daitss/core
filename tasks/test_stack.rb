@@ -105,11 +105,11 @@ namespace :ts do
     FileUtils::mkdir_p TS_DIR
 
     vc_urls = {
-      'description' => "git://github.com/cchou/describe.git",
-      'simplestorage' => "ssh://retsina.fcla.edu/var/git/simplestorage.git",
-      'actionplan' => "ssh://retsina.fcla.edu/var/git/actionplan.git",
-      'validation' => "svn://tupelo.fcla.edu/shades/validate-service",
-      'transformation' => "svn://tupelo.fcla.edu/daitss2/transform/trunk"
+      'describe' => 'git://github.com/daitss/describe.git',
+      'storage' => 'git://github.com/daitss/storage.git',
+      'actionplan' => 'git://github.com/daitss/actionplan.git',
+      'validate' => 'git://github.com/daitss/validate.git',
+      'transform' => 'git://github.com/daitss/transform.git'
     }
 
     Dir.chdir TS_DIR do
@@ -118,24 +118,12 @@ namespace :ts do
         
         if File.exist? name
           puts "updating:\t#{name}"
-          
-          if url =~ %r{^svn://}
-            Dir.chdir(name) { `svn up` }
-          else
-            Dir.chdir(name) { `git pull` }
-          end
-          
+          Dir.chdir(name) { `git pull` }
           raise "error updating #{name}" unless $? == 0
         else
-          puts "fetch:\t#{name}"
-          
-          if url =~ %r{^svn://}
-            `svn co #{url} #{name}`  
-          else
-            `git clone #{url} #{name}`
-          end
-
-          raise "error retrieving #{name}" unless $? == 0
+          puts "fetching:\t#{name}"
+          `git clone #{url} #{name}`
+          raise "error fetching #{name}" unless $? == 0
         end
         
       end
