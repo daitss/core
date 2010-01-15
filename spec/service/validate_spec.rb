@@ -5,15 +5,6 @@ describe 'validating a wip' do
 
   subject { submit_sip 'haskell-nums-pdf' }
 
-  it "should know if something is validated" do
-    subject.should_not be_validated
-    subject.validate!
-    subject.should be_validated
-
-    subject.tags.delete 'validate'
-    subject.should_not be_validated
-  end
-
   it "should have a validation event" do
     subject.validate!
     subject.should have_key('validate-event')
