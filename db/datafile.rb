@@ -9,7 +9,7 @@ class Datafile
   property :creator_prog, String, :length => (0..255)
 
   has 1..n, :representations, :through => Resource
-  has 0..n, :bitstream # a datafile may contain 0-n bitstream(s)
+  has 0..n, :bitstreams # a datafile may contain 0-n bitstream(s)
   has 0..n, :severe_element # a datafile may contain 0-n severe_elements
   has 0..n, :object_format # a datafile may have 0-n file_formats
   has 0..n, :documents

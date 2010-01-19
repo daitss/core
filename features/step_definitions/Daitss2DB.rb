@@ -1,5 +1,6 @@
 require 'xml'
 require 'aip'
+
 abs = FileUtils.pwd
 aip = AIP.new
 
@@ -62,9 +63,9 @@ Then /^I should have a document with embedded fonts$/ do
   fonts.each {|font| font.embedded.should == true}
 end
 
-Then /^I should have many image bitstreams$/ do
-  bitstreams = Bitstream.count(:datafile_id => @dfid)
-  puts bitstreams
+Then /^I should have (.+) image bitstreams$/ do |numOfBitstreams|
+  count = Bitstream.count(:datafile_id => @dfid)
+  count.should == numOfBitstreams.to_i
 end
 
 Then /^the datafile should be associated an audio stream$/ do

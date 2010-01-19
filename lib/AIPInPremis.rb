@@ -84,7 +84,7 @@ class AIPInPremis
       # create a temporary format record with the info. from the premis
       newFormat = Format.new
       newFormat.fromPremis node
-      puts newFormat.inspect
+      # newFormat.inspect
 
       # only create a new format record if the format has NOT been seen before, both 
       # in format table and in the @formats hash
@@ -105,12 +105,11 @@ class AIPInPremis
         objectformat.datafile_id = :null
       end
 
-      puts format.inspect
       format.object_format << objectformat
       @formats[format.format_name] = format
       # objectformat.format_id << record
 
-      puts objectformat.inspect
+      # objectformat.inspect
       p.object_format << objectformat
 
       # first format element is designated for the primary object (file/bitstream) format.  
@@ -121,7 +120,7 @@ class AIPInPremis
       else
         objectformat.setSecondary
       end
-      puts objectformat.inspect
+      # objectformat.inspect
     end
   end
 
@@ -135,7 +134,7 @@ class AIPInPremis
     if (node)
       @obj = processObjectCharacteristicExtension(bs, node)
       @obj.datafile_id = :null
-      puts @obj.inspect
+      # @obj.inspect
     end
     @bitstreams[bs.id] = bs
   end
@@ -164,12 +163,7 @@ class AIPInPremis
     end  
   end
   
-  def processRelationship(premis)
-    # find the file id
-    dfid = premis.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
-    relationship_element = premis.find_first("premis:relationship", NAMESPACES)
-
-    puts relationship_element
+  def processRelationship(dfid, relationship_element)
     # check if there is a valid datafile and there is a relationship associated with it
     unless (@datafiles[dfid].nil? || relationship_element.nil?)
       type = relationship_element.find_first("premis:relationshipType", NAMESPACES).content
@@ -191,11 +185,8 @@ class AIPInPremis
         # process whole-part relationship among datafile and bitstreams
        elsif (type.eql?("structural") && subtype.eql?("includes"))
         bsid = relationship_element.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
-        puts bsid
-        puts @datafiles[dfid].inspect
-        puts @bitstreams[bsid].inspect
-        @datafiles[dfid].bitstream << @bitstreams[bsid]
-        puts @bitstreams[bsid].inspect
+        # bsid
+        @datafiles[dfid].bitstreams << @bitstreams[bsid]
       end
     end
   end

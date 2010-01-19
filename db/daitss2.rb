@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'dm-core'
 require 'dm-types'
+require 'dm-aggregates'
 
 # require all database classes.
 pattern = File.expand_path File.join(File.dirname(__FILE__), '*.rb')

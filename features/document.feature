@@ -11,5 +11,5 @@ Scenario: an aip containing a pdf with embedded fonts
 Scenario: an aip containing a pdf with many images
   Given an aip containing a pdf with many bitstream
   When populating the aip
-  Then I should have a datafile named 00001.pdf
-  And I should have many image bitstreams
+  Then I should have a datafile named etd.pdf
+  And I should have 19 image bitstreams

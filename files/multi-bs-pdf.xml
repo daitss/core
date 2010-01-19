@@ -63,7 +63,7 @@
 					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
 						<objectIdentifier>
 							<objectIdentifierType>URI</objectIdentifierType>
-							<objectIdentifierValue>f/1</objectIdentifierValue>
+							<objectIdentifierValue>file-1</objectIdentifierValue>
 						</objectIdentifier>
 						<objectCharacteristics>
 							<compositionLevel>0</compositionLevel>
@@ -110,13 +110,13 @@
 								</doc>
 							</objectCharacteristicsExtension>
 						</objectCharacteristics>
-						<originalName>/Users/Carol/work/testdata/pdf/etd.pdf</originalName>
+						<originalName>etd.pdf</originalName>
 						<relationship>
 							<relationshipType>structural</relationshipType>
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/1</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/1</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -124,7 +124,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/2</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/2</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -132,7 +132,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/3</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/3</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -140,7 +140,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/4</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/4</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -148,7 +148,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/5</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/5</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -156,7 +156,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/6</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/6</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -164,7 +164,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/7</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/7</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -172,7 +172,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/8</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/8</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -180,7 +180,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/9</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/9</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -188,7 +188,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/10</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/10</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -196,7 +196,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/11</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/11</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -204,7 +204,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/12</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/12</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -212,7 +212,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/13</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/13</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -220,7 +220,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/14</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/14</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -228,7 +228,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/15</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/15</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -236,7 +236,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/16</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/16</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -244,7 +244,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/17</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/17</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -252,7 +252,7 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/18</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/18</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<relationship>
@@ -260,12 +260,12 @@
 							<relationshipSubType>includes</relationshipSubType>
 							<relatedObjectIdentification>
 								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>f/1/19</relatedObjectIdentifierValue>
+								<relatedObjectIdentifierValue>file-1/19</relatedObjectIdentifierValue>
 							</relatedObjectIdentification>
 						</relationship>
 						<linkingEventIdentifier>
 							<linkingEventIdentifierType>URI</linkingEventIdentifierType>
-							<linkingEventIdentifierValue>1</linkingEventIdentifierValue>
+							<linkingEventIdentifierValue>event-4</linkingEventIdentifierValue>
 						</linkingEventIdentifier>
 					</object>
 				</xmlData>
@@ -322,192 +322,1118 @@
 				</xmlData>
 			</mdWrap>
 		</techMD>
-		<digiprovMD ID="digiprov-1">
+		<techMD ID="tech-5">
 			<mdWrap MDTYPE="PREMIS">
 				<xmlData>
-					<agent xmlns="info:lc/xmlns/premis-v2">
-						<agentIdentifier>
-							<agentIdentifierType>URI</agentIdentifierType>
-							<agentIdentifierValue>http://daitss/validation</agentIdentifierValue>
-						</agentIdentifier>
-						<agentName>Validation Service</agentName>
-						<agentType>Web Service</agentType>
-					</agent>
-				</xmlData>
-			</mdWrap>
-		</digiprovMD>
-		<digiprovMD ID="digiprov-2">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<event xmlns="info:lc/xmlns/premis-v2">
-						<eventIdentifier>
-							<eventIdentifierType>d2</eventIdentifierType>
-							<eventIdentifierValue>event-0</eventIdentifierValue>
-						</eventIdentifier>
-						<eventType>SIP passed all validation checks</eventType>
-						<eventDateTime>2009-11-18T14:39:11-05:00</eventDateTime>
-						<eventOutcomeInformation>
-							<eventOutcome>
-        success  
-      </eventOutcome>
-						</eventOutcomeInformation>
-						<linkingAgentIdentifier>
-							<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-							<linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
-						</linkingAgentIdentifier>
-						<linkingObjectIdentifier>
-							<linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-							<linkingObjectIdentifierValue>
-        file:///tmp/d2.ws/aip-0
-      </linkingObjectIdentifierValue>
-						</linkingObjectIdentifier>
-					</event>
-				</xmlData>
-			</mdWrap>
-		</digiprovMD>
-		<digiprovMD ID="digiprov-3">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<event xmlns="info:lc/xmlns/premis-v2">
-						<eventIdentifier>
-							<eventIdentifierType>d2</eventIdentifierType>
-							<eventIdentifierValue>event-2</eventIdentifierValue>
-						</eventIdentifier>
-						<eventType>Format Description</eventType>
-						<eventDateTime>2009-11-18T14:39:15-05:00</eventDateTime>
-						<eventOutcomeInformation>
-							<eventOutcome>Well-Formed and valid</eventOutcome>
-						</eventOutcomeInformation>
-						<linkingAgentIdentifier>
-							<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-							<linkingAgentIdentifierValue>http://localhost:7000/describe</linkingAgentIdentifierValue>
-						</linkingAgentIdentifier>
-						<linkingObjectIdentifier>
-							<linkingObjectIdentifierType>d2</linkingObjectIdentifierType>
-							<linkingObjectIdentifierValue>file-0</linkingObjectIdentifierValue>
-						</linkingObjectIdentifier>
-					</event>
-				</xmlData>
-			</mdWrap>
-		</digiprovMD>
-		<digiprovMD ID="digiprov-4">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<agent xmlns="info:lc/xmlns/premis-v2">
-						<agentIdentifier>
-							<agentIdentifierType>URI</agentIdentifierType>
-							<agentIdentifierValue>http://localhost:7000/describe</agentIdentifierValue>
-						</agentIdentifier>
-						<agentName>Format Description Service</agentName>
-						<agentType>Web Service</agentType>
-					</agent>
-				</xmlData>
-			</mdWrap>
-		</digiprovMD>
-		<digiprovMD ID="digiprov-5">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<event xmlns="info:lc/xmlns/premis-v2">
-						<eventIdentifier>
-							<eventIdentifierType>d2</eventIdentifierType>
-							<eventIdentifierValue>event-4</eventIdentifierValue>
-						</eventIdentifier>
-						<eventType>Format Description</eventType>
-						<eventDateTime>2009-11-18T14:39:15-05:00</eventDateTime>
-						<eventOutcomeInformation>
-							<eventOutcome>Well-Formed and valid</eventOutcome>
-						</eventOutcomeInformation>
-						<linkingAgentIdentifier>
-							<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-							<linkingAgentIdentifierValue>http://localhost:7000/describe</linkingAgentIdentifierValue>
-						</linkingAgentIdentifier>
-						<linkingObjectIdentifier>
-							<linkingObjectIdentifierType>d2</linkingObjectIdentifierType>
-							<linkingObjectIdentifierValue>file-1</linkingObjectIdentifierValue>
-						</linkingObjectIdentifier>
-					</event>
-				</xmlData>
-			</mdWrap>
-		</digiprovMD>
-		<digiprovMD ID="digiprov-6">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<agent xmlns="info:lc/xmlns/premis-v2">
-						<agentIdentifier>
-							<agentIdentifierType>URI</agentIdentifierType>
-							<agentIdentifierValue>http://localhost:7000/describe</agentIdentifierValue>
-						</agentIdentifier>
-						<agentName>Format Description Service</agentName>
-						<agentType>Web Service</agentType>
-					</agent>
-				</xmlData>
-			</mdWrap>
-		</digiprovMD>
-		<digiprovMD ID="digiprov-7">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<event xmlns="info:lc/xmlns/premis-v2">
-						<eventIdentifier>
-							<eventIdentifierType>Temporary Local</eventIdentifierType>
-							<eventIdentifierValue>1</eventIdentifierValue>
-						</eventIdentifier>
-						<eventType>File Procedure Failure</eventType>
-						<eventDateTime>2009-11-18T14:39:15-05:00</eventDateTime>
-						<eventOutcomeInformation>
-							<eventOutcome>failure</eventOutcome>
-							<eventOutcomeDetail>
-								<eventOutcomeDetailNote>
-          cannot perform transformation: 404 Not Found: &lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-  &lt;style type="text/css"&gt;
-  body { text-align:center;font-family:helvetica,arial;font-size:22px;
-    color:#888;margin:20px}
-  #c {margin:0 auto;width:500px;text-align:left}
-  &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;h2&gt;Sinatra doesn't know this ditty.&lt;/h2&gt;
-  &lt;img src='/__sinatra__/404.png'&gt;
-  &lt;div id="c"&gt;
-    Try this:
-    &lt;pre&gt;get '/pdf_norm' do
-  "Hello World"
-end&lt;/pre&gt;
-  &lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;
+					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+						<objectIdentifier>
+							<objectIdentifierType>URI</objectIdentifierType>
+							<objectIdentifierValue>file-1/1</objectIdentifierValue>
+						</objectIdentifier>
+						<objectCharacteristics>
+							<compositionLevel>0</compositionLevel>
+							<format>
 
-          ./bin/../lib/service/transform.rb:26:in `perform!'
-./bin/../lib/fileprocess.rb:12:in `process!'
-./bin/../lib/fileprocess.rb:11:in `each'
-./bin/../lib/fileprocess.rb:11:in `process!'
-./bin/../lib/ingest.rb:14:in `ingest!'
-./bin/../lib/ingest.rb:14:in `each'
-./bin/../lib/ingest.rb:14:in `ingest!'
-bin/ingest:39
-				</eventOutcomeDetailNote>
-							</eventOutcomeDetail>
-						</eventOutcomeInformation>
-					</event>
+								<formatDesignation>
+									<formatName>JPEG</formatName>
+								</formatDesignation>
+
+							</format>
+							<objectCharacteristicsExtension>
+								<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+									<mix:BasicDigitalObjectInformation>
+										<mix:ObjectIdentifier>
+											<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+										</mix:ObjectIdentifier>
+										<mix:Compression>
+											<mix:compressionScheme>JPEG</mix:compressionScheme>
+										</mix:Compression>
+									</mix:BasicDigitalObjectInformation>
+									<mix:BasicImageInformation>
+										<mix:BasicImageCharacteristics>
+											<mix:imageWidth>228</mix:imageWidth>
+											<mix:imageHeight>412</mix:imageHeight>
+											<mix:PhotometricInterpretation>
+												<mix:colorSpace>RGB</mix:colorSpace>
+											</mix:PhotometricInterpretation>
+										</mix:BasicImageCharacteristics>
+									</mix:BasicImageInformation>
+									<mix:ImageAssessmentMetadata>
+										<mix:ImageColorEncoding>
+											<mix:BitsPerSample>
+												<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+											</mix:BitsPerSample>
+										</mix:ImageColorEncoding>
+									</mix:ImageAssessmentMetadata>
+								</mix:mix>
+							</objectCharacteristicsExtension>
+						</objectCharacteristics>
+					</object>
 				</xmlData>
 			</mdWrap>
-		</digiprovMD>
-	</amdSec>
-	<fileSec>
-		<fileGrp>
-			<file ID="file-0" ADMID="tech-4 digiprov-3 digiprov-4 ">
-				<FLocat LOCTYPE="URL" xlink:href="files/haskell-nums-pdf.xml"/>
-			</file>
-			<file ID="file-1" OWNERID="FILE-0" ADMID="tech-3 digiprov-5 digiprov-6 ">
-				<FLocat LOCTYPE="URL" xlink:href="files/Haskell98numbers.pdf"/>
-			</file>
-		</fileGrp>
-	</fileSec>
-	<structMap>
-		<div ADMID="digiprov-1 digiprov-2  tech-2 tech-1">
-			<fptr FILEID="file-0"/>
-			<fptr FILEID="file-1"/>
-		</div>
-	</structMap>
-</mets>
+		</techMD>
+		<techMD ID="tech-6">
+			<mdWrap MDTYPE="PREMIS">
+				<xmlData>
+					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+						<objectIdentifier>
+							<objectIdentifierType>URI</objectIdentifierType>
+							<objectIdentifierValue>file-1/2</objectIdentifierValue>
+						</objectIdentifier>
+						<objectCharacteristics>
+							<compositionLevel>0</compositionLevel>
+							<format>
+
+								<formatDesignation>
+									<formatName>JPEG</formatName>
+								</formatDesignation>
+
+							</format>
+							<objectCharacteristicsExtension>
+								<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+									<mix:BasicDigitalObjectInformation>
+										<mix:ObjectIdentifier>
+											<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+										</mix:ObjectIdentifier>
+										<mix:Compression>
+											<mix:compressionScheme>JPEG</mix:compressionScheme>
+										</mix:Compression>
+									</mix:BasicDigitalObjectInformation>
+									<mix:BasicImageInformation>
+										<mix:BasicImageCharacteristics>
+											<mix:imageWidth>245</mix:imageWidth>
+											<mix:imageHeight>412</mix:imageHeight>
+											<mix:PhotometricInterpretation>
+												<mix:colorSpace>RGB</mix:colorSpace>
+											</mix:PhotometricInterpretation>
+										</mix:BasicImageCharacteristics>
+									</mix:BasicImageInformation>
+									<mix:ImageAssessmentMetadata>
+										<mix:ImageColorEncoding>
+											<mix:BitsPerSample>
+												<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+											</mix:BitsPerSample>
+										</mix:ImageColorEncoding>
+									</mix:ImageAssessmentMetadata>
+								</mix:mix>
+							</objectCharacteristicsExtension>
+						</objectCharacteristics>
+					</object>
+				</xmlData>
+			</mdWrap>
+		</techMD>
+		<techMD ID="tech-7">
+			<mdWrap MDTYPE="PREMIS">
+				<xmlData>
+					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+						<objectIdentifier>
+							<objectIdentifierType>URI</objectIdentifierType>
+							<objectIdentifierValue>file-1/3</objectIdentifierValue>
+						</objectIdentifier>
+						<objectCharacteristics>
+							<compositionLevel>0</compositionLevel>
+							<format>
+
+								<formatDesignation>
+									<formatName>unknown</formatName>
+								</formatDesignation>
+
+							</format>
+							<objectCharacteristicsExtension>
+								<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+									<mix:BasicDigitalObjectInformation>
+										<mix:ObjectIdentifier>
+											<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+										</mix:ObjectIdentifier>
+									</mix:BasicDigitalObjectInformation>
+									<mix:BasicImageInformation>
+										<mix:BasicImageCharacteristics>
+											<mix:imageWidth>699</mix:imageWidth>
+											<mix:imageHeight>559</mix:imageHeight>
+											<mix:PhotometricInterpretation>
+												<mix:colorSpace>PaletteColor</mix:colorSpace>
+											</mix:PhotometricInterpretation>
+										</mix:BasicImageCharacteristics>
+									</mix:BasicImageInformation>
+									<mix:ImageAssessmentMetadata>
+										<mix:ImageColorEncoding>
+											<mix:BitsPerSample>
+												<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+											</mix:BitsPerSample>
+										</mix:ImageColorEncoding>
+									</mix:ImageAssessmentMetadata>
+								</mix:mix>
+							</objectCharacteristicsExtension>
+						</objectCharacteristics>
+					</object>
+				</xmlData>
+			</mdWrap>
+		</techMD>
+		<techMD ID="tech-23">
+			<mdWrap MDTYPE="PREMIS">
+				<xmlData>
+					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+						<objectIdentifier>
+							<objectIdentifierType>URI</objectIdentifierType>
+							<objectIdentifierValue>file-1/4</objectIdentifierValue>
+						</objectIdentifier>
+						<objectCharacteristics>
+							<compositionLevel>0</compositionLevel>
+							<format>
+
+								<formatDesignation>
+									<formatName>unknown</formatName>
+								</formatDesignation>
+
+							</format>
+							<objectCharacteristicsExtension>
+								<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+									<mix:BasicDigitalObjectInformation>
+										<mix:ObjectIdentifier>
+											<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+										</mix:ObjectIdentifier>
+									</mix:BasicDigitalObjectInformation>
+									<mix:BasicImageInformation>
+										<mix:BasicImageCharacteristics>
+											<mix:imageWidth>699</mix:imageWidth>
+											<mix:imageHeight>559</mix:imageHeight>
+											<mix:PhotometricInterpretation>
+												<mix:colorSpace>PaletteColor</mix:colorSpace>
+											</mix:PhotometricInterpretation>
+										</mix:BasicImageCharacteristics>
+									</mix:BasicImageInformation>
+									<mix:ImageAssessmentMetadata>
+										<mix:ImageColorEncoding>
+											<mix:BitsPerSample>
+												<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+											</mix:BitsPerSample>
+										</mix:ImageColorEncoding>
+									</mix:ImageAssessmentMetadata>
+								</mix:mix>
+							</objectCharacteristicsExtension>
+						</objectCharacteristics>					</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>
+			<techMD ID="tech-8">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/5</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+
+									<formatDesignation>
+										<formatName>JPEG</formatName>
+									</formatDesignation>
+
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+											<mix:Compression>
+												<mix:compressionScheme>JPEG</mix:compressionScheme>
+											</mix:Compression>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>361</mix:imageWidth>
+												<mix:imageHeight>280</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>RGB</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>
+			<techMD ID="tech-9">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/6</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+
+									<formatDesignation>
+										<formatName>JPEG</formatName>
+									</formatDesignation>
+
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+											<mix:Compression>
+												<mix:compressionScheme>JPEG</mix:compressionScheme>
+											</mix:Compression>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>814</mix:imageWidth>
+												<mix:imageHeight>621</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>RGB</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>
+			<techMD ID="tech-10">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/7</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+
+									<formatDesignation>
+										<formatName>JPEG</formatName>
+									</formatDesignation>
+
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+											<mix:Compression>
+												<mix:compressionScheme>JPEG</mix:compressionScheme>
+											</mix:Compression>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>512</mix:imageWidth>
+												<mix:imageHeight>384</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>RGB</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>
+			<techMD ID="tech-11">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/8</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+									<formatDesignation>
+										<formatName>JPEG</formatName>
+									</formatDesignation>
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+											<mix:Compression>
+												<mix:compressionScheme>JPEG</mix:compressionScheme>
+											</mix:Compression>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>959</mix:imageWidth>
+												<mix:imageHeight>151</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>RGB</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>												
+			<techMD ID="tech-12">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/9</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+
+									<formatDesignation>
+										<formatName>JPEG</formatName>
+									</formatDesignation>
+
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+											<mix:Compression>
+												<mix:compressionScheme>JPEG</mix:compressionScheme>
+											</mix:Compression>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>865</mix:imageWidth>
+												<mix:imageHeight>212</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>RGB</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>												
+			<techMD ID="tech-13">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/10</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+
+									<formatDesignation>
+										<formatName>Group 4 Fax</formatName>
+									</formatDesignation>
+
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+											<mix:Compression>
+												<mix:compressionScheme>Group 4 Fax</mix:compressionScheme>
+											</mix:Compression>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>921</mix:imageWidth>
+												<mix:imageHeight>150</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>BlackIsZero</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>
+			<techMD ID="tech-14">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/11</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+
+									<formatDesignation>
+										<formatName>JPEG</formatName>
+									</formatDesignation>
+
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+											<mix:Compression>
+												<mix:compressionScheme>JPEG</mix:compressionScheme>
+											</mix:Compression>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>961</mix:imageWidth>
+												<mix:imageHeight>153</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>RGB</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>		
+			<techMD ID="tech-15">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/12</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+
+									<formatDesignation>
+										<formatName>unknown</formatName>
+									</formatDesignation>
+
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>544</mix:imageWidth>
+												<mix:imageHeight>138</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>PaletteColor</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>
+			<techMD ID="tech-16">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/13</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+
+									<formatDesignation>
+										<formatName>unknown</formatName>
+									</formatDesignation>
+
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>549</mix:imageWidth>
+												<mix:imageHeight>144</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>PaletteColor</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>	
+			<techMD ID="tech-17">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/14</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+
+									<formatDesignation>
+										<formatName>unknown</formatName>
+									</formatDesignation>
+
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>553</mix:imageWidth>
+												<mix:imageHeight>151</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>PaletteColor</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>
+			<techMD ID="tech-18">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/15</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+
+									<formatDesignation>
+										<formatName>unknown</formatName>
+									</formatDesignation>
+
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>280</mix:imageWidth>
+												<mix:imageHeight>195</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>PaletteColor</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>	
+			<techMD ID="tech-19">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/16</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+
+									<formatDesignation>
+										<formatName>unknown</formatName>
+									</formatDesignation>
+
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>419</mix:imageWidth>
+												<mix:imageHeight>173</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>PaletteColor</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>
+			<techMD ID="tech-20">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/17</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+
+									<formatDesignation>
+										<formatName>JPEG</formatName>
+									</formatDesignation>
+
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+											<mix:Compression>
+												<mix:compressionScheme>JPEG</mix:compressionScheme>
+											</mix:Compression>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>547</mix:imageWidth>
+												<mix:imageHeight>373</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>RGB</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>
+			<techMD ID="tech-21">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/18</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+
+									<formatDesignation>
+										<formatName>Group 4 Fax</formatName>
+									</formatDesignation>
+
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+											<mix:Compression>
+												<mix:compressionScheme>Group 4 Fax</mix:compressionScheme>
+											</mix:Compression>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>2112</mix:imageWidth>
+												<mix:imageHeight>2892</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>BlackIsZero</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>
+			<techMD ID="tech-22">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+							<objectIdentifier>
+								<objectIdentifierType>URI</objectIdentifierType>
+								<objectIdentifierValue>file-1/19</objectIdentifierValue>
+							</objectIdentifier>
+							<objectCharacteristics>
+								<compositionLevel>0</compositionLevel>
+								<format>
+
+									<formatDesignation>
+										<formatName>unknown</formatName>
+									</formatDesignation>
+
+								</format>
+								<objectCharacteristicsExtension>
+									<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+										<mix:BasicDigitalObjectInformation>
+											<mix:ObjectIdentifier>
+												<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+											</mix:ObjectIdentifier>
+										</mix:BasicDigitalObjectInformation>
+										<mix:BasicImageInformation>
+											<mix:BasicImageCharacteristics>
+												<mix:imageWidth>758</mix:imageWidth>
+												<mix:imageHeight>185</mix:imageHeight>
+												<mix:PhotometricInterpretation>
+													<mix:colorSpace>PaletteColor</mix:colorSpace>
+												</mix:PhotometricInterpretation>
+											</mix:BasicImageCharacteristics>
+										</mix:BasicImageInformation>
+										<mix:ImageAssessmentMetadata>
+											<mix:ImageColorEncoding>
+												<mix:BitsPerSample>
+													<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+												</mix:BitsPerSample>
+											</mix:ImageColorEncoding>
+										</mix:ImageAssessmentMetadata>
+									</mix:mix>
+								</objectCharacteristicsExtension>
+							</objectCharacteristics>
+						</object>
+					</xmlData>
+				</mdWrap>
+			</techMD>										
+			<digiprovMD ID="digiprov-1">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<agent xmlns="info:lc/xmlns/premis-v2">
+							<agentIdentifier>
+								<agentIdentifierType>URI</agentIdentifierType>
+								<agentIdentifierValue>http://daitss/validation</agentIdentifierValue>
+							</agentIdentifier>
+							<agentName>Validation Service</agentName>
+							<agentType>Web Service</agentType>
+						</agent>
+					</xmlData>
+				</mdWrap>
+			</digiprovMD>
+			<digiprovMD ID="digiprov-2">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<event xmlns="info:lc/xmlns/premis-v2">
+							<eventIdentifier>
+								<eventIdentifierType>d2</eventIdentifierType>
+								<eventIdentifierValue>event-0</eventIdentifierValue>
+							</eventIdentifier>
+							<eventType>SIP passed all validation checks</eventType>
+							<eventDateTime>2009-11-18T14:39:11-05:00</eventDateTime>
+							<eventOutcomeInformation>
+								<eventOutcome>
+									success  
+								</eventOutcome>
+							</eventOutcomeInformation>
+							<linkingAgentIdentifier>
+								<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+								<linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
+							</linkingAgentIdentifier>
+							<linkingObjectIdentifier>
+								<linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+								<linkingObjectIdentifierValue>
+									file:///tmp/d2.ws/aip-0
+								</linkingObjectIdentifierValue>
+							</linkingObjectIdentifier>
+						</event>
+					</xmlData>
+				</mdWrap>
+			</digiprovMD>
+			<digiprovMD ID="digiprov-3">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<event xmlns="info:lc/xmlns/premis-v2">
+							<eventIdentifier>
+								<eventIdentifierType>d2</eventIdentifierType>
+								<eventIdentifierValue>event-2</eventIdentifierValue>
+							</eventIdentifier>
+							<eventType>Format Description</eventType>
+							<eventDateTime>2009-11-18T14:39:15-05:00</eventDateTime>
+							<eventOutcomeInformation>
+								<eventOutcome>Well-Formed and valid</eventOutcome>
+							</eventOutcomeInformation>
+							<linkingAgentIdentifier>
+								<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+								<linkingAgentIdentifierValue>http://localhost:7000/describe</linkingAgentIdentifierValue>
+							</linkingAgentIdentifier>
+							<linkingObjectIdentifier>
+								<linkingObjectIdentifierType>d2</linkingObjectIdentifierType>
+								<linkingObjectIdentifierValue>file-0</linkingObjectIdentifierValue>
+							</linkingObjectIdentifier>
+						</event>
+					</xmlData>
+				</mdWrap>
+			</digiprovMD>
+			<digiprovMD ID="digiprov-4">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<agent xmlns="info:lc/xmlns/premis-v2">
+							<agentIdentifier>
+								<agentIdentifierType>URI</agentIdentifierType>
+								<agentIdentifierValue>http://localhost:7000/describe</agentIdentifierValue>
+							</agentIdentifier>
+							<agentName>Format Description Service</agentName>
+							<agentType>Web Service</agentType>
+						</agent>
+					</xmlData>
+				</mdWrap>
+			</digiprovMD>
+			<digiprovMD ID="digiprov-5">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<event xmlns="info:lc/xmlns/premis-v2">
+							<eventIdentifier>
+								<eventIdentifierType>d2</eventIdentifierType>
+								<eventIdentifierValue>event-4</eventIdentifierValue>
+							</eventIdentifier>
+							<eventType>Format Description</eventType>
+							<eventDateTime>2009-11-18T14:39:15-05:00</eventDateTime>
+							<eventOutcomeInformation>
+								<eventOutcome>Well-Formed and valid</eventOutcome>
+							</eventOutcomeInformation>
+							<linkingAgentIdentifier>
+								<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+								<linkingAgentIdentifierValue>http://localhost:7000/describe</linkingAgentIdentifierValue>
+							</linkingAgentIdentifier>
+							<linkingObjectIdentifier>
+								<linkingObjectIdentifierType>d2</linkingObjectIdentifierType>
+								<linkingObjectIdentifierValue>file-1</linkingObjectIdentifierValue>
+							</linkingObjectIdentifier>
+						</event>
+					</xmlData>
+				</mdWrap>
+			</digiprovMD>
+			<digiprovMD ID="digiprov-6">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<agent xmlns="info:lc/xmlns/premis-v2">
+							<agentIdentifier>
+								<agentIdentifierType>URI</agentIdentifierType>
+								<agentIdentifierValue>http://localhost:7000/describe</agentIdentifierValue>
+							</agentIdentifier>
+							<agentName>Format Description Service</agentName>
+							<agentType>Web Service</agentType>
+						</agent>
+					</xmlData>
+				</mdWrap>
+			</digiprovMD>
+			<digiprovMD ID="digiprov-7">
+				<mdWrap MDTYPE="PREMIS">
+					<xmlData>
+						<event xmlns="info:lc/xmlns/premis-v2">
+							<eventIdentifier>
+								<eventIdentifierType>Temporary Local</eventIdentifierType>
+								<eventIdentifierValue>1</eventIdentifierValue>
+							</eventIdentifier>
+							<eventType>File Procedure Failure</eventType>
+							<eventDateTime>2009-11-18T14:39:15-05:00</eventDateTime>
+							<eventOutcomeInformation>
+								<eventOutcome>failure</eventOutcome>
+								<eventOutcomeDetail>
+									<eventOutcomeDetailNote>
+										cannot perform transformation: 404 Not Found: &lt;!DOCTYPE html&gt;
+										&lt;html&gt;
+										&lt;head&gt;
+										&lt;style type="text/css"&gt;
+										body { text-align:center;font-family:helvetica,arial;font-size:22px;
+										color:#888;margin:20px}
+										#c {margin:0 auto;width:500px;text-align:left}
+										&lt;/style&gt;
+										&lt;/head&gt;
+										&lt;body&gt;
+										&lt;h2&gt;Sinatra doesn't know this ditty.&lt;/h2&gt;
+										&lt;img src='/__sinatra__/404.png'&gt;
+										&lt;div id="c"&gt;
+										Try this:
+										&lt;pre&gt;get '/pdf_norm' do
+										"Hello World"
+										end&lt;/pre&gt;
+										&lt;/div&gt;
+										&lt;/body&gt;
+										&lt;/html&gt;
+
+										./bin/../lib/service/transform.rb:26:in `perform!'
+										./bin/../lib/fileprocess.rb:12:in `process!'
+										./bin/../lib/fileprocess.rb:11:in `each'
+										./bin/../lib/fileprocess.rb:11:in `process!'
+										./bin/../lib/ingest.rb:14:in `ingest!'
+										./bin/../lib/ingest.rb:14:in `each'
+										./bin/../lib/ingest.rb:14:in `ingest!'
+										bin/ingest:39
+									</eventOutcomeDetailNote>
+								</eventOutcomeDetail>
+							</eventOutcomeInformation>
+						</event>
+					</xmlData>
+				</mdWrap>
+			</digiprovMD>
+		</amdSec>
+		<fileSec>
+			<fileGrp>
+				<file ID="file-0" ADMID="tech-4 digiprov-3 digiprov-4 ">
+					<FLocat LOCTYPE="URL" xlink:href="files/haskell-nums-pdf.xml"/>
+				</file>
+				<file ID="file-1" OWNERID="FILE-0" ADMID="tech-3 digiprov-5 digiprov-6 ">
+					<FLocat LOCTYPE="URL" xlink:href="files/Haskell98numbers.pdf"/>
+				</file>
+			</fileGrp>
+		</fileSec>
+		<structMap>
+			<div ADMID="digiprov-1 digiprov-2  tech-2 tech-1">
+				<fptr FILEID="file-0"/>
+				<fptr FILEID="file-1"/>
+			</div>
+		</structMap>
+	</mets>

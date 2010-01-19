@@ -43,7 +43,11 @@ class AIP
     # process derived relationships associated with the file
     fileObjects = doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
     fileObjects.each do |obj|
-      aip.processRelationship obj
+      dfid = obj.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
+      relationships = obj.find("premis:relationship", NAMESPACES)
+      relationships.each do |relationship|
+        aip.processRelationship(dfid, relationship)
+      end
     end 
     
     aip.toDB
