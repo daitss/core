@@ -44,7 +44,7 @@ describe PackageSubmitter do
   it "should submit a package creating a wip with submission event from a tar-extracted SIP" do
     ieid = PackageSubmitter.submit_sip :tar, TAR_SIP_NODIR, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
-    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s), URI_PREFIX
+    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid)
 
     wip.datafiles.each do |datafile|
       (["ateam.tiff", "ateam.xml"].include? datafile.metadata["sip-path"]).should == true
@@ -68,7 +68,7 @@ describe PackageSubmitter do
   it "should submit a package creating a wip with submission event from a zip-extracted SIP" do
     ieid = PackageSubmitter.submit_sip :zip, ZIP_SIP_NODIR, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
-    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s), URI_PREFIX
+    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s)
 
     wip.datafiles.each do |datafile|
       (["ateam.tiff", "ateam.xml"].include? datafile.metadata["sip-path"]).should == true
