@@ -36,11 +36,11 @@ post '/*' do
     # return 400 if missing any expected headers
     halt 400, "Missing header: CONTENT_MD5" unless @env["HTTP_CONTENT_MD5"]
     halt 400, "Missing header: X_PACKAGE_NAME" unless @env["HTTP_X_PACKAGE_NAME"]
-    halt 400, "Missing header: X_ARCHIVE_TYPE" unless @env["HTTP_X_ARCHIVE_TYPE"]
+    halt 400, "Missing header: CONTENT_TYPE" unless @env["HTTP_CONTENT_TYPE"]
 
-    # return 400 if X_ARCHIVE_TYPE header is not the expected value of 'zip' or 'tar'
+    # return 400 if CONTENT_TYPE header is not the expected value of 'application/zip' or 'application/tar'
 
-    halt 400, "X_ARCHIVE_TYPE header must be either 'tar' or 'zip'" unless @env["HTTP_X_ARCHIVE_TYPE"] == "tar" or @env["HTTP_X_ARCHIVE_TYPE"] == "zip"
+    halt 400, "CONTENT_TYPE header must be either 'application/tar' or 'application/zip'" unless @env["HTTP_CONTENT_TYPE"] == "application/tar" or @env["HTTP_CONTENT_TYPE"] == "application/zip"
 
     request.body.rewind
 
@@ -67,9 +67,9 @@ post '/*' do
     tf.rewind
 
     # call PackageSubmitter to extract file, generate IEID, and write AIP to workspace
-    if @env["HTTP_X_ARCHIVE_TYPE"] == "zip"
+    if @env["HTTP_CONTENT_TYPE"] == "application/zip"
       ieid = PackageSubmitter.submit_sip :zip, tf.path, @env["HTTP_X_PACKAGE_NAME"], @env["REMOTE_ADDR"], @env["HTTP_CONTENT_MD5"]
-    elsif @env["HTTP_X_ARCHIVE_TYPE"] == "tar"
+    elsif @env["HTTP_CONTENT_TYPE"] == "application/tar"
       ieid = PackageSubmitter.submit_sip :tar, tf.path, @env["HTTP_X_PACKAGE_NAME"], @env["REMOTE_ADDR"], @env["HTTP_CONTENT_MD5"]
     end
     
