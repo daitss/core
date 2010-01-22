@@ -157,10 +157,12 @@ describe "Submission Service" do
     # send request with real zip file
     post "/", sip_string, {'HTTP_AUTHORIZATION' => encode_credentials('fda', 'subm1t')}
 
+    ieid = last_response.headers["X_IEID"]
+
     # we should get back a 200 OK, with an encouraging word and the IEID in the header
     last_response.status.should == 200
-    last_response.body.should == "Submission successful"
-    last_response.headers["X_IEID"].should_not be_nil
+    last_response.body.should == "<IEID>#{ieid}</IEID>"
+    ieid.should_not be_nil
   end
 
   it "should return 200 on valid post request with a tar file" do
@@ -183,10 +185,12 @@ describe "Submission Service" do
     # send request with real zip file
     post "/", sip_string, {'HTTP_AUTHORIZATION' => encode_credentials('fda', 'subm1t')}
 
+    ieid = last_response.headers["X_IEID"]
+
     # we should get back a 200 OK, with an encouraging word and the IEID in the header
     last_response.status.should == 200
-    last_response.body.should == "Submission successful"
-    last_response.headers["X_IEID"].should_not be_nil
+    last_response.body.should == "<IEID>#{ieid}</IEID>"
+    ieid.should_not be_nil
   end
 
   private

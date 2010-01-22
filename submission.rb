@@ -74,7 +74,7 @@ post '/*' do
     end
     
     headers["X_IEID"] = ieid.to_s
-    "Submission successful"
+    "<IEID>#{ieid}</IEID>"
 
   rescue ArchiveExtractionError => e
     halt 400, "Error extracting files in request body, is it malformed?"
