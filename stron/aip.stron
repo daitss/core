@@ -7,6 +7,7 @@
   <ns prefix="M" uri="http://www.loc.gov/METS/"/>
   <ns prefix="P" uri="info:lc/xmlns/premis-v2"/>
   <ns prefix="xsi" uri="http://www.w3.org/2001/XMLSchema-instance"/>
+  <ns prefix="xlink" uri="http://www.w3.org/1999/xlink"/>
 
   <let name="aip-uri" value="/M:mets/@OBJID"/>
 
@@ -49,16 +50,16 @@
   <pattern>
     <title>files</title>
     <rule context="//M:file">
-      <assert test="starts-with(@ID, 'file/')">
-        <value-of select="@ID"/> should start with prefix 'file/'
+      <assert test="starts-with(@ID, 'file-')">
+        <value-of select="@ID"/> should start with prefix 'file-'
       </assert>
-      <assert test="concat($aip-uri, '/', @ID) = //P:object[@xsi:type='file']/P:objectIdentifier/P:objectIdentifierValue">
-        <value-of select="@ID"/> must have a PREMIS file object
+      <assert test="concat($aip-uri, '/file/', substring(@ID, string-length('file-') + 1) ) = //P:object[@xsi:type='file']/P:objectIdentifier/P:objectIdentifierValue">
+        <value-of select="@ID"/> must have a PREMIS file object <value-of select="concat($aip-uri, '/file/', substring(@ID, string-length('file-') + 1) )"/>
       </assert>
     </rule>
     <rule context="//P:object[@xsi:type='file']">
-      <assert test="substring-after(P:objectIdentifier/P:objectIdentifierValue, concat($aip-uri, '/')) = //M:file/@ID">
-        <value-of select="P:objectIdentifier/P:objectIdentifierValue"/> must have a METS file 
+      <assert test="concat('file-', substring-after(P:objectIdentifier/P:objectIdentifierValue, concat($aip-uri, '/file/'))) = //M:file/@ID">
+        <value-of select="P:objectIdentifier/P:objectIdentifierValue"/> must have a METS file <value-of select="concat(substring-after(P:objectIdentifier/P:objectIdentifierValue, concat($aip-uri, '/file/')))"/>
       </assert>
     </rule>
     <rule context="M:FLocat/@xlink:href">
@@ -85,8 +86,8 @@
   <pattern>
     <title>file events</title>
     <rule context="//P:object[@xsi:type='file']/P:objectIdentifier/P:objectIdentifierValue">
-      <assert test="//P:event[P:eventType = 'describe'][P:relatedObjectIdentifier/P:relatedObjectIdentifierValue = .]">
-        <value-of select="."/> should have a description event
+      <assert test="//P:event[P:eventType = 'format description']/P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = .">
+        <value-of select="."/> should have a description event 
       </assert>
     </rule>
   </pattern>
