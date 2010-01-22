@@ -21,7 +21,7 @@ describe "Submission Service" do
 
     header "X_PACKAGE_NAME", "ateam"
     header "CONTENT_MD5", "901890a8e9c8cf6d5a1a542b229febff"
-    header "CONTENT_TYPE", "application/zip"
+    header "X_ARCHIVE_TYPE", "zip"
   end
 
   after(:each) do
@@ -79,23 +79,23 @@ describe "Submission Service" do
     last_response.body.should == "Missing header: CONTENT_MD5" 
   end
 
-  it "returns 400 on POST if request is missing CONTENT_TYPE header" do
-    header "CONTENT_TYPE", nil
+  it "returns 400 on POST if request is missing X_ARCHIVE_TYPE header" do
+    header "X_ARCHIVE_TYPE", nil
 
     post "/", "FOO", {'HTTP_AUTHORIZATION' => encode_credentials('fda', 'subm1t')}
 
     last_response.status.should == 400
-    last_response.body.should == "Missing header: CONTENT_TYPE" 
+    last_response.body.should == "Missing header: X_ARCHIVE_TYPE" 
   end
 
 
-  it "returns 400 on POST if CONTENT_TYPE is a value different from 'tar' or 'zip'" do
-    header "CONTENT_TYPE", "foo"
+  it "returns 400 on POST if X_ARCHIVE_TYPE is a value different from 'tar' or 'zip'" do
+    header "X_ARCHIVE_TYPE", "foo"
 
     post "/", "FOO", {'HTTP_AUTHORIZATION' => encode_credentials('fda', 'subm1t')}
 
     last_response.status.should == 400
-    last_response.body.should == "CONTENT_TYPE header must be either 'application/tar' or 'application/zip'" 
+    last_response.body.should == "X_ARCHIVE_TYPE header must be either 'tar' or 'zip'" 
   end
 
   it "returns 400 on POST if there is no body" do
@@ -130,7 +130,7 @@ describe "Submission Service" do
   end
 
   it "should return 400 if submitted package is not a tar file when request header says it should be" do
-    header "CONTENT_TYPE", "application/tar"
+    header "X_ARCHIVE_TYPE", "tar"
 
     post "/", "FOO", {'HTTP_AUTHORIZATION' => encode_credentials('fda', 'subm1t')}
 
@@ -180,7 +180,7 @@ describe "Submission Service" do
 
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
-    header "CONTENT_TYPE", "application/tar"
+    header "X_ARCHIVE_TYPE", "tar"
     
     # send request with real zip file
     post "/", sip_string, {'HTTP_AUTHORIZATION' => encode_credentials('fda', 'subm1t')}
