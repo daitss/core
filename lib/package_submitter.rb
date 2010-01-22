@@ -3,6 +3,7 @@ require 'wip/create'
 require 'template/premis'
 require 'submission_history'
 require 'uri'
+require 'ieid'
 
 class ArchiveExtractionError < StandardError; end
 
@@ -22,7 +23,8 @@ class PackageSubmitter
 
   def self.submit_sip archive_type, path_to_archive, package_name, submitter_ip, md5
     check_workspace
-    ieid = persist_request package_name, submitter_ip, md5
+    ieid = Ieid.new.to_s
+    persist_request ieid, package_name, submitter_ip, md5
 
     unarchive_sip archive_type, ieid, path_to_archive, package_name
 
@@ -30,7 +32,7 @@ class PackageSubmitter
     sip_path = File.join(ENV["DAITSS_WORKSPACE"], ".submit", package_name)
 
     sip = Sip.new sip_path
-    wip = Wip.make_from_sip wip_path, URI_PREFIX, sip
+    wip = Wip.make_from_sip wip_path, URI.join(URI_PREFIX, ieid), sip
 
     wip['submit-event'] = event :id => URI.join(wip.uri, 'event', 'submit').to_s, 
       :type => 'submit', 
@@ -58,10 +60,11 @@ class PackageSubmitter
 
   # saves a record of the submission to database, generating a new ieid
 
-  def self.persist_request package_name, submitter_ip, md5
+  def self.persist_request ieid, package_name, submitter_ip, md5
     request = Submission.new
 
     request.attributes = {  
+      :ieid => ieid,
       :package_name => package_name,
       :submission_checksum => md5,
       :timestamp => Time.now,
@@ -69,8 +72,6 @@ class PackageSubmitter
     }
 
     request.save
-
-    return request.ieid
   end
 
   # returns string corresponding to unzip command to extract SIP from a zip file 
