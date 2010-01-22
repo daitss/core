@@ -32,7 +32,7 @@ class Wip
     template_by_name('aip/intellectual_entity_object').result binding
   end
 
-  def representation_object rep
+  def representation_object rep, options={}
     template_by_name('aip/representation_object').result binding
   end
 
