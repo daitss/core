@@ -1,7 +1,7 @@
 <object xsi:type='representation' xmlns='info:lc/xmlns/premis-v2'>
   <objectIdentifier>
     <objectIdentifierType>URI</objectIdentifierType>
-    <objectIdentifierValue><%= 'rep.uri'  %></objectIdentifierValue>
+    <objectIdentifierValue><%= options[:uri]  %></objectIdentifierValue>
   </objectIdentifier>
 <% rep.each do |df| %>
   <relationship>
