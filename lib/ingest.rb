@@ -1,3 +1,4 @@
+require 'tempdir'
 require 'aip'
 require 'wip'
 require 'representation'
@@ -12,7 +13,6 @@ class Wip
   def ingest!
     
     begin
-      #step('ingest') # mark the start of this ingest
       step('validate') { validate! }
       datafiles.each { |df| step("describe-#{df.id}") { df.describe! } }
 
@@ -29,7 +29,7 @@ class Wip
       #step('update-normalized-representation') { normalized_rep = new_normalized_rep unless new_normalized_rep.empty? }
 
       # clean out undescribed files
-      represented_files, unrepresented_files = represented_partitions
+      represented_files, unrepresented_files = represented_file_partitions
       unrepresented_files.each { |df| step("obsolete-#{df.id}") { df.obsolete! } }
 
       # TODO import old package level provenance
@@ -71,20 +71,31 @@ class Wip
     aip.uri = uri
     aip.xml = descriptor.to_s
     aip.needs_work = true
-    aip.url = "#{CONFIG['storage-url']}/#{id}"
+    aip.copy_url = "#{CONFIG['storage-url']}/#{id}"
 
-    aip.tarball = Tarball.new do |t|
-      t.add File.join(id, "descriptor.xml"), aip.xml
+    Tempdir.new do |dir|
 
-      files.each do |f| 
-        tar_path = File.join id, 'files', f['sip-path']
-        t.add tar_path, f.data
+      Dir::chdir(dir.path) do
+
+        #make the stuff
+        FileUtils::mkdir aip.id
+
+        files.each do |f|
+          sip_path = File.join aip.id, f['sip-path']
+          FileUtils::mkdir_p File.dirname(sip_path)
+          FileUtils::ln_s f.datapath, sip_path
+        end
+
+        #tar it up
+        aip.tarball = %x{tar --dereference --create --file -  #{aip.id}}
+        raise "could not make tarball: #{$?}" unless $?.exitstatus == 0
       end
 
     end
 
     unless aip.save 
-      raise "could not save aip"
+      aip.errors.each { |e| puts e }
+      raise "could not save aip: #{aip.errors.size}"
     end
 
   end

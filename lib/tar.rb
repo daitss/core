@@ -4,7 +4,7 @@ TAR_COMMAND = %w(tar gnutar).find do |bin|
 
   if $?.exitstatus == 0
 
-    version = %x{tar --version | head -n 1 }.chomp
+    version = %x{#{bin} --version }.lines.first.chomp
     
     if version =~ /GNU tar/
       path
@@ -14,16 +14,24 @@ TAR_COMMAND = %w(tar gnutar).find do |bin|
 
 end
 
-raise "GNU tar not found on the system"
-%x{which tar}
-
-# is it gnu tar?
-%x{tar --version | head -n 1 }.chomp =~ /GNU tar/
+raise "GNU tar not found on the system" unless TAR_COMMAND
 
 class Tar
  
-  def initialize *files
+  attr_reader :path
 
+  def initialize
+
+    # a place to put the tardata
+    tempfile = Tempfile.new 'tarball'
+    @path = tempfile.path
+    tempfile.close!
+
+    yield self if block_given?
+  end
+
+  def add path, data
+    Tempfile.new 'tarball-entry'
   end
 
 end
