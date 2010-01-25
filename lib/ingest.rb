@@ -4,9 +4,10 @@ require 'wip'
 require 'representation'
 require 'service/validate'
 require 'service/describe'
+require 'service/actionplan'
+require 'service/transform'
 require 'descriptor'
 require 'template/premis'
-require 'tar'
 
 class Wip
 
@@ -21,12 +22,33 @@ class Wip
       step('set-current-representation') { self.current_rep = original_rep if current_rep.empty? }
 
       # new reps
-      #new_current_rep = current_rep.map { |df| df.migrate || df } 
+      new_current_rep = current_rep.map do |df| 
+
+          # pass description to actionplan/migrations
+          transformation_url = df.migration
+
+          if transformation_url
+
+            # transform into a new datafile either give a new datafile or cleanup any mess
+            new_df = step("migrate-#{df.id}") { transform df.datapath, transformation_url } 
+
+            # describe it
+            step("describe-#{new_df.id}") { new_df.describe! :derivation => df } 
+
+            new_df
+          else
+            df
+          end
+
+
+      end
+
+      # new_current_rep = current_rep.map { |df| df.migrate || df } 
       #new_normalized_rep = original_rep.map { |df| df.normalize || df }
-    
+
       # persist the representations
-      #step('update-current-representation') { current_rep = new_current_rep unless new_current_rep.empty? }
-      #step('update-normalized-representation') { normalized_rep = new_normalized_rep unless new_normalized_rep.empty? }
+      step('update-current-representation') { self.current_rep = new_current_rep unless new_current_rep == current_rep }
+      #step('update-normalized-representation') { self.normalized_rep = new_normalized_rep unless new_normalized_rep == normalized_rep }
 
       # clean out undescribed files
       represented_files, unrepresented_files = represented_file_partitions
@@ -38,7 +60,7 @@ class Wip
 
       # write the ingest event
       step('write-ingest-event') do
-        metadata['ingest-event'] = event(:id => URI.join(uri, 'event', 'ingest').to_s, 
+        metadata['ingest-event'] = event(:id => "#{uri}/event/ingest", 
                                          :type => 'ingest', 
                                          :outcome => 'success', 
                                          :linking_objects => [ uri ])
@@ -58,8 +80,9 @@ class Wip
   def step key
 
     unless tags.has_key? key
-      yield
+      value = yield
       tags[key] = Time.now.xmlschema
+      value
     end
 
   end
