@@ -6,6 +6,7 @@
 
   <ns prefix="M" uri="http://www.loc.gov/METS/"/>
   <ns prefix="P" uri="info:lc/xmlns/premis-v2"/>
+  <ns prefix="beta" uri="info:lc/xmlns/premis-v2-beta"/>
   <ns prefix="xsi" uri="http://www.w3.org/2001/XMLSchema-instance"/>
   <ns prefix="xlink" uri="http://www.w3.org/1999/xlink"/>
 
@@ -21,10 +22,10 @@
   </pattern>
 
   <pattern>
-    <title>account</title>
+    <title>PREMIS Intellectual Entity</title>
     <rule context="/M:mets">
-      <assert test="M:metsHdr/M:agent[@ROLE='OTHER' and @OTHERROLE='SUBMITTER' and M:name]">
-        submitter agent must exist
+      <assert test="//beta:intellectualEntity[beta:intellectualEntityIdentifier/beta:intellectualEntityIdentifierValue = $aip-uri]">
+        PREMIS Intellectual Entity must exist
       </assert>
     </rule>
   </pattern>
@@ -68,19 +69,26 @@
   </pattern>
 
   <pattern>
-    <title>package events</title>
-    <!--$aip-uri variables seem to not work in rules, only asserts, try upgrading the schematron implementation -->
-    <rule context="//P:object[@xsi:type='representation']/P:objectIdentifier/P:objectIdentifierValue[. = concat(/M:mets/@OBJID, '/representation/original')]">
-      <assert test="//P:event[P:eventType = 'submit'][P:relatedObjectIdentifier/P:relatedObjectIdentifierValue = .]">
-        <value-of select="."/> should have a submit event
+    <title>package level provenance</title>
+
+    <rule context="/M:mets">
+      <assert test="//P:event[P:eventType = 'submit'][P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = $aip-uri]">
+        <value-of select="$aip-uri"/> should have a submit event
       </assert>
-      <assert test="//P:event[P:eventType = 'validate'][P:relatedObjectIdentifier/P:relatedObjectIdentifierValue = .]">
-        <value-of select="."/> should have a validate event
+      <assert test="//P:event[P:eventType = 'comprehensive validation'][P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = $aip-uri]">
+        <value-of select="$aip-uri"/> should have a validate event
       </assert>
-      <assert test="//P:event[P:eventType = 'ingest'][P:relatedObjectIdentifier/P:relatedObjectIdentifierValue = .]">
-        <value-of select="."/> should have a ingest event
+      <assert test="//P:event[P:eventType = 'ingest'][P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = $aip-uri]">
+        <value-of select="$aip-uri"/> should have a ingest event
       </assert>
     </rule>
+
+    <!--<rule context="//P:event[P:eventType = 'submit'][P:relatedObjectIdentifier/P:relatedObjectIdentifierValue = $aip_uri]">-->
+      <!--<assert test="//P:agent/P:agentIdentifier/P:agentIdentifierValue = ./P:linkingAgentIdentifier/P:linkingObjectIdentifierValue">-->
+        <!--<value-of select="P:agentIdentifier/P:agentIdentifierValue"/> should have a ingest event-->
+      <!--</assert>-->
+    <!--</rule>-->
+
   </pattern>
 
   <pattern>
@@ -92,9 +100,4 @@
     </rule>
   </pattern>
 
-  <!-- optional things:
-  have rxp labels when there is rxp data
-  can have owner id on files
-  no anomalies unless there are actual anomalies
-  -->
 </schema>
