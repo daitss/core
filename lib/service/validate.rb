@@ -25,7 +25,7 @@ class Wip
   private
 
   def ask_validation
-    url = URI.parse "#{CONFIG['validation-url']}?location=#{CGI::escape URI.join('file:/', File.expand_path(path)).to_s }"
+    url = URI.parse "#{CONFIG['validation-url']}?location=#{CGI::escape "file:#{File.expand_path path}" }"
     req = Net::HTTP::Get.new url.request_uri
 
     res = Net::HTTP.start(url.host, url.port) do |http|

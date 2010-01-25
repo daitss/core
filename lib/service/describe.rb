@@ -5,7 +5,7 @@ require 'cgi'
 class DataFile
 
   def describe! 
-    doc = ask_description_service(:location => URI.join('file:/', File.expand_path(datapath)),
+    doc = ask_description_service(:location => "file:#{File.expand_path datapath }",
                                   :uri => uri, 
                                   :originalName => metadata['sip-path'])
     metadata['describe-file-object'] = element_doc_as_str doc, "//P:object[@xsi:type='file']" 
@@ -19,7 +19,7 @@ class DataFile
 
   def ask_description_service query={}
     query_str = query.map { |key, value| "#{key.id2name}=#{CGI::escape value.to_s}" }.join '&'
-    url = URI.join CONFIG['description-url'], "?#{query_str}"
+    url = URI.parse "#{CONFIG['description-url']}?#{query_str}"
     res = Net::HTTP.get_response url
 
     case res
