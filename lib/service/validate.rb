@@ -53,12 +53,25 @@ class Wip
 
   def validate_event doc
     xpath = "//P:event[P:eventType = 'comprehensive validation']"
-    doc.find_first(xpath, NS_PREFIX).to_s
+    n = doc.find_first xpath, NS_PREFIX
+
+    if n
+      d = XML::Document.new
+      d.root = d.import n
+      d.root.to_s
+    end
+
   end
 
   def validate_agent doc
     xpath = "/P:agent[P:agentName = 'validation service']"
-    doc.find_first(xpath, NS_PREFIX).to_s
+    n = doc.find_first xpath, NS_PREFIX
+
+    if n
+      d = XML::Document.new
+      d.root = d.import n
+      d.root.to_s
+    end
   end
 
 end
