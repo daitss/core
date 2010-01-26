@@ -109,6 +109,9 @@ class Wip
           FileUtils::ln_s f.datapath, sip_path
         end
 
+        descriptor_path = File.join(aip.id, 'descriptor.xml')
+        open(descriptor_path, 'w') { |io| io.write aip.xml }
+
         #tar it up
         aip.tarball = %x{tar --dereference --create --file -  #{aip.id}}
         raise "could not make tarball: #{$?}" unless $?.exitstatus == 0
