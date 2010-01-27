@@ -51,7 +51,7 @@ def test_stack
     end
 
     map "/actionplan" do       
-      run ActionPlanD.new
+      run ActionPlan::App.new
     end
 
     map "/transformation" do
