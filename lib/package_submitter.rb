@@ -162,8 +162,6 @@ class PackageSubmitter
       end
     end
 
-    raise DescriptorNotFoundError unless sip_descriptor
-
     metadata["title"] = find_title sip_descriptor
     metadata["volume"] = find_volume sip_descriptor
     metadata["issue"] = find_issue sip_descriptor
