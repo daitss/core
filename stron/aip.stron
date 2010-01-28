@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+
+<schema xmlns="http://purl.oclc.org/dsdl/schematron">
+
+  <title>DAITSS v2 AIP descriptor</title>
+
+  <ns prefix="M" uri="http://www.loc.gov/METS/"/>
+  <ns prefix="P" uri="info:lc/xmlns/premis-v2"/>
+  <ns prefix="beta" uri="info:lc/xmlns/premis-v2-beta"/>
+  <ns prefix="xsi" uri="http://www.w3.org/2001/XMLSchema-instance"/>
+  <ns prefix="xlink" uri="http://www.w3.org/1999/xlink"/>
+
+  <let name="aip-uri" value="/M:mets/@OBJID"/>
+
+  <pattern>
+    <title>PREMIS identifiers</title>
+    <rule context="//P:objectIdentifierType | //P:eventIdentifierType | //P:agentidentifierType">
+      <assert test=". = 'URI'">
+        PREMIS identifier types must be URI, not <value-of select="."/>
+      </assert>
+    </rule>
+  </pattern>
+
+  <pattern>
+    <title>PREMIS Intellectual Entity</title>
+    <rule context="/M:mets">
+      <assert test="//beta:intellectualEntity[beta:intellectualEntityIdentifier/beta:intellectualEntityIdentifierValue = $aip-uri]">
+        PREMIS Intellectual Entity must exist
+      </assert>
+    </rule>
+  </pattern>
+
+  <pattern>
+    <title>representations</title>
+    <rule context="/M:mets">
+      <assert test="//P:object[@xsi:type='representation'][P:objectIdentifier/P:objectIdentifierValue = concat($aip-uri, '/representation/original')]">
+        original representation must exist
+      </assert>
+      <assert test="//P:object[@xsi:type='representation'][P:objectIdentifier/P:objectIdentifierValue = concat($aip-uri, '/representation/current')]">
+        current representation must exist
+      </assert>
+      <assert test="//P:object[@xsi:type='representation'][P:objectIdentifier/P:objectIdentifierValue = concat($aip-uri, '/representation/normalized')]">
+        normalized representation must exist
+      </assert>
+      <assert test="M:structMap[@ID='original']">original representation structMap must exist</assert>
+      <assert test="M:structMap[@ID='current']">current representation structMap must exist</assert>
+      <assert test="M:structMap[@ID='normalized']">normalized representation structMap must exist</assert>
+    </rule>
+  </pattern>
+
+  <pattern>
+    <title>files</title>
+    <rule context="//M:file">
+      <assert test="starts-with(@ID, 'file-')">
+        <value-of select="@ID"/> should start with prefix 'file-'
+      </assert>
+      <assert test="concat($aip-uri, '/file/', substring(@ID, string-length('file-') + 1) ) = //P:object[@xsi:type='file']/P:objectIdentifier/P:objectIdentifierValue">
+        <value-of select="@ID"/> must have a PREMIS file object <value-of select="concat($aip-uri, '/file/', substring(@ID, string-length('file-') + 1) )"/>
+      </assert>
+    </rule>
+    <rule context="//P:object[@xsi:type='file']">
+      <assert test="concat('file-', substring-after(P:objectIdentifier/P:objectIdentifierValue, concat($aip-uri, '/file/'))) = //M:file/@ID">
+        <value-of select="P:objectIdentifier/P:objectIdentifierValue"/> must have a METS file <value-of select="concat(substring-after(P:objectIdentifier/P:objectIdentifierValue, concat($aip-uri, '/file/')))"/>
+      </assert>
+    </rule>
+    <rule context="M:FLocat/@xlink:href">
+      <assert test="//P:object[@xsi:type='file']/P:originalName = ."></assert>
+    </rule>
+  </pattern>
+
+  <pattern>
+    <title>package level provenance</title>
+
+    <rule context="/M:mets">
+      <assert test="//P:event[P:eventType = 'submit'][P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = $aip-uri]">
+        <value-of select="$aip-uri"/> should have a submit event
+      </assert>
+      <assert test="//P:event[P:eventType = 'comprehensive validation'][P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = $aip-uri]">
+        <value-of select="$aip-uri"/> should have a validate event
+      </assert>
+      <assert test="//P:event[P:eventType = 'ingest'][P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = $aip-uri]">
+        <value-of select="$aip-uri"/> should have a ingest event
+      </assert>
+    </rule>
+
+    <!--<rule context="//P:event[P:eventType = 'submit'][P:relatedObjectIdentifier/P:relatedObjectIdentifierValue = $aip_uri]">-->
+      <!--<assert test="//P:agent/P:agentIdentifier/P:agentIdentifierValue = ./P:linkingAgentIdentifier/P:linkingObjectIdentifierValue">-->
+        <!--<value-of select="P:agentIdentifier/P:agentIdentifierValue"/> should have a ingest event-->
+      <!--</assert>-->
+    <!--</rule>-->
+
+  </pattern>
+
+  <pattern>
+    <title>file events</title>
+    <rule context="//P:object[@xsi:type='file']/P:objectIdentifier/P:objectIdentifierValue">
+      <assert test="//P:event[P:eventType = 'format description']/P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = .">
+        <value-of select="."/> should have a description event 
+      </assert>
+    </rule>
+  </pattern>
+
+</schema>
