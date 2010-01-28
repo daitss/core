@@ -22,7 +22,19 @@ describe "representation handling" do
   end
 
   it "should have mutator sugar" do
-    pending
+    r = @wip.datafiles
+
+    @wip.original_rep = r[0..0]
+    @wip.original_rep.should == r[0..0]
+    @wip.original_rep.should_not == r
+
+    @wip.current_rep = r[0..0]
+    @wip.current_rep.should == r[0..0]
+    @wip.current_rep.should_not == r
+
+    @wip.normalized_rep = r[0..0]
+    @wip.normalized_rep.should == r[0..0]
+    @wip.normalized_rep.should_not == r
   end
 
 end
