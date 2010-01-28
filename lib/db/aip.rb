@@ -18,12 +18,12 @@ class Aip
 
   include DataMapper::Resource
   property :id, String, :key => true
-  property :uri, String, :unique => true, :nullable => false
-  property :xml, Text, :nullable => false
-  property :copy_url, URI, :nullable => false
-  property :copy_sha1, String, :length => 40, :format => %r([a-f0-9]{40}), :nullable => false
-  property :copy_size, Integer, :min => 1, :nullable => false
-  property :needs_work, Boolean, :nullable => false
+  property :uri, String, :unique => true, :required => true
+  property :xml, Text, :required => true
+  property :copy_url, URI, :required => true
+  property :copy_sha1, String, :length => 40, :format => %r([a-f0-9]{40}), :required => true
+  property :copy_size, Integer, :min => 1, :required => true
+  property :needs_work, Boolean, :required => true
 
   validates_with_method :xml, :validate_against_schematron
   validates_with_method :copy_size, :check_copy_size
