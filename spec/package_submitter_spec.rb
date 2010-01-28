@@ -8,6 +8,9 @@ describe PackageSubmitter do
   TAR_SIP = "spec/test-sips/ateam.tar"
   ZIP_SIP_NODIR = "spec/test-sips/ateam-nodir.zip"
   TAR_SIP_NODIR = "spec/test-sips/ateam-nodir.tar"
+  ZIP_NO_DESCRIPTOR = "spec/test-sips/ateam-nodesc.zip"
+  ZIP_DMD_METADATA = "spec/test-sips/ateam-dmd.zip"
+  ZIP_BROKEN_DESCRIPTOR = "spec/test-sips/ateam-broken-descriptor.zip"
 
   URI_PREFIX = "test:/"
 
@@ -87,5 +90,42 @@ describe PackageSubmitter do
     agent_identifier = agent_doc.find_first("//xmlns:agentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
 
     event_linking_agent.should == agent_identifier
+  end
+
+  it "should raise error if descriptor cannot be found (package_name.xml)" do
+    lambda { ieid = PackageSubmitter.submit_sip :zip, ZIP_NO_DESCRIPTOR, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error(DescriptorNotFoundError)
+  end
+
+  it "should raise error if descriptor cannot be parsed" do
+    lambda { ieid = PackageSubmitter.submit_sip :zip, ZIP_BROKEN_DESCRIPTOR, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error(DescriptorCannotBeParsedError)
+  end
+
+  it "should extract descriptive metadata, if present" do
+    ieid = PackageSubmitter.submit_sip :zip, ZIP_DMD_METADATA, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
+
+    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s)
+
+    wip.metadata["dmd-title"].should == "The (fd)A Team"
+    wip.metadata["dmd-issue"].should == "2"
+    wip.metadata["dmd-volume"].should == "1"
+  end
+
+  it "should extract FDA account/project if present" do
+    ieid = PackageSubmitter.submit_sip :zip, ZIP_DMD_METADATA, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
+
+    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s)
+
+    wip.metadata["dmd-account"].should == "ACT"
+    wip.metadata["dmd-project"].should == "PRJ"
+  end
+
+  it "should tolerate some missing DMD metadata" do
+    ieid = PackageSubmitter.submit_sip :zip, ZIP_SIP_NODIR, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
+
+    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s)
+
+    wip.metadata["dmd-title"].should == "The (fd)A Team"
+    wip.metadata["dmd-issue"].should == nil
+    wip.metadata["dmd-volume"].should == nil
   end
 end
