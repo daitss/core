@@ -3,18 +3,18 @@ require 'rake/rdoctask'
 require 'rake/gempackagetask'
 require 'cucumber/rake/task'
 
-#require 'daitss2'
+require 'daitss2'
 
-#Cucumber::Rake::Task.new
+Cucumber::Rake::Task.new
 
-#task :db_migrate do
-  #DataMapper::auto_migrate!
-#end
+task :db_migrate do
+  DataMapper::auto_migrate!
+end
 
 
-#task :db_upgrade do
-  #DataMapper::auto_upgrade!
-#end
+task :db_upgrade do
+  DataMapper::auto_upgrade!
+end
 
 # build a gem spec
 spec = Gem::Specification.new do |spec|
