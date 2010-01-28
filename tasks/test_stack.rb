@@ -17,7 +17,7 @@ class StatusEcho < Sinatra::Base
 
 end
 
-TS_DIR = File.join File.dirname(__FILE__), '..', 'test-stack'
+TS_DIR = File.join File.dirname(__FILE__), '..', '.test-stack'
 
 def test_stack
 
