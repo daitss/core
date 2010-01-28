@@ -1,6 +1,7 @@
 require 'tempdir'
-require 'aip'
+require 'db/aip'
 require 'wip'
+require 'wip/step'
 require 'representation'
 require 'service/validate'
 require 'service/describe'
@@ -15,40 +16,60 @@ class Wip
     
     begin
       step('validate') { validate! }
+
       datafiles.each { |df| step("describe-#{df.id}") { df.describe! } }
 
       # determine existing original_rep and current_rep
       step('set-original-representation') { self.original_rep = datafiles if original_rep.empty? }
-      step('set-current-representation') { self.current_rep = original_rep if current_rep.empty? }
 
-      # new reps
+      step('set-current-representation') { self.current_rep = original_rep if current_rep.empty? }
+      step('set-normalized-representation') { self.normalized_rep = original_rep }
+
+      # new reps: migration, normalization
+
       new_current_rep = current_rep.map do |df| 
 
-          # pass description to actionplan/migrations
-          transformation_url = df.migration
+        # pass description to actionplan/migrations
+        transformation_url = df.migration
 
-          if transformation_url
+        if transformation_url
 
-            # transform into a new datafile either give a new datafile or cleanup any mess
-            new_df = step("migrate-#{df.id}") { transform df.datapath, transformation_url } 
+          # transform into a new datafile either give a new datafile or cleanup any mess
+          new_df = step("migrate-#{df.id}") { transform df.datapath, transformation_url } 
 
-            # describe it
-            step("describe-#{new_df.id}") { new_df.describe! :derivation => df } 
+          # describe it
+          step("describe-#{new_df.id}") { new_df.describe! :derivation => df } 
 
-            new_df
-          else
-            df
-          end
-
+          new_df
+        else
+          df
+        end
 
       end
 
-      # new_current_rep = current_rep.map { |df| df.migrate || df } 
-      #new_normalized_rep = original_rep.map { |df| df.normalize || df }
+      new_normalized_rep = normalized_rep.map do |df| 
+
+        # pass description to actionplan/migrations
+        transformation_url = df.normalization
+
+        if transformation_url
+
+          # transform into a new datafile either give a new datafile or cleanup any mess
+          new_df = step("normalize-#{df.id}") { transform df.datapath, transformation_url } 
+
+          # describe it
+          step("describe-#{new_df.id}") { new_df.describe! :derivation => df } 
+
+          new_df
+        else
+          df
+        end
+
+      end
 
       # persist the representations
       step('update-current-representation') { self.current_rep = new_current_rep unless new_current_rep == current_rep }
-      #step('update-normalized-representation') { self.normalized_rep = new_normalized_rep unless new_normalized_rep == normalized_rep }
+      step('update-normalized-representation') { self.normalized_rep = new_normalized_rep unless new_normalized_rep == normalized_rep }
 
       # clean out undescribed files
       represented_files, unrepresented_files = represented_file_partitions
@@ -76,16 +97,6 @@ class Wip
   end
 
   private
-
-  def step key
-
-    unless tags.has_key? key
-      value = yield
-      tags[key] = Time.now.xmlschema
-      value
-    end
-
-  end
 
   def make_aip! files
 
