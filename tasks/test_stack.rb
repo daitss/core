@@ -1,4 +1,5 @@
 require 'rack'
+require 'db/aip'
 
 # echo the status back to the requestor
 require 'sinatra/base'
@@ -122,8 +123,6 @@ namespace :ts do
 
     # make the database sandbox
     $db_sandbox='sqlite3:///tmp/db_sandbox'
-    $:.unshift '/Users/franco/Code/d2aip/lib'
-    require 'aip'
     DataMapper.setup(:default, $db_sandbox)
     DataMapper.auto_migrate!
 
