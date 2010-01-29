@@ -5,7 +5,7 @@ require 'datafile'
 describe DataFile do
 
   subject do
-    wip = Wip.new File.join($sandbox, UG.generate), 'bogus:/'
+    wip = Wip.new File.join($sandbox, UG.generate), 'bogus:/xxx'
     wip.new_datafile
   end
   
@@ -20,7 +20,7 @@ describe DataFile do
   end
 
   it "should have a uri" do
-    subject.uri.should == URI.join(subject.wip.uri, subject.id).to_s
+    subject.uri.should == "#{subject.wip.uri}/file/#{subject.id}"
   end
 
   it "should equal datafiles with the same path" do

@@ -9,6 +9,7 @@ class DataFile
 
   attr_reader :id, :uri, :wip, :metadata, :datapath 
   alias_method :to_s, :uri
+  alias_method :inspect, :uri
 
   METADATA_DIR = 'metadata'
   DATA_FILE = 'data'
