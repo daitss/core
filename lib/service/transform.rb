@@ -1,63 +1,28 @@
 require 'template'
 require 'datafile'
-require 'service/error'
+require 'net/http'
+require 'cgi'
 
 class DataFile
 
-  # Returns a new datafile provided there is a preservation policy to migrate
-  def migrate
-
-    preserve(CONFIG['migrate-uri']) do |df, tr_url|
-      event_id = URI.join(df.uri, 'event', 'migrate').to_s
-      df['migrate-event'] = event :id => event_id, :type => 'migrate'
-      df['migrate-agent'] = agent :id => tr_url, :name => 'transformation service', :type => 'software'
-      df.describe! :transform_src => uri, :transform_event => event_id
-    end
-
-  end
-
-  # Returns a new datafile provided there is a preservation policy to normalize
-  def normalize
-
-    preserve(CONFIG['normalize-uri']) do |df, tr_url|
-      event_id = URI.join(df.uri, 'event', 'normalize').to_s
-      df['normalize-event'] = event :id => event_id, :type => 'normalize'
-      df['normalize-agent'] = agent :id => tr_url, :name => 'transformation service', :type => 'software'
-      df.describe! :transform_src => uri, :transform_event => event_id
-    end
-
-  end
-
-  private
-
-  def preserve ap_url, &blk
-    actionplan(ap_url) { |tr_url| transform tr_url, &blk }
-  end
-
-  def actionplan url
-
-    Net::HTTP.post_form(URI.parse(url), 'description' => metadata['describe-object']) do |res|
-
-      case res
-      when Net::HTTPRedirection then yield res['location']
-      when Net::HTTPNotFound then nil
-      else res.error!
-      end
-
-    end
-
-  end
-
   def transform url
+    res = Net::HTTP.get_response URI.parse("#{url}?location=#{CGI::escape "file:#{File.expand_path datapath}"}")
 
-    Net::HTTP.post_form(URI.parse(tr_url), 'data' => self.open { |io| io.read } ) do |res|
+    doc = case res
+          when Net::HTTPSuccess then XML::Document.string(res.body)
+          else res.error!
+          end
+
+    links = doc.find('/links/link').map do |node|
+      link = node.content
+      URI.join url, link
+    end
+
+    links.map do |link|
+      res = Net::HTTP.get_response link
 
       case res
-      when Net::HTTPSuccess
-        df = wip.new_datafile
-        df.open(:w) { |io| io.write res.body }
-        yield df, transformation_url
-        df
+      when Net::HTTPSuccess then [res.body, File::extname(link.path)] 
       else res.error!
       end
 
