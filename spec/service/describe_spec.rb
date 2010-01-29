@@ -59,6 +59,49 @@ describe 'describing a datafile' do
 
   end
 
-  it "should raise an error if something goes wrong"
+  it "should take derivation options (migration)" do
+    src = subject.wip.datafiles[0]
+    dst = subject.wip.datafiles[1]
 
+    src.describe!
+    dst.describe! :derivation_source => src.uri, :derivation_method => 'migration'
+
+    doc = XML::Document.string dst['describe-file-object']
+
+    relationship = doc.find_first "P:relationship[P:relatedObjectIdentification/P:relatedObjectIdentifierValue = '#{src.uri}']", NS_PREFIX
+    relationship.should_not be_nil
+
+    rel_event = relationship.find_first "P:relatedEventIdentification/P:relatedEventIdentifierValue", NS_PREFIX
+    rel_event.should_not be_nil
+    event_uri = rel_event.content
+
+    doc = XML::Document.string dst['migration-event']
+    event = doc.find_first "/P:event[P:eventIdentifier/P:eventIdentifierValue = '#{event_uri}']", NS_PREFIX
+    event.should_not be_nil
+    event.find("P:eventType = 'migration'", NS_PREFIX).should be_true
+
+  end
+
+  it "should take derivation options (normalization)" do
+    src = subject.wip.datafiles[0]
+    dst = subject.wip.datafiles[1]
+
+    src.describe!
+    dst.describe! :derivation_source => src.uri, :derivation_method => 'normalization'
+
+    doc = XML::Document.string dst['describe-file-object']
+
+    relationship = doc.find_first "P:relationship[P:relatedObjectIdentification/P:relatedObjectIdentifierValue = '#{src.uri}']", NS_PREFIX
+    relationship.should_not be_nil
+
+    rel_event = relationship.find_first "P:relatedEventIdentification/P:relatedEventIdentifierValue", NS_PREFIX
+    rel_event.should_not be_nil
+    event_uri = rel_event.content
+
+    doc = XML::Document.string dst['normalization-event']
+    event = doc.find_first "/P:event[P:eventIdentifier/P:eventIdentifierValue = '#{event_uri}']", NS_PREFIX
+    event.should_not be_nil
+    event.find("P:eventType = 'normalization'", NS_PREFIX).should be_true
+
+  end
 end
