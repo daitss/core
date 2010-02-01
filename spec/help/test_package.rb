@@ -38,5 +38,18 @@ def submit_sip name
   uuid = UUID.new.generate
   path = File.join $sandbox, uuid
   uri = URI.join(URI_PREFIX, uuid).to_s
-  Wip.make_from_sip path, uri, sip
+  wip = Wip.make_from_sip path, uri, sip
+
+  wip['submit-event'] = event(:id => URI.join(wip.uri, 'event', 'submit').to_s, 
+                              :type => 'submit', 
+                              :outcome => 'success', 
+                              :linking_objects => [ wip.uri ],
+                              :linking_agents => [ 'info:fcla/daitss/test-case' ])
+
+  wip['submit-agent'] = agent(:id => 'info:fcla/daitss/test-case',
+                              :name => 'daitss test stack', 
+                              :type => 'software')
+
+  wip
+
 end
