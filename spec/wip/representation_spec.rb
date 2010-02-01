@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'wip'
-require 'representation'
+require 'wip/representation'
 
 describe "representation handling" do
 
