@@ -1,5 +1,6 @@
 require "wip"
 require "wip/create"
+require "template/premis"
 require "uuid"
 
 TEST_PACKAGE_DIR = File.join File.dirname(__FILE__), '..', '..', 'test-packages'
