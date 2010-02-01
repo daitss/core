@@ -1,5 +1,6 @@
 require 'wip'
 require 'wip/step'
+require 'wip/representation'
 require 'service/describe'
 require 'service/actionplan'
 require 'service/transform'
