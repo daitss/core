@@ -17,7 +17,7 @@ describe 'action planning a datafile' do
   end
 
   it "should redirect if there is a transformation" do
-    subject.normalization.should == 'http://localhost:7000/transformation/pdf_norm'
+    subject.normalization.should == 'http://localhost:7000/transformation/transform/pdf_norm'
   end
 
 end
