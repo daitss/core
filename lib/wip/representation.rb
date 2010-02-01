@@ -34,4 +34,14 @@ class Wip
     datafiles.partition { |df| super_representation.include?(df) }
   end
 
+  def represented_files
+    r, u = represented_file_partitions
+    r
+  end
+
+  def unrepresented_files
+    r, u = represented_file_partitions
+    u
+  end
+
 end
