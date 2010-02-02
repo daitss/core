@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'service/transform'
+require 'datafile/transform'
 
 describe DataFile do
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'xmlns'
-require 'service/describe'
+require 'datafile/describe'
 
 describe 'describing a datafile' do
 

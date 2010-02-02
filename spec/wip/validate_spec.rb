@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'service/validate'
+require 'wip/validate'
 
 describe 'validating a wip' do
 

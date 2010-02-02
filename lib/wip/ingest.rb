@@ -1,6 +1,6 @@
 require 'wip'
 require 'wip/step'
-require 'service/validate'
+require 'wip/validate'
 require 'wip/preserve'
 require 'db/aip'
 require 'db/aip/wip'

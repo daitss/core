@@ -1,4 +1,4 @@
-require 'service/validate'
+require 'wip/validate'
 require 'spec_helper'
 require 'wip/preserve'
 require 'db/aip/wip'

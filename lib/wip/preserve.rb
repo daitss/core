@@ -1,9 +1,9 @@
 require 'wip'
 require 'wip/step'
 require 'wip/representation'
-require 'service/describe'
-require 'service/actionplan'
-require 'service/transform'
+require 'datafile/describe'
+require 'datafile/actionplan'
+require 'datafile/transform'
 
 class Wip
 
