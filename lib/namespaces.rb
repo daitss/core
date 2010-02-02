@@ -1,4 +1,3 @@
-
 NAMESPACES = {
   'mets' => 'http://www.loc.gov/METS/',
   'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
