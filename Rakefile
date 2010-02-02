@@ -1,11 +1,15 @@
-namespace :rng do
-  desc "validate aip schematron"
-  task :validate do
-    exec "xmllint --relaxng schematron.rng aip.stron --noout"
-  end
+require 'rake/gempackagetask'
 
-  desc "generate rng from rnc"
-  task :generate do
-    exec "java -jar trang/trang.jar -I rnc -O rng schematron.rnc schematron.rng"
-  end
+spec = Gem::Specification.new do |spec|
+  spec.name = 'daitss-workspace'
+  spec.version = '0.0.0'
+  spec.summary = 'DAITSS workspace & workspace package'
+  spec.email = 'flazzarino@gmail.com'
+  spec.authors = ['Francesco Lazzarino']
+  spec.files = Dir['lib/**/*'] + Dir['spec/**/*'] 
+  spec.files << 'Rakefile'
+end
+
+Rake::GemPackageTask.new(spec) do |pkg|
+  pkg.need_tar = true
 end
