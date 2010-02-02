@@ -1,6 +1,6 @@
 require 'wip'
 require 'db/aip'
-require 'ingest'
+require 'wip/ingest'
 require 'spec_helper'
 
 describe Wip do

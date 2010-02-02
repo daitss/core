@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'xmlns'
-require 'service/describe'
-require 'service/actionplan'
+require 'datafile/describe'
+require 'datafile/actionplan'
 
 describe 'action planning a datafile' do
 
