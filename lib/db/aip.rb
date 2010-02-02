@@ -18,16 +18,17 @@ class Aip
 
   include DataMapper::Resource
   property :id, String, :key => true
-  property :uri, String, :unique => true, :nullable => false
-  property :xml, Text, :nullable => false
-  property :copy_url, URI, :nullable => false
-  property :copy_sha1, String, :length => 40, :format => %r([a-f0-9]{40}), :nullable => false
-  property :copy_size, Integer, :min => 1, :nullable => false
-  property :needs_work, Boolean, :nullable => false
+  property :uri, String, :unique => true, :required => true
+  property :xml, Text, :required => true
+  property :copy_url, URI, :required => true
+  property :copy_sha1, String, :length => 40, :format => %r([a-f0-9]{40}), :required => true
+  property :copy_md5, String, :length => 40, :format => %r([a-f0-9]{32}), :required => true
+  property :copy_size, Integer, :min => 1, :required => true
+  property :needs_work, Boolean, :required => true
 
   validates_with_method :xml, :validate_against_schematron
   validates_with_method :copy_size, :check_copy_size
-  validates_with_method :copy_sha1, :check_copy_sha1
+  validates_with_method :copy_md5, :check_copy_md5
 
   def validate_against_schematron
     doc = XML::Document.string xml
@@ -54,30 +55,13 @@ class Aip
 
   end
 
-  def check_copy_sha1
+  def check_copy_md5
     res = head_copy
 
-    unless res['Content-SHA1'] == copy_sha1
-      [false, "copy fixity is wrong: #{copy_sha1} (record) != #{res['Content-SHA1']} (silo)"] 
+    unless res['Content-MD5'] == copy_md5
+      [false, "copy fixity is wrong: #{copy_md5} (record) != #{res['Content-MD5']} (silo)"] 
     else
       true
-    end
-
-  end
-
-  def tarball= t
-    self.copy_size = t.size
-    self.copy_sha1 = Digest::SHA1.hexdigest t
-
-    u = ::URI.parse copy_url
-    req = Net::HTTP::Put.new u.path
-    req.content_type = 'application/tar'
-    req.body = t
-    res = Net::HTTP.start(u.host, u.port) { |http| http.request(req) }
-
-    case res
-    when Net::HTTPSuccess
-    else res.error!
     end
 
   end
@@ -89,7 +73,6 @@ class Aip
 
     case res
     when Net::HTTPSuccess then res
-    when HTTPNotFound then [false, "aip is not stored: #{res.code} #{res.msg}: #{res.body}"]
     else res.error!
     end
   end
