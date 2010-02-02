@@ -23,7 +23,7 @@ spec = Gem::Specification.new do |spec|
   spec.version = '0.0.0'
   spec.summary = "DAITSS 2 database"
   spec.authors = ["Carol Chou"]
-  spec.files = ["Rakefile", "stron/aip.stron"] + Dir["lib/*"]
+  spec.files = ["Rakefile", "stron/aip.stron"] + Dir["lib/**/*"]
   spec.add_dependency('datamapper', '~> 0.10.2')
   spec.has_rdoc = true
 end
