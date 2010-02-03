@@ -1,0 +1,9 @@
+%h1 workspace
+
+%table
+  - @workspace.each do |wip|
+    %tr
+      %td
+        %a{:href => wip.id}
+          = wip.uri
+      %td= state wip
