@@ -6,6 +6,7 @@ require "uuid"
 TEST_PACKAGE_DIR = File.join File.dirname(__FILE__), '..', '..', 'test-packages'
 TEST_SIPS_DIR = File.join TEST_PACKAGE_DIR, 'sips'
 URI_PREFIX = 'test:/'
+UG = UUID.new
 
 def test_sip_by_name name
   p = File.join test_package_dir, 'sips', name
@@ -36,7 +37,7 @@ end
 
 def submit_sip name
   sip = Sip.new File.join(TEST_SIPS_DIR, name)
-  uuid = UUID.new.generate
+  uuid = UG.generate
   path = File.join $sandbox, uuid
   uri = URI.join(URI_PREFIX, uuid).to_s
   wip = Wip.make_from_sip path, uri, sip
