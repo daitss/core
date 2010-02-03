@@ -30,4 +30,9 @@ describe DataFile do
       df_1.should == df_2
   end
 
+  it "should know its size" do
+      subject.open('w') { |io| io.write '123' }
+      subject.size.should == 3
+  end
+
 end

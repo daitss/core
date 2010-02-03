@@ -36,6 +36,10 @@ class DataFile
 
   end
 
+  def size
+    File.size @datapath
+  end
+
   def == other
     #puts "#{id} #{other.id} => #{id == other.id}"
     #puts "#{wip} #{other.wip} => #{wip == other.wip}"
