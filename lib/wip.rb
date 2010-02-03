@@ -56,4 +56,10 @@ class Wip
 
   alias_method :to_s, :uri
 
+
+  def == other
+    id == other.id and uri == other.uri and path == other.path
+  end
+  alias_method :eql?, :==
+
 end
