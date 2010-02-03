@@ -1,21 +1,16 @@
 #!/usr/bin/env ruby
 
-$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+$:.unshift '/Users/franco/Code/d2aip/lib'
 
-require 'aip'
-require 'next'
+require 'uuid'
+require 'wip/create'
+require 'template/premis'
+require 'config'
 
-def next_aip
-  
-  Dir.chdir(WORKSPACE) do
-    n = next_in_set Dir["*"], /aip-(\d+)/
-    "aip-#{n}"
-  end
-  
-end
+CONFIG.load 'spec/config/teststack.yml'
 
 unless ENV['WORKSPACE'] and File.directory?(ENV['WORKSPACE'])
-  puts "WORKSPACE must be set"
+  puts "WORKSPACE must be set to a directory"
   exit 1
 end
 
@@ -26,11 +21,24 @@ if ARGV.empty?
   exit 2
 end
 
-sip_path = File.expand_path ARGV[0]
+sip = Sip.new ARGV.shift
 
 begin
-  aip = Aip.make_from_sip File.join(WORKSPACE, next_aip), sip_path  
-  puts "#{aip} successfully submitted"
+  id = UUID.new.generate
+  path = File.join WORKSPACE, id
+  wip = Wip.make_from_sip path, URI.join(CONFIG['uri-prefix'], id).to_s, sip
+
+  wip['submit-event'] = event :id => URI.join(wip.uri, 'event', 'submit').to_s, 
+                              :type => 'submit', 
+                              :outcome => 'success', 
+                              :linking_objects => [ wip.uri ],
+                              :linking_agents => [ 'info:fcla/daitss/reference-submit-client' ]
+
+  wip['submit-agent'] = agent :id => 'info:fcla/daitss/reference-submit-client',
+                              :name => 'reference implementation submit client', 
+                              :type => 'software'
+
+  puts "#{wip.uri} successfully submitted"
 rescue => e
   puts e.message
   puts e.backtrace

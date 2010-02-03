@@ -1,7 +1,7 @@
 --- 
-actionplan: http://localhost:7000/actionplan/instructions
-validation: http://localhost:7000/validation/results
-provenance: http://localhost:7000/provenance
-storage: http://localhost:7000/silo
-description: http://localhost:7000/description/describe
-database: sqlite3:///tmp/db_sandbox
+uri-prefix: test:/
+actionplan-url: http://localhost:7000/actionplan
+validation-url: http://localhost:7000/validation/results
+storage-url: http://localhost:7000/silo
+description-url: http://localhost:7000/description/describe
+database-uri: sqlite3:///tmp/db_sandbox

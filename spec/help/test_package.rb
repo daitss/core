@@ -1,49 +1,29 @@
-require "aip"
+require "wip"
+require "wip/create"
+require "template/premis"
+require "uuid"
 
-def test_package_dir
-  File.join File.dirname(__FILE__), '..', '..', 'test-packages'
-end
-
-def test_sip_by_name name
-  p = File.join test_package_dir, 'sips', name
-  File.expand_path p
-end
-
-def test_aip_by_name name
-  p = File.join test_package_dir, 'aips', name
-  File.expand_path p
-end
-
-def aip_instance_path name
-  prototype = test_aip_by_name name
-  FileUtils::cp_r prototype, $sandbox
-  path = File.join $sandbox, name
-  path
-end
-
-def aip_instance name
-  Aip.new "file:#{aip_instance_path name}"
-end
-
-def aip_instance_from_sip name
-  sip = test_sip_by_name name
-  path = File.join $sandbox, 'aip'
-  aip = Aip.make_from_sip path, sip
-  aip
-end
-
-def next_aip_dir
-
-  taken = Dir["#{$sandbox}/*"].map do |e|
-    e =~ /aip-(\d+)/ ? $1.to_i : -1
-  end      
-
-  File.join $sandbox, "aip-#{ taken.empty? ? 0 : taken.max + 1 }"
-end
+TEST_SIPS_DIR = File.join File.dirname(__FILE__), '..', 'sips'
+URI_PREFIX = 'test:/'
+UG = UUID.new
 
 def submit_sip name
-  sip = test_sip_by_name name
-  path = next_aip_dir
-  aip = Aip.make_from_sip path, sip
-  aip
+  sip = Sip.new File.join(TEST_SIPS_DIR, name)
+  uuid = UG.generate
+  path = File.join $sandbox, uuid
+  uri = URI.join(URI_PREFIX, uuid).to_s
+  wip = Wip.make_from_sip path, uri, sip
+
+  wip['submit-event'] = event(:id => URI.join(wip.uri, 'event', 'submit').to_s, 
+                              :type => 'submit', 
+                              :outcome => 'success', 
+                              :linking_objects => [ wip.uri ],
+                              :linking_agents => [ 'info:fcla/daitss/test-case' ])
+
+  wip['submit-agent'] = agent(:id => 'info:fcla/daitss/test-case',
+                              :name => 'daitss test stack', 
+                              :type => 'software')
+
+  wip
+
 end
