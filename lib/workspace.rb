@@ -9,6 +9,11 @@ class Workspace
     @path = path
   end
 
+  def has_wip? wip_id
+    wip_path = File.join @path, wip_id
+    File.exist? wip_path
+  end
+
   def each
 
     Dir[ File.join(@path, "*") ].each do |path|
@@ -19,11 +24,10 @@ class Workspace
   end
   include Enumerable
 
-  def wip_by_id id
-    wip_path = File.join @path, id
+  def wip_by_id wip_id
 
-    if File.exist? wip_path
-      Wip.new wip_path
+    if has_wip? wip_id
+      Wip.new File.join(@path, wip_id)
     end
 
   end

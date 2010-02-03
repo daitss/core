@@ -3,6 +3,13 @@ require 'workspace'
 
 describe Workspace do
 
+  it "should know if it has a specific wip" do
+    w = Workspace.new $sandbox
+    wip = submit w, 'mimi'
+    w.should have_wip(wip.id)
+    w.should_not have_wip('xxx')
+  end
+
   it "should list packages" do
     w = Workspace.new $sandbox
     wips = %w(mimi haskell-nums-pdf).map { |name| submit w, name }
