@@ -1,5 +1,7 @@
 require 'spec_helper'
 require 'wip'
+require 'wip/task'
+require 'wip/state'
 require 'uuid'
 require 'uri'
 gen = UUID.new
@@ -48,5 +50,37 @@ describe Wip do
   it "should have a uri" do
     subject.uri.should == URI.join("bogus:/", subject.id).to_s 
   end
+
+  it "should equal a wip with the same id, uri and path" do
+    other = Wip.new subject.path
+    subject.should == other
+  end
+
+  it "should have a task" do
+    subject.task = :ingest
+    subject.task.should == :ingest
+  end
+
+  it "should monitor the processing state (idle, running, done)" do
+    subject.should_not be_running
+    subject.start { sleep }
+    subject.should be_running
+    subject.stop
+    subject.should_not be_running
+    subject.should_not be_done
+  end
+
+  it "should know when a package is done" do
+    subject.should_not be_done
+    subject.start { nil } # start a job of nothing
+    sleep 1 # wait for it to finish up
+    subject.should be_done
+  end
+
+
+  # these are things better handled by the interface
+  it "should know snafu"
+  it "should know reject"
+  it "should know halt"
 
 end
