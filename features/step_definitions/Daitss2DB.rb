@@ -1,8 +1,7 @@
 require 'xml'
-require 'aip'
+require 'AIPInPremis'
 
 abs = FileUtils.pwd
-aip = AIP.new
 
 Given /^an aip containing a pdf with embedded fonts$/ do
   @file = "#{abs}/files/pdf-monodescriptor.xml"
@@ -33,6 +32,7 @@ Given /^an aip containing a xml$/ do
 end
 
 When /^populating the aip$/ do
+  aip = AIPInPremis.new
   aip.process @file
 end
 

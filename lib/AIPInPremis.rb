@@ -4,7 +4,6 @@ require 'daitss2.rb'
 class AIPInPremis
   def initialize 
     @int_entity = Intentity.new
-    @int_entity.fromPremis
     @representations = Array.new
     @datafiles = Hash.new
     @bitstreams = Hash.new
@@ -13,6 +12,55 @@ class AIPInPremis
     @agents = Hash.new
     @relationships = Array.new
   end
+
+  def process aip_file
+     # read in the posted AIP descriptor
+
+     doc = XML::Document.file aip_file
+     @int_entity.fromPremis
+     
+     # process all premis file objects
+     fileObjects = doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
+     fileObjects.each do |obj|
+       processDatafile obj
+     end
+
+     # extract all premis representations 
+     repObjects = doc.find("//premis:object[@xsi:type='representation']", NAMESPACES)
+     repObjects.each do |obj|
+       processRepresentation obj    
+     end
+
+     # process all premis bitstreams 
+     bitObjects = doc.find("//premis:object[@xsi:type='bitstream']", NAMESPACES)
+     bitObjects.each do |obj|
+       processBitstream obj    
+     end
+
+     # process all premis agents 
+     agentObjects = doc.find("//premis:agent", NAMESPACES)
+     agentObjects.each do |obj|
+       processAgent obj
+     end
+
+     # process all premis events
+     eventObjects = doc.find("//premis:event", NAMESPACES)
+     eventObjects.each do |obj|
+       processEvent obj
+     end
+
+     # process derived relationships associated with the file
+     fileObjects = doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
+     fileObjects.each do |obj|
+       dfid = obj.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
+       relationships = obj.find("premis:relationship", NAMESPACES)
+       relationships.each do |relationship|
+         processRelationship(dfid, relationship)
+       end
+     end 
+
+     toDB
+   end
 
   def processRepresentation premis
     rep = Representation.new
