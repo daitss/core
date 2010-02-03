@@ -1,51 +1,47 @@
 #!/usr/bin/env ruby
 
-$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
-
-require 'optiflag'
+require "datamapper"
 require "config"
-require 'aip'
+require 'wip'
+require 'ingest'
 
-module CommandLineOptions extend OptiFlagSet
-  
-  flag "aip" do
-    description "the aip to ingest"
-  end
-  
-  flag "config" do
-    description "the configuration file to use"
-  end
-    
-  and_process!
-end
+wip = begin
 
-Config::load CommandLineOptions.flags.config
-DataMapper.setup(:default, Config::Service["database"])
+        # workspace
+        raise "WORKSPACE must be set" unless ENV['WORKSPACE']
+        raise "WORKSPACE must be a directory" unless File.directory?(ENV['WORKSPACE'])
 
-aip = begin
-        Aip.new CommandLineOptions.flags.aip
+        # wip
+        wip_id = ARGV.shift
+        raise "no wip id specified" unless wip_id
+        wip_path = File.join ENV['WORKSPACE'], wip_id
+        raise "wip #{wip_id} not found in #{ENV['WORKSPACE']}" unless File.directory? wip_path
+
+        # config file
+        config_file = ARGV.shift
+        raise "no config file specified" unless config_file
+        CONFIG::load config_file
+
+        # database
+        DataMapper.setup :default, CONFIG["database-uri"]
+
+        # load the wip
+        Wip.new wip_path
       rescue => e
-        puts "cannot process #{CommandLineOptions.flags.aip}: #{e.message}"
+        puts "cannot process #{wip_id}: #{e.message}"
+        puts e.backtrace
         exit 1
       end
 
-if aip.rejected?
-  puts "#{aip} is rejected"
-  exit 2
-elsif aip.snafu?
-  puts "#{aip} is snafu"
-  exit 3
-else  
-  aip.ingest!
-end
+wip.ingest!
 
-# handle the aftermath
-if aip.rejected?
-  puts "#{aip} is rejected"
+if wip.tags['REJECT']
+  puts "#{wip} is rejected"
   exit 2
-elsif aip.snafu?
-  puts "#{aip} is snafu"
+elsif wip.tags['SNAFU']
+  puts "#{wip} is snafu"
   exit 3
 else
-  puts "#{aip} is ingested"
+  puts "#{wip} ingested"
 end
+

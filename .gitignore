@@ -2,5 +2,7 @@
 pkg
 *.log
 *.tmproj
-test-stack
+.test-stack
 *.swp
+tags
+coverage
