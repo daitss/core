@@ -2,20 +2,6 @@ require 'sys/proctable'
 
 class Wip
 
-  def state
-
-    if tags.has_key? 'state'
-      tags['state'].to_sym
-    else
-      :pending
-    end
-
-  end
-
-  def state= s
-    tags['state'] = s.to_s
-  end
-
   def running?
     pid, starttime = process
 
