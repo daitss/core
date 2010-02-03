@@ -2,6 +2,7 @@ require 'uuid'
 require 'datamapper'
 require 'fileutils'
 require 'tempfile'
+require 'wip/create'
 
 UG = UUID.new
 
@@ -21,8 +22,19 @@ def new_sandbox
 end
 
 SIP_DIR = File.join File.dirname(__FILE__), 'sips'
-
 URI_PREFIX = "test:/"
+
+def submit workspace, sip_name
+  sip_path = File.join SIP_DIR, sip_name
+  sip = Sip.new sip_path
+
+  wip_id = UG.generate :compact
+  path = File.join workspace.path, wip_id
+  uri = "#{URI_PREFIX}/#{wip_id}"
+  wip = Wip::make_from_sip path, uri, sip
+  wip.tags['task'] = 'ingest'
+  wip
+end
 
 Spec::Runner.configure do |config|
 
