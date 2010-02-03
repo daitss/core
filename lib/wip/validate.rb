@@ -9,10 +9,6 @@ class Reject < StandardError; end
 
 class Wip
 
-  def validated?
-    tags.has_key? 'validate'
-  end
-
   def validate!
     doc = XML::Document.string ask_validation
     rr = reject_reasons doc
