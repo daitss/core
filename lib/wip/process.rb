@@ -35,6 +35,7 @@ class Wip
     unless running?
 
       pid = fork do 
+        Signal.trap "INT", "DEFAULT"
         $stderr = StringIO.new # silencio!
         #$stdout = StringIO.new
         yield self
