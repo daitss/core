@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'namespaces'
 require 'dm-core'
 require 'dm-types'
 require 'dm-aggregates'
