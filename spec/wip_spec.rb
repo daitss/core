@@ -77,10 +77,8 @@ describe Wip do
     subject.should be_done
   end
 
-
   # these are things better handled by the interface
   it "should know snafu"
   it "should know reject"
   it "should know halt"
-
 end
