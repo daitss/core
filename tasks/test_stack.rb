@@ -6,7 +6,19 @@ require 'sinatra/base'
 
 class StatusEcho < Sinatra::Base
 
-  get '/code/:code' do |code|
+  get %r{/.*?(\d{3}).*} do |code|
+    code = params[:captures].first
+
+    if code.to_i == 200
+      'all good'
+    else
+      halt code, 'you asked for it'
+    end
+
+  end
+
+  post %r{/.*?(\d{3}).*} do |code|
+    code = params[:captures].first
 
     if code.to_i == 200
       'all good'
@@ -61,6 +73,10 @@ def test_stack
 
     map "/silo" do
       run SimpleStorage::App.new($silo_sandbox)
+    end
+
+    map "/statusecho" do
+        run StatusEcho.new
     end
 
   end
