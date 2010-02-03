@@ -1,13 +1,6 @@
+require "help/test_stack"
 require "help/test_package"
 require "help/sandbox"
-require "help/fs"
-require "help/xmlvalidation"
-require "help/schematron"
-require "help/snafu"
-require "help/reps"
-require "help/store"
-require "help/xpath"
-require "help/test_stack"
 
 require 'datamapper'
 
