@@ -16,7 +16,7 @@ class Wip
   def initialize path, uri=nil
     @path = File.expand_path path
     @id = File.basename @path
-    FileUtils::mkdir_p @path
+    FileUtils::mkdir_p @path unless File.exist? @path
 
     @metadata = FsHash.new File.join(@path, METADATA_DIR)
     @tags = FsHash.new File.join(@path, TAGS_DIR)

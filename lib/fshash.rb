@@ -6,7 +6,7 @@ class FsHash
 
   def initialize dir
     @path = dir
-    FileUtils::mkdir_p @path
+    FileUtils::mkdir_p @path unless File.exist? @path
   end
 
   def []= key, data
