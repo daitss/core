@@ -5,3 +5,4 @@ pkg
 .test-stack
 *.swp
 tags
+coverage
