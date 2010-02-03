@@ -1,0 +1,21 @@
+%h1= @wip.uri
+
+%table
+  %tr
+    %th running
+    %td= @wip.running? ? 'yes' : 'no'
+  %tr
+    %th done
+    %td= @wip.done? ? 'yes' : 'no'
+
+%form{:action => @wip.id, :method => "post"}
+  %input{:type => 'hidden', :name => 'state', :value => (@wip.running? ? 'stop' : 'start')}
+  %input{:type => 'submit', :value => (@wip.running? ? 'Stop' : 'Start')}
+
+%h2 data files
+%table
+  - @wip.datafiles.each do |df|
+    %tr
+      %td= df.uri
+      %td= df['sip-path'] or df['aip-path']
+      %td= df.size
