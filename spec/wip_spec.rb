@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'wip'
 require 'wip/task'
-require 'wip/state'
+require 'wip/process'
 require 'uuid'
 require 'uri'
 gen = UUID.new
@@ -33,6 +33,12 @@ describe Wip do
   it "should let addition of new files" do
     df = subject.new_datafile 
     df['sip-path'] = 'foo/bar.png'
+  end
+
+  it "should let the addition of new files by a given id" do
+    the_id = 5.to_s
+    df = subject.new_datafile the_id
+    subject.datafiles.first.id.should == the_id
   end
 
   it "should let addition of new metadata" do
