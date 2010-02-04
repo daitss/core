@@ -10,7 +10,12 @@ class Tempdir
     @path = t.path
     t.close!
     FileUtils::mkdir @path
-    yield self if block_given?
+
+    if block_given?
+      yield self 
+      rm_rf
+    end
+
   end
 
   def rmdir
