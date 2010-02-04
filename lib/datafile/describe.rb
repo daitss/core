@@ -46,7 +46,7 @@ class DataFile
   def ask_description_service query={}
     query_str = query.map { |key, value| "#{key.id2name}=#{CGI::escape value.to_s}" }.join '&'
     url = URI.parse "#{CONFIG['description-url']}?#{query_str}"
-      res = Net::HTTP.get_response url
+    res = Net::HTTP.get_response url
 
     case res
     when Net::HTTPSuccess then XML::Document.string res.body
