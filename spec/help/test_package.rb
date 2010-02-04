@@ -1,5 +1,6 @@
 require "wip"
 require "wip/create"
+require "wip/ingest"
 require "template/premis"
 require "uuid"
 
@@ -26,4 +27,18 @@ def submit_sip name
 
   wip
 
+end
+
+def ingest_sip name
+  original_wip = submit_sip name
+  original_wip.ingest!
+
+  aip = Aip.get original_wip.id
+  aip.should_not be_nil
+  FileUtils.rm_r original_wip.path
+
+  path = File.join $sandbox, aip.id 
+  wip = Wip.new path, aip.uri
+  wip.load_from_aip
+  wip
 end
