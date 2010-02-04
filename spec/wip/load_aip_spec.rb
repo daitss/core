@@ -8,17 +8,7 @@ describe Wip do
   describe "loading from aip" do
 
     subject do
-      original_wip = submit_sip 'mimi'
-      original_wip.ingest!
-
-      aip = Aip.get original_wip.id
-      aip.should_not be_nil
-      FileUtils.rm_r original_wip.path
-
-      path = File.join $sandbox, aip.id 
-      wip = Wip.new path, aip.uri
-      wip.load_from_aip
-      wip
+      ingest_sip 'mimi'
     end
 
     it "should load the aip descriptor" do
