@@ -44,10 +44,16 @@ class Wip
   end
 
   # returns a new data file that will persist in this aip
-  def new_datafile
-    max_id = (datafiles.map { |df| df.id.to_i }.max || -1)
-    new_id = max_id + 1
-    DataFile.new self, new_id.to_s
+  def new_datafile id=nil
+
+    df_id = if id
+              id
+            else
+              max_id = (datafiles.map { |df| df.id.to_i }.max || -1)
+              new_id = max_id + 1
+            end
+
+    DataFile.new self, df_id.to_s
   end
 
   def uri
