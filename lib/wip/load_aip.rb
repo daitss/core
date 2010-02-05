@@ -8,7 +8,8 @@ class Wip
     load_copy
     load_datafiles
     load_representations
-    load_old_digiprov
+    load_old_package_digiprov
+    load_old_datafile_digiprov
   end
 
   def load_aip_record
@@ -53,7 +54,7 @@ class Wip
       end
 
       df_paths = doc.find("//M:file", NS_PREFIX).map do |file_node|
-        
+
         # make  a new datafile
         df_id = file_node['ID'].slice /file-(\d+)/, 1
         df = new_datafile df_id
@@ -98,10 +99,20 @@ class Wip
 
   end
 
-  def load_old_digiprov
+  def load_old_package_digiprov
     doc = XML::Document.string metadata['aip-descriptor']
     es = doc.find("//P:event[P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = '#{uri}']", NS_PREFIX)
     metadata['old-digiprov'] = es.map { |e| e.to_s }.join "\n"
+  end
+
+  def load_old_datafile_digiprov
+
+    datafiles.each do |df|
+      doc = XML::Document.string metadata['aip-descriptor']
+      es = doc.find("//P:event[P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = '#{df.uri}']", NS_PREFIX)
+      df.metadata['old-digiprov'] = es.map { |e| e.to_s }.join "\n"
+    end
+
   end
 
 end

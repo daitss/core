@@ -21,40 +21,65 @@ class Wip
       self.current_rep = original_rep if current_rep.empty?
     end
 
+    # do we need this?
     step 'set-normalized-representation' do
       self.normalized_rep = original_rep
     end
 
     new_current_rep = current_rep.map do |df| 
-      transformation_url = df.migration
 
-      if transformation_url
-        new_df = step("migrate-#{df.id}") { df.transform transformation_url } 
-        step("describe-#{new_df.id}") { new_df.describe! :derivation => df } 
-        new_df
-      else
-        df
+      step("migrate-#{df.id}") do
+        transformation_url = df.migration
+
+        if transformation_url
+          products = df.transform transformation_url
+          data, extension = products.first # XXX only 1-1 is supported now
+
+          begin
+            new_df = new_datafile
+            new_df.open('w') { |io| io.write data }
+            new_df['extension'] = extension
+            new_df['aip-path'] = "#{df.id}-migration#{extension}"
+            new_df.describe! :derivation_source => df.uri, :derivation_method => :migrate
+            new_df
+          rescue
+            nuke_datafile new_df
+            raise
+          end
+
+        else
+          df
+        end
+
       end
 
     end
 
-    new_normalized_rep = normalized_rep.map do |df| 
-      transformation_url = df.normalization
+    new_normalized_rep = original_rep.map do |df| 
 
-      if transformation_url
-        products = step("normalize-#{df.id}") { df.transform transformation_url }
-        data, extension = products.first # XXX only 1-1 is supported now
+      step("normalize-#{df.id}") do
+        transformation_url = df.normalization
 
-        new_df = new_datafile
-        new_df.open('w') { |io| io.write data }
-        new_df['extension'] = extension
-        new_df['aip-path'] = "#{df.id}-normalization#{extension}"
+        if transformation_url
+          products = df.transform transformation_url
+          data, extension = products.first # XXX only 1-1 is supported now
 
-        step("describe-#{new_df.id}") { new_df.describe! :derivation => df } 
+          begin
+            norm_df = new_datafile 
+            norm_df.open('w') { |io| io.write data }
+            norm_df['extension'] = extension
+            norm_df['aip-path'] = "#{df.id}-normalization#{extension}"
+            norm_df.describe! :derivation_source => df.uri, :derivation_method => :normalize
+            norm_df
+          rescue
+            remove_datafile norm_df
+            raise
+          end
 
-        new_df
-      else
-        df
+        else
+          df
+        end
+
       end
 
     end

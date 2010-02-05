@@ -64,7 +64,7 @@ describe 'describing a datafile' do
     dst = subject.wip.datafiles[1]
 
     src.describe!
-    dst.describe! :derivation_source => src.uri, :derivation_method => 'migration'
+    dst.describe! :derivation_source => src.uri, :derivation_method => :migrate
 
     doc = XML::Document.string dst['describe-file-object']
 
@@ -75,10 +75,10 @@ describe 'describing a datafile' do
     rel_event.should_not be_nil
     event_uri = rel_event.content
 
-    doc = XML::Document.string dst['migration-event']
+    doc = XML::Document.string dst['migrate-event']
     event = doc.find_first "/P:event[P:eventIdentifier/P:eventIdentifierValue = '#{event_uri}']", NS_PREFIX
     event.should_not be_nil
-    event.find("P:eventType = 'migration'", NS_PREFIX).should be_true
+    event.find("P:eventType = 'migrate'", NS_PREFIX).should be_true
 
   end
 
@@ -87,7 +87,7 @@ describe 'describing a datafile' do
     dst = subject.wip.datafiles[1]
 
     src.describe!
-    dst.describe! :derivation_source => src.uri, :derivation_method => 'normalization'
+    dst.describe! :derivation_source => src.uri, :derivation_method => :normalize
 
     doc = XML::Document.string dst['describe-file-object']
 
@@ -98,10 +98,10 @@ describe 'describing a datafile' do
     rel_event.should_not be_nil
     event_uri = rel_event.content
 
-    doc = XML::Document.string dst['normalization-event']
+    doc = XML::Document.string dst['normalize-event']
     event = doc.find_first "/P:event[P:eventIdentifier/P:eventIdentifierValue = '#{event_uri}']", NS_PREFIX
     event.should_not be_nil
-    event.find("P:eventType = 'normalization'", NS_PREFIX).should be_true
-
+    event.find("P:eventType = 'normalize'", NS_PREFIX).should be_true
   end
+
 end
