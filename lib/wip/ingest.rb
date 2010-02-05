@@ -10,33 +10,24 @@ require 'template/premis'
 class Wip
 
   def ingest!
-    
-    begin
-      step('validate') { validate! }
-      preserve!
+    step('validate') { validate! }
+    preserve!
 
-      step('make-aip-descriptor') do
-        metadata['aip-descriptor'] = descriptor
-      end
-
-      step('write-ingest-event') do
-        spec = {
-          :id => "#{uri}/event/ingest", 
-          :type => 'ingest', 
-          :outcome => 'success', 
-          :linking_objects => [ uri ]
-        }
-        metadata['ingest-event'] = event spec
-      end
-
-      step('make-aip') { Aip::new_from_wip self }
-    rescue Reject => e
-      tags['REJECT'] = e.message
-    rescue => e
-      tags['SNAFU'] = ( [e.message] + e.backtrace ).join "\n"
-      puts tags['SNAFU']
+    step('make-aip-descriptor') do
+      metadata['aip-descriptor'] = descriptor
     end
 
+    step('write-ingest-event') do
+      spec = {
+        :id => "#{uri}/event/ingest", 
+        :type => 'ingest', 
+        :outcome => 'success', 
+        :linking_objects => [ uri ]
+      }
+      metadata['ingest-event'] = event spec
+    end
+
+    step('make-aip') { Aip::new_from_wip self }
   end
 
 end
