@@ -7,18 +7,18 @@ describe Wip do
 
   describe "that cannot disseminate" do
 
-    it "should fail if an aip does not exist for the wip" do
+    it "should raise error if an aip does not exist for the wip" do
       wip = submit_sip 'mimi'
       lambda { wip.disseminate }.should raise_error(DataMapper::ObjectNotFoundError)
     end
 
-    it "should snafu if there is anything wrong with dissemination" do
+    it "should raise error if there is anything wrong with dissemination" do
       wip = ingest_sip 'mimi'
-      real_description_url = CONFIG['description-url']
-      CONFIG['description-url'] = "#{STATUS_ECHO_URL}/500/foo"
-      wip.disseminate
-      wip.should be_snafu
-      CONFIG['description-url'] = real_description_url
+
+      override_service 'description-url', 500 do
+        lambda { wip.disseminate }.should raise_error(Net::HTTPFatalError)
+      end
+
     end
 
     describe "that can disseminate" do
