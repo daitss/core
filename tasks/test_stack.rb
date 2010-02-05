@@ -6,28 +6,23 @@ require 'sinatra/base'
 
 class StatusEcho < Sinatra::Base
 
-  get %r{/.*?(\d{3}).*} do |code|
-    code = params[:captures].first
+  helpers do
 
-    if code.to_i == 200
-      'all good'
-    else
-      halt code, 'you asked for it'
+    def echo_it
+      code = params[:captures].first.to_i
+
+      if code == 200
+        'all good'
+      else
+        halt code, 'you asked for it'
+      end
+
     end
 
   end
 
-  post %r{/.*?(\d{3}).*} do |code|
-    code = params[:captures].first
-
-    if code.to_i == 200
-      'all good'
-    else
-      halt code, 'you asked for it'
-    end
-
-  end
-
+  get(%r{/.*?(\d{3}).*}){ echo_it }
+  post(%r{/.*?(\d{3}).*}){ echo_it }
 end
 
 TS_DIR = File.join File.dirname(__FILE__), '..', '.test-stack'
