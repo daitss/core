@@ -55,7 +55,51 @@ describe Wip do
 
     it "should pull in package level provenance" do
       subject.should have_key('old-digiprov')
+      events = subject['old-digiprov'].split %r{\n(?=<event)}
+
+      # the submission
+      submission_event = events.find do |e| 
+        doc = XML::Document.string e
+        doc.find_first "/P:event[P:eventType = 'submit']", NS_PREFIX
+      end
+      submission_event.should_not be_nil
+
+      # validation
+      validation_event = events.find do |e| 
+        doc = XML::Document.string e
+        doc.find_first "/P:event[P:eventType = 'comprehensive validation']", NS_PREFIX
+      end
+      validation_event.should_not be_nil
+
+      # ingest events
+      ingest_event = events.find do |e| 
+        doc = XML::Document.string e
+        doc.find_first "/P:event[P:eventType = 'ingest']", NS_PREFIX
+      end
+      ingest_event.should_not be_nil
+
+    end
+
+    it "should pull in datafile level provenance" do
       tif = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.tif'}
+      tif.should have_key('old-digiprov')
+      events = tif['old-digiprov'].split %r{\n(?=<event)}
+      
+      # description event
+      description_event = events.find do |e| 
+        doc = XML::Document.string e
+        doc.find_first "/P:event[P:eventType = 'format description']", NS_PREFIX
+      end
+
+      description_event.should_not be_nil
+      
+      # normalization event
+      normalization_event = events.find do |e| 
+        doc = XML::Document.string e
+        doc.find_first "/P:event[P:eventType = 'normalize']", NS_PREFIX
+      end
+
+      normalization_event.should_not be_nil
     end
 
   end
