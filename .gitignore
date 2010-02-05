@@ -4,5 +4,6 @@ pkg
 *.tmproj
 .test-stack
 *.swp
+*.swo
 tags
 coverage
