@@ -41,6 +41,12 @@ describe Wip do
     subject.datafiles.first.id.should == the_id
   end
 
+  it "should let removal of files" do
+    df = subject.new_datafile 
+    subject.remove_datafile df
+    subject.datafiles.should_not include(df)
+  end
+
   it "should let addition of new metadata" do
     subject['submit-event'] = "submitted at #{Time.now}"
 

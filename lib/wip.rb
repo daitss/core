@@ -56,6 +56,15 @@ class Wip
     DataFile.new self, df_id.to_s
   end
 
+  def remove_datafile df_to_remove
+
+    unless datafiles.find { |df| df == df_to_remove }
+      raise "datafile #{df_to_remove} is not of wip #{self}" 
+    end
+
+    FileUtils::rm_r File.join @path, FILES_DIR, df_to_remove.id
+  end
+
   def uri
     metadata['uri']
   end
