@@ -1,3 +1,9 @@
 services
 *.swp
 *.swo
+*.gem
+pkg
+*.log
+*.tmproj
+tags
+coverage
