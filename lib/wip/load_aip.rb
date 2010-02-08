@@ -10,6 +10,7 @@ class Wip
     load_representations
     load_old_package_digiprov
     load_old_datafile_digiprov
+    load_normalized_versions
   end
 
   def load_aip_record
@@ -77,6 +78,8 @@ class Wip
         end
 
         df['aip-path'] = aip_path
+
+
       end
 
     end
@@ -111,6 +114,34 @@ class Wip
       doc = XML::Document.string metadata['aip-descriptor']
       es = doc.find("//P:event[P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = '#{df.uri}']", NS_PREFIX)
       df.metadata['old-digiprov'] = es.map { |e| e.to_s }.join "\n"
+    end
+
+  end
+
+  def load_normalized_versions
+
+    [datafiles.first].each do |df|
+      doc = XML::Document.string metadata['aip-descriptor']
+
+      xpath = %Q{
+        //P:event[P:eventType = 'normalize']
+                 [P:linkingObjectIdentifier[P:linkingObjectRole = 'source']
+                                           [P:linkingObjectIdentifierValue = '#{df.uri}']]
+                 /P:linkingObjectIdentifier[P:linkingObjectRole = 'outcome']/P:linkingObjectIdentifierValue
+      }
+
+      normalization_outcome_node = doc.find_first xpath, NS_PREFIX
+
+      if normalization_outcome_node
+        outcome_uri = normalization_outcome_node.content
+        norm_df = datafiles.find { |x| x.uri == outcome_uri }
+
+        if norm_df
+          df.normalized_version = norm_df
+        end
+
+      end
+
     end
 
   end
