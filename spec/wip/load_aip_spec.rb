@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'wip'
 require 'wip/ingest'
 require 'wip/load_aip'
+require 'datafile/normalized_version'
 
 describe Wip do
 
@@ -100,6 +101,16 @@ describe Wip do
       end
 
       normalization_event.should_not be_nil
+    end
+
+    it "should pull in the normalized_versions of a datafile if exists" do
+      xml = subject.datafiles.find { |df| df['aip-path'] == 'mimi.xml' }
+      pdf = subject.datafiles.find { |df| df['aip-path'] == 'mimi.pdf' }
+      tif = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.tif'}
+
+      xml.normalized_version.should be_nil
+      pdf.normalized_version.should == tif
+      tif.normalized_version.should be_nil
     end
 
   end
