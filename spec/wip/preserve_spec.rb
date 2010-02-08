@@ -29,24 +29,24 @@ describe Wip do
       @wip.original_rep.should_not include(@files[:tif])
     end
 
-    it "should have a current migration just with only an xml and a pdf" do
+    it "should have a current representation just with only an xml and a pdf" do
       @wip.current_rep.should have_exactly(2).items
       @wip.current_rep.should include(@files[:xml])
       @wip.current_rep.should include(@files[:pdf])
       @wip.current_rep.should_not include(@files[:tif])
 
       migration_tags = @wip.tags.keys.select { |key| key =~ /migrate-\d+/ }
-      migration_tags.should be_empty
+      migration_tags.should have_exactly(2).items
     end
 
-    it "should have a current migration just with only an xml and a pdf" do
+    it "should have a normalized representation just with only an xml and a tif" do
       @wip.normalized_rep.should have_exactly(2).items
       @wip.normalized_rep.should include(@files[:xml])
       @wip.normalized_rep.should include(@files[:tif])
       @wip.normalized_rep.should_not include(@files[:pdf])
 
       normalization_tags = @wip.tags.keys.select { |key| key =~ /normalize-\d+/ }
-      normalization_tags.should have_exactly(1).items
+      normalization_tags.should have_exactly(2).items
     end
 
   end
