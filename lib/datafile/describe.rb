@@ -26,7 +26,9 @@ class DataFile
       event_uri = "#{uri}/event/#{derivation_method}"
       metadata["#{derivation_method}-event"] = event(:id => event_uri,
                                                      :type => derivation_method,
-                                                     :linking_objects => [uri, src_uri])
+                                                     :linking_objects => [ 
+                                                       {:uri => src_uri, :role => 'source'}, 
+                                                       {:uri => uri, :role => 'outcome'}])
 
       rel_doc = XML::Document::string relationship(:type => 'derivation',
                                                    :sub_type => 'has source',
