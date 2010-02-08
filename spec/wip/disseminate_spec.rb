@@ -30,16 +30,16 @@ describe Wip do
       end
 
       it "should update the aip it came from" do
-         aip = Aip.get subject.id 
-         aip.should_not be_nil
-         doc = XML::Document.string aip.xml
-         disseminate_event = doc.find_first "P:event[P:eventType = 'disseminate']"
-         disseminate_event.should_not be_nil
+        aip = Aip.get subject.id 
+        aip.should_not be_nil
+        doc = XML::Document.string aip.xml
+        disseminate_event = doc.find_first "P:event[P:eventType = 'disseminate']"
+        disseminate_event.should_not be_nil
       end
 
       it "should produce a dip in a disseminate area" do
-          path = File.join CONFIG['disseminate-dir-path'], "#{subject.id}.tar"
-          File.exist?(path).should be_true
+        path = File.join CONFIG['disseminate-dir-path'], "#{subject.id}.tar"
+        File.exist?(path).should be_true
       end
 
     end
