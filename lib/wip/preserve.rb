@@ -4,6 +4,7 @@ require 'wip/representation'
 require 'datafile/describe'
 require 'datafile/actionplan'
 require 'datafile/transform'
+require 'datafile/normalized_version'
 
 class Wip
 
@@ -19,11 +20,6 @@ class Wip
 
     step 'set-current-representation'  do
       self.current_rep = original_rep if current_rep.empty?
-    end
-
-    # do we need this?
-    step 'set-normalized-representation' do
-      self.normalized_rep = original_rep
     end
 
     new_current_rep = current_rep.map do |df| 
@@ -65,11 +61,15 @@ class Wip
           data, extension = products.first # XXX only 1-1 is supported now
 
           begin
-            norm_df = new_datafile 
+            norm_df = df.normalized_version || new_datafile 
             norm_df.open('w') { |io| io.write data }
             norm_df['extension'] = extension
             norm_df['aip-path'] = "#{df.id}-normalization#{extension}"
-            norm_df.describe! :derivation_source => df.uri, :derivation_method => :normalize
+
+            step "describe-#{norm_df.id}" do
+              norm_df.describe! :derivation_source => df.uri, :derivation_method => :normalize
+            end
+
             norm_df
           rescue
             remove_datafile norm_df
@@ -92,9 +92,10 @@ class Wip
       self.normalized_rep = new_normalized_rep unless new_normalized_rep == normalized_rep
     end
 
-    # clean out undescribed files
-    represented_files, unrepresented_files = represented_file_partitions
-    unrepresented_files.each { |df| step("obsolete-#{df.id}") { df.obsolete! } }
+    unrepresented_files.each do |df| 
+      step("obsolete-#{df.id}") { df.obsolete! }
+    end
+
   end
 
 end
