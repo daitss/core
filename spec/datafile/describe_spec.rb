@@ -80,6 +80,10 @@ describe 'describing a datafile' do
     event.should_not be_nil
     event.find("P:eventType = 'migrate'", NS_PREFIX).should be_true
 
+     event.find_first("P:linkingObjectIdentifier[P:linkingObjectIdentifierValue = '#{src.uri}'][P:linkingObjectRole = 'source']", NS_PREFIX).should_not be_nil
+     event.find_first("P:linkingObjectIdentifier[P:linkingObjectIdentifierValue = '#{dst.uri}'][P:linkingObjectRole = 'outcome']", NS_PREFIX).should_not be_nil
+
+
   end
 
   it "should take derivation options (normalization)" do
@@ -102,6 +106,9 @@ describe 'describing a datafile' do
     event = doc.find_first "/P:event[P:eventIdentifier/P:eventIdentifierValue = '#{event_uri}']", NS_PREFIX
     event.should_not be_nil
     event.find("P:eventType = 'normalize'", NS_PREFIX).should be_true
+
+    event.find_first("P:linkingObjectIdentifier[P:linkingObjectIdentifierValue = '#{src.uri}'][P:linkingObjectRole = 'source']", NS_PREFIX).should_not be_nil
+    event.find_first("P:linkingObjectIdentifier[P:linkingObjectIdentifierValue = '#{dst.uri}'][P:linkingObjectRole = 'outcome']", NS_PREFIX).should_not be_nil
   end
 
 end

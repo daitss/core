@@ -17,12 +17,22 @@
   </linkingAgentIdentifier>
   <% end %>
 
-  <% options[:linking_objects].each do |uri| %>
-  <linkingObjectIdentifier>
-    <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-    <linkingObjectIdentifierValue><%= uri %></linkingObjectIdentifierValue>
-  </linkingObjectIdentifier>
+  <% options[:linking_objects].each do |obj| %>
+
+    <% if obj.kind_of? Hash  %>
+      <linkingObjectIdentifier>
+        <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+        <linkingObjectIdentifierValue><%= obj[:uri] %></linkingObjectIdentifierValue>
+        <linkingObjectRole><%= obj[:role] %></linkingObjectRole>
+      </linkingObjectIdentifier>
+    <% else %>
+      <linkingObjectIdentifier>
+        <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+        <linkingObjectIdentifierValue><%= obj.to_s %></linkingObjectIdentifierValue>
+      </linkingObjectIdentifier>
+    <% end %>
+
   <% end %>
 
-</event>
+  </event>
 
