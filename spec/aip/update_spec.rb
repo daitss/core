@@ -1,6 +1,48 @@
+require 'spec_helper'
 require 'db/aip'
 require 'db/aip/wip'
 
 describe Aip do
-  it "should update from a wip if the aip exists"
+
+  describe "that does not exist" do
+    subject { submit_sip 'mimi' }
+
+    it "should not update" do
+      lambda { Aip::update_from_wip subject}.should raise_error(DataMapper::ObjectNotFoundError)
+    end
+
+  end
+
+  describe "that exists" do
+
+    subject do
+      proto_wip = submit_sip 'mimi'
+      proto_wip.ingest!
+      wip = pull_aip proto_wip.id
+
+      lambda { Aip.get! wip.id }.should_not raise_error(DataMapper::ObjectNotFoundError)
+
+      spec = {
+        :id => "#{wip.uri}/event/FOO", 
+        :type => 'FOO', 
+        :outcome => 'success', 
+        :linking_objects => [ wip.uri ]
+      }
+
+      wip['aip-descriptor'] = wip.descriptor
+      Aip::update_from_wip wip
+    end
+
+    it "should update based on a WIP" do
+      lambda { Aip.get! subject.id }.should_not raise_error(DataMapper::ObjectNotFoundError)
+    end
+
+    it "should have the new metadata" do
+      doc = XML::Document.string subject.xml
+     puts doc.find("//P:event/eventType = 'FOO'", NS_PREFIX).inspect
+    end
+
+  end
+
+
 end
