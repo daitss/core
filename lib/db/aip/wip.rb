@@ -10,7 +10,7 @@ class Aip
     aip = Aip.new
     aip.id = wip.id
     aip.uri = wip.uri
-    aip.xml = wip.descriptor.to_s
+    aip.xml = wip['aip-descriptor']
     aip.copy_url, aip.copy_size, aip.copy_md5, aip.copy_sha1 = put_copy wip, "#{CONFIG['storage-url']}/#{wip.id}-0"
     aip.needs_work = true
 
@@ -24,7 +24,7 @@ class Aip
 
   def Aip.update_from_wip wip
     aip = Aip.get! wip.id
-    aip.xml = wip.descriptor.to_s
+    aip.xml = wip['aip-descriptor']
     old_url = aip.copy_url.to_s
     old_suffix = old_url[/-(\d+)$/, 1]
     new_suffix = (old_suffix.to_i + 1).to_s
