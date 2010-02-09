@@ -19,8 +19,7 @@ describe Aip do
       proto_wip = submit_sip 'mimi'
       proto_wip.ingest!
       wip = pull_aip proto_wip.id
-
-      lambda { Aip.get! wip.id }.should_not raise_error(DataMapper::ObjectNotFoundError)
+      Aip.get! wip.id
 
       spec = {
         :id => "#{wip.uri}/event/FOO", 
@@ -31,6 +30,7 @@ describe Aip do
 
       wip['aip-descriptor'] = wip.descriptor
       Aip::update_from_wip wip
+      Aip.get! wip.id
     end
 
     it "should update based on a WIP" do
@@ -39,7 +39,7 @@ describe Aip do
 
     it "should have the new metadata" do
       doc = XML::Document.string subject.xml
-     puts doc.find("//P:event/eventType = 'FOO'", NS_PREFIX).inspect
+      puts doc.find("//P:event/eventType = 'FOO'", NS_PREFIX).inspect
     end
 
   end
