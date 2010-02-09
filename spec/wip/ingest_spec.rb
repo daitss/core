@@ -5,8 +5,24 @@ require 'spec_helper'
 
 describe Wip do
 
-  it "should reject one that fails validation"
-  it "should snafu one that has trouble ingesting"
+  describe "that wont ingest" do
+    subject { submit_sip 'mimi' }
+
+    it "should reject one that fails validation" do
+      sip_descriptor = subject.datafiles.find { |df| df['sip-path'] == "mimi.xml" }
+      subject.remove_datafile sip_descriptor
+      lambda { subject.ingest! }.should raise_error(Reject)
+    end
+
+    it "should raise error if that has trouble ingesting" do
+
+      override_service 'validation-url', 500 do
+        lambda { subject.ingest! }.should raise_error(Net::HTTPFatalError)
+      end
+
+    end
+
+  end
 
   describe "that is ingested" do
 
