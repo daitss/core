@@ -13,78 +13,75 @@
   <amdSec>
 
   <!-- ieid tech -->
-  <%= md_section intellectual_entity_object, :type => 'techMD', :id => 'intellectual-entity-techmd' %>
+  <%= md_section intellectual_entity_object, :type => 'techMD', :id => @id_map.next_tech %>
 
   <%
-    { 'original' => original_rep, 'current' => current_rep, 'normalized' => normalized_rep }.each do |name, rep|
-      mets_id = "representation-#{name}-techmd"
-      rep_uri = "#{uri}/representation/#{name}"
-      rep_object = representation_object rep, :uri => rep_uri
-    %>
-    <%=  md_section rep_object, :type => 'techMD', :id => mets_id %>
+    rep_map = { 
+      'original' => original_rep, 
+      'current' => current_rep, 
+      'normalized' => normalized_rep 
+    }
+
+    rep_premis_objects = rep_map.map do |name, rep|
+      representation_object rep, :uri => "#{uri}/representation/#{name}"
+    end
+  %>
+
+  <% rep_premis_objects.each do |rep_object| %>
+    <%= md_section rep_object, :type => 'techMD', :id => @id_map.next_tech %>
   <% end %>
 
   <!-- file tech -->
   <% datafiles.each do |df| %>
-    <%= md_section df['describe-file-object'], :type => 'techMD', :id => "file-#{df.id}-description-techmd" %>
+    <%= md_section df['describe-file-object'], :type => 'techMD', :id => @id_map.next_tech %>
 
     <% if df.has_key? 'describe-bitstream-objects' %>
       <% bs_objects = df['describe-bitstream-objects'].split %r{\n(?=<event)} %>
       <% bs_objects.each_with_index do |bs_object, index| %>
-        <%= md_section bs_object, :type => 'techMD', :id => "file-#{df.id}-bs-#{index}-techmd" %>
+        <%= md_section bs_object, :type => 'techMD', :id => @id_map.next_tech %>
       <% end %>
     <% end %>
 
   <% end %>
 
   <!-- ieid digiprov (events) -->
-  <%
+  <% digiprov_events.each do |event| %>
+    <%= md_section event, :type => 'digiprovMD',  :id => @id_map.next_digiprov %>
+  <% end %>
 
-    ieid_digiprov = {}
-    if metadata.has_key? 'old-digiprov'
-    else
-      ieid_digiprov['intellectual-entity-submit-event-digiprov'] = metadata['submit-event'],
-      ieid_digiprov['intellectual-entity-validation-event-digiprov'] = metadata['validate-event'],
-      ieid_digiprov['intellectual-entity-ingest-event-digiprov'] = metadata['ingest-event']
-    end
+  <!-- file digiprov (events) -->
+  <% datafiles.each do |df| %>
+    <% df.digiprov_events.each do |event| %>
+      <%
+        new_id = @id_map.next_digiprov
+        @admid_map[df.id] << new_id
+      %>
+      <%= md_section event, :type => 'digiprovMD',  :id => new_id %>
+    <% end %>
+  <% end %>
 
-    # optional digiprov
-    if metadata.has_key? 'disseminate-event'
-      ieid_digiprov['intellectual-entity-disseminate-event-digiprov'] = metadata['disseminate-event']
-    end
+  <!-- ieid digiprov (agents) -->
+  <!-- file digiprov (agents) -->
+  <% datafiles.each do |df| %>
+    <% df.digiprov_agents.each do |agent| %>
+      <%
+        new_id = @id_map.next_digiprov
+        @admid_map[df.id] << new_id
+      %>
+      <%= md_section agent, :type => 'digiprovMD',  :id => new_id %>
+    <% end %>
+  <% end %>
+  </amdSec>
 
-    ieid_digiprov.each do |id, doc| 
-  %>
-  <%= md_section doc, :type => 'digiprovMD',  :id => id %>
-<% end %>
+  <fileSec>
+  <fileGrp>
+  <% datafiles.each do |df| %>
+    <%= file_element df %>
+  <% end %>
+  </fileGrp>
+  </fileSec>
 
-<!-- file digiprov (events) -->
-<% datafiles.each do |df| %>
-  <%= md_section df.metadata['describe-event'], :type => 'digiprovMD', :id => "file-#{df.id}-describe-event-digiprov" %>
-  <%= md_section df.metadata['migrate-event'], :type => 'digiprovMD', :id => "file-#{df.id}-migrate-event-digiprov" if df.metadata['migrate-event'] %>
-  <%= md_section df.metadata['normalize-event'], :type => 'digiprovMD', :id => "file-#{df.id}-normalize-event-digiprov" if df.metadata['normalize-event'] %>
-<% end %>
-
-<!-- ieid digiprov (agents) -->
-<% # TODO make the agents for the package %>
-
-<!-- file digiprov (agents) -->
-<% datafiles.each do |df| %>
-  <%= md_section df.metadata['describe-agent'], :type=> 'digiprovMD', :id => "file-#{df.id}-describe-agent-digiprov" %>
-  <%= md_section df.metadata['migrate-agent'], :type=> 'digiprovMD', :id => "file-#{df.id}-migrate-agent-digiprov" if df.metadata['migrate-agent'] %>
-  <%= md_section df.metadata['normalize-agent'], :type=> 'digiprovMD', :id => "file-#{df.id}-normalize-agent-digiprov" if df.metadata['normalize-agent'] %>
-<% end %>
-</amdSec>
-
-<fileSec>
-<fileGrp>
-<% datafiles.each do |df| %>
-  <%= file_element df %>
-<% end %>
-</fileGrp>
-</fileSec>
-
-<%= representation_struct_map original_rep, :id => 'original', :admid => 'representation-original-techmd' %>
-<%= representation_struct_map current_rep, :id => 'current', :admid => 'representation-current-techmd' %>
-<%= representation_struct_map normalized_rep, :id => 'normalized', :admid => 'representation-normalized-techmd' %>
-</mets>
+  <%= representation_struct_map original_rep, :id => 'original', :admid => 'representation-original-techmd' %>
+  <%= representation_struct_map current_rep, :id => 'current', :admid => 'representation-current-techmd' %>
+  <%= representation_struct_map normalized_rep, :id => 'normalized', :admid => 'representation-normalized-techmd' %>
+  </mets>

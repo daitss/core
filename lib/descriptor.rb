@@ -1,9 +1,28 @@
 require 'template'
 require 'wip'
+require 'datafile'
 
 class Wip
 
   def descriptor
+
+    @id_map = Hash.new do |hash, key|
+      hash[key] = "0"
+    end
+
+    def @id_map.method_missing method_id
+
+      key = case method_id
+            when :next_tech then :tech
+            when :next_digiprov then :digiprov
+            else super
+            end
+
+      "#{key}-#{self[key].next!}"
+    end
+
+    @admid_map = Hash.new { |hash, key| hash[key] = [] }
+
     XML.default_keep_blanks = false
     XML::Document.string template_by_name('aip/descriptor').result(binding)
   end
@@ -43,6 +62,47 @@ class Wip
   def md_section doc, options={}
     options[:md_type] ||= 'PREMIS'
     template_by_name('aip/md_section').result binding
+  end
+
+  def digiprov_events
+
+    potential_new_md_keys = [
+      'submit-event', 
+      'validate-event',
+      'ingest-event', 
+      'disseminate-event'
+    ]
+
+    new_md_keys = potential_new_md_keys.select { |key| metadata.has_key? key }
+    new_md_keys.map { |key| metadata[key] } 
+  end
+
+end
+
+class DataFile
+
+  def digiprov_events
+    
+    potential_new_md_keys = [
+      'describe-event', 
+      'migrate-event',
+      'normalize-event'
+    ]
+
+    new_md_keys = potential_new_md_keys.select { |key| metadata.has_key? key }
+    new_md_keys.map { |key| metadata[key] } 
+  end
+
+  def digiprov_agents
+
+    potential_new_md_keys = [
+      'describe-agent', 
+      'migrate-agent',
+      'normalize-agent'
+    ]
+
+    new_md_keys = potential_new_md_keys.select { |key| metadata.has_key? key }
+    new_md_keys.map { |key| metadata[key] } 
   end
 
 end
