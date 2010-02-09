@@ -11,7 +11,7 @@ class Aip
     aip.id = wip.id
     aip.uri = wip.uri
     aip.xml = wip.descriptor.to_s
-    aip.copy_url, aip.copy_size, aip.copy_md5, aip.copy_sha1 = put_copy wip, "#{CONFIG['storage-url']}/#{wip.id}"
+    aip.copy_url, aip.copy_size, aip.copy_md5, aip.copy_sha1 = put_copy wip, "#{CONFIG['storage-url']}/#{wip.id}-0"
     aip.needs_work = true
 
     unless aip.save 
@@ -24,6 +24,21 @@ class Aip
 
   def Aip.update_from_wip wip
     aip = Aip.get! wip.id
+    aip.xml = wip.descriptor.to_s
+    old_url = aip.copy_url.to_s
+    old_suffix = old_url[/-(\d+)$/, 1]
+    new_suffix = (old_suffix.to_i + 1).to_s
+    aip.copy_url, aip.copy_size, aip.copy_md5, aip.copy_sha1 = put_copy wip, "#{CONFIG['storage-url']}/#{wip.id}-#{new_suffix}"
+    aip.needs_work = true
+
+    unless aip.save 
+      delete_copy aip.copy_url
+      aip.errors.each { |e| puts e }
+      raise "could not save aip: #{aip.errors.size}"
+    else
+      delete_copy old_url
+    end
+
   end
 
   private
