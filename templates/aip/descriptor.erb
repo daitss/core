@@ -30,16 +30,21 @@
 
   <!-- ieid digiprov (events) -->
   <%
-    {
+    ieid_digiprov = {
       'intellectual-entity-submit-event-digiprov' => metadata['submit-event'],
       'intellectual-entity-validation-event-digiprov' => metadata['validate-event'],
       'intellectual-entity-ingest-event-digiprov' => metadata['ingest-event']
-    }.each do |id, doc| 
+    }
+    
+    # optional digiprov
+    if metadata.has_key? 'disseminate-event'
+      ieid_digiprov['intellectual-entity-disseminate-event-digiprov'] = metadata['disseminate-event']
+    end
+
+    ieid_digiprov.each do |id, doc| 
   %>
   <%= md_section doc, :type => 'digiprovMD',  :id => id %>
 <% end %>
-
-<%#TODO the optional package level digiprov%>
 
 <!-- file digiprov (events) -->
 <% datafiles.each do |df| %>
