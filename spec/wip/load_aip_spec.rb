@@ -9,7 +9,9 @@ describe Wip do
   describe "loading from aip" do
 
     subject do
-      ingest_sip 'mimi'
+      proto_submit_sip 'mimi'
+      proto_wip.ingest!
+      pull_aip proto_wip.id
     end
 
     it "should load the aip descriptor" do

@@ -17,10 +17,6 @@ class Wip
 
     preserve!
 
-    step('make-aip-descriptor') do
-      metadata['aip-descriptor'] = descriptor
-    end
-
     step('write-disseminate-event') do
 
       metadata['disseminate-event'] = event :id => "#{uri}/event/disseminate", 
@@ -28,6 +24,10 @@ class Wip
         :outcome => 'success', 
         :linking_objects => [ uri ]
 
+    end
+
+    step('make-aip-descriptor') do
+      metadata['aip-descriptor'] = descriptor
     end
 
     step('update-aip') { Aip::update_from_wip self }

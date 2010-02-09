@@ -30,6 +30,11 @@ def submit_sip name
 
 end
 
+def blank_wip id, uri
+  path = File.join $sandbox, id
+  Wip.new path, uri
+end
+
 def pull_aip id
   aip = Aip.get! id
   path = File.join $sandbox, aip.id 
