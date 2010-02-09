@@ -5,6 +5,7 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd
                           info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd">
+
 <% if metadata.has_key? 'dmd' %>
   <%= md_section metadata['dmd'], :type => 'dmdSec', :id => 'intellectual-entity-dmd' %>
 <% end %>
@@ -38,11 +39,14 @@
 
   <!-- ieid digiprov (events) -->
   <%
-    ieid_digiprov = {
-      'intellectual-entity-submit-event-digiprov' => metadata['submit-event'],
-      'intellectual-entity-validation-event-digiprov' => metadata['validate-event'],
-      'intellectual-entity-ingest-event-digiprov' => metadata['ingest-event']
-    }
+
+    ieid_digiprov = {}
+    if metadata.has_key? 'old-digiprov'
+    else
+      ieid_digiprov['intellectual-entity-submit-event-digiprov'] = metadata['submit-event'],
+      ieid_digiprov['intellectual-entity-validation-event-digiprov'] = metadata['validate-event'],
+      ieid_digiprov['intellectual-entity-ingest-event-digiprov'] = metadata['ingest-event']
+    end
 
     # optional digiprov
     if metadata.has_key? 'disseminate-event'

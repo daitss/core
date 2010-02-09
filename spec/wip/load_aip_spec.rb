@@ -9,9 +9,13 @@ describe Wip do
   describe "loading from aip" do
 
     subject do
-      proto_submit_sip 'mimi'
+      proto_wip = submit_sip 'mimi'
       proto_wip.ingest!
-      pull_aip proto_wip.id
+      id, uri = proto_wip.id, proto_wip.uri
+      FileUtils::rm_r proto_wip.path
+      wip = blank_wip id, uri
+      wip.load_from_aip
+      wip
     end
 
     it "should load the aip descriptor" do

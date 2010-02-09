@@ -31,12 +31,12 @@ class Aip
     aip.copy_url, aip.copy_size, aip.copy_md5, aip.copy_sha1 = put_copy wip, "#{CONFIG['storage-url']}/#{wip.id}-#{new_suffix}"
     aip.needs_work = true
 
-    unless aip.save 
+    if aip.save 
+      delete_copy old_url
+    else
       delete_copy aip.copy_url
       aip.errors.each { |e| puts e }
       raise "could not save aip: #{aip.errors.size}"
-    else
-      delete_copy old_url
     end
 
   end
