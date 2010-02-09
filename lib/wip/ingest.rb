@@ -13,10 +13,6 @@ class Wip
     step('validate') { validate! }
     preserve!
 
-    step('make-aip-descriptor') do
-      metadata['aip-descriptor'] = descriptor
-    end
-
     step('write-ingest-event') do
       spec = {
         :id => "#{uri}/event/ingest", 
@@ -25,6 +21,10 @@ class Wip
         :linking_objects => [ uri ]
       }
       metadata['ingest-event'] = event spec
+    end
+
+    step('make-aip-descriptor') do
+      metadata['aip-descriptor'] = descriptor
     end
 
     step('make-aip') { Aip::new_from_wip self }
