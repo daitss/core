@@ -81,18 +81,8 @@ class AIPInPremis
 
   def processDatafile premis
     df = Datafile.new
-    df.fromPremis premis
+    df.fromPremis(premis, @formats)
 
-    # process all matched formats
-    processFormats(df, premis)
-
-    # process object characteristic extension
-    node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
-    @obj = nil
-    if (node)
-      @obj = processObjectCharacteristicExtension(df, node)
-      @obj.bitstream_id = :null
-    end
     @datafiles[df.id] = df
     
     # TODO need storage data model
@@ -100,90 +90,10 @@ class AIPInPremis
     @mdvalue = premis.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigest", NAMESPACES).content
   end
 
-  def processObjectCharacteristicExtension(p, objExt)
-    object = nil
-
-    if aes = objExt.find_first("aes:audioObject", NAMESPACES)
-      object = Audio.new
-      object.fromPremis aes
-      p.audios << object
-    elsif textmd = objExt.find_first("txt:textMD", NAMESPACES)
-      object = Text.new
-      object.fromPremis textmd
-      p.texts << object
-    elsif mix = objExt.find_first("mix:mix", NAMESPACES)
-      object = Image.new
-      object.fromPremis mix
-      p.images << object
-    elsif doc = objExt.find_first("doc:doc/doc:document", NAMESPACES)
-      object = Document.new
-      object.fromPremis doc
-      p.documents << object
-    end
-
-    object
-  end
-
-  def processFormats(p, premis)
-    # process all matched formats
-    list = premis.find("premis:objectCharacteristics/premis:format", NAMESPACES)
-    firstNode = true
-    list.each do |node|
-      # create a temporary format record with the info. from the premis
-      newFormat = Format.new
-      newFormat.fromPremis node
-      # newFormat.inspect
-
-      # only create a new format record if the format has NOT been seen before, both 
-      # in format table and in the @formats hash
-      format = Format.first(:format_name => newFormat.format_name)
-      # if it's not already in the format table, check if it was processed earlier.
-      format = @formats[newFormat.format_name] if format.nil?
-     
-      # create a new format record since the format name has not been seen before. 
-      format = newFormat if format.nil?     
-
-      objectformat = ObjectFormat.new
-
-      if (p.instance_of? Datafile)
-        objectformat.datafile_id = p.id
-        objectformat.bitstream_id = :null
-      else
-        objectformat.bitstream_id = p.id
-        objectformat.datafile_id = :null
-      end
-
-      format.object_format << objectformat
-      @formats[format.format_name] = format
-      # objectformat.format_id << record
-
-      # objectformat.inspect
-      p.object_format << objectformat
-
-      # first format element is designated for the primary object (file/bitstream) format.  
-      # Subsequent format elements are used for format profiles
-      if (firstNode)
-        objectformat.setPrimary
-        firstNode = false
-      else
-        objectformat.setSecondary
-      end
-      # objectformat.inspect
-    end
-  end
-
   def processBitstream premis
     bs = Bitstream.new
-    bs.fromPremis premis
-    processFormats(bs, premis)
-    # process object characteristic extension
-    node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
-    @obj = nil
-    if (node)
-      @obj = processObjectCharacteristicExtension(bs, node)
-      @obj.datafile_id = :null
-      # @obj.inspect
-    end
+    bs.fromPremis(premis, @formats)
+
     @bitstreams[bs.id] = bs
   end
 
@@ -241,7 +151,6 @@ class AIPInPremis
 
   def toDB
     Intentity.transaction do 
-      
       #TODO: @int_entity.save  
       @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
       # not necessary to explicitely save representations since representations will be saved through datafiles associations
