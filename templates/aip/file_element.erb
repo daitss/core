@@ -1,6 +1,6 @@
 <file ID='file-<%= df.id %>' 
       OWNERID='<%= df['ownerid'] %>' 
-      ADMID='<%= df.metadata.keys.join ' ' %>'
+      ADMID='<%= @admid_map[df.id].join ' ' %>'
       SIZE='<%= df.size %>'
       CHECKSUMTYPE='SHA1'
       CHECKSUM='<%= df.open { |io| Digest::SHA1.hexdigest io.read } %>'>
