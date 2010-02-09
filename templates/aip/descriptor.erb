@@ -25,7 +25,15 @@
 
   <!-- file tech -->
   <% datafiles.each do |df| %>
-    <%= md_section df.metadata['describe-file-object'], :type => 'techMD', :id => "file-#{df.id}-description-techmd" %>
+    <%= md_section df['describe-file-object'], :type => 'techMD', :id => "file-#{df.id}-description-techmd" %>
+
+    <% if df.has_key? 'describe-bitstream-objects' %>
+      <% bs_objects = df['describe-bitstream-objects'].split %r{\n(?=<event)} %>
+      <% bs_objects.each_with_index do |bs_object, index| %>
+        <%= md_section bs_object, :type => 'techMD', :id => "file-#{df.id}-bs-#{index}-techmd" %>
+      <% end %>
+    <% end %>
+
   <% end %>
 
   <!-- ieid digiprov (events) -->
@@ -35,7 +43,7 @@
       'intellectual-entity-validation-event-digiprov' => metadata['validate-event'],
       'intellectual-entity-ingest-event-digiprov' => metadata['ingest-event']
     }
-    
+
     # optional digiprov
     if metadata.has_key? 'disseminate-event'
       ieid_digiprov['intellectual-entity-disseminate-event-digiprov'] = metadata['disseminate-event']
