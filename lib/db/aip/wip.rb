@@ -22,6 +22,10 @@ class Aip
 
   end
 
+  def Aip.update_from_wip wip
+    aip = Aip.get! wip.id
+  end
+
   private
 
   def Aip.delete_copy url
