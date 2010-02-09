@@ -13,7 +13,11 @@ describe Wip do
     end
 
     it "should raise error if there is anything wrong with dissemination" do
-      wip = ingest_sip 'mimi'
+      proto_wip = submit_sip 'mimi'
+      proto_wip.ingest!
+      id, uri = proto_wip.id, proto_wip.uri
+      FileUtils::rm_r proto_wip.path
+      wip = blank_wip id, uri
 
       override_service 'description-url', 500 do
         lambda { wip.disseminate }.should raise_error(Net::HTTPFatalError)
@@ -21,27 +25,32 @@ describe Wip do
 
     end
 
-    describe "that can disseminate" do
+  end
 
-      subject do 
-        wip = ingest_sip 'mimi'
-        wip.disseminate
-        wip
-      end
+  describe "post disseminate" do
 
-      it "should update the aip it came from" do
-        aip = Aip.get subject.id 
-        aip.should_not be_nil
-        doc = XML::Document.string aip.xml
-        disseminate_event = doc.find_first "P:event[P:eventType = 'disseminate']"
-        disseminate_event.should_not be_nil
-      end
+    subject do 
+      proto_wip = submit_sip 'mimi'
+      proto_wip.ingest!
+      id, uri = proto_wip.id, proto_wip.uri
+      FileUtils::rm_r proto_wip.path
+      wip = blank_wip id, uri
+      wip.disseminate
+      wip
+    end
 
-      it "should produce a dip in a disseminate area" do
-        path = File.join CONFIG['disseminate-dir-path'], "#{subject.id}.tar"
-        File.exist?(path).should be_true
-      end
+    it "should have a disseminate event" do
+      aip = Aip.get subject.id 
+      aip.should_not be_nil
+      doc = XML::Document.string aip.xml
+      puts doc.to_s
+      disseminate_event = doc.find_first "P:event[P:eventType = 'disseminate']", NS_PREFIX
+      disseminate_event.should_not be_nil
+    end
 
+    it "should produce a dip in a disseminate area" do
+      path = File.join CONFIG['disseminate-dir-path'], "#{subject.id}.tar"
+      File.exist?(path).should be_true
     end
 
   end

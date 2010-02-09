@@ -11,7 +11,11 @@ class Wip
   def preserve!
 
     datafiles.each do |df| 
-      step("describe-#{df.id}") { df.describe! }
+
+      step("describe-#{df.id}") do
+        df.describe!
+      end
+
     end
 
     step 'set-original-representation' do
