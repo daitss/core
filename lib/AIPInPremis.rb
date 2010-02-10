@@ -13,114 +13,120 @@ class AIPInPremis
     @relationships = Array.new
   end
 
+  # process an aip descriptor described in a premis-in-mets format.
   def process aip_file
-     # read in the posted AIP descriptor
+    # read in the AIP descriptor
+    @doc = XML::Document.file aip_file
+    @int_entity.fromPremis
 
-     doc = XML::Document.file aip_file
-     @int_entity.fromPremis
-     
-     # process all premis file objects
-     fileObjects = doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
-     fileObjects.each do |obj|
-       processDatafile obj
-     end
+    # process all premis file objects
+    processDatafiles
 
-     # extract all premis representations 
-     repObjects = doc.find("//premis:object[@xsi:type='representation']", NAMESPACES)
-     repObjects.each do |obj|
-       processRepresentation obj    
-     end
+    # extract all premis representations 
+    processRepresentations    
 
-     # process all premis bitstreams 
-     bitObjects = doc.find("//premis:object[@xsi:type='bitstream']", NAMESPACES)
-     bitObjects.each do |obj|
-       processBitstream obj    
-     end
+    # process all premis bitstreams 
+    processBitstreams
+    
+    # process all premis agents 
+    processAgents
 
-     # process all premis agents 
-     agentObjects = doc.find("//premis:agent", NAMESPACES)
-     agentObjects.each do |obj|
-       processAgent obj
-     end
+    # process all premis events
+    processEvents
 
-     # process all premis events
-     eventObjects = doc.find("//premis:event", NAMESPACES)
-     eventObjects.each do |obj|
-       processEvent obj
-     end
+    # process derived relationships associated with the files
+    fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
+    fileObjects.each do |obj|
+      dfid = obj.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
+      relationships = obj.find("premis:relationship", NAMESPACES)
+      relationships.each do |relationship|
+        processRelationship(dfid, relationship)
+      end
+    end 
 
-     # process derived relationships associated with the file
-     fileObjects = doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
-     fileObjects.each do |obj|
-       dfid = obj.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
-       relationships = obj.find("premis:relationship", NAMESPACES)
-       relationships.each do |relationship|
-         processRelationship(dfid, relationship)
-       end
-     end 
+    toDB
+  end
 
-     toDB
-   end
+  # extract representation information from the premis document
+  def processRepresentations
+    repObjects = @doc.find("//premis:object[@xsi:type='representation']", NAMESPACES)
+    repObjects.each do |obj|
+      rep = Representation.new
+      rep.fromPremis obj
 
-  def processRepresentation premis
-    rep = Representation.new
-    rep.fromPremis premis
+      files = obj.find("premis:relationship", NAMESPACES)
+      files.each do |f|
+        dfid = f.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
+        df = @datafiles[dfid]
+        unless df.nil?
+          df.representations << rep
+        end
+      end
 
-    files = premis.find("premis:relationship", NAMESPACES)
-    files.each do |f|
-      dfid = f.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
-      df = @datafiles[dfid]
+      @int_entity.representations << rep
+      @representations << rep
+    end
+  end
+
+  # extract all file objects from the premis document
+  def processDatafiles
+    fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
+    
+    fileObjects.each do |obj|
+      df = Datafile.new
+      df.fromPremis(obj, @formats)
+
+      @datafiles[df.id] = df
+
+      # TODO need storage data model
+      @mdtype = obj.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigestAlgorithm", NAMESPACES).content
+      @mdvalue = obj.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigest", NAMESPACES).content
+    end
+  end
+
+  #extract alll bitstream objects from the premis document
+  def processBitstreams
+    bitObjects = @doc.find("//premis:object[@xsi:type='bitstream']", NAMESPACES)
+    bitObjects.each do |obj|
+      bs = Bitstream.new
+      bs.fromPremis(obj, @formats)
+      @bitstreams[bs.id] = bs 
+    end
+  end
+
+  #extract all agents in the premis document
+  def processAgents
+    agentObjects = @doc.find("//premis:agent", NAMESPACES)
+    agentObjects.each do |obj|
+      agent = Agent.new
+      agent.fromPremis obj
+      @agents[agent.id] = agent
+    end
+  end
+
+  # extract all events from the premis document
+  def processEvents
+    eventObjects = @doc.find("//premis:event", NAMESPACES)
+    eventObjects.each do |obj|
+      id = obj.find_first("premis:linkingObjectIdentifier/premis:linkingObjectIdentifierValue", NAMESPACES)
+      # make sure this event related to a datafile
+      df = @datafiles[id.content] unless id.nil?
+
+      agent_id = obj.find_first("premis:linkingAgentIdentifier/premis:linkingAgentIdentifierValue", NAMESPACES)
+      agent = @agents[agent_id.content] unless agent_id.nil?   
+
       unless df.nil?
-        df.representations << rep
+        event = DatafileEvent.new
+        event.fromPremis obj
+        event.setRelatedObject id.content
+        #associate agent to the event
+        agent.events << event unless agent.nil?
+        @events[event.id] = event
       end
     end
-
-    @int_entity.representations << rep
-    @representations << rep
   end
 
-  def processDatafile premis
-    df = Datafile.new
-    df.fromPremis(premis, @formats)
-
-    @datafiles[df.id] = df
-    
-    # TODO need storage data model
-    @mdtype = premis.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigestAlgorithm", NAMESPACES).content
-    @mdvalue = premis.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigest", NAMESPACES).content
-  end
-
-  def processBitstream premis
-    bs = Bitstream.new
-    bs.fromPremis(premis, @formats)
-
-    @bitstreams[bs.id] = bs
-  end
-
-  def processAgent premis
-    agent = Agent.new
-    agent.fromPremis premis
-    @agents[agent.id] = agent
-  end
-
-  def processEvent premis
-    id = premis.find_first("premis:linkingObjectIdentifier/premis:linkingObjectIdentifierValue", NAMESPACES)
-    # make sure this event related to a datafile
-    df = @datafiles[id.content] unless id.nil?
-
-    agent_id = premis.find_first("premis:linkingAgentIdentifier/premis:linkingAgentIdentifierValue", NAMESPACES)
-    agent = @agents[agent_id.content] unless agent_id.nil?   
-
-    unless df.nil?
-      event = DatafileEvent.new
-      event.fromPremis premis
-      event.setRelatedObject id.content
-      #associate agent to the event
-      agent.events << event unless agent.nil?
-      @events[event.id] = event
-    end  
-  end
-  
+  # extract and construct premis relationship among objects
   def processRelationship(dfid, relationship_element)
     # check if there is a valid datafile and there is a relationship associated with it
     unless (@datafiles[dfid].nil? || relationship_element.nil?)
@@ -141,7 +147,7 @@ class AIPInPremis
           @relationships << relationship
         end
         # process whole-part relationship among datafile and bitstreams
-       elsif (type.eql?("structural") && subtype.eql?("includes"))
+      elsif (type.eql?("structural") && subtype.eql?("includes"))
         bsid = relationship_element.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
         # bsid
         @datafiles[dfid].bitstreams << @bitstreams[bsid]
@@ -149,7 +155,10 @@ class AIPInPremis
     end
   end
 
+  # save all extracted premis objects/events/agents to the fast access database in one transaction
   def toDB
+    # start database traction for saving the associated record for the aip.  If there is any failure during database save, 
+    # datamapper automatically rollback the change.
     Intentity.transaction do 
       #TODO: @int_entity.save  
       @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
@@ -160,7 +169,7 @@ class AIPInPremis
       @events.each {|id, e|  raise 'error saving event records' unless e.save }
       @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
     end
-    
+
   end
 
 end
