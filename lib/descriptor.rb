@@ -15,6 +15,7 @@ class Wip
       key = case method_id
             when :next_tech then :tech
             when :next_digiprov then :digiprov
+            when :next_dmd then :dmd
             else super
             end
 
