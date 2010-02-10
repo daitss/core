@@ -19,11 +19,18 @@ class Wip
 
     step('write-disseminate-event') do
 
-      metadata['disseminate-event'] = event :id => "#{uri}/event/disseminate", 
-        :type => 'disseminate', 
-        :outcome => 'success', 
-        :linking_objects => [ uri ]
+      metadata['disseminate-event'] = event(:id => "#{uri}/event/disseminate", 
+                                            :type => 'disseminate', 
+                                            :outcome => 'success', 
+                                            :linking_objects => [ uri ],
+                                            :linking_agents => [ "info:fcla/daitss/disseminate" ])
 
+    end
+
+    step('write-disseminate-agent') do
+      metadata['disseminate-agent'] = agent(:id => "info:fcla/daitss/disseminate", 
+                                            :name => 'daitss disseminate',
+                                            :type => 'software')
     end
 
     step('make-aip-descriptor') do
