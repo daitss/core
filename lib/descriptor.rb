@@ -78,6 +78,19 @@ class Wip
     new_md_keys.map { |key| metadata[key] } 
   end
 
+  def digiprov_agents
+
+    potential_new_md_keys = [
+      'submit-agent', 
+      'validate-agent',
+      'ingest-agent', 
+      'disseminate-agent'
+    ]
+
+    new_md_keys = potential_new_md_keys.select { |key| metadata.has_key? key }
+    new_md_keys.map { |key| metadata[key] } 
+  end
+
   def datafile_agents
     h = Hash.new { |hash, key| hash[key] = [] }
 
@@ -90,7 +103,6 @@ class Wip
     end
 
     h
-
   end
 
 end
