@@ -1,3 +1,10 @@
+FEATURES = { 
+  "hasOutline" => :hasOutline,
+  "isTagged" => :isTagged,
+  "hasThumbnails" => :hasThumbnails,
+  "hasAnnotations" => :hasAnnotations
+}
+  
 class Document
   include DataMapper::Resource
   property :id, Serial, :key => true
@@ -29,13 +36,16 @@ class Document
     # attribute_set(:lineCount, premis.find_first("doc:lineCount", NAMESPACES).content)  
     # attribute_set(:tableCount, premis.find_first("doc:tableCount", NAMESPACES).content)  
     # attribute_set(:graphicsCount, premis.find_first("doc:graphicsCount", NAMESPACES).content)  
-    # attribute_set(:language, premis.find_first("doc:document/doc:language", NAMESPACES).content)  
+    lang = premis.find_first("doc:Language", NAMESPACES)
+    attribute_set(:language, lang.content) unless lang.nil?
 
-    nodes = premis.find("doc:Features", NAMESPACES)
+    # set all features associated with this document
+    nodes = premis.find("doc:Feature", NAMESPACES)
     nodes.each do |node|
-      #TODO
+      attribute_set(:features, FEATURES[node.content])
     end
     
+    # extract all fonts encoded in the document
     nodes = premis.find("doc:Font", NAMESPACES)
     nodes.each do |node|
       font = Font.new
