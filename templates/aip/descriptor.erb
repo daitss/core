@@ -69,6 +69,9 @@
 <% end %>
 
 <!-- ieid digiprov (agents) -->
+<% digiprov_agents.each do |agent| %>
+  <%= md_section agent, :type => 'digiprovMD', :id => @id_map.next_digiprov %>
+<% end %>
 
 <!-- file digiprov (agents) -->
 <% datafile_agents.each do |agent, dfs| %>
