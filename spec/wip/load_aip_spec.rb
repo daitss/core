@@ -60,15 +60,17 @@ describe Wip do
       subject.normalized_rep.should include(files[:tif])
     end
 
-    it "should pull in package level provenance" do
-      subject.should have_key('old-digiprov')
-      events = subject['old-digiprov'].split %r{\n(?=<event)}
+    it "should pull in package level provenance (events)" do
+      subject.should have_key('old-digiprov-events')
+      events = subject['old-digiprov-events'].split %r{\n(?=<event)}
+      events.should_not be_empty
 
       # the submission
       submission_event = events.find do |e| 
         doc = XML::Document.string e
         doc.find_first "/P:event[P:eventType = 'submit']", NS_PREFIX
       end
+
       submission_event.should_not be_nil
 
       # validation
@@ -76,6 +78,7 @@ describe Wip do
         doc = XML::Document.string e
         doc.find_first "/P:event[P:eventType = 'comprehensive validation']", NS_PREFIX
       end
+
       validation_event.should_not be_nil
 
       # ingest events
@@ -83,14 +86,44 @@ describe Wip do
         doc = XML::Document.string e
         doc.find_first "/P:event[P:eventType = 'ingest']", NS_PREFIX
       end
-      ingest_event.should_not be_nil
 
+      ingest_event.should_not be_nil
     end
 
-    it "should pull in datafile level provenance" do
+    it "should pull in package level provenance (agents)" do
+      subject.should have_key('old-digiprov-agents')
+      agents = subject['old-digiprov-agents'].split %r{\n(?=<agent)}
+      agents.should_not be_empty
+
+      # submit agent
+      submit_agent = agents.find do |a|
+        doc = XML::Document.string a
+        doc.find_first "/P:agent[P:agentName = 'daitss submission service']", NS_PREFIX
+      end
+
+      submit_agent.should_not be_nil
+
+      # validate agent
+      validate_agent = agents.find do |a|
+        doc = XML::Document.string a
+        doc.find_first "/P:agent[P:agentName = 'daitss validation service']", NS_PREFIX
+      end
+
+      validate_agent.should_not be_nil
+
+      # ingest agent
+      ingest_agent = agents.find do |a|
+        doc = XML::Document.string a
+        doc.find_first "/P:agent[P:agentName = 'daitss ingest']", NS_PREFIX
+      end
+
+      ingest_agent.should_not be_nil
+    end
+
+    it "should pull in datafile level provenance (events)" do
       tif = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.tif'}
-      tif.should have_key('old-digiprov')
-      events = tif['old-digiprov'].split %r{\n(?=<event)}
+      tif.should have_key('old-digiprov-events')
+      events = tif['old-digiprov-events'].split %r{\n(?=<event)}
       
       # description event
       description_event = events.find do |e| 
@@ -107,6 +140,28 @@ describe Wip do
       end
 
       normalization_event.should_not be_nil
+    end
+
+    it "should pull in datafilelevel provenance (agents)" do
+      tif = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.tif'}
+      tif.should have_key('old-digiprov-agents')
+      agents = tif['old-digiprov-agents'].split %r{\n(?=<agent)}
+
+      # description agent
+      describe_agent = agents.find do |a|
+        doc = XML::Document.string a
+        doc.find_first "/P:agent[P:agentName = 'Format Description Service']", NS_PREFIX
+      end
+
+      describe_agent.should_not be_nil
+
+      # normalize agent
+      normalize_agent = agents.find do |a|
+        doc = XML::Document.string a
+        doc.find_first "/P:agent[P:agentName = 'daitss transformation service']", NS_PREFIX
+      end
+
+      normalize_agent.should_not be_nil
     end
 
     it "should pull in the normalized_versions of a datafile if exists" do

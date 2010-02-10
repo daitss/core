@@ -105,15 +105,60 @@ class Wip
   def load_old_package_digiprov
     doc = XML::Document.string metadata['aip-descriptor']
     es = doc.find("//P:event[P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = '#{uri}']", NS_PREFIX)
-    metadata['old-digiprov'] = es.map { |e| e.to_s }.join "\n"
+    metadata['old-digiprov-events'] = es.map { |e| e.to_s }.join "\n"
+
+    as = es.map do |event|
+
+      xpath = "P:linkingAgentIdentifier/P:linkingAgentIdentifierValue"
+      agent_ids = event.find(xpath, NS_PREFIX).map { |agent_id| agent_id.content }
+
+      agent_ids.map do |agent_id|
+        xpath = "//P:agent[P:agentIdentifier/P:agentIdentifierValue = '#{agent_id}']"
+        doc.find_first(xpath, NS_PREFIX)
+      end
+
+    end
+
+    metadata['old-digiprov-agents'] = as.flatten.map { |a| a.to_s }.join "\n"
   end
 
   def load_old_datafile_digiprov
 
     datafiles.each do |df|
       doc = XML::Document.string metadata['aip-descriptor']
-      es = doc.find("//P:event[P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = '#{df.uri}']", NS_PREFIX)
-      df.metadata['old-digiprov'] = es.map { |e| e.to_s }.join "\n"
+
+      xpath = %Q{
+        //P:event
+            [P:eventType != 'normalize' and P:eventType != 'migrate' ]
+            [P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = '#{df.uri}']
+      }
+      es_desc = doc.find(xpath, NS_PREFIX)
+
+      xpath = %Q{
+        //P:event
+            [P:eventType = 'normalize' or P:eventType = 'migrate']
+            [P:linkingObjectIdentifier
+                [P:linkingObjectIdentifierValue = '#{df.uri}']
+                [P:linkingObjectRole = 'outcome']]
+      }
+      es_xform = doc.find(xpath, NS_PREFIX)
+      
+      es = es_desc.to_a + es_xform.to_a
+      df['old-digiprov-events'] = es.map { |e| e.to_s }.join "\n"
+
+
+      as = es.map do |event|
+        xpath = "P:linkingAgentIdentifier/P:linkingAgentIdentifierValue"
+        agent_ids = event.find(xpath, NS_PREFIX).map { |agent_id| agent_id.content }
+
+        agent_ids.map do |agent_id|
+          xpath = "//P:agent[P:agentIdentifier/P:agentIdentifierValue = '#{agent_id}']"
+          doc.find_first(xpath, NS_PREFIX)
+        end
+
+      end
+
+      df['old-digiprov-agents'] = as.flatten.map { |a| a.to_s }.join "\n"
     end
 
   end

@@ -42,6 +42,7 @@ describe Wip do
 
     it "should have an disseminate event" do
       doc = XML::Document.string subject['aip-descriptor']
+      puts doc.to_s
       doc.find("//P:event/P:eventType = 'disseminate'", NS_PREFIX).should be_true
     end
 

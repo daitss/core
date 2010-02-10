@@ -75,7 +75,15 @@ class Wip
     ]
 
     new_md_keys = potential_new_md_keys.select { |key| metadata.has_key? key }
-    new_md_keys.map { |key| metadata[key] } 
+    new_digiprov = new_md_keys.map { |key| metadata[key] } 
+
+    old_digiprov = if metadata.has_key? 'old-digiprov-events'
+                     metadata['old-digiprov-events'].split %r{\n(?=<event)}
+                   else
+                     []
+                   end
+
+    new_digiprov + old_digiprov
   end
 
   def digiprov_agents
@@ -88,7 +96,15 @@ class Wip
     ]
 
     new_md_keys = potential_new_md_keys.select { |key| metadata.has_key? key }
-    new_md_keys.map { |key| metadata[key] } 
+    new_digiprov = new_md_keys.map { |key| metadata[key] } 
+
+    old_digiprov = if metadata.has_key? 'old-digiprov-agents'
+                     metadata['old-digiprov-agents'].split %r{\n(?=<agent)}
+                   else
+                     []
+                   end
+
+    new_digiprov + old_digiprov
   end
 
   def datafile_agents
@@ -98,6 +114,7 @@ class Wip
 
       df.digiprov_agents.each do |agent|
         h[agent] << df
+        h[agent].uniq!
       end
 
     end
@@ -110,7 +127,7 @@ end
 class DataFile
 
   def digiprov_events
-    
+
     potential_new_md_keys = [
       'describe-event', 
       'migrate-event',
@@ -118,7 +135,15 @@ class DataFile
     ]
 
     new_md_keys = potential_new_md_keys.select { |key| metadata.has_key? key }
-    new_md_keys.map { |key| metadata[key] } 
+    new_digiprov = new_md_keys.map { |key| metadata[key] } 
+
+    old_digiprov = if metadata.has_key? 'old-digiprov-events'
+                     metadata['old-digiprov-events'].split %r{\n(?=<event)}
+                   else
+                     []
+                   end
+
+    new_digiprov + old_digiprov
   end
 
   def digiprov_agents
@@ -130,7 +155,15 @@ class DataFile
     ]
 
     new_md_keys = potential_new_md_keys.select { |key| metadata.has_key? key }
-    new_md_keys.map { |key| metadata[key] } 
+    new_digiprov = new_md_keys.map { |key| metadata[key] } 
+
+    old_digiprov = if metadata.has_key? 'old-digiprov-agents'
+                     metadata['old-digiprov-agents'].split %r{\n(?=<agent)}
+                   else
+                     []
+                   end
+
+    new_digiprov + old_digiprov
   end
 
 end
