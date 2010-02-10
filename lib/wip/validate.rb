@@ -60,7 +60,7 @@ class Wip
   end
 
   def validate_agent doc
-    xpath = "//P:agent[P:agentName = 'validation service']"
+    xpath = "//P:agent[P:agentName = 'daitss validation service']"
     n = doc.find_first xpath, NS_PREFIX
 
     if n
