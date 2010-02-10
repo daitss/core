@@ -100,7 +100,8 @@ class AIPInPremis
     agentObjects.each do |obj|
       agent = Agent.new
       agent.fromPremis obj
-      @agents[agent.id] = agent
+      # only create a new agent record if the agent has NOT been seen before
+      @agents[agent.id] = agent if (Agent.first(:id => agent.id).nil?)
     end
   end
 
@@ -149,7 +150,6 @@ class AIPInPremis
         # process whole-part relationship among datafile and bitstreams
       elsif (type.eql?("structural") && subtype.eql?("includes"))
         bsid = relationship_element.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
-        # bsid
         @datafiles[dfid].bitstreams << @bitstreams[bsid]
       end
     end
