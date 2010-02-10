@@ -27,7 +27,6 @@ class Document
     # Document may be associated with a Datafile, null if the document is associated with a bitstream
   belongs_to :bitstream, :index => true
     # Document may be associated with a bitstream, null if the document is associated with a datafile
-    # TODO: need to make sure either dfid or bsid is not null.
   
   def fromPremis premis
     attribute_set(:pageCount, premis.find_first("doc:PageCount", NAMESPACES).content.to_i)
@@ -54,6 +53,13 @@ class Document
     end
     puts fonts.inspect
     
+  end
+  
+  before :save do
+    # make sure either dfid or bsid is not null.
+    if (:datafile_id.nil? && :bitstream_id.nil?)
+      raise "this document neither associates with a datafile nor associates with a bitstream"
+    end 
   end
   
 end

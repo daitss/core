@@ -30,7 +30,6 @@ class Text
     # null if the text is associated with a bitstream
   belongs_to :bitstream, :index => true  # Text may be associated with a bitstream, 
     # null if the text is associated with a datafile
-  # TODO: need to make sure either dfid or bsid is not null.
     
   def fromPremis premis
     attribute_set(:charset, premis.find_first("txt:character_info/txt:charset", NAMESPACES).content)
@@ -45,5 +44,12 @@ class Text
     # attribute_set(:pageOrder, premis.find_first("", NAMESPACES).content) 
     # attribute_set(:pageSequence, premis.find_first("", NAMESPACES).content) 
     # attribute_set(:lineOrientation, premis.find_first("", NAMESPACES).content) 
+  end
+
+  before :save do
+    # make sure either dfid or bsid is not null.
+    if (:datafile_id.nil? && :bitstream_id.nil?)
+      raise "this text neither associates with a datafile nor associates with a bitstream"
+    end 
   end
 end
