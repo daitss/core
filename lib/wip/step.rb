@@ -12,6 +12,12 @@ class Wip
 
   end
 
+  def step! key
+    value = yield
+    tags[key] = Time.now.xmlschema
+    value
+  end
+
   def step_time key
     Time.parse tags[key] if tags.has_key? key
   end
