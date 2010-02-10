@@ -69,16 +69,16 @@
 <% end %>
 
 <!-- ieid digiprov (agents) -->
+
 <!-- file digiprov (agents) -->
-<% datafiles.each do |df| %>
-  <% df.digiprov_agents.each do |agent| %>
-    <%
-      new_id = @id_map.next_digiprov
-      @admid_map[df.id] << new_id
-    %>
-    <%= md_section agent, :type => 'digiprovMD',  :id => new_id %>
-  <% end %>
+<% datafile_agents.each do |agent, dfs| %>
+  <%
+    new_id = @id_map.next_digiprov
+    dfs.each { |df| @admid_map[df.id] << new_id }
+  %>
+  <%= md_section agent, :type => 'digiprovMD',  :id => new_id %>
 <% end %>
+
 </amdSec>
 
 <fileSec>
