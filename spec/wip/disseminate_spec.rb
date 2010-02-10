@@ -32,6 +32,7 @@ describe Wip do
     subject do 
       proto_wip = submit_sip 'mimi'
       proto_wip.ingest!
+      Aip.get! proto_wip.id
       id, uri = proto_wip.id, proto_wip.uri
       FileUtils::rm_r proto_wip.path
       wip = blank_wip id, uri
@@ -39,13 +40,14 @@ describe Wip do
       wip
     end
 
-    it "should have a disseminate event" do
-      aip = Aip.get subject.id 
-      aip.should_not be_nil
-      doc = XML::Document.string aip.xml
-      puts doc.to_s
-      disseminate_event = doc.find_first "P:event[P:eventType = 'disseminate']", NS_PREFIX
-      disseminate_event.should_not be_nil
+    it "should have an disseminate event" do
+      doc = XML::Document.string subject['aip-descriptor']
+      doc.find("//P:event/P:eventType = 'disseminate'", NS_PREFIX).should be_true
+    end
+
+    it "should have an disseminate agent" do
+      doc = XML::Document.string subject['aip-descriptor']
+      doc.find("//P:agent/P:agentName = 'daitss disseminate'", NS_PREFIX).should be_true
     end
 
     it "should produce a dip in a disseminate area" do
