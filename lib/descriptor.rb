@@ -78,6 +78,21 @@ class Wip
     new_md_keys.map { |key| metadata[key] } 
   end
 
+  def datafile_agents
+    h = Hash.new { |hash, key| hash[key] = [] }
+
+    datafiles.each do |df| 
+
+      df.digiprov_agents.each do |agent|
+        h[agent] << df
+      end
+
+    end
+
+    h
+
+  end
+
 end
 
 class DataFile
