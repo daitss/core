@@ -1,8 +1,8 @@
 <file ID='file-<%= df.id %>' 
-      OWNERID='<%= df['ownerid'] %>' 
+      OWNERID='<%= df.uri %>' 
       ADMID='<%= @admid_map[df.id].join ' ' %>'
       SIZE='<%= df.size %>'
-      CHECKSUMTYPE='SHA1'
+      CHECKSUMTYPE='SHA-1'
       CHECKSUM='<%= df.open { |io| Digest::SHA1.hexdigest io.read } %>'>
   <FLocat LOCTYPE='URL' xlink:href='<%= df['sip-path'] or df['aip-path'] %>'/>
 </file>
