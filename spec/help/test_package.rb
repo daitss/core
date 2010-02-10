@@ -20,10 +20,10 @@ def submit_sip name
                               :type => 'submit', 
                               :outcome => 'success', 
                               :linking_objects => [ wip.uri ],
-                              :linking_agents => [ 'info:fcla/daitss/test-case' ])
+                              :linking_agents => [ 'info:fcla/daitss/submit' ])
 
-  wip['submit-agent'] = agent(:id => 'info:fcla/daitss/test-case',
-                              :name => 'daitss test stack', 
+  wip['submit-agent'] = agent(:id => 'info:fcla/daitss/submit',
+                              :name => 'daitss submission service', 
                               :type => 'software')
 
   wip
