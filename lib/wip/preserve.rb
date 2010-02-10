@@ -70,7 +70,7 @@ class Wip
             norm_df['extension'] = extension
             norm_df['aip-path'] = "#{df.id}-normalization#{extension}"
 
-            step "describe-#{norm_df.id}" do
+            step! "describe-#{norm_df.id}" do
               norm_df.describe! :derivation_source => df.uri, :derivation_method => :normalize
             end
 
