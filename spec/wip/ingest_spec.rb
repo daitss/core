@@ -37,6 +37,17 @@ describe Wip do
 
     it "should have an aip descriptor" do
       @wip.tags.should have_key('make-aip-descriptor')
+      puts @wip['aip-descriptor']
+    end
+
+    it "should have an ingest event" do
+      doc = XML::Document.string @wip['aip-descriptor']
+      doc.find("//P:event/P:eventType = 'ingest'", NS_PREFIX).should be_true
+    end
+
+    it "should have an ingest agent" do
+      doc = XML::Document.string @wip['aip-descriptor']
+      doc.find("//P:agent/P:agentName = 'daitss ingest'", NS_PREFIX).should be_true
     end
 
     it "should have made an aip" do
