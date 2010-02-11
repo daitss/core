@@ -1,4 +1,5 @@
-require 'accounts'
+require 'dm-core'
+require 'db/accounts'
 
 class Projects
   include DataMapper::Resource

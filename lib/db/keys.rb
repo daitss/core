@@ -1,4 +1,5 @@
-require 'operations_agents'
+require 'dm-core'
+require 'db/operations_agents'
 
 class Keys
   include DataMapper::Resource
