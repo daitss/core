@@ -1,10 +1,10 @@
 # the relationship table only describe derivative relationship.  Whole-part relationship is denoted
- # by the has and belongs_to associations.  Describing whole-part relationship using Relationship class
- # is currently restricuted to 1-to-1 derivative relationship.
+# by the has and belongs_to associations.  Describing whole-part relationship using Relationship class
+# is currently restricuted to 1-to-1 derivative relationship.
 
- # note: may need relationships among representations, ex. shapefiles may be grouped into 
- # a reprensentation, and thus if the shapefiles representation is migrated to another collection 
- # of files, a relationship among representation would be needed. ** further analysis is needed.
+# note: we may need relationships among representations, ex. shapefiles may be grouped into 
+# a reprensentation, and thus if the shapefiles representation is migrated to another collection 
+# of files, a relationship among representation would be needed. ** further analysis is needed.
 
 RELATIONSHIP_Types = { 
   :normalize => :normalized_to,
