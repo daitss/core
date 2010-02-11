@@ -62,9 +62,10 @@ describe 'describing a datafile' do
   it "should take derivation options (migration)" do
     src = subject.wip.datafiles[0]
     dst = subject.wip.datafiles[1]
+    transformation_url = 'http://optimus/prime'
 
     src.describe!
-    dst.describe! :derivation_source => src.uri, :derivation_method => :migrate
+    dst.describe! :derivation_source => src.uri, :derivation_method => :migrate, :derivation_agent => transformation_url
 
     doc = XML::Document.string dst['describe-file-object']
 
@@ -80,18 +81,21 @@ describe 'describing a datafile' do
     event.should_not be_nil
     event.find("P:eventType = 'migrate'", NS_PREFIX).should be_true
 
-     event.find_first("P:linkingObjectIdentifier[P:linkingObjectIdentifierValue = '#{src.uri}'][P:linkingObjectRole = 'source']", NS_PREFIX).should_not be_nil
-     event.find_first("P:linkingObjectIdentifier[P:linkingObjectIdentifierValue = '#{dst.uri}'][P:linkingObjectRole = 'outcome']", NS_PREFIX).should_not be_nil
+    event.find_first("P:linkingObjectIdentifier[P:linkingObjectIdentifierValue = '#{src.uri}'][P:linkingObjectRole = 'source']", NS_PREFIX).should_not be_nil
+    event.find_first("P:linkingObjectIdentifier[P:linkingObjectIdentifierValue = '#{dst.uri}'][P:linkingObjectRole = 'outcome']", NS_PREFIX).should_not be_nil
 
-
+    event.find("P:linkingAgentIdentifier/P:linkingAgentIdentifierValue = '#{transformation_url}'", NS_PREFIX).should be_true
+    doc = XML::Document.string dst['migrate-agent']
+    doc.find("//P:agent/P:agentIdentifier/P:agentIdentifierValue = '#{transformation_url}'", NS_PREFIX).should be_true
   end
 
   it "should take derivation options (normalization)" do
     src = subject.wip.datafiles[0]
     dst = subject.wip.datafiles[1]
+    transformation_url = 'http://rodimus/prime'
 
     src.describe!
-    dst.describe! :derivation_source => src.uri, :derivation_method => :normalize
+    dst.describe! :derivation_source => src.uri, :derivation_method => :normalize, :derivation_agent => transformation_url
 
     doc = XML::Document.string dst['describe-file-object']
 
@@ -109,6 +113,10 @@ describe 'describing a datafile' do
 
     event.find_first("P:linkingObjectIdentifier[P:linkingObjectIdentifierValue = '#{src.uri}'][P:linkingObjectRole = 'source']", NS_PREFIX).should_not be_nil
     event.find_first("P:linkingObjectIdentifier[P:linkingObjectIdentifierValue = '#{dst.uri}'][P:linkingObjectRole = 'outcome']", NS_PREFIX).should_not be_nil
+
+    event.find("P:linkingAgentIdentifier/P:linkingAgentIdentifierValue = '#{transformation_url}'", NS_PREFIX).should be_true
+    doc = XML::Document.string dst['normalize-agent']
+    doc.find("//P:agent/P:agentIdentifier/P:agentIdentifierValue = '#{transformation_url}'", NS_PREFIX).should be_true
   end
 
 end
