@@ -46,4 +46,15 @@ class Datafile < Pobject
     processFormats(self, premis, formats)
   end
   
+  # derive the datafile origin by its association to representations r0, rc
+  def setOrigin(r0, rc)
+    # if this datafile is in r(c) but not in r(0), it is created by the archive, otherwise it is submitted by depositor.
+    puts @id
+    if (rc.include?(@id) && !r0.include?(@id))
+      attribute_set(:origin, :archive)
+    else
+      attribute_set(:origin, :depositor)
+    end
+  end
+  
 end
