@@ -33,8 +33,6 @@ class Datafile < Pobject
     node = premis.find_first("premis:originalName", NAMESPACES)
     attribute_set(:original_path, node.content) if node
     
-    # TODO need to set the origin
-    
     # process premis ObjectCharacteristicExtension 
     node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
     if (node)
