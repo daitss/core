@@ -15,6 +15,7 @@ class DataFile
     metadata['describe-bitstream-objects'] = element_doc_as_str doc, "//P:object[@xsi:type='bitstream']"
 
     if options[:derivation_source]
+
       src_uri = options[:derivation_source]
 
       derivation_method = case options[:derivation_method]
@@ -23,12 +24,30 @@ class DataFile
                           else raise "derivation method is missing!"
                           end
 
+      raise "derivation agent is missing" unless options[:derivation_agent]
+
+      describe_derivation src_uri, derivation_method, options[:derivation_agent]
+    end
+
+  end
+
+  private
+
+  def describe_derivation src_uri, derivation_method, agent_uri
+
       event_uri = "#{uri}/event/#{derivation_method}"
       metadata["#{derivation_method}-event"] = event(:id => event_uri,
                                                      :type => derivation_method,
+                                                     :linking_agents => [ agent_uri ],
                                                      :linking_objects => [ 
                                                        {:uri => src_uri, :role => 'source'}, 
-                                                       {:uri => uri, :role => 'outcome'}])
+                                                       {:uri => uri, :role => 'outcome'}
+                                                     ])
+
+      metadata["#{derivation_method}-agent"] = agent(:id => agent_uri,
+                                                     :name => 'daitss transformation service', 
+                                                     :type => 'software')
+
 
       rel_doc = XML::Document::string relationship(:type => 'derivation',
                                                    :sub_type => 'has source',
@@ -48,12 +67,7 @@ class DataFile
       end
 
       metadata['describe-file-object'] = doc.root.to_s
-
-    end
-
   end
-
-  private
 
   def ask_description_service query={}
     query_str = query.map { |key, value| "#{key.id2name}=#{CGI::escape value.to_s}" }.join '&'
