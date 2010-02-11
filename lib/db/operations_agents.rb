@@ -1,7 +1,8 @@
+require 'dm-core'
 require 'dm-types'
-require 'keys'
-require 'operations_events'
-require 'accounts'
+require 'db/keys.rb'
+require 'db/operations_events.rb'
+require 'db/accounts.rb'
 
 class OperationsAgents
   include DataMapper::Resource

@@ -1,5 +1,6 @@
-require 'operations_agents'
-require 'projects'
+require 'dm-core'
+require 'db/operations_agents'
+require 'db/projects'
 
 class Accounts
   include DataMapper::Resource

@@ -1,5 +1,6 @@
-require 'operations_agents'
-require 'int_entity'
+require 'dm-core'
+require 'db/operations_agents'
+require 'db/int_entity'
 
 class OperationsEvents 
   include DataMapper::Resource
