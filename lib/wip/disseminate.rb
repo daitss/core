@@ -37,7 +37,25 @@ class Wip
       metadata['aip-descriptor'] = descriptor
     end
 
-    step('update-aip') { Aip::update_from_wip self }
+    step('update-aip') do
+      Aip::update_from_wip self
+    end
+
+    step('deliver-dip') do
+      raise "no drop path specified" unless tags.has_key? 'drop-path'
+      aip = Aip.get! id
+      url = URI.parse aip.copy_url.to_s
+      res = Net::HTTP.start(url.host, url.port) { |http| http.get url.path }
+      res.error! unless Net::HTTPSuccess === res
+      open(tags['drop-path'], 'w') { |io| io.write res.body }
+      sha1 = open(tags['drop-path']) { |io| Digest::SHA1.hexdigest io.read }
+
+      unless sha1 == aip.copy_sha1
+        raise "#{aip.copy_url} sha1 is wrong: expected #{aip.copy_sha1}, actual #{sha1}" 
+      end
+
+    end
+
   end
 
 end
