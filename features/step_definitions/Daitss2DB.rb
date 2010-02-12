@@ -11,6 +11,14 @@ Given /^an aip containing a pdf with many bitstream$/ do
   @file = "#{abs}/files/multi-bs-pdf.xml"
 end
 
+Given /^an aip containing a pdf with inhibitor$/ do
+  @file = "#{abs}/files/pw-pdf.xml"
+end
+
+Given /^an aip containing a pdf with anomaly$/ do
+  @file = "#{abs}/files/pw-pdf.xml"
+end
+
 Given /^an aip containing a wave file$/ do
   @file = "#{abs}/files/audio_wave.xml"
 end
@@ -116,3 +124,21 @@ Then /^the original file should have depositor as origin$/ do
   df.origin.should == :depositor
 end
 
+Then /^it should have an inhibitor$/ do
+  df = Datafile.first(:id => @dfid)
+  found = false
+  df.severe_element.each do |se|
+    found = true if se.class == Inhibitor
+  end
+  found.should == true
+end
+
+
+Then /^it should have an anomaly$/ do
+  df = Datafile.first(:id => @dfid)
+  found = false
+  df.severe_element.each do |se|
+    found = true if se.class == Anomaly
+  end
+  found.should == true
+end
