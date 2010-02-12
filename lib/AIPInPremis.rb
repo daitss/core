@@ -27,7 +27,7 @@ class AIPInPremis
 
     # process all premis bitstreams 
     processBitstreams
-    
+
     # process all premis agents 
     processAgents
 
@@ -74,7 +74,7 @@ class AIPInPremis
       @int_entity.representations << rep
       @representations << rep
     end
-    
+
     # set the origin of all datafiles by deriving the origin information from their associations with representations
     @datafiles.each do |dfid, df|
       df.setOrigin r0, rc
@@ -84,7 +84,7 @@ class AIPInPremis
   # extract all file objects from the premis document
   def processDatafiles
     fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
-    
+
     fileObjects.each do |obj|
       df = Datafile.new
       df.fromPremis(obj, @formats)
@@ -131,7 +131,7 @@ class AIPInPremis
 
       unless df.nil?
         event = DatafileEvent.new
-        event.fromPremis obj
+        event.fromPremis(obj, df)
         event.setRelatedObject id.content
         #associate agent to the event
         agent.events << event unless agent.nil?
