@@ -1,3 +1,6 @@
+REP_CURRENT = "representation-current"
+REP_0 = "representation-0"
+
 class Representation
   include DataMapper::Resource  
   property :id, String, :key => true, :length => 50
@@ -5,12 +8,25 @@ class Representation
   property :namespace, Enum[:local]
 
   belongs_to :intentity
-    # representation is part of an int entity
+  # representation is part of an int entity
   has 1..n, :datafiles, :through => Resource
   
+  # extract representation properties from a premis document
   def fromPremis premis
     attribute_set(:id, premis.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content)
     attribute_set(:namespace, :local)
+  end
+
+  # if this representation represents the original representation?
+  def isR0
+    yes = false
+    yes = true if (@id.include? REP_0)
+  end
+  
+  # is this representation represents the current representation?
+  def isRC
+    yes = false
+    yes = true if (@id.include? REP_CURRENT)
   end
   
 end

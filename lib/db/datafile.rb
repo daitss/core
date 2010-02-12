@@ -12,7 +12,7 @@ class Datafile < Pobject
 
   has 1..n, :representations, :through => Resource
   has 0..n, :bitstreams # a datafile may contain 0-n bitstream(s)
-  has 0..n, :severe_element # a datafile may contain 0-n severe_elements
+  has 0..n, :severe_element, :through => Resource # a datafile may contain 0-n severe_elements
   has 0..n, :object_format # a datafile may have 0-n file_formats
   has 0..n, :documents
   has 0..n, :texts
@@ -33,8 +33,6 @@ class Datafile < Pobject
     node = premis.find_first("premis:originalName", NAMESPACES)
     attribute_set(:original_path, node.content) if node
     
-    # TODO need to set the origin
-    
     # process premis ObjectCharacteristicExtension 
     node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
     if (node)
@@ -44,6 +42,24 @@ class Datafile < Pobject
     
     # process format information
     processFormats(self, premis, formats)
+    
+    # process inhibitor if there is any
+    node = premis.find_first("premis:objectCharacteristics/premis:inhibitors", NAMESPACES)
+    if (node)
+      inhibitor = Inhibitor.new
+      inhibitor.fromPremis(node)
+      self.severe_element << inhibitor
+    end
+  end
+  
+  # derive the datafile origin by its association to representations r0, rc
+  def setOrigin(r0, rc)
+    # if this datafile is in r(c) but not in r(0), it is created by the archive, otherwise it is submitted by depositor.
+    if (rc.include?(@id) && !r0.include?(@id))
+      attribute_set(:origin, :archive)
+    else
+      attribute_set(:origin, :depositor)
+    end
   end
   
 end
