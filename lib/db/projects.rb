@@ -1,7 +1,7 @@
 require 'dm-core'
 require 'db/accounts'
 
-class Projects
+class Project
   include DataMapper::Resource
 
   property :id, Serial

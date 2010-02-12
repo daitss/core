@@ -4,7 +4,7 @@ require 'db/keys.rb'
 require 'db/operations_events.rb'
 require 'db/accounts.rb'
 
-class OperationsAgents
+class OperationsAgent
   include DataMapper::Resource
 
   property :id, Serial
@@ -14,10 +14,10 @@ class OperationsAgents
   property :type, Discriminator
 
   has 1, :key
-  has n, :operations_event
+  has n, :operations_events
 end
 
-class Users < OperationsAgents
+class User < OperationsAgent
   property :username, String, :nullable => false
   property :first_name, String, :nullable => false
   property :last_name, String, :nullable => false
@@ -26,18 +26,18 @@ class Users < OperationsAgents
   property :address, String, :nullable => false
 end
 
-class Contacts < Users
+class Contact < User
   property :permissions, Flag[:disseminate, :withdraw, :peek, :submit], :nullable => false
 
   belongs_to :account
 end
 
-class Operators < Users; end
+class Operator < User; end
 
-class Services < OperationsAgents
+class Service < OperationsAgent
   property :url, String, :nullable => false
 end
 
-class Programs < OperationsAgents
+class Program < OperationsAgent
   property :path, String, :nullable => false
 end
