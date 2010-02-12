@@ -27,7 +27,7 @@ class AIPInPremis
 
     # process all premis bitstreams 
     processBitstreams
-    
+
     # process all premis agents 
     processAgents
 
@@ -49,6 +49,9 @@ class AIPInPremis
 
   # extract representation information from the premis document
   def processRepresentations
+    r0 = Array.new
+    rc = Array.new
+
     repObjects = @doc.find("//premis:object[@xsi:type='representation']", NAMESPACES)
     repObjects.each do |obj|
       rep = Representation.new
@@ -60,18 +63,28 @@ class AIPInPremis
         df = @datafiles[dfid]
         unless df.nil?
           df.representations << rep
+          if rep.isR0
+            r0 << dfid
+          elsif rep.isRC
+            rc << dfid
+          end
         end
       end
 
       @int_entity.representations << rep
       @representations << rep
     end
+
+    # set the origin of all datafiles by deriving the origin information from their associations with representations
+    @datafiles.each do |dfid, df|
+      df.setOrigin r0, rc
+    end
   end
 
   # extract all file objects from the premis document
   def processDatafiles
     fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
-    
+
     fileObjects.each do |obj|
       df = Datafile.new
       df.fromPremis(obj, @formats)
@@ -84,7 +97,7 @@ class AIPInPremis
     end
   end
 
-  #extract alll bitstream objects from the premis document
+  # extract alll bitstream objects from the premis document
   def processBitstreams
     bitObjects = @doc.find("//premis:object[@xsi:type='bitstream']", NAMESPACES)
     bitObjects.each do |obj|
@@ -94,7 +107,7 @@ class AIPInPremis
     end
   end
 
-  #extract all agents in the premis document
+  # extract all agents in the premis document
   def processAgents
     agentObjects = @doc.find("//premis:agent", NAMESPACES)
     agentObjects.each do |obj|
@@ -118,7 +131,7 @@ class AIPInPremis
 
       unless df.nil?
         event = DatafileEvent.new
-        event.fromPremis obj
+        event.fromPremis(obj, df)
         event.setRelatedObject id.content
         #associate agent to the event
         agent.events << event unless agent.nil?
@@ -169,7 +182,6 @@ class AIPInPremis
       @events.each {|id, e|  raise 'error saving event records' unless e.save }
       @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
     end
-
   end
 
 end
