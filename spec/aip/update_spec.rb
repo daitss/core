@@ -28,6 +28,8 @@ describe Aip do
         :linking_objects => [ wip.uri ]
       }
 
+      wip['old-digiprov-events'] = event spec
+
       wip['aip-descriptor'] = wip.descriptor
       Aip::update_from_wip wip
       Aip.get! wip.id
@@ -39,7 +41,7 @@ describe Aip do
 
     it "should have the new metadata" do
       doc = XML::Document.string subject.xml
-      puts doc.find("//P:event/eventType = 'FOO'", NS_PREFIX).inspect
+      doc.find("//P:event/P:eventType = 'FOO'", NS_PREFIX).should be_true
     end
 
   end
