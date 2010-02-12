@@ -37,7 +37,6 @@ describe Wip do
 
     it "should have an aip descriptor" do
       @wip.tags.should have_key('make-aip-descriptor')
-      puts @wip['aip-descriptor']
     end
 
     it "should have an ingest event" do
