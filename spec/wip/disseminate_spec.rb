@@ -36,13 +36,13 @@ describe Wip do
       id, uri = proto_wip.id, proto_wip.uri
       FileUtils::rm_r proto_wip.path
       wip = blank_wip id, uri
+      wip.tags['drop-path'] = "/tmp/#{id}.tar"
       wip.disseminate
       wip
     end
 
     it "should have an disseminate event" do
       doc = XML::Document.string subject['aip-descriptor']
-      puts doc.to_s
       doc.find("//P:event/P:eventType = 'disseminate'", NS_PREFIX).should be_true
     end
 
@@ -52,7 +52,7 @@ describe Wip do
     end
 
     it "should produce a dip in a disseminate area" do
-      path = File.join CONFIG['disseminate-dir-path'], "#{subject.id}.tar"
+      path = subject.tags['drop-path']
       File.exist?(path).should be_true
     end
 
