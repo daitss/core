@@ -61,14 +61,14 @@ class PackageSubmitter
       :linking_agents => [ 'info:fcla/daitss/submission_service' ]
 
     wip['submit-agent'] = agent :id => 'info:fcla/daitss/submission_service',
-      :name => 'DAITSS 2 submission service', 
+      :name => 'daitss submission service', 
       :type => 'software'
 
-    wip['dmd-title'] = int_entity_metadata["title"] if int_entity_metadata["title"]
-    wip['dmd-issue'] = int_entity_metadata["issue"] if int_entity_metadata["issue"]
-    wip['dmd-volume'] = int_entity_metadata["volume"] if int_entity_metadata["volume"]
-    wip['dmd-account'] = int_entity_metadata["account"] if int_entity_metadata["account"]
-    wip['dmd-project'] = int_entity_metadata["project"] if int_entity_metadata["project"]
+    wip.metadata['dmd-title'] = int_entity_metadata["title"] if int_entity_metadata["title"]
+    wip.metadata['dmd-issue'] = int_entity_metadata["issue"] if int_entity_metadata["issue"]
+    wip.metadata['dmd-volume'] = int_entity_metadata["volume"] if int_entity_metadata["volume"]
+    wip.metadata['dmd-account'] = int_entity_metadata["account"] if int_entity_metadata["account"]
+    wip.metadata['dmd-project'] = int_entity_metadata["project"] if int_entity_metadata["project"]
 
     # clean up
     FileUtils.rm_rf sip_path
