@@ -7,46 +7,27 @@
                           info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd">
 
 <% if metadata.has_key? 'dmd' %>
-  <%= md_section metadata['dmd'], :type => 'dmdSec', :id => @id_map.next_dmd %>
+  <%= md_section metadata['dmd'], :type => 'dmdSec', :id => next_id(:dmd, id) %>
 <% end %>
 
 <amdSec>
 
 <!-- ieid tech -->
-<%= md_section intellectual_entity_object, :type => 'techMD', :id => @id_map.next_tech %>
+<%= md_section intellectual_entity_object, :type => 'techMD', :id => next_id(:tech, id) %>
 
-<%
-  rep_map = { 
-    'original' => original_rep, 
-    'current' => current_rep, 
-    'normalized' => normalized_rep 
-  }
-
-  rep_premis_objects = rep_map.map do |name, rep|
-    representation_object rep, :uri => "#{uri}/representation/#{name}"
-  end
-%>
-
-<% rep_premis_objects.each do |rep_object| %>
-  <%= md_section rep_object, :type => 'techMD', :id => @id_map.next_tech %>
+<% rep_name_map.map do |name, rep| %>
+  <% rep_object = representation_object rep, :uri => "#{uri}/representation/#{name}" %>
+  <%= md_section rep_object, :type => 'techMD', :id => next_id(:tech, name) %>
 <% end %>
 
 <!-- file tech -->
 <% datafiles.each do |df| %>
-    <%
-      new_id = @id_map.next_tech
-      @admid_map[df.id] << new_id
-    %>
-  <%= md_section df['describe-file-object'], :type => 'techMD', :id => new_id %>
+  <%= md_section df['describe-file-object'], :type => 'techMD', :id => next_id(:tech, df.id) %>
 
   <% if df.has_key? 'describe-bitstream-objects' %>
     <% bs_objects = df['describe-bitstream-objects'].split %r{\n(?=<event)} %>
     <% bs_objects.each do |bs_object| %>
-      <%
-        new_id = @id_map.next_tech
-        @admid_map[df.id] << new_id
-      %>
-      <%= md_section bs_object, :type => 'techMD', :id => new_id %>
+      <%= md_section bs_object, :type => 'techMD', :id => next_id(:tech, df.id) %>
     <% end %>
   <% end %>
 
@@ -54,32 +35,24 @@
 
 <!-- ieid digiprov (events) -->
 <% digiprov_events.each do |event| %>
-  <%= md_section event, :type => 'digiprovMD',  :id => @id_map.next_digiprov %>
+  <%= md_section event, :type => 'digiprovMD',  :id => next_id(:digiprov, id) %>
 <% end %>
 
 <!-- file digiprov (events) -->
 <% datafiles.each do |df| %>
   <% df.digiprov_events.each do |event| %>
-    <%
-      new_id = @id_map.next_digiprov
-      @admid_map[df.id] << new_id
-    %>
-    <%= md_section event, :type => 'digiprovMD',  :id => new_id %>
+    <%= md_section event, :type => 'digiprovMD',  :id => next_id(:digiprov, df.id) %>
   <% end %>
 <% end %>
 
 <!-- ieid digiprov (agents) -->
 <% digiprov_agents.each do |agent| %>
-  <%= md_section agent, :type => 'digiprovMD', :id => @id_map.next_digiprov %>
+  <%= md_section agent, :type => 'digiprovMD', :id => next_id(:digiprov, id) %>
 <% end %>
 
 <!-- file digiprov (agents) -->
 <% datafile_agents.each do |agent, dfs| %>
-  <%
-    new_id = @id_map.next_digiprov
-    dfs.each { |df| @admid_map[df.id] << new_id }
-  %>
-  <%= md_section agent, :type => 'digiprovMD',  :id => new_id %>
+  <%= md_section agent, :type => 'digiprovMD', :id => next_id(:digiprov, dfs) %>
 <% end %>
 
 </amdSec>
@@ -92,7 +65,8 @@
 </fileGrp>
 </fileSec>
 
-<%= representation_struct_map original_rep, :id => 'original', :admid => 'representation-original-techmd' %>
-<%= representation_struct_map current_rep, :id => 'current', :admid => 'representation-current-techmd' %>
-<%= representation_struct_map normalized_rep, :id => 'normalized', :admid => 'representation-normalized-techmd' %>
+<% rep_name_map.each do |name, rep| %>
+  <%= representation_struct_map rep, :id => name, :admid => admids_for(name).join(' ') %>
+<% end %>
+
 </mets>
