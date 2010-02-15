@@ -1,6 +1,7 @@
 require 'template'
 require 'wip'
 require 'datafile'
+require 'metadata'
 
 class Wip
 
@@ -66,45 +67,13 @@ class Wip
   end
 
   def digiprov_events
-
-    potential_new_md_keys = [
-      'submit-event', 
-      'validate-event',
-      'ingest-event', 
-      'disseminate-event'
-    ]
-
-    new_md_keys = potential_new_md_keys.select { |key| metadata.has_key? key }
-    new_digiprov = new_md_keys.map { |key| metadata[key] } 
-
-    old_digiprov = if metadata.has_key? 'old-digiprov-events'
-                     metadata['old-digiprov-events'].split %r{\n(?=<event)}
-                   else
-                     []
-                   end
-
-    new_digiprov + old_digiprov
+    new_events = metadata_for 'submit-event', 'validate-event', 'ingest-event', 'disseminate-event'
+    new_events + old_events.map { |e| e.root.to_s }
   end
 
   def digiprov_agents
-
-    potential_new_md_keys = [
-      'submit-agent', 
-      'validate-agent',
-      'ingest-agent', 
-      'disseminate-agent'
-    ]
-
-    new_md_keys = potential_new_md_keys.select { |key| metadata.has_key? key }
-    new_digiprov = new_md_keys.map { |key| metadata[key] } 
-
-    old_digiprov = if metadata.has_key? 'old-digiprov-agents'
-                     metadata['old-digiprov-agents'].split %r{\n(?=<agent)}
-                   else
-                     []
-                   end
-
-    new_digiprov + old_digiprov
+    new_agents = metadata_for 'submit-agent', 'validate-agent', 'ingest-agent', 'disseminate-agent'
+    new_agents + old_agents.map { |a| a.root.to_s }
   end
 
   def datafile_agents
@@ -127,43 +96,13 @@ end
 class DataFile
 
   def digiprov_events
-
-    potential_new_md_keys = [
-      'describe-event', 
-      'migrate-event',
-      'normalize-event'
-    ]
-
-    new_md_keys = potential_new_md_keys.select { |key| metadata.has_key? key }
-    new_digiprov = new_md_keys.map { |key| metadata[key] } 
-
-    old_digiprov = if metadata.has_key? 'old-digiprov-events'
-                     metadata['old-digiprov-events'].split %r{\n(?=<event)}
-                   else
-                     []
-                   end
-
-    new_digiprov + old_digiprov
+    new_events = metadata_for 'describe-event', 'migrate-event', 'normalize-event'
+    new_events + old_events.map { |e| e.root.to_s } 
   end
 
   def digiprov_agents
-
-    potential_new_md_keys = [
-      'describe-agent', 
-      'migrate-agent',
-      'normalize-agent'
-    ]
-
-    new_md_keys = potential_new_md_keys.select { |key| metadata.has_key? key }
-    new_digiprov = new_md_keys.map { |key| metadata[key] } 
-
-    old_digiprov = if metadata.has_key? 'old-digiprov-agents'
-                     metadata['old-digiprov-agents'].split %r{\n(?=<agent)}
-                   else
-                     []
-                   end
-
-    new_digiprov + old_digiprov
+    new_agents = metadata_for 'describe-agent', 'migrate-agent', 'normalize-agent'
+    new_agents + old_agents.map { |a| a.root.to_s }
   end
 
 end

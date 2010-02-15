@@ -193,32 +193,3 @@ class Wip
 
 end
 
-module OldDigiprov
-
-  def old_events
-
-    if metadata.has_key? 'old-digiprov-events'
-      raw_events = metadata['old-digiprov-events'].split %r{\n(?=<event)}
-      raw_events.map { |s| XML::Document.string s }
-    end
-
-  end
-
-  def old_agents
-
-    if metadata.has_key? 'old-digiprov-agents'
-      raw_agents = metadata['old-digiprov-agents'].split %r{\n(?=<agent)}
-      raw_agents.map { |s| XML::Document.string s }
-    end
-
-  end
-
-end
-
-class Wip
-  include OldDigiprov
-end
-
-class DataFile
-  include OldDigiprov
-end
