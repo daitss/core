@@ -6,6 +6,7 @@ require 'db/aip'
 require 'db/aip/wip'
 require 'descriptor'
 require 'template/premis'
+require 'metadata'
 
 class Wip
 
