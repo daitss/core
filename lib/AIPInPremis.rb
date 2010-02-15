@@ -170,17 +170,19 @@ class AIPInPremis
 
   # save all extracted premis objects/events/agents to the fast access database in one transaction
   def toDB
-    # start database traction for saving the associated record for the aip.  If there is any failure during database save, 
-    # datamapper automatically rollback the change.
-    Intentity.transaction do 
-      #TODO: @int_entity.save  
-      @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
-      # not necessary to explicitely save representations since representations will be saved through datafiles associations
-      @datafiles.each {|dfid, df|  raise 'error saving datafile records' unless  df.save } 
-      @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
-      @agents.each {|id, ag|  raise 'error saving agent records' unless ag.save }
-      @events.each {|id, e|  raise 'error saving event records' unless e.save }
-      @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
+    repository(:default) do 
+      # start database traction for saving the associated record for the aip.  If there is any failure during database save, 
+      # datamapper automatically rollback the change.
+      Intentity.transaction do 
+        #TODO: @int_entity.save  
+        @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
+        # not necessary to explicitely save representations since representations will be saved through datafiles associations
+        @datafiles.each {|dfid, df|  raise 'error saving datafile records' unless  df.save } 
+        @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
+        @agents.each {|id, ag|  raise 'error saving agent records' unless ag.save }
+        @events.each {|id, e|  raise 'error saving event records' unless e.save }
+        @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
+      end
     end
   end
 
