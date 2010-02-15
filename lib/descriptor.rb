@@ -3,26 +3,11 @@ require 'wip'
 require 'datafile'
 require 'metadata'
 
+# Helpers for generating the aip descriptor
 class Wip
 
   def descriptor
-
-    @id_map = Hash.new do |hash, key|
-      hash[key] = "0"
-    end
-
-    def @id_map.method_missing method_id
-
-      key = case method_id
-            when :next_tech then :tech
-            when :next_digiprov then :digiprov
-            when :next_dmd then :dmd
-            else super
-            end
-
-      "#{key}-#{self[key].next!}"
-    end
-
+    @id_map = Hash.new { |hash, key| hash[key] = "0" }
     @admid_map = Hash.new { |hash, key| hash[key] = [] }
 
     XML.default_keep_blanks = false
@@ -30,6 +15,27 @@ class Wip
   end
 
   private
+
+  def next_id md_type, thing
+    n = @id_map[md_type].next!
+    new_id = "#{md_type}-#{n}"
+
+    case thing
+    when Array
+      thing.each { |t| @admid_map[thing] << new_id }
+
+    when String
+      @admid_map[thing] << new_id
+
+    end
+
+    new_id
+  end
+
+  # return a list of ids associated with 
+  def admids_for id
+    @admid_map[id]
+  end
 
   def tag_start name, attributes={}
     attr_string = attributes.map { |(a_name, a_value)| "#{a_name.id2name}=\"#{a_value}\"" }.join ' ' 
@@ -51,6 +57,14 @@ class Wip
 
   def intellectual_entity_object
     template_by_name('aip/intellectual_entity_object').result binding
+  end
+
+  def rep_name_map
+    {
+      'original' => original_rep, 
+      'current' => current_rep, 
+      'normalized' => normalized_rep 
+    }
   end
 
   def representation_object rep, options={}
