@@ -19,7 +19,8 @@ class Wip
 
     step('write-disseminate-event') do
 
-      metadata['disseminate-event'] = event(:id => "#{uri}/event/disseminate", 
+
+      metadata['disseminate-event'] = event(:id => "#{uri}/event/disseminate/#{next_disseminate_index}", 
                                             :type => 'disseminate', 
                                             :outcome => 'success', 
                                             :linking_objects => [ uri ],
@@ -54,6 +55,29 @@ class Wip
         raise "#{aip.copy_url} sha1 is wrong: expected #{aip.copy_sha1}, actual #{sha1}" 
       end
 
+    end
+
+  end
+
+  private
+
+  def next_disseminate_index
+
+    old_disseminate_events = old_events.select do |event|
+      event.find("/P:event/P:eventType = 'disseminate'", NS_PREFIX)
+    end
+
+    if old_disseminate_events.empty?
+      "0"
+    else
+
+      old_disseminate_ids = old_disseminate_events.map do |event| 
+        xpath = "/P:event/P:eventIdentifier/P:eventIdentifierValue"
+        event_uri = event.find_first(xpath, NS_PREFIX).content
+        event_uri[%r{/(\d+)$},1].to_i
+      end
+
+      (old_disseminate_ids.max + 1).to_s
     end
 
   end
