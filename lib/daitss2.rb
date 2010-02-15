@@ -17,6 +17,11 @@ require 'db/relationship.rb'
 require 'db/representation.rb'
 require 'db/severe_element.rb'
 require 'db/text.rb'
+require 'db/accounts'
+require 'db/keys'
+require 'db/operations_agents'
+require 'db/operations_events'
+require 'db/projects'
 
 # require all database classes.
 # pattern = File.expand_path File.join(File.dirname(__FILE__), 'db', '*.rb')
