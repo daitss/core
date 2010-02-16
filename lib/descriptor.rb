@@ -16,7 +16,7 @@ class Wip
 
   private
 
-  def next_id md_type, thing
+  def next_id md_type, thing=nil
     n = @id_map[md_type].next!
     new_id = "#{md_type}-#{n}"
 
