@@ -18,7 +18,6 @@ class Audio
     # null if the audio is associated with a bitstream
   belongs_to :bitstream, :index => true  # Audio may be associated with a bitstream, 
     # null if the audio is associated with a datafile
-  # TODO: need to make sure either dfid or bsid is not null.
   
   def setDFID dfid
     attribute_set(:datafile_id, dfid)
@@ -44,4 +43,10 @@ class Audio
     attribute_set(:channel_map, channelMap)
   end
   
+  before :save do
+    # make sure either dfid or bsid is not null.
+    if (:datafile_id.nil? && :bitstream_id.nil?)
+      raise "this audio neither associates with a datafile nor associates with a bitstream"
+    end 
+  end
 end
