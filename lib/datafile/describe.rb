@@ -8,7 +8,7 @@ class DataFile
   def describe! options={}
     doc = ask_description_service(:location => "file:#{File.expand_path datapath }",
                                   :uri => uri, 
-                                  :originalName => metadata['sip-path'])
+                                  :originalName => metadata['sip-path'] || metadata['aip-path'] )
     fix_event_ids doc
     metadata['describe-file-object'] = element_doc_as_str doc, "//P:object[@xsi:type='file']" 
     metadata['describe-event'] = element_doc_as_str doc, "//P:event"
