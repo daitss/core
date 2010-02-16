@@ -32,6 +32,21 @@ class DataFile
 
   end
 
+  def file_object
+    metadata['describe-file-object']
+  end
+
+  def bitstream_objects
+
+   if metadata.has_key? 'describe-bitstream-objects'
+     raw_bs_objects = metadata['describe-bitstream-objects'].split %r{\n(?=<object)} 
+     raw_bs_objects.map { |raw| XML::Document.string(raw).root.to_s }
+   else
+     []
+   end
+
+  end
+
   private
 
   def fix_event_ids doc

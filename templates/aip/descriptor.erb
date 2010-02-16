@@ -6,51 +6,55 @@
       xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd
                           info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd">
 
+<!-- DMD -->
 <% if metadata.has_key? 'dmd' %>
   <%= md_section metadata['dmd'], :type => 'dmdSec', :id => next_id(:dmd, id) %>
 <% end %>
 
+<!-- AIP AMD -->
 <amdSec>
 
-<!-- ieid tech -->
-<%= md_section intellectual_entity_object, :type => 'techMD', :id => next_id(:tech, id) %>
+<!-- TECH -->
+<%= md_section intellectual_entity_object, :type => 'techMD', :id => next_id(:tech) %>
 
 <% rep_name_map.map do |name, rep| %>
   <% rep_object = representation_object rep, :uri => "#{uri}/representation/#{name}" %>
   <%= md_section rep_object, :type => 'techMD', :id => next_id(:tech, name) %>
 <% end %>
 
-<!-- file tech -->
-<% datafiles.each do |df| %>
-  <%= md_section df['describe-file-object'], :type => 'techMD', :id => next_id(:tech, df.id) %>
-
-  <% if df.has_key? 'describe-bitstream-objects' %>
-    <% bs_objects = df['describe-bitstream-objects'].split %r{\n(?=<event)} %>
-    <% bs_objects.each do |bs_object| %>
-      <%= md_section bs_object, :type => 'techMD', :id => next_id(:tech, df.id) %>
-    <% end %>
-  <% end %>
-
-<% end %>
-
-<!-- ieid digiprov (events) -->
+<!-- DIGIPROV (events) -->
 <% digiprov_events.each do |event| %>
   <%= md_section event, :type => 'digiprovMD',  :id => next_id(:digiprov, id) %>
 <% end %>
 
-<!-- file digiprov (events) -->
+<!-- DIGIPROV (agents) -->
+<% digiprov_agents.each do |agent| %>
+  <%= md_section agent, :type => 'digiprovMD', :id => next_id(:digiprov, id) %>
+<% end %>
+</amdSec>
+
+
+<!-- DATA FILE AMD -->
+<amdSec>
+
+<!-- TECH -->
+<% datafiles.each do |df| %>
+  <%= md_section df.file_object, :type => 'techMD', :id => next_id(:tech, df.id) %>
+
+  <% df.bitstream_objects.each do |bs| %>
+    <%= md_section bs, :type => 'techMD', :id => next_id(:tech, df.id) %>
+  <% end %>
+
+<% end %>
+
+<!-- DIGIPROV (events) -->
 <% datafiles.each do |df| %>
   <% df.digiprov_events.each do |event| %>
     <%= md_section event, :type => 'digiprovMD',  :id => next_id(:digiprov, df.id) %>
   <% end %>
 <% end %>
 
-<!-- ieid digiprov (agents) -->
-<% digiprov_agents.each do |agent| %>
-  <%= md_section agent, :type => 'digiprovMD', :id => next_id(:digiprov, id) %>
-<% end %>
-
-<!-- file digiprov (agents) -->
+<!-- DIGIPROV (agents) -->
 <% datafile_agents.each do |agent, dfs| %>
   <%= md_section agent, :type => 'digiprovMD', :id => next_id(:digiprov, dfs) %>
 <% end %>
