@@ -1,5 +1,6 @@
 <%= tag_start options[:type], :ID => options[:id] %>
-  <mdWrap MDTYPE='<%= options[:md_type] %>'>
+<mdWrap MDTYPE='<%= options[:md_type] %>'
+        <%= options[:admid] ? "ADMID='#{options[:admid]}'" : "" %> >
     <xmlData>
     <%= doc.to_s %>
     </xmlData>
