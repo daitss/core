@@ -9,6 +9,7 @@ class DataFile
     doc = ask_description_service(:location => "file:#{File.expand_path datapath }",
                                   :uri => uri, 
                                   :originalName => metadata['sip-path'])
+    fix_event_ids doc
     metadata['describe-file-object'] = element_doc_as_str doc, "//P:object[@xsi:type='file']" 
     metadata['describe-event'] = element_doc_as_str doc, "//P:event"
     metadata['describe-agent'] = element_doc_as_str doc, "//P:agent" 
@@ -32,6 +33,12 @@ class DataFile
   end
 
   private
+
+  def fix_event_ids doc
+    event_uri = "#{uri}/event/describe"
+    doc.find_first("P:object/P:linkingEventIdentifier/P:linkingEventIdentifierValue", NS_PREFIX).content = event_uri
+    doc.find_first("P:event/P:eventIdentifier/P:eventIdentifierValue", NS_PREFIX).content = event_uri
+  end
 
   def describe_derivation src_uri, derivation_method, agent_uri
 
