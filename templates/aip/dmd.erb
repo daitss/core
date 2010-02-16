@@ -1,0 +1,24 @@
+<mods xmlns="http://www.loc.gov/mods/v3">
+
+<% if metadata.has_key? 'dmd-title' %>
+  <titleInfo>
+  <title><%= metadata['dmd-title'] %></title>
+  </titleInfo>
+<% end %>
+
+<% if metadata.has_key? 'dmd-volume' %>
+  <part>
+  <detail type='volume'>
+  <number><%= metadata['dmd-volume'] %></number>
+  </detail>
+  </part>
+<% end %>
+
+<% if metadata.has_key? 'dmd-issue' %>
+  <part>
+  <detail type='issue'>
+  <number><%= metadata['dmd-issue'] %></number>
+  </detail>
+  </part>
+<% end %>
+</mods>
