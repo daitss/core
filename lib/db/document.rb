@@ -1,3 +1,10 @@
+FEATURES = { 
+  "hasOutline" => :hasOutline,
+  "isTagged" => :isTagged,
+  "hasThumbnails" => :hasThumbnails,
+  "hasAnnotations" => :hasAnnotations
+}
+  
 class Document
   include DataMapper::Resource
   property :id, Serial, :key => true
@@ -20,7 +27,6 @@ class Document
     # Document may be associated with a Datafile, null if the document is associated with a bitstream
   belongs_to :bitstream, :index => true
     # Document may be associated with a bitstream, null if the document is associated with a datafile
-    # TODO: need to make sure either dfid or bsid is not null.
   
   def fromPremis premis
     attribute_set(:pageCount, premis.find_first("doc:PageCount", NAMESPACES).content.to_i)
@@ -29,13 +35,16 @@ class Document
     # attribute_set(:lineCount, premis.find_first("doc:lineCount", NAMESPACES).content)  
     # attribute_set(:tableCount, premis.find_first("doc:tableCount", NAMESPACES).content)  
     # attribute_set(:graphicsCount, premis.find_first("doc:graphicsCount", NAMESPACES).content)  
-    # attribute_set(:language, premis.find_first("doc:document/doc:language", NAMESPACES).content)  
+    lang = premis.find_first("doc:Language", NAMESPACES)
+    attribute_set(:language, lang.content) unless lang.nil?
 
-    nodes = premis.find("doc:Features", NAMESPACES)
+    # set all features associated with this document
+    nodes = premis.find("doc:Feature", NAMESPACES)
     nodes.each do |node|
-      #TODO
+      attribute_set(:features, FEATURES[node.content])
     end
     
+    # extract all fonts encoded in the document
     nodes = premis.find("doc:Font", NAMESPACES)
     nodes.each do |node|
       font = Font.new
@@ -44,6 +53,13 @@ class Document
     end
     puts fonts.inspect
     
+  end
+  
+  before :save do
+    # make sure either dfid or bsid is not null.
+    if (:datafile_id.nil? && :bitstream_id.nil?)
+      raise "this document neither associates with a datafile nor associates with a bitstream"
+    end 
   end
   
 end

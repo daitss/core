@@ -4,7 +4,6 @@ require 'daitss2.rb'
 class AIPInPremis
   def initialize 
     @int_entity = Intentity.new
-    @int_entity.fromPremis
     @representations = Array.new
     @datafiles = Hash.new
     @bitstreams = Hash.new
@@ -14,155 +13,134 @@ class AIPInPremis
     @relationships = Array.new
   end
 
-  def processRepresentation premis
-    rep = Representation.new
-    rep.fromPremis premis
+  # process an aip descriptor described in a premis-in-mets format.
+  def process aip_file
+    # read in the AIP descriptor
+    @doc = XML::Document.file aip_file
+    @int_entity.fromPremis
 
-    files = premis.find("premis:relationship", NAMESPACES)
-    files.each do |f|
-      dfid = f.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
-      df = @datafiles[dfid]
+    # process all premis file objects
+    processDatafiles
+
+    # extract all premis representations 
+    processRepresentations    
+
+    # process all premis bitstreams 
+    processBitstreams
+
+    # process all premis agents 
+    processAgents
+
+    # process all premis events
+    processEvents
+
+    # process derived relationships associated with the files
+    fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
+    fileObjects.each do |obj|
+      dfid = obj.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
+      relationships = obj.find("premis:relationship", NAMESPACES)
+      relationships.each do |relationship|
+        processRelationship(dfid, relationship)
+      end
+    end 
+
+    toDB
+  end
+
+  # extract representation information from the premis document
+  def processRepresentations
+    r0 = Array.new
+    rc = Array.new
+
+    repObjects = @doc.find("//premis:object[@xsi:type='representation']", NAMESPACES)
+    repObjects.each do |obj|
+      rep = Representation.new
+      rep.fromPremis obj
+
+      files = obj.find("premis:relationship", NAMESPACES)
+      files.each do |f|
+        dfid = f.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
+        df = @datafiles[dfid]
+        unless df.nil?
+          df.representations << rep
+          if rep.isR0
+            r0 << dfid
+          elsif rep.isRC
+            rc << dfid
+          end
+        end
+      end
+
+      @int_entity.representations << rep
+      @representations << rep
+    end
+
+    # set the origin of all datafiles by deriving the origin information from their associations with representations
+    @datafiles.each do |dfid, df|
+      df.setOrigin r0, rc
+    end
+  end
+
+  # extract all file objects from the premis document
+  def processDatafiles
+    fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
+
+    fileObjects.each do |obj|
+      df = Datafile.new
+      df.fromPremis(obj, @formats)
+
+      @datafiles[df.id] = df
+
+      # TODO need storage data model
+      @mdtype = obj.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigestAlgorithm", NAMESPACES).content
+      @mdvalue = obj.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigest", NAMESPACES).content
+    end
+  end
+
+  # extract alll bitstream objects from the premis document
+  def processBitstreams
+    bitObjects = @doc.find("//premis:object[@xsi:type='bitstream']", NAMESPACES)
+    bitObjects.each do |obj|
+      bs = Bitstream.new
+      bs.fromPremis(obj, @formats)
+      @bitstreams[bs.id] = bs 
+    end
+  end
+
+  # extract all agents in the premis document
+  def processAgents
+    agentObjects = @doc.find("//premis:agent", NAMESPACES)
+    agentObjects.each do |obj|
+      agent = Agent.new
+      agent.fromPremis obj
+      # only create a new agent record if the agent has NOT been seen before
+      @agents[agent.id] = agent if (Agent.first(:id => agent.id).nil?)
+    end
+  end
+
+  # extract all events from the premis document
+  def processEvents
+    eventObjects = @doc.find("//premis:event", NAMESPACES)
+    eventObjects.each do |obj|
+      id = obj.find_first("premis:linkingObjectIdentifier/premis:linkingObjectIdentifierValue", NAMESPACES)
+      # make sure this event related to a datafile
+      df = @datafiles[id.content] unless id.nil?
+
+      agent_id = obj.find_first("premis:linkingAgentIdentifier/premis:linkingAgentIdentifierValue", NAMESPACES)
+      agent = @agents[agent_id.content] unless agent_id.nil?   
+
       unless df.nil?
-        df.representations << rep
+        event = DatafileEvent.new
+        event.fromPremis(obj, df)
+        event.setRelatedObject id.content
+        #associate agent to the event
+        agent.events << event unless agent.nil?
+        @events[event.id] = event
       end
     end
-
-    @int_entity.representations << rep
-    @representations << rep
   end
 
-  def processDatafile premis
-    df = Datafile.new
-    df.fromPremis premis
-
-    # process all matched formats
-    processFormats(df, premis)
-
-    # process object characteristic extension
-    node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
-    @obj = nil
-    if (node)
-      @obj = processObjectCharacteristicExtension(df, node)
-      @obj.bitstream_id = :null
-    end
-    @datafiles[df.id] = df
-    
-    # TODO need storage data model
-    @mdtype = premis.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigestAlgorithm", NAMESPACES).content
-    @mdvalue = premis.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigest", NAMESPACES).content
-  end
-
-  def processObjectCharacteristicExtension(p, objExt)
-    object = nil
-
-    if aes = objExt.find_first("aes:audioObject", NAMESPACES)
-      object = Audio.new
-      object.fromPremis aes
-      p.audios << object
-    elsif textmd = objExt.find_first("txt:textMD", NAMESPACES)
-      object = Text.new
-      object.fromPremis textmd
-      p.texts << object
-    elsif mix = objExt.find_first("mix:mix", NAMESPACES)
-      object = Image.new
-      object.fromPremis mix
-      p.images << object
-    elsif doc = objExt.find_first("doc:doc/doc:document", NAMESPACES)
-      object = Document.new
-      object.fromPremis doc
-      p.documents << object
-    end
-
-    object
-  end
-
-  def processFormats(p, premis)
-    # process all matched formats
-    list = premis.find("premis:objectCharacteristics/premis:format", NAMESPACES)
-    firstNode = true
-    list.each do |node|
-      # create a temporary format record with the info. from the premis
-      newFormat = Format.new
-      newFormat.fromPremis node
-      # newFormat.inspect
-
-      # only create a new format record if the format has NOT been seen before, both 
-      # in format table and in the @formats hash
-      format = Format.first(:format_name => newFormat.format_name)
-      # if it's not already in the format table, check if it was processed earlier.
-      format = @formats[newFormat.format_name] if format.nil?
-     
-      # create a new format record since the format name has not been seen before. 
-      format = newFormat if format.nil?     
-
-      objectformat = ObjectFormat.new
-
-      if (p.instance_of? Datafile)
-        objectformat.datafile_id = p.id
-        objectformat.bitstream_id = :null
-      else
-        objectformat.bitstream_id = p.id
-        objectformat.datafile_id = :null
-      end
-
-      format.object_format << objectformat
-      @formats[format.format_name] = format
-      # objectformat.format_id << record
-
-      # objectformat.inspect
-      p.object_format << objectformat
-
-      # first format element is designated for the primary object (file/bitstream) format.  
-      # Subsequent format elements are used for format profiles
-      if (firstNode)
-        objectformat.setPrimary
-        firstNode = false
-      else
-        objectformat.setSecondary
-      end
-      # objectformat.inspect
-    end
-  end
-
-  def processBitstream premis
-    bs = Bitstream.new
-    bs.fromPremis premis
-    processFormats(bs, premis)
-    # process object characteristic extension
-    node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
-    @obj = nil
-    if (node)
-      @obj = processObjectCharacteristicExtension(bs, node)
-      @obj.datafile_id = :null
-      # @obj.inspect
-    end
-    @bitstreams[bs.id] = bs
-  end
-
-  def processAgent premis
-    agent = Agent.new
-    agent.fromPremis premis
-    @agents[agent.id] = agent
-  end
-
-  def processEvent premis
-    id = premis.find_first("premis:linkingObjectIdentifier/premis:linkingObjectIdentifierValue", NAMESPACES)
-    # make sure this event related to a datafile
-    df = @datafiles[id.content] unless id.nil?
-
-    agent_id = premis.find_first("premis:linkingAgentIdentifier/premis:linkingAgentIdentifierValue", NAMESPACES)
-    agent = @agents[agent_id.content] unless agent_id.nil?   
-
-    unless df.nil?
-      event = DatafileEvent.new
-      event.fromPremis premis
-      event.setRelatedObject id.content
-      #associate agent to the event
-      agent.events << event unless agent.nil?
-      @events[event.id] = event
-    end  
-  end
-  
+  # extract and construct premis relationship among objects
   def processRelationship(dfid, relationship_element)
     # check if there is a valid datafile and there is a relationship associated with it
     unless (@datafiles[dfid].nil? || relationship_element.nil?)
@@ -183,27 +161,29 @@ class AIPInPremis
           @relationships << relationship
         end
         # process whole-part relationship among datafile and bitstreams
-       elsif (type.eql?("structural") && subtype.eql?("includes"))
+      elsif (type.eql?("structural") && subtype.eql?("includes"))
         bsid = relationship_element.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
-        # bsid
         @datafiles[dfid].bitstreams << @bitstreams[bsid]
       end
     end
   end
 
+  # save all extracted premis objects/events/agents to the fast access database in one transaction
   def toDB
-    Intentity.transaction do 
-      
-      #TODO: @int_entity.save  
-      @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
-      # not necessary to explicitely save representations since representations will be saved through datafiles associations
-      @datafiles.each {|dfid, df|  raise 'error saving datafile records' unless  df.save } 
-      @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
-      @agents.each {|id, ag|  raise 'error saving agent records' unless ag.save }
-      @events.each {|id, e|  raise 'error saving event records' unless e.save }
-      @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
+    repository(:default) do 
+      # start database traction for saving the associated record for the aip.  If there is any failure during database save, 
+      # datamapper automatically rollback the change.
+      Intentity.transaction do 
+        #TODO: @int_entity.save  
+        @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
+        # not necessary to explicitely save representations since representations will be saved through datafiles associations
+        @datafiles.each {|dfid, df|  raise 'error saving datafile records' unless  df.save } 
+        @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
+        @agents.each {|id, ag|  raise 'error saving agent records' unless ag.save }
+        @events.each {|id, e|  raise 'error saving event records' unless e.save }
+        @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
+      end
     end
-    
   end
 
 end

@@ -95,12 +95,17 @@
                 <doc xmlns="http://www.fcla.edu/dls/md/docmd">
                   <document>
                     <PageCount>1</PageCount>
+					<Language>EN</Language>
                     <Font FontName="CMR7" isEmbedded="true"/>
                     <Font FontName="CMSY7" isEmbedded="true"/>
                     <Font FontName="CMR12" isEmbedded="true"/>
                     <Font FontName="CMR5" isEmbedded="true"/>
                     <Font FontName="CMTT8" isEmbedded="true"/>
                     <Font FontName="CMTI7" isEmbedded="true"/>
+				    <Feature>hasOutline</Feature>
+					<Feature>isTagged</Feature>
+				    <Feature>hasThumbnails</Feature>
+				    <Feature>hasAnnotations</Feature>
                   </document>
                 </doc>
               </objectCharacteristicsExtension>

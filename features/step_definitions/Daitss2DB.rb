@@ -1,8 +1,7 @@
 require 'xml'
-require 'aip'
+require 'AIPInPremis'
 
 abs = FileUtils.pwd
-aip = AIP.new
 
 Given /^an aip containing a pdf with embedded fonts$/ do
   @file = "#{abs}/files/pdf-monodescriptor.xml"
@@ -10,6 +9,14 @@ end
 
 Given /^an aip containing a pdf with many bitstream$/ do
   @file = "#{abs}/files/multi-bs-pdf.xml"
+end
+
+Given /^an aip containing a pdf with inhibitor$/ do
+  @file = "#{abs}/files/pw-pdf.xml"
+end
+
+Given /^an aip containing a pdf with anomaly$/ do
+  @file = "#{abs}/files/pw-pdf.xml"
 end
 
 Given /^an aip containing a wave file$/ do
@@ -33,6 +40,7 @@ Given /^an aip containing a xml$/ do
 end
 
 When /^populating the aip$/ do
+  aip = AIPInPremis.new
   aip.process @file
 end
 
@@ -90,18 +98,47 @@ Then /^the datafile should be associated a text stream$/ do
   text.should_not be_nil
 end
 
-When /^the datafile should be associated with a normalization event$/ do
+Then /^the datafile should be associated with a normalization event$/ do
   event = Event.first(:relatedObjectId => @dfid, :e_type =>:normalize)
   event.should_not be_nil
 end
 
-When /^there should be a normalization relationship links to normalized file$/ do
+Then /^there should be a normalization relationship links to normalized file$/ do
   relationship = Relationship.first(:object1 => @dfid, :type => :normalized_to)
   relationship.should_not be_nil
   @norm_fileid = relationship.object2
 end
 
-When /^the normalized file should be associated an audio stream$/ do
+Then /^the normalized file should be associated with an audio stream$/ do
   audio = Audio.first(:datafile_id => @norm_fileid)
   audio.should_not be_nil
+end
+
+Then /^the normalized file should have archive as origin$/ do
+ df = Datafile.first(:id => @norm_fileid)
+ df.origin.should == :archive
+end
+
+Then /^the original file should have depositor as origin$/ do
+  df = Datafile.first(:id => @dfid)
+  df.origin.should == :depositor
+end
+
+Then /^it should have an inhibitor$/ do
+  df = Datafile.first(:id => @dfid)
+  found = false
+  df.severe_element.each do |se|
+    found = true if se.class == Inhibitor
+  end
+  found.should == true
+end
+
+
+Then /^it should have an anomaly$/ do
+  df = Datafile.first(:id => @dfid)
+  found = false
+  df.severe_element.each do |se|
+    found = true if se.class == Anomaly
+  end
+  found.should == true
 end

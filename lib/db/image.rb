@@ -81,7 +81,6 @@ class Image
      # null if the image is associated with a bitstream
   belongs_to :bitstream, :index => true # Image may be associated with a bitstream, 
      # null if the image is associated with a datafile
-  # TODO: need to make sure either dfid or bsid is not null.
   
   def setDFID dfid
     attribute_set(:datafile_id, dfid)
@@ -118,5 +117,12 @@ class Image
     spp = premis.find_first("mix:ImageAssessmentMetadata/mix:ImageColorEncoding/mix:samplesPerPixel", NAMESPACES)
     attribute_set(:samples_per_pixel, spp.content) unless spp.nil?
     # TODO: attribute_set(:extra_samples, premis.find_first("mix:extraSamples", NAMESPACES).content)  
+  end
+
+  before :save do
+    # make sure either dfid or bsid is not null.
+    if (:datafile_id.nil? && :bitstream_id.nil?)
+      raise "this image neither associates with a datafile nor associates with a bitstream"
+    end 
   end
 end

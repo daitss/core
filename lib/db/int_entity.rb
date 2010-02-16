@@ -8,6 +8,7 @@ class Intentity
   property :issue, String
   property :title, Text
   
+  # belongs_to :project
   # has 0..n, :intentity_events
   has 1..n, :representations
   

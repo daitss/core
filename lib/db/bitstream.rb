@@ -1,4 +1,6 @@
-class Bitstream
+require 'db/pobject'
+
+class Bitstream < Pobject
   include DataMapper::Resource
   property :id, String, :key => true, :length => 16
   property :size, Integer
@@ -9,8 +11,18 @@ class Bitstream
   has 0..n, :texts
   has 0..n, :audios
   has 0..n, :images
-     
-  def fromPremis premis
+
+  def fromPremis(premis, formats)
     attribute_set(:id, premis.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content)
+
+    # process premis ObjectCharacteristicExtension 
+    node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
+    if (node)
+      processObjectCharacteristicExtension(self, node)
+      @object.datafile_id = :null
+    end
+
+    # process format information
+    processFormats(self, premis, formats)
   end
 end
