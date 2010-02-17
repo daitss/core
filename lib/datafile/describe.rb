@@ -50,14 +50,14 @@ class DataFile
   private
 
   def fix_event_ids doc
-    event_uri = "#{uri}/event/describe"
+    event_uri = "#{uri}/event/describe/#{next_event_index 'format description'}"
     doc.find_first("P:object/P:linkingEventIdentifier/P:linkingEventIdentifierValue", NS_PREFIX).content = event_uri
     doc.find_first("P:event/P:eventIdentifier/P:eventIdentifierValue", NS_PREFIX).content = event_uri
   end
 
   def describe_derivation src_uri, derivation_method, agent_uri
 
-      event_uri = "#{uri}/event/#{derivation_method}"
+      event_uri = "#{uri}/event/#{derivation_method}/#{next_event_index derivation_method}"
       metadata["#{derivation_method}-event"] = event(:id => event_uri,
                                                      :type => derivation_method,
                                                      :linking_agents => [ agent_uri ],

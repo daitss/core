@@ -10,6 +10,26 @@ module Metadata
     new_digiprov = new_md_keys.map { |key| metadata[key] } 
   end
 
+  # based on the presence of old events determine the next event index
+  def next_event_index event_type
+
+    es = old_events.select { |event| event.find("/P:event/P:eventType = '#{event_type}'", NS_PREFIX) }
+
+    if es.empty?
+      "0"
+    else
+
+      ids = es.map do |e|
+        xpath = "/P:event/P:eventIdentifier/P:eventIdentifierValue"
+        uri = e.find_first(xpath, NS_PREFIX).content
+        uri[%r{/(\d+)$},1].to_i
+      end
+
+      (ids .max + 1).to_s
+    end
+
+  end
+
   # Return an array of old events
   def old_events
 
