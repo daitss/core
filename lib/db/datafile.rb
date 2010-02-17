@@ -2,7 +2,7 @@ require 'db/pobject'
 
 class Datafile < Pobject
   include DataMapper::Resource 
-  property :id, String, :key => true, :length => 16
+  property :id, String, :key => true, :length => 100
   property :size, Integer, :length => (0..20),  :required => true 
   property :create_date, DateTime
   property :origin, Enum[:archive, :depositor, :unknown], :default => :unknown, :required => true 

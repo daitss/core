@@ -2,7 +2,7 @@ require 'db/pobject'
 
 class Bitstream < Pobject
   include DataMapper::Resource
-  property :id, String, :key => true, :length => 16
+  property :id, String, :key => true, :length => 100
   property :size, Integer
 
   belongs_to :datafile # a bitstream is belong to a datafile
