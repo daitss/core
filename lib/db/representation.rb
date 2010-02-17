@@ -3,7 +3,7 @@ REP_0 = "representation-0"
 
 class Representation
   include DataMapper::Resource  
-  property :id, String, :key => true, :length => 50
+  property :id, String, :key => true, :length => 100
   property :name, String
   property :namespace, Enum[:local]
 
