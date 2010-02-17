@@ -43,7 +43,7 @@ class Wip
             new_df.describe! :derivation_source => df.uri, :derivation_method => :migrate, :derivation_agent => transformation_url
             new_df
           rescue
-            nuke_datafile new_df
+            remove_datafile new_df
             raise
           end
 
