@@ -1,5 +1,6 @@
 require 'template'
 require 'wip'
+require 'wip/dmd'
 require 'datafile'
 require 'metadata'
 
