@@ -24,7 +24,7 @@
   <pattern>
     <title>PREMIS Intellectual Entity</title>
     <rule context="/M:mets">
-      <assert test="//beta:intellectualEntity[beta:intellectualEntityIdentifier/beta:intellectualEntityIdentifierValue = $aip-uri]">
+      <assert test="//beta:object[beta:objectIdentifier/beta:objectIdentifierValue = $aip-uri]">
         PREMIS Intellectual Entity must exist
       </assert>
     </rule>
