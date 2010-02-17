@@ -17,19 +17,10 @@ class Wip
 
   private
 
-  def next_id md_type, thing=nil
+  def next_id md_type, *things
     n = @id_map[md_type].next!
     new_id = "#{md_type}-#{n}"
-
-    case thing
-    when Array
-      thing.each { |t| @admid_map[thing] << new_id }
-
-    when String
-      @admid_map[thing] << new_id
-
-    end
-
+    things.each { |t| @admid_map[t] << new_id } unless things.empty?
     new_id
   end
 
@@ -96,7 +87,7 @@ class Wip
 
     datafiles.each do |df| 
 
-      df.digiprov_agents.each do |agent|
+      df.digiprov_agents.map(&:strip).each do |agent|
         h[agent] << df
         h[agent].uniq!
       end

@@ -21,10 +21,11 @@ aip_events = digiprov_events.map do |event|
   md_section event, :type => 'digiprovMD',  :id => next_id(:digiprov, id) 
 end 
 
-aip_agents = digiprov_agents.map do |agent| 
+aip_agents = digiprov_agents.map(&:strip).uniq.map do |agent| 
   md_section agent, :type => 'digiprovMD', :id => next_id(:digiprov, id) 
 end 
 %>
+
 <%= md_section intellectual_entity_object, :type => 'techMD', :id => next_id(:tech), :admid => admids_for(id).join(' ') %>
 
 <% rep_name_map.map do |name, rep| %>
@@ -65,9 +66,8 @@ end
 
 <!-- DIGIPROV (agents) -->
 <% datafile_agents.each do |agent, dfs| %>
-  <%= md_section agent, :type => 'digiprovMD', :id => next_id(:digiprov, dfs) %>
+  <%= md_section agent, :type => 'digiprovMD', :id => next_id(:digiprov, *dfs.map(&:id)) %>
 <% end %>
-
 </amdSec>
 
 <fileSec>
