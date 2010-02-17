@@ -102,12 +102,20 @@ class Image
     attribute_set(:sample_frequency_unit, Sample_Frequency_Unit[sfu.content]) unless sfu.nil?
     xsf = premis.find_first("mix:ImageAssessmentMetadata/mix:SpatialMetrics/mix:xSamplingFrequency", NAMESPACES)
     unless xsf.nil?
-      xsfv = xsf.find_first("mix:numerator", NAMESPACES).content.to_f / xsf.find_first("mix:denominator", NAMESPACES).content.to_f
-      attribute_set(:x_sampling_frequency, xsfv)
+     if xsf.find_first("mix:denominator", NAMESPACES)
+       xsfv = xsf.find_first("mix:numerator", NAMESPACES).content.to_f / xsf.find_first("mix:denominator", NAMESPACES).content.to_f
+     else
+       xsfv = xsfv = xsf.find_first("mix:numerator", NAMESPACES).content.to_f 
+     end
+     attribute_set(:x_sampling_frequency, xsfv)
     end
     ysf = premis.find_first("mix:ImageAssessmentMetadata/mix:SpatialMetrics/mix:ySamplingFrequency", NAMESPACES)
     unless ysf.nil?
-      ysfv = ysf.find_first("mix:numerator", NAMESPACES).content.to_f / ysf.find_first("mix:denominator", NAMESPACES).content.to_f
+      if ysf.find_first("mix:denominator", NAMESPACES)
+        ysfv = ysf.find_first("mix:numerator", NAMESPACES).content.to_f / ysf.find_first("mix:denominator", NAMESPACES).content.to_f 
+      else
+        ysfv = ysf.find_first("mix:numerator", NAMESPACES).content.to_f
+      end
       attribute_set(:y_sampling_frequency,  ysfv) 
     end
     bpsv_list = premis.find("mix:ImageAssessmentMetadata/mix:ImageColorEncoding/mix:BitsPerSample/mix:bitsPerSampleValue", NAMESPACES)
