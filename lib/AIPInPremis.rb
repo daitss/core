@@ -90,10 +90,6 @@ class AIPInPremis
       df.fromPremis(obj, @formats)
 
       @datafiles[df.id] = df
-
-      # TODO need storage data model
-      @mdtype = obj.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigestAlgorithm", NAMESPACES).content
-      @mdvalue = obj.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigest", NAMESPACES).content
     end
   end
 
