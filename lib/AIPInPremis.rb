@@ -17,7 +17,7 @@ class AIPInPremis
   def process aip_file
     # read in the AIP descriptor
     @doc = XML::Document.file aip_file
-    @int_entity.fromPremis
+    @int_entity.fromPremis @doc
 
     # process all premis file objects
     processDatafiles
@@ -125,10 +125,16 @@ class AIPInPremis
       agent_id = obj.find_first("premis:linkingAgentIdentifier/premis:linkingAgentIdentifierValue", NAMESPACES)
       agent = @agents[agent_id.content] unless agent_id.nil?   
 
-      unless df.nil?
+      if df   #first check if this event is linked to a file object
         event = DatafileEvent.new
         event.fromPremis(obj, df)
         event.setRelatedObject id.content
+        #associate agent to the event
+        agent.events << event unless agent.nil?
+        @events[event.id] = event
+      elsif id && @int_entity.match(id.content) #then check if this event links to int entity
+        event = IntentityEvent.new
+        event.fromPremis(obj)
         #associate agent to the event
         agent.events << event unless agent.nil?
         @events[event.id] = event
