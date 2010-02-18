@@ -61,6 +61,38 @@ describe Authentication do
     o.save
   end
 
+  def add_service account, key = "service"
+    s = Service.new  
+    s.attributes = { :description => "description service",
+                     :active_start_date => Time.at(0),
+                     :active_end_date => Time.now + (86400 * 365),
+                     :identifier => "http://describe.dev.daitss.fcla.edu", }
+
+    s.account = account
+
+    k = AuthenticationKey.new
+    k.attributes = { :auth_key => sha1(key) }
+
+    s.authentication_key = k
+    s.save
+  end
+
+  def add_program account, key = "program"
+    p = Program.new  
+    p.attributes = { :description => "disseminate program",
+                     :active_start_date => Time.at(0),
+                     :active_end_date => Time.now + (86400 * 365),
+                     :identifier => "darchive:/usr/lib/ruby/gems/daitss/bin/disseminate", }
+
+    p.account = account
+
+    k = AuthenticationKey.new
+    k.attributes = { :auth_key => sha1(key) }
+
+    p.authentication_key = k
+    p.save
+  end
+
   def sha1 string
     return Digest::SHA1.hexdigest(string)
   end
@@ -127,6 +159,60 @@ describe Authentication do
     add_operator a
 
     auth_result = Authentication.authenticate("operator", "notthepassword")
+
+    auth_result.valid.should == false
+    auth_result.active.should == nil
+    auth_result.metadata.should == nil
+  end
+
+  it "should authenticate a service when good credentials are provided" do
+    a = add_account
+    add_service a
+
+    auth_result = Authentication.authenticate("http://describe.dev.daitss.fcla.edu", "service")
+
+    auth_result.valid.should == true
+    auth_result.active.should == true
+    
+    auth_result.metadata["agent_type"].should == :service
+    auth_result.metadata["description"].should == "description service"
+    auth_result.metadata["account_code"].should == "FDA"
+    auth_result.metadata["account_name"].should == "Florida Digital Archive"
+
+  end
+
+  it "should authenticate a service when bad credentials are provided" do
+    a = add_account
+    add_service a
+
+    auth_result = Authentication.authenticate("http://describe.dev.daitss.fcla.edu", "notthepassword")
+
+    auth_result.valid.should == false
+    auth_result.active.should == nil
+    auth_result.metadata.should == nil
+  end
+
+  it "should authenticate a program when good credentials are provided" do
+    a = add_account
+    add_program a
+
+    auth_result = Authentication.authenticate("darchive:/usr/lib/ruby/gems/daitss/bin/disseminate", "program")
+
+    auth_result.valid.should == true
+    auth_result.active.should == true
+    
+    auth_result.metadata["agent_type"].should == :program
+    auth_result.metadata["description"].should == "disseminate program"
+    auth_result.metadata["account_code"].should == "FDA"
+    auth_result.metadata["account_name"].should == "Florida Digital Archive"
+
+  end
+
+  it "should authenticate a program when bad credentials are provided" do
+    a = add_account
+    add_program a
+
+    auth_result = Authentication.authenticate("darchive:/usr/lib/ruby/gems/daitss/bin/disseminate", "notthepassword")
 
     auth_result.valid.should == false
     auth_result.active.should == nil
