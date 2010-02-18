@@ -1,18 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mets xmlns="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OBJID="test:/ee18f510-fe07-012c-8008-001b63b4d6a3" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd                           http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd                           info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd">
+<mets xmlns="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OBJID="test:/3dccd630-fe28-012c-8021-001b63b4d6a3" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd                           http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd                           info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd">
   <!-- DMD -->
+  <dmdSec ID="dmd-1">
+    <mdWrap MDTYPE="PREMIS">
+      <xmlData>
+        <mods xmlns="http://www.loc.gov/mods/v3">
+          <titleInfo>
+            <title>heavyweight title</title>
+          </titleInfo>
+          <part>
+            <detail type="volume">
+              <number>turn up the volume</number>
+            </detail>
+          </part>
+          <part>
+            <detail type="issue">
+              <number>issue the command</number>
+            </detail>
+          </part>
+        </mods>
+      </xmlData>
+    </mdWrap>
+  </dmdSec>
   <!-- AIP AMD -->
   <amdSec>
     <!-- TECH -->
-    <techMD ID="tech-1" ADMID="digiprov-1 digiprov-2 digiprov-3 digiprov-4 digiprov-5 digiprov-6">
+    <techMD ID="tech-1" ADMID="dmd-1 digiprov-1 digiprov-2 digiprov-3 digiprov-4 digiprov-5 digiprov-6">
       <mdWrap MDTYPE="PREMIS">
         <xmlData>
-          <intellectualEntity xmlns="info:lc/xmlns/premis-v2-beta">
-            <intellectualEntityIdentifier>
-              <intellectualEntityIdentifierType>URI</intellectualEntityIdentifierType>
-              <intellectualEntityIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3</intellectualEntityIdentifierValue>
-            </intellectualEntityIdentifier>
-          </intellectualEntity>
+          <object xmlns="info:lc/xmlns/premis-v2-beta">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCategory>intellectual entity</objectCategory>
+          </object>
         </xmlData>
       </mdWrap>
     </techMD>
@@ -22,14 +44,14 @@
           <object xmlns="info:lc/xmlns/premis-v2" xsi:type="representation">
             <objectIdentifier>
               <objectIdentifierType>URI</objectIdentifierType>
-              <objectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/representation/current</objectIdentifierValue>
+              <objectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/representation/current</objectIdentifierValue>
             </objectIdentifier>
             <relationship>
               <relationshipType>structural</relationshipType>
               <relationshipSubType>includes</relationshipSubType>
               <relatedObjectIdentification>
                 <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-                <relatedObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/0</relatedObjectIdentifierValue>
+                <relatedObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/0</relatedObjectIdentifierValue>
               </relatedObjectIdentification>
             </relationship>
             <relationship>
@@ -37,7 +59,7 @@
               <relationshipSubType>includes</relationshipSubType>
               <relatedObjectIdentification>
                 <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-                <relatedObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/1</relatedObjectIdentifierValue>
+                <relatedObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/1</relatedObjectIdentifierValue>
               </relatedObjectIdentification>
             </relationship>
           </object>
@@ -50,14 +72,14 @@
           <object xmlns="info:lc/xmlns/premis-v2" xsi:type="representation">
             <objectIdentifier>
               <objectIdentifierType>URI</objectIdentifierType>
-              <objectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/representation/normalized</objectIdentifierValue>
+              <objectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/representation/normalized</objectIdentifierValue>
             </objectIdentifier>
             <relationship>
               <relationshipType>structural</relationshipType>
               <relationshipSubType>includes</relationshipSubType>
               <relatedObjectIdentification>
                 <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-                <relatedObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/2</relatedObjectIdentifierValue>
+                <relatedObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/2</relatedObjectIdentifierValue>
               </relatedObjectIdentification>
             </relationship>
             <relationship>
@@ -65,7 +87,7 @@
               <relationshipSubType>includes</relationshipSubType>
               <relatedObjectIdentification>
                 <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-                <relatedObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/1</relatedObjectIdentifierValue>
+                <relatedObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/1</relatedObjectIdentifierValue>
               </relatedObjectIdentification>
             </relationship>
           </object>
@@ -78,14 +100,14 @@
           <object xmlns="info:lc/xmlns/premis-v2" xsi:type="representation">
             <objectIdentifier>
               <objectIdentifierType>URI</objectIdentifierType>
-              <objectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/representation/original</objectIdentifierValue>
+              <objectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/representation/original</objectIdentifierValue>
             </objectIdentifier>
             <relationship>
               <relationshipType>structural</relationshipType>
               <relationshipSubType>includes</relationshipSubType>
               <relatedObjectIdentification>
                 <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-                <relatedObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/0</relatedObjectIdentifierValue>
+                <relatedObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/0</relatedObjectIdentifierValue>
               </relatedObjectIdentification>
             </relationship>
             <relationship>
@@ -93,7 +115,7 @@
               <relationshipSubType>includes</relationshipSubType>
               <relatedObjectIdentification>
                 <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-                <relatedObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/1</relatedObjectIdentifierValue>
+                <relatedObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/1</relatedObjectIdentifierValue>
               </relatedObjectIdentification>
             </relationship>
           </object>
@@ -110,7 +132,7 @@
               <eventIdentifierValue>test:/submit</eventIdentifierValue>
             </eventIdentifier>
             <eventType>submit</eventType>
-            <eventDateTime>2010-02-17T10:34:59-05:00</eventDateTime>
+            <eventDateTime>2010-02-17T14:26:16-05:00</eventDateTime>
             <eventOutcomeInformation>
               <eventOutcome>success</eventOutcome>
             </eventOutcomeInformation>
@@ -120,7 +142,7 @@
             </linkingAgentIdentifier>
             <linkingObjectIdentifier>
               <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3</linkingObjectIdentifierValue>
+              <linkingObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3</linkingObjectIdentifierValue>
             </linkingObjectIdentifier>
           </event>
         </xmlData>
@@ -135,7 +157,7 @@
               <eventIdentifierValue>test:/comprehensive-validation</eventIdentifierValue>
             </eventIdentifier>
             <eventType>comprehensive validation</eventType>
-            <eventDateTime>2010-02-17T10:35:02-05:00</eventDateTime>
+            <eventDateTime>2010-02-17T14:26:21-05:00</eventDateTime>
             <eventOutcomeInformation>
               <eventOutcome>success</eventOutcome>
             </eventOutcomeInformation>
@@ -145,7 +167,7 @@
             </linkingAgentIdentifier>
             <linkingObjectIdentifier>
               <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3</linkingObjectIdentifierValue>
+              <linkingObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3</linkingObjectIdentifierValue>
             </linkingObjectIdentifier>
           </event>
         </xmlData>
@@ -157,10 +179,10 @@
           <event xmlns="info:lc/xmlns/premis-v2">
             <eventIdentifier>
               <eventIdentifierType>URI</eventIdentifierType>
-              <eventIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/event/ingest</eventIdentifierValue>
+              <eventIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/event/ingest</eventIdentifierValue>
             </eventIdentifier>
             <eventType>ingest</eventType>
-            <eventDateTime>2010-02-17T10:35:07-05:00</eventDateTime>
+            <eventDateTime>2010-02-17T14:26:29-05:00</eventDateTime>
             <eventOutcomeInformation>
               <eventOutcome>success</eventOutcome>
             </eventOutcomeInformation>
@@ -170,7 +192,7 @@
             </linkingAgentIdentifier>
             <linkingObjectIdentifier>
               <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3</linkingObjectIdentifierValue>
+              <linkingObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3</linkingObjectIdentifierValue>
             </linkingObjectIdentifier>
           </event>
         </xmlData>
@@ -229,7 +251,7 @@
           <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
             <objectIdentifier>
               <objectIdentifierType>URI</objectIdentifierType>
-              <objectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/0</objectIdentifierValue>
+              <objectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/0</objectIdentifierValue>
             </objectIdentifier>
             <objectCharacteristics>
               <compositionLevel>0</compositionLevel>
@@ -267,12 +289,12 @@
               <relationshipSubType>includes</relationshipSubType>
               <relatedObjectIdentification>
                 <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-                <relatedObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/0/1</relatedObjectIdentifierValue>
+                <relatedObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/0/1</relatedObjectIdentifierValue>
               </relatedObjectIdentification>
             </relationship>
             <linkingEventIdentifier>
               <linkingEventIdentifierType>URI</linkingEventIdentifierType>
-              <linkingEventIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/0/event/describe</linkingEventIdentifierValue>
+              <linkingEventIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/0/event/describe/0</linkingEventIdentifierValue>
             </linkingEventIdentifier>
           </object>
         </xmlData>
@@ -284,7 +306,7 @@
           <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
             <objectIdentifier>
               <objectIdentifierType>URI</objectIdentifierType>
-              <objectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/0/1</objectIdentifierValue>
+              <objectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/0/1</objectIdentifierValue>
             </objectIdentifier>
             <objectCharacteristics>
               <compositionLevel>0</compositionLevel>
@@ -329,7 +351,7 @@
           <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
             <objectIdentifier>
               <objectIdentifierType>URI</objectIdentifierType>
-              <objectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/1</objectIdentifierValue>
+              <objectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/1</objectIdentifierValue>
             </objectIdentifier>
             <objectCharacteristics>
               <compositionLevel>0</compositionLevel>
@@ -368,7 +390,7 @@
             <originalName>mimi.xml</originalName>
             <linkingEventIdentifier>
               <linkingEventIdentifierType>URI</linkingEventIdentifierType>
-              <linkingEventIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/1/event/describe</linkingEventIdentifierValue>
+              <linkingEventIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/1/event/describe/0</linkingEventIdentifierValue>
             </linkingEventIdentifier>
           </object>
         </xmlData>
@@ -380,13 +402,13 @@
           <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
             <objectIdentifier>
               <objectIdentifierType>URI</objectIdentifierType>
-              <objectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/2</objectIdentifierValue>
+              <objectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/2</objectIdentifierValue>
             </objectIdentifier>
             <objectCharacteristics>
               <compositionLevel>0</compositionLevel>
               <fixity>
                 <messageDigestAlgorithm>MD5</messageDigestAlgorithm>
-                <messageDigest>018af4e3de6a6eafd0da72a38586c3cb</messageDigest>
+                <messageDigest>bdcaecd460880627a4264fdec384645a</messageDigest>
               </fixity>
               <size>1626382</size>
               <format>
@@ -401,7 +423,7 @@
               </format>
               <creatingApplication>
                 <creatingApplicationName>GPL Ghostscript 8.70</creatingApplicationName>
-                <dateCreatedByApplication>2010-02-17T10:35:06-05:00</dateCreatedByApplication>
+                <dateCreatedByApplication>2010-02-17T14:26:28-05:00</dateCreatedByApplication>
               </creatingApplication>
             </objectCharacteristics>
             <originalName>0-normalization.tif</originalName>
@@ -410,7 +432,7 @@
               <relationshipSubType>includes</relationshipSubType>
               <relatedObjectIdentification>
                 <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-                <relatedObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/2/1</relatedObjectIdentifierValue>
+                <relatedObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/2/1</relatedObjectIdentifierValue>
               </relatedObjectIdentification>
             </relationship>
             <relationship xmlns="info:lc/xmlns/premis-v2">
@@ -418,16 +440,16 @@
               <relationshipSubType>has source</relationshipSubType>
               <relatedObjectIdentification>
                 <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-                <relatedObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/0</relatedObjectIdentifierValue>
+                <relatedObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/0</relatedObjectIdentifierValue>
               </relatedObjectIdentification>
               <relatedEventIdentification>
                 <relatedEventIdentifierType>URI</relatedEventIdentifierType>
-                <relatedEventIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/2/event/normalize</relatedEventIdentifierValue>
+                <relatedEventIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/2/event/normalize/0</relatedEventIdentifierValue>
               </relatedEventIdentification>
             </relationship>
             <linkingEventIdentifier>
               <linkingEventIdentifierType>URI</linkingEventIdentifierType>
-              <linkingEventIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/2/event/describe</linkingEventIdentifierValue>
+              <linkingEventIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/2/event/describe/0</linkingEventIdentifierValue>
             </linkingEventIdentifier>
           </object>
         </xmlData>
@@ -439,7 +461,7 @@
           <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
             <objectIdentifier>
               <objectIdentifierType>URI</objectIdentifierType>
-              <objectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/2/1</objectIdentifierValue>
+              <objectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/2/1</objectIdentifierValue>
             </objectIdentifier>
             <objectCharacteristics>
               <compositionLevel>0</compositionLevel>
@@ -499,7 +521,7 @@
                   </mix:BasicImageInformation>
                   <mix:ImageCaptureMetadata>
                     <mix:GeneralCaptureInformation>
-                      <mix:dateTimeCreated>2010-02-17T10:35:06</mix:dateTimeCreated>
+                      <mix:dateTimeCreated>2010-02-17T14:26:28</mix:dateTimeCreated>
                     </mix:GeneralCaptureInformation>
                     <mix:ScannerCapture>
                       <mix:ScanningSystemSoftware>
@@ -541,10 +563,10 @@
           <event xmlns="info:lc/xmlns/premis-v2">
             <eventIdentifier>
               <eventIdentifierType>URI</eventIdentifierType>
-              <eventIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/0/event/describe</eventIdentifierValue>
+              <eventIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/0/event/describe/0</eventIdentifierValue>
             </eventIdentifier>
             <eventType>format description</eventType>
-            <eventDateTime>2010-02-17T10:35:03-05:00</eventDateTime>
+            <eventDateTime>2010-02-17T14:26:25-05:00</eventDateTime>
             <eventOutcomeInformation>
               <eventOutcome>Well-Formed and valid</eventOutcome>
             </eventOutcomeInformation>
@@ -554,7 +576,7 @@
             </linkingAgentIdentifier>
             <linkingObjectIdentifier>
               <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/0</linkingObjectIdentifierValue>
+              <linkingObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/0</linkingObjectIdentifierValue>
             </linkingObjectIdentifier>
           </event>
         </xmlData>
@@ -566,10 +588,10 @@
           <event xmlns="info:lc/xmlns/premis-v2">
             <eventIdentifier>
               <eventIdentifierType>URI</eventIdentifierType>
-              <eventIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/1/event/describe</eventIdentifierValue>
+              <eventIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/1/event/describe/0</eventIdentifierValue>
             </eventIdentifier>
             <eventType>format description</eventType>
-            <eventDateTime>2010-02-17T10:35:05-05:00</eventDateTime>
+            <eventDateTime>2010-02-17T14:26:27-05:00</eventDateTime>
             <eventOutcomeInformation>
               <eventOutcome>Well-Formed and valid</eventOutcome>
             </eventOutcomeInformation>
@@ -579,7 +601,7 @@
             </linkingAgentIdentifier>
             <linkingObjectIdentifier>
               <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/1</linkingObjectIdentifierValue>
+              <linkingObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/1</linkingObjectIdentifierValue>
             </linkingObjectIdentifier>
           </event>
         </xmlData>
@@ -591,10 +613,10 @@
           <event xmlns="info:lc/xmlns/premis-v2">
             <eventIdentifier>
               <eventIdentifierType>URI</eventIdentifierType>
-              <eventIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/2/event/describe</eventIdentifierValue>
+              <eventIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/2/event/describe/0</eventIdentifierValue>
             </eventIdentifier>
             <eventType>format description</eventType>
-            <eventDateTime>2010-02-17T10:35:07-05:00</eventDateTime>
+            <eventDateTime>2010-02-17T14:26:29-05:00</eventDateTime>
             <eventOutcomeInformation>
               <eventOutcome>Well-Formed and valid</eventOutcome>
             </eventOutcomeInformation>
@@ -604,7 +626,7 @@
             </linkingAgentIdentifier>
             <linkingObjectIdentifier>
               <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/2</linkingObjectIdentifierValue>
+              <linkingObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/2</linkingObjectIdentifierValue>
             </linkingObjectIdentifier>
           </event>
         </xmlData>
@@ -616,10 +638,10 @@
           <event xmlns="info:lc/xmlns/premis-v2">
             <eventIdentifier>
               <eventIdentifierType>URI</eventIdentifierType>
-              <eventIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/2/event/normalize</eventIdentifierValue>
+              <eventIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/2/event/normalize/0</eventIdentifierValue>
             </eventIdentifier>
             <eventType>normalize</eventType>
-            <eventDateTime>2010-02-17T10:35:07-05:00</eventDateTime>
+            <eventDateTime>2010-02-17T14:26:29-05:00</eventDateTime>
             <eventOutcomeInformation>
               <eventOutcome/>
             </eventOutcomeInformation>
@@ -629,12 +651,12 @@
             </linkingAgentIdentifier>
             <linkingObjectIdentifier>
               <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/0</linkingObjectIdentifierValue>
+              <linkingObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/0</linkingObjectIdentifierValue>
               <linkingObjectRole>source</linkingObjectRole>
             </linkingObjectIdentifier>
             <linkingObjectIdentifier>
               <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/2</linkingObjectIdentifierValue>
+              <linkingObjectIdentifierValue>test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/2</linkingObjectIdentifierValue>
               <linkingObjectRole>outcome</linkingObjectRole>
             </linkingObjectIdentifier>
           </event>
@@ -648,10 +670,10 @@
           <agent xmlns="info:lc/xmlns/premis-v2">
             <agentIdentifier>
               <agentIdentifierType>URI</agentIdentifierType>
-              <agentIdentifierValue>http://localhost:7000/transformation/transform/pdf_norm</agentIdentifierValue>
+              <agentIdentifierValue>http://localhost:7000/describe</agentIdentifierValue>
             </agentIdentifier>
-            <agentName>daitss transformation service</agentName>
-            <agentType>software</agentType>
+            <agentName>Format Description Service</agentName>
+            <agentType>Web Service</agentType>
           </agent>
         </xmlData>
       </mdWrap>
@@ -662,10 +684,10 @@
           <agent xmlns="info:lc/xmlns/premis-v2">
             <agentIdentifier>
               <agentIdentifierType>URI</agentIdentifierType>
-              <agentIdentifierValue>http://localhost:7000/describe</agentIdentifierValue>
+              <agentIdentifierValue>http://localhost:7000/transformation/transform/pdf_norm</agentIdentifierValue>
             </agentIdentifier>
-            <agentName>Format Description Service</agentName>
-            <agentType>Web Service</agentType>
+            <agentName>daitss transformation service</agentName>
+            <agentType>software</agentType>
           </agent>
         </xmlData>
       </mdWrap>
@@ -673,13 +695,13 @@
   </amdSec>
   <fileSec>
     <fileGrp>
-      <file ID="file-0" OWNERID="test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/0" ADMID="tech-5 tech-6 digiprov-7" SIZE="5138268" CHECKSUMTYPE="SHA-1" CHECKSUM="71b89cf0f36ee34f3e77c409928da62d7a3004bf">
+      <file ID="file-0" OWNERID="test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/0" ADMID="tech-5 tech-6 digiprov-7 digiprov-11" SIZE="5138268" CHECKSUMTYPE="SHA-1" CHECKSUM="71b89cf0f36ee34f3e77c409928da62d7a3004bf">
         <FLocat LOCTYPE="URL" xlink:href="mimi.pdf"/>
       </file>
-      <file ID="file-1" OWNERID="test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/1" ADMID="tech-7 digiprov-8" SIZE="1050" CHECKSUMTYPE="SHA-1" CHECKSUM="3bdb855ef2df31c9cc7fca15c9ae5f018f71d46c">
+      <file ID="file-1" OWNERID="test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/1" ADMID="tech-7 digiprov-8 digiprov-11" SIZE="1050" CHECKSUMTYPE="SHA-1" CHECKSUM="3bdb855ef2df31c9cc7fca15c9ae5f018f71d46c">
         <FLocat LOCTYPE="URL" xlink:href="mimi.xml"/>
       </file>
-      <file ID="file-2" OWNERID="test:/ee18f510-fe07-012c-8008-001b63b4d6a3/file/2" ADMID="tech-8 tech-9 digiprov-9 digiprov-10" SIZE="1626382" CHECKSUMTYPE="SHA-1" CHECKSUM="59a4bb3c53b26e2eb2df0d8d6e54a9fbe5823e26">
+      <file ID="file-2" OWNERID="test:/3dccd630-fe28-012c-8021-001b63b4d6a3/file/2" ADMID="tech-8 tech-9 digiprov-9 digiprov-10 digiprov-11 digiprov-12" SIZE="1626382" CHECKSUMTYPE="SHA-1" CHECKSUM="f6050bd524ab854f7d3780463d51e17cf189877c">
         <FLocat LOCTYPE="URL" xlink:href="0-normalization.tif"/>
       </file>
     </fileGrp>

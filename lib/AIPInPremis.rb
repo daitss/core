@@ -135,6 +135,7 @@ class AIPInPremis
       elsif id && @int_entity.match(id.content) #then check if this event links to int entity
         event = IntentityEvent.new
         event.fromPremis(obj)
+        event.setRelatedObject id.content
         #associate agent to the event
         agent.events << event unless agent.nil?
         @events[event.id] = event
