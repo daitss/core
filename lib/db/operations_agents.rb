@@ -29,7 +29,6 @@ end
 
 class Contact < User
   property :permissions, Flag[:disseminate, :withdraw, :peek, :submit]
-
 end
 
 class Operator < User; end
