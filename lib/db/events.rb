@@ -1,13 +1,13 @@
 Event_Types = { 
-  "Ingest" => :ingest,
-  "Submit" => :submit,
-  "Validate" => :validate,
-  "Dissemination" => :disseminate,
-  "Withdraw" => :withdraw,
-  "Fixity Check" => :fixitycheck,
-  "Format Description" => :describe,
-  "Normalization" => :normalize, 
-  "Migration" => :migrate }
+  "ingest" => :ingest,
+  "submit" => :submit,
+  "comprehensive validation" => :validate,
+  "dissemination" => :disseminate,
+  "withdraw" => :withdraw,
+  "fixity Check" => :fixitycheck,
+  "format description" => :describe,
+  "normalization" => :normalize, 
+  "migration" => :migrate }
 
   class Event
     include DataMapper::Resource
@@ -32,7 +32,7 @@ Event_Types = {
       attribute_set(:id, premis.find_first("premis:eventIdentifier/premis:eventIdentifierValue", NAMESPACES).content)
       attribute_set(:idType, premis.find_first("premis:eventIdentifier/premis:eventIdentifierType", NAMESPACES).content)
       type = premis.find_first("premis:eventType", NAMESPACES).content
-      attribute_set(:e_type, Event_Types[type])
+      attribute_set(:e_type, Event_Types[type.downcase])
       attribute_set(:datetime, premis.find_first("premis:eventDateTime", NAMESPACES).content)
       attribute_set(:outcome, premis.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NAMESPACES).content)
     end

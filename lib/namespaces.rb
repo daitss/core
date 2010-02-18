@@ -7,5 +7,6 @@ NAMESPACES = {
   'tcf' => 'http://www.aes.org/tcf',
   'txt' => 'http://www.loc.gov/standards/textMD',
   'doc' => 'http://www.fcla.edu/dls/md/docmd',
-  'p2' => 'info:lc/xmlns/premis-v2-beta'
+  'p2' => 'info:lc/xmlns/premis-v2-beta',
+  'mods' => 'http://www.loc.gov/mods/v3'
 }
