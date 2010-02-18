@@ -43,24 +43,7 @@ class Authentication
 
       case agent
 
-      when Contact
-        result.metadata["agent_type"] = :contact 
-        result.metadata["description"] = agent.description
-        result.metadata["first_name"] = agent.first_name
-        result.metadata["last_name"] = agent.last_name
-        result.metadata["email"] = agent.email
-        result.metadata["phone"] = agent.phone
-        result.metadata["address"] = agent.address
-        result.metadata["can_disseminate"] = agent.permissions.include? :disseminate
-        result.metadata["can_withdraw"] = agent.permissions.include? :withdraw
-        result.metadata["can_peek"] = agent.permissions.include? :peek
-        result.metadata["can_submit"] = agent.permissions.include? :submit
-
-        result.metadata["account_code"] = account.code
-        result.metadata["account_name"] = account.name
-
-      when Operator
-        result.metadata["agent_type"] = :operator
+      when Contact, Operator
         result.metadata["description"] = agent.description
         result.metadata["first_name"] = agent.first_name
         result.metadata["last_name"] = agent.last_name
@@ -70,6 +53,16 @@ class Authentication
 
         result.metadata["account_code"] = account.code
         result.metadata["account_name"] = account.name
+
+        if agent.class == Contact
+          result.metadata["agent_type"] = :contact 
+          result.metadata["can_disseminate"] = agent.permissions.include? :disseminate
+          result.metadata["can_withdraw"] = agent.permissions.include? :withdraw
+          result.metadata["can_peek"] = agent.permissions.include? :peek
+          result.metadata["can_submit"] = agent.permissions.include? :submit
+        else
+          result.metadata["agent_type"] = :operator
+        end
 
       when Service
         result.metadata["agent_type"] = :service
