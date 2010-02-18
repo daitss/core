@@ -39,6 +39,10 @@ Given /^an aip containing a xml$/ do
   @file = "#{abs}/files/pdf-monodescriptor.xml"
 end
 
+Given /^a latest aip$/ do
+    @file = "#{abs}/files/02pdf.xml"
+end
+
 When /^populating the aip$/ do
   aip = AIPInPremis.new
   aip.process @file

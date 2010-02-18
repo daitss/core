@@ -5,6 +5,7 @@ require 'dm-types'
 require 'libxml'
 require 'schematron'
 require 'uri'
+require 'jxml/validator'
 
 include LibXML
 
@@ -12,6 +13,7 @@ XML.default_line_numbers = true
 stron_file = File.join File.dirname(__FILE__), '..', '..', 'stron', 'aip.stron'
 stron_doc = open(stron_file) { |io| XML::Document.io io }
 AIP_DESCRIPTOR_SCHEMATRON = Schematron::Schema.new stron_doc
+XML_SCHEMA_VALIDATOR = JXML::Validator.new
 
 # authoritative aip record
 class Aip
@@ -26,16 +28,30 @@ class Aip
   property :copy_size, Integer, :min => 1, :required => true
   property :needs_work, Boolean, :required => true
 
+  validates_with_method :xml, :validate_against_xmlschema
   validates_with_method :xml, :validate_against_schematron
   validates_with_method :copy_size, :check_copy_size
   validates_with_method :copy_md5, :check_copy_md5
+
+  def validate_against_xmlschema
+    doc = XML::Document.string xml
+    results = XML_SCHEMA_VALIDATOR.validate doc
+
+    combined_results = results[:fatals] + results[:errors]
+    unless combined_results.empty?
+      combined_results.each { |r| puts r[:line].to_s + ' ' + r[:message] }
+      [false, "descriptor fails daitss aip xml validation (#{combined_results.size} errors)"] 
+    else
+      true
+    end
+
+  end
 
   def validate_against_schematron
     doc = XML::Document.string xml
     results = AIP_DESCRIPTOR_SCHEMATRON.validate doc
 
     unless results.empty?
-      puts doc.to_s
       results.each { |r| puts r[:line].to_s + ' ' + r[:message] }
       [false, "descriptor fails daitss aip schematron validation (#{results.size} errors)"] 
     else

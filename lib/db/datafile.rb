@@ -2,7 +2,7 @@ require 'db/pobject'
 
 class Datafile < Pobject
   include DataMapper::Resource 
-  property :id, String, :key => true, :length => 16
+  property :id, String, :key => true, :length => 100
   property :size, Integer, :length => (0..20),  :required => true 
   property :create_date, DateTime
   property :origin, Enum[:archive, :depositor, :unknown], :default => :unknown, :required => true 
@@ -18,6 +18,7 @@ class Datafile < Pobject
   has 0..n, :texts
   has 0..n, :audios
   has 0..n, :images
+  has 0..n, :message_digest #, :constraint => :destroy! #:foreign_key => [:dfid, :code] 
   
   def fromPremis(premis, formats)
     attribute_set(:id, premis.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content)
@@ -33,16 +34,23 @@ class Datafile < Pobject
     node = premis.find_first("premis:originalName", NAMESPACES)
     attribute_set(:original_path, node.content) if node
     
+    # process format information
+    processFormats(self, premis, formats)
+    
+    # process fixity information
+    if premis.find_first("premis:objectCharacteristics/premis:fixity", NAMESPACES)
+      messageDigest = MessageDigest.new
+      messageDigest.fromPremis(premis)
+      self.message_digest << messageDigest
+    end
+    
     # process premis ObjectCharacteristicExtension 
     node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
     if (node)
       processObjectCharacteristicExtension(self, node)
       @object.bitstream_id = :null
     end
-    
-    # process format information
-    processFormats(self, premis, formats)
-    
+      
     # process inhibitor if there is any
     node = premis.find_first("premis:objectCharacteristics/premis:inhibitors", NAMESPACES)
     if (node)

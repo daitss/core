@@ -13,3 +13,8 @@ Scenario: an aip containing a pdf with embedded fonts
 	And all E00000000_000000 representations should exist
 	And I should have a datafile named files/Haskell98numbers.pdf
 	And I should have a document with embedded fonts
+
+Scenario: latest aip
+	Given a latest aip
+	When populating the aip
+	And I should have a datafile named mimi.pdf
