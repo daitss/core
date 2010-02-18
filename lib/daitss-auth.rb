@@ -68,10 +68,18 @@ class Authentication
         result.metadata["account_name"] = account.name
 
       elsif agent.type == Service
-        puts "service"
+        result.metadata["agent_type"] = :service
+        result.metadata["description"] = agent.description
+
+        result.metadata["account_code"] = account.code
+        result.metadata["account_name"] = account.name
 
       elsif agent.type == Program
-        puts "program"
+        result.metadata["agent_type"] = :program
+        result.metadata["description"] = agent.description
+
+        result.metadata["account_code"] = account.code
+        result.metadata["account_name"] = account.name
 
       end
 
