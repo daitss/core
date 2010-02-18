@@ -13,9 +13,9 @@ RELATIONSHIP_Types = {
 
 class Relationship
   include DataMapper::Resource
-  property :object1, String, :key => true, :length => 16
+  property :object1, String, :key => true, :length => 100
   property :type, Enum[:migrated_to, :normalized_to, :include, :unknown], :default => :unknown
-  property :object2, String, :index => true, :length => 16
+  property :object2, String, :index => true, :length => 100
 
   belongs_to :event
  

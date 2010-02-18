@@ -2,7 +2,7 @@ require 'rake'
 require 'rake/rdoctask'
 require 'rake/gempackagetask'
 require 'cucumber/rake/task'
-
+require 'semver'
 require 'daitss2'
 
 Cucumber::Rake::Task.new
@@ -20,11 +20,12 @@ end
 spec = Gem::Specification.new do |spec|
   spec.name = "daitss-database"
   spec.email = "cchou@ufl.edu"
-  spec.version = '0.0.0'
+  spec.version = SemVer.find.format '%M.%m.%p'
   spec.summary = "DAITSS 2 database"
-  spec.authors = ["Carol Chou"]
+  spec.authors = ["Carol Chou", "Francesco Lazzarino"]
   spec.files = ["Rakefile", "stron/aip.stron"] + Dir["lib/**/*"]
-  spec.add_dependency('datamapper', '~> 0.10.2')
+  spec.add_dependency 'datamapper', '~> 0.10.2'
+  spec.add_dependency 'jxmlvalidator', '~> 0.1.0'
   spec.has_rdoc = true
 end
 

@@ -17,7 +17,7 @@ class AIPInPremis
   def process aip_file
     # read in the AIP descriptor
     @doc = XML::Document.file aip_file
-    @int_entity.fromPremis
+    @int_entity.fromPremis @doc
 
     # process all premis file objects
     processDatafiles
@@ -90,10 +90,6 @@ class AIPInPremis
       df.fromPremis(obj, @formats)
 
       @datafiles[df.id] = df
-
-      # TODO need storage data model
-      @mdtype = obj.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigestAlgorithm", NAMESPACES).content
-      @mdvalue = obj.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigest", NAMESPACES).content
     end
   end
 
@@ -129,10 +125,16 @@ class AIPInPremis
       agent_id = obj.find_first("premis:linkingAgentIdentifier/premis:linkingAgentIdentifierValue", NAMESPACES)
       agent = @agents[agent_id.content] unless agent_id.nil?   
 
-      unless df.nil?
+      if df   #first check if this event is linked to a file object
         event = DatafileEvent.new
         event.fromPremis(obj, df)
         event.setRelatedObject id.content
+        #associate agent to the event
+        agent.events << event unless agent.nil?
+        @events[event.id] = event
+      elsif id && @int_entity.match(id.content) #then check if this event links to int entity
+        event = IntentityEvent.new
+        event.fromPremis(obj)
         #associate agent to the event
         agent.events << event unless agent.nil?
         @events[event.id] = event
@@ -170,17 +172,19 @@ class AIPInPremis
 
   # save all extracted premis objects/events/agents to the fast access database in one transaction
   def toDB
-    # start database traction for saving the associated record for the aip.  If there is any failure during database save, 
-    # datamapper automatically rollback the change.
-    Intentity.transaction do 
-      #TODO: @int_entity.save  
-      @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
-      # not necessary to explicitely save representations since representations will be saved through datafiles associations
-      @datafiles.each {|dfid, df|  raise 'error saving datafile records' unless  df.save } 
-      @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
-      @agents.each {|id, ag|  raise 'error saving agent records' unless ag.save }
-      @events.each {|id, e|  raise 'error saving event records' unless e.save }
-      @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
+    repository(:default) do 
+      # start database traction for saving the associated record for the aip.  If there is any failure during database save, 
+      # datamapper automatically rollback the change.
+      Intentity.transaction do 
+        #TODO: @int_entity.save  
+        @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
+        # not necessary to explicitely save representations since representations will be saved through datafiles associations
+        @datafiles.each {|dfid, df|  raise 'error saving datafile records' unless  df.save } 
+        @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
+        @agents.each {|id, ag|  raise 'error saving agent records' unless ag.save }
+        @events.each {|id, e|  raise 'error saving event records' unless e.save }
+        @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
+      end
     end
   end
 

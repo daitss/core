@@ -11,7 +11,7 @@ Event_Types = {
 
   class Event
     include DataMapper::Resource
-    property :id, String, :key => true, :length => 16
+    property :id, String, :key => true, :length => 100
     property :idType, String # identifier type
     property :e_type, Enum[:submit, :validate, :ingest, :disseminate, :withdraw, :fixitycheck, :describe, :migrate, :normalize, :deletion]
     property :datetime, DateTime

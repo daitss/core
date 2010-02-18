@@ -6,5 +6,6 @@ NAMESPACES = {
   'aes' => 'http://www.aes.org/audioObject',
   'tcf' => 'http://www.aes.org/tcf',
   'txt' => 'http://www.loc.gov/standards/textMD',
-  'doc' => 'http://www.fcla.edu/dls/md/docmd'
+  'doc' => 'http://www.fcla.edu/dls/md/docmd',
+  'p2' => 'info:lc/xmlns/premis-v2-beta'
 }
