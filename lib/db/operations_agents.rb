@@ -8,36 +8,36 @@ class OperationsAgent
   include DataMapper::Resource
 
   property :id, Serial
-  property :description, String, :nullable => false
-  property :active_start_date, DateTime, :nullable => false
-  property :active_end_date, DateTime, :nullable => false
+  property :description, String
+  property :active_start_date, DateTime
+  property :active_end_date, DateTime
   property :type, Discriminator
 
   has 1, :key
   has n, :operations_events
+  belongs_to :account
 end
 
 class User < OperationsAgent
-  property :username, String, :nullable => false
-  property :first_name, String, :nullable => false
-  property :last_name, String, :nullable => false
-  property :email, String, :nullable => false
-  property :phone, String, :nullable => false
-  property :address, String, :nullable => false
+  property :username, String
+  property :first_name, String
+  property :last_name, String
+  property :email, String
+  property :phone, String
+  property :address, String
 end
 
 class Contact < User
-  property :permissions, Flag[:disseminate, :withdraw, :peek, :submit], :nullable => false
+  property :permissions, Flag[:disseminate, :withdraw, :peek, :submit]
 
-  belongs_to :account
 end
 
 class Operator < User; end
 
 class Service < OperationsAgent
-  property :url, String, :nullable => false
+  property :url, String
 end
 
 class Program < OperationsAgent
-  property :path, String, :nullable => false
+  property :path, String
 end
