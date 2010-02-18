@@ -7,5 +7,5 @@ class Key
   property :id, Serial
   property :key, Text
 
-  has 1, :operations_agent
+  belongs_to :operations_agent
 end
