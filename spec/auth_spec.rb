@@ -10,7 +10,7 @@ describe Authentication do
   end
 
 
-  def add_account name = "FDA", code = "FDA"
+  def add_account name = "Florida Digital Archive", code = "FDA"
     a = Account.new
     a.attributes = { :name => name,
                      :code => code }
@@ -54,7 +54,7 @@ describe Authentication do
 
     o.account = account
 
-    k = AuthorizationKey.new
+    k = AuthenticationKey.new
     k.attributes = { :auth_key => sha1(key) }
 
     o.authentication_key = k
@@ -85,7 +85,6 @@ describe Authentication do
     auth_result.metadata["can_withdraw"].should == true
     auth_result.metadata["can_peek"].should == true
     auth_result.metadata["can_submit"].should == true
-    auth_result.metadata["account_id"].should == 1
     auth_result.metadata["account_code"].should == "UF"
     auth_result.metadata["account_name"].should == "University of Florida"
 
@@ -96,6 +95,38 @@ describe Authentication do
     add_contact a
 
     auth_result = Authentication.authenticate("foobar", "notthepassword")
+
+    auth_result.valid.should == false
+    auth_result.active.should == nil
+    auth_result.metadata.should == nil
+  end
+
+  it "should authenticate an operator when good credentials are provided" do
+    a = add_account
+    add_operator a
+
+    auth_result = Authentication.authenticate("operator", "barbaz")
+
+    auth_result.valid.should == true
+    auth_result.active.should == true
+    
+    auth_result.metadata["agent_type"].should == :operator
+    auth_result.metadata["description"].should == "operator"
+    auth_result.metadata["first_name"].should == "Op"
+    auth_result.metadata["last_name"].should == "Perator"
+    auth_result.metadata["email"].should == "operator@ufl.edu"
+    auth_result.metadata["phone"].should == "666-6666"
+    auth_result.metadata["address"].should == "FCLA"
+    auth_result.metadata["account_code"].should == "FDA"
+    auth_result.metadata["account_name"].should == "Florida Digital Archive"
+
+  end
+
+  it "should authenticate an operator when bad credentials are provided" do
+    a = add_account
+    add_operator a
+
+    auth_result = Authentication.authenticate("operator", "notthepassword")
 
     auth_result.valid.should == false
     auth_result.active.should == nil
