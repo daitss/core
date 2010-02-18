@@ -13,13 +13,25 @@ class Intentity
   has 1..n, :representations
   
   def fromPremis premis
-    id = premis.find_first("//p2:intellectualEntity/p2:intellectualEntityIdentifier/p2:intellectualEntityIdentifierValue", NAMESPACES)
+    entity = premis.find_first('//p2:object[p2:objectCategory="intellectual entity"]', NAMESPACES)
+    puts entity
+    
+    # extract and set int entity id
+    id = entity.find_first("//p2:objectIdentifierValue", NAMESPACES) unless entity.nil?
+    puts id
     if id
       attribute_set(:id, id.content)
     else
       #TODO: this is only temporary, should be removed once AIP descriptor building is complete
       attribute_set(:id, "E00000000_000000")
     end
+    
+    # extract and set the rest of int entity metadata
+    
+  end
+  
+  def processMods premis
+    
   end
   
   def match id
