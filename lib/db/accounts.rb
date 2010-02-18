@@ -7,8 +7,8 @@ class Account
 
   property :id, Serial
   property :name, String, :nullable => false
-  property :code, String, :nullable => false
+  property :code, String, :nullable => false, :unique => true
 
-  has n, :contacts
+  has n, :operations_agents
   has n, :projects
 end
