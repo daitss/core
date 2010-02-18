@@ -37,9 +37,9 @@ class Authentication
       active = agent.active_start_date.to_time < Time.now and agent.active_end_date.to_time > Time.now
       result = AuthenticationResult.new active
 
-      case agent.type.to_s
+      account = agent.account
 
-      when "Contact"
+      if agent.type == Contact
         result.metadata["agent_type"] = :contact 
         result.metadata["description"] = agent.description
         result.metadata["first_name"] = agent.first_name
@@ -52,19 +52,25 @@ class Authentication
         result.metadata["can_peek"] = agent.permissions.include? :peek
         result.metadata["can_submit"] = agent.permissions.include? :submit
 
-        account = agent.account
-
-        result.metadata["account_id"] = account.id
         result.metadata["account_code"] = account.code
         result.metadata["account_name"] = account.name
 
-      when "Operator"
-        puts "operator"
+      elsif agent.type == Operator
+        result.metadata["agent_type"] = :operator
+        result.metadata["description"] = agent.description
+        result.metadata["first_name"] = agent.first_name
+        result.metadata["last_name"] = agent.last_name
+        result.metadata["email"] = agent.email
+        result.metadata["phone"] = agent.phone
+        result.metadata["address"] = agent.address
 
-      when "Service"
+        result.metadata["account_code"] = account.code
+        result.metadata["account_name"] = account.name
+
+      elsif agent.type == Service
         puts "service"
 
-      when "Program"
+      elsif agent.type == Program
         puts "program"
 
       end
