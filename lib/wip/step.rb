@@ -2,7 +2,8 @@ require 'wip'
 
 class Wip
 
-  def step key
+  def step name
+    key = step_key name
 
     unless tags.has_key? key
       value = yield
@@ -12,14 +13,22 @@ class Wip
 
   end
 
-  def step! key
+  def step! name
+    key = step_key name
     value = yield
     tags[key] = Time.now.xmlschema
     value
   end
 
-  def step_time key
+  def step_time name
+    key = step_key name
     Time.parse tags[key] if tags.has_key? key
+  end
+
+  private 
+  
+  def step_key name
+    "step-#{name}"
   end
 
 end
