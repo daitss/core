@@ -1,6 +1,8 @@
 require 'dm-core'
 require 'db/operations_agents'
 
+# TODO: this needs to have an association the the Intentity table, not a string for IEID
+
 class OperationsEvent 
   include DataMapper::Resource
 
