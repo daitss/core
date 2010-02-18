@@ -2,6 +2,8 @@ require 'db/operations_agents'
 require 'digest/sha1'
 require 'pp'
 
+#TODO: add to_xml method, unit tests
+
 class AuthenticationResult
 
   @valid 
@@ -39,7 +41,9 @@ class Authentication
 
       account = agent.account
 
-      if agent.type == Contact
+      case agent
+
+      when Contact
         result.metadata["agent_type"] = :contact 
         result.metadata["description"] = agent.description
         result.metadata["first_name"] = agent.first_name
@@ -55,7 +59,7 @@ class Authentication
         result.metadata["account_code"] = account.code
         result.metadata["account_name"] = account.name
 
-      elsif agent.type == Operator
+      when Operator
         result.metadata["agent_type"] = :operator
         result.metadata["description"] = agent.description
         result.metadata["first_name"] = agent.first_name
@@ -67,14 +71,14 @@ class Authentication
         result.metadata["account_code"] = account.code
         result.metadata["account_name"] = account.name
 
-      elsif agent.type == Service
+      when Service
         result.metadata["agent_type"] = :service
         result.metadata["description"] = agent.description
 
         result.metadata["account_code"] = account.code
         result.metadata["account_name"] = account.name
 
-      elsif agent.type == Program
+      when Program
         result.metadata["agent_type"] = :program
         result.metadata["description"] = agent.description
 
@@ -91,7 +95,6 @@ class Authentication
   end
 
   private
-
 
   def self.sha1 string
     return Digest::SHA1.hexdigest(string)
