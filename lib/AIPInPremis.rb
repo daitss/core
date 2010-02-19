@@ -14,9 +14,14 @@ class AIPInPremis
   end
 
   # process an aip descriptor described in a premis-in-mets format.
-  def process aip_file
+  def processAIPFile aip_file
     # read in the AIP descriptor
-    @doc = XML::Document.file aip_file
+    process XML::Document.file aip_file
+  end
+  
+  # process an aip descriptor described in a premis-in-mets format.
+  def process aipxml
+    @doc = aipxml
     @int_entity.fromPremis @doc
 
     # process all premis file objects

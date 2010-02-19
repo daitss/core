@@ -45,7 +45,7 @@ end
 
 When /^populating the aip$/ do
   aip = AIPInPremis.new
-  aip.process @file
+  aip.processAIPFile @file
 end
 
 Then /^I should see (.+?) intentitiy record$/ do |ieid|
