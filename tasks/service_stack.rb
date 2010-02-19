@@ -16,11 +16,11 @@ REPOS = {
 
 def service_stack
 
-  unless %x{ffmpeg -version 2>&1}.lines.first =~ /FFmpeg version (CVS|[.\d]+), /
+  unless %x{ffmpeg -version 2>&1}.lines.first =~ /FFmpeg version /
     raise "ffmpeg not found"
   end
 
-  unless %x{gs -version}.lines.first =~ /GPL Ghostscript [\d.]+/
+  unless %x{gs -version}.lines.first =~ /Ghostscript [\d.]+/
     raise "ghostscript not found"
   end
 
