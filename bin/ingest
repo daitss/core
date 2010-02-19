@@ -2,8 +2,7 @@
 
 require "datamapper"
 require "config"
-require 'wip'
-require 'ingest'
+require 'wip/ingest'
 
 wip = begin
 
@@ -23,7 +22,7 @@ wip = begin
         CONFIG::load config_file
 
         # database
-        DataMapper.setup :default, CONFIG["database-uri"]
+        DataMapper.setup :default, CONFIG["database-url"]
 
         # load the wip
         Wip.new wip_path
@@ -32,16 +31,19 @@ wip = begin
         puts e.backtrace
         exit 1
       end
-
-wip.ingest!
-
-if wip.tags['REJECT']
-  puts "#{wip} is rejected"
+begin
+  wip.ingest!
+rescue Reject => e
+  sio = StringIO.new
+  sio.puts Time.now
+  sio.puts e.message
+  wip.tags['reject'] = sio.string
   exit 2
-elsif wip.tags['SNAFU']
-  puts "#{wip} is snafu"
+rescue => e
+  sio = StringIO.new
+  sio.puts Time.now
+  sio.puts e.message
+  sio.puts e.backtrace
+  wip.tags['snafu'] = sio.string
   exit 3
-else
-  puts "#{wip} ingested"
 end
-
