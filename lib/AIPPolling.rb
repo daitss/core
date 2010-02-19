@@ -1,7 +1,6 @@
 require 'AIPInPremis'
 require 'db/aip'
 
-DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:aipstore, 'mysql://root@localhost/aip')
 
 class AIPPolling
@@ -12,7 +11,7 @@ class AIPPolling
   repository(:default) do
     @needWorkAIP.each do |aip|
       puts aip
-      aip.xml
+      puts aip.xml
       aipInPremis = AIPInPremis.new
       aipInPremis.process aip.xml
     end

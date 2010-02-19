@@ -32,4 +32,3 @@ require 'db/projects'
 
 DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, 'mysql://root@localhost/daitss2')
-
