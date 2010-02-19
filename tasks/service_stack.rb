@@ -1,5 +1,4 @@
 require 'rack'
-require 'db/aip'
 
 VAR_DIR = File.join File.dirname(__FILE__), '..', 'var'
 SERVICES_DIR = File.join VAR_DIR, 'services'
@@ -84,7 +83,7 @@ namespace :services do
 
     Dir.chdir SERVICES_DIR do
 
-      vc_urls.each do |name, url|
+      REPOS.each do |name, url|
 
         if File.exist? name
           puts "updating:\t#{name}"
@@ -110,18 +109,21 @@ namespace :services do
 
   desc "run the service stack"
   task :run do
-
-    # make the database sandbox
-    DataMapper.setup :default, DB_URL
-    DataMapper.auto_migrate!
+    stack = service_stack # RJB: this is needed here because RJB doesnt play nice yet
 
     # make the silo sandbox
     FileUtils::rm_rf SILO_DIR
     FileUtils::mkdir_p SILO_DIR
 
+    # make the database sandbox
+    require 'db/aip' # RJB: same rjb issue
+    FileUtils::rm_rf DB_FILE
+    DataMapper.setup :default, DB_URL
+    DataMapper.auto_migrate!
+
     # run the test stack
     httpd = Rack::Handler::Thin
-    httpd.run service_stack, :Port => 7000
+    httpd.run stack, :Port => 7000
   end
 
 end
