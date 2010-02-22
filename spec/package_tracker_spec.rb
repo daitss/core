@@ -3,6 +3,7 @@ require 'helper'
 require 'time'
 require 'pp'
 
+#TODO: add comments describing what each test is actually doing
 describe PackageTracker do
   
   before(:each) do
