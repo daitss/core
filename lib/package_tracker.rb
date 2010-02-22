@@ -18,7 +18,4 @@ class PackageTracker
 
     event.save
   end
-
-  def self.query_op_event agent_identifier = :any, ieid = :any, event_name = :any, timestamp_upper_bound = 0, timestamp_lower_bound = 0
-  end
 end
