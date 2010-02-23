@@ -5,7 +5,6 @@ require 'package_submitter'
 require 'digest/md5'
 require 'tempfile'
 require 'digest/sha1'
-require 'pp'
 
 helpers do
   # returns true if a set of http basic auth credentials passed in
