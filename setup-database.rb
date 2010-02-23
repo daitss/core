@@ -2,8 +2,12 @@
 
 require 'dm-core'
 require 'submission_history'
+require 'dm-core'
 require 'db/operations_agents'
 require 'db/operations_events'
+require 'db/accounts'
+require 'db/projects'
+require 'db/keys'
 require 'digest/sha1'
 
 DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/data/submission_svc_test.db")
@@ -14,7 +18,7 @@ DataMapper.auto_migrate!
 a = Account.new
 a.attributes = { :name => "FDA",
                  :code => "FDA" }
-a.save
+a.save!
 
 # add an operator user 
 
@@ -35,7 +39,7 @@ k = AuthenticationKey.new
 k.attributes = { :auth_key => Digest::SHA1.hexdigest("operator") }
 
 o.authentication_key = k
-o.save
+o.save!
 
 # add a contact lacking permissions to submit
 
@@ -57,5 +61,5 @@ j = AuthenticationKey.new
 j.attributes = { :auth_key => Digest::SHA1.hexdigest("foobar") }
 
 c.authentication_key = j
-c.save
+c.save!
 
