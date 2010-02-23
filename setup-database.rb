@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'dm-core'
-require 'dm-core'
 require 'db/operations_agents'
 require 'db/operations_events'
 require 'db/accounts'
