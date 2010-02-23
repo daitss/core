@@ -48,8 +48,8 @@ describe PackageSubmitter do
   end
 
   it "should submit a package creating a wip with submission event from a tar-extracted SIP and a PT event" do
-    now = Time.now
     ieid = PackageSubmitter.submit_sip :tar, TAR_SIP_NODIR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
+    now = Time.now
 
     wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid)
 
@@ -71,7 +71,7 @@ describe PackageSubmitter do
 
     event_linking_agent.should == agent_identifier
 
-    submission_event = OperationsEvent.all(:ieid => ieid, :event_name => "Package Submission").pop
+    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
 
     submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
@@ -81,8 +81,8 @@ describe PackageSubmitter do
   end
 
   it "should submit a package creating a wip with submission event from a zip-extracted SIP" do
-    now = Time.now
     ieid = PackageSubmitter.submit_sip :zip, ZIP_SIP_NODIR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
+    now = Time.now
 
     wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s)
 
@@ -104,7 +104,7 @@ describe PackageSubmitter do
 
     event_linking_agent.should == agent_identifier
 
-    submission_event = OperationsEvent.all(:ieid => ieid, :event_name => "Package Submission").pop
+    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
 
     submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
