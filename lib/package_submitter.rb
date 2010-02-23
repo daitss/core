@@ -5,6 +5,7 @@ require 'submission_history'
 require 'uri'
 require 'ieid'
 require 'libxml'
+require 'package_tracker'
 
 class ArchiveExtractionError < StandardError; end
 class DescriptorNotFoundError < StandardError; end
@@ -33,9 +34,11 @@ class PackageSubmitter
   # writes a submission event to package provenance
   # returns new minted IEID of the created AIP
 
-  def self.submit_sip archive_type, path_to_archive, package_name, submitter_ip, md5
+  def self.submit_sip archive_type, path_to_archive, package_name, submitter_username, submitter_ip, md5
     check_workspace
     ieid = Ieid.new.to_s
+
+    #TODO: this should go
     persist_request ieid, package_name, submitter_ip, md5
 
     unarchive_sip archive_type, ieid, path_to_archive, package_name
@@ -69,6 +72,10 @@ class PackageSubmitter
     wip.metadata['dmd-volume'] = int_entity_metadata["volume"] if int_entity_metadata["volume"]
     wip.metadata['dmd-account'] = int_entity_metadata["account"] if int_entity_metadata["account"]
     wip.metadata['dmd-project'] = int_entity_metadata["project"] if int_entity_metadata["project"]
+
+    # write package tracker event
+    submission_event_notes = "submitter_ip: #{submitter_ip}, archive_type: #{archive_type}, submitted_package_checksum: #{md5}"
+    PackageTracker.insert_op_event(submitter_username, ieid, "Package Submission", submission_event_notes) 
 
     # clean up
     FileUtils.rm_rf sip_path
