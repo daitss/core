@@ -1,7 +1,6 @@
 require 'fileutils'
 require 'wip/create'
 require 'template/premis'
-require 'submission_history'
 require 'uri'
 require 'ieid'
 require 'libxml'
@@ -28,7 +27,7 @@ class PackageSubmitter
   # This method:
   #
   # checks DAITSS_WORKSPACE environment var for validity
-  # persists a record of the submission, generating a new IEID
+  # inserts an operations event into package tracker
   # unarchives the zip/tar to a special place in DAITSS_WORKSPACE
   # makes an AIP from extracted files
   # writes a submission event to package provenance
@@ -37,9 +36,6 @@ class PackageSubmitter
   def self.submit_sip archive_type, path_to_archive, package_name, submitter_username, submitter_ip, md5
     check_workspace
     ieid = Ieid.new.to_s
-
-    #TODO: this should go
-    persist_request ieid, package_name, submitter_ip, md5
 
     unarchive_sip archive_type, ieid, path_to_archive, package_name
 
@@ -89,22 +85,6 @@ class PackageSubmitter
 
   def self.check_workspace
     raise "DAITSS_WORKSPACE is not set to a valid directory." unless File.directory? ENV["DAITSS_WORKSPACE"]
-  end
-
-  # saves a record of the submission to database, generating a new ieid
-
-  def self.persist_request ieid, package_name, submitter_ip, md5
-    request = Submission.new
-
-    request.attributes = {  
-      :ieid => ieid,
-      :package_name => package_name,
-      :submission_checksum => md5,
-      :timestamp => Time.now,
-      :submitter_ip => submitter_ip
-    }
-
-    request.save
   end
 
   # returns string corresponding to unzip command to extract SIP from a zip file 
