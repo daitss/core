@@ -4,16 +4,40 @@ require 'sinatra'
 require 'package_submitter'
 require 'digest/md5'
 require 'tempfile'
+require 'digest/sha1'
 require 'pp'
 
-HTTP_USERNAME = "fda"
-HTTP_PASSWORD = "subm1t"
+helpers do
+  # returns true if a set of http basic auth credentials passed in
 
-# support http basic authentication
-# TODO: eventually, we need to get allowed credentials from a common source, like a database of allowed credentials
+  def credentials?
+    @auth ||= Rack::Auth::Basic::Request.new(request.env)
+    @auth.provided? && @auth.basic? && @auth.credentials
+  end
 
-use Rack::Auth::Basic do |username, password|
-  [username, password] == [HTTP_USERNAME, HTTP_PASSWORD]
+  # returns array containing the basic auth credentials provided, nil otherwise
+
+  def get_credentials
+    return nil unless credentials?
+
+    return @auth.credentials
+  end
+
+  # returns OperationsAgent object if matching set of credentials found, nil otherwise
+
+  def get_agent
+    user_credentials = get_credentials
+
+    return nil if user_credentials == nil
+
+    agent = OperationsAgent.first(:identifier => user_credentials[0])
+
+    if agent && agent.authentication_key.auth_key == Digest::SHA1.hexdigest(user_credentials[1])
+      return agent
+    else
+      return nil
+    end
+  end
 end
 
 # return 405 on HEAD, GET, or DELETE 
@@ -31,8 +55,10 @@ end
 
 # All submissions are expected to be POST requests
 post '/*' do 
-
   begin
+    #return 401 if credentials not provided
+    halt 401 unless credentials?
+
     # return 400 if missing any expected headers
     halt 400, "Missing header: CONTENT_MD5" unless @env["HTTP_CONTENT_MD5"]
     halt 400, "Missing header: X_PACKAGE_NAME" unless @env["HTTP_X_PACKAGE_NAME"]
@@ -41,6 +67,15 @@ post '/*' do
     # return 400 if X_ARCHIVE_TYPE header is not the expected value of 'zip' or 'tar'
 
     halt 400, "X_ARCHIVE_TYPE header must be either 'tar' or 'zip'" unless @env["HTTP_X_ARCHIVE_TYPE"] == "tar" or @env["HTTP_X_ARCHIVE_TYPE"] == "zip"
+
+    # authenticate
+    agent = get_agent
+    halt 403 unless agent 
+
+    # check authorization if contact
+    if agent.type == Contact
+      halt 403 unless agent.permissions.include?(:submit)
+    end
 
     request.body.rewind
 
@@ -68,11 +103,11 @@ post '/*' do
 
     # call PackageSubmitter to extract file, generate IEID, and write AIP to workspace
     if @env["HTTP_X_ARCHIVE_TYPE"] == "zip"
-      ieid = PackageSubmitter.submit_sip :zip, tf.path, @env["HTTP_X_PACKAGE_NAME"], @env["REMOTE_ADDR"], @env["HTTP_CONTENT_MD5"]
+      ieid = PackageSubmitter.submit_sip :zip, tf.path, @env["HTTP_X_PACKAGE_NAME"], agent.identifier, @env["REMOTE_ADDR"], @env["HTTP_CONTENT_MD5"]
     elsif @env["HTTP_X_ARCHIVE_TYPE"] == "tar"
-      ieid = PackageSubmitter.submit_sip :tar, tf.path, @env["HTTP_X_PACKAGE_NAME"], @env["REMOTE_ADDR"], @env["HTTP_CONTENT_MD5"]
+      ieid = PackageSubmitter.submit_sip :tar, tf.path, @env["HTTP_X_PACKAGE_NAME"], agent.identifier, @env["REMOTE_ADDR"], @env["HTTP_CONTENT_MD5"]
     end
-    
+
     headers["X_IEID"] = ieid.to_s
     "<IEID>#{ieid}</IEID>"
 
