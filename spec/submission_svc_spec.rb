@@ -5,6 +5,7 @@ require 'digest/md5'
 require 'stringio'
 require 'sinatra'
 require 'base64'
+require 'helper'
 
 set :environment, :test
 
@@ -24,6 +25,11 @@ describe "Submission Service" do
     header "X_ARCHIVE_TYPE", "zip"
 
     DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/data/submission_svc_test.db")
+    DataMapper.auto_migrate!
+
+    a = add_account
+    add_operator a
+    add_contact a
   end
 
   after(:each) do
