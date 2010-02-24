@@ -35,10 +35,17 @@ class Wip
     unless running?
 
       pid = fork do 
+        #require 'datamapper'
+        #require 'db/aip'
+        #DataMapper.setup :default, CONFIG['database-url']
+
         Signal.trap "INT", "DEFAULT"
-        $stderr = StringIO.new # silencio!
-        #$stdout = StringIO.new
+        #$stderr = open('err', 'w')
+        #$stdout = open('out', 'w')
+
+        puts 'starting yield'
         yield self
+        puts 'finished yield'
         tags['done'] = Time.now.xmlschema
         exit
       end
@@ -58,6 +65,14 @@ class Wip
     end
 
     tags.delete 'process'
+  end
+
+  def pid
+    process.first if running?
+  end
+
+  def pid_time
+    process.last if running?
   end
 
   private

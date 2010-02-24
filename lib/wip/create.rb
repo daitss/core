@@ -47,8 +47,8 @@ class Wip
       owner_id = sip.owner_id f
       df['owner-id'] = owner_id if owner_id
     end
-    
+
     wip
   end
-  
+
 end
