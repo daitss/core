@@ -11,7 +11,7 @@ class AIPPolling
   repository(:default) do
     @needWorkAIP.each do |aip|
       doc = XML::Document.string(aip.xml)
-      doc.save('aip.xml', :indent => true, :encoding => 'UTF-8')
+      doc.save('aip.xml', :indent => true, :encoding => LibXML::XML::Encoding::UTF_8)
       aipInPremis = AIPInPremis.new
       aipInPremis.process doc
     end
