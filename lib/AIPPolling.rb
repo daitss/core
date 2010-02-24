@@ -21,10 +21,11 @@ class AIPPolling
       puts "problem populating #{aip.uri}, daitss 2 dataase is not updated!"
     else #only update aip store after a successful daitss2 db population
       repository(:aipstore) do    
-      aip.update(:needs_work => false)
+        aip.update(:needs_work => false)
+      end
     end
+
+    # sleep 5
   end
-  
-  # sleep 5
 end
 
