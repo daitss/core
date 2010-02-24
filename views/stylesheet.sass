@@ -1,2 +1,35 @@
+//colors
+!red = #FF3C2A
+!disabled_red = #FF9E95
+!highlighted_red = #F5A995 
+!white = #FFFFFF
+!black = #000000
+!light_gray = #E4E9E4
+!dark_gray=  #222020
+
+
 body
   font-family: "Helvetica", sans-serif
+  color = !black
+  background-color = !white
+
+a
+  color = !red
+  text-decoration: none
+  font-weight: bold
+  &:hover
+    text-decoration: underline
+hr
+  color = !light_gray
+  background-color = !light_gray
+  height: 5px
+  border: 0
+
+th
+  vertical-align: top
+  text-align: right
+
+pre
+  padding: 0.5em
+  background-color = !dark_gray
+  color = !white
