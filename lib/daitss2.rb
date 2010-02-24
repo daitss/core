@@ -31,4 +31,4 @@ require 'db/projects'
 # Dir[pattern].each {|file| require file }
 
 DataMapper::Logger.new(STDOUT, :debug)
-DataMapper.setup(:default, 'mysql://root@localhost/daitss2')
+DataMapper.setup(:default, 'mysql://daitss:topdrawer@localhost/daitss2')

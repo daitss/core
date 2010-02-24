@@ -35,6 +35,10 @@ Given /^an aip containing a jp2 file$/ do
   @file = "#{abs}/files/jp2.xml"
 end
 
+Given /^an aip containing a geotiff file$/ do
+  @file = "#{abs}/files/geotiff.xml"
+end
+
 Given /^an aip containing a xml$/ do
   @file = "#{abs}/files/pdf-monodescriptor.xml"
 end
