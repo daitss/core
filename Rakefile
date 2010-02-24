@@ -6,7 +6,7 @@ require 'semver'
 require 'daitss2'
 require 'db/aip'
 
-DataMapper.setup(:aipstore, 'mysql://root@localhost/aip')
+DataMapper.setup(:aipstore, 'mysql://daitss:topdrawer@localhost/aip')
 
 Cucumber::Rake::Task.new
 
