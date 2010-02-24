@@ -1,21 +1,114 @@
-%h1= @wip.uri
+%h1
+  %a{:href => '../' } ws
+  = "::"
+  = @wip.id
 
-%table
-  %tr
-    %th running
-    %td= @wip.running? ? 'yes' : 'no'
-  %tr
-    %th done
-    %td= @wip.done? ? 'yes' : 'no'
+%hr/ 
 
-%form{:action => @wip.id, :method => "post"}
-  %input{:type => 'hidden', :name => 'state', :value => (@wip.running? ? 'stop' : 'start')}
-  %input{:type => 'submit', :value => (@wip.running? ? 'Stop' : 'Start')}
+#process
+  %h2
+    process:
+    %span#process-status
+      - if @wip.running?
+        = @wip.pid
+        = "%.1f" % (Time.now - @wip.pid_time)
+      - else
+        inactive
 
-%h2 data files
-%table
-  - @wip.datafiles.each do |df|
+  %h2
+    = @wip.task
+    = ":"
+    %span#task-status= @wip.state
+
+  %hr/
+
+#update-forms
+  %form{:action => @wip.id, :method => 'post'}
+
+    %h3 process
+    %input#state-start{:type => 'radio', :name => 'process', :value => 'start'}
+    %label{:for => 'state-start'} start
+    %br/
+    %input#state-stop{:type => 'radio', :name => 'process', :value => 'stop'}
+    %label{:for => 'state-stop'} stop
+    %br/
+    %input{:type => 'submit', :value => "Update job"}
+
+  %hr/
+
+  %form{:action => @wip.id, :method => 'post'}
+    %h3 snafu
+    %input#state-snafu{:type => 'radio', :name => 'snafu', :value => 'true'}
+    %label{:for => 'state-snafu'} snafu
+    %br/
+    %input#state-unsnafu{:type => 'radio', :name => 'snafu', :value => 'false'}
+    %label{:for => 'state-unsnafu'} unsnafu
+    %br/
+    %input{:type => 'submit', :value => "Update snafu"}
+
+  %hr/
+
+  %form{:action => "#{@wip.id}/_stash", :method => 'post'}
+
+    %h3 stash (not implemented)
+    %label{:for => 'stash-path'} path
+    %input#stash-path{:type => 'text', :name => 'path', :value => '/tmp'}
+
+    %br/
+    %input{:type => 'submit', :value => "Stash wip"}
+
+  %hr/
+
+#commands{:style => 'display: none'}
+  %button#start start
+  %button#stop stop
+  %button#unsnafu unsnafu
+  %hr/
+
+#snafu
+  %h2 snafu
+  %pre= @wip.snafu
+  %hr/
+
+#reject
+  %h2 reject
+  %pre= @wip.reject
+  %hr/
+
+#steps
+  %h2
+    total duration:
+    = duration_for :total
+    s
+
+  %table
     %tr
-      %td= df.uri
-      %td= df['sip-path'] or df['aip-path']
-      %td= df.size
+      %th validate AIP
+      %td= duration_for :validate
+    %tr
+      %th
+        describe 
+        = file_count_for :describe
+        datafiles
+      %td= duration_for :describe
+    %tr
+      %th 
+        migrate
+        = file_count_for :migrate
+        datafiles
+      %td= duration_for :migrate
+    %tr
+      %th
+        normalize 
+        = file_count_for :normalize
+        datafiles
+      %td= duration_for :normalize
+    %tr
+      %th build representations
+      %td= duration_for :representation
+    %tr
+      %th make AIP descriptor
+      %td= duration_for :descriptor
+    %tr
+      %th save AIP
+      %td= duration_for :aip

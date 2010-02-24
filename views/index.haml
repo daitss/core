@@ -1,9 +1,35 @@
-%h1 workspace
+%h1= File.expand_path WORKSPACE.path
+
+%hr
+
+%h2 Configuration
+%table
+  - CONFIG.each do |name, value|
+    %tr
+      %th= name
+      %td= value
+
+%hr
 
 %table
-  - @workspace.each do |wip|
+  %tr
+    %th wip
+    %th task
+    %th state
+  - WORKSPACE.each do |wip|
     %tr
       %td
         %a{:href => wip.id}
-          = wip.uri
-      %td= state wip
+          = wip.id
+      %td= wip.task
+      %td
+        - if wip.running?
+          running
+        - elsif wip.snafu?
+          snafu
+        - elsif wip.reject?
+          reject
+        - elsif wip.done?
+          complete
+        - else
+          idle
