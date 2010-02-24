@@ -2,7 +2,7 @@ require 'rake/gempackagetask'
 
 spec = Gem::Specification.new do |spec|
   spec.name = 'daitss-workspace'
-  spec.version = '0.0.0'
+  spec.version = Semver.format ""
   spec.summary = 'DAITSS workspace & workspace package'
   spec.email = 'flazzarino@gmail.com'
   spec.authors = ['Francesco Lazzarino']
