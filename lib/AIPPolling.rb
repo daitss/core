@@ -13,7 +13,7 @@ class AIPPolling
       puts aip
       puts aip.xml
       aipInPremis = AIPInPremis.new
-      aipInPremis.process XML::Document.file(aip.xml)
+      aipInPremis.process XML::Document.string(aip.xml)
     end
   end
 end
