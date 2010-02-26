@@ -5,7 +5,8 @@ class SevereElement
   property :name, String  # the name of the severe element
   property :class, Discriminator
   
-  belongs_to :datafile, :through => Resource
+  has n, :datafile_severe_element, :constraint=>:destroy
+  has 1..n, :datafile, :through => :datafile_severe_element, :constraint=>:destroy
 end
 
 class Inhibitor < SevereElement
@@ -17,12 +18,12 @@ class Inhibitor < SevereElement
     attribute_set(:target, premis.find_first("premis:inhibitorTarget", NAMESPACES).content)    
     node = premis.find_first("premis:inhibitorKey", NAMESPACES)
     attribute_set(:key, node.content) unless node.nil?
-  end
+  end 
 end
 
 class Anomaly < SevereElement
   def fromPremis(premis)
-      attribute_set(:name, premis.content)
+    attribute_set(:name, premis.content)
   end
 end
 

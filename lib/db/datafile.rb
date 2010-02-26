@@ -10,15 +10,21 @@ class Datafile < Pobject
     # map from package_path + file_title + file_ext
   property :creator_prog, String, :length => (0..255)
 
-  has 1..n, :representations, :through => Resource
-  has 0..n, :bitstreams # a datafile may contain 0-n bitstream(s)
-  has 0..n, :severe_element, :through => Resource # a datafile may contain 0-n severe_elements
-  has 0..n, :object_format # a datafile may have 0-n file_formats
-  has 0..n, :documents
-  has 0..n, :texts
-  has 0..n, :audios
-  has 0..n, :images
-  has 0..n, :message_digest #, :constraint => :destroy! #:foreign_key => [:dfid, :code] 
+  has n, :datafile_representation, :constraint=>:destroy
+  has 1..n, :representations, :through => :datafile_representation, :constraint=>:destroy
+  has 0..n, :bitstreams, :constraint=>:destroy # a datafile may contain 0-n bitstream(s)
+  has n, :datafile_severe_element, :constraint=>:destroy
+  has 0..n, :severe_element, :through => :datafile_severe_element, :constraint=>:destroy # a datafile may contain 0-n severe_elements
+  
+  has 0..n, :documents, :constraint => :destroy 
+  has 0..n, :texts, :constraint => :destroy 
+  has 0..n, :audios, :constraint => :destroy 
+  has 0..n, :images, :constraint => :destroy 
+  has 0..n, :message_digest, :constraint => :destroy 
+  
+  has n, :object_format, :constraint=>:destroy # a datafile may have 0-n file_formats
+  
+  before :destroy, :deleteChildren
   
   def fromPremis(premis, formats)
     attribute_set(:id, premis.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content)
@@ -36,28 +42,35 @@ class Datafile < Pobject
     
     # process format information
     processFormats(self, premis, formats)
-    
+        
     # process fixity information
     if premis.find_first("premis:objectCharacteristics/premis:fixity", NAMESPACES)
       messageDigest = MessageDigest.new
       messageDigest.fromPremis(premis)
       self.message_digest << messageDigest
     end
-    
+
     # process premis ObjectCharacteristicExtension 
     node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
     if (node)
       processObjectCharacteristicExtension(self, node)
       @object.bitstream_id = :null
     end
-      
-    # process inhibitor if there is any
+
+    #   # process inhibitor if there is any
     node = premis.find_first("premis:objectCharacteristics/premis:inhibitors", NAMESPACES)
     if (node)
       inhibitor = Inhibitor.new
       inhibitor.fromPremis(node)
-      self.severe_element << inhibitor
+      # use the existing inhibitor record in the database if we have seen this inhibitor before
+      existingInhibitor = Inhibitor.first(:name => inhibitor.name)
+      if existingInhibitor
+        self.severe_element << existingInhibitor
+      else
+        self.severe_element << inhibitor
+      end
     end
+    
   end
   
   # derive the datafile origin by its association to representations r0, rc
@@ -68,6 +81,21 @@ class Datafile < Pobject
     else
       attribute_set(:origin, :depositor)
     end
+  end
+  
+  # delete this datafile record and all its children from the database
+  def deleteChildren
+    puts "delete datafiles #{self.inspect}"
+    # delete all events associated with this datafile
+    dfevents = Event.all(:relatedObjectId => @id)
+    dfevents.each do |e|
+      # delete all relationships associated with this event
+      rels = Relationship.all(:event_id => e.id)
+      rels.each {|rel| rel.destroy!}
+      puts e.inspect
+      e.destroy!
+    end
+    
   end
   
 end

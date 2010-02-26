@@ -26,9 +26,11 @@ class Text
   property :lineOrientation, Enum[:vertical, :horizontal]
     # The orientation of the lines on the page
   
-  belongs_to :datafile, :index => true  # Text may be associated with a Datafile, 
+  property :datafile_id, String, :length => 100
+  property :bitstream_id, String, :length => 100
+  # belongs_to :datafile, :index => true  # Text may be associated with a Datafile, 
     # null if the text is associated with a bitstream
-  belongs_to :bitstream, :index => true  # Text may be associated with a bitstream, 
+  # belongs_to :bitstream, :index => true  # Text may be associated with a bitstream, 
     # null if the text is associated with a datafile
     
   def fromPremis premis

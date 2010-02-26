@@ -10,8 +10,9 @@ class Intentity
   
   # belongs_to :project
   # has 0..n, :intentity_events
-  has 1..n, :representations
+  has 1..n, :representations, :constraint=>:destroy
   
+  before :destroy, :deleteChildren
   def fromPremis premis
     entity = premis.find_first('//p2:object[p2:objectCategory="intellectual entity"]', NAMESPACES)
     puts entity
@@ -28,6 +29,20 @@ class Intentity
     
     # extract and set the rest of int entity metadata
     
+  end
+  
+  # delete this datafile record and all its children from the database
+  def deleteChildren
+    puts "DELETE #{self.inspect}"
+    # delete all events associated with this int entity
+    dfevents = Event.all(:relatedObjectId => @id)
+    dfevents.each do |e|
+      # delete all relationships associated with this event
+      rels = Relationship.all(:event_id => e.id)
+      rels.each {|rel| rel.destroy!}
+      puts e.inspect
+      e.destroy!
+    end
   end
   
   def processMods premis

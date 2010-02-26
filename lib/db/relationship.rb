@@ -16,7 +16,7 @@ class Relationship
   property :object1, String, :key => true, :length => 100
   property :type, Enum[:migrated_to, :normalized_to, :include, :unknown], :default => :unknown
   property :object2, String, :index => true, :length => 100
-
+  property :event_id, String, :length => 100
   belongs_to :event
  
   def fromPremis(toObj, event_type, premis)

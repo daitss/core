@@ -24,6 +24,9 @@ Event_Types = {
     # an event must be associated with an agent
     # note: for deletion event, the agent would be reingest.
 
+    # datamapper return system error once this constraint is added in.  so we will delete relationship manually
+    # has 0..n, :relationships, :constraint=>:destroy
+     
     def setRelatedObject objid
       attribute_set(:relatedObjectId, objid)
     end 
@@ -59,13 +62,19 @@ Event_Types = {
         if detailsExtension.nil?
           attribute_set(:outcome_details, details.content.strip!) 
         else
-          puts detailsExtension
           @anomalies = Array.new
           anomalies = detailsExtension.find("//premis:anomaly", NAMESPACES)
           anomalies.each do |obj|
             anomaly = Anomaly.new
             anomaly.fromPremis(obj)
-            df.severe_element << anomaly
+            # use the existing anomaly record in the database if we have seen this anomaly before
+            existinganomaly = Anomaly.first(:name => anomaly.name)
+            puts "existing anomaly #{anomaly.inspect} #{existinganomaly.inspect}"
+            if existinganomaly
+              df.severe_element << existinganomaly
+            else
+              df.severe_element << anomaly
+            end
           end
         end
       end
