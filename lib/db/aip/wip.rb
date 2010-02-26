@@ -16,8 +16,10 @@ class Aip
 
     unless aip.save 
       delete_copy aip.copy_url
-      aip.errors.each { |e| puts e }
-      raise "could not save aip: #{aip.errors.size}"
+      mio = StringIO.new
+      mio.puts "could not save aip: #{aip.errors.size} errors"
+      aip.errors.each { |e| mio.puts e }
+      raise mio.string
     end
 
   end
@@ -35,8 +37,10 @@ class Aip
       delete_copy old_url
     else
       delete_copy aip.copy_url
-      aip.errors.each { |e| puts e }
-      raise "could not save aip: #{aip.errors.size}"
+      mio = StringIO.new
+      mio.puts "could not save aip: #{aip.errors.size} errors"
+      aip.errors.each { |e| mio.puts e }
+      raise mio.string
     end
 
   end
@@ -87,7 +91,12 @@ class Aip
         req.content_length = size
         req['content-md5'] = md5
         req.body_stream = open(tarball_file)
-        res = Net::HTTP.start(u.host, u.port) { |http| http.request(req) }
+
+        res = Net::HTTP.start(u.host, u.port) do |http| 
+          http.read_timeout = 60 * 10
+          http.request(req)
+        end
+
         res.error! unless Net::HTTPCreated === res
 
         copy_spec = [url, size, md5, sha1]
