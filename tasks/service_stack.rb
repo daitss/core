@@ -108,7 +108,7 @@ namespace :services do
   end
 
   desc "run the service stack"
-  task :run do
+  task :run => [:fetch] do
     stack = service_stack # RJB: this is needed here because RJB doesnt play nice yet
 
     # make the silo sandbox
