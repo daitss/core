@@ -1,46 +1,47 @@
 #!/usr/bin/env ruby
 
-$:.unshift '/Users/franco/Code/d2aip/lib'
-
-require 'uuid'
+require 'fileutils'
+require 'workspace'
 require 'wip/create'
 require 'template/premis'
-require 'config'
+require 'uuid'
 
-CONFIG.load 'spec/config/teststack.yml'
+if __FILE__ == $0
 
-unless ENV['WORKSPACE'] and File.directory?(ENV['WORKSPACE'])
-  puts "WORKSPACE must be set to a directory"
-  exit 1
-end
+  begin
+  sip_path = ARGV.shift or raise "sip required"
+  sip = Sip.new sip_path
 
-WORKSPACE = ENV['WORKSPACE']
+  raise 'WORKSPACE must be set' unless ENV['WORKSPACE']
+  raise 'WORKSPACE must be a directory' unless File.directory? ENV['WORKSPACE']
+  workspace = Workspace.new ENV['WORKSPACE']
 
-if ARGV.empty?
-  puts "sip is required"
-  exit 2
-end
+  id = UUID.generate :compact
+  stage_dir = File.join workspace.path, '.tmp'
+  FileUtils.mkdir_p stage_dir
+  path = File.join stage_dir, id
+  uri = "info:fcla/#{id}"
+  wip = Wip::make_from_sip path, uri, sip
 
-sip = Sip.new ARGV.shift
-
-begin
-  id = UUID.new.generate
-  path = File.join WORKSPACE, id
-  wip = Wip.make_from_sip path, URI.join(CONFIG['uri-prefix'], id).to_s, sip
-
-  wip['submit-event'] = event :id => URI.join(wip.uri, 'event', 'submit').to_s, 
+  wip['submit-event'] = event(:id => "#{wip.uri}/event/submit",
                               :type => 'submit', 
                               :outcome => 'success', 
                               :linking_objects => [ wip.uri ],
-                              :linking_agents => [ 'info:fcla/daitss/reference-submit-client' ]
+                              :linking_agents => [ 'info:fcla/daitss/reference-submit-client' ])
 
-  wip['submit-agent'] = agent :id => 'info:fcla/daitss/reference-submit-client',
+  wip['submit-agent'] = agent(:id => 'info:fcla/daitss/reference-submit-client',
                               :name => 'reference implementation submit client', 
-                              :type => 'software'
+                              :type => 'software')
 
-  puts "#{wip.uri} successfully submitted"
-rescue => e
-  puts e.message
-  puts e.backtrace
-  exit 3
+  wip.tags['task'] = 'ingest'
+
+  new_path = File.join workspace.path, id
+  FileUtils::mv wip.path, new_path
+  puts "#{id} submitted"
+
+  rescue => e
+    puts e.message
+    exit 1
+  end
+
 end
