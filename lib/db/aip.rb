@@ -6,6 +6,7 @@ require 'libxml'
 require 'schematron'
 require 'uri'
 require 'jxml/validator'
+require 'net/http'
 
 include LibXML
 
