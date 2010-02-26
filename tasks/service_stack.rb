@@ -3,8 +3,9 @@ require 'rack'
 VAR_DIR = File.join File.dirname(__FILE__), '..', 'var'
 SERVICES_DIR = File.join VAR_DIR, 'services'
 SILO_DIR = File.join VAR_DIR, 'silo'
-DB_FILE = File.join VAR_DIR, 'database.sqlite3'
-DB_URL = "sqlite3://#{DB_FILE}"
+#DB_FILE = File.join VAR_DIR, 'database.sqlite3'
+#DB_URL = "mysql://#{DB_FILE}"
+DB_URL = "mysql://root@localhost/aip"
 
 REPOS = {
   'describe' => 'git://github.com/daitss/describe.git',
@@ -16,11 +17,11 @@ REPOS = {
 
 def service_stack
 
-  unless %x{ffmpeg -version 2>&1}.lines.first =~ /FFmpeg version (CVS|[.\d]+), /
+  unless %x{ffmpeg -version 2>&1}.lines.first =~ /FFmpeg version /
     raise "ffmpeg not found"
   end
 
-  unless %x{gs -version}.lines.first =~ /GPL Ghostscript [\d.]+/
+  unless %x{gs -version}.lines.first =~ /Ghostscript [\d.]+/
     raise "ghostscript not found"
   end
 
@@ -117,7 +118,7 @@ namespace :services do
 
     # make the database sandbox
     require 'db/aip' # RJB: same rjb issue
-    FileUtils::rm_rf DB_FILE
+    #FileUtils::rm_rf DB_FILE
     DataMapper.setup :default, DB_URL
     DataMapper.auto_migrate!
 
