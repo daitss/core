@@ -15,7 +15,6 @@ class Wip
     raise Reject, rr unless rr.empty?
     metadata['validate-event'] = validate_event doc
     metadata['validate-agent'] = validate_agent doc
-    tags['validate'] = Time.now.xmlschema
   end
 
   private
@@ -37,14 +36,17 @@ class Wip
   end
 
   def reject_reasons doc
-    xpath = "//P:event[P:eventOutcomeInformation/P:eventOutcome = 'failure' ]"
-
-    doc.find(xpath, NS_PREFIX).map do |e|
-      { :type => e.find_first('P:eventType', NS_PREFIX).content.strip,
-        :time => Time.parse(e.find_first('P:eventDateTime', NS_PREFIX).content.strip),
-        :message => e.find_first('P:eventOutcomeInformation/P:eventOutcome', NS_PREFIX).content.strip }
+    msg = StringIO.new
+    doc.find("//P:event", NS_PREFIX).map do |e|
+      if %w(failure missing).include? e.find_first("P:eventOutcomeInformation/P:eventOutcome", NS_PREFIX).content
+        msg.puts "type: #{e.find_first('P:eventType', NS_PREFIX).content.strip}"
+        msg.puts "time: #{Time.parse(e.find_first('P:eventDateTime', NS_PREFIX).content.strip).xmlschema 4}"
+        msg.puts "message: #{e.find_first('P:eventOutcomeInformation/P:eventOutcome', NS_PREFIX).content.strip}"
+        msg.puts
+      end
     end
 
+    msg.string
   end
 
   def validate_event doc
