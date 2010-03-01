@@ -6,7 +6,7 @@ Event_Types = {
   "withdraw" => :withdraw,
   "fixity Check" => :fixitycheck,
   "format description" => :describe,
-  "normalization" => :normalize, 
+  "normalize" => :normalize, 
   "migration" => :migrate }
 
   class Event
