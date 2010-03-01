@@ -7,8 +7,8 @@ require 'digest/md5'
 require 'fileutils'
 require 'pp'
 
-HTTP_USERNAME = "fda"
-HTTP_PASSWORD = "subm1t"
+HTTP_USERNAME = "operator"
+HTTP_PASSWORD = "operator"
 
 # option parsing
 
