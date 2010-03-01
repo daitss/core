@@ -1,14 +1,10 @@
 %html
   %head
+    %link{:rel => "stylesheet", :href => "/jquery/css/eggplant/jquery-ui-1.8rc2.custom.css", :type =>"text/css", :media =>"screen, projection"}
+    %script{:type => "text/javascript", :src => "/jquery/js/jquery-1.4.2.min.js"}
+    %script{:type => "text/javascript", :src => "/jquery/js/jquery-ui-1.8rc2.custom.min.js"}
     %link{:rel => "stylesheet", :href => "/stylesheet.css", :type =>"text/css", :media =>"screen, projection"}
-    -#%link{:rel => "stylesheet", :href => "/jquery/css/trontastic/jquery-ui-1.7.2.custom.css", :type =>"text/css", :media =>"screen, projection"}
-    -#%script{:type => "text/javascript", :src => "/jquery/js/jquery-1.3.2.min.js"}
-    -#%script{:type => "text/javascript", :src => "/jquery/js/jquery-ui-1.7.2.custom.min.js"}
 
-    %link{:rel => "stylesheet", :href => "/jquery/css/trontastic/jquery-ui-1.7.2.custom.css", :type =>"text/css", :media =>"screen, projection"}
-    -#%script{:type => "text/javascript", :src => "http://jqueryui.com/latest/jquery-1.4.2.js"}
-    %script{:type => "text/javascript", :src => "http://jquery-ui.googlecode.com/svn/tags/1.8rc1/jquery-1.4.1.js"}
-    %script{:type => "text/javascript", :src => "http://jquery-ui.googlecode.com/svn/tags/1.8rc1/ui/jquery-ui.js"}
     %title Workspace Monitor (new boss)
   %body
-    = yield
+    #content= yield
