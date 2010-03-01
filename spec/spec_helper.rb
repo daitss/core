@@ -3,6 +3,7 @@ require 'datamapper'
 require 'fileutils'
 require 'tempfile'
 require 'wip/create'
+require 'template/premis'
 
 UG = UUID.new
 
@@ -29,7 +30,7 @@ def submit workspace, sip_name
   sip = Sip.new sip_path
 
   wip_id = UG.generate :compact
-  File.mkdir_p File.join(workspace.path, '.tmp')
+  FileUtils.mkdir_p File.join(workspace.path, '.tmp')
   path = File.join workspace.path, '.tmp', wip_id
   uri = "#{URI_PREFIX}/#{wip_id}"
   wip = Wip::make_from_sip path, uri, sip

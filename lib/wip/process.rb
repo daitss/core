@@ -40,7 +40,9 @@ class Wip
 
       pid = fork do 
         Signal.trap "INT", "DEFAULT"
+        $stderr = StringIO.new
         yield self
+        done!
         exit
       end
 
@@ -55,7 +57,7 @@ class Wip
     while running?
       pid, starttime = process
       Process::kill "INT", pid.to_i
-      sleep 0.01 # overhead vs responsiveness: 1/100 of a second seems reasonable
+      sleep 0.1 # overhead vs responsiveness: 1/100 of a second seems reasonable
     end
 
     tags.delete 'process'
