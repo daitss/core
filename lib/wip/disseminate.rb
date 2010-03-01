@@ -47,7 +47,12 @@ class Wip
       raise "no drop path specified" unless tags.has_key? 'drop-path'
       aip = Aip.get! id
       url = URI.parse aip.copy_url.to_s
-      res = Net::HTTP.start(url.host, url.port) { |http| http.get url.path }
+
+      res = Net::HTTP.start(url.host, url.port) do |http|
+        http.read_timeout = Daitss::CONFIG['http-timeout']
+        http.get url.path 
+      end
+
       res.error! unless Net::HTTPSuccess === res
       open(tags['drop-path'], 'w') { |io| io.write res.body }
       sha1 = open(tags['drop-path']) { |io| Digest::SHA1.hexdigest io.read }

@@ -21,10 +21,10 @@ describe 'action planning a datafile' do
   end
 
   it "should raise an error is the the configuration is wrong" do
-    real_actionplan_url = CONFIG['actionplan-url']
-    CONFIG['actionplan-url'] = 'http://localhost:7000/statusecho/500'
+    real_actionplan_url = Daitss::CONFIG['actionplan-url']
+    Daitss::CONFIG['actionplan-url'] = 'http://localhost:7000/statusecho/500'
     lambda { subject.normalization }.should raise_error
-    CONFIG['actionplan-url'] = real_actionplan_url
+    Daitss::CONFIG['actionplan-url'] = real_actionplan_url
 
   end
 

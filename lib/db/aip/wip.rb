@@ -11,7 +11,7 @@ class Aip
     aip.id = wip.id
     aip.uri = wip.uri
     aip.xml = wip['aip-descriptor']
-    aip.copy_url, aip.copy_size, aip.copy_md5, aip.copy_sha1 = put_copy wip, "#{CONFIG['storage-url']}/#{wip.id}-0"
+    aip.copy_url, aip.copy_size, aip.copy_md5, aip.copy_sha1 = put_copy wip, "#{Daitss::CONFIG['storage-url']}/#{wip.id}-0"
     aip.needs_work = true
 
     unless aip.save 
@@ -30,7 +30,7 @@ class Aip
     old_url = aip.copy_url.to_s
     old_suffix = old_url[/-(\d+)$/, 1]
     new_suffix = (old_suffix.to_i + 1).to_s
-    aip.copy_url, aip.copy_size, aip.copy_md5, aip.copy_sha1 = put_copy wip, "#{CONFIG['storage-url']}/#{wip.id}-#{new_suffix}"
+    aip.copy_url, aip.copy_size, aip.copy_md5, aip.copy_sha1 = put_copy wip, "#{Daitss::CONFIG['storage-url']}/#{wip.id}-#{new_suffix}"
     aip.needs_work = true
 
     if aip.save 
@@ -93,7 +93,7 @@ class Aip
         req.body_stream = open(tarball_file)
 
         res = Net::HTTP.start(u.host, u.port) do |http| 
-          http.read_timeout = 60 * 10
+          http.read_timeout = Daitss::CONFIG['http-timeout']
           http.request(req)
         end
 

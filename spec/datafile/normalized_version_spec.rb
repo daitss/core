@@ -14,7 +14,7 @@ describe DataFile do
 
     it "should return the datafile that was generated via normalization" do
       pdf = subject.datafiles.find { |df| df['sip-path'] == 'mimi.pdf' }
-      tif = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.tif'}
+      tif = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.tif' }
       pdf.normalized_version.should be_nil
       pdf.normalized_version = tif
       pdf.normalized_version.should == tif
