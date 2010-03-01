@@ -40,7 +40,9 @@ class Wip
             new_df.open('w') { |io| io.write data }
             new_df['extension'] = extension
             new_df['aip-path'] = "#{df.id}-migration#{extension}"
-            new_df.describe! :derivation_source => df.uri, :derivation_method => :migrate, :derivation_agent => transformation_url
+            new_df.describe!(:derivation_source => df.uri,
+                             :derivation_method => :migrate,
+                             :derivation_agent => transformation_url)
             new_df
           rescue
             remove_datafile new_df
@@ -71,7 +73,9 @@ class Wip
             norm_df['aip-path'] = "#{df.id}-normalization#{extension}"
 
             step! "describe-#{norm_df.id}" do
-              norm_df.describe! :derivation_source => df.uri, :derivation_method => :normalize, :derivation_agent => transformation_url
+              norm_df.describe!(:derivation_source => df.uri, 
+                                :derivation_method => :normalize,
+                                :derivation_agent => transformation_url)
             end
 
             norm_df

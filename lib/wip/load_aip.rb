@@ -24,7 +24,12 @@ class Wip
   def load_copy
     url = ::URI.parse metadata['copy-url']
     req = Net::HTTP::Get.new url.path
-    res = Net::HTTP.start(url.host, url.port) { |http| http.request(req) }
+
+    res = Net::HTTP.start(url.host, url.port) do |http| 
+      http.read_timeout = Daitss::CONFIG['http-timeout']
+      http.request(req)
+    end
+
     res.error! unless Net::HTTPSuccess === res
 
     size = res.body.size
@@ -142,7 +147,7 @@ class Wip
                 [P:linkingObjectRole = 'outcome']]
       }
       es_xform = doc.find(xpath, NS_PREFIX)
-      
+
       es = es_desc.to_a + es_xform.to_a
       df['old-digiprov-events'] = es.map { |e| e.to_s }.join "\n"
 

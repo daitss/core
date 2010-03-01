@@ -20,11 +20,11 @@ class Wip
   private
 
   def ask_validation
-    url = URI.parse "#{CONFIG['validation-url']}?location=#{CGI::escape "file:#{File.expand_path path}" }"
+    url = URI.parse "#{Daitss::CONFIG['validation-url']}?location=#{CGI::escape "file:#{File.expand_path path}" }"
     req = Net::HTTP::Get.new url.request_uri
 
     res = Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = 10 * 60
+      http.read_timeout = Daitss::CONFIG['http-timeout']
       http.request(req)
     end
 

@@ -1,21 +1,28 @@
 require 'net/http'
-require 'config'
+require 'daitss/config'
 require 'datafile'
 
 class DataFile
 
   def migration
-    ask_actionplan "#{CONFIG['actionplan-url']}/migration"
+    ask_actionplan "#{Daitss::CONFIG['actionplan-url']}/migration"
   end
 
   def normalization
-    ask_actionplan "#{CONFIG['actionplan-url']}/normalization"
+    ask_actionplan "#{Daitss::CONFIG['actionplan-url']}/normalization"
   end
 
   private
 
   def ask_actionplan url
-    res = Net::HTTP.post_form URI.parse(url), 'description' => metadata['describe-file-object']
+    url = URI.parse(url)
+    req = Net::HTTP::Post.new url.path
+    req.set_form_data 'description' => metadata['describe-file-object'] 
+
+    res = Net::HTTP.start(url.host, url.port) do |http|
+      http.read_timeout = Daitss::CONFIG['http-read-timeout']
+      http.request req
+    end
 
     case res
     when Net::HTTPRedirection then res['location']

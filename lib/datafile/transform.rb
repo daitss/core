@@ -6,7 +6,15 @@ require 'cgi'
 class DataFile
 
   def transform url
-    res = Net::HTTP.get_response URI.parse("#{url}?location=#{CGI::escape "file:#{File.expand_path datapath}"}")
+    url = URI.parse url
+    req = Net::HTTP::Get.new url.path
+    req.form_data = { 'location' => "file:#{File.expand_path datapath}" }
+
+    res = Net::HTTP.start(url.host, url.port) do |http|
+      http.read_timeout = Daitss::CONFIG['http-read-timeout']
+      http.request req
+    end
+
 
     doc = case res
           when Net::HTTPSuccess then XML::Document.string(res.body)
@@ -15,11 +23,18 @@ class DataFile
 
     links = doc.find('/links/link').map do |node|
       link = node.content
-      URI.join url, link
+      url + link
     end
 
+    raise "no transformations occurred" if links.empty?
+
     links.map do |link|
-      res = Net::HTTP.get_response link
+      req = Net::HTTP::Get.new link.path
+
+      res = Net::HTTP.start(url.host, url.port) do |http|
+        http.read_timeout = Daitss::CONFIG['http-read-timeout']
+        http.request req
+      end
 
       case res
       when Net::HTTPSuccess then [res.body, File::extname(link.path)] 

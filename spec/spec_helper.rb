@@ -10,8 +10,8 @@ Spec::Runner.configure do |config|
     $sandbox = new_sandbox
     FileUtils::mkdir $sandbox
 
-    CONFIG["database-uri"] = 'sqlite3::memory:'
-    DataMapper.setup(:default, CONFIG["database-uri"])
+    Daitss::CONFIG["database-uri"] = 'sqlite3::memory:'
+    DataMapper.setup(:default, Daitss::CONFIG["database-uri"])
     DataMapper.auto_migrate!
   end
 
