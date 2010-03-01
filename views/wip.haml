@@ -1,68 +1,202 @@
-%h1
+:javascript
+  wip = #{@wip.to_json}
+
+  // update the page with json wip object
+  function update() {
+    
+    if ( wip.done ) {
+      $('#commands button#start').button('disable')
+      $('#commands button#stop').button('disable')
+    } else {
+
+      if ( wip.running == false ) {
+        $('#commands button#start').button('enable')
+        $('#commands button#stop').button('disable')
+      } else {
+        $('#commands button#stop').button('enable')
+        $('#commands button#start').button('disable')
+      }
+
+    }
+
+    if (  wip.running || wip.done ) {
+      $('#commands button#stash').button('disable')
+      $('#commands input#stash-path').attr('disabled', true)
+    } else {
+      $('#commands button#stash').button('enable')
+      $('#commands input#stash-path').removeAttr('disabled')
+    }
+
+    if ( wip.pid ) {
+      $('#process-status-pid').text(wip.pid)
+      $('#process-status-pid-time').text(wip.pidTime)
+    } else {
+      $('#process-status-pid').text('inactive')
+      $('#process-status-pid-time').text('')
+    }
+
+    $('#task-status').text(wip.state)
+
+    if ( wip.snafu ) {
+
+      if ( !$('#snafu').is(':visible') ) {
+        $('#snafu').show('fast');
+        $('#commands button#unsnafu').button('enable')
+        $('#snafu pre').text(wip.snafu)
+      }
+
+    } else {
+
+      if ( $('#snafu').is(':visible') ) {
+        $('#commands button#unsnafu').button('disable')
+        $('#snafu').hide('fast');
+        $('#snafu pre').text(wip.snafu)
+      }
+    }
+
+    if ( wip.reject ) {
+      $('#reject pre').text(wip.reject)
+      $('#reject').show('fast');
+    } else {
+      $('#reject').hide('slow');
+    }
+
+  }
+
+  // when the doc is loaded setup the cool stuff
+  $(document).ready(function () {
+    $('#update-form').hide()
+    $('#commands button').button()
+
+    // set button events
+    $('#commands button#start').click(function () {
+      if ( ! $(this).hasClass('ui-state-disabled') ) {
+        $.post(wip.url, {task: 'start'}, function (data, textStatus) {
+          wip = data
+          update();
+        }, 'json')
+      }
+    })
+
+    $('#commands button#stop').click(function () {
+      if ( ! $(this).hasClass('ui-state-disabled') ) {
+        $.post(wip.url, {task: 'stop'}, function (data, textStatus) {
+          wip = data
+          update();
+        }, 'json')
+      }
+    })
+
+    $('#commands button#unsnafu').click(function () {
+      if ( ! $(this).hasClass('ui-state-disabled') ) {
+        $.post(wip.url, {task: 'unsnafu'}, function (data, textStatus) {
+          wip = data
+          update();
+        }, 'json')
+      }
+    })
+
+    $('#commands button#stash').click(function () {
+      if ( ! $(this).hasClass('ui-state-disabled') ) {
+        $.post(wip.url, {task: 'stash', path: $('#stash-path').attr('value') }, function (data, textStatus) {
+
+          // notify the stash
+          d = $(document.createElement("div"))
+          d.append('<p>stashed at <code>' + $('#stash-path').attr('value') + '/' + wip.url + '</code></p>')
+          d.append('return to <a href="/">workspace<a/>')
+          d.dialog({
+            title: 'stashed',
+            bgiframe: true,
+            draggable: false,
+            modal: true,
+            width: 500,
+            closeOnEscape: true,
+            close: function() { window.location = '/' },
+          })
+
+        }, 'json')
+      }
+    })
+
+    $('#stash-path').addClass('ui-widget')
+
+    if ( ! wip.snafu ) { 
+      $('#snafu').hide()
+      $('#commands button#unsnafu').button('disable')
+    }
+    if ( ! wip.reject ) { $('#reject').hide() }
+
+    // update from the json
+    update();
+    $('#commands').show()
+
+    // update periodically
+    setInterval(function () {
+      $.getJSON(wip.url, null, function (data, textStatus) {
+        wip = data
+        update();
+      })
+    }, 3000);
+
+  })
+
+%h1.ui-widget-header.ui-corner-all
   %a{:href => '../' } ws
   = "::"
   = @wip.id
 
-%hr/ 
+#commands.ui-widget-content.ui-corner-all{:style => 'display: none'}
+  %button#start start
+  %button#stop stop
+  &nbsp;
+  %button#unsnafu unsnafu
+  &nbsp;
+  %button#stash stash
+  %input#stash-path{:value => '/tmp'}
 
 #process
-  %h2
+  %h2.ui-widget-content.ui-corner-all
     process:
-    %span#process-status
-      - if @wip.running?
-        = @wip.pid
-        = "%.1f" % (Time.now - @wip.pid_time)
-      - else
-        inactive
+    - if @wip.running?
+      %span#process-status-pid= @wip.pid
+      %span#process-status-pid-time= @wip.pid_time.to_f * 1000
+    - else
+      %span#process-status-pid inactive
+      %span#process-status-pid-time &nbsp;
 
-  %h2
+  %h2.ui-widget-content.ui-corner-all
     = @wip.task
     = ":"
     %span#task-status= @wip.state
 
-  %hr/
-
-#update-forms
+#update-form
   %form{:action => @wip.id, :method => 'post'}
 
     %h3 process
-    %input#state-start{:type => 'radio', :name => 'process', :value => 'start'}
-    %label{:for => 'state-start'} start
+    %input#task-start{:type => 'radio', :name => 'task', :value => 'start'}
+    %label{:for => 'task-start'} start
+
     %br/
-    %input#state-stop{:type => 'radio', :name => 'process', :value => 'stop'}
-    %label{:for => 'state-stop'} stop
+
+    %input#task-stop{:type => 'radio', :name => 'task', :value => 'stop'}
+    %label{:for => 'task-stop'} stop
+
     %br/
-    %input{:type => 'submit', :value => "Update job"}
 
-  %hr/
+    %input#task-unsnafu{:type => 'radio', :name => 'task', :value => 'unsnafu'}
+    %label{:for => 'task-unsnafu'} unsnafu
 
-  %form{:action => @wip.id, :method => 'post'}
-    %h3 snafu
-    %input#state-snafu{:type => 'radio', :name => 'snafu', :value => 'true'}
-    %label{:for => 'state-snafu'} snafu
     %br/
-    %input#state-unsnafu{:type => 'radio', :name => 'snafu', :value => 'false'}
-    %label{:for => 'state-unsnafu'} unsnafu
-    %br/
-    %input{:type => 'submit', :value => "Update snafu"}
 
-  %hr/
-
-  %form{:action => "#{@wip.id}/_stash", :method => 'post'}
-
-    %h3 stash (not implemented)
-    %label{:for => 'stash-path'} path
+    %input#task-stash{:type => 'radio', :name => 'task', :value => 'stash'}
+    %label{:for => 'task-stash'} stash
     %input#stash-path{:type => 'text', :name => 'path', :value => '/tmp'}
 
+
     %br/
-    %input{:type => 'submit', :value => "Stash wip"}
 
-  %hr/
+    %input{:type => 'submit', :value => "Update job"}
 
-#commands{:style => 'display: none'}
-  %button#start start
-  %button#stop stop
-  %button#unsnafu unsnafu
   %hr/
 
 #snafu
@@ -75,40 +209,40 @@
   %pre= @wip.reject
   %hr/
 
-#steps
+#steps.ui-widget-content.ui-corner-all
   %h2
     total duration:
     = duration_for :total
     s
 
-  %table
-    %tr
-      %th validate AIP
-      %td= duration_for :validate
-    %tr
-      %th
+  %ul
+    %li
+      %span validate AIP
+      %span= duration_for :validate
+    %li
+      %span
         describe 
         = file_count_for :describe
         datafiles
-      %td= duration_for :describe
-    %tr
-      %th 
+      %span= duration_for :describe
+    %li
+      %span 
         migrate
         = file_count_for :migrate
         datafiles
-      %td= duration_for :migrate
-    %tr
-      %th
+      %span= duration_for :migrate
+    %li
+      %span
         normalize 
         = file_count_for :normalize
         datafiles
-      %td= duration_for :normalize
-    %tr
-      %th build representations
-      %td= duration_for :representation
-    %tr
-      %th make AIP descriptor
-      %td= duration_for :descriptor
-    %tr
-      %th save AIP
-      %td= duration_for :aip
+      %span= duration_for :normalize
+    %li
+      %span build representations
+      %span= duration_for :representation
+    %li
+      %span make AIP descriptor
+      %span= duration_for :descriptor
+    %li
+      %span save AIP
+      %span= duration_for :aip
