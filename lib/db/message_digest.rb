@@ -9,6 +9,7 @@ class MessageDigest
   # property :dfid, String, :length => 16, :key => true # :unique_index => :u1 
   property :code, Enum[:md5, :sha1, :crc32] #, :key=>true, :unique_index => :u1 
   property :value,  String, :required => true, :length => 255
+  property :origin, Enum[:unknown, :archive, :depositor], :default => :unknown
   
   belongs_to :datafile #, :key => true#, :unique_index => :u1  the associated Datafile
 
