@@ -42,4 +42,8 @@ class Workspace
     FileUtils::mv wip_path, path
   end
 
+  def to_json *a
+    map.to_json *a
+  end
+
 end
