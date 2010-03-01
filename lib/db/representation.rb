@@ -1,5 +1,5 @@
-REP_CURRENT = "representation-current"
-REP_0 = "representation-0"
+REP_CURRENT = "representation/current"
+REP_0 = "representation/original"
 
 class Representation
   include DataMapper::Resource  
