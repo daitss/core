@@ -42,7 +42,21 @@ class Wip
 
     sip.files.each do |f|
       df = wip.new_datafile
-      open(File.join(sip.path, f)) { |i| df.open("w") { |o| o.write i.read } }
+
+      open(File.join(sip.path, f)) do |i| 
+        buffer_size = 1024 * 1024 * 10
+        buffer = ""
+
+        df.open("w") do |o|
+
+          while i.read(buffer_size, buffer)
+            o.write buffer
+          end
+
+        end
+
+      end
+
       df['sip-path'] = f
       owner_id = sip.owner_id f
       df['owner-id'] = owner_id if owner_id
