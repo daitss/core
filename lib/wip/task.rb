@@ -28,8 +28,10 @@ class Wip
 
         begin
           wip.ingest!
+          wip.done!
         rescue Reject => e
           wip.reject = e
+          wip.done!
         rescue => e
           wip.snafu = e
         end

@@ -30,23 +30,17 @@ class Wip
 
   end
 
+  def done!
+    tags['done'] = Time.now.xmlschema 4
+  end
+
   def start
 
     unless running?
 
       pid = fork do 
-        #require 'datamapper'
-        #require 'db/aip'
-        #DataMapper.setup :default, CONFIG['database-url']
-
         Signal.trap "INT", "DEFAULT"
-        #$stderr = open('err', 'w')
-        #$stdout = open('out', 'w')
-
-        puts 'starting yield'
         yield self
-        puts 'finished yield'
-        tags['done'] = Time.now.xmlschema
         exit
       end
 
@@ -61,7 +55,7 @@ class Wip
     while running?
       pid, starttime = process
       Process::kill "INT", pid.to_i
-      sleep 0.1 # overhead vs responsiveness: 1/10 of a second seems reasonable
+      sleep 0.01 # overhead vs responsiveness: 1/100 of a second seems reasonable
     end
 
     tags.delete 'process'
