@@ -1,15 +1,22 @@
 require 'json'
 require 'wip'
+require 'wip/state'
+require 'wip/process'
 
 class Wip
 
   def to_json *a
 
     hash = {
-      :running => @wip.running?,
-      :done => (@wip.done? ? true : false),
-      :snafu => (@wip.snafu? ? false : @wip.snafu),
-      :reject => (@wip.reject? ? false : @wip.reject),
+      :url => id,
+      :running => (running? ? true : false),
+      :done => (done? ? true : false),
+      :snafu => (snafu? ? snafu : nil),
+      :reject => (reject? ? reject : nil),
+      :state => state,
+      :task => task,
+      :pid => pid,
+      :pidTime => pid_time.to_f * 1000
     }
 
     hash.to_json *a
