@@ -53,15 +53,27 @@ class PackageSubmitter
 
     int_entity_metadata = extract_int_entity wip, package_name
 
+
+    wip['submit-agent'] = agent :id => 'info:fcla/daitss/submission_service',
+                                :name => 'daitss submission service', 
+                                :type => 'Software'
+
+    linking_agents = [ 'info:fcla/daitss/submission_service' ]
+
+
+    if int_entity_metadata["account"]
+      wip['submit-agent-account'] = agent :id => "info:fcla/daitss/accounts/#{int_entity_metadata["account"]}",
+                                          :name => "DAITSS Account: #{int_entity_metadata["account"]}", 
+                                          :type => 'Affiliate'
+
+      linking_agents.push "info:fcla/daitss/accounts/#{int_entity_metadata["account"]}"
+    end
+
     wip['submit-event'] = event :id => URI.join(wip.uri, 'event', 'submit').to_s, 
       :type => 'submit', 
       :outcome => 'success', 
       :linking_objects => [ wip.uri ],
-      :linking_agents => [ 'info:fcla/daitss/submission_service' ]
-
-    wip['submit-agent'] = agent :id => 'info:fcla/daitss/submission_service',
-      :name => 'daitss submission service', 
-      :type => 'software'
+      :linking_agents => linking_agents
 
     wip.metadata['dmd-title'] = int_entity_metadata["title"] if int_entity_metadata["title"]
     wip.metadata['dmd-issue'] = int_entity_metadata["issue"] if int_entity_metadata["issue"]

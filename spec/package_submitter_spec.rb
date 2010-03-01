@@ -149,4 +149,28 @@ describe PackageSubmitter do
     wip.metadata["dmd-issue"].should == nil
     wip.metadata["dmd-volume"].should == nil
   end
+
+  it "if there is an account specified in DMD metadata, then submission should create an agent for it" do
+    ieid = PackageSubmitter.submit_sip :zip, ZIP_DMD_METADATA, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
+
+    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s)
+
+
+    event_doc = LibXML::XML::Document.string wip.metadata["submit-event"]
+    agent_doc = LibXML::XML::Document.string wip.metadata["submit-agent-account"]
+
+    agent_identifier = agent_doc.find_first("//xmlns:agentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
+
+    agent_identifier.should == "info:fcla/daitss/accounts/ACT"
+
+    # get an array with a string representation of the linkingAgentIdentifier nodes
+    event_linking_agent_strings = event_doc.find("//xmlns:linkingAgentIdentifier", "xmlns" => "info:lc/xmlns/premis-v2").map {|node| node.children.to_s}
+
+    event_linking_agent_strings.length.should == 2
+
+    # check array for expected linkingAgentStrings: 1 for service, 1 for account
+    (event_linking_agent_strings.include? "<linkingAgentIdentifierType>URI</linkingAgentIdentifierType><linkingAgentIdentifierValue>info:fcla/daitss/submission_service</linkingAgentIdentifierValue>").should == true
+    (event_linking_agent_strings.include? "<linkingAgentIdentifierType>URI</linkingAgentIdentifierType><linkingAgentIdentifierValue>info:fcla/daitss/accounts/ACT</linkingAgentIdentifierValue>").should == true
+
+  end
 end
