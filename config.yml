@@ -1,7 +1,8 @@
 --- 
-uri-prefix: test:/
+uri-prefix: info:fcla/
+database-url: sqlite3:///Users/franco/Code/daitss/meta/var/database.sqlite3
+http-timeout: 600
 actionplan-url: http://localhost:7000/actionplan
 validation-url: http://localhost:7000/validation/results
 storage-url: http://localhost:7000/silo
 description-url: http://localhost:7000/description/describe
-database-url: mysql://root@localhost/aip
