@@ -1,8 +1,8 @@
 require "daitss/config"
 
 # configuration for the test stack
-TEST_STACK_CONFIG_FILE = "/Users/franco/Code/daitss/meta/config.yml"
-Daitss::CONFIG::load TEST_STACK_CONFIG_FILE
+raise "CONFIG environment variable is not set" unless ENV["CONFIG"]
+Daitss::CONFIG::load ENV["CONFIG"]
 STATUS_ECHO_URL = 'http://localhost:7000/statusecho'
 
 def override_service key, code
