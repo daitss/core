@@ -2,6 +2,7 @@ require 'package_submitter'
 require 'fileutils'
 require 'libxml'
 require 'package_tracker'
+require 'helper.rb'
 
 describe PackageSubmitter do
 
@@ -20,6 +21,10 @@ describe PackageSubmitter do
   before(:each) do
     FileUtils.mkdir_p "/tmp/d2ws"
     ENV["DAITSS_WORKSPACE"] = "/tmp/d2ws"
+
+    a = add_account
+    add_operator a
+    add_contact a, [], "foobar", "foobar"
 
     LibXML::XML.default_keep_blanks = false
   end
@@ -163,6 +168,7 @@ describe PackageSubmitter do
 
     agent_identifier.should == "info:fcla/daitss/accounts/ACT"
 
+    # TODO: clean this up so that it's more readable
     # get an array with a string representation of the linkingAgentIdentifier nodes
     event_linking_agent_strings = event_doc.find("//xmlns:linkingAgentIdentifier", "xmlns" => "info:lc/xmlns/premis-v2").map {|node| node.children.to_s}
 
