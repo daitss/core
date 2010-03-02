@@ -2,14 +2,14 @@
 class Intentity 
   include DataMapper::Resource
   property :id, String, :key => true, :length => 100
-  property :original_name, String
+  # daitss1 ieid
+  property :original_name, String # i.e. package_name
   property :entity_id, String
   property :volume, String
   property :issue, String
   property :title, Text
   
   # belongs_to :project
-  # has 0..n, :intentity_events
   has 1..n, :representations, :constraint=>:destroy
   
   before :destroy, :deleteChildren
