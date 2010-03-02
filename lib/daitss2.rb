@@ -22,11 +22,11 @@ require 'db/message_digest'
 require 'db/relationship'
 require 'db/representation'
 
-# require 'db/accounts'
-# require 'db/keys'
-# require 'db/operations_agents'
-# require 'db/operations_events'
-# require 'db/projects'
+require 'db/accounts'
+require 'db/keys'
+require 'db/operations_agents'
+require 'db/operations_events'
+require 'db/projects'
 
 # require all database classes.
 # pattern = File.expand_path File.join(File.dirname(__FILE__), 'db', '*.rb')
