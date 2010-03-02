@@ -1,8 +1,3 @@
-require "daitss/config"
-
-# configuration for the test stack
-raise "CONFIG environment variable is not set" unless ENV["CONFIG"]
-Daitss::CONFIG::load ENV["CONFIG"]
 STATUS_ECHO_URL = 'http://localhost:7000/statusecho'
 
 def override_service key, code

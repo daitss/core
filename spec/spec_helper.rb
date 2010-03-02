@@ -1,8 +1,14 @@
+require "db/aip"
+require 'datamapper'
+require 'daitss/config'
+
+raise 'CONFIG not specified' unless ENV['CONFIG']
+Daitss::CONFIG.load ENV['CONFIG']
+Daitss::CONFIG["database-uri"] = 'sqlite3::memory:'
+
 require "help/test_stack"
 require "help/test_package"
 require "help/sandbox"
-require "db/aip"
-require 'datamapper'
 
 Spec::Runner.configure do |config|
 
@@ -10,7 +16,6 @@ Spec::Runner.configure do |config|
     $sandbox = new_sandbox
     FileUtils::mkdir $sandbox
 
-    Daitss::CONFIG["database-uri"] = 'sqlite3::memory:'
     DataMapper.setup(:default, Daitss::CONFIG["database-uri"])
     DataMapper.auto_migrate!
   end
