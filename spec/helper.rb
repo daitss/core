@@ -28,6 +28,8 @@ def add_operator account, identifier = "operator", password = "operator"
 
   o.authentication_key = k
   o.save!
+
+  return o
 end
 
 
@@ -51,5 +53,7 @@ def add_contact account, permissions = [:disseminate, :withdraw, :peek, :submit]
 
   c.authentication_key = j
   c.save!
+
+  return c
 end
 
