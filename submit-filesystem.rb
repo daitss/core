@@ -7,10 +7,13 @@ require 'digest/md5'
 require 'fileutils'
 require 'pp'
 
-HTTP_USERNAME = "operator"
-HTTP_PASSWORD = "operator"
+# a simple submission client
+# takes a specified package on a filesystem, zips it up, and "curls" it to the submission at the specified url as the specified
+#    operations agent.
+# displays curl output, which contains the IEID.
 
-# option parsing
+# dependencies:
+# curl, zip
 
 def get_options(args)
   config = OpenStruct.new("url" => nil, "package" => nil, "package_name" => nil)  
@@ -24,6 +27,8 @@ def get_options(args)
       opt.on("--url URL", String, "URL of service to submit package to, required") { |key|   config.url = key }      
       opt.on("--package PATH", String, "Path to SIP to submit, required") { |path|  config.package = path }
       opt.on("--name PACKAGE_NAME", String, "Package name of package being submitted, required") { |name|  config.package_name = name }
+      opt.on("--username USERNAME", String, "Operations Agent Username, required") { |username|  config.username = username }
+      opt.on("--password PASSWORD", String, "Operations Agent Password, required") { |password|  config.password = password }
     end
 
     opts.parse!(args)
@@ -31,6 +36,8 @@ def get_options(args)
     raise StandardError, "URL not specified" unless config.url
     raise StandardError, "Package not specified" unless config.package
     raise StandardError, "Package name not specified" unless config.package_name
+    raise StandardError, "Username not specified" unless config.username
+    raise StandardError, "Password not specified" unless config.password
 
     url_obj = URI.parse(config.url)
 
@@ -71,8 +78,8 @@ end
 
 # calls curl to submit package to service
 
-def submit_to_svc url, path_to_zip, package_name, md5
-  output = `curl -X POST -H "CONTENT_MD5:#{md5}" -H "X_PACKAGE_NAME:#{package_name}" -u #{HTTP_USERNAME}:#{HTTP_PASSWORD} -H "X_ARCHIVE_TYPE:zip" -T "#{path_to_zip}" -v #{url} 2>&1`
+def submit_to_svc url, path_to_zip, package_name, md5, username, password
+  output = `curl -X POST -H "CONTENT_MD5:#{md5}" -H "X_PACKAGE_NAME:#{package_name}" -u #{username}:#{password} -H "X_ARCHIVE_TYPE:zip" -T "#{path_to_zip}" -v #{url} 2>&1`
 
   return output
 end
@@ -82,7 +89,7 @@ end
 config = get_options(ARGV) or exit
 zipfile = zip_package config.package
 md5_of_zipfile = md5 zipfile
-curl_output = submit_to_svc config.url, zipfile, config.package_name, md5_of_zipfile
+curl_output = submit_to_svc config.url, zipfile, config.package_name, md5_of_zipfile, config.username, config.password
 FileUtils.rm_rf zipfile
 
 puts curl_output
