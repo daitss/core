@@ -1,11 +1,13 @@
 require 'rack'
+require 'daitss/config'
+
+# configuration
+raise "CONFIG not set" unless ENV['CONFIG']
+Daitss::CONFIG.load ENV['CONFIG']
 
 VAR_DIR = File.join File.dirname(__FILE__), '..', 'var'
 SERVICES_DIR = File.join VAR_DIR, 'services'
 SILO_DIR = File.join VAR_DIR, 'silo'
-#DB_FILE = File.join VAR_DIR, 'database.sqlite3'
-#DB_URL = "mysql://#{DB_FILE}"
-DB_URL = "mysql://root@localhost/aip"
 
 REPOS = {
   'describe' => 'git://github.com/daitss/describe.git',
@@ -15,15 +17,24 @@ REPOS = {
   'transform' => 'git://github.com/daitss/transform.git'
 }
 
-def service_stack
+def check_ghostscript
 
   unless %x{ffmpeg -version 2>&1}.lines.first =~ /FFmpeg version /
     raise "ffmpeg not found"
   end
 
+end
+
+def check_ffmpeg
+
   unless %x{gs -version}.lines.first =~ /Ghostscript [\d.]+/
     raise "ghostscript not found"
   end
+
+end
+
+def require_services
+
 
   %w(describe validate actionplan transform storage).each do |service|
     service_dir = File.join SERVICES_DIR, service
@@ -40,6 +51,13 @@ def service_stack
 
   $:.unshift File.join File.dirname(__FILE__), '..', 'lib'
   require 'statusecho'
+
+end
+
+def service_stack
+  check_ghostscript
+  check_ffmpeg
+  require_services
 
   Rack::Builder.new do
     use Rack::CommonLogger
@@ -105,12 +123,12 @@ namespace :services do
   desc "nuke the services dir"
   task :clobber do
     FileUtils::rm_rf SERVICES_DIR
-    FIleUtils::mkdir SERVICES_DIR
+    FileUtils::mkdir SERVICES_DIR
   end
 
   desc "run the service stack"
   task :run => [:fetch] do
-    stack = service_stack # RJB: this is needed here because RJB doesnt play nice yet
+    stack = service_stack # RJB: breaks if after db/aip
 
     # make the silo sandbox
     FileUtils::rm_rf SILO_DIR
@@ -118,8 +136,7 @@ namespace :services do
 
     # make the database sandbox
     require 'db/aip' # RJB: same rjb issue
-    #FileUtils::rm_rf DB_FILE
-    DataMapper.setup :default, DB_URL
+    DataMapper.setup :default, Daitss::CONFIG['database-url']
     DataMapper.auto_migrate!
 
     # run the test stack
