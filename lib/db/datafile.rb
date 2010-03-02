@@ -8,7 +8,7 @@ class Datafile < Pobject
   property :origin, Enum[:archive, :depositor, :unknown], :default => :unknown, :required => true 
   property :original_path, String, :length => (0..255), :required => true 
     # map from package_path + file_title + file_ext
-  property :creator_prog, String, :length => (0..255)
+  property :creating_application_name, String, :length => (0..255)
 
   has n, :datafile_representation, :constraint=>:destroy
   has 1..n, :representations, :through => :datafile_representation, :constraint=>:destroy
@@ -32,7 +32,7 @@ class Datafile < Pobject
 
     # creating app. info
     node = premis.find_first("premis:objectCharacteristics/premis:creatingApplication/premis:creatingApplicationName", NAMESPACES)
-    attribute_set(:creator_prog, node.content) if node
+    attribute_set(:creating_application_name, node.content) if node
     
     node = premis.find_first("premis:objectCharacteristics/premis:creatingApplication/premis:dateCreatedByApplication", NAMESPACES)
     attribute_set(:create_date, node.content) if node
@@ -57,7 +57,7 @@ class Datafile < Pobject
       @object.bitstream_id = :null
     end
 
-    #   # process inhibitor if there is any
+    # process inhibitor if there is any
     node = premis.find_first("premis:objectCharacteristics/premis:inhibitors", NAMESPACES)
     if (node)
       inhibitor = Inhibitor.new

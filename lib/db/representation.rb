@@ -4,7 +4,6 @@ REP_0 = "representation/original"
 class Representation
   include DataMapper::Resource  
   property :id, String, :key => true, :length => 100
-  property :name, String
   property :namespace, Enum[:local]
 
   belongs_to :intentity
