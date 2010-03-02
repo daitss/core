@@ -20,7 +20,7 @@ class AIPInPremis
   
   def processIntEntity premis
     @int_entity = Intentity.new
-    @int_entity.fromPremis @doc
+    @int_entity.fromAIP @doc
     puts @int_entity.inspect
     # check if this is an existing int entity, if not create a new int entity object with 
     # the read-in premis info.  Otheriwse, destroy the existing int entity records in the database 

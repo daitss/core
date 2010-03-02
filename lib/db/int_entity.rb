@@ -13,8 +13,10 @@ class Intentity
   has 1..n, :representations, :constraint=>:destroy
   
   before :destroy, :deleteChildren
-  def fromPremis premis
-    entity = premis.find_first('//p2:object[p2:objectCategory="intellectual entity"]', NAMESPACES)
+  
+  # construct an int entity with the information from the aip descriptor
+  def fromAIP aip
+    entity = aip.find_first('//p2:object[p2:objectCategory="intellectual entity"]', NAMESPACES)
     puts entity
     
     # extract and set int entity id
@@ -28,7 +30,15 @@ class Intentity
     end
     
     # extract and set the rest of int entity metadata
-    
+    mods = aip.find_first('//mods:mods', NAMESPACES)
+    if mods
+      title = mods.find_first("mods:titleInfo/mods:title", NAMESPACES) 
+      attribute_set(:title, title.content) if title
+      volume = mods.find_first("mods:part/mods:detail[@type = 'volume']/mods:number", NAMESPACES) 
+      attribute_set(:volume, volume.content) if volume
+      issue = mods.find_first("mods:part/mods:detail[@type = 'issue']/mods:number", NAMESPACES) 
+      attribute_set(:issue, issue.content) if issue
+    end            
   end
   
   # delete this datafile record and all its children from the database
@@ -43,10 +53,6 @@ class Intentity
       puts e.inspect
       e.destroy!
     end
-  end
-  
-  def processMods premis
-    
   end
   
   def match id
