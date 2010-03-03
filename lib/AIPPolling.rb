@@ -23,7 +23,7 @@ class AIPPolling
     else #only update aip store after a successful daitss2 fast access db population
       repository(:aipstore) do    
         puts aip.inspect
-        aip.update(:needs_work => false)
+        aip.update!(:needs_work => false)
       end
     end
   end
