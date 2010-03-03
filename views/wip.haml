@@ -4,7 +4,7 @@
   // update the page with json wip object
   function update() {
     
-    if ( wip.done ) {
+    if ( wip.task_complete ) {
       $('#commands button#start').button('disable')
       $('#commands button#stop').button('disable')
     } else {
@@ -19,7 +19,7 @@
 
     }
 
-    if (  wip.running || wip.done ) {
+    if (  wip.running || wip.task_complete ) {
       $('#commands button#stash').button('disable')
       $('#commands input#stash-path').attr('disabled', true)
     } else {
@@ -71,7 +71,7 @@
     // set button events
     $('#commands button#start').click(function () {
       if ( ! $(this).hasClass('ui-state-disabled') ) {
-        $.post(wip.url, {task: 'start'}, function (data, textStatus) {
+        $.post(wip.id, {task: 'start'}, function (data, textStatus) {
           wip = data
           update();
         }, 'json')
@@ -80,7 +80,7 @@
 
     $('#commands button#stop').click(function () {
       if ( ! $(this).hasClass('ui-state-disabled') ) {
-        $.post(wip.url, {task: 'stop'}, function (data, textStatus) {
+        $.post(wip.id, {task: 'stop'}, function (data, textStatus) {
           wip = data
           update();
         }, 'json')
@@ -89,7 +89,7 @@
 
     $('#commands button#unsnafu').click(function () {
       if ( ! $(this).hasClass('ui-state-disabled') ) {
-        $.post(wip.url, {task: 'unsnafu'}, function (data, textStatus) {
+        $.post(wip.id, {task: 'unsnafu'}, function (data, textStatus) {
           wip = data
           update();
         }, 'json')
@@ -98,11 +98,11 @@
 
     $('#commands button#stash').click(function () {
       if ( ! $(this).hasClass('ui-state-disabled') ) {
-        $.post(wip.url, {task: 'stash', path: $('#stash-path').attr('value') }, function (data, textStatus) {
+        $.post(wip.id, {task: 'stash', path: $('#stash-path').attr('value') }, function (data, textStatus) {
 
           // notify the stash
           d = $(document.createElement("div"))
-          d.append('<p>stashed at <code>' + $('#stash-path').attr('value') + '/' + wip.url + '</code></p>')
+          d.append('<p>stashed at <code>' + $('#stash-path').attr('value') + '/' + wip.id + '</code></p>')
           d.append('return to <a href="/">workspace<a/>')
           d.dialog({
             title: 'stashed',
@@ -118,8 +118,6 @@
       }
     })
 
-    $('#stash-path').addClass('ui-widget')
-
     if ( ! wip.snafu ) { 
       $('#snafu').hide()
       $('#commands button#unsnafu').button('disable')
@@ -132,7 +130,7 @@
 
     // update periodically
     setInterval(function () {
-      $.getJSON(wip.url, null, function (data, textStatus) {
+      $.getJSON(wip.id, null, function (data, textStatus) {
         wip = data
         update();
       })
@@ -140,10 +138,11 @@
 
   })
 
-%h1.ui-widget-header.ui-corner-all
+%h1
   %a{:href => '../' } ws
   = "::"
-  = @wip.id
+  %span.value
+    = @wip.uri
 
 #commands.ui-widget-content.ui-corner-all{:style => 'display: none'}
   %button#start start
@@ -152,7 +151,7 @@
   %button#unsnafu unsnafu
   &nbsp;
   %button#stash stash
-  %input#stash-path{:value => '/tmp'}
+  %input#stash-path.ui-widget-content.ui-corner-all{:value => '/tmp'}
 
 #process
   %h2.ui-widget-content.ui-corner-all
@@ -208,41 +207,3 @@
   %h2 reject
   %pre= @wip.reject
   %hr/
-
-#steps.ui-widget-content.ui-corner-all
-  %h2
-    total duration:
-    = duration_for :total
-    s
-
-  %ul
-    %li
-      %span validate AIP
-      %span= duration_for :validate
-    %li
-      %span
-        describe 
-        = file_count_for :describe
-        datafiles
-      %span= duration_for :describe
-    %li
-      %span 
-        migrate
-        = file_count_for :migrate
-        datafiles
-      %span= duration_for :migrate
-    %li
-      %span
-        normalize 
-        = file_count_for :normalize
-        datafiles
-      %span= duration_for :normalize
-    %li
-      %span build representations
-      %span= duration_for :representation
-    %li
-      %span make AIP descriptor
-      %span= duration_for :descriptor
-    %li
-      %span save AIP
-      %span= duration_for :aip

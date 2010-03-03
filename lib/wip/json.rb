@@ -8,9 +8,10 @@ class Wip
   def to_json *a
 
     hash = {
-      :url => id,
+      :id => id,
+      :uri => uri,
       :running => (running? ? true : false),
-      :done => (done? ? true : false),
+      :task_complete => (task_complete? ? true : false),
       :snafu => (snafu? ? snafu : nil),
       :reject => (reject? ? reject : nil),
       :state => state,
