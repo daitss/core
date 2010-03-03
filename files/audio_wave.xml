@@ -1,48 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mets xmlns="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd                           info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd" OBJID="wave">
+<mets xmlns="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OBJID="info:fcla/7f9a69e00906012d6f780050569622ff" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd                           http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd                           info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd">
+<!-- DMD -->
+<!-- AIP AMD -->
   <amdSec>
-    <techMD ID="tech-1">
-      <mdWrap MDTYPE="PREMIS" LABEL="RC">
+<!-- TECH -->
+    <techMD ID="tech-1" ADMID="digiprov-1 digiprov-2 digiprov-3 digiprov-4 digiprov-5 digiprov-6">
+      <mdWrap MDTYPE="PREMIS">
         <xmlData>
-          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="representation">
+          <object xmlns="info:lc/xmlns/premis-v2-beta">
             <objectIdentifier>
               <objectIdentifierType>URI</objectIdentifierType>
-              <objectIdentifierValue>representation/current</objectIdentifierValue>
+              <objectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff</objectIdentifierValue>
             </objectIdentifier>
-            <relationship>
-              <relationshipType>structural</relationshipType>
-              <relationshipSubType>includes</relationshipSubType>
-              <relatedObjectIdentification>
-                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-                <relatedObjectIdentifierValue>file-1</relatedObjectIdentifierValue>
-              </relatedObjectIdentification>
-            </relationship>
-            <relationship>
-              <relationshipType>structural</relationshipType>
-              <relationshipSubType>includes</relationshipSubType>
-              <relatedObjectIdentification>
-                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-                <relatedObjectIdentifierValue>file-2</relatedObjectIdentifierValue>
-              </relatedObjectIdentification>
-            </relationship>
+            <objectCategory>intellectual entity</objectCategory>
           </object>
         </xmlData>
       </mdWrap>
     </techMD>
     <techMD ID="tech-2">
-      <mdWrap MDTYPE="PREMIS" LABEL="R0">
+      <mdWrap MDTYPE="PREMIS">
         <xmlData>
-          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="representation">
+          <object xmlns="info:lc/xmlns/premis-v2" xsi:type="representation">
             <objectIdentifier>
               <objectIdentifierType>URI</objectIdentifierType>
-              <objectIdentifierValue>representation/original</objectIdentifierValue>
+              <objectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/representation/current</objectIdentifierValue>
             </objectIdentifier>
             <relationship>
               <relationshipType>structural</relationshipType>
               <relationshipSubType>includes</relationshipSubType>
               <relatedObjectIdentification>
                 <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-                <relatedObjectIdentifierValue>file-0</relatedObjectIdentifierValue>
+                <relatedObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/1</relatedObjectIdentifierValue>
               </relatedObjectIdentification>
             </relationship>
             <relationship>
@@ -50,7 +38,7 @@
               <relationshipSubType>includes</relationshipSubType>
               <relatedObjectIdentification>
                 <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-                <relatedObjectIdentifierValue>file-1</relatedObjectIdentifierValue>
+                <relatedObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/0</relatedObjectIdentifierValue>
               </relatedObjectIdentification>
             </relationship>
           </object>
@@ -60,50 +48,27 @@
     <techMD ID="tech-3">
       <mdWrap MDTYPE="PREMIS">
         <xmlData>
-          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
+          <object xmlns="info:lc/xmlns/premis-v2" xsi:type="representation">
             <objectIdentifier>
-              <objectIdentifierType>d2</objectIdentifierType>
-              <objectIdentifierValue>file-1</objectIdentifierValue>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/representation/normalized</objectIdentifierValue>
             </objectIdentifier>
-            <objectCharacteristics>
-              <compositionLevel>0</compositionLevel>
-              <fixity>
-                <messageDigestAlgorithm>MD5</messageDigestAlgorithm>
-                <messageDigest>3dead46e8249f7d5994d720b73d8ddcf</messageDigest>
-              </fixity>
-              <size>3643</size>
-              <format>
-                <formatDesignation>
-                  <formatName>XML</formatName>
-                  <formatVersion>1.0</formatVersion>
-                </formatDesignation>
-                <formatRegistry>
-                  <formatRegistryName>http://www.nationalarchives.gov.uk/pronom</formatRegistryName>
-                  <formatRegistryKey>fmt/101</formatRegistryKey>
-                </formatRegistry>
-              </format>
-              <objectCharacteristicsExtension>
-                <textMD xmlns="http://www.loc.gov/standards/textMD">
-                  <encoding>
-                    <encoding_platform linebreak="CR/LF"/>
-                  </encoding>
-                  <character_info>
-                    <charset>UTF-8</charset>
-                    <linebreak>CR/LF</linebreak>
-                  </character_info>
-                  <language>
-                    <markup_basis>XML</markup_basis>
-                    <markup_language>http://www.loc.gov/METS/</markup_language>
-                    <processingNote/>
-                  </language>
-                </textMD>
-              </objectCharacteristicsExtension>
-            </objectCharacteristics>
-            <originalName>files/wave.xml</originalName>
-            <linkingEventIdentifier>
-              <linkingEventIdentifierType>d2</linkingEventIdentifierType>
-              <linkingEventIdentifierValue>event-6</linkingEventIdentifierValue>
-            </linkingEventIdentifier>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/1</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/2</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
           </object>
         </xmlData>
       </mdWrap>
@@ -111,10 +76,161 @@
     <techMD ID="tech-4">
       <mdWrap MDTYPE="PREMIS">
         <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xsi:type="representation">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/representation/original</objectIdentifierValue>
+            </objectIdentifier>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/1</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/0</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+<!-- DIGIPROV (events) -->
+    <digiprovMD ID="digiprov-1">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/event/submit</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>submit</eventType>
+            <eventDateTime>2010-03-03T10:22:26-05:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>success</eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fcla/daitss/reference-submit-client</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-2">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/event/comprehensive-validation</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>comprehensive validation</eventType>
+            <eventDateTime>2010-03-03T10:46:09-05:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>success</eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fcla/archive/service/validation</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-3">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/event/ingest</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>ingest</eventType>
+            <eventDateTime>2010-03-03T10:46:23-05:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>success</eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fcla/daitss/ingest</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+<!-- DIGIPROV (agents) -->
+    <digiprovMD ID="digiprov-4">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>info:fcla/daitss/reference-submit-client</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>reference implementation submit client</agentName>
+            <agentType>software</agentType>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-5">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>info:fcla/archive/service/validation</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>daitss validation service</agentName>
+            <agentType>web service</agentType>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-6">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>info:fcla/daitss/ingest</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>daitss ingest</agentName>
+            <agentType>software</agentType>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+  </amdSec>
+<!-- DATA FILE AMD -->
+  <amdSec>
+<!-- TECH -->
+    <techMD ID="tech-5">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
           <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
             <objectIdentifier>
-              <objectIdentifierType>d2</objectIdentifierType>
-              <objectIdentifierValue>file-2</objectIdentifierValue>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/2</objectIdentifierValue>
             </objectIdentifier>
             <objectCharacteristics>
               <compositionLevel>0</compositionLevel>
@@ -144,7 +260,7 @@
                   <aes:byteOrder>LITTLE_ENDIAN</aes:byteOrder>
                   <aes:firstSampleOffset>44</aes:firstSampleOffset>
                   <aes:use useType="OTHER" otherType="JHOVE_validation"/>
-                  <aes:primaryIdentifier identifierType="FILE_NAME">/Users/Carol/daitss_ws/aip-0/files/transformed.wav</aes:primaryIdentifier>
+                  <aes:primaryIdentifier identifierType="FILE_NAME">/home/carol/D2WS/7f9a69e00906012d6f780050569622ff/files/2/data</aes:primaryIdentifier>
                   <aes:face direction="NONE" ID="J3" audioObjectRef="J4" label="Face">
                     <aes:timeline>
                       <tcf:startTime tcf:frameCount="30" tcf:timeBase="1000" tcf:videoField="FIELD_1" tcf:countingMode="NTSC_NON_DROP_FRAME">
@@ -206,38 +322,85 @@
                 </aes:audioObject>
               </objectCharacteristicsExtension>
             </objectCharacteristics>
-            <originalName>files/transformed.wav</originalName>
+            <originalName>0-normalization.wav</originalName>
+            <relationship xmlns="info:lc/xmlns/premis-v2">
+              <relationshipType>derivation</relationshipType>
+              <relationshipSubType>has source</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/0</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+              <relatedEventIdentification>
+                <relatedEventIdentifierType>URI</relatedEventIdentifierType>
+                <relatedEventIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/2/event/normalize/0</relatedEventIdentifierValue>
+              </relatedEventIdentification>
+            </relationship>
             <linkingEventIdentifier>
-              <linkingEventIdentifierType>d2</linkingEventIdentifierType>
-              <linkingEventIdentifierValue>event-5</linkingEventIdentifierValue>
+              <linkingEventIdentifierType>URI</linkingEventIdentifierType>
+              <linkingEventIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/2/event/describe/0</linkingEventIdentifierValue>
             </linkingEventIdentifier>
-            <linkingEventIdentifier>
-              <linkingEventIdentifierType>d2</linkingEventIdentifierType>
-              <linkingEventIdentifierValue>event-4</linkingEventIdentifierValue>
-            </linkingEventIdentifier>
-			<relationship>
-				<relationshipType>derivation</relationshipType>
-				<relationshipSubType>has source</relationshipSubType>
-				<relatedObjectIdentification>
-					<relatedObjectIdentifierType>d2</relatedObjectIdentifierType>
-					<relatedObjectIdentifierValue>file-0</relatedObjectIdentifierValue>
-				</relatedObjectIdentification>
-				<relatedEventIdentification>
-					<relatedEventIdentifierType>DAITSS</relatedEventIdentifierType>
-					<relatedEventIdentifierValue>event-4</relatedEventIdentifierValue>
-				</relatedEventIdentification>
-			</relationship>
           </object>
         </xmlData>
       </mdWrap>
     </techMD>
-    <techMD ID="tech-5">
+    <techMD ID="tech-6">
       <mdWrap MDTYPE="PREMIS">
         <xmlData>
           <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
             <objectIdentifier>
-              <objectIdentifierType>d2</objectIdentifierType>
-              <objectIdentifierValue>file-0</objectIdentifierValue>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/1</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <fixity>
+                <messageDigestAlgorithm>MD5</messageDigestAlgorithm>
+                <messageDigest>3dead46e8249f7d5994d720b73d8ddcf</messageDigest>
+              </fixity>
+              <size>3643</size>
+              <format>
+                <formatDesignation>
+                  <formatName>XML</formatName>
+                  <formatVersion>1.0</formatVersion>
+                </formatDesignation>
+                <formatRegistry>
+                  <formatRegistryName>http://www.nationalarchives.gov.uk/pronom</formatRegistryName>
+                  <formatRegistryKey>fmt/101</formatRegistryKey>
+                </formatRegistry>
+              </format>
+              <objectCharacteristicsExtension>
+                <textMD xmlns="http://www.loc.gov/standards/textMD">
+                  <encoding>
+                    <encoding_platform linebreak="CR/LF"/>
+                  </encoding>
+                  <character_info>
+                    <charset>UTF-8</charset>
+                    <linebreak>CR/LF</linebreak>
+                  </character_info>
+                  <language>
+                    <markup_basis>XML</markup_basis>
+                    <markup_language>http://www.loc.gov/METS/</markup_language>
+                    <processingNote/>
+                  </language>
+                </textMD>
+              </objectCharacteristicsExtension>
+            </objectCharacteristics>
+            <originalName>wave.xml</originalName>
+            <linkingEventIdentifier>
+              <linkingEventIdentifierType>URI</linkingEventIdentifierType>
+              <linkingEventIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/1/event/describe/0</linkingEventIdentifierValue>
+            </linkingEventIdentifier>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-7">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/0</objectIdentifierValue>
             </objectIdentifier>
             <objectCharacteristics>
               <compositionLevel>0</compositionLevel>
@@ -267,7 +430,7 @@
                   <aes:byteOrder>LITTLE_ENDIAN</aes:byteOrder>
                   <aes:firstSampleOffset>44</aes:firstSampleOffset>
                   <aes:use useType="OTHER" otherType="JHOVE_validation"/>
-                  <aes:primaryIdentifier identifierType="FILE_NAME">/Users/Carol/daitss_ws/aip-0/files/obj1.wav</aes:primaryIdentifier>
+                  <aes:primaryIdentifier identifierType="FILE_NAME">/home/carol/D2WS/7f9a69e00906012d6f780050569622ff/files/0/data</aes:primaryIdentifier>
                   <aes:face direction="NONE" ID="J3" audioObjectRef="J4" label="Face">
                     <aes:timeline>
                       <tcf:startTime tcf:frameCount="30" tcf:timeBase="1000" tcf:videoField="FIELD_1" tcf:countingMode="NTSC_NON_DROP_FRAME">
@@ -329,123 +492,26 @@
                 </aes:audioObject>
               </objectCharacteristicsExtension>
             </objectCharacteristics>
-            <originalName>files/obj1.wav</originalName>
+            <originalName>obj1.wav</originalName>
             <linkingEventIdentifier>
-              <linkingEventIdentifierType>d2</linkingEventIdentifierType>
-              <linkingEventIdentifierValue>event-2</linkingEventIdentifierValue>
+              <linkingEventIdentifierType>URI</linkingEventIdentifierType>
+              <linkingEventIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/0/event/describe/0</linkingEventIdentifierValue>
             </linkingEventIdentifier>
           </object>
         </xmlData>
       </mdWrap>
     </techMD>
-    <digiprovMD ID="digiprov-1">
+<!-- DIGIPROV (events) -->
+    <digiprovMD ID="digiprov-7">
       <mdWrap MDTYPE="PREMIS">
-        <xmlData>
-          <agent xmlns="info:lc/xmlns/premis-v2">
-            <agentIdentifier>
-              <agentIdentifierType>URI</agentIdentifierType>
-              <agentIdentifierValue>http://daitss/validation</agentIdentifierValue>
-            </agentIdentifier>
-            <agentName>Validation Service</agentName>
-            <agentType>Web Service</agentType>
-          </agent>
-        </xmlData>
-      </mdWrap>
-    </digiprovMD>
-    <digiprovMD ID="digiprov-2">
-      <mdWrap MDTYPE="PREMIS">
-        <xmlData>
-          <event xmlns="info:lc/xmlns/premis-v2">
-            <eventIdentifier>
-              <eventIdentifierType>d2</eventIdentifierType>
-              <eventIdentifierValue>event-0</eventIdentifierValue>
-            </eventIdentifier>
-            <eventType>SIP passed all validation checks</eventType>
-            <eventDateTime>2009-12-08T09:52:23-05:00</eventDateTime>
-            <eventOutcomeInformation>
-              <eventOutcome>
-        success  
-      </eventOutcome>
-            </eventOutcomeInformation>
-            <linkingAgentIdentifier>
-              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-              <linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
-            </linkingAgentIdentifier>
-            <linkingObjectIdentifier>
-              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>
-        file:///Users/Carol/daitss_ws/aip-0
-      </linkingObjectIdentifierValue>
-            </linkingObjectIdentifier>
-          </event>
-        </xmlData>
-      </mdWrap>
-    </digiprovMD>
-    <digiprovMD ID="digiprov-3">
-      <mdWrap MDTYPE="PREMIS" LABEL="RXP">
-        <xmlData>
-          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="representation">
-            <objectIdentifier>
-              <objectIdentifierType>URI</objectIdentifierType>
-              <objectIdentifierValue>info:fcla/daitss/E20090225_AAAIWH</objectIdentifierValue>
-            </objectIdentifier>
-          </object>
-        </xmlData>
-      </mdWrap>
-    </digiprovMD>
-    <digiprovMD ID="digiprov-4">
-      <mdWrap MDTYPE="PREMIS" LABEL="RXP">
         <xmlData>
           <event xmlns="info:lc/xmlns/premis-v2">
             <eventIdentifier>
               <eventIdentifierType>URI</eventIdentifierType>
-              <eventIdentifierValue>info:fcla/daitss/E20090225_AAAIWH/event/32158605</eventIdentifierValue>
+              <eventIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/2/event/describe/0</eventIdentifierValue>
             </eventIdentifier>
-            <eventType>dissemination</eventType>
-            <eventDateTime>2009-02-26T11:16:46-05:00</eventDateTime>
-            <eventDetail>Disseminated TIPR package</eventDetail>
-            <eventOutcomeInformation>
-              <eventOutcome>SUCCESS</eventOutcome>
-              <eventOutcomeDetail>
-                <eventOutcomeDetailNote/>
-              </eventOutcomeDetail>
-            </eventOutcomeInformation>
-            <linkingAgentIdentifier>
-              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-              <linkingAgentIdentifierValue>info:fcla/daitss/agent/FDA</linkingAgentIdentifierValue>
-            </linkingAgentIdentifier>
-            <linkingObjectIdentifier>
-              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>info:fcla/daitss/E20090225_AAAIWH</linkingObjectIdentifierValue>
-            </linkingObjectIdentifier>
-          </event>
-        </xmlData>
-      </mdWrap>
-    </digiprovMD>
-    <digiprovMD ID="digiprov-5">
-      <mdWrap MDTYPE="PREMIS" LABEL="RXP">
-        <xmlData>
-          <agent xmlns="info:lc/xmlns/premis-v2">
-            <agentIdentifier>
-              <agentIdentifierType>URI</agentIdentifierType>
-              <agentIdentifierValue>info:fcla/daitss/agent/FDA</agentIdentifierValue>
-            </agentIdentifier>
-            <agentName>FDA</agentName>
-            <agentType>organization</agentType>
-          </agent>
-        </xmlData>
-      </mdWrap>
-    </digiprovMD>
-    <digiprovMD ID="digiprov-6">
-      <mdWrap MDTYPE="PREMIS">
-        <xmlData>
-          <event xmlns="info:lc/xmlns/premis-v2">
-            <eventIdentifier>
-              <eventIdentifierType>d2</eventIdentifierType>
-              <eventIdentifierValue>event-2</eventIdentifierValue>
-            </eventIdentifier>
-            <eventType>Format Description</eventType>
-            <eventDateTime>2009-12-08T09:52:23-05:00</eventDateTime>
+            <eventType>format description</eventType>
+            <eventDateTime>2010-03-03T10:46:23-05:00</eventDateTime>
             <eventOutcomeInformation>
               <eventOutcome>Well-Formed and valid</eventOutcome>
             </eventOutcomeInformation>
@@ -454,24 +520,10 @@
               <linkingAgentIdentifierValue>http://localhost:7000/describe</linkingAgentIdentifierValue>
             </linkingAgentIdentifier>
             <linkingObjectIdentifier>
-              <linkingObjectIdentifierType>d2</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>file-0</linkingObjectIdentifierValue>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/2</linkingObjectIdentifierValue>
             </linkingObjectIdentifier>
           </event>
-        </xmlData>
-      </mdWrap>
-    </digiprovMD>
-    <digiprovMD ID="digiprov-7">
-      <mdWrap MDTYPE="PREMIS">
-        <xmlData>
-          <agent xmlns="info:lc/xmlns/premis-v2">
-            <agentIdentifier>
-              <agentIdentifierType>URI</agentIdentifierType>
-              <agentIdentifierValue>http://localhost:7000/describe</agentIdentifierValue>
-            </agentIdentifier>
-            <agentName>Format Description Service</agentName>
-            <agentType>Web Service</agentType>
-          </agent>
         </xmlData>
       </mdWrap>
     </digiprovMD>
@@ -480,26 +532,27 @@
         <xmlData>
           <event xmlns="info:lc/xmlns/premis-v2">
             <eventIdentifier>
-              <eventIdentifierType>d2</eventIdentifierType>
-              <eventIdentifierValue>event-4</eventIdentifierValue>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/2/event/normalize/0</eventIdentifierValue>
             </eventIdentifier>
             <eventType>normalize</eventType>
-            <eventDateTime>2009-12-08T09:52:23-05:00</eventDateTime>
+            <eventDateTime>2010-03-03T10:46:23-05:00</eventDateTime>
             <eventOutcomeInformation>
-              <eventOutcome>success</eventOutcome>
-              <eventOutcomeDetail>
-                <eventOutcomeDetailNote>
-				Transformed via http://localhost:7000/transformation/transform/wave_norm
-				</eventOutcomeDetailNote>
-              </eventOutcomeDetail>
+              <eventOutcome/>
             </eventOutcomeInformation>
             <linkingAgentIdentifier>
-              <linkingAgentIdentifierType>URL</linkingAgentIdentifierType>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
               <linkingAgentIdentifierValue>http://localhost:7000/transformation/transform/wave_norm</linkingAgentIdentifierValue>
             </linkingAgentIdentifier>
             <linkingObjectIdentifier>
-              <linkingObjectIdentifierType>d2</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>file-0</linkingObjectIdentifierValue>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/0</linkingObjectIdentifierValue>
+              <linkingObjectRole>source</linkingObjectRole>
+            </linkingObjectIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/2</linkingObjectIdentifierValue>
+              <linkingObjectRole>outcome</linkingObjectRole>
             </linkingObjectIdentifier>
           </event>
         </xmlData>
@@ -508,14 +561,25 @@
     <digiprovMD ID="digiprov-9">
       <mdWrap MDTYPE="PREMIS">
         <xmlData>
-          <agent xmlns="info:lc/xmlns/premis-v2">
-            <agentIdentifier>
-              <agentIdentifierType>URL</agentIdentifierType>
-              <agentIdentifierValue>http://localhost:7000/transformation/transform/wave_norm</agentIdentifierValue>
-            </agentIdentifier>
-            <agentName>Transformation Service</agentName>
-            <agentType>Web Service</agentType>
-          </agent>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/1/event/describe/0</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>format description</eventType>
+            <eventDateTime>2010-03-03T10:46:21-05:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>Well-Formed and valid</eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>http://localhost:7000/describe</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/1</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
         </xmlData>
       </mdWrap>
     </digiprovMD>
@@ -524,11 +588,11 @@
         <xmlData>
           <event xmlns="info:lc/xmlns/premis-v2">
             <eventIdentifier>
-              <eventIdentifierType>d2</eventIdentifierType>
-              <eventIdentifierValue>event-5</eventIdentifierValue>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/0/event/describe/0</eventIdentifierValue>
             </eventIdentifier>
-            <eventType>Format Description</eventType>
-            <eventDateTime>2009-12-08T09:52:23-05:00</eventDateTime>
+            <eventType>format description</eventType>
+            <eventDateTime>2010-03-03T10:46:21-05:00</eventDateTime>
             <eventOutcomeInformation>
               <eventOutcome>Well-Formed and valid</eventOutcome>
             </eventOutcomeInformation>
@@ -537,53 +601,29 @@
               <linkingAgentIdentifierValue>http://localhost:7000/describe</linkingAgentIdentifierValue>
             </linkingAgentIdentifier>
             <linkingObjectIdentifier>
-              <linkingObjectIdentifierType>d2</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>file-2</linkingObjectIdentifierValue>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>info:fcla/7f9a69e00906012d6f780050569622ff/file/0</linkingObjectIdentifierValue>
             </linkingObjectIdentifier>
           </event>
         </xmlData>
       </mdWrap>
     </digiprovMD>
+<!-- DIGIPROV (agents) -->
     <digiprovMD ID="digiprov-11">
       <mdWrap MDTYPE="PREMIS">
         <xmlData>
           <agent xmlns="info:lc/xmlns/premis-v2">
             <agentIdentifier>
               <agentIdentifierType>URI</agentIdentifierType>
-              <agentIdentifierValue>http://localhost:7000/describe</agentIdentifierValue>
+              <agentIdentifierValue>http://localhost:7000/transformation/transform/wave_norm</agentIdentifierValue>
             </agentIdentifier>
-            <agentName>Format Description Service</agentName>
-            <agentType>Web Service</agentType>
+            <agentName>daitss transformation service</agentName>
+            <agentType>software</agentType>
           </agent>
         </xmlData>
       </mdWrap>
     </digiprovMD>
     <digiprovMD ID="digiprov-12">
-      <mdWrap MDTYPE="PREMIS">
-        <xmlData>
-          <event xmlns="info:lc/xmlns/premis-v2">
-            <eventIdentifier>
-              <eventIdentifierType>d2</eventIdentifierType>
-              <eventIdentifierValue>event-6</eventIdentifierValue>
-            </eventIdentifier>
-            <eventType>Format Description</eventType>
-            <eventDateTime>2009-12-08T09:52:26-05:00</eventDateTime>
-            <eventOutcomeInformation>
-              <eventOutcome>Well-Formed and valid</eventOutcome>
-            </eventOutcomeInformation>
-            <linkingAgentIdentifier>
-              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-              <linkingAgentIdentifierValue>http://localhost:7000/describe</linkingAgentIdentifierValue>
-            </linkingAgentIdentifier>
-            <linkingObjectIdentifier>
-              <linkingObjectIdentifierType>d2</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>file-1</linkingObjectIdentifierValue>
-            </linkingObjectIdentifier>
-          </event>
-        </xmlData>
-      </mdWrap>
-    </digiprovMD>
-    <digiprovMD ID="digiprov-13">
       <mdWrap MDTYPE="PREMIS">
         <xmlData>
           <agent xmlns="info:lc/xmlns/premis-v2">
@@ -600,22 +640,33 @@
   </amdSec>
   <fileSec>
     <fileGrp>
-      <file ID="file-0" OWNERID="FILE-0" ADMID="tech-5 digiprov-6 digiprov-7 ">
-        <FLocat LOCTYPE="URL" xlink:href="files/obj1.wav"/>
+      <file ID="file-2" OWNERID="info:fcla/7f9a69e00906012d6f780050569622ff/file/2" ADMID="tech-5 digiprov-7 digiprov-8 digiprov-11 digiprov-12" SIZE="269878" CHECKSUMTYPE="SHA-1" CHECKSUM="8e362ceda32c96db28625177898fe99dfd1d9b4d">
+        <FLocat LOCTYPE="URL" xlink:href="0-normalization.wav"/>
       </file>
-      <file ID="file-1" ADMID="tech-3 digiprov-12 digiprov-13 ">
-        <FLocat LOCTYPE="URL" xlink:href="files/wave.xml"/>
+      <file ID="file-1" OWNERID="info:fcla/7f9a69e00906012d6f780050569622ff/file/1" ADMID="tech-6 digiprov-9 digiprov-12" SIZE="3643" CHECKSUMTYPE="SHA-1" CHECKSUM="3054ebabc16ad4aa0bbdfb58f6562b557991f702">
+        <FLocat LOCTYPE="URL" xlink:href="wave.xml"/>
       </file>
-      <file ID="file-2" ADMID="digiprov-8 digiprov-9 tech-4 digiprov-10 digiprov-11">
-        <FLocat LOCTYPE="URL" xlink:href="files/transformed.wav"/>
+      <file ID="file-0" OWNERID="info:fcla/7f9a69e00906012d6f780050569622ff/file/0" ADMID="tech-7 digiprov-10 digiprov-12" SIZE="134962" CHECKSUMTYPE="SHA-1" CHECKSUM="5678aea9e9856e7dfa1a92301a3c680cde472755">
+        <FLocat LOCTYPE="URL" xlink:href="obj1.wav"/>
       </file>
     </fileGrp>
   </fileSec>
-  <structMap>
-    <div ADMID="digiprov-1 digiprov-2 digiprov-3 digiprov-4 digiprov-5  tech-2 tech-1">
+  <structMap ID="current">
+    <div ADMID="tech-2">
+      <fptr FILEID="file-1"/>
       <fptr FILEID="file-0"/>
+    </div>
+  </structMap>
+  <structMap ID="normalized">
+    <div ADMID="tech-3">
       <fptr FILEID="file-1"/>
       <fptr FILEID="file-2"/>
+    </div>
+  </structMap>
+  <structMap ID="original">
+    <div ADMID="tech-4">
+      <fptr FILEID="file-1"/>
+      <fptr FILEID="file-0"/>
     </div>
   </structMap>
 </mets>

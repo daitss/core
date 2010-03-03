@@ -17,7 +17,7 @@ class AIPInPremis
     # read in the AIP descriptor
     process XML::Document.file aip_file
   end
-  
+
   def processIntEntity premis
     @int_entity = Intentity.new
     @int_entity.fromAIP @doc
@@ -27,7 +27,7 @@ class AIPInPremis
     # including all related datafiles, representations, events and agents. 
     entities = Intentity.all(:id => @int_entity.id)  
     puts "entity #{entities}"
-      
+
     entities.each do |entity|
       # start database traction for deleting the associated record for the aip.  If there is any failure during database save, 
       # datamapper automatically rollback the change.
@@ -55,45 +55,46 @@ class AIPInPremis
       end
     end
   end
-  
+
   # process an aip descriptor described in a premis-in-mets format.
   def process aipxml
     @doc = aipxml
-    
+
     processIntEntity @doc
 
-     # process all premis file objects
-     processDatafiles
-    
-     # extract all premis representations 
-     processRepresentations    
-    
-     # process all premis bitstreams 
-     processBitstreams
-    
-     # process all premis agents 
-     processAgents
-    
-     # process all premis events
-     processEvents
+    # process all premis file objects
+    processDatafiles
 
-     # process derived relationships associated with the files
-     fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
-     fileObjects.each do |obj|
-       dfid = obj.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
-       relationships = obj.find("premis:relationship", NAMESPACES)
-       relationships.each do |relationship|
-         processRelationship(dfid, relationship)
-       end
-     end 
+    # extract all premis representations 
+    processRepresentations    
 
-     toDB
+    # process all premis bitstreams 
+    processBitstreams
+
+    # process all premis agents 
+    processAgents
+
+    # process all premis events
+    processEvents
+
+    # process derived relationships associated with the files
+    fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
+    fileObjects.each do |obj|
+      dfid = obj.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
+      relationships = obj.find("premis:relationship", NAMESPACES)
+      relationships.each do |relationship|
+        processRelationship(dfid, relationship)
+      end
+    end 
+
+    toDB
   end
 
   # extract representation information from the premis document
   def processRepresentations
     r0 = Array.new
     rc = Array.new
+    rn = Array.new
 
     repObjects = @doc.find("//premis:object[@xsi:type='representation']", NAMESPACES)
     repObjects.each do |obj|
@@ -101,18 +102,20 @@ class AIPInPremis
       rep.fromPremis obj
 
       files = obj.find("premis:relationship", NAMESPACES)
-         files.each do |f|
-           dfid = f.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
-           df = @datafiles[dfid]
-           unless df.nil?
-             df.representations << rep
-             if rep.isR0
-               r0 << dfid
-             elsif rep.isRC
-               rc << dfid
-             end
-           end
-         end
+      files.each do |f|
+        dfid = f.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
+        df = @datafiles[dfid]
+        unless df.nil?
+          df.representations << rep
+          if rep.isR0
+            r0 << dfid
+          elsif rep.isRC
+            rc << dfid
+          elsif rep.isRN
+            rn << dfid
+          end
+        end
+      end
 
       @int_entity.representations << rep
       @representations << rep
@@ -120,7 +123,7 @@ class AIPInPremis
 
     # set the origin of all datafiles by deriving the origin information from their associations with representations
     @datafiles.each do |dfid, df|
-      df.setOrigin r0, rc
+      df.setOrigin r0, rc, rn
     end
   end
 
@@ -152,7 +155,7 @@ class AIPInPremis
     agentObjects.each do |obj|
       agent = Agent.new
       agent.fromPremis obj
-      
+
       # use the existing agent record in the database if we have seen this agent before
       existingAgent = Agent.get(agent.id)
       if existingAgent

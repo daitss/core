@@ -74,9 +74,9 @@ class Datafile < Pobject
   end
   
   # derive the datafile origin by its association to representations r0, rc
-  def setOrigin(r0, rc)
-    # if this datafile is in r(c) but not in r(0), it is created by the archive, otherwise it is submitted by depositor.
-    if (rc.include?(@id) && !r0.include?(@id))
+  def setOrigin(r0, rc, rn)
+    # if this datafile is in r(c) or r(n) but not in r(0), it is created by the archive, otherwise it is submitted by depositor.
+    if ( (rc.include?(@id) || rn.include?(@id)) && !r0.include?(@id) )
       attribute_set(:origin, :archive)
     else
       attribute_set(:origin, :depositor)
