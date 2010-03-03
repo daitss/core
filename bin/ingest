@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require "datamapper"
-require "config"
+require "daitss/config"
 require 'wip/ingest'
 
 wip = begin
@@ -10,19 +10,18 @@ wip = begin
         raise "WORKSPACE must be set" unless ENV['WORKSPACE']
         raise "WORKSPACE must be a directory" unless File.directory?(ENV['WORKSPACE'])
 
+        # config
+        raise "CONFIG must be set" unless ENV['CONFIG']
+        Daitss::CONFIG.load ENV['CONFIG']
+
         # wip
         wip_id = ARGV.shift
         raise "no wip id specified" unless wip_id
         wip_path = File.join ENV['WORKSPACE'], wip_id
         raise "wip #{wip_id} not found in #{ENV['WORKSPACE']}" unless File.directory? wip_path
 
-        # config file
-        config_file = ARGV.shift
-        raise "no config file specified" unless config_file
-        CONFIG::load config_file
-
         # database
-        DataMapper.setup :default, CONFIG["database-url"]
+        DataMapper.setup :default, Daitss::CONFIG["database-url"]
 
         # load the wip
         Wip.new wip_path
