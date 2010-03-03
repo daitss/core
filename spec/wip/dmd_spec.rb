@@ -6,9 +6,14 @@ describe Wip, "with respect to dmd" do
   subject { submit_sip 'mimi' }
 
   it "should know if dmd exists" do
-    subject.should_not have_dmd
-    subject['dmd-issue'] = 'volume 4'
-    subject.should have_dmd
+
+    Wip::DMD_KEYS.each do |key|
+      Wip::DMD_KEYS.each { |k| subject.delete k if subject.has_key? k }
+      subject.should_not have_dmd
+      subject[key] = "value for #{key}"
+      subject.should have_dmd
+    end
+
   end
 
   it "should make some xml for dmd if it exists" do
