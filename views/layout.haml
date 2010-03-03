@@ -1,10 +1,14 @@
 %html
   %head
-    %link{:rel => "stylesheet", :href => "/jquery/css/eggplant/jquery-ui-1.8rc2.custom.css", :type =>"text/css", :media =>"screen, projection"}
-    %script{:type => "text/javascript", :src => "/jquery/js/jquery-1.4.2.min.js"}
-    %script{:type => "text/javascript", :src => "/jquery/js/jquery-ui-1.8rc2.custom.min.js"}
+    %link{:rel => "stylesheet", :href => "/jquery-ui-1.8rc3.custom/css/dot-luv/jquery-ui-1.8rc3.custom.css", :type =>"text/css", :media =>"screen, projection"}
+    %script{:type => "text/javascript", :src => "/jquery-ui-1.8rc3.custom/js/jquery-1.4.2.min.js"}
+    %script{:type => "text/javascript", :src => "/jquery-ui-1.8rc3.custom/js/jquery-ui-1.8rc3.custom.min.js"}
+    %link{:rel => "stylesheet", :href => "/selectmenu/ui.selectmenu.css", :type =>"text/css", :media =>"screen, projection"}
+    %script{:type => "text/javascript", :src => "/selectmenu/ui.selectmenu.js"}
+
     %link{:rel => "stylesheet", :href => "/stylesheet.css", :type =>"text/css", :media =>"screen, projection"}
 
     %title Workspace Monitor (new boss)
   %body
-    #content= yield
+    #content.ui-corner-bottom
+      = yield
