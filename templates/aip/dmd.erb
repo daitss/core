@@ -21,4 +21,9 @@
   </detail>
   </part>
 <% end %>
+
+<% if metadata.has_key? 'dmd-entity-id' %>
+  <identifier type='entity id'><%= metadata['dmd-entity-id'] %></identifier>
+<% end %>
+
 </mods>

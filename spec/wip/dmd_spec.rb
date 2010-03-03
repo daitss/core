@@ -15,10 +15,12 @@ describe Wip, "with respect to dmd" do
     subject['dmd-issue'] = CGI.escape "l'issue"
     subject['dmd-volume'] = 'le volume'
     subject['dmd-title'] = 'le titre'
+    subject['dmd-entity-id'] = 'lentityid'
     doc = XML::Document.string subject.dmd
     doc.find("/mods:mods/mods:titleInfo/mods:title = '#{ subject['dmd-title'] }'", NS_PREFIX).should be_true
     doc.find("/mods:mods/mods:part/mods:detail[@type = 'volume']/mods:number = '#{ subject['dmd-volume'] }'", NS_PREFIX).should be_true
     doc.find("/mods:mods/mods:part/mods:detail[@type = 'issue']/mods:number = '#{ subject['dmd-issue'] }'", NS_PREFIX).should be_true
+    doc.find("/mods:mods/mods:identifier[@type = 'entity id'] = '#{ subject['dmd-entity-id'] }'", NS_PREFIX).should be_true
   end
 
 end
