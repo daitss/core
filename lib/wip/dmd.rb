@@ -3,9 +3,11 @@ require 'wip'
 
 class Wip
 
+  DMD_KEYS = ['dmd-issue', 'dmd-volume', 'dmd-title', 'dmd-entity-id']
+
   def has_dmd?
 
-    ['dmd-issue', 'dmd-volume', 'dmd-title'].any? do |dmd_key|
+    DMD_KEYS.any? do |dmd_key|
       metadata.keys.include? dmd_key
     end
 
