@@ -20,64 +20,6 @@ configure do
   CONFIG.load ENV['CONFIG']
 end
 
-helpers do
-
-  def human_size n
-    orders = %(B KiB MiB GiB TiB)
-    case n
-    when 0...(1024 ** 1) then "#{n} B"
-    when (1024 ** 1)...(1024 ** 2) then "#{n / (1024 ** 1)} KiB"
-    when (1024 ** 2)...(1024 ** 3) then "#{n / (1024 ** 2)} MiB"
-    when (1024 ** 3)...(1024 ** 4) then "#{n / (1024 ** 3)} GiB"
-    when (1024 ** 4)...(1024 ** 5) then "#{n / (1024 ** 4)} TiB"
-    else "#{n / (1024 ** 5)} PiB"
-    end
-
-  end
-
-  def duration_for key
-
-    regex = case key
-            when :validate then /^step-validate$/
-            when :describe then /^step-describe-\d+$/
-            when :migrate then /^step-migrate-\d+$/
-            when :normalize then /^step-normalize-\d+$/
-            when :representation then /representation$/
-            when :descriptor then /^step-make-aip-descriptor$/
-            when :aip then /^step-make-aip$/
-            when :total then /^step-.+/
-            else raise "unknown duration for #{key}"
-            end
-
-    keys = @wip.tags.keys.select { |k| k =~ regex }
-
-    durations = keys.map do |k|
-      s,e = @wip.tags[k].split
-      Time.parse(e) - Time.parse(s)
-    end
-
-    if durations.empty?
-      '...'
-    else
-      "%.1f" % durations.inject(:+)
-    end
-
-  end
-
-  def file_count_for key
-
-    regex = case key
-            when :describe then /^step-describe-\d+$/
-            when :migrate then /^step-migrate-\d+$/
-            when :normalize then /^step-normalize-\d+$/
-            else raise "unknown file count for #{key}"
-            end
-
-    @wip.tags.keys.select { |k| k =~ regex }.size
-  end
-
-end
-
 get '/stylesheet.css' do
   content_type 'text/css', :charset => 'utf-8'
   sass :stylesheet
