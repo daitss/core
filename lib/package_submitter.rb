@@ -26,9 +26,9 @@ class PackageSubmitter
   # creates a new aip in the workspace from SIP in a zip or tar file located at path_to_archive.
   # This method:
   #
-  # checks DAITSS_WORKSPACE environment var for validity
+  # checks WORKSPACE environment var for validity
   # inserts an operations event into package tracker
-  # unarchives the zip/tar to a special place in DAITSS_WORKSPACE
+  # unarchives the zip/tar to a special place in WORKSPACE
   # makes an AIP from extracted files
   # writes a submission event to package provenance
   # returns new minted IEID of the created AIP
@@ -39,8 +39,8 @@ class PackageSubmitter
 
     unarchive_sip archive_type, ieid, path_to_archive, package_name
 
-    wip_path = File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s)
-    sip_path = File.join(ENV["DAITSS_WORKSPACE"], ".submit", package_name)
+    wip_path = File.join(ENV["WORKSPACE"], ieid.to_s)
+    sip_path = File.join(ENV["WORKSPACE"], ".submit", package_name)
 
     begin
       sip = Sip.new sip_path
@@ -80,6 +80,7 @@ class PackageSubmitter
     wip.metadata['dmd-volume'] = int_entity_metadata["volume"] if int_entity_metadata["volume"]
     wip.metadata['dmd-account'] = int_entity_metadata["account"] if int_entity_metadata["account"]
     wip.metadata['dmd-project'] = int_entity_metadata["project"] if int_entity_metadata["project"]
+    wip.metadata['dmd-entity-id'] = int_entity_metadata["entity_id"] if int_entity_metadata["entity_id"]
 
     # write package tracker event
     submission_event_notes = "submitter_ip: #{submitter_ip}, archive_type: #{archive_type}, submitted_package_checksum: #{md5}"
@@ -93,10 +94,10 @@ class PackageSubmitter
 
   private 
 
-  # raises exception if DAITSS_WORKSPACE environment variable is not set to a valid directory on the filesystem
+  # raises exception if WORKSPACE environment variable is not set to a valid directory on the filesystem
 
   def self.check_workspace
-    raise "DAITSS_WORKSPACE is not set to a valid directory." unless File.directory? ENV["DAITSS_WORKSPACE"]
+    raise "The environment variable WORKSPACE is not set to a valid directory." unless File.directory? ENV["WORKSPACE"]
   end
 
   # returns string corresponding to unzip command to extract SIP from a zip file 
@@ -117,15 +118,15 @@ class PackageSubmitter
       return "#{tar_command} -xf #{path_to_archive} -C #{destination} 2>&1"
   end
 
-  # unzips/untars specified archive file to $DAITSS_WORKSPACE/.submit/package_name/
+  # unzips/untars specified archive file to $WORKSPACE/.submit/package_name/
   # if the zip/tar file had all files in a single directory inside the archive, files inside are moved one
   #   directory level up 
   # Raises exception if unarchiving tool returns non-zero exit status
 
   def self.unarchive_sip archive_type, ieid, path_to_archive, package_name
-    create_submit_dir unless File.directory? File.join(ENV["DAITSS_WORKSPACE"], ".submit")
+    create_submit_dir unless File.directory? File.join(ENV["WORKSPACE"], ".submit")
 
-    destination = File.join ENV["DAITSS_WORKSPACE"], ".submit", package_name
+    destination = File.join ENV["WORKSPACE"], ".submit", package_name
 
     if archive_type == :zip
       output = `#{zip_command_string package_name, path_to_archive, destination}`
@@ -150,6 +151,7 @@ class PackageSubmitter
   end
 
   # look for SIP descriptor and attempt to extract intellectual entity metadata (volume, issue, title, daitss account, daitss project)
+  # TODO: should also extract OBJ_ID
 
   def self.extract_int_entity wip, package_name
     sip_descriptor = nil 
@@ -209,9 +211,13 @@ class PackageSubmitter
     return agreement_info_node ? agreement_info_node["PROJECT"] : nil
   end
 
-  # creates a .submit directory under DAITSS_WORKSPACE
+  def self.find_entity_id sip_descriptor
+    #TODO: find an xpath to extract from METS OBJID
+  end
+
+  # creates a .submit directory under WORKSPACE
 
   def self.create_submit_dir
-    FileUtils.mkdir_p File.join(ENV["DAITSS_WORKSPACE"], ".submit")
+    FileUtils.mkdir_p File.join(ENV["WORKSPACE"], ".submit")
   end
 end
