@@ -14,7 +14,7 @@ class Wip
       'snafu'
     elsif reject?
       'reject'
-    elsif done?
+    elsif task_complete?
       'complete'
     else
       'idle'
