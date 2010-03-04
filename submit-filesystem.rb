@@ -25,10 +25,10 @@ def get_options(args)
       opt.on_tail("--help", "Show this message")  { puts opts; exit }
 
       opt.on("--url URL", String, "URL of service to submit package to, required") { |key|   config.url = key }      
-      opt.on("--package PATH", String, "Path to SIP to submit, required") { |path|  config.package = path }
+      opt.on("--package PATH", String, "Path on filesystem to SIP to submit, required") { |path|  config.package = path }
       opt.on("--name PACKAGE_NAME", String, "Package name of package being submitted, required") { |name|  config.package_name = name }
-      opt.on("--username USERNAME", String, "Operations Agent Username, required") { |username|  config.username = username }
-      opt.on("--password PASSWORD", String, "Operations Agent Password, required") { |password|  config.password = password }
+      opt.on("--username USERNAME", String, "Operations agent username, required") { |username|  config.username = username }
+      opt.on("--password PASSWORD", String, "Operations agent password, required") { |password|  config.password = password }
     end
 
     opts.parse!(args)
