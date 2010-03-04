@@ -16,6 +16,14 @@ class Wip
     tags['task'] = t.to_s
   end
 
+  def task_complete
+    tags['task-complete'] = Time.now.xmlschema
+  end
+
+  def task_complete?
+    tags.has_key? 'task-complete'
+  end
+
   def start_task
 
     case task
@@ -28,10 +36,10 @@ class Wip
 
         begin
           wip.ingest!
-          wip.done!
+          wip.task_complete
         rescue Reject => e
           wip.reject = e
-          wip.done!
+          wip.task_complete
         rescue => e
           wip.snafu = e
         end
