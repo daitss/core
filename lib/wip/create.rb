@@ -10,6 +10,11 @@ class Sip
 
   def initialize path
     @path = File.expand_path path
+    @descriptor_doc = open(descriptor_file) { |io| XML::Document.io io  }
+  end
+
+  def descriptor_file
+    descriptor_file = File.join @path, "#{name}.xml"
   end
 
   def name
@@ -25,10 +30,7 @@ class Sip
   end
 
   def owner_id f
-    name = File.basename @path
-    descriptor_file = File.join @path, "#{name}.xml"
-    doc = open(descriptor_file) { |io| XML::Document.io io  }
-    doc.find_first("//M:file[M:FLocat/@xlink:href='#{f}']/@OWNERID", NS_PREFIX).value rescue nil
+    @descriptor_doc.find_first("//M:file[M:FLocat/@xlink:href='#{f}']/@OWNERID", NS_PREFIX).value rescue nil
   end
 
 end
