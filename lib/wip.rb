@@ -44,13 +44,14 @@ class Wip
   end
 
   # returns a new data file that will persist in this aip
+  # if two processes are calling this method it will produce unspecified results
   def new_datafile id=nil
 
     df_id = if id
               id
             else
-              max_id = (datafiles.map { |df| df.id.to_i }.max || -1)
-              new_id = max_id + 1
+              @cached_max_id ||= (datafiles.map { |df| df.id.to_i }.max || -1)
+              @cached_max_id += 1
             end
 
     DataFile.new self, df_id.to_s
