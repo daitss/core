@@ -14,7 +14,7 @@ class FsHash
   end
 
   def [] key
-    open(key_path(key)) { |io| io.read } rescue nil
+    open(key_path(key)) { |io| io.read } if self.has_key? key
   end
 
   def keys
