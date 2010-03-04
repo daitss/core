@@ -10,8 +10,8 @@ describe Sip do
   end
 
   it "should detect the owner id" do
-    subject.owner_id(subject.files[0]).should == 'haskell-numbers-poster'
-    subject.owner_id(subject.files[1]).should be_nil
+    subject.owner_ids[subject.files[0]].should == 'haskell-numbers-poster'
+    subject.owner_ids[subject.files[1]].should be_nil
   end
 
 end

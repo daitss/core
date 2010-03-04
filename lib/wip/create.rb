@@ -6,11 +6,22 @@ include LibXML
 
 class Sip
   
-  attr_reader :path
+  attr_reader :path, :owner_ids
 
   def initialize path
     @path = File.expand_path path
     @descriptor_doc = open(descriptor_file) { |io| XML::Document.io io  }
+    @owner_ids = {}
+    extract_owner_ids
+  end
+
+  def extract_owner_ids
+
+    @descriptor_doc.find("/M:mets/M:fileSec//M:file[M:FLocat/@xlink:href]", NS_PREFIX).each do |node|
+      f = node.find_first('M:FLocat', NS_PREFIX)['href']
+      @owner_ids[f] = node['OWNERID'] if node['OWNERID']
+    end
+
   end
 
   def descriptor_file
@@ -27,10 +38,6 @@ class Sip
       Dir['**/*'].select { |f| File.file? f }.map { |f| f }.sort
     end
 
-  end
-
-  def owner_id f
-    @descriptor_doc.find_first("//M:file[M:FLocat/@xlink:href='#{f}']/@OWNERID", NS_PREFIX).value rescue nil
   end
 
 end
@@ -60,8 +67,7 @@ class Wip
       end
 
       df['sip-path'] = f
-      owner_id = sip.owner_id f
-      df['owner-id'] = owner_id if owner_id
+      df['owner-id'] = sip.owner_ids[f] if sip.owner_ids[f]
     end
 
     wip
