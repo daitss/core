@@ -20,7 +20,7 @@ describe PackageSubmitter do
 
   before(:each) do
     FileUtils.mkdir_p "/tmp/d2ws"
-    ENV["DAITSS_WORKSPACE"] = "/tmp/d2ws"
+    ENV["WORKSPACE"] = "/tmp/d2ws"
 
     a = add_account
     add_operator a
@@ -33,14 +33,14 @@ describe PackageSubmitter do
     FileUtils.rm_rf "/tmp/d2ws"
   end
 
-  it "should raise error on create AIP from ZIP file if DAITSS_WORKSPACE is not set to a valid dir" do
-    ENV["DAITSS_WORKSPACE"] = ""
+  it "should raise error on create AIP from ZIP file if WORKSPACE is not set to a valid dir" do
+    ENV["WORKSPACE"] = ""
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error
   end
 
-  it "should raise error on create AIP from TAR file if DAITSS_WORKSPACE is not set to a valid dir" do
-    ENV["DAITSS_WORKSPACE"] = ""
+  it "should raise error on create AIP from TAR file if WORKSPACE is not set to a valid dir" do
+    ENV["WORKSPACE"] = ""
 
     lambda { PackageSubmitter.submit_sip :tar, TAR_SIP, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error
   end
@@ -56,7 +56,7 @@ describe PackageSubmitter do
     ieid = PackageSubmitter.submit_sip :tar, TAR_SIP_NODIR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
     now = Time.now
 
-    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid)
+    wip = Wip.new File.join(ENV["WORKSPACE"], ieid)
 
     wip.datafiles.each do |datafile|
       (["ateam.tiff", "ateam.xml"].include? datafile.metadata["sip-path"]).should == true
@@ -89,7 +89,7 @@ describe PackageSubmitter do
     ieid = PackageSubmitter.submit_sip :zip, ZIP_SIP_NODIR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
     now = Time.now
 
-    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s)
+    wip = Wip.new File.join(ENV["WORKSPACE"], ieid.to_s)
 
     wip.datafiles.each do |datafile|
       (["ateam.tiff", "ateam.xml"].include? datafile.metadata["sip-path"]).should == true
@@ -129,7 +129,7 @@ describe PackageSubmitter do
   it "should extract descriptive metadata, if present" do
     ieid = PackageSubmitter.submit_sip :zip, ZIP_DMD_METADATA, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
-    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s)
+    wip = Wip.new File.join(ENV["WORKSPACE"], ieid.to_s)
 
     wip.metadata["dmd-title"].should == "The (fd)A Team"
     wip.metadata["dmd-issue"].should == "2"
@@ -139,7 +139,7 @@ describe PackageSubmitter do
   it "should extract FDA account/project if present" do
     ieid = PackageSubmitter.submit_sip :zip, ZIP_DMD_METADATA, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
-    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s)
+    wip = Wip.new File.join(ENV["WORKSPACE"], ieid.to_s)
 
     wip.metadata["dmd-account"].should == "ACT"
     wip.metadata["dmd-project"].should == "PRJ"
@@ -148,7 +148,7 @@ describe PackageSubmitter do
   it "should tolerate some missing DMD metadata" do
     ieid = PackageSubmitter.submit_sip :zip, ZIP_SIP_NODIR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
-    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s)
+    wip = Wip.new File.join(ENV["WORKSPACE"], ieid.to_s)
 
     wip.metadata["dmd-title"].should == "The (fd)A Team"
     wip.metadata["dmd-issue"].should == nil
@@ -158,7 +158,7 @@ describe PackageSubmitter do
   it "if there is an account specified in DMD metadata, then submission should create an agent for it" do
     ieid = PackageSubmitter.submit_sip :zip, ZIP_DMD_METADATA, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
-    wip = Wip.new File.join(ENV["DAITSS_WORKSPACE"], ieid.to_s)
+    wip = Wip.new File.join(ENV["WORKSPACE"], ieid.to_s)
 
 
     event_doc = LibXML::XML::Document.string wip.metadata["submit-event"]
