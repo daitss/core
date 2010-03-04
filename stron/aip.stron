@@ -28,6 +28,11 @@
         PREMIS Intellectual Entity must exist
       </assert>
     </rule>
+    <rule context="//beta:intellectualEntity">
+      <assert test="beta:originalName">
+        PREMIS Intellectual Entity must have a originalName
+      </assert>
+    </rule>
   </pattern>
 
   <pattern>
