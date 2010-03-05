@@ -16,6 +16,22 @@ describe Submission::App do
     Submission::App
   end
 
+  def authenticated_post uri, username, password, middle_param = {}
+    post uri, middle_param, {'HTTP_AUTHORIZATION' => encode_credentials(username, password)}
+  end
+
+  def authenticated_get uri, username, password, middle_param = {}
+    get uri, middle_param, {'HTTP_AUTHORIZATION' => encode_credentials(username, password)}
+  end
+
+  def authenticated_delete uri, username, password, middle_param = {}
+    delete uri, middle_param, {'HTTP_AUTHORIZATION' => encode_credentials(username, password)}
+  end
+
+  def authenticated_head uri, username, password, middle_param = {}
+    head uri, middle_param, {'HTTP_AUTHORIZATION' => encode_credentials(username, password)}
+  end
+
   before(:each) do
     FileUtils.mkdir_p "/tmp/d2ws"
     ENV["DAITSS_WORKSPACE"] = "/tmp/d2ws"
@@ -37,19 +53,19 @@ describe Submission::App do
   end
 
   it "returns 405 on GET" do
-    get '/', {}, {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'operator')}
+    authenticated_get "/", "operator", "operator"
 
     last_response.status.should == 405
   end
 
   it "returns 405 on DELETE" do
-    delete '/', {}, {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'operator')}
+    authenticated_delete "/", "operator", "operator"
 
     last_response.status.should == 405
   end
 
   it "returns 405 on HEAD" do
-    head '/', {}, {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'operator')}
+    authenticated_head "/", "operator", "operator"
 
     last_response.status.should == 405
   end
@@ -57,7 +73,7 @@ describe Submission::App do
   it "returns 400 on POST if request is missing X-Package-Name header" do
     header "X_PACKAGE_NAME", nil
 
-    post "/", "FOO", {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'operator')}
+    authenticated_post "/", "operator", "operator", "FOO"
 
     last_response.status.should == 400
     last_response.body.should == "Missing header: X_PACKAGE_NAME" 
@@ -66,7 +82,7 @@ describe Submission::App do
   it "returns 400 on POST if request is missing Content-MD5 header" do
     header "CONTENT_MD5", nil
 
-    post "/", "FOO", {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'operator')}
+    authenticated_post "/", "operator", "operator", "FOO"
 
     last_response.status.should == 400
     last_response.body.should == "Missing header: CONTENT_MD5" 
@@ -75,7 +91,7 @@ describe Submission::App do
   it "returns 400 on POST if request is missing X_ARCHIVE_TYPE header" do
     header "X_ARCHIVE_TYPE", nil
 
-    post "/", "FOO", {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'operator')}
+    authenticated_post "/", "operator", "operator", "FOO"
 
     last_response.status.should == 400
     last_response.body.should == "Missing header: X_ARCHIVE_TYPE" 
@@ -85,14 +101,14 @@ describe Submission::App do
   it "returns 400 on POST if X_ARCHIVE_TYPE is a value different from 'tar' or 'zip'" do
     header "X_ARCHIVE_TYPE", "foo"
 
-    post "/", "FOO", {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'operator')}
+    authenticated_post "/", "operator", "operator", "FOO"
 
     last_response.status.should == 400
     last_response.body.should == "X_ARCHIVE_TYPE header must be either 'tar' or 'zip'" 
   end
 
   it "returns 400 on POST if there is no body" do
-    post "/", {}, {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'operator')}
+    authenticated_post "/", "operator", "operator"
 
     last_response.status.should == 400
     last_response.body.should == "Missing body" 
@@ -101,7 +117,7 @@ describe Submission::App do
   it "returns 412 on POST if md5 checksum of body does not match md5 query parameter" do
     header "CONTENT_MD5", "cccccccccccccccccccccccccccccccc"
 
-    post "/", "FOO", {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'operator')} 
+    authenticated_post "/", "operator", "operator", "FOO"
 
     last_response.status.should == 412
     last_response.body.should =~ /does not match/
@@ -110,13 +126,13 @@ describe Submission::App do
   it "should return 500 if there is an unexpected exception" do
     Digest::MD5.stub!(:new).and_raise(StandardError)
     
-    post "/", "FOO", {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'operator')}
+    authenticated_post "/", "operator", "operator", "FOO"
     last_response.status.should == 500
 
   end
 
   it "should return 400 if submitted package is not a zip file when request header says it should be" do
-    post "/", "FOO", {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'operator')}
+    authenticated_post "/", "operator", "operator", "FOO"
 
     last_response.status.should == 400
     last_response.body.should == "Error extracting files in request body, is it malformed?" 
@@ -125,7 +141,7 @@ describe Submission::App do
   it "should return 400 if submitted package is not a tar file when request header says it should be" do
     header "X_ARCHIVE_TYPE", "tar"
 
-    post "/", "FOO", {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'operator')}
+    authenticated_post "/", "operator", "operator", "FOO"
 
     last_response.status.should == 400
     last_response.body.should == "Error extracting files in request body, is it malformed?" 
@@ -148,7 +164,7 @@ describe Submission::App do
     header "CONTENT_MD5", sip_md5.hexdigest
     
     # send request with real zip file
-    post "/", sip_string, {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'operator')}
+    authenticated_post "/", "operator", "operator", sip_string
 
     ieid = last_response.headers["X_IEID"]
 
@@ -176,7 +192,7 @@ describe Submission::App do
     header "X_ARCHIVE_TYPE", "tar"
     
     # send request with real zip file
-    post "/", sip_string, {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'operator')}
+    authenticated_post "/", "operator", "operator", sip_string
 
     ieid = last_response.headers["X_IEID"]
 
@@ -225,7 +241,7 @@ describe Submission::App do
     header "CONTENT_MD5", sip_md5.hexdigest
     
     # send request with real zip file, but with credentials for contact without submit permission
-    post "/", sip_string, {'HTTP_AUTHORIZATION' => encode_credentials('foobar', 'foobar')}
+    authenticated_post "/", "foobar", "foobar", sip_string
 
     last_response.status.should == 403
   end
@@ -247,7 +263,7 @@ describe Submission::App do
     header "CONTENT_MD5", sip_md5.hexdigest
     
     # send request with real zip file, but with wrong credentials
-    post "/", sip_string, {'HTTP_AUTHORIZATION' => encode_credentials('operator', 'foobar')}
+    authenticated_post "/", "operator", "foobar", sip_string
 
     last_response.status.should == 403
   end
