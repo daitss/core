@@ -6,9 +6,9 @@ class Account
   include DataMapper::Resource
 
   property :id, Serial
-  property :name, String, :nullable => false
-  property :code, String, :nullable => false
+  property :name, String, :required => true
+  property :code, String, :required => true, :unique => true
 
-  has n, :contacts
+  has n, :operations_agents
   has n, :projects
 end

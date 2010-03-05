@@ -7,6 +7,7 @@ require 'schematron'
 require 'uri'
 require 'jxml/validator'
 require 'daitss/config'
+require 'net/http'
 
 include LibXML
 
@@ -20,7 +21,7 @@ XML_SCHEMA_VALIDATOR = JXML::Validator.new
 class Aip
 
   include DataMapper::Resource
-  property :id, String, :key => true
+  property :id, String, :key => true # daitss1 ieid
   property :uri, String, :unique => true, :required => true
   property :xml, Text, :required => true, :length => (1..2**32-1)
   property :copy_url, URI, :required => true

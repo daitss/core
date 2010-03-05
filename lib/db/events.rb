@@ -1,13 +1,13 @@
 Event_Types = { 
-  "Ingest" => :ingest,
-  "Submit" => :submit,
-  "Validate" => :validate,
-  "Dissemination" => :disseminate,
-  "Withdraw" => :withdraw,
-  "Fixity Check" => :fixitycheck,
-  "Format Description" => :describe,
-  "Normalization" => :normalize, 
-  "Migration" => :migrate }
+  "ingest" => :ingest,
+  "submit" => :submit,
+  "comprehensive validation" => :validate,
+  "dissemination" => :disseminate,
+  "withdraw" => :withdraw,
+  "fixity Check" => :fixitycheck,
+  "format description" => :describe,
+  "normalize" => :normalize, 
+  "migration" => :migrate }
 
   class Event
     include DataMapper::Resource
@@ -24,6 +24,9 @@ Event_Types = {
     # an event must be associated with an agent
     # note: for deletion event, the agent would be reingest.
 
+    # datamapper return system error once this constraint is added in.  so we will delete relationship manually
+    # has 0..n, :relationships, :constraint=>:destroy
+     
     def setRelatedObject objid
       attribute_set(:relatedObjectId, objid)
     end 
@@ -32,7 +35,7 @@ Event_Types = {
       attribute_set(:id, premis.find_first("premis:eventIdentifier/premis:eventIdentifierValue", NAMESPACES).content)
       attribute_set(:idType, premis.find_first("premis:eventIdentifier/premis:eventIdentifierType", NAMESPACES).content)
       type = premis.find_first("premis:eventType", NAMESPACES).content
-      attribute_set(:e_type, Event_Types[type])
+      attribute_set(:e_type, Event_Types[type.downcase])
       attribute_set(:datetime, premis.find_first("premis:eventDateTime", NAMESPACES).content)
       attribute_set(:outcome, premis.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NAMESPACES).content)
     end
@@ -59,13 +62,19 @@ Event_Types = {
         if detailsExtension.nil?
           attribute_set(:outcome_details, details.content.strip!) 
         else
-          puts detailsExtension
           @anomalies = Array.new
           anomalies = detailsExtension.find("//premis:anomaly", NAMESPACES)
           anomalies.each do |obj|
             anomaly = Anomaly.new
             anomaly.fromPremis(obj)
-            df.severe_element << anomaly
+            # use the existing anomaly record in the database if we have seen this anomaly before
+            existinganomaly = Anomaly.first(:name => anomaly.name)
+            puts "existing anomaly #{anomaly.inspect} #{existinganomaly.inspect}"
+            if existinganomaly
+              df.severe_element << existinganomaly
+            else
+              df.severe_element << anomaly
+            end
           end
         end
       end

@@ -35,6 +35,10 @@ Given /^an aip containing a jp2 file$/ do
   @file = "#{abs}/files/jp2.xml"
 end
 
+Given /^an aip containing a geotiff file$/ do
+  @file = "#{abs}/files/geotiff.xml"
+end
+
 Given /^an aip containing a xml$/ do
   @file = "#{abs}/files/pdf-monodescriptor.xml"
 end
@@ -45,7 +49,7 @@ end
 
 When /^populating the aip$/ do
   aip = AIPInPremis.new
-  aip.process @file
+  aip.processAIPFile @file
 end
 
 Then /^I should see (.+?) intentitiy record$/ do |ieid|
@@ -55,9 +59,9 @@ end
 
 Then /^all (.+) representations should exist/ do |ieid|
   # check for representation-0, representation-current
-  r0 = Representation.first(:intentity_id => ieid, :id => 'representation-0')
+  r0 = Representation.first(:intentity_id => ieid, :id => 'representation/original')
   r0.should_not be_nil
-  rc = Representation.first(:intentity_id => ieid, :id => 'representation-current')
+  rc = Representation.first(:intentity_id => ieid, :id => 'representation/current')
   rc.should_not be_nil
 end
 	

@@ -5,8 +5,8 @@ class Project
   include DataMapper::Resource
 
   property :id, Serial
-  property :name, String, :nullable => false
-  property :code, String, :nullable => false
+  property :name, String, :required => true
+  property :code, String, :required => true
   
   belongs_to :account
 end

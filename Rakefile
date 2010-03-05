@@ -4,16 +4,46 @@ require 'rake/gempackagetask'
 require 'cucumber/rake/task'
 require 'semver'
 require 'daitss2'
+require 'db/aip'
+
+DataMapper.setup(:aipstore, 'mysql://daitss:topdrawer@localhost/aip')
 
 Cucumber::Rake::Task.new
 
 task :db_migrate do
   DataMapper::auto_migrate!
-end
+  # Account.auto_migrate!
+  # Agent.auto_migrate!
+  # Audio.auto_migrate!  
+  # Bitstream.auto_migrate!
+  # Datafile.auto_migrate!
+  # DatafileRepresentation.auto_migrate!
+  # Document.auto_migrate!
+  # Event.auto_migrate!
+  # Format.auto_migrate!
+  # Image.auto_migrate!
+  # Representation.auto_migrate!
+  #  Intentity.auto_migrate!
+  # AuthenticationKey.auto_migrate!
+  # MessageDigest.auto_migrate!
+  # ObjectFormat.auto_migrate!
+  # OperationsAgent.auto_migrate!
+  # OperationsEvent.auto_migrate!
+  # Project.auto_migrate!
+  # Relationship.auto_migrate!
 
+  # SevereElement.auto_migrate!
+  # Text.auto_migrate!
+end
 
 task :db_upgrade do
   DataMapper::auto_upgrade!
+end
+
+task :aip_migrate do
+  repository(:aipstore) do
+    Aip.auto_migrate!
+  end
 end
 
 # build a gem spec
