@@ -88,7 +88,7 @@ class Aip
     u = ::URI.parse copy_url
     req = Net::HTTP::Head.new u.path
     res = Net::HTTP.start(u.host, u.port) do |http|
-      http.read_timeout = CONFIG['http-timeout']
+      http.read_timeout = Daitss::CONFIG['http-timeout']
       http.request req
     end
 
