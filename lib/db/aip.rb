@@ -6,6 +6,7 @@ require 'libxml'
 require 'schematron'
 require 'uri'
 require 'jxml/validator'
+require 'daitss/config'
 
 include LibXML
 
@@ -85,7 +86,10 @@ class Aip
   def head_copy
     u = ::URI.parse copy_url
     req = Net::HTTP::Head.new u.path
-    res = Net::HTTP.start(u.host, u.port) { |http| http.request(req) }
+    res = Net::HTTP.start(u.host, u.port) do |http|
+      http.read_timeout = CONFIG['http-timeout']
+      http.request req
+    end
 
     case res
     when Net::HTTPSuccess then res
