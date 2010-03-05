@@ -14,7 +14,9 @@ REPOS = {
   'storage' => 'git://github.com/daitss/storage.git',
   'actionplan' => 'git://github.com/daitss/actionplan.git',
   'validate' => 'git://github.com/daitss/validate.git',
-  'transform' => 'git://github.com/daitss/transform.git'
+  'transform' => 'git://github.com/daitss/transform.git',
+  'submission' => 'git://github.com/daitss/submission.git',
+  'request' => 'git://github.com/daitss/request.git'
 }
 
 def check_ghostscript
@@ -36,13 +38,15 @@ end
 def require_services
 
 
-  %w(describe validate actionplan transform storage).each do |service|
+  %w(describe validate actionplan transform storage submission request).each do |service|
     service_dir = File.join SERVICES_DIR, service
     $:.unshift File.join(service_dir, 'lib')
 
     app_filename = case service
                    when 'describe' then 'describe'
                    when 'transform' then 'transform'
+                   when 'submission' then 'submission'
+                   when 'request' then 'hermes'
                    else 'app'
                    end
 
@@ -88,6 +92,13 @@ def service_stack
       run StatusEcho.new
     end
 
+    map "/submission" do
+      run Submission::App.new
+    end
+    
+    map "/request" do
+      run Hermes::App.new
+    end
   end
 
 end
