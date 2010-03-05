@@ -5,7 +5,6 @@ require 'package_submitter'
 require 'digest/md5'
 require 'tempfile'
 require 'digest/sha1'
-require 'database-config'
 
 module Submission
 
