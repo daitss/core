@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'ruby-debug'
 require "datamapper"
 require "daitss/config"
 require 'wip/ingest'
@@ -30,6 +31,7 @@ wip = begin
         puts e.backtrace
         exit 1
       end
+
 begin
   wip.ingest!
 rescue Reject => e
