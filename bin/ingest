@@ -37,12 +37,10 @@ rescue Reject => e
   sio.puts Time.now
   sio.puts e.message
   wip.tags['reject'] = sio.string
+  puts 'rejected'
   exit 2
 rescue => e
-  sio = StringIO.new
-  sio.puts Time.now
-  sio.puts e.message
-  sio.puts e.backtrace
-  wip.tags['snafu'] = sio.string
+  puts e.message
+  puts e.backtrace
   exit 3
 end
