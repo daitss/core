@@ -19,12 +19,13 @@ class AIPPolling
         aipInPremis.process doc
       end
     rescue 
-      puts "problem populating #{aip.uri}, daitss 2 dataase is not updated!"
-    else #only update aip store after a successful daitss2 fast access db population
+      puts "problem populating #{aip.uri}, daitss 2 database is not updated!"
+    else # only update aip store after a successful daitss2 fast access db population
       repository(:aipstore) do
         aip.update!(:needs_work => false)
       end
     end
   end
+  
 end
 

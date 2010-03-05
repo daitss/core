@@ -43,7 +43,7 @@ class Intentity
   
   # delete this datafile record and all its children from the database
   def deleteChildren
-    puts "DELETE #{self.inspect}"
+    puts "*DELETE DATAFILE #{self.inspect}"
     # delete all events associated with this int entity
     dfevents = Event.all(:relatedObjectId => @id)
     dfevents.each do |e|
