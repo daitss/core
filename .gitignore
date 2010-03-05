@@ -1,4 +1,5 @@
 *.gem
+ws
 pkg
 *.log
 *.tmproj
