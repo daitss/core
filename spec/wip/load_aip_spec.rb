@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'wip'
 require 'wip/ingest'
+require 'wip/dmd'
 require 'wip/load_aip'
 require 'datafile/normalized_version'
 
@@ -34,6 +35,18 @@ describe Wip do
       subject.metadata.should have_key( 'copy-size' )
     end
 
+    it "should load the dmd" do
+       pending 'need integration of submit'
+
+      Wip::DMD_KEYS.each do |key|
+        subject.metadata.should have_key( key )
+      end
+
+    end
+
+    it "should load the originalName (sip-name)" do
+      subject.metadata.should have_key( 'sip-name' )
+    end
 
     it "should pull all datafiles" do
       subject.datafiles.should have_exactly(3).items
