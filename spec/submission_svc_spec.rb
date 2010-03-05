@@ -7,13 +7,13 @@ require 'sinatra'
 require 'base64'
 require 'helper'
 
-set :environment, :test
 
-describe "Submission Service" do
+describe Submission::App do
+
   include Rack::Test::Methods
 
   def app
-    Sinatra::Application
+    Submission::App
   end
 
   before(:each) do
