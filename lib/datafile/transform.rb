@@ -11,7 +11,7 @@ class DataFile
     req.form_data = { 'location' => "file:#{File.expand_path datapath}" }
 
     res = Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = Daitss::CONFIG['http-read-timeout']
+      http.read_timeout = Daitss::CONFIG['http-timeout']
       http.request req
     end
 
@@ -32,7 +32,7 @@ class DataFile
       req = Net::HTTP::Get.new link.path
 
       res = Net::HTTP.start(url.host, url.port) do |http|
-        http.read_timeout = Daitss::CONFIG['http-read-timeout']
+        http.read_timeout = Daitss::CONFIG['http-timeout']
         http.request req
       end
 

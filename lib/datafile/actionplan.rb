@@ -20,7 +20,7 @@ class DataFile
     req.set_form_data 'description' => metadata['describe-file-object'] 
 
     res = Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = Daitss::CONFIG['http-read-timeout']
+      http.read_timeout = Daitss::CONFIG['http-timeout']
       http.request req
     end
 
