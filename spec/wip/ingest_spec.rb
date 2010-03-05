@@ -32,11 +32,11 @@ describe Wip do
     end
 
     it "should be validated" do
-      @wip.tags.should have_key('step-validate')
+      @wip.should have_step('validate')
     end
 
     it "should have an aip descriptor" do
-      @wip.tags.should have_key('step-make-aip-descriptor')
+      @wip.should have_step('make-aip-descriptor')
     end
 
     it "should have an ingest event" do
