@@ -18,7 +18,9 @@ class AIPPolling
         aipInPremis = AIPInPremis.new
         aipInPremis.process doc
       end
-    rescue 
+    rescue => e
+      puts e.message
+      puts e.backtrace
       puts "problem populating #{aip.uri}, daitss 2 database is not updated!"
     else # only update aip store after a successful daitss2 fast access db population
       repository(:aipstore) do

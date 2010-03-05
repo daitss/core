@@ -10,8 +10,8 @@ class Datafile < Pobject
     # map from package_path + file_title + file_ext
   property :creating_application, String, :length => (0..255)
 
-  has n, :datafile_representation, :constraint=>:destroy
-  has 1..n, :representations, :through => :datafile_representation, :constraint=>:destroy
+  # has n, :datafile_representation, :constraint=>:destroy
+  #  has 1..n, :representations, :through => :datafile_representation, :constraint=>:destroy
   has 0..n, :bitstreams, :constraint=>:destroy # a datafile may contain 0-n bitstream(s)
   has n, :datafile_severe_element, :constraint=>:destroy
   has 0..n, :severe_element, :through => :datafile_severe_element, :constraint=>:destroy # a datafile may contain 0-n severe_elements
