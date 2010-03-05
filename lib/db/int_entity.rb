@@ -10,7 +10,7 @@ class Intentity
   property :title, Text
   
   # belongs_to :project
-  has 1..n, :representations, :constraint=>:destroy
+  # has 1..n, :representations, :constraint=>:destroy
   
   before :destroy, :deleteChildren
   
@@ -43,7 +43,6 @@ class Intentity
   
   # delete this datafile record and all its children from the database
   def deleteChildren
-    puts "*DELETE DATAFILE #{self.inspect}"
     # delete all events associated with this int entity
     dfevents = Event.all(:relatedObjectId => @id)
     dfevents.each do |e|
