@@ -18,10 +18,6 @@ Spec::Rake::SpecTask.new do |t|
   t.spec_opts << "--color"
 end
 
-Cucumber::Rake::Task.new do |t|
-  t.cucumber_opts = "--format pretty"
-end
-
 # build a gem spec
 spec = Gem::Specification.new do |spec|
   spec.name = "daitss-functions"
@@ -37,7 +33,6 @@ spec = Gem::Specification.new do |spec|
   spec.add_dependency 'sys-proctable', '~> 0.9.0'
   spec.add_dependency 'libxml-ruby', '>= 1.1.2'
   spec.has_rdoc = true
->>>>>>> ingest/master
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
