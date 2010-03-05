@@ -1,11 +1,10 @@
 require 'spec_helper'
-require 'wip'
 require 'wip/step'
 
 
 describe Wip do
 
-  describe "that takes soft steps" do
+  describe "taking soft steps" do
 
     it "should make a step tag with the timestamp" do
       wip = submit_sip 'mimi'
@@ -23,9 +22,15 @@ describe Wip do
       m1.should == m2
     end
 
+    it "should know if it has taken a step" do
+      wip = submit_sip 'mimi'
+      wip.step('add'){ 2 + 3 }
+      wip.should have_step('add')
+    end
+
   end
 
-  describe "that takes hard steps" do
+  describe "taking hard steps" do
 
     it "should perform an operation even if the step has been performed" do
       wip = submit_sip 'mimi'

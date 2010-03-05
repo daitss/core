@@ -28,66 +28,61 @@ class Wip
 
     new_current_rep = current_rep.map do |df| 
 
-      step("migrate-#{df.id}") do
-        transformation_url = df.migration
+      transformation_url = df.migration
 
-        if transformation_url
-          products = df.transform transformation_url
-          data, extension = products.first # XXX only 1-1 is supported now
+      if transformation_url
+        products = df.transform transformation_url
+        data, extension = products.first # XXX only 1-1 is supported now
 
-          begin
-            new_df = new_datafile
-            new_df.open('w') { |io| io.write data }
-            new_df['extension'] = extension
-            new_df['aip-path'] = "#{df.id}-migration#{extension}"
-            new_df.describe!(:derivation_source => df.uri,
-                             :derivation_method => :migrate,
-                             :derivation_agent => transformation_url)
-            new_df
-          rescue
-            remove_datafile new_df
-            raise
-          end
-
-        else
-          df
+        begin
+          new_df = new_datafile
+          new_df.open('w') { |io| io.write data }
+          new_df['extension'] = extension
+          new_df['aip-path'] = "#{df.id}-migration#{extension}"
+          new_df.describe!(:derivation_source => df.uri,
+                           :derivation_method => :migrate,
+                           :derivation_agent => transformation_url)
+          new_df
+        rescue
+          remove_datafile new_df
+          raise
         end
 
+      else
+        df
       end
+
 
     end
 
     new_normalized_rep = original_rep.map do |df| 
 
-      step("normalize-#{df.id}") do
-        transformation_url = df.normalization
+      transformation_url = df.normalization
 
-        if transformation_url
-          products = df.transform transformation_url
-          data, extension = products.first # XXX only 1-1 is supported now
+      if transformation_url
+        products = df.transform transformation_url
+        data, extension = products.first # XXX only 1-1 is supported now
 
-          begin
-            norm_df = df.normalized_version || new_datafile 
-            norm_df.open('w') { |io| io.write data }
-            norm_df['extension'] = extension
-            norm_df['aip-path'] = "#{df.id}-normalization#{extension}"
+        begin
+          norm_df = df.normalized_version || new_datafile 
+          norm_df.open('w') { |io| io.write data }
+          norm_df['extension'] = extension
+          norm_df['aip-path'] = "#{df.id}-normalization#{extension}"
 
-            step! "describe-#{norm_df.id}" do
-              norm_df.describe!(:derivation_source => df.uri, 
-                                :derivation_method => :normalize,
-                                :derivation_agent => transformation_url)
-            end
-
-            norm_df
-          rescue
-            remove_datafile norm_df
-            raise
+          step! "describe-#{norm_df.id}" do
+            norm_df.describe!(:derivation_source => df.uri, 
+                              :derivation_method => :normalize,
+                              :derivation_agent => transformation_url)
           end
 
-        else
-          df
+          norm_df
+        rescue
+          remove_datafile norm_df
+          raise
         end
 
+      else
+        df
       end
 
     end

@@ -24,6 +24,10 @@ class Wip
     m
   end
 
+  def has_step? name
+    tags.has_key? step_key(name)
+  end
+
   private 
 
   def step_key name

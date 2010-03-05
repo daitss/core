@@ -5,6 +5,7 @@ require 'wip/representation'
 describe Wip do
 
   describe "with one migration" do
+
     before :all do
       @wip = submit_sip 'mimi' 
       @wip.preserve!
@@ -14,6 +15,7 @@ describe Wip do
         :pdf => @wip.datafiles.find { |df| df['sip-path'] == 'mimi.pdf' },
         :tif => @wip.datafiles.find { |df| df['aip-path'] }
       }
+
     end
 
     it "should have 3 datafiles" do
@@ -34,9 +36,6 @@ describe Wip do
       @wip.current_rep.should include(@files[:xml])
       @wip.current_rep.should include(@files[:pdf])
       @wip.current_rep.should_not include(@files[:tif])
-
-      migration_tags = @wip.tags.keys.select { |key| key =~ /migrate-\d+/ }
-      migration_tags.should have_exactly(2).items
     end
 
     it "should have a normalized representation just with only an xml and a tif" do
@@ -44,9 +43,6 @@ describe Wip do
       @wip.normalized_rep.should include(@files[:xml])
       @wip.normalized_rep.should include(@files[:tif])
       @wip.normalized_rep.should_not include(@files[:pdf])
-
-      normalization_tags = @wip.tags.keys.select { |key| key =~ /normalize-\d+/ }
-      normalization_tags.should have_exactly(2).items
     end
 
   end
