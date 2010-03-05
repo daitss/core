@@ -1,11 +1,11 @@
 require 'dm-core'
 require 'db/operations_agents'
 
-class Key
+class AuthenticationKey
   include DataMapper::Resource
 
   property :id, Serial
-  property :key, Text
+  property :auth_key, Text
 
-  has 1, :operations_agent
+  belongs_to :operations_agent
 end

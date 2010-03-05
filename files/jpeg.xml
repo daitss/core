@@ -7,7 +7,7 @@
 					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="representation">
 						<objectIdentifier>
 							<objectIdentifierType>URI</objectIdentifierType>
-							<objectIdentifierValue>representation-current</objectIdentifierValue>
+							<objectIdentifierValue>representation/current</objectIdentifierValue>
 						</objectIdentifier>
 						<relationship>
 							<relationshipType>structural</relationshipType>
@@ -35,7 +35,7 @@
 					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="representation">
 						<objectIdentifier>
 							<objectIdentifierType>URI</objectIdentifierType>
-							<objectIdentifierValue>representation-0</objectIdentifierValue>
+							<objectIdentifierValue>representation/original</objectIdentifierValue>
 						</objectIdentifier>
 						<relationship>
 							<relationshipType>structural</relationshipType>

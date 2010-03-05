@@ -9,9 +9,16 @@ class MessageDigest
   # property :dfid, String, :length => 16, :key => true # :unique_index => :u1 
   property :code, Enum[:md5, :sha1, :crc32] #, :key=>true, :unique_index => :u1 
   property :value,  String, :required => true, :length => 255
+  property :origin, Enum[:unknown, :archive, :depositor], :default => :unknown
   
   belongs_to :datafile #, :key => true#, :unique_index => :u1  the associated Datafile
 
+  before :create, :check_unique_code 
+  
+  def check_unique_code 
+    MessageDigest.first(:code => code, :datafile_id => datafile_id)
+  end
+  
   def fromPremis(premis)
     code = premis.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigestAlgorithm", NAMESPACES).content
     attribute_set(:code, DIGEST_CODES[code])

@@ -3,7 +3,6 @@ require 'daitss2.rb'
 
 class AIPInPremis
   def initialize 
-    @int_entity = Intentity.new
     @representations = Array.new
     @datafiles = Hash.new
     @bitstreams = Hash.new
@@ -14,10 +13,54 @@ class AIPInPremis
   end
 
   # process an aip descriptor described in a premis-in-mets format.
-  def process aip_file
+  def processAIPFile aip_file
     # read in the AIP descriptor
-    @doc = XML::Document.file aip_file
-    @int_entity.fromPremis
+    process XML::Document.file aip_file
+  end
+
+  def processIntEntity premis
+    @int_entity = Intentity.new
+    @int_entity.fromAIP @doc
+    puts @int_entity.inspect
+    # check if this is an existing int entity, if not create a new int entity object with 
+    # the read-in premis info.  Otheriwse, destroy the existing int entity records in the database 
+    # including all related datafiles, representations, events and agents. 
+    entities = Intentity.all(:id => @int_entity.id)  
+    puts "entity #{entities}"
+
+    entities.each do |entity|
+      # start database traction for deleting the associated record for the aip.  If there is any failure during database save, 
+      # datamapper automatically rollback the change.
+      Intentity.transaction do
+        puts entity.id
+        # destroy all files in the int entities 
+        files = Hash.new
+        representations = Representation.all(:intentity_id => entity.id)
+        representations.each do |rep| 
+          dfreps = DatafileRepresentation.all(:representation_id => rep.id)
+          dfreps.each do |dfrep|
+            dfs = Datafile.all(:id => dfrep.datafile_id)
+            dfs.each do |df| 
+              # remove all events and relationship associated with this datafile
+              files[df.id] = df 
+            end
+          end
+        end
+        # files.each {|id,df| df.deleteChildren}
+        files.each do |id,df| 
+          df.destroy
+        end
+        # entity.deleteChildren
+        entity.destroy
+      end
+    end
+  end
+
+  # process an aip descriptor described in a premis-in-mets format.
+  def process aipxml
+    @doc = aipxml
+
+    processIntEntity @doc
 
     # process all premis file objects
     processDatafiles
@@ -51,6 +94,7 @@ class AIPInPremis
   def processRepresentations
     r0 = Array.new
     rc = Array.new
+    rn = Array.new
 
     repObjects = @doc.find("//premis:object[@xsi:type='representation']", NAMESPACES)
     repObjects.each do |obj|
@@ -67,6 +111,8 @@ class AIPInPremis
             r0 << dfid
           elsif rep.isRC
             rc << dfid
+          elsif rep.isRN
+            rn << dfid
           end
         end
       end
@@ -77,7 +123,7 @@ class AIPInPremis
 
     # set the origin of all datafiles by deriving the origin information from their associations with representations
     @datafiles.each do |dfid, df|
-      df.setOrigin r0, rc
+      df.setOrigin r0, rc, rn
     end
   end
 
@@ -109,8 +155,14 @@ class AIPInPremis
     agentObjects.each do |obj|
       agent = Agent.new
       agent.fromPremis obj
-      # only create a new agent record if the agent has NOT been seen before
-      @agents[agent.id] = agent if (Agent.first(:id => agent.id).nil?)
+
+      # use the existing agent record in the database if we have seen this agent before
+      existingAgent = Agent.get(agent.id)
+      if existingAgent
+        @agents[agent.id] = existingAgent
+      else
+        @agents[agent.id] = agent
+      end
     end
   end
 
@@ -125,11 +177,18 @@ class AIPInPremis
       agent_id = obj.find_first("premis:linkingAgentIdentifier/premis:linkingAgentIdentifierValue", NAMESPACES)
       agent = @agents[agent_id.content] unless agent_id.nil?   
 
-      unless df.nil?
+      if df   #first check if this event is linked to a file object
         event = DatafileEvent.new
         event.fromPremis(obj, df)
         event.setRelatedObject id.content
-        #associate agent to the event
+        # associate agent to the event
+        agent.events << event unless agent.nil?
+        @events[event.id] = event
+      elsif id && @int_entity.match(id.content) #then check if this event links to int entity
+        event = IntentityEvent.new
+        event.fromPremis(obj)
+        event.setRelatedObject id.content
+        # associate agent to the event
         agent.events << event unless agent.nil?
         @events[event.id] = event
       end
@@ -170,12 +229,11 @@ class AIPInPremis
       # start database traction for saving the associated record for the aip.  If there is any failure during database save, 
       # datamapper automatically rollback the change.
       Intentity.transaction do 
-        #TODO: @int_entity.save  
-        @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
-        # not necessary to explicitely save representations since representations will be saved through datafiles associations
+        @int_entity.save  
+        # not necessary to explicitely save representations since representations will be saved through intentity associations        
+        # @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
         @datafiles.each {|dfid, df|  raise 'error saving datafile records' unless  df.save } 
         @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
-        @agents.each {|id, ag|  raise 'error saving agent records' unless ag.save }
         @events.each {|id, e|  raise 'error saving event records' unless e.save }
         @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
       end

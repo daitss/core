@@ -22,10 +22,12 @@ class Document
     :hasAnnotations, :hasAttachments, :useTransparency]
     # additional document features.
     
-  has 0..n, :fonts # A document can contain 0-n fonts
-  belongs_to :datafile, :index => true
+  has 0..n, :fonts, :constraint=>:destroy # A document can contain 0-n fonts
+  property :datafile_id, String, :length => 100
+  property :bitstream_id, String, :length => 100  
+  # belongs_to :datafile, :index => true
     # Document may be associated with a Datafile, null if the document is associated with a bitstream
-  belongs_to :bitstream, :index => true
+  # belongs_to :bitstream, :index => true
     # Document may be associated with a bitstream, null if the document is associated with a datafile
   
   def fromPremis premis

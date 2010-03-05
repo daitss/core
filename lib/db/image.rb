@@ -77,9 +77,11 @@ class Image
   property :extra_samples, Enum[:unspecified_data, :associated_alpha_data, :unassociated_alpha_data, :range_data]
     # specifies that each pixel has M extra components whose interpretation is defined as above
     
-  belongs_to :datafile, :index => true # Image may be associated with a Datafile, 
+  property :datafile_id, String, :length => 100
+  property :bitstream_id, String, :length => 100
+  # belongs_to :datafile, :index => true # Image may be associated with a Datafile, 
      # null if the image is associated with a bitstream
-  belongs_to :bitstream, :index => true # Image may be associated with a bitstream, 
+  # belongs_to :bitstream, :index => true # Image may be associated with a bitstream, 
      # null if the image is associated with a datafile
   
   def setDFID dfid

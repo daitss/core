@@ -62,52 +62,47 @@
 				<xmlData>
 					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
 						<objectIdentifier>
-							<objectIdentifierType>d2</objectIdentifierType>
+							<objectIdentifierType>URI</objectIdentifierType>
 							<objectIdentifierValue>file-1</objectIdentifierValue>
 						</objectIdentifier>
 						<objectCharacteristics>
 							<compositionLevel>0</compositionLevel>
 							<fixity>
 								<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
-								<messageDigest>32368f9d667245de4efd2bc51a2c0ad2</messageDigest>
+								<messageDigest>9a8f523ef764c9b64933c66fa7cb1b36</messageDigest>
 							</fixity>
-							<size>10543349</size>
+							<size>152039676</size>
 							<format>
 								<formatDesignation>
-									<formatName>PDF</formatName>
-									<formatVersion>1.4</formatVersion>
+									<formatName>TIFF</formatName>
+									<formatVersion>6.0</formatVersion>
 								</formatDesignation>
 								<formatRegistry>
 									<formatRegistryName>http://www.nationalarchives.gov.uk/pronom</formatRegistryName>
-									<formatRegistryKey>fmt/18</formatRegistryKey>
+									<formatRegistryKey>fmt/10</formatRegistryKey>
 								</formatRegistry>	
 							</format>
-							<objectCharacteristicsExtension>
-								<doc xmlns="http://www.fcla.edu/dls/md/docmd">
-									<document>
-										<PageCount>150</PageCount>
-										<Language>&lt;May be encrypted&gt;</Language>
-										<Font FontName="Calibri" isEmbedded="true"/>
-										<Font FontName="Times&#x200;New&#x200;Roman,Bold" isEmbedded="false"/>
-										<Font FontName="Times&#x200;New&#x200;Roman,Italic" isEmbedded="false"/>
-										<Font FontName="Arial" isEmbedded="false"/>
-										<Font FontName="Arial,Italic" isEmbedded="false"/>
-										<Font FontName="Times&#x200;New&#x200;Roman" isEmbedded="false"/>
-										<Font FontName="" isEmbedded="true"/>
-										<Font FontName="" isEmbedded="true"/>
-										<Feature>hasAnnotations</Feature>
-									</document>
-								</doc>
-							</objectCharacteristicsExtension>
-							<inhibitors>
-								<inhibitorType>Password protection</inhibitorType>
-								<inhibitorTarget>UserAccess: Print high quality</inhibitorTarget>
-								<inhibitorKey></inhibitorKey>
-							</inhibitors>
+							<format>
+								<formatDesignation>
+									<formatName>Baseline GeoTIFF 1.0</formatName>
+								</formatDesignation>
+							</format>
+							<creatingApplication>
+								<creatingApplicationName></creatingApplicationName>
+								<dateCreatedByApplication>2000-07-12T10:02:00-04:00</dateCreatedByApplication>
+							</creatingApplication>
 						</objectCharacteristics>
-						<originalName>pwprotected.pdf</originalName>
+						<originalName>tjpeg.tif</originalName>
+						<relationship>
+							<relationshipType>structural</relationshipType>
+							<relationshipSubType>includes</relationshipSubType>
+							<relatedObjectIdentification>
+								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+								<relatedObjectIdentifierValue>file-1/1</relatedObjectIdentifierValue>
+							</relatedObjectIdentification>
+						</relationship>
 						<linkingEventIdentifier>
-							<linkingEventIdentifierType>d2</linkingEventIdentifierType>
+							<linkingEventIdentifierType>URI</linkingEventIdentifierType>
 							<linkingEventIdentifierValue>event-4</linkingEventIdentifierValue>
 						</linkingEventIdentifier>
 					</object>
@@ -119,7 +114,7 @@
 				<xmlData>
 					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
 						<objectIdentifier>
-							<objectIdentifierType>d2</objectIdentifierType>
+							<objectIdentifierType>URI</objectIdentifierType>
 							<objectIdentifierValue>file-0</objectIdentifierValue>
 						</objectIdentifier>
 						<objectCharacteristics>
@@ -158,9 +153,128 @@
 						</objectCharacteristics>
 						<originalName>files/haskell-nums-pdf.xml</originalName>
 						<linkingEventIdentifier>
-							<linkingEventIdentifierType>d2</linkingEventIdentifierType>
+							<linkingEventIdentifierType>URI</linkingEventIdentifierType>
 							<linkingEventIdentifierValue>event-2</linkingEventIdentifierValue>
 						</linkingEventIdentifier>
+					</object>
+				</xmlData>
+			</mdWrap>
+		</techMD>
+		<techMD ID="tech-5">
+			<mdWrap MDTYPE="PREMIS">
+				<xmlData>
+					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+						<objectIdentifier>
+							<objectIdentifierType>URI</objectIdentifierType>
+							<objectIdentifierValue>file-1/1</objectIdentifierValue>
+						</objectIdentifier>
+						<objectCharacteristics>
+							<compositionLevel>0</compositionLevel>
+							<format>
+								<formatDesignation>
+									<formatName>Unknown</formatName>
+								</formatDesignation>
+							</format>
+							<objectCharacteristicsExtension>
+								<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+									<mix:BasicDigitalObjectInformation>
+										<mix:ObjectIdentifier>
+											<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+										</mix:ObjectIdentifier>
+										<mix:byteOrder>little endian</mix:byteOrder>
+										<mix:Compression>
+											<mix:compressionScheme>Unknown</mix:compressionScheme>
+										</mix:Compression>
+									</mix:BasicDigitalObjectInformation>
+									<mix:BasicImageInformation>
+										<mix:BasicImageCharacteristics>
+											<mix:imageWidth>16716</mix:imageWidth>
+											<mix:imageHeight>16716</mix:imageHeight>
+											<mix:PhotometricInterpretation>
+												<mix:colorSpace>YCbCr</mix:colorSpace>
+												<mix:YCbCr>
+													<mix:YCbCrSubSampling>
+														<mix:yCbCrSubsampleHoriz>2</mix:yCbCrSubsampleHoriz>
+														<mix:yCbCrSubsampleVert>2</mix:yCbCrSubsampleVert>
+													</mix:YCbCrSubSampling>
+													<mix:yCbCrPositioning>1</mix:yCbCrPositioning>
+													<mix:YCbCrCoefficients>
+														<mix:lumaRed>
+															<mix:numerator>299</mix:numerator>
+															<mix:denominator>1000</mix:denominator>
+														</mix:lumaRed>
+														<mix:lumaGreen>
+															<mix:numerator>587</mix:numerator>
+															<mix:denominator>1000</mix:denominator>
+														</mix:lumaGreen>
+														<mix:lumaBlue>
+															<mix:numerator>114</mix:numerator>
+															<mix:denominator>1000</mix:denominator>
+														</mix:lumaBlue>
+													</mix:YCbCrCoefficients>
+												</mix:YCbCr>
+												<mix:ReferenceBlackWhite>
+													<mix:Component>
+														<mix:componentPhotometricInterpretation>Y</mix:componentPhotometricInterpretation>
+														<mix:footroom>
+															<mix:numerator>0</mix:numerator>
+														</mix:footroom>
+														<mix:headroom>
+															<mix:numerator>255</mix:numerator>
+														</mix:headroom>
+													</mix:Component>
+													<mix:Component>
+														<mix:componentPhotometricInterpretation>Cb</mix:componentPhotometricInterpretation>
+														<mix:footroom>
+															<mix:numerator>0</mix:numerator>
+														</mix:footroom>
+														<mix:headroom>
+															<mix:numerator>255</mix:numerator>
+														</mix:headroom>
+													</mix:Component>
+													<mix:Component>
+														<mix:componentPhotometricInterpretation>Cr</mix:componentPhotometricInterpretation>
+														<mix:footroom>
+															<mix:numerator>0</mix:numerator>
+														</mix:footroom>
+														<mix:headroom>
+															<mix:numerator>255</mix:numerator>
+														</mix:headroom>
+													</mix:Component>
+												</mix:ReferenceBlackWhite>
+											</mix:PhotometricInterpretation>
+										</mix:BasicImageCharacteristics>
+									</mix:BasicImageInformation>
+									<mix:ImageCaptureMetadata>
+										<mix:GeneralCaptureInformation>
+											<mix:dateTimeCreated>2000-07-12T10:02:00</mix:dateTimeCreated>
+										</mix:GeneralCaptureInformation>
+										<mix:orientation>normal*</mix:orientation>
+									</mix:ImageCaptureMetadata>
+									<mix:ImageAssessmentMetadata>
+										<mix:SpatialMetrics>
+											<mix:samplingFrequencyUnit>cm</mix:samplingFrequencyUnit>
+											<mix:xSamplingFrequency>
+												<mix:numerator>1497965714</mix:numerator>
+												<mix:denominator>2097152</mix:denominator>
+											</mix:xSamplingFrequency>
+											<mix:ySamplingFrequency>
+												<mix:numerator>1497965714</mix:numerator>
+												<mix:denominator>2097152</mix:denominator>
+											</mix:ySamplingFrequency>
+										</mix:SpatialMetrics>
+										<mix:ImageColorEncoding>
+											<mix:BitsPerSample>
+												<mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+												<mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+												<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+											</mix:BitsPerSample>
+											<mix:samplesPerPixel>3</mix:samplesPerPixel>
+										</mix:ImageColorEncoding>
+									</mix:ImageAssessmentMetadata>
+								</mix:mix>
+							</objectCharacteristicsExtension>
+						</objectCharacteristics>
 					</object>
 				</xmlData>
 			</mdWrap>
@@ -184,7 +298,7 @@
 				<xmlData>
 					<event xmlns="info:lc/xmlns/premis-v2">
 						<eventIdentifier>
-							<eventIdentifierType>d2</eventIdentifierType>
+							<eventIdentifierType>URI</eventIdentifierType>
 							<eventIdentifierValue>event-0</eventIdentifierValue>
 						</eventIdentifier>
 						<eventType>SIP passed all validation checks</eventType>
@@ -213,7 +327,7 @@
 				<xmlData>
 					<event xmlns="info:lc/xmlns/premis-v2">
 						<eventIdentifier>
-							<eventIdentifierType>d2</eventIdentifierType>
+							<eventIdentifierType>URI</eventIdentifierType>
 							<eventIdentifierValue>event-2</eventIdentifierValue>
 						</eventIdentifier>
 						<eventType>Format Description</eventType>
@@ -226,7 +340,7 @@
 							<linkingAgentIdentifierValue>http://localhost:7000/describe</linkingAgentIdentifierValue>
 						</linkingAgentIdentifier>
 						<linkingObjectIdentifier>
-							<linkingObjectIdentifierType>d2</linkingObjectIdentifierType>
+							<linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
 							<linkingObjectIdentifierValue>file-0</linkingObjectIdentifierValue>
 						</linkingObjectIdentifier>
 					</event>
@@ -252,25 +366,20 @@
 				<xmlData>
 					<event xmlns="info:lc/xmlns/premis-v2">
 						<eventIdentifier>
-							<eventIdentifierType>d2</eventIdentifierType>
+							<eventIdentifierType>URI</eventIdentifierType>
 							<eventIdentifierValue>event-4</eventIdentifierValue>
 						</eventIdentifier>
 						<eventType>Format Description</eventType>
 						<eventDateTime>2009-11-18T14:39:15-05:00</eventDateTime>
 						<eventOutcomeInformation>
-							<eventOutcome>Well-Formed, but not valid</eventOutcome>
-							<eventOutcomeDetail>
-								<eventOutcomeDetailExtension>
-									<anomaly>Invalid destination object</anomaly>
-								</eventOutcomeDetailExtension>
-							</eventOutcomeDetail>
+							<eventOutcome>Well-Formed and valid</eventOutcome>
 						</eventOutcomeInformation>
 						<linkingAgentIdentifier>
 							<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
 							<linkingAgentIdentifierValue>http://localhost:7000/describe</linkingAgentIdentifierValue>
 						</linkingAgentIdentifier>
 						<linkingObjectIdentifier>
-							<linkingObjectIdentifierType>d2</linkingObjectIdentifierType>
+							<linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
 							<linkingObjectIdentifierValue>file-1</linkingObjectIdentifierValue>
 						</linkingObjectIdentifier>
 					</event>
@@ -288,28 +397,6 @@
 						<agentName>Format Description Service</agentName>
 						<agentType>Web Service</agentType>
 					</agent>
-				</xmlData>
-			</mdWrap>
-		</digiprovMD>
-		<digiprovMD ID="digiprov-7">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<event xmlns="info:lc/xmlns/premis-v2">
-						<eventIdentifier>
-							<eventIdentifierType>Temporary Local</eventIdentifierType>
-							<eventIdentifierValue>1</eventIdentifierValue>
-						</eventIdentifier>
-						<eventType>File Procedure Failure</eventType>
-						<eventDateTime>2009-11-18T14:39:15-05:00</eventDateTime>
-						<eventOutcomeInformation>
-							<eventOutcome>failure</eventOutcome>
-							<eventOutcomeDetail>
-								<eventOutcomeDetailNote>
-									cannot transform
-								</eventOutcomeDetailNote>
-							</eventOutcomeDetail>
-						</eventOutcomeInformation>
-					</event>
 				</xmlData>
 			</mdWrap>
 		</digiprovMD>
