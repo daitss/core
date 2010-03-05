@@ -23,7 +23,7 @@ class Aip
   include DataMapper::Resource
   property :id, String, :key => true # daitss1 ieid
   property :uri, String, :unique => true, :required => true
-  property :xml, Text, :required => true, :length => (1..2**32-1)
+  property :xml, Text, :required => true, :length => 2**32-1
   property :copy_url, URI, :required => true
   property :copy_sha1, String, :length => 40, :format => %r([a-f0-9]{40}), :required => true
   property :copy_md5, String, :length => 40, :format => %r([a-f0-9]{32}), :required => true
