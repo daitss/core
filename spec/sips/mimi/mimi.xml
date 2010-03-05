@@ -14,6 +14,17 @@
           <titleInfo>
             <title>mimi</title>
           </titleInfo>
+          <part>
+            <detail type='volume'>
+              <number>1</number>
+            </detail>
+          </part>
+          <part>
+            <detail type='issue'>
+              <number>1</number>
+            </detail>
+          </part>
+          <identifier type="entity id">555-1212</identifier>
         </mods>
       </xmlData>
     </mdWrap>

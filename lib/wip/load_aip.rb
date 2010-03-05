@@ -6,6 +6,8 @@ class Wip
   def load_from_aip
     load_aip_record
     load_copy
+    load_dmd
+    load_sip_name
     load_datafiles
     load_representations
     load_old_package_digiprov
@@ -43,6 +45,56 @@ class Wip
     end
 
     metadata['copy-data'] = res.body
+  end
+
+  def load_dmd
+    doc = XML::Document.string metadata['aip-descriptor']
+
+    # title
+    title_node = doc.find_first "/mods:mods/mods:titleInfo/mods:title", NS_PREFIX
+
+    if title_node
+      metadata['dmd-title'] = title_node.content
+    end
+
+    # volume
+    volume_node = doc.find_first "/mods:mods/mods:part/mods:detail[@type = 'volume']/mods:number", NS_PREFIX
+
+    if volume_node
+      metadata['dmd-volume'] = volume_node.content
+    end
+
+    # issue
+    issue_node = doc.find_first "/mods:mods/mods:part/mods:detail[@type = 'issue']/mods:number", NS_PREFIX
+
+    if issue_node
+      metadata['dmd-issue'] = issue_node.content
+    end
+
+    # entity id
+    entity_id_node = doc.find_first "/mods:mods/mods:identifier[@type = 'entity id']", NS_PREFIX
+
+    if entity_id_node
+      metadata['dmd-entity-id'] = entity_id_node.content
+    end
+
+  end
+
+  def load_sip_name
+    doc = XML::Document.string metadata['aip-descriptor']
+
+    xpath = %q{
+      //beta:object
+        [beta:objectCategory='intellectual entity']
+        /beta:originalName
+    }
+
+    original_name_node = doc.find_first xpath, NS_PREFIX
+
+    if original_name_node
+      metadata['sip-name'] = original_name_node.content
+    end
+
   end
 
   def load_datafiles
