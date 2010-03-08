@@ -29,6 +29,9 @@ class Intentity
       attribute_set(:id, "E00000000_000000")
     end
     
+    originalName = entity.find_first("//p2:originalName", NAMESPACES) unless entity.nil?
+    attribute_set(:original_name, originalName.content) if originalName
+     
     # extract and set the rest of int entity metadata
     mods = aip.find_first('//mods:mods', NAMESPACES)
     if mods
