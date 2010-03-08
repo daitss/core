@@ -48,7 +48,7 @@ class AIPInPremis
         end
         # files.each {|id,df| df.deleteChildren}
         files.each do |id,df| 
-          df.destroy
+          df.destroy!
         end
         # entity.deleteChildren
         entity.destroy!
