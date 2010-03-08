@@ -1,13 +1,19 @@
-require 'uuid'
 require 'datamapper'
 require 'fileutils'
 require 'tempfile'
+
+require "db/aip"
+require 'daitss/config'
 require 'wip/create'
 require 'template/premis'
 
-UG = UUID.new
+require 'uuid'
+require "help/test_stack"
+require "help/test_package"
+require "help/sandbox"
 
 def new_sandbox
+
   tf = Tempfile.new 'sandbox'
   path = tf.path
   tf.close!
@@ -29,7 +35,7 @@ def submit workspace, sip_name
   sip_path = File.join SIP_DIR, sip_name
   sip = Sip.new sip_path
 
-  wip_id = UG.generate :compact
+  wip_id = UUID.generate :compact
   FileUtils.mkdir_p File.join(workspace.path, '.tmp')
   path = File.join workspace.path, '.tmp', wip_id
   uri = "#{URI_PREFIX}/#{wip_id}"
@@ -52,14 +58,19 @@ def submit workspace, sip_name
   Wip.new new_path
 end
 
+
+raise 'CONFIG not specified' unless ENV['CONFIG']
+Daitss::CONFIG.load ENV['CONFIG']
+Daitss::CONFIG["database-uri"] = 'sqlite3::memory:'
+
+
 Spec::Runner.configure do |config|
 
   config.before :all do
     $sandbox = new_sandbox
-    FileUtils::mkdir_p $sandbox
+    FileUtils::mkdir $sandbox
 
-    # An in-memory Sqlite3 connection
-    DataMapper.setup :default, 'sqlite3::memory:'
+    DataMapper.setup(:default, Daitss::CONFIG["database-uri"])
     DataMapper.auto_migrate!
   end
 

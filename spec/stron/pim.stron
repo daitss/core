@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<schema xmlns="http://purl.oclc.org/dsdl/schematron"
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+  <title>Florida Digital Archive PiM Validation</title>
+  
+  <ns prefix="mets" uri="http://www.loc.gov/METS/"/>
+  <ns prefix="pre" uri="info:lc/xmlns/premis-v2"/>
+  <ns prefix="dts" uri="http://www.fcla.edu/dls/md/daitss/"/>
+  <ns prefix="xsi" uri="http://www.w3.org/2001/XMLSchema-instance"/>
+
+  <xsl:key name="admids" match="*" use="@ADMID"/>
+
+  <pattern see="bp-1">
+
+    <title>Report PREMIS container or PREMIS buckets</title>
+
+    <rule context="mets:mets">
+      <assert test="count(//mets:xmlData/pre:object) + 
+                    count(//mets:xmlData/pre:agent) + 
+                    count(//mets:xmlData/pre:rights) + 
+                    count(//mets:xmlData/pre:events) > 0 or
+                    count(//mets:xmlData/pre:premis) = 1" see="bp-1a bp-1b">
+        There must be PREMIS elements inside the METS container.
+      </assert>
+    </rule>
+    
+    <rule context="//mets:xmlData/pre:object | //mets:xmlData/pre:agent |
+                   //mets:xmlData/pre:rights | //mets:xmlData/pre:events">
+      <assert test="not(//pre:premis)" see="bp-3">
+        If there are multiple PREMIS sections, there should not be a PREMIS root 
+        node. Otherwise, all PREMIS elements must be inside the PREMIS root node.
+      </assert>
+    </rule>
+    
+  </pattern>
+
+  <pattern see="bp-1b">
+  
+    <title>PREMIS Container</title>
+    
+    <rule context="//pre:premis">
+      <assert test="parent::mets:xmlData/parent::mets:mdWrap/parent::mets:digiprovMD" see="bp-1b">
+        PREMIS root element must be in a METS digiprovMD
+      </assert>
+    </rule>
+  </pattern>
+
+  
+  <pattern see="bp-1a">
+  
+    <title>PREMIS object(s) should be in the proper buckets</title>
+    
+    <rule context="//mets:xmlData/pre:event">
+      <assert test="parent::mets:xmlData/parent::mets:mdWrap/parent::mets:digiprovMD" see="bp-1a">
+	    PREMIS events must be contained in a METS digiprovMD
+      </assert>
+    </rule>
+
+    <rule context="//mets:xmlData/pre:object[@xsi:type='representation']">
+      <assert test="parent::mets:xmlData/parent::mets:mdWrap/parent::mets:techMD |
+                    parent::mets:xmlData/parent::mets:mdWrap/parent::mets:digiprovMD" see="bp-1a">
+	    PREMIS representation objects must be contained in a METS techMD or 
+	    a METS digiprovMD
+      </assert> 
+    </rule>
+
+    <rule context="//mets:xmlData/pre:object">
+      <assert test="parent::mets:xmlData/parent::mets:mdWrap/parent::mets:techMD" see="bp-1a">
+	    PREMIS bitstream and file objects must be contained in a METS techMD
+      </assert> 
+    </rule>
+
+    <rule context="//mets:xmlData/pre:rights">
+      <assert test="parent::mets:xmlData/parent::mets:mdWrap/parent::mets:rightsMD" see="bp-1a">
+	    PREMIS rights must be contained in a METS rightsMD
+      </assert> 
+    </rule>
+
+    <rule context="//mets:xmlData/pre:agent">
+      <assert test="parent::mets:xmlData/parent::mets:mdWrap/parent::mets:digiprovMD |
+                    parent::mets:xmlData/parent::mets:mdWrap/parent::mets:rightsMD" see="bp-1a">
+	    PREMIS agents must be contained in a METS rightsMD if given in a rights 
+	    context, or in a METS digiprovMD if given in an event context 
+      </assert> 
+      <assert test="count(sibling) = 0" see="bp-2">
+        Each PREMIS agent should be in its own digiprovMD or rightsMD section
+      </assert>
+    </rule>
+
+  </pattern>
+
+  <pattern see="bp-6a">
+    <title>PREMIS IDRefs should not reference METS elements</title>
+    
+    <rule context="//mets:*[@ID]">
+      <let name="mets_id" value="concat(' ', @ID, ' ')"/>
+      <assert test="not(//pre:*[contains(concat(' ', @RelEventXmlID, ' '), $mets_id)])" see="bp-6a">
+        PREMIS attribute RelEventXmlID should not link to a METS element.
+      </assert>
+      <assert test="not(//pre:*[contains(concat(' ', /@RelObjectXmlID, ' '), $mets_id)])" see="bp-6a">
+        PREMIS attribute RelObjectXmlID should not link to a METS element.
+      </assert>
+      <assert test="not(//pre:*[contains(concat(' ', /@LinkObjectXmlID, ' '), $mets_id)])" see="bp-6a">
+        PREMIS attribute LinkObjectXmlID should not link to a METS element.
+      </assert>
+      <assert test="not(//pre:*[contains(concat(' ', @LinkEventXmlID, ' '), $mets_id)])" see="bp-6a">
+        PREMIS attribute LinkEventXmlID should not link to a METS element.
+      </assert>
+      <assert test="not(//pre:*[contains(concat(' ', /@LinkAgentXmlID, ' '), $mets_id)])" see="bp-6a">
+        PREMIS attribute LinkAgentXmlID should not link to a METS element.
+      </assert>
+      <assert test="not(//pre:*[contains(concat(' ', /@LinkPermissionStatementXmlID, ' '), $mets_id)])" see="bp-6a">
+        PREMIS attribute LinkPermissionStatementXmlID should not link to a METS element.
+      </assert>
+    </rule>
+  </pattern>
+  
+  <pattern see="bp-6a">
+    <title>All embedded PREMIS sections should be referenced in METS</title>
+    
+    <!-- if mdWrap has an @ID and the parent node also has an @ID -->
+    <rule context="//mets:mdWrap[@MDTYPE='PREMIS' and parent::node()/parent::node()/@ID]">
+      <let name="mdid" value="concat( ' ', parent::node()/@ID, ' ')"/>
+      <let name="amdsec_id" value="concat( ' ', parent::node()/parent::node()/@ID, ' ')"/>
+      <report test="not(//mets:*[contains(concat(' ', @ADMID, ' '), $mdid)] or
+                    //mets:*[contains(concat(' ', @ADMID, ' '), $amdsec_id)])" see="bp-6a">
+        Embedded PREMIS (METS ID=<value-of select="normalize-space($mdid)"/>) should be referenced in an ADMID
+      </report>
+    </rule>
+
+    <rule context="//mets:mdWrap[@MDTYPE='PREMIS']">
+      <let name="mdid" value="concat( ' ', parent::node()/@ID, ' ')"/>
+      <report test="not(//mets:*[contains(concat(' ', @ADMID, ' '), $mdid)])" see="bp-6a">
+        Embedded PREMIS (METS ID=<value-of select="normalize-space($mdid)"/>) should be referenced in an ADMID 
+      </report>
+    </rule>
+
+  </pattern>
+
+</schema>

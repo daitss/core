@@ -1,0 +1,38 @@
+<event xmlns="info:lc/xmlns/premis-v2">
+  <eventIdentifier>
+    <eventIdentifierType>URI</eventIdentifierType>
+    <eventIdentifierValue><%= options[:id] %></eventIdentifierValue>
+  </eventIdentifier>
+  <eventType><%= options[:type] %></eventType>
+  <eventDateTime><%= options[:time] || Time.now.xmlschema %></eventDateTime>
+  <eventOutcomeInformation>
+    <eventOutcome><%= options[:outcome] %></eventOutcome>
+  </eventOutcomeInformation>
+
+
+  <% options[:linking_agents].each do |uri| %>
+  <linkingAgentIdentifier>
+    <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+    <linkingAgentIdentifierValue><%= uri %></linkingAgentIdentifierValue>
+  </linkingAgentIdentifier>
+  <% end %>
+
+  <% options[:linking_objects].each do |obj| %>
+
+    <% if obj.kind_of? Hash  %>
+      <linkingObjectIdentifier>
+        <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+        <linkingObjectIdentifierValue><%= obj[:uri] %></linkingObjectIdentifierValue>
+        <linkingObjectRole><%= obj[:role] %></linkingObjectRole>
+      </linkingObjectIdentifier>
+    <% else %>
+      <linkingObjectIdentifier>
+        <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+        <linkingObjectIdentifierValue><%= obj.to_s %></linkingObjectIdentifierValue>
+      </linkingObjectIdentifier>
+    <% end %>
+
+  <% end %>
+
+  </event>
+

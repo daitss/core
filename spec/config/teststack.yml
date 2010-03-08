@@ -1,0 +1,7 @@
+--- 
+uri-prefix: test:/
+actionplan-url: http://localhost:7000/actionplan
+validation-url: http://localhost:7000/validation/results
+storage-url: http://localhost:7000/silo
+description-url: http://localhost:7000/description/describe
+database-uri: sqlite3:///tmp/db_sandbox

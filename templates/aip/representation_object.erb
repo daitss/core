@@ -1,0 +1,16 @@
+<object xsi:type='representation' xmlns='info:lc/xmlns/premis-v2'>
+  <objectIdentifier>
+    <objectIdentifierType>URI</objectIdentifierType>
+    <objectIdentifierValue><%= options[:uri]  %></objectIdentifierValue>
+  </objectIdentifier>
+<% rep.each do |df| %>
+  <relationship>
+    <relationshipType>structural</relationshipType>
+    <relationshipSubType>includes</relationshipSubType>
+    <relatedObjectIdentification>
+      <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+      <relatedObjectIdentifierValue><%= df.uri %></relatedObjectIdentifierValue>
+    </relatedObjectIdentification>
+  </relationship>
+<% end %>
+</object>

@@ -1,0 +1,11 @@
+<% if options[:admid] %>
+  <%= tag_start options[:type], :ID => options[:id], :ADMID => options[:admid] %>
+<% else %>
+  <%= tag_start options[:type], :ID => options[:id] %>
+<% end %>
+<mdWrap MDTYPE='<%= options[:md_type] %>'>
+<xmlData>
+<%= doc.to_s %>
+</xmlData>
+</mdWrap>
+<%= tag_end options[:type] %>
