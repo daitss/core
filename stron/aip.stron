@@ -39,12 +39,12 @@
       <assert test="//P:object[@xsi:type='representation'][P:objectIdentifier/P:objectIdentifierValue = concat($aip-uri, '/representation/current')]">
         current representation must exist
       </assert>
-      <assert test="//P:object[@xsi:type='representation'][P:objectIdentifier/P:objectIdentifierValue = concat($aip-uri, '/representation/normalized')]">
-        normalized representation must exist
-      </assert>
+      <report test="//P:object[@xsi:type='representation'][P:objectIdentifier/P:objectIdentifierValue = concat($aip-uri, '/representation/normalized')]">
+        normalized representation may exist
+      </report>
       <assert test="M:structMap[@ID='original']">original representation structMap must exist</assert>
       <assert test="M:structMap[@ID='current']">current representation structMap must exist</assert>
-      <assert test="M:structMap[@ID='normalized']">normalized representation structMap must exist</assert>
+      <report test="M:structMap[@ID='normalized']">normalized representation structMap may exist</report>
     </rule>
   </pattern>
 
