@@ -51,7 +51,7 @@ class AIPInPremis
           df.destroy
         end
         # entity.deleteChildren
-        entity.destroy
+        entity.destroy!
       end
     end
   end
