@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<premis xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+	
+	<event>
+		<eventIdentifier>
+			<eventIdentifierType>Temporary Local</eventIdentifierType>
+			<eventIdentifierValue>1</eventIdentifierValue>
+		</eventIdentifier>
+		<eventType>File Procedure Failure</eventType>
+		<eventDateTime><%= Time.now.xmlschema %></eventDateTime>
+		<eventOutcomeInformation>
+			<eventOutcome>failure</eventOutcome>
+			<eventOutcomeDetail>
+				<eventOutcomeDetailNote>
+          <%= h e.message %>
+          <%= h e.backtrace.join("\n") %>
+				</eventOutcomeDetailNote>
+			</eventOutcomeDetail>
+		</eventOutcomeInformation>
+	</event>
+	  
+</premis>

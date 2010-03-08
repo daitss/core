@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mets OBJID="<%= uri %>"
+      xmlns="http://www.loc.gov/METS/"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd
+                          http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd
+                          info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd">
+
+<!-- DMD -->
+<% if has_dmd? %>
+  <%= md_section dmd, :type => 'dmdSec', :id => next_id(:dmd, id) %>
+<% end %>
+
+<!-- AIP AMD -->
+<amdSec>
+
+<!-- TECH -->
+<% # precompile the aip level events & agents so their ids are available
+aip_events = digiprov_events.map do |event| 
+  md_section event, :type => 'digiprovMD',  :id => next_id(:digiprov, id) 
+end 
+
+aip_agents = digiprov_agents.map(&:strip).uniq.map do |agent| 
+  md_section agent, :type => 'digiprovMD', :id => next_id(:digiprov, id) 
+end 
+%>
+
+<%= md_section intellectual_entity_object, :type => 'techMD', :id => next_id(:tech), :admid => admids_for(id).join(' ') %>
+
+<% rep_name_map.map do |name, rep| %>
+  <% rep_object = representation_object rep, :uri => "#{uri}/representation/#{name}" %>
+  <%= md_section rep_object, :type => 'techMD', :id => next_id(:tech, name) %>
+<% end %>
+
+<!-- DIGIPROV (events) -->
+<% aip_events.each do |event| %>
+  <%= event %>
+<% end %>
+
+<!-- DIGIPROV (agents) -->
+<% aip_agents.each do |agent| %>
+  <%= agent %>
+<% end %>
+</amdSec>
+
+<!-- DATA FILE AMD -->
+<amdSec>
+
+<!-- TECH -->
+<% datafiles.each do |df| %>
+  <%= md_section df.file_object, :type => 'techMD', :id => next_id(:tech, df.id) %>
+
+  <% df.bitstream_objects.each do |bs| %>
+    <%= md_section bs, :type => 'techMD', :id => next_id(:tech, df.id) %>
+  <% end %>
+
+<% end %>
+
+<!-- DIGIPROV (events) -->
+<% datafiles.each do |df| %>
+  <% df.digiprov_events.each do |event| %>
+    <%= md_section event, :type => 'digiprovMD',  :id => next_id(:digiprov, df.id) %>
+  <% end %>
+<% end %>
+
+<!-- DIGIPROV (agents) -->
+<% datafile_agents.each do |agent, dfs| %>
+  <%= md_section agent, :type => 'digiprovMD', :id => next_id(:digiprov, *dfs.map(&:id)) %>
+<% end %>
+</amdSec>
+
+<fileSec>
+<fileGrp>
+<% datafiles.each do |df| %>
+  <%= file_element df %>
+<% end %>
+</fileGrp>
+</fileSec>
+
+<% rep_name_map.each do |name, rep| %>
+  <%= representation_struct_map rep, :id => name, :admid => admids_for(name).join(' ') %>
+<% end %>
+
+</mets>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<premis xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+	
+	<event>
+		<eventIdentifier>
+			<eventIdentifierType>Temporary Local</eventIdentifierType>
+			<eventIdentifierValue>1</eventIdentifierValue>
+		</eventIdentifier>
+		<eventType><%= self.class.name.sub "Service::Transform::", ""  %></eventType>
+		<eventDateTime><%= Time.now.xmlschema %></eventDateTime>
+		<eventOutcomeInformation>
+			<eventOutcome>success</eventOutcome>
+			<eventOutcomeDetail>
+				<eventOutcomeDetailNote>
+				Transformed via <%= url %>
+				</eventOutcomeDetailNote>
+			</eventOutcomeDetail>
+		</eventOutcomeInformation>
+    <linkingAgentIdentifier>
+      <linkingAgentIdentifierType>URL</linkingAgentIdentifierType>
+      <linkingAgentIdentifierValue><%= @url %></linkingAgentIdentifierValue>
+    </linkingAgentIdentifier>
+		<linkingObjectIdentifier>
+      <linkingObjectIdentifierType>d2</linkingObjectIdentifierType>
+      <linkingObjectIdentifierValue><%= src.fid %></linkingObjectIdentifierValue>
+    </linkingObjectIdentifier>
+	</event>
+	
+	<agent>
+    <agentIdentifier>
+      <agentIdentifierType>URL</agentIdentifierType>
+      <agentIdentifierValue><%= @url %></agentIdentifierValue>
+    </agentIdentifier>
+    <agentName>Transformation Service</agentName>
+    <agentType>Web Service</agentType>
+  </agent>
+  
+</premis>

@@ -1,0 +1,19 @@
+<relationship xmlns="info:lc/xmlns/premis-v2">
+  <relationshipType><%= options[:type] %></relationshipType>
+  <relationshipSubType><%= options[:sub_type] %></relationshipSubType>
+
+<% options[:related_objects].each do |uri| %>
+  <relatedObjectIdentification>
+    <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+    <relatedObjectIdentifierValue><%= uri %></relatedObjectIdentifierValue>
+  </relatedObjectIdentification>
+<% end %>
+
+<% options[:related_events].each do |uri| %>
+  <relatedEventIdentification>
+    <relatedEventIdentifierType>URI</relatedEventIdentifierType>
+    <relatedEventIdentifierValue><%= uri %></relatedEventIdentifierValue>
+  </relatedEventIdentification>
+<% end %>
+
+</relationship>

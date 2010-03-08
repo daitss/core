@@ -5,14 +5,14 @@
   xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd
                       http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss.xsd
                       http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd"
-  OBJID="mimi">
+  OBJID="lorem">
 
   <dmdSec ID="DMD-0">
     <mdWrap MDTYPE="MODS">
       <xmlData>
         <mods xmlns="http://www.loc.gov/mods/v3">
           <titleInfo>
-            <title>mimi</title>
+            <title>lorem ipsum</title>
           </titleInfo>
           <part>
             <detail type='volume'>
@@ -32,8 +32,8 @@
 
   <fileSec>
     <fileGrp>
-      <file ID="FILE-0" CHECKSUM="71b89cf0f36ee34f3e77c409928da62d7a3004bf" CHECKSUMTYPE="SHA-1">
-        <FLocat xlink:href="mimi.pdf" LOCTYPE="URL"/>
+      <file ID="FILE-0" CHECKSUM="36699bda017bc9ad04345aeeaba9914322067804" CHECKSUMTYPE="SHA-1">
+        <FLocat xlink:href="lorem_ipsum.txt" LOCTYPE="URL"/>
       </file>
     </fileGrp>
   </fileSec>

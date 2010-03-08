@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+
+require 'ruby-debug'
+require "datamapper"
+require "daitss/config"
+require 'wip/ingest'
+
+wip = begin
+
+        # workspace
+        raise "WORKSPACE must be set" unless ENV['WORKSPACE']
+        raise "WORKSPACE must be a directory" unless File.directory?(ENV['WORKSPACE'])
+
+        # config
+        raise "CONFIG must be set" unless ENV['CONFIG']
+        Daitss::CONFIG.load ENV['CONFIG']
+
+        # wip
+        wip_id = ARGV.shift
+        raise "no wip id specified" unless wip_id
+        wip_path = File.join ENV['WORKSPACE'], wip_id
+        raise "wip #{wip_id} not found in #{ENV['WORKSPACE']}" unless File.directory? wip_path
+
+        # database
+        DataMapper.setup :default, Daitss::CONFIG["database-url"]
+
+        # load the wip
+        Wip.new wip_path
+      rescue => e
+        puts "cannot process #{wip_id}: #{e.message}"
+        puts e.backtrace
+        exit 1
+      end
+
+begin
+  wip.ingest!
+rescue Reject => e
+  sio = StringIO.new
+  sio.puts Time.now
+  sio.puts e.message
+  wip.tags['reject'] = sio.string
+  puts 'rejected'
+  exit 2
+rescue => e
+  puts e.message
+  puts e.backtrace
+  exit 3
+end

@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+require 'workspace'
+require 'wip/create'
+require 'template/premis'
+require 'uuid'
+
+if __FILE__ == $0
+
+  begin
+  sip_path = ARGV.shift or raise "sip required"
+  sip = Sip.new sip_path
+
+  raise 'WORKSPACE must be set' unless ENV['WORKSPACE']
+  raise 'WORKSPACE must be a directory' unless File.directory? ENV['WORKSPACE']
+  workspace = Workspace.new ENV['WORKSPACE']
+
+  id = UUID.generate :compact
+  stage_dir = File.join workspace.path, '.tmp'
+  FileUtils.mkdir_p stage_dir
+  path = File.join stage_dir, id
+  uri = "info:fcla/#{id}"
+  wip = Wip::make_from_sip path, uri, sip
+
+  wip['submit-event'] = event(:id => "#{wip.uri}/event/submit",
+                              :type => 'submit', 
+                              :outcome => 'success', 
+                              :linking_objects => [ wip.uri ],
+                              :linking_agents => [ 'info:fcla/daitss/reference-submit-client' ])
+
+  wip['submit-agent'] = agent(:id => 'info:fcla/daitss/reference-submit-client',
+                              :name => 'reference implementation submit client', 
+                              :type => 'software')
+
+  wip.tags['task'] = 'ingest'
+
+  new_path = File.join workspace.path, id
+  FileUtils::mv wip.path, new_path
+  puts "#{id} submitted"
+
+  rescue => e
+    puts e.message
+    exit 1
+  end
+
+end

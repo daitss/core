@@ -1,2 +1,8 @@
-*.swp
+*.gem
+ws
 pkg
+*.log
+*.tmproj
+.test-stack
+*.swp
+coverage
