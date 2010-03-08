@@ -92,7 +92,15 @@ class Wip
     end
 
     step 'update-normalized-representation' do
-      self.normalized_rep = new_normalized_rep unless new_normalized_rep == normalized_rep
+
+      if new_normalized_rep != current_rep
+
+        if new_normalized_rep != normalized_rep
+          self.normalized_rep = new_normalized_rep 
+        end
+
+      end
+
     end
 
     unrepresented_files.each do |df| 

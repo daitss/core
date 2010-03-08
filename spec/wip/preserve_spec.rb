@@ -2,9 +2,45 @@ require 'spec_helper'
 require 'wip/preserve'
 require 'wip/representation'
 
+shared_examples_for "all preservations" do
+
+  it "should have every datafile described" do
+
+    @wip.datafiles.each do |df|
+      @wip.tags.should have_key("step.describe-#{df.id}")
+      df.should have_key('describe-file-object')
+      df.should have_key('describe-event')
+      df.should have_key('describe-agent')
+    end
+
+  end
+
+end
+
 describe Wip do
 
-  describe "with one migration" do
+  describe "with no normalization" do
+    it_should_behave_like "all preservations"
+
+    before :all do
+      @wip = submit_sip 'lorem' 
+      @wip.preserve!
+
+      @files = {
+        :xml => @wip.datafiles.find { |df| df['sip-path'] == 'lorem.xml' },
+        :txt => @wip.datafiles.find { |df| df['sip-path'] == 'lorem_ipsum.txt' },
+      }
+
+    end
+
+    it "should not have a normalized representation" do
+      @wip.normalized_rep.should be_empty
+    end
+
+  end
+
+  describe "with one normalization" do
+    it_should_behave_like "all preservations"
 
     before :all do
       @wip = submit_sip 'mimi' 
@@ -16,12 +52,6 @@ describe Wip do
         :tif => @wip.datafiles.find { |df| df['aip-path'] }
       }
 
-    end
-
-    it "should have 3 datafiles" do
-      @wip.datafiles.should have_exactly(3).items
-      describe_tags = @wip.tags.keys.select { |key| key =~ /describe-\d+/ }
-      describe_tags.should have_exactly(3).items
     end
 
     it "should have an original representation with only an xml and a pdf" do
