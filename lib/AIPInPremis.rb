@@ -66,7 +66,7 @@ class AIPInPremis
     processDatafiles
 
     # extract all premis representations 
-    # processRepresentations    
+    processRepresentations    
 
     # process all premis bitstreams 
     processBitstreams
