@@ -52,10 +52,11 @@ class Aip
   def validate_against_schematron
     doc = XML::Document.string xml
     results = AIP_DESCRIPTOR_SCHEMATRON.validate doc
+    errors = results.reject { |e| e[:rule_type] == 'report' }
 
-    unless results.empty?
-      results.each { |r| puts r[:line].to_s + ' ' + r[:message] }
-      [false, "descriptor fails daitss aip schematron validation (#{results.size} errors)"] 
+    unless errors.empty?
+      errors.each { |r| puts r[:line].to_s + ' ' + r[:message] }
+      [false, "descriptor fails daitss aip schematron validation (#{errors.size} errors)"] 
     else
       true
     end
