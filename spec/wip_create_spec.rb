@@ -42,3 +42,65 @@ describe "Sip -> Wip" do
   end
 
 end
+
+describe "SIP DMD Extraction" do
+  subject do
+    sip = Sip.new File.join(SIPS_DIR, 'ateam-dmd')
+    Wip.make_from_sip File.join($sandbox, UUID.generate), Daitss::CONFIG['uri-prefix'], sip
+  end
+
+  it "should extract FDA account from the descriptor" do
+    subject.metadata["dmd-account"].should == "ACT"
+  end
+
+  it "should extract FDA project from the descriptor" do
+    subject.metadata["dmd-project"].should == "PRJ"
+  end
+
+  it "should extract title from the descriptor" do
+    subject.metadata["dmd-title"].should == "The (fd)A Team"
+  end
+
+  it "should extract issue from the descriptor" do
+    subject.metadata["dmd-issue"].should == "2"
+  end
+
+  it "should extract volume from the descriptor" do
+    subject.metadata["dmd-volume"].should == "1"
+  end
+
+  it "should extract entity id from descriptor" do
+    subject.metadata["dmd-entity-id"].should == "ateam-dmd"
+  end
+end
+
+describe "SIP DMD Extraction when no DMD present" do
+  subject do
+    sip = Sip.new File.join(SIPS_DIR, 'ateam-nodmd')
+    Wip.make_from_sip File.join($sandbox, UUID.generate), Daitss::CONFIG['uri-prefix'], sip
+  end
+
+  it "account should be empty if not present in descriptor" do
+    subject.metadata["dmd-account"].should == ""
+  end
+
+  it "project should be empty of not present in descriptor" do
+    subject.metadata["dmd-project"].should == ""
+  end
+
+  it "title should be empty if not present in descriptor" do
+    subject.metadata["dmd-title"].should == ""
+  end
+
+  it "issue should be empty if not present in descriptor" do
+    subject.metadata["dmd-issue"].should == ""
+  end
+
+  it "volume should be empty if not present in descriptor" do
+    subject.metadata["dmd-volume"].should == ""
+  end
+
+  it "entity id should be empty if not present in descriptor" do
+    subject.metadata["dmd-entity-id"].should == ""
+  end
+end
