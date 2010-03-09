@@ -32,26 +32,26 @@ class AIPInPremis
       # start database traction for deleting the associated record for the aip.  If there is any failure during database save, 
       # datamapper automatically rollback the change.
       Intentity.transaction do
-        puts entity.id
+        # puts entity.id
         # destroy all files in the int entities 
-        files = Hash.new
-        representations = Representation.all(:intentity_id => entity.id)
-        representations.each do |rep| 
-          dfreps = DatafileRepresentation.all(:representation_id => rep.id)
-          dfreps.each do |dfrep|
-            dfs = Datafile.all(:id => dfrep.datafile_id)
-            dfs.each do |df| 
-              # remove all events and relationship associated with this datafile
-              files[df.id] = df 
-            end
-          end
-        end
-        # files.each {|id,df| df.deleteChildren}
-        files.each do |id,df| 
-          df.destroy
-        end
-        # entity.deleteChildren
-        entity.destroy
+        # files = Hash.new
+        #   representations = Representation.all(:intentity_id => entity.id)
+        #   representations.each do |rep| 
+        #     dfreps = DatafileRepresentation.all(:representation_id => rep.id)
+        #     dfreps.each do |dfrep|
+        #       dfs = Datafile.all(:id => dfrep.datafile_id)
+        #       dfs.each do |df| 
+        #         # remove all events and relationship associated with this datafile
+        #         files[df.id] = df 
+        #       end
+        #     end
+        #   end
+        # 
+        #   files.each do |id,df| 
+        #     raise "error deleting datafile #{df.inspect}" unless df.destroy
+        #   end
+  
+        raise "error deleting entity #{entity.inspect}" unless entity.destroy
       end
     end
   end
@@ -106,7 +106,7 @@ class AIPInPremis
         dfid = f.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
         df = @datafiles[dfid]
         unless df.nil?
-          df.representations << rep
+          rep.datafiles << df
           if rep.isR0
             r0 << dfid
           elsif rep.isRC

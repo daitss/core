@@ -17,11 +17,9 @@ class Intentity
   # construct an int entity with the information from the aip descriptor
   def fromAIP aip
     entity = aip.find_first('//p2:object[p2:objectCategory="intellectual entity"]', NAMESPACES)
-    puts entity
     
     # extract and set int entity id
     id = entity.find_first("//p2:objectIdentifierValue", NAMESPACES) unless entity.nil?
-    puts id
     if id
       attribute_set(:id, id.content)
     else
