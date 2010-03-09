@@ -6,3 +6,5 @@ pkg
 .test-stack
 *.swp
 coverage
+.DS_Store
+*~
