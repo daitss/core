@@ -1,12 +1,12 @@
 require 'daitss-auth'
 require 'digest/sha1'
 require 'helper'
+require 'spec_helper'
 require 'pp'
 
 describe Authentication do
 
-  before(:each) do
-    DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/data/daitss-core.db")
+  before :each do
     DataMapper.auto_migrate!
   end
 

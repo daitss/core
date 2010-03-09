@@ -2,6 +2,7 @@ require 'datafile'
 require 'template/premis'
 require 'net/http'
 require 'cgi'
+require 'metadata'
 
 class DataFile
 
