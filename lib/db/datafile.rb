@@ -10,12 +10,11 @@ class Datafile < Pobject
     # map from package_path + file_title + file_ext
   property :creating_application, String, :length => (0..255)
 
-  has n, :datafile_representation, :constraint=>:destroy
-  has 1..n, :representations, :through => :datafile_representation #, :constraint=>:destroy
+   
   has 0..n, :bitstreams, :constraint=>:destroy # a datafile may contain 0-n bitstream(s)
-  has n, :datafile_severe_element, :constraint=>:destroy
-  has 0..n, :severe_element, :through => :datafile_severe_element, :constraint=>:destroy # a datafile may contain 0-n severe_elements
-  
+  # has n, :datafile_severe_element, :constraint=>:destroy
+  #  has 0..n, :severe_element, :through => :datafile_severe_element, :constraint=>:destroy # a datafile may contain 0-n severe_elements
+  has 0..n, :severe_elements, :through => Resource, :constraint=>:destroy # a datafile may contain 0-n severe_elements
   has 0..n, :documents, :constraint => :destroy 
   has 0..n, :texts, :constraint => :destroy 
   has 0..n, :audios, :constraint => :destroy 
@@ -23,6 +22,10 @@ class Datafile < Pobject
   has 0..n, :message_digest, :constraint => :destroy 
   
   has n, :object_format, :constraint=>:destroy # a datafile may have 0-n file_formats
+  
+  # has 1..n, :datafile_representation #, :constraint=>:destroy
+  #     has 1..n, :representations, :through => :datafile_representation#, :constraint=>:destroy
+  has 1..n, :representations, :through => Resource, :constraint=>:destroy
   
   before :destroy, :deleteChildren
   
@@ -65,12 +68,12 @@ class Datafile < Pobject
       # use the existing inhibitor record in the database if we have seen this inhibitor before
       existingInhibitor = Inhibitor.first(:name => inhibitor.name)
       if existingInhibitor
-        self.severe_element << existingInhibitor
+        self.severe_elements << existingInhibitor
       else
-        self.severe_element << inhibitor
+        self.severe_elements << inhibitor
       end
     end
-    
+
   end
   
   # derive the datafile origin by its association to representations r0, rc
@@ -91,9 +94,9 @@ class Datafile < Pobject
     dfevents.each do |e|
       # delete all relationships associated with this event
       rels = Relationship.all(:event_id => e.id)
-      rels.each {|rel| rel.destroy}
+      rels.each {|rel| raise "error deleting relationship #{rel.inspect}" unless rel.destroy}
       puts e.inspect
-      e.destroy
+      raise "error deleting event #{e.inspect}" unless e.destroy
     end
     
   end
