@@ -5,7 +5,7 @@ require 'datafile/normalized_version'
 describe DataFile do
 
   subject do
-    wip = submit_sip 'mimi'
+    wip = submit 'mimi'
     wip.ingest!
     wip
   end

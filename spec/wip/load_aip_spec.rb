@@ -10,7 +10,7 @@ describe Wip do
   describe "loading from aip" do
 
     subject do
-      proto_wip = submit_sip 'mimi'
+      proto_wip = submit 'mimi'
       proto_wip.ingest!
       id, uri = proto_wip.id, proto_wip.uri
       FileUtils::rm_r proto_wip.path

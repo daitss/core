@@ -1,33 +1,40 @@
-require "wip"
+require "workspace"
 require "wip/create"
-require "wip/ingest"
-require "wip/load_aip"
 require "template/premis"
 require "uuid"
 
-TEST_SIPS_DIR = File.join File.dirname(__FILE__), '..', 'sips'
-URI_PREFIX = 'test:/'
-UG = UUID.new
+SIPS_DIR = File.join File.dirname(__FILE__), '..', 'sips'
 
-def submit_sip name
-  sip = Sip.new File.join(TEST_SIPS_DIR, name)
-  uuid = UG.generate
-  path = File.join $sandbox, uuid
-  uri = URI.join(URI_PREFIX, uuid).to_s
-  wip = Wip.make_from_sip path, uri, sip
+def submit sip_name, workspace=nil
+  workspace = Workspace.new $sandbox if workspace.nil?
 
-  wip['submit-event'] = event(:id => URI.join(wip.uri, 'event', 'submit').to_s, 
+  # make the sip
+  sip_path = File.join SIPS_DIR, sip_name
+  sip = Sip.new sip_path
+
+  # make a staging area
+  FileUtils.mkdir_p File.join(workspace.path, '.tmp')
+
+  # make a wip in the staging area
+  wip_id = UUID.generate :compact
+  path = File.join workspace.path, '.tmp', wip_id
+  uri = "#{Daitss::CONFIG['uri-prefix']}/#{wip_id}"
+  wip = Wip::make_from_sip path, uri, sip
+
+  wip['submit-event'] = event(:id => "#{wip.uri}/event/submit",
                               :type => 'submit', 
                               :outcome => 'success', 
                               :linking_objects => [ wip.uri ],
-                              :linking_agents => [ 'info:fcla/daitss/submit' ])
+                              :linking_agents => [ 'info:fcla/daitss/reference-submit-client' ])
 
-  wip['submit-agent'] = agent(:id => 'info:fcla/daitss/submit',
+  wip['submit-agent'] = agent(:id => 'info:fcla/daitss/reference-submit-client',
                               :name => 'daitss submission service', 
                               :type => 'software')
 
-  wip
-
+  # move the wip into the workspace
+  new_path = File.join workspace.path, wip_id
+  FileUtils.mv wip.path, new_path
+  Wip.new new_path
 end
 
 def blank_wip id, uri

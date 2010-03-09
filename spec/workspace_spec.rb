@@ -5,20 +5,20 @@ describe Workspace do
 
   it "should know if it has a specific wip" do
     w = Workspace.new $sandbox
-    wip = submit w, 'mimi'
+    wip = submit 'mimi', w
     w.should have_wip(wip.id)
     w.should_not have_wip('xxx')
   end
 
   it "should list packages" do
     w = Workspace.new $sandbox
-    wips = %w(mimi haskell-nums-pdf).map { |name| submit w, name }
+    wips = %w(mimi haskell-nums-pdf).map { |name| submit name, w }
     w.should include(*wips)
   end
 
   it "should select packages by id" do
     w = Workspace.new $sandbox
-    wip = submit w, 'mimi'
+    wip = submit 'mimi', w
     w[wip.id].should == wip
   end
 
@@ -26,7 +26,7 @@ describe Workspace do
 
     new_sandbox do |stash_bin|
       w = Workspace.new $sandbox
-      wip = submit w, 'mimi'
+      wip = submit 'mimi', w
       lambda { s.stash 'xxx', stash_bin }.should raise_error
     end
 
@@ -34,7 +34,7 @@ describe Workspace do
 
   it "stashing to a bogus dir should raise an error" do
     w = Workspace.new $sandbox
-    wip = submit w, 'mimi'
+    wip = submit 'mimi', w
     lambda { w.stash wip.id, 'xxx/yyy/zzz' }.should raise_error
   end
 
@@ -47,7 +47,7 @@ describe Workspace do
     new_sandbox do |stash_bin|
       w = Workspace.new $sandbox
 
-      wip = submit w, 'mimi'
+      wip = submit 'mimi', w
       wip_id = wip.id
 
       w.stash wip.id, stash_bin

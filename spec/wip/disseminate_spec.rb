@@ -8,12 +8,12 @@ describe Wip do
   describe "that cannot disseminate" do
 
     it "should raise error if an aip does not exist for the wip" do
-      wip = submit_sip 'mimi'
+      wip = submit 'mimi'
       lambda { wip.disseminate }.should raise_error(DataMapper::ObjectNotFoundError)
     end
 
     it "should raise error if there is anything wrong with dissemination" do
-      proto_wip = submit_sip 'mimi'
+      proto_wip = submit 'mimi'
       proto_wip.ingest!
       id, uri = proto_wip.id, proto_wip.uri
       FileUtils::rm_r proto_wip.path
@@ -30,7 +30,7 @@ describe Wip do
   describe "post disseminate" do
 
     subject do 
-      proto_wip = submit_sip 'mimi'
+      proto_wip = submit 'mimi'
       proto_wip.ingest!
       Aip.get! proto_wip.id
       id, uri = proto_wip.id, proto_wip.uri
@@ -63,7 +63,7 @@ describe Wip do
     before :all do
 
       # ingest it
-      proto_wip = submit_sip 'mimi'
+      proto_wip = submit 'mimi'
       proto_wip.ingest!
       Aip.get! proto_wip.id
       @id, @uri = proto_wip.id, proto_wip.uri

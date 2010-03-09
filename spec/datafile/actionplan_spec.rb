@@ -6,7 +6,7 @@ require 'datafile/actionplan'
 describe 'action planning a datafile' do
 
   subject do
-    wip = submit_sip 'mimi'
+    wip = submit 'mimi'
     df = wip.datafiles.find { |df| df['sip-path'] == 'mimi.pdf' }
     df.describe!
     df

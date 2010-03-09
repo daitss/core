@@ -3,7 +3,7 @@ require 'datafile/transform'
 
 describe DataFile do
 
-  subject { submit_sip 'mimi' }
+  subject { submit 'mimi' }
 
   it "should raise an error if the url is not a success" do
     lambda { 

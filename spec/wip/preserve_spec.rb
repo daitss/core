@@ -23,7 +23,7 @@ describe Wip do
     it_should_behave_like "all preservations"
 
     before :all do
-      @wip = submit_sip 'lorem' 
+      @wip = submit 'lorem' 
       @wip.preserve!
 
       @files = {
@@ -43,7 +43,7 @@ describe Wip do
     it_should_behave_like "all preservations"
 
     before :all do
-      @wip = submit_sip 'mimi' 
+      @wip = submit 'mimi' 
       @wip.preserve!
 
       @files = {

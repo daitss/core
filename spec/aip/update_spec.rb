@@ -5,7 +5,7 @@ require 'db/aip/wip'
 describe Aip do
 
   describe "that does not exist" do
-    subject { submit_sip 'mimi' }
+    subject { submit 'mimi' }
 
     it "should not update" do
       lambda { Aip::update_from_wip subject}.should raise_error(DataMapper::ObjectNotFoundError)
@@ -16,7 +16,7 @@ describe Aip do
   describe "that exists" do
 
     subject do
-      proto_wip = submit_sip 'mimi'
+      proto_wip = submit 'mimi'
       proto_wip.ingest!
       wip = pull_aip proto_wip.id
       Aip.get! wip.id
