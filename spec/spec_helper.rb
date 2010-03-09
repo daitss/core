@@ -2,6 +2,8 @@ require 'datamapper'
 require 'fileutils'
 
 require "db/aip"
+require "db/operations_agents"
+require "db/operations_events"
 require 'daitss/config'
 
 require "help/test_stack"

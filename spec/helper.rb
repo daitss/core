@@ -8,7 +8,7 @@ def add_account name = "Florida Digital Archive", code = "FDA"
   a = Account.new
   a.attributes = { :name => name,
     :code => code }
-  a.save
+  a.save or raise "save failed"
   return a
 end
 
@@ -31,7 +31,7 @@ def add_contact account, key = "foobar"
   k.attributes = { :auth_key => sha1(key) }
 
   c.authentication_key = k
-  c.save
+  c.save or raise "save failed"
 end
 
 def add_operator account, key = "barbaz"
@@ -52,7 +52,7 @@ def add_operator account, key = "barbaz"
   k.attributes = { :auth_key => sha1(key) }
 
   o.authentication_key = k
-  o.save
+  o.save or raise "save failed"
 end
 
 def add_service account, key = "service"
@@ -68,7 +68,7 @@ def add_service account, key = "service"
   k.attributes = { :auth_key => sha1(key) }
 
   s.authentication_key = k
-  s.save
+  s.save or raise "save failed"
 end
 
 def add_program account, key = "program"
@@ -84,6 +84,6 @@ def add_program account, key = "program"
   k.attributes = { :auth_key => sha1(key) }
 
   p.authentication_key = k
-  p.save
+  p.save or raise "save failed"
 end
 
