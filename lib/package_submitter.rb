@@ -51,9 +51,6 @@ class PackageSubmitter
       raise DescriptorCannotBeParsedError
     end
 
-    int_entity_metadata = extract_int_entity wip, package_name
-
-
     wip['submit-agent'] = agent :id => 'info:fcla/daitss/submission_service',
                                 :name => 'daitss submission service', 
                                 :type => 'Software'
@@ -61,12 +58,12 @@ class PackageSubmitter
     linking_agents = [ 'info:fcla/daitss/submission_service' ]
 
 
-    if int_entity_metadata["account"]
-      wip['submit-agent-account'] = agent :id => "info:fcla/daitss/accounts/#{int_entity_metadata["account"]}",
-                                          :name => "DAITSS Account: #{int_entity_metadata["account"]}", 
+    if wip.metadata["dmd-account"]
+      wip['submit-agent-account'] = agent :id => "info:fcla/daitss/accounts/#{wip.metadata["dmd-account"]}",
+                                          :name => "DAITSS Account: #{wip.metadata["dmd-account"]}", 
                                           :type => 'Affiliate'
 
-      linking_agents.push "info:fcla/daitss/accounts/#{int_entity_metadata["account"]}"
+      linking_agents.push "info:fcla/daitss/accounts/#{wip.metadata["dmd-account"]}"
     end
 
     wip['submit-event'] = event :id => URI.join(wip.uri, 'event', 'submit').to_s, 
@@ -74,13 +71,6 @@ class PackageSubmitter
       :outcome => 'success', 
       :linking_objects => [ wip.uri ],
       :linking_agents => linking_agents
-
-    wip.metadata['dmd-title'] = int_entity_metadata["title"] if int_entity_metadata["title"]
-    wip.metadata['dmd-issue'] = int_entity_metadata["issue"] if int_entity_metadata["issue"]
-    wip.metadata['dmd-volume'] = int_entity_metadata["volume"] if int_entity_metadata["volume"]
-    wip.metadata['dmd-account'] = int_entity_metadata["account"] if int_entity_metadata["account"]
-    wip.metadata['dmd-project'] = int_entity_metadata["project"] if int_entity_metadata["project"]
-    wip.metadata['dmd-entity-id'] = int_entity_metadata["entity_id"] if int_entity_metadata["entity_id"]
 
     # write package tracker event
     submission_event_notes = "submitter_ip: #{submitter_ip}, archive_type: #{archive_type}, submitted_package_checksum: #{md5}"
@@ -148,71 +138,6 @@ class PackageSubmitter
     end
 
     raise ArchiveExtractionError, "archive utility exited with non-zero status: #{output}" if $?.exitstatus != 0 
-  end
-
-  # look for SIP descriptor and attempt to extract intellectual entity metadata (volume, issue, title, daitss account, daitss project)
-  # TODO: should also extract OBJ_ID
-
-  def self.extract_int_entity wip, package_name
-    sip_descriptor = nil 
-    metadata = {}
-
-    wip.datafiles.each do |datafile|
-      if datafile.metadata["sip-path"].downcase == "#{package_name}.xml".downcase
-        sip_descriptor = LibXML::XML::Document.io datafile.open
-      end
-    end
-
-    metadata["title"] = find_title sip_descriptor
-    metadata["volume"] = find_volume sip_descriptor
-    metadata["issue"] = find_issue sip_descriptor
-    metadata["account"] = find_account sip_descriptor
-    metadata["project"] = find_project sip_descriptor
-
-    return metadata
-  end
-
-  # runs xpaths for supported dmd encoding standards for title on SIP descriptor. returns nil if none match
-  # TODO: this should also support dublin core
-
-  def self.find_title sip_descriptor
-    title = sip_descriptor.find_first("//M:dmdSec/M:mdWrap/M:xmlData/mods:mods/mods:titleInfo/mods:title", NS_PREFIX)
-
-    return title ? title.content : nil
-  end
-
-  # runs xpaths for supported dmd encoding standards for issue on SIP descriptor. returns nil if none match
-  # TODO: this should also support dublin core
-
-  def self.find_issue sip_descriptor
-    issue = sip_descriptor.find_first("//M:dmdSec/M:mdWrap/M:xmlData/mods:mods/mods:part/mods:detail[@type='issue']/mods:number", NS_PREFIX)
-
-    return issue ? issue.content : nil
-  end
-
-  # runs xpaths for supported dmd encoding standards for volume on SIP descriptor. returns nil if none match
-  # TODO: this should also support dublin core
-
-  def self.find_volume sip_descriptor
-    volume = sip_descriptor.find_first("//M:dmdSec/M:mdWrap/M:xmlData/mods:mods/mods:part/mods:detail[@type='volume']/mods:number", NS_PREFIX)
-
-    return volume ? volume.content : nil
-  end
-
-  # runs xpaths for DAITSS account on SIP descriptor. returns nil if none match
-  def self.find_account sip_descriptor
-    agreement_info_node = sip_descriptor.find_first("//M:amdSec/M:digiprovMD/M:mdWrap/M:xmlData/daitss:daitss/daitss:AGREEMENT_INFO", NS_PREFIX)
-    return agreement_info_node ? agreement_info_node["ACCOUNT"] : nil
-  end
-
-  # runs xpaths for DAITSS project on SIP descriptor. returns nil if none match
-  def self.find_project sip_descriptor
-    agreement_info_node = sip_descriptor.find_first("//M:amdSec/M:digiprovMD/M:mdWrap/M:xmlData/daitss:daitss/daitss:AGREEMENT_INFO", NS_PREFIX)
-    return agreement_info_node ? agreement_info_node["PROJECT"] : nil
-  end
-
-  def self.find_entity_id sip_descriptor
-    #TODO: find an xpath to extract from METS OBJID
   end
 
   # creates a .submit directory under WORKSPACE

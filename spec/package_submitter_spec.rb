@@ -126,35 +126,6 @@ describe PackageSubmitter do
     lambda { ieid = PackageSubmitter.submit_sip :zip, ZIP_BROKEN_DESCRIPTOR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error(DescriptorCannotBeParsedError)
   end
 
-  it "should extract descriptive metadata, if present" do
-    ieid = PackageSubmitter.submit_sip :zip, ZIP_DMD_METADATA, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
-
-    wip = Wip.new File.join(ENV["WORKSPACE"], ieid.to_s)
-
-    wip.metadata["dmd-title"].should == "The (fd)A Team"
-    wip.metadata["dmd-issue"].should == "2"
-    wip.metadata["dmd-volume"].should == "1"
-  end
-
-  it "should extract FDA account/project if present" do
-    ieid = PackageSubmitter.submit_sip :zip, ZIP_DMD_METADATA, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
-
-    wip = Wip.new File.join(ENV["WORKSPACE"], ieid.to_s)
-
-    wip.metadata["dmd-account"].should == "ACT"
-    wip.metadata["dmd-project"].should == "PRJ"
-  end
-
-  it "should tolerate some missing DMD metadata" do
-    ieid = PackageSubmitter.submit_sip :zip, ZIP_SIP_NODIR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
-
-    wip = Wip.new File.join(ENV["WORKSPACE"], ieid.to_s)
-
-    wip.metadata["dmd-title"].should == "The (fd)A Team"
-    wip.metadata["dmd-issue"].should == nil
-    wip.metadata["dmd-volume"].should == nil
-  end
-
   it "if there is an account specified in DMD metadata, then submission should create an agent for it" do
     ieid = PackageSubmitter.submit_sip :zip, ZIP_DMD_METADATA, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
