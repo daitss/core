@@ -5,7 +5,7 @@ require 'datafile/describe'
 describe 'describing a datafile' do
 
   subject do
-    wip = submit_sip 'mimi'
+    wip = submit 'mimi'
     wip.datafiles.find { |df| df['sip-path'] =~ %r{\.pdf$} }
   end
 

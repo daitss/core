@@ -5,7 +5,7 @@ require 'datafile'
 describe DataFile do
 
   subject do
-    wip = Wip.new File.join($sandbox, UG.generate), 'bogus:/xxx'
+    wip = Wip.new File.join($sandbox, UUID.generate), Daitss::CONFIG['uri-prefix']
     wip.new_datafile
   end
   

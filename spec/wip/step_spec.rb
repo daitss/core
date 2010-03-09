@@ -7,7 +7,7 @@ describe Wip do
   describe "taking soft steps" do
 
     it "should make a step tag with the timestamp" do
-      wip = submit_sip 'mimi'
+      wip = submit 'mimi'
       mark = wip.step('add'){ 2 + 3 }
       mark.duration.should > 0
       mark.start_time.should < mark.finish_time
@@ -15,7 +15,7 @@ describe Wip do
     end
 
     it "should not perform an operation if the step has been performed" do
-      wip = submit_sip 'mimi'
+      wip = submit 'mimi'
       m1 = wip.step('add'){ 2 + 3 }
       sleep 1.5
       m2 = wip.step('add'){ 2 + 3 }
@@ -23,7 +23,7 @@ describe Wip do
     end
 
     it "should know if it has taken a step" do
-      wip = submit_sip 'mimi'
+      wip = submit 'mimi'
       wip.step('add'){ 2 + 3 }
       wip.should have_step('add')
     end
@@ -33,7 +33,7 @@ describe Wip do
   describe "taking hard steps" do
 
     it "should perform an operation even if the step has been performed" do
-      wip = submit_sip 'mimi'
+      wip = submit 'mimi'
       m1 = wip.step('add'){ 2 + 3 }
       sleep 1.5
       m2 = wip.step!('add'){ 2 + 3 }

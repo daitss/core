@@ -6,7 +6,7 @@ require 'db/aip/wip'
 describe Aip do
 
   it "should create a new instance based on a WIP" do
-    wip = submit_sip 'mimi'
+    wip = submit 'mimi'
     wip.validate!
     wip.preserve!
     wip['aip-descriptor'] = wip.descriptor

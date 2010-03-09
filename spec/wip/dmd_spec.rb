@@ -3,7 +3,7 @@ require 'wip/dmd'
 
 describe Wip, "with respect to dmd" do
 
-  subject { submit_sip 'mimi' }
+  subject { submit 'mimi' }
 
   it "should know if dmd exists" do
 

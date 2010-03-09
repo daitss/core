@@ -5,7 +5,7 @@ require 'wip/representation'
 describe "representation handling" do
 
   before(:all) do
-    @wip = submit_sip 'mimi'
+    @wip = submit 'mimi'
   end
 
   it "should inject through text" do

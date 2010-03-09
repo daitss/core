@@ -3,7 +3,7 @@ require 'wip/validate'
 
 describe 'validating a wip' do
 
-  subject { submit_sip 'haskell-nums-pdf' }
+  subject { submit 'haskell-nums-pdf' }
 
   it "should have a validation event" do
     subject.validate!

@@ -6,7 +6,7 @@ require 'spec_helper'
 describe Wip do
 
   describe "that wont ingest" do
-    subject { submit_sip 'mimi' }
+    subject { submit 'mimi' }
 
     it "should reject one that fails validation" do
       sip_descriptor = subject.datafiles.find { |df| df['sip-path'] == "mimi.xml" }
@@ -27,7 +27,7 @@ describe Wip do
   describe "that is ingested" do
 
     before :all do
-      @wip = submit_sip 'mimi'
+      @wip = submit 'mimi'
       @wip.ingest!
     end
 

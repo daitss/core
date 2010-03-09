@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'wip/create'
 
 describe Sip do
-  subject { Sip.new File.join(SIP_DIR, 'haskell-nums-pdf') }
+  subject { Sip.new File.join(SIPS_DIR, 'haskell-nums-pdf') }
 
   it "should have some files" do 
     subject.files.should have_exactly(2).items 
@@ -19,8 +19,8 @@ end
 describe "Sip -> Wip" do
 
   subject do
-    sip = Sip.new File.join(SIP_DIR, 'haskell-nums-pdf')
-    Wip.make_from_sip File.join($sandbox, UG.generate), URI_PREFIX, sip
+    sip = Sip.new File.join(SIPS_DIR, 'haskell-nums-pdf')
+    Wip.make_from_sip File.join($sandbox, UUID.generate), Daitss::CONFIG['uri-prefix'], sip
   end
 
   it "should have 2 files" do
