@@ -71,9 +71,9 @@ Event_Types = {
             existinganomaly = Anomaly.first(:name => anomaly.name)
             puts "existing anomaly #{anomaly.inspect} #{existinganomaly.inspect}"
             if existinganomaly
-              df.severe_element << existinganomaly
+              df.severe_elements << existinganomaly
             else
-              df.severe_element << anomaly
+              df.severe_elements << anomaly
             end
           end
         end
