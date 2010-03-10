@@ -5,7 +5,7 @@ module Daitss
   CONFIG = {}
 
   def CONFIG.load file
-    merge! YAML.load open(file) { |io| io.read }
+    merge! YAML.load_file file
 
     # sane defaults
     CONFIG['http-timeout'] ||= 60 * 10 # 10 minutes

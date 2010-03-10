@@ -76,7 +76,7 @@ def service_stack
       run Validation::App.new
     end
 
-    map "/actionplan" do       
+    map "/actionplan" do
       run ActionPlan::App.new
     end
 
@@ -88,17 +88,18 @@ def service_stack
       run SimpleStorage::App.new(SILO_DIR)
     end
 
+    map "/submission" do
+      run Submission::App.new
+    end
+
+    map "/request" do
+      run Hermes::App.new
+    end
+
     map "/statusecho" do
       run StatusEcho.new
     end
 
-    map "/submission" do
-      run Submission::App.new
-    end
-    
-    map "/request" do
-      run Hermes::App.new
-    end
   end
 
 end
