@@ -16,7 +16,7 @@ Event_Types = {
     property :e_type, Enum[:submit, :validate, :ingest, :disseminate, :withdraw, :fixitycheck, :describe, :migrate, :normalize, :deletion]
     property :datetime, DateTime
     property :outcome, String  # ex. sucess, failed.  TODO:change to Enum.
-    property :outcome_details, String, :length => 255  # additional information about the event outcome.
+    property :outcome_details, Text # additional information about the event outcome.
     property :relatedObjectId, String # the identifier of the related object.
     # if object A migrated to object B, the object B will be associated with a migrated_from event
     property :class, Discriminator
