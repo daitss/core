@@ -1,5 +1,5 @@
-DAITSS2: ingest
-===============
+DAITSS: Core Library
+=====================
 
 testing
 -------
