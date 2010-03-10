@@ -147,6 +147,8 @@ namespace :services do
 
     # make the database sandbox
     require 'db/aip' # RJB: same rjb issue
+    require 'db/operations_agents'
+    require 'db/operations_events'
     DataMapper.setup :default, Daitss::CONFIG['database-url']
     DataMapper.auto_migrate!
 
