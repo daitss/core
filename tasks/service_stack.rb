@@ -139,7 +139,7 @@ namespace :services do
   end
 
   desc "run the service stack"
-  task :run => [:fetch] do
+  task :run do
     stack = service_stack # RJB: breaks if after db/aip
 
     # make the silo sandbox
