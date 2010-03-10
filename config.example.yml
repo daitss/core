@@ -1,8 +1,14 @@
---- 
+# prefix used in minting URIs
 uri-prefix: info:fcla/ # info uri prefix
-database-url: sqlite3:///Users/franco/Code/daitss/meta/var/database.sqlite3 # datamaper url
-http-timeout: 600 # number of seconds daitss functions will wait for a service
-actionplan-url: http://localhost:7000/actionplan # url of actionplan
-validation-url: http://localhost:7000/validation/results # url of validation
-storage-url: http://localhost:7000/silo # url of silo
-description-url: http://localhost:7000/description/describe # url of describe service
+
+# number of seconds daitss functions will wait for a service
+http-timeout: 600
+
+# database connection url
+database-url: sqlite3::memory:
+
+# service urls
+actionplan-url: http://localhost:7000/actionplan
+description-url: http://localhost:7000/description/describe
+storage-url: http://localhost:7000/silo
+validation-url: http://localhost:7000/validation/results
