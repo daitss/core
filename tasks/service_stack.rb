@@ -151,7 +151,6 @@ namespace :services do
     require 'db/operations_agents'
     require 'db/operations_events'
     DataMapper.setup :default, Daitss::CONFIG['database-url']
-    DataMapper.auto_migrate!
 
     # run the test stack
     httpd = Rack::Handler::Thin
