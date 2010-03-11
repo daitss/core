@@ -3,6 +3,11 @@ DIGEST_CODES = {
   "SHA-1" => :sha1, # Secure Hash Algorithm 1, 160 bits    
   "CRC32" => :crc32
 }
+
+ORIGINATOR = { 
+  "archive" => :archive, # MD5 message digest algorithm, 128 bits
+  "depositor" => :depositor, # Secure Hash Algorithm 1, 160 bits    
+}
 class MessageDigest
   include DataMapper::Resource
   property :id, Serial, :key => true
@@ -10,19 +15,24 @@ class MessageDigest
   property :code, Enum[:md5, :sha1, :crc32] #, :key=>true, :unique_index => :u1 
   property :value,  String, :required => true, :length => 255
   property :origin, Enum[:unknown, :archive, :depositor], :default => :unknown
-  
+
   belongs_to :datafile #, :key => true#, :unique_index => :u1  the associated Datafile
 
   before :create, :check_unique_code 
-  
+
   def check_unique_code 
     MessageDigest.first(:code => code, :datafile_id => datafile_id)
   end
-  
+
   def fromPremis(premis)
-    code = premis.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigestAlgorithm", NAMESPACES).content
-    attribute_set(:code, DIGEST_CODES[code])
-    attribute_set(:value, premis.find_first("premis:objectCharacteristics/premis:fixity/premis:messageDigest", NAMESPACES).content)
+    fixities = premis.find("premis:objectCharacteristics/premis:fixity", NAMESPACES)
+    fixities.each do |fixity|
+      code = fixity.find_first("premis:messageDigestAlgorithm", NAMESPACES).content
+      attribute_set(:code, DIGEST_CODES[code])
+      attribute_set(:value, fixity.find_first("premis:messageDigest", NAMESPACES).content)
+      origin = fixity.find_first("premis:messageDigestOriginator", NAMESPACES).content
+      attribute_set(:origin, ORIGINATOR[origin.downcase])
+    end
   end  
-  
+
 end

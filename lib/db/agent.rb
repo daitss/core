@@ -1,5 +1,5 @@
 Agent_Types = { 
-  "Web Service" => :software,
+  "web service" => :software,
   "software" => :software
 }
 
@@ -17,6 +17,6 @@ class Agent
     attribute_set(:id, premis.find_first("premis:agentIdentifier/premis:agentIdentifierValue", NAMESPACES).content)
     attribute_set(:name, premis.find_first("premis:agentName", NAMESPACES).content)
     type = premis.find_first("premis:agentType", NAMESPACES).content
-    attribute_set(:type, Agent_Types[type])
+    attribute_set(:type, Agent_Types[type.downcase])
   end
 end
