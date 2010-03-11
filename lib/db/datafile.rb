@@ -9,7 +9,6 @@ class Datafile < Pobject
   property :original_path, String, :length => (0..255), :required => true 
     # map from package_path + file_title + file_ext
   property :creating_application, String, :length => (0..255)
-
    
   has 0..n, :bitstreams, :constraint=>:destroy # a datafile may contain 0-n bitstream(s)
   # has n, :datafile_severe_element, :constraint=>:destroy
@@ -22,7 +21,8 @@ class Datafile < Pobject
   has 0..n, :message_digest, :constraint => :destroy 
   
   has n, :object_format, :constraint=>:destroy # a datafile may have 0-n file_formats
-  
+  has 0..n, :missing_links, :constraint=>:destroy # if there is missing links in the datafiles (only applies to xml)
+
   # has 1..n, :datafile_representation #, :constraint=>:destroy
   #     has 1..n, :representations, :through => :datafile_representation#, :constraint=>:destroy
   has 1..n, :representations, :through => Resource, :constraint=>:destroy
