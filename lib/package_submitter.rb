@@ -9,6 +9,7 @@ require 'package_tracker'
 class ArchiveExtractionError < StandardError; end
 class DescriptorNotFoundError < StandardError; end
 class DescriptorCannotBeParsedError < StandardError; end
+class SubmitterDescriptorAccountMismatch < StandardError; end
 
 class PackageSubmitter
 
@@ -51,6 +52,10 @@ class PackageSubmitter
       raise DescriptorCannotBeParsedError
     end
 
+    # check that package account in descriptor is specified and matches submitter
+    submitter = OperationsAgent.first(:identifier => submitter_username)
+    raise SubmitterDescriptorAccountMismatch unless submitter.account.code == wip["dmd-account"]
+
     wip['submit-agent'] = agent :id => 'info:fcla/daitss/submission_service',
                                 :name => 'daitss submission service', 
                                 :type => 'Software'
@@ -58,13 +63,11 @@ class PackageSubmitter
     linking_agents = [ 'info:fcla/daitss/submission_service' ]
 
 
-    if wip.metadata["dmd-account"]
-      wip['submit-agent-account'] = agent :id => "info:fcla/daitss/accounts/#{wip.metadata["dmd-account"]}",
-                                          :name => "DAITSS Account: #{wip.metadata["dmd-account"]}", 
-                                          :type => 'Affiliate'
+    wip['submit-agent-account'] = agent :id => "info:fcla/daitss/accounts/#{wip.metadata["dmd-account"]}",
+                                        :name => "DAITSS Account: #{wip.metadata["dmd-account"]}", 
+                                        :type => 'Affiliate'
 
-      linking_agents.push "info:fcla/daitss/accounts/#{wip.metadata["dmd-account"]}"
-    end
+    linking_agents.push "info:fcla/daitss/accounts/#{wip.metadata["dmd-account"]}"
 
     wip['submit-event'] = event :id => URI.join(wip.uri, 'event', 'submit').to_s, 
       :type => 'submit', 

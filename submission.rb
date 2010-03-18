@@ -116,6 +116,8 @@ module Submission
 
       rescue ArchiveExtractionError => e
         halt 400, "Error extracting files in request body, is it malformed?"
+      rescue SubmitterDescriptorAccountMismatch => e
+        halt 403, "Submitter account does not match account specified in SIP descriptor"
       rescue => e
         halt 500, e.message
       end

@@ -6,8 +6,6 @@ require 'helper.rb'
 
 describe PackageSubmitter do
 
-  DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/data/submission_svc_test.db")
-
   ZIP_SIP = "spec/test-sips/ateam.zip"
   TAR_SIP = "spec/test-sips/ateam.tar"
   ZIP_SIP_NODIR = "spec/test-sips/ateam-nodir.zip"
@@ -15,14 +13,18 @@ describe PackageSubmitter do
   ZIP_NO_DESCRIPTOR = "spec/test-sips/ateam-nodesc.zip"
   ZIP_DMD_METADATA = "spec/test-sips/ateam-dmd.zip"
   ZIP_BROKEN_DESCRIPTOR = "spec/test-sips/ateam-broken-descriptor.zip"
+  ZIP_WRONG_ACCOUNT = "spec/test-sips/ateam-wrong-account.zip"
 
   URI_PREFIX = "test:/"
 
   before(:each) do
+    DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/data/submission_svc_test.db")
+    DataMapper.auto_migrate!
+
     FileUtils.mkdir_p "/tmp/d2ws"
     ENV["WORKSPACE"] = "/tmp/d2ws"
 
-    a = add_account
+    a = add_account "ACT", "ACT"
     add_operator a
     add_contact a, [], "foobar", "foobar"
 
@@ -149,5 +151,9 @@ describe PackageSubmitter do
     (event_linking_agent_strings.include? "<linkingAgentIdentifierType>URI</linkingAgentIdentifierType><linkingAgentIdentifierValue>info:fcla/daitss/submission_service</linkingAgentIdentifierValue>").should == true
     (event_linking_agent_strings.include? "<linkingAgentIdentifierType>URI</linkingAgentIdentifierType><linkingAgentIdentifierValue>info:fcla/daitss/accounts/ACT</linkingAgentIdentifierValue>").should == true
 
+  end
+
+  it "should raise error if package account does not match submitter account" do
+    lambda { ieid = PackageSubmitter.submit_sip :zip, ZIP_WRONG_ACCOUNT, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error(SubmitterDescriptorAccountMismatch)
   end
 end
