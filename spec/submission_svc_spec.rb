@@ -285,9 +285,31 @@ describe Submission::App do
     header "CONTENT_MD5", sip_md5.hexdigest
     
     # send request with real zip file, but with an account of "FOO" specified in the descriptor
-    authenticated_post "/", "operator", "operator", sip_string
+    authenticated_post "/", "contact", "contact", sip_string
 
     last_response.status.should == 403
+  end
+
+  it "should return 200 if the submitting user's account does not match the account in the package descriptor if the submitter is an operator" do
+    sip_string = StringIO.new
+    sip_md5 = Digest::MD5.new
+
+    # read file into string io
+    File.open "spec/test-sips/ateam-wrong-account.zip" do |sip_file|
+      sip_string << sip_file.read 
+    end
+
+    # read into md5 object
+    sip_string.rewind
+    sip_md5 << sip_string.read
+
+    # send the correct md5 header
+    header "CONTENT_MD5", sip_md5.hexdigest
+    
+    # send request with real zip file, but with an account of "FOO" specified in the descriptor
+    authenticated_post "/", "operator", "operator", sip_string
+
+    last_response.status.should == 200
   end
 
   private

@@ -154,6 +154,10 @@ describe PackageSubmitter do
   end
 
   it "should raise error if package account does not match submitter account" do
-    lambda { ieid = PackageSubmitter.submit_sip :zip, ZIP_WRONG_ACCOUNT, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error(SubmitterDescriptorAccountMismatch)
+    lambda { ieid = PackageSubmitter.submit_sip :zip, ZIP_WRONG_ACCOUNT, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error(SubmitterDescriptorAccountMismatch)
+  end
+
+  it "should not raise error if package account does not match submitter account if the submitter is an operator" do
+    lambda { ieid = PackageSubmitter.submit_sip :zip, ZIP_WRONG_ACCOUNT, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should_not raise_error(SubmitterDescriptorAccountMismatch)
   end
 end
