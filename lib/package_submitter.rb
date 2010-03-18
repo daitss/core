@@ -54,7 +54,7 @@ class PackageSubmitter
 
     # check that package account in descriptor is specified and matches submitter
     submitter = OperationsAgent.first(:identifier => submitter_username)
-    raise SubmitterDescriptorAccountMismatch unless submitter.account.code == wip["dmd-account"]
+    raise SubmitterDescriptorAccountMismatch unless submitter.account.code == wip["dmd-account"] or submitter.type == Operator
 
     wip['submit-agent'] = agent :id => 'info:fcla/daitss/submission_service',
                                 :name => 'daitss submission service', 
