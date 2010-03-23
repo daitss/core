@@ -83,7 +83,7 @@ module Submission
         request.body.rewind
 
         # return 400 if there is no body in the request
-        halt 400, "Missing body" if request.body.length == 0
+        halt 400, "Missing body" if request.body.size == 0
 
         body_md5 = Digest::MD5.new
 
