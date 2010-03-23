@@ -57,7 +57,7 @@ end
 def zip_package path_to_package
   dest_dir = File.join(File.dirname(__FILE__), "tempsubmit.zip")
 
-  output = `zip -r #{dest_dir} #{path_to_package}` 
+  output = `cd #{path_to_package}; zip -r #{dest_dir} *`  
 
   raise "zip returned non-zero exit status: #{output}" if $?.exitstatus != 0
 
