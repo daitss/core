@@ -1,0 +1,14 @@
+There are two kinds of tests in this repository:
+
+Unit tests for:
+ - workspace related code (aip, wip, sip classes and depenencies)
+ - daitss libraries (authentication, operations database)
+ 
+Cucumber features for integration testing
+
+Cucumber features require the following to work properly:
+
+ - $CONFIG set equal to path of config.yml. For more information on config.yml, look at config.example.yml.
+ - $WORKSPACE set to a valid path.
+ - Running test stack. This is the required set of DAITSS web services. The test stack is started with "rake services:run"
+ - Database initialization. This creates the tables for the aip store and operations datasets. The database is initalized with "rake database:db_migrate"
