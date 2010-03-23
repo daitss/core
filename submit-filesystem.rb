@@ -55,13 +55,13 @@ end
 # zips directory at path_to_package. Returns string with path to zip file
 
 def zip_package path_to_package
-  dest_dir = File.join(File.dirname(__FILE__), "tempsubmit.zip")
+  zip_path = File.join(path_to_package, "tempsubmit.zip")
 
-  output = `cd #{path_to_package}; zip -r #{dest_dir} *`  
+  output = `cd #{path_to_package}; zip -r tempsubmit.zip *`  
 
   raise "zip returned non-zero exit status: #{output}" if $?.exitstatus != 0
 
-  return dest_dir
+  return zip_path
 end
 
 # returns md5 checksum sum of file at path_to_zip
@@ -92,4 +92,9 @@ md5_of_zipfile = md5 zipfile
 curl_output = submit_to_svc config.url, zipfile, config.package_name, md5_of_zipfile, config.username, config.password
 FileUtils.rm_rf zipfile
 
-puts curl_output
+if curl_output =~ /X_IEID:/
+  puts curl_output.split("<IEID>")[1].gsub("</IEID>", "")
+else
+  puts curl_output
+  exit 1
+end
