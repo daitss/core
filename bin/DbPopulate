@@ -8,7 +8,6 @@ begin
   DataMapper.setup(:default, 'mysql://daitss:topdrawer@localhost/daitss2')
    
   poller = AIPPolling.new
-  
   poller.populate
   
 end

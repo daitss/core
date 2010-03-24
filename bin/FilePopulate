@@ -9,11 +9,10 @@ begin
   DataMapper::Logger.new(STDOUT, :debug)
   DataMapper.setup(:default, 'mysql://daitss:topdrawer@localhost/daitss2')
   
-  aip = AIPInPremis.new aipFile
+  aip = AIPInPremis.new 
+  aip.processAIPFile aipFile
   
-  aip.processAIPFile
-  
-rescue e
+rescue => e
   puts e.message
   exit
 end
