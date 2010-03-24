@@ -4,35 +4,20 @@ require "db/operations_events"
 
 class OldIeid
 
-  INITIAL_VALUE = 345901837697478033408 # decimal representation of the base 36 number 21000000000000
-  
   def self.get_next
-    # get most recent submission event with DAITSS 1 style IEID from database and increment it
-    record = OperationsEvent.all(:order => [ :ieid.desc ], :limit => 1, :ieid.like => 'E%' )
+    # here's how the base string for the ieid is generated:
+    # get a floating point representation of the current time
+    # convert that floating point number to a string
+    # remove the decimal point
+    # convert the now decimal point less string into an integer object
+    # use Integer's to_s method to get a base 36 representation 
+    string = Time.now.to_f.to_s.gsub(".", "").to_i.to_s(36).upcase
 
-    if record.length > 0
-      # convert string IEID to an integer
-      last_id = record.pop.ieid
-      num = last_id.gsub("_", "").gsub("E","").to_i(36)
+    # pad with zeros to 14 characters
+    string = ("0" * (14 - string.length)) + string
 
-      return generate_ieid(num + 1)
-    else
-      return generate_ieid INITIAL_VALUE
-    end
-  end
-  
-  private
-
-  # returns an IEID based on integer passed in
-  def self.generate_ieid integer
-      # increment and convert back to a string
-      string = integer.to_s(36)
-
-      # pad with zeros to 14 characters
-      ieid = ("0" * (14 - string.length)) + string
-
-      # add underscore
-      ieid = ieid.insert(8, "_")
-      return "E" + ieid.upcase
+    # add underscore
+    string = string.insert(8, "_")
+    return "E" + string
   end
 end
