@@ -30,8 +30,8 @@ class MessageDigest
       code = fixity.find_first("premis:messageDigestAlgorithm", NAMESPACES).content
       attribute_set(:code, DIGEST_CODES[code])
       attribute_set(:value, fixity.find_first("premis:messageDigest", NAMESPACES).content)
-      origin = fixity.find_first("premis:messageDigestOriginator", NAMESPACES).content
-      attribute_set(:origin, ORIGINATOR[origin.downcase])
+      origin = fixity.find_first("premis:messageDigestOriginator", NAMESPACES)
+      attribute_set(:origin, ORIGINATOR[origin.content.downcase]) if origin
     end
   end  
 
