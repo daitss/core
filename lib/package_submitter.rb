@@ -2,7 +2,7 @@ require 'fileutils'
 require 'wip/create'
 require 'template/premis'
 require 'uri'
-require 'ieid'
+require 'old_ieid'
 require 'libxml'
 require 'package_tracker'
 
@@ -36,7 +36,7 @@ class PackageSubmitter
 
   def self.submit_sip archive_type, path_to_archive, package_name, submitter_username, submitter_ip, md5
     check_workspace
-    ieid = Ieid.new.to_s
+    ieid = OldIeid.get_next
 
     unarchive_sip archive_type, ieid, path_to_archive, package_name
 
