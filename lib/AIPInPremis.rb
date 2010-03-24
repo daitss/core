@@ -50,7 +50,7 @@ class AIPInPremis
         #   files.each do |id,df| 
         #     raise "error deleting datafile #{df.inspect}" unless df.destroy
         #   end
-  
+
         raise "error deleting entity #{entity.inspect}" unless entity.destroy
       end
     end
