@@ -3,6 +3,7 @@ require 'db/operations_events'
 require 'db/aip'
 require 'daitss/config'
 require 'helper'
+require 'fileutils'
 
 REPO_ROOT = File.join File.dirname(__FILE__), '..', '..'
 VAR_DIR = File.join REPO_ROOT, 'var'
@@ -29,11 +30,18 @@ def submit_via_client package
   return output.chomp
 end
 
-def run_ingest ieid
+def run_ingest ieid, expect_success = true
   raise "No IEID to ingest" unless ieid
 
   output = `#{INGEST_BIN_PATH} #{ieid}`
-  raise "Ingest seems to have failed: #{output}" unless $?.exitstatus == 0
+  raise "Ingest seems to have failed: #{output}" if ($?.exitstatus != 0 and expect_success == true)
+end
+
+def setup_workspace
+  raise "$WORKSPACE not set" unless ENV["WORKSPACE"]
+
+  FileUtils.rm_rf(ENV["WORKSPACE"]) if File.directory? ENV["WORKSPACE"]
+  FileUtils.mkdir_p ENV["WORKSPACE"]
 end
 
 Given /^an archive (\w+)$/ do |actor|
@@ -56,26 +64,58 @@ Given /^an archive (\w+)$/ do |actor|
   end
 end
 
-Given /^the submission of a known good package$/ do
-  @ieid = submit_via_client "ateam"
+Given /^the submission of a known (good|invalid) package$/ do |package|
+  case package
+
+  when "good"
+    @ieid = submit_via_client "ateam"
+
+  when "invalid"
+    @ieid = submit_via_client "ateam-missing-contentfile"
+  end
 end
 
-When /^ingest is run on that package$/ do
-  run_ingest @ieid
+Given /^a workspace$/ do
+  setup_workspace
+end
+
+When /^ingest is (run|attempted) on that package$/ do |expectation|
+  case expectation
+
+  when "run"
+    run_ingest @ieid
+
+  when "attempted"
+    run_ingest @ieid, false
+  end
 end
 
 Then /^the package is present in the aip store$/ do
   Aip.get!(@ieid)
 end
 
-Then /^there is an operations event for the submission$/ do
-  event = OperationsEvent.first(:ieid => @ieid, :event_name => "Package Submission")
+Then /^there is an operations event for the (\w+)$/ do |event_type|
+  case event_type
 
-  raise "No submission ops event found" unless event
+  when "submission"
+    event = OperationsEvent.first(:ieid => @ieid, :event_name => "Package Submission")
+
+  when "ingest"
+    pending "ingest doesn't yet add an op event for ingest"
+
+  when "reject"
+    pending "ingest doesn't yet add an op event for reject"
+
+  end
+
+  raise "No #{event_type} ops event found" unless event
 end
 
-Then /^there is an operations event for the ingest$/ do
-  pending "ingest doesn't yet add an op for Ingest"
+Then /^the package is rejected$/ do
+  tag_file_path = File.join ENV["WORKSPACE"], @ieid, "tags", "reject"
+
+  raise "Package not rejected" unless File.exists? tag_file_path
 end
+
 
 
