@@ -8,5 +8,7 @@ class PackageLocation
   property :id, Serial
   property :timestamp, DateTime, :required => true
   property :path, String, :required => true
-  property :ieid, String, :requred => true
+  property :ieid, String, :required => true
+
+  # TODO: tie this to an event
 end

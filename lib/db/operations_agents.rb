@@ -4,6 +4,8 @@ require 'db/keys.rb'
 require 'db/operations_events.rb'
 require 'db/accounts.rb'
 
+# TODO: add notes field to OperationsAgent to hold version info
+# TODO: remove id field?
 class OperationsAgent
   include DataMapper::Resource
 
@@ -14,6 +16,7 @@ class OperationsAgent
   property :type, Discriminator
   property :identifier, String, :unique => true
 
+  # TODO: add constraint
   has 1, :authentication_key
   has n, :operations_events
   belongs_to :account
@@ -27,8 +30,8 @@ class User < OperationsAgent
   property :address, String
 end
 
-class Contact < User
-  property :permissions, Flag[:disseminate, :withdraw, :peek, :submit]
+class Contact < User #Rename to Affiliate
+  property :permissions, Flag[:disseminate, :withdraw, :peek, :submit] # add request report
 end
 
 class Operator < User; end
