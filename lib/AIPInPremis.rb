@@ -7,6 +7,8 @@ class AIPInPremis
     @datafiles = Hash.new
     @bitstreams = Hash.new
     @formats = Hash.new
+    @anomalies = Hash.new
+    @inhibitors = Hash.new
     @events = Hash.new
     @agents = Hash.new
     @relationships = Array.new
@@ -179,7 +181,7 @@ class AIPInPremis
 
       if df   #first check if this event is linked to a file object
         event = DatafileEvent.new
-        event.fromPremis(obj, df)
+        event.fromPremis(obj, df, @anomalies)
         event.setRelatedObject id.content
         # associate agent to the event
         agent.events << event unless agent.nil?
