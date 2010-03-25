@@ -54,7 +54,7 @@ Event_Types = {
   end
 
   class DatafileEvent < Event  
-    def fromPremis(premis, df)
+    def fromPremis(premis, df, anomalies)
       super(premis)
       details = premis.find_first("premis:eventOutcomeInformation/premis:eventOutcomeDetail", NAMESPACES)
       unless details.nil?
@@ -62,18 +62,19 @@ Event_Types = {
         if detailsExtension.nil?
           attribute_set(:outcome_details, details.content.strip!) 
         else
-          @anomalies = Array.new
-          anomalies = detailsExtension.find("//premis:anomaly", NAMESPACES)
-          anomalies.each do |obj|
+          nodes = detailsExtension.find("premis:anomaly", NAMESPACES)
+          nodes.each do |obj|
             anomaly = Anomaly.new
             anomaly.fromPremis(obj)
             # use the existing anomaly record in the database if we have seen this anomaly before
             existinganomaly = Anomaly.first(:name => anomaly.name)
-            puts "existing anomaly #{anomaly.inspect} #{existinganomaly.inspect}"
+            # if it's not already in the anomaly table, check if it was processed earlier.
+            existinganomaly = anomalies[anomaly.name] if existinganomaly.nil?
             if existinganomaly
               df.severe_elements << existinganomaly
             else
               df.severe_elements << anomaly
+              anomalies[anomaly.name] = anomaly
             end
           end
         end
