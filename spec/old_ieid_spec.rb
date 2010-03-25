@@ -9,22 +9,20 @@ describe OldIeid do
   # generate a lot of these as fast as possible and check for collsions
   it "should not generate any collisions" do
     a = []
-    b = {}
     dupe = false
 
     for i in 1..1000
       a.push OldIeid.get_next
     end
 
-    a.each do |ieid|
-      if b[ieid]
-        dupe = true
-        break
-      else
-        b[ieid] = 1
+    r = a.inject do |i, ieid|
+      if i == ieid or i == "dupe"
+        "dupe"
+      else 
+        ieid
       end
     end
 
-    dupe.should == false
+    r.should_not == "dupe"
   end
 end
