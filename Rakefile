@@ -6,11 +6,11 @@ require 'semver'
 require 'daitss2'
 require 'db/aip'
 
-DataMapper.setup(:aipstore, 'mysql://daitss:topdrawer@localhost/aip')
-
 Cucumber::Rake::Task.new
 
 task :db_migrate do
+  DataMapper::Logger.new(STDOUT, :debug)  
+  DataMapper.setup(:default, 'mysql://daitss:topdrawer@localhost/daitss2')  
   DataMapper::auto_migrate!
   # Account.auto_migrate!
   # Agent.auto_migrate!
