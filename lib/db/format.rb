@@ -5,7 +5,7 @@ class Format
   property :id, Serial, :key => true
   property :registry, String # the namespace of the format registry, ex:http://www.nationalarchives.gov.uk/pronom
   property :registry_id, String # the format identifier in the registry, ex: fmt/10
-  property :format_name, String # common format name, ex:  "TIFF"
+  property :format_name, String, :length => 255 # common format name, ex:  "TIFF"
   property :format_version, String #format version,  ex: "5.0"
   property :format_variation, String # format profile, ex: "GeoTiff"
   
