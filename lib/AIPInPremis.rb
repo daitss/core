@@ -3,7 +3,6 @@ require 'daitss2.rb'
 
 class AIPInPremis
   def initialize 
-    @representations = Array.new
     @datafiles = Hash.new
     @bitstreams = Hash.new
     @formats = Hash.new
@@ -120,7 +119,6 @@ class AIPInPremis
       end
 
       @int_entity.representations << rep
-      @representations << rep
     end
 
     # set the origin of all datafiles by deriving the origin information from their associations with representations
