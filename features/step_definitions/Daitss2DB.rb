@@ -58,10 +58,11 @@ Then /^I should see (.+?) intentitiy record$/ do |ieid|
 end
 
 Then /^all (.+) representations should exist/ do |ieid|
+  puts ieid
   # check for representation-0, representation-current
-  r0 = Representation.first(:intentity_id => ieid, :id => 'representation/original')
+  r0 = Representation.first(:intentity_id => ieid, :id.like  => '%representation/original')
   r0.should_not be_nil
-  rc = Representation.first(:intentity_id => ieid, :id => 'representation/current')
+  rc = Representation.first(:intentity_id => ieid, :id.like  => '%representation/current')
   rc.should_not be_nil
 end
 	
