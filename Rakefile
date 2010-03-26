@@ -37,6 +37,8 @@ task :db_migrate do
 end
 
 task :db_upgrade do
+  DataMapper::Logger.new(STDOUT, :debug)  
+   DataMapper.setup(:default, 'mysql://daitss:topdrawer@localhost/daitss2')  
   DataMapper::auto_upgrade!
 end
 
