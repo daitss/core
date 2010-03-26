@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mets xmlns="http://www.loc.gov/METS/"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd
+                      http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss.xsd
+                      http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd"
+  OBJID="etx">
+
+  <dmdSec ID="DMD-0">
+    <mdWrap MDTYPE="MODS">
+      <xmlData>
+        <mods xmlns="http://www.loc.gov/mods/v3">
+          <titleInfo>
+            <title>etd</title>
+          </titleInfo>
+          <part>
+            <detail type='volume'>
+              <number>1</number>
+            </detail>
+          </part>
+          <part>
+            <detail type='issue'>
+              <number>1</number>
+            </detail>
+          </part>
+          <identifier type="entity id">555-1212</identifier>
+        </mods>
+      </xmlData>
+    </mdWrap>
+  </dmdSec>
+
+  <fileSec>
+    <fileGrp>
+      <file ID="FILE-0" CHECKSUM="ca875743c135e0db8aa79ce4ba1c623a81d18199" CHECKSUMTYPE="SHA-1">
+        <FLocat xlink:href="etx.pdf" LOCTYPE="URL"/>
+      </file>
+    </fileGrp>
+  </fileSec>
+
+  <structMap>
+    <div>
+      <fptr FILEID="FILE-0"/>
+    </div>
+  </structMap>
+
+</mets>
