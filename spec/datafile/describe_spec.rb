@@ -120,3 +120,14 @@ describe 'describing a datafile' do
   end
 
 end
+
+describe 'a datafile with multiple bitstreams' do
+
+  it "should have multiple bitstreams" do
+    wip = submit 'etd'
+    df = wip.datafiles.find { |df| df['sip-path'] == 'etd.pdf' }
+    df.describe!
+    df.bitstream_objects.size.should == 19
+  end
+
+end
