@@ -17,7 +17,7 @@ Event_Types = {
     property :datetime, DateTime
     property :outcome, String, :length => 255   # ex. sucess, failed.  TODO:change to Enum.
     property :outcome_details, Text # additional information about the event outcome.
-    property :relatedObjectId, String # the identifier of the related object.
+    property :relatedObjectId, String , :length => 100 # the identifier of the related object.
     # if object A migrated to object B, the object B will be associated with a migrated_from event
     property :class, Discriminator
     belongs_to :agent

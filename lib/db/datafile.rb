@@ -23,9 +23,9 @@ class Datafile < Pobject
   has n, :object_format, :constraint=>:destroy # a datafile may have 0-n file_formats
   has 0..n, :broken_links, :constraint=>:destroy # if there is missing links in the datafiles (only applies to xml)
 
-  # has 1..n, :datafile_representation #, :constraint=>:destroy
-  #     has 1..n, :representations, :through => :datafile_representation#, :constraint=>:destroy
-  has 1..n, :representations, :through => Resource, :constraint=>:destroy
+  has n, :datafile_representation, :constraint=>:destroy
+#  has 1..n, :representations, :through => :datafile_representation #, :constraint=>:destroy
+#  has 1..n, :representations, :through => Resource, :constraint=>:destroy
   
   before :destroy, :deleteChildren
   

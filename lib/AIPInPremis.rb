@@ -1,5 +1,6 @@
 require 'xml'
 require 'daitss2.rb'
+require 'ruby-prof'
 
 class AIPInPremis
   def initialize 
@@ -35,23 +36,23 @@ class AIPInPremis
       Intentity.transaction do
         # puts entity.id
         # destroy all files in the int entities 
-        # files = Hash.new
-        #   representations = Representation.all(:intentity_id => entity.id)
-        #   representations.each do |rep| 
-        #     dfreps = DatafileRepresentation.all(:representation_id => rep.id)
-        #     dfreps.each do |dfrep|
-        #       dfs = Datafile.all(:id => dfrep.datafile_id)
-        #       dfs.each do |df| 
-        #         # remove all events and relationship associated with this datafile
-        #         files[df.id] = df 
-        #       end
-        #     end
-        #   end
-        # 
-        #   files.each do |id,df| 
-        #     raise "error deleting datafile #{df.inspect}" unless df.destroy
-        #   end
-
+          files = Hash.new
+            representations = Representation.all(:intentity_id => entity.id)
+            representations.each do |rep| 
+              dfreps = DatafileRepresentation.all(:representation_id => rep.id)
+              dfreps.each do |dfrep|
+                dfs = Datafile.all(:id => dfrep.datafile_id)
+                dfs.each do |df| 
+                  # remove all events and relationship associated with this datafile
+                  files[df.id] = df 
+                end
+              end
+            end
+          
+            files.each do |id,df| 
+              raise "error deleting datafile #{df.inspect}" unless df.destroy
+            end
+  
         raise "error deleting entity #{entity.inspect}" unless entity.destroy
       end
     end
@@ -107,7 +108,10 @@ class AIPInPremis
         dfid = f.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
         df = @datafiles[dfid]
         unless df.nil?
-          rep.datafiles << df
+          dfrep = DatafileRepresentation.new
+          df.datafile_representation << dfrep
+          rep.datafile_representation << dfrep
+     #     rep.datafiles << df
           if rep.isR0
             r0 << dfid
           elsif rep.isRC
@@ -218,7 +222,7 @@ class AIPInPremis
         # process whole-part relationship among datafile and bitstreams
       elsif (type.eql?("structural") && subtype.eql?("includes"))
         bsid = relationship_element.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
-        @datafiles[dfid].bitstreams << @bitstreams[bsid]
+        @datafiles[dfid].bitstreams << @bitstreams[bsid] if @bitstreams[bsid]
       end
     end
   end
@@ -229,14 +233,18 @@ class AIPInPremis
       # start database traction for saving the associated record for the aip.  If there is any failure during database save, 
       # datamapper automatically rollback the change.
       Intentity.transaction do 
+        #RubyProf.start  
         @int_entity.save  
-        # not necessary to explicitely save representations since representations will be saved through intentity associations        
+   # not necessary to explicitely save representations since representations will be saved through intentity associations        
         # @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
         @datafiles.each {|dfid, df|  raise 'error saving datafile records' unless  df.save } 
-        @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
+        # @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
         @events.each {|id, e|  raise 'error saving event records' unless e.save }
         @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
-      end
+        #r = RubyProf.stop
+        #printer = RubyProf::GraphHtmlPrinter.new r
+        #open('/Users/Carol/Workspace/database/profile.html', 'w') { |io| printer.print io, :min_percent=> 0 }
+       end
     end
   end
 
