@@ -11,6 +11,7 @@ class DataFile
                                   :uri => uri,
                                   :originalName => metadata['sip-path'] || metadata['aip-path'] )
     fix_event_ids doc
+    fix_jhove_ids doc
     metadata['describe-file-object'] = element_doc_as_str doc, "//P:object[@xsi:type='file']"
     metadata['describe-event'] = element_doc_as_str doc, "//P:event"
     metadata['describe-agent'] = element_doc_as_str doc, "//P:agent"
@@ -49,6 +50,18 @@ class DataFile
   end
 
   private
+
+  def fix_jhove_ids doc
+
+    doc.find("//aes:*/@ID", NS_PREFIX).each do |id_attr|
+
+      doc.find("//aes:*/@*[. = '#{id_attr.value}']", NS_PREFIX).each do |attr|
+        attr.value = "#{attr.value}.#{self.id}"
+      end
+
+    end
+
+  end
 
   def fix_event_ids doc
     event_uri = "#{uri}/event/describe/#{next_event_index 'format description'}"

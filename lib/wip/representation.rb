@@ -13,6 +13,7 @@ class Wip
   end
 
   def dump_representation key, dfs
+    raise "#{key} contains a non-datafile" if dfs.any? { |df| df.class != DataFile }
     metadata[key] = dfs.map { |df| df.id }.join "\n"
   end
 

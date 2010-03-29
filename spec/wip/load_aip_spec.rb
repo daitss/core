@@ -10,7 +10,7 @@ describe Wip do
   describe "loading from aip" do
 
     subject do
-      proto_wip = submit 'mimi'
+      proto_wip = submit 'wave'
       proto_wip.ingest!
       id, uri = proto_wip.id, proto_wip.uri
       FileUtils::rm_r proto_wip.path
@@ -55,22 +55,22 @@ describe Wip do
     it "should pull representations: original, current, normalized" do
 
       files = {
-        :xml => subject.datafiles.find { |df| df['aip-path'] == 'mimi.xml' },
-        :pdf => subject.datafiles.find { |df| df['aip-path'] == 'mimi.pdf' },
-        :tif => subject.datafiles.find { |df| df['aip-path'] == '0-normalization.tif'}
+        :xml => subject.datafiles.find { |df| df['aip-path'] == 'wave.xml' },
+        :wav => subject.datafiles.find { |df| df['aip-path'] == 'obj1.wav' },
+        :wavnorm => subject.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
       }
 
       subject.original_rep.should have_exactly(2).items
       subject.original_rep.should include(files[:xml])
-      subject.original_rep.should include(files[:pdf])
+      subject.original_rep.should include(files[:wav])
 
       subject.current_rep.should have_exactly(2).items
       subject.current_rep.should include(files[:xml])
-      subject.current_rep.should include(files[:pdf])
+      subject.current_rep.should include(files[:wav])
 
       subject.normalized_rep.should have_exactly(2).items
       subject.normalized_rep.should include(files[:xml])
-      subject.normalized_rep.should include(files[:tif])
+      subject.normalized_rep.should include(files[:wavnorm])
     end
 
     it "should pull in package level provenance (events)" do
@@ -79,7 +79,7 @@ describe Wip do
       events.should_not be_empty
 
       # the submission
-      submission_event = events.find do |e| 
+      submission_event = events.find do |e|
         doc = XML::Document.string e
         doc.find_first "/P:event[P:eventType = 'submit']", NS_PREFIX
       end
@@ -87,7 +87,7 @@ describe Wip do
       submission_event.should_not be_nil
 
       # validation
-      validation_event = events.find do |e| 
+      validation_event = events.find do |e|
         doc = XML::Document.string e
         doc.find_first "/P:event[P:eventType = 'comprehensive validation']", NS_PREFIX
       end
@@ -95,7 +95,7 @@ describe Wip do
       validation_event.should_not be_nil
 
       # ingest events
-      ingest_event = events.find do |e| 
+      ingest_event = events.find do |e|
         doc = XML::Document.string e
         doc.find_first "/P:event[P:eventType = 'ingest']", NS_PREFIX
       end
@@ -134,20 +134,20 @@ describe Wip do
     end
 
     it "should pull in datafile level provenance (events)" do
-      tif = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.tif'}
+      tif = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
       tif.should have_key('old-digiprov-events')
       events = tif['old-digiprov-events'].split %r{\n(?=<event)}
-      
+
       # description event
-      description_event = events.find do |e| 
+      description_event = events.find do |e|
         doc = XML::Document.string e
         doc.find_first "/P:event[P:eventType = 'format description']", NS_PREFIX
       end
 
       description_event.should_not be_nil
-      
+
       # normalization event
-      normalization_event = events.find do |e| 
+      normalization_event = events.find do |e|
         doc = XML::Document.string e
         doc.find_first "/P:event[P:eventType = 'normalize']", NS_PREFIX
       end
@@ -156,7 +156,7 @@ describe Wip do
     end
 
     it "should pull in datafilelevel provenance (agents)" do
-      tif = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.tif'}
+      tif = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
       tif.should have_key('old-digiprov-agents')
       agents = tif['old-digiprov-agents'].split %r{\n(?=<agent)}
 
@@ -178,13 +178,13 @@ describe Wip do
     end
 
     it "should pull in the normalized_versions of a datafile if exists" do
-      xml = subject.datafiles.find { |df| df['aip-path'] == 'mimi.xml' }
-      pdf = subject.datafiles.find { |df| df['aip-path'] == 'mimi.pdf' }
-      tif = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.tif'}
+      xml = subject.datafiles.find { |df| df['aip-path'] == 'wave.xml' }
+      wav = subject.datafiles.find { |df| df['aip-path'] == 'obj1.wav' }
+      wavnorm = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
 
       xml.normalized_version.should be_nil
-      pdf.normalized_version.should == tif
-      tif.normalized_version.should be_nil
+      wav.normalized_version.should == wavnorm
+      wavnorm.normalized_version.should be_nil
     end
 
   end
