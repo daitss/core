@@ -235,7 +235,7 @@ class AIPInPremis
       Intentity.transaction do 
         #RubyProf.start  
         @int_entity.save  
-   # not necessary to explicitely save representations since representations will be saved through intentity associations        
+        # not necessary to explicitely save representations since representations will be saved through intentity associations        
         # @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
         @datafiles.each {|dfid, df|  raise 'error saving datafile records' unless  df.save } 
         # @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
