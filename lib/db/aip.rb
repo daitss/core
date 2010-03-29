@@ -40,9 +40,10 @@ class Aip
     results = XML_SCHEMA_VALIDATOR.validate doc
 
     combined_results = results[:fatals] + results[:errors]
+    combined_results.reject! { |r| r[:message] =~ /(tcf|aes)\:/ }
     unless combined_results.empty?
       combined_results.each { |r| puts r[:line].to_s + ' ' + r[:message] }
-      [false, "descriptor fails daitss aip xml validation (#{combined_results.size} errors)"] 
+      [false, "descriptor fails daitss aip xml validation (#{combined_results.size} errors)"]
     else
       true
     end
@@ -56,7 +57,7 @@ class Aip
 
     unless errors.empty?
       errors.each { |r| puts r[:line].to_s + ' ' + r[:message] }
-      [false, "descriptor fails daitss aip schematron validation (#{errors.size} errors)"] 
+      [false, "descriptor fails daitss aip schematron validation (#{errors.size} errors)"]
     else
       true
     end
@@ -67,7 +68,7 @@ class Aip
     res = head_copy
 
     unless res['Content-Length'].to_i == copy_size
-      [false, "copy size is wrong: #{copy_size} (record) != #{res['Content-Length']} (silo)"] 
+      [false, "copy size is wrong: #{copy_size} (record) != #{res['Content-Length']} (silo)"]
     else
       true
     end
@@ -78,7 +79,7 @@ class Aip
     res = head_copy
 
     unless res['Content-MD5'] == copy_md5
-      [false, "copy fixity is wrong: #{copy_md5} (record) != #{res['Content-MD5']} (silo)"] 
+      [false, "copy fixity is wrong: #{copy_md5} (record) != #{res['Content-MD5']} (silo)"]
     else
       true
     end
