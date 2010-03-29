@@ -9,73 +9,73 @@ describe Wip do
 
   describe "loading from aip" do
 
-    subject do
+    before :all do
       proto_wip = submit 'wave'
       proto_wip.ingest!
       id, uri = proto_wip.id, proto_wip.uri
       FileUtils::rm_r proto_wip.path
-      wip = blank_wip id, uri
-      wip.load_from_aip
-      wip
+      @wip = blank_wip id, uri
+      @wip.load_from_aip
+      @wip
     end
 
     it "should load the aip descriptor" do
-      subject.metadata.should have_key( 'aip-descriptor' )
+      @wip.metadata.should have_key( 'aip-descriptor' )
     end
 
     it "should load the copy url" do
-      subject.metadata.should have_key( 'copy-url' )
+      @wip.metadata.should have_key( 'copy-url' )
     end
 
     it "should load the copy sha1" do
-      subject.metadata.should have_key( 'copy-sha1' )
+      @wip.metadata.should have_key( 'copy-sha1' )
     end
 
     it "should load the copy size" do
-      subject.metadata.should have_key( 'copy-size' )
+      @wip.metadata.should have_key( 'copy-size' )
     end
 
     it "should load the dmd" do
        pending 'need integration of submit'
 
       Wip::DMD_KEYS.each do |key|
-        subject.metadata.should have_key( key )
+        @wip.metadata.should have_key( key )
       end
 
     end
 
     it "should load the originalName (sip-name)" do
-      subject.metadata.should have_key( 'sip-name' )
+      @wip.metadata.should have_key( 'sip-name' )
     end
 
     it "should pull all datafiles" do
-      subject.datafiles.should have_exactly(3).items
+      @wip.datafiles.should have_exactly(3).items
     end
 
     it "should pull representations: original, current, normalized" do
 
       files = {
-        :xml => subject.datafiles.find { |df| df['aip-path'] == 'wave.xml' },
-        :wav => subject.datafiles.find { |df| df['aip-path'] == 'obj1.wav' },
-        :wavnorm => subject.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
+        :xml => @wip.datafiles.find { |df| df['aip-path'] == 'wave.xml' },
+        :wav => @wip.datafiles.find { |df| df['aip-path'] == 'obj1.wav' },
+        :wavnorm => @wip.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
       }
 
-      subject.original_rep.should have_exactly(2).items
-      subject.original_rep.should include(files[:xml])
-      subject.original_rep.should include(files[:wav])
+      @wip.original_rep.should have_exactly(2).items
+      @wip.original_rep.should include(files[:xml])
+      @wip.original_rep.should include(files[:wav])
 
-      subject.current_rep.should have_exactly(2).items
-      subject.current_rep.should include(files[:xml])
-      subject.current_rep.should include(files[:wav])
+      @wip.current_rep.should have_exactly(2).items
+      @wip.current_rep.should include(files[:xml])
+      @wip.current_rep.should include(files[:wav])
 
-      subject.normalized_rep.should have_exactly(2).items
-      subject.normalized_rep.should include(files[:xml])
-      subject.normalized_rep.should include(files[:wavnorm])
+      @wip.normalized_rep.should have_exactly(2).items
+      @wip.normalized_rep.should include(files[:xml])
+      @wip.normalized_rep.should include(files[:wavnorm])
     end
 
     it "should pull in package level provenance (events)" do
-      subject.should have_key('old-digiprov-events')
-      events = subject['old-digiprov-events'].split %r{\n(?=<event)}
+      @wip.should have_key('old-digiprov-events')
+      events = @wip['old-digiprov-events'].split %r{\n(?=<event)}
       events.should_not be_empty
 
       # the submission
@@ -104,8 +104,8 @@ describe Wip do
     end
 
     it "should pull in package level provenance (agents)" do
-      subject.should have_key('old-digiprov-agents')
-      agents = subject['old-digiprov-agents'].split %r{\n(?=<agent)}
+      @wip.should have_key('old-digiprov-agents')
+      agents = @wip['old-digiprov-agents'].split %r{\n(?=<agent)}
       agents.should_not be_empty
 
       # submit agent
@@ -134,7 +134,7 @@ describe Wip do
     end
 
     it "should pull in datafile level provenance (events)" do
-      tif = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
+      tif = @wip.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
       tif.should have_key('old-digiprov-events')
       events = tif['old-digiprov-events'].split %r{\n(?=<event)}
 
@@ -156,7 +156,7 @@ describe Wip do
     end
 
     it "should pull in datafilelevel provenance (agents)" do
-      tif = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
+      tif = @wip.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
       tif.should have_key('old-digiprov-agents')
       agents = tif['old-digiprov-agents'].split %r{\n(?=<agent)}
 
@@ -178,9 +178,9 @@ describe Wip do
     end
 
     it "should pull in the normalized_versions of a datafile if exists" do
-      xml = subject.datafiles.find { |df| df['aip-path'] == 'wave.xml' }
-      wav = subject.datafiles.find { |df| df['aip-path'] == 'obj1.wav' }
-      wavnorm = subject.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
+      xml = @wip.datafiles.find { |df| df['aip-path'] == 'wave.xml' }
+      wav = @wip.datafiles.find { |df| df['aip-path'] == 'obj1.wav' }
+      wavnorm = @wip.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
 
       xml.normalized_version.should be_nil
       wav.normalized_version.should == wavnorm
