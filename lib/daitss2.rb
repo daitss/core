@@ -17,7 +17,7 @@ require 'db/brokenlinks'
 require 'db/datafile'
 require 'db/representation'
 # require 'db/datafile_severe_element'
-#require 'db/datafiles_representations'
+require 'db/datafiles_representations'
 require 'db/events'
 require 'db/int_entity'
 require 'db/message_digest'
@@ -29,10 +29,5 @@ require 'db/keys'
 require 'db/operations_agents'
 require 'db/operations_events'
 require 'db/projects'
-
-# require all database classes.
-# pattern = File.expand_path File.join(File.dirname(__FILE__), 'db', '*.rb')
-# puts pattern.inspect
-# Dir[pattern].each {|file| require file }
 
 

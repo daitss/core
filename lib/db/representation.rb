@@ -9,10 +9,10 @@ class Representation
 
   belongs_to :intentity
   # representation is part of an int entity
-  # has 1..n, :datafile_representation, :constraint=>:destroy
-     # has 1..n, :datafiles, :through => :datafile_representation, :constraint=>:destroy
+  has n, :datafile_representation #, :constraint=>:destroy
+#  has 1..n, :datafiles, :through => :datafile_representation #, :constraint=>:destroy
     
-  has 1..n, :datafiles, :through => Resource, :constraint=>:destroy
+#  has 1..n, :datafiles, :through => Resource, :constraint=>:destroy
 
   # extract representation properties from a premis document
   def fromPremis premis
