@@ -6,8 +6,8 @@ require 'datafile/actionplan'
 describe 'action planning a datafile' do
 
   subject do
-    wip = submit 'mimi'
-    df = wip.datafiles.find { |df| df['sip-path'] == 'mimi.pdf' }
+    wip = submit 'wave'
+    df = wip.datafiles.find { |df| df['sip-path'] == 'obj1.wav' }
     df.describe!
     df
   end
@@ -17,7 +17,7 @@ describe 'action planning a datafile' do
   end
 
   it "should redirect if there is a transformation" do
-    subject.normalization.should == 'http://localhost:7000/transformation/transform/pdf_norm'
+    subject.normalization.should == 'http://localhost:7000/transformation/transform/wave_norm'
   end
 
   it "should raise an error is the the configuration is wrong" do

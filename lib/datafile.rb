@@ -7,7 +7,7 @@ class DataFile
 
   extend Forwardable
 
-  attr_reader :id, :uri, :wip, :metadata, :datapath 
+  attr_reader :id, :uri, :wip, :metadata, :datapath
   alias_method :to_s, :uri
   alias_method :inspect, :uri
 
@@ -43,6 +43,7 @@ class DataFile
   def == other
     #puts "#{id} #{other.id} => #{id == other.id}"
     #puts "#{wip} #{other.wip} => #{wip == other.wip}"
+    #raise "comparing to nil" if other.nil?
     id == other.id and wip == other.wip
   end
   alias_method :eql?, :==
