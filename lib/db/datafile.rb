@@ -11,9 +11,9 @@ class Datafile < Pobject
   property :creating_application, String, :length => (0..255)
    
   has 0..n, :bitstreams, :constraint=>:destroy # a datafile may contain 0-n bitstream(s)
-  # has n, :datafile_severe_element, :constraint=>:destroy
+  has n, :datafile_severe_element, :constraint=>:destroy
   #  has 0..n, :severe_element, :through => :datafile_severe_element, :constraint=>:destroy # a datafile may contain 0-n severe_elements
-  has 0..n, :severe_elements, :through => Resource, :constraint=>:destroy # a datafile may contain 0-n severe_elements
+  #has 0..n, :severe_elements, :through => Resource, :constraint=>:destroy # a datafile may contain 0-n severe_elements
   has 0..n, :documents, :constraint => :destroy 
   has 0..n, :texts, :constraint => :destroy 
   has 0..n, :audios, :constraint => :destroy 

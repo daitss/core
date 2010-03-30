@@ -36,23 +36,23 @@ class AIPInPremis
       Intentity.transaction do
         # puts entity.id
         # destroy all files in the int entities 
-          files = Hash.new
-            representations = Representation.all(:intentity_id => entity.id)
-            representations.each do |rep| 
-              dfreps = DatafileRepresentation.all(:representation_id => rep.id)
-              dfreps.each do |dfrep|
-                dfs = Datafile.all(:id => dfrep.datafile_id)
-                dfs.each do |df| 
-                  # remove all events and relationship associated with this datafile
-                  files[df.id] = df 
-                end
-              end
+        files = Hash.new
+        representations = Representation.all(:intentity_id => entity.id)
+        representations.each do |rep| 
+          dfreps = DatafileRepresentation.all(:representation_id => rep.id)
+          dfreps.each do |dfrep|
+            dfs = Datafile.all(:id => dfrep.datafile_id)
+            dfs.each do |df| 
+              # remove all events and relationship associated with this datafile
+              files[df.id] = df 
             end
-          
-            files.each do |id,df| 
-              raise "error deleting datafile #{df.inspect}" unless df.destroy
-            end
-  
+          end
+        end
+
+        files.each do |id,df| 
+          raise "error deleting datafile #{df.inspect}" unless df.destroy
+        end
+
         raise "error deleting entity #{entity.inspect}" unless entity.destroy
       end
     end
@@ -111,7 +111,7 @@ class AIPInPremis
           dfrep = DatafileRepresentation.new
           df.datafile_representation << dfrep
           rep.datafile_representation << dfrep
-     #     rep.datafiles << df
+          # rep.datafiles << df
           if rep.isR0
             r0 << dfid
           elsif rep.isRC
@@ -244,7 +244,7 @@ class AIPInPremis
         #r = RubyProf.stop
         #printer = RubyProf::GraphHtmlPrinter.new r
         #open('/Users/Carol/Workspace/database/profile.html', 'w') { |io| printer.print io, :min_percent=> 0 }
-       end
+      end
     end
   end
 

@@ -40,12 +40,12 @@ class Pobject
       newFormat.fromPremis node
       # newFormat.inspect
 
-      # only create a new format record if the format has NOT been seen before, both 
-      # in format table and in the @formats hash
-      format = Format.first(:format_name => newFormat.format_name)
-      # if it's not already in the format table, check if it was processed earlier.
-      format = formats[newFormat.format_name] if format.nil?
+      # check if it was processed earlier.
+      format = formats[newFormat.format_name] 
      
+      # otherwise, check if it's not already in the format table, 
+      format = Format.first(:format_name => newFormat.format_name) if format.nil?
+           
       # use the new format record if the format name has not been seen before. 
       format = newFormat if format.nil?     
 

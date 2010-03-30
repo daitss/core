@@ -5,9 +5,9 @@ class SevereElement
   property :name, String  # the name of the severe element
   property :class, Discriminator
   
-  # has n, :datafile_severe_element, :constraint=>:destroy
-  #     has 1..n, :datafile, :through => :datafile_severe_element, :constraint=>:destroy
-  has 1..n, :datafiles, :through => Resource, :constraint=>:destroy
+  has n, :datafile_severe_element#, :constraint=>:destroy
+  # has 1..n, :datafile, :through => :datafile_severe_element, :constraint=>:destroy
+  # has 1..n, :datafiles, :through => Resource, :constraint=>:destroy
 end
 
 class Inhibitor < SevereElement
