@@ -66,14 +66,20 @@ Event_Types = {
           nodes.each do |obj|
             anomaly = Anomaly.new
             anomaly.fromPremis(obj)
-            # use the existing anomaly record in the database if we have seen this anomaly before
-            existinganomaly = Anomaly.first(:name => anomaly.name)
-            # if it's not already in the anomaly table, check if it was processed earlier.
-            existinganomaly = anomalies[anomaly.name] if existinganomaly.nil?
+
+            # check if it was processed earlier.
+             existinganomaly = anomalies[anomaly.name] 
+
+            # if it's has not processed earlier, use the existing anomaly record 
+            # in the database if we have seen this anomaly before
+            existinganomaly = Anomaly.first(:name => anomaly.name) if existinganomaly.nil?
+             
+            dfse = DatafileSevereElement.new
+            df.datafile_severe_element << dfse
             if existinganomaly
-              df.severe_elements << existinganomaly
+              existinganomaly.datafile_severe_element << dfse
             else
-              df.severe_elements << anomaly
+              anomaly.datafile_severe_element << dfse
               anomalies[anomaly.name] = anomaly
             end
           end
