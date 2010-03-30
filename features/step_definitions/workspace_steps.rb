@@ -64,14 +64,19 @@ Given /^an archive (\w+)$/ do |actor|
   end
 end
 
-Given /^the submission of a known (good|invalid) package$/ do |package|
+Given /^the submission of a known (good|checksum mismatch|empty) package$/ do |package|
   case package
 
   when "good"
     @ieid = submit_via_client "ateam"
 
-  when "invalid"
+  when "empty"
     @ieid = submit_via_client "ateam-missing-contentfile"
+
+  when "checksum mismatch"
+    pending "validation correctly failing packages in case of checksum mismatch"
+    @ieid = submit_via_client "ateam-checksum-mismatch"
+
   end
 end
 
