@@ -74,7 +74,6 @@ Given /^the submission of a known (good|checksum mismatch|empty) package$/ do |p
     @ieid = submit_via_client "ateam-missing-contentfile"
 
   when "checksum mismatch"
-    pending "validation correctly failing packages in case of checksum mismatch"
     @ieid = submit_via_client "ateam-checksum-mismatch"
 
   end

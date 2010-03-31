@@ -12,9 +12,10 @@ class Wip
   def validate!
     doc = XML::Document.string ask_validation
     rr = reject_reasons doc
-    raise Reject, rr unless rr.empty?
     metadata['validate-event'] = validate_event doc
+    metadata['validate-event-full'] = doc
     metadata['validate-agent'] = validate_agent doc
+    raise Reject, rr unless rr.empty?
   end
 
   private
