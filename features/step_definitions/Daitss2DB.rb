@@ -136,7 +136,8 @@ end
 Then /^it should have an inhibitor$/ do
   df = Datafile.first(:id => @dfid)
   found = false
-  df.severe_elements.each do |se|
+  df.datafile_severe_element.each do |dfse|
+    se = SevereElement.first(:id => dfse.severe_element_id)
     found = true if se.class == Inhibitor
   end
   found.should == true
@@ -146,7 +147,8 @@ end
 Then /^it should have an anomaly$/ do
   df = Datafile.first(:id => @dfid)
   found = false
-  df.severe_elements.each do |se|
+  df.datafile_severe_element.each do |dfse|
+    se = SevereElement.first(:id => dfse.severe_element_id)
     found = true if se.class == Anomaly
   end
   found.should == true

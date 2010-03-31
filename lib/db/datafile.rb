@@ -67,10 +67,13 @@ class Datafile < Pobject
       inhibitor.fromPremis(node)
       # use the existing inhibitor record in the database if we have seen this inhibitor before
       existingInhibitor = Inhibitor.first(:name => inhibitor.name)
+      
+      dfse = DatafileSevereElement.new
+      self.datafile_severe_element << dfse
       if existingInhibitor
-        self.severe_elements << existingInhibitor
+        existingInhibitor.datafile_severe_element << dfse
       else
-        self.severe_elements << inhibitor
+        inhibitor.datafile_severe_element << dfse
       end
     end
 
