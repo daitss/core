@@ -64,7 +64,7 @@ Given /^an archive (\w+)$/ do |actor|
   end
 end
 
-Given /^the submission of a known (good|checksum mismatch|empty) package$/ do |package|
+Given /^the submission of a known (good|checksum mismatch|empty|virus infected) package$/ do |package|
   case package
 
   when "good"
@@ -75,6 +75,9 @@ Given /^the submission of a known (good|checksum mismatch|empty) package$/ do |p
 
   when "checksum mismatch"
     @ieid = submit_via_client "ateam-checksum-mismatch"
+
+  when "virus infected"
+    @ieid = submit_via_client "ateam-virus"
 
   end
 end

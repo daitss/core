@@ -29,6 +29,15 @@ Feature: A submission and subsequent ingest operation of a known good package
     And there is an operations event for the submission
     And there is an operations event for the reject
 
+  Scenario: A submission and attempted ingest of a known virus infected by an operator
+    Given an archive operator
+    And a workspace
+    And the submission of a known virus infected package
+    When ingest is attempted on that package
+    Then the package is rejected
+    And there is an operations event for the submission
+    And there is an operations event for the reject
+
   Scenario: A submission and attempted ingest of a known empty package by an operator
     Given an archive operator
     And a workspace
