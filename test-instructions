@@ -12,3 +12,4 @@ Cucumber features require the following to work properly:
  - $WORKSPACE set to a valid path.
  - Running test stack. This is the required set of DAITSS web services. The test stack is started with "rake services:run"
  - Database initialization. This creates the tables for the aip store and operations datasets. The database is initalized with "rake database:db_migrate"
+- features/step_definitions needs to be in RUBYLIB
