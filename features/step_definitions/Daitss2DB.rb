@@ -2,6 +2,7 @@ require 'xml'
 require 'AIPInPremis'
 
 abs = FileUtils.pwd
+#abs = File.join File.dirname(__FILE__), '..', 'files'
 
 Given /^an aip containing a pdf with embedded fonts$/ do
   @file = "#{abs}/files/pdf-monodescriptor.xml"
@@ -65,7 +66,7 @@ Then /^all (.+) representations should exist/ do |ieid|
   rc = Representation.first(:intentity_id => ieid, :id.like  => '%representation/current')
   rc.should_not be_nil
 end
-	
+
 Then /^I should have a datafile named (.+)/ do |filename|
   puts filename
   df = Datafile.first(:original_path => filename)
