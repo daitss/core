@@ -1,7 +1,6 @@
 require 'rack'
-require 'daitss2'
-require 'db/aip'
 require 'daitss/config'
+require 'db/aip'
 
 raise "CONFIG not set" unless ENV['CONFIG']
 Daitss::CONFIG.load ENV['CONFIG']
@@ -10,6 +9,7 @@ namespace :db do
 
   desc 'setup the database'
   task :setup do
+    require 'daitss2'
     DataMapper::Logger.new STDOUT, :debug
     DataMapper.setup :default, Daitss::CONFIG['database-url']
   end

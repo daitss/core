@@ -14,7 +14,15 @@ REPOS = {
   'request' => 'git://github.com/daitss/request.git'
 }
 
-def check_ghostscript
+def check_clamscan
+
+  unless %x{clamscan --version 2>&1}.lines.first =~ /ClamAV/
+    raise "clamscan not found"
+  end
+
+end
+
+def check_ffmpeg
 
   unless %x{ffmpeg -version 2>&1}.lines.first =~ /FFmpeg version /
     raise "ffmpeg not found"
@@ -22,7 +30,7 @@ def check_ghostscript
 
 end
 
-def check_ffmpeg
+def check_ghostscript
 
   unless %x{gs -version}.lines.first =~ /Ghostscript [\d.]+/
     raise "ghostscript not found"

@@ -40,7 +40,7 @@ class Wip
   def reject_reasons doc
     msg = StringIO.new
     doc.find("//P:event", NS_PREFIX).map do |e|
-      if %w(failure missing mismatch invalid).include? e.find_first("P:eventOutcomeInformation/P:eventOutcome", NS_PREFIX).content
+      if %w(failure missing mismatch invalid failed).include? e.find_first("P:eventOutcomeInformation/P:eventOutcome", NS_PREFIX).content
         msg.puts "type: #{e.find_first('P:eventType', NS_PREFIX).content.strip}"
         msg.puts "time: #{Time.parse(e.find_first('P:eventDateTime', NS_PREFIX).content.strip).xmlschema 4}"
         msg.puts "message: #{e.find_first('P:eventOutcomeInformation/P:eventOutcome', NS_PREFIX).content.strip}"
