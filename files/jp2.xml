@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mets xmlns="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd                           info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd" OBJID="haskell-nums-pdf">
+	<amdSec>
+		<techMD ID="tech-1">
+			<mdWrap MDTYPE="PREMIS" LABEL="RC">
+				<xmlData>
+					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="representation">
+						<objectIdentifier>
+							<objectIdentifierType>URI</objectIdentifierType>
+							<objectIdentifierValue>representation/current</objectIdentifierValue>
+						</objectIdentifier>
+						<relationship>
+							<relationshipType>structural</relationshipType>
+							<relationshipSubType>includes</relationshipSubType>
+							<relatedObjectIdentification>
+								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+								<relatedObjectIdentifierValue>file-0</relatedObjectIdentifierValue>
+							</relatedObjectIdentification>
+						</relationship>
+						<relationship>
+							<relationshipType>structural</relationshipType>
+							<relationshipSubType>includes</relationshipSubType>
+							<relatedObjectIdentification>
+								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+								<relatedObjectIdentifierValue>file-1</relatedObjectIdentifierValue>
+							</relatedObjectIdentification>
+						</relationship>
+					</object>
+				</xmlData>
+			</mdWrap>
+		</techMD>
+		<techMD ID="tech-2">
+			<mdWrap MDTYPE="PREMIS" LABEL="R0">
+				<xmlData>
+					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="representation">
+						<objectIdentifier>
+							<objectIdentifierType>URI</objectIdentifierType>
+							<objectIdentifierValue>representation/original</objectIdentifierValue>
+						</objectIdentifier>
+						<relationship>
+							<relationshipType>structural</relationshipType>
+							<relationshipSubType>includes</relationshipSubType>
+							<relatedObjectIdentification>
+								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+								<relatedObjectIdentifierValue>file-0</relatedObjectIdentifierValue>
+							</relatedObjectIdentification>
+						</relationship>
+						<relationship>
+							<relationshipType>structural</relationshipType>
+							<relationshipSubType>includes</relationshipSubType>
+							<relatedObjectIdentification>
+								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+								<relatedObjectIdentifierValue>file-1</relatedObjectIdentifierValue>
+							</relatedObjectIdentification>
+						</relationship>
+					</object>
+				</xmlData>
+			</mdWrap>
+		</techMD>
+		<techMD ID="tech-3">
+			<mdWrap MDTYPE="PREMIS">
+				<xmlData>
+					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
+						<objectIdentifier>
+							<objectIdentifierType>URI</objectIdentifierType>
+							<objectIdentifierValue>file-1</objectIdentifierValue>
+						</objectIdentifier>
+						<objectCharacteristics>
+							<compositionLevel>0</compositionLevel>
+							<fixity>
+								<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
+								<messageDigest>162f47f1d2fa8e8522a065ecfe92c094</messageDigest>
+							</fixity>
+							<size>1870584</size>
+							<format>
+								<formatDesignation>
+									<formatName>JPEG 2000</formatName>
+								</formatDesignation>
+								<formatRegistry>
+									<formatRegistryName>http://www.nationalarchives.gov.uk/pronom</formatRegistryName>
+									<formatRegistryKey>x-fmt/392</formatRegistryKey>
+								</formatRegistry>
+							</format>
+						</objectCharacteristics>
+						<originalName>WF00010502.jp2</originalName>
+						<relationship>
+							<relationshipType>structural</relationshipType>
+							<relationshipSubType>includes</relationshipSubType>
+							<relatedObjectIdentification>
+								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+								<relatedObjectIdentifierValue>file-1/1</relatedObjectIdentifierValue>
+							</relatedObjectIdentification>
+						</relationship>
+						<linkingEventIdentifier>
+							<linkingEventIdentifierType>URI</linkingEventIdentifierType>
+							<linkingEventIdentifierValue>event-4</linkingEventIdentifierValue>
+						</linkingEventIdentifier>
+					</object>
+				</xmlData>
+			</mdWrap>
+		</techMD>
+		<techMD ID="tech-4">
+			<mdWrap MDTYPE="PREMIS">
+				<xmlData>
+					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
+						<objectIdentifier>
+							<objectIdentifierType>URI</objectIdentifierType>
+							<objectIdentifierValue>file-0</objectIdentifierValue>
+						</objectIdentifier>
+						<objectCharacteristics>
+							<compositionLevel>0</compositionLevel>
+							<fixity>
+								<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
+								<messageDigest>1c8717d6f72f3d280a6757fa0f3f6b97</messageDigest>
+							</fixity>
+							<size>1382</size>
+							<format>
+								<formatDesignation>
+									<formatName>XML</formatName>
+									<formatVersion>1.0</formatVersion>
+								</formatDesignation>
+								<formatRegistry>
+									<formatRegistryName>http://www.nationalarchives.gov.uk/pronom</formatRegistryName>
+									<formatRegistryKey>fmt/101</formatRegistryKey>
+								</formatRegistry>
+							</format>
+							<objectCharacteristicsExtension>
+								<textMD xmlns="http://www.loc.gov/standards/textMD">
+									<encoding>
+										<encoding_platform linebreak="CR/LF"/>
+									</encoding>
+									<character_info>
+										<charset>UTF-8</charset>
+										<linebreak>CR/LF</linebreak>
+									</character_info>
+									<language>
+										<markup_basis>XML</markup_basis>
+										<markup_language>http://www.loc.gov/METS/</markup_language>
+										<processingNote/>
+									</language>
+								</textMD>
+							</objectCharacteristicsExtension>
+						</objectCharacteristics>
+						<originalName>files/haskell-nums-pdf.xml</originalName>
+						<linkingEventIdentifier>
+							<linkingEventIdentifierType>URI</linkingEventIdentifierType>
+							<linkingEventIdentifierValue>event-2</linkingEventIdentifierValue>
+						</linkingEventIdentifier>
+					</object>
+				</xmlData>
+			</mdWrap>
+		</techMD>
+		<techMD ID="tech-5">
+			<mdWrap MDTYPE="PREMIS">
+				<xmlData>
+					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+						<objectIdentifier>
+							<objectIdentifierType>URI</objectIdentifierType>
+							<objectIdentifierValue>file-1/1</objectIdentifierValue>
+						</objectIdentifier>
+						<objectCharacteristics>
+							<compositionLevel>0</compositionLevel>
+							<format>
+								<formatDesignation>
+									<formatName>Unknown</formatName>
+								</formatDesignation>
+							</format>
+							<objectCharacteristicsExtension>
+								<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+									<mix:BasicDigitalObjectInformation>
+										<mix:ObjectIdentifier>
+											<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+										</mix:ObjectIdentifier>
+										<mix:byteOrder>big endian</mix:byteOrder>
+										<mix:Compression>
+											<mix:compressionScheme>Unknown</mix:compressionScheme>
+										</mix:Compression>
+									</mix:BasicDigitalObjectInformation>
+									<mix:BasicImageInformation>
+										<mix:BasicImageCharacteristics>
+											<mix:imageWidth>2051</mix:imageWidth>
+											<mix:imageHeight>2961</mix:imageHeight>
+										</mix:BasicImageCharacteristics>
+									</mix:BasicImageInformation>
+									<mix:ImageAssessmentMetadata>
+										<mix:SpatialMetrics>
+											<mix:samplingFrequencyUnit>cm</mix:samplingFrequencyUnit>
+											<mix:xSamplingFrequency>
+												<mix:numerator>23622</mix:numerator>
+												<mix:denominator>100</mix:denominator>
+											</mix:xSamplingFrequency>
+											<mix:ySamplingFrequency>
+												<mix:numerator>23622</mix:numerator>
+												<mix:denominator>100</mix:denominator>
+											</mix:ySamplingFrequency>
+										</mix:SpatialMetrics>
+										<mix:ImageColorEncoding>
+											<mix:BitsPerSample>
+												<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+											</mix:BitsPerSample>
+											<mix:samplesPerPixel>1</mix:samplesPerPixel>
+										</mix:ImageColorEncoding>
+									</mix:ImageAssessmentMetadata>
+								</mix:mix>
+							</objectCharacteristicsExtension>
+						</objectCharacteristics>
+					</object>
+				</xmlData>
+			</mdWrap>
+		</techMD>
+		<digiprovMD ID="digiprov-1">
+			<mdWrap MDTYPE="PREMIS">
+				<xmlData>
+					<agent xmlns="info:lc/xmlns/premis-v2">
+						<agentIdentifier>
+							<agentIdentifierType>URI</agentIdentifierType>
+							<agentIdentifierValue>http://daitss/validation</agentIdentifierValue>
+						</agentIdentifier>
+						<agentName>Validation Service</agentName>
+						<agentType>Web Service</agentType>
+					</agent>
+				</xmlData>
+			</mdWrap>
+		</digiprovMD>
+		<digiprovMD ID="digiprov-2">
+			<mdWrap MDTYPE="PREMIS">
+				<xmlData>
+					<event xmlns="info:lc/xmlns/premis-v2">
+						<eventIdentifier>
+							<eventIdentifierType>URI</eventIdentifierType>
+							<eventIdentifierValue>event-0</eventIdentifierValue>
+						</eventIdentifier>
+						<eventType>SIP passed all validation checks</eventType>
+						<eventDateTime>2009-11-18T14:39:11-05:00</eventDateTime>
+						<eventOutcomeInformation>
+							<eventOutcome>
+							success  
+						</eventOutcome>
+						</eventOutcomeInformation>
+						<linkingAgentIdentifier>
+							<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+							<linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
+						</linkingAgentIdentifier>
+						<linkingObjectIdentifier>
+							<linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+							<linkingObjectIdentifierValue>
+							file:///tmp/d2.ws/aip-0
+						</linkingObjectIdentifierValue>
+						</linkingObjectIdentifier>
+					</event>
+				</xmlData>
+			</mdWrap>
+		</digiprovMD>
+		<digiprovMD ID="digiprov-3">
+			<mdWrap MDTYPE="PREMIS">
+				<xmlData>
+					<event xmlns="info:lc/xmlns/premis-v2">
+						<eventIdentifier>
+							<eventIdentifierType>URI</eventIdentifierType>
+							<eventIdentifierValue>event-2</eventIdentifierValue>
+						</eventIdentifier>
+						<eventType>Format Description</eventType>
+						<eventDateTime>2009-11-18T14:39:15-05:00</eventDateTime>
+						<eventOutcomeInformation>
+							<eventOutcome>Well-Formed and valid</eventOutcome>
+						</eventOutcomeInformation>
+						<linkingAgentIdentifier>
+							<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+							<linkingAgentIdentifierValue>http://localhost:7000/describe</linkingAgentIdentifierValue>
+						</linkingAgentIdentifier>
+						<linkingObjectIdentifier>
+							<linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+							<linkingObjectIdentifierValue>file-0</linkingObjectIdentifierValue>
+						</linkingObjectIdentifier>
+					</event>
+				</xmlData>
+			</mdWrap>
+		</digiprovMD>
+		<digiprovMD ID="digiprov-4">
+			<mdWrap MDTYPE="PREMIS">
+				<xmlData>
+					<agent xmlns="info:lc/xmlns/premis-v2">
+						<agentIdentifier>
+							<agentIdentifierType>URI</agentIdentifierType>
+							<agentIdentifierValue>http://localhost:7000/describe</agentIdentifierValue>
+						</agentIdentifier>
+						<agentName>Format Description Service</agentName>
+						<agentType>Web Service</agentType>
+					</agent>
+				</xmlData>
+			</mdWrap>
+		</digiprovMD>
+		<digiprovMD ID="digiprov-5">
+			<mdWrap MDTYPE="PREMIS">
+				<xmlData>
+					<event xmlns="info:lc/xmlns/premis-v2">
+						<eventIdentifier>
+							<eventIdentifierType>URI</eventIdentifierType>
+							<eventIdentifierValue>event-4</eventIdentifierValue>
+						</eventIdentifier>
+						<eventType>Format Description</eventType>
+						<eventDateTime>2009-11-18T14:39:15-05:00</eventDateTime>
+						<eventOutcomeInformation>
+							<eventOutcome>Well-Formed and valid</eventOutcome>
+						</eventOutcomeInformation>
+						<linkingAgentIdentifier>
+							<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+							<linkingAgentIdentifierValue>http://localhost:7000/describe</linkingAgentIdentifierValue>
+						</linkingAgentIdentifier>
+						<linkingObjectIdentifier>
+							<linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+							<linkingObjectIdentifierValue>file-1</linkingObjectIdentifierValue>
+						</linkingObjectIdentifier>
+					</event>
+				</xmlData>
+			</mdWrap>
+		</digiprovMD>
+		<digiprovMD ID="digiprov-6">
+			<mdWrap MDTYPE="PREMIS">
+				<xmlData>
+					<agent xmlns="info:lc/xmlns/premis-v2">
+						<agentIdentifier>
+							<agentIdentifierType>URI</agentIdentifierType>
+							<agentIdentifierValue>http://localhost:7000/describe</agentIdentifierValue>
+						</agentIdentifier>
+						<agentName>Format Description Service</agentName>
+						<agentType>Web Service</agentType>
+					</agent>
+				</xmlData>
+			</mdWrap>
+		</digiprovMD>
+	</amdSec>
+	<fileSec>
+		<fileGrp>
+			<file ID="file-0" ADMID="tech-4 digiprov-3 digiprov-4 ">
+				<FLocat LOCTYPE="URL" xlink:href="files/haskell-nums-pdf.xml"/>
+			</file>
+			<file ID="file-1" OWNERID="FILE-0" ADMID="tech-3 digiprov-5 digiprov-6 ">
+				<FLocat LOCTYPE="URL" xlink:href="files/Haskell98numbers.pdf"/>
+			</file>
+		</fileGrp>
+	</fileSec>
+	<structMap>
+		<div ADMID="digiprov-1 digiprov-2  tech-2 tech-1">
+			<fptr FILEID="file-0"/>
+			<fptr FILEID="file-1"/>
+		</div>
+	</structMap>
+</mets>
