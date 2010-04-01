@@ -1,9 +1,4 @@
 require 'rack'
-require 'daitss/config'
-
-# configuration
-raise "CONFIG not set" unless ENV['CONFIG']
-Daitss::CONFIG.load ENV['CONFIG']
 
 VAR_DIR = File.join File.dirname(__FILE__), '..', 'var'
 SERVICES_DIR = File.join VAR_DIR, 'services'
@@ -102,22 +97,6 @@ def service_stack
 
   end
 
-end
-
-namespace :database do
-  desc "populate the database"
-  task :db_migrate do
-    require 'db/accounts'
-    require 'db/aip'
-    require 'db/keys'
-    require 'db/operations_agents'
-    require 'db/operations_events'
-    require 'db/package_location'
-    require 'db/projects'
-
-    DataMapper.setup :default, Daitss::CONFIG['database-url']
-    DataMapper.auto_migrate!
-  end
 end
 
 namespace :services do
