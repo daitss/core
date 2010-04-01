@@ -17,7 +17,7 @@ describe Wip do
   end
 
   it "should require a uri if one does not exist" do
-    lambda { 
+    lambda {
       uuid = gen.generate
       path = File.join $sandbox, uuid
       Wip.new path
@@ -25,13 +25,13 @@ describe Wip do
   end
 
   it "should not require a uri if one already exists" do
-    lambda { 
+    lambda {
       Wip.new subject.path, subject.uri
     }.should raise_error(/wip .+ has a uri/)
   end
 
   it "should let addition of new files" do
-    df = subject.new_datafile 
+    df = subject.new_datafile
     df['sip-path'] = 'foo/bar.png'
   end
 
@@ -42,7 +42,7 @@ describe Wip do
   end
 
   it "should let removal of files" do
-    df = subject.new_datafile 
+    df = subject.new_datafile
     subject.remove_datafile df
     subject.datafiles.should_not include(df)
   end
@@ -60,7 +60,7 @@ describe Wip do
   end
 
   it "should have a uri" do
-    subject.uri.should == URI.join("bogus:/", subject.id).to_s 
+    subject.uri.should == URI.join("bogus:/", subject.id).to_s
   end
 
   it "should equal a wip with the same id, uri and path" do
@@ -89,8 +89,4 @@ describe Wip do
     subject.should be_done
   end
 
-  # these are things better handled by the interface
-  it "should know snafu"
-  it "should know reject"
-  it "should know halt"
 end
