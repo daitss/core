@@ -58,7 +58,7 @@
         <value-of select="@ID"/> must have a PREMIS file object <value-of select="concat($aip-uri, '/file/', substring(@ID, string-length('file-') + 1) )"/>
       </assert>
     </rule>
-    <rule context="//P:object[@xsi:type='file']">
+    <rule context="//M:techMD//P:object[@xsi:type='file']">
       <assert test="concat('file-', substring-after(P:objectIdentifier/P:objectIdentifierValue, concat($aip-uri, '/file/'))) = //M:file/@ID">
         <value-of select="P:objectIdentifier/P:objectIdentifierValue"/> must have a METS file <value-of select="concat(substring-after(P:objectIdentifier/P:objectIdentifierValue, concat($aip-uri, '/file/')))"/>
       </assert>
@@ -93,9 +93,9 @@
 
   <pattern>
     <title>file events</title>
-    <rule context="//P:object[@xsi:type='file']/P:objectIdentifier/P:objectIdentifierValue">
+    <rule context="//M:techMD//P:object[@xsi:type='file']/P:objectIdentifier/P:objectIdentifierValue">
       <assert test="//P:event[P:eventType = 'format description']/P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = .">
-        <value-of select="."/> should have a description event 
+        <value-of select="."/> should have a description event
       </assert>
     </rule>
   </pattern>
