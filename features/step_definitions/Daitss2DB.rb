@@ -1,8 +1,7 @@
 require 'xml'
 require 'AIPInPremis'
 
-abs = FileUtils.pwd
-#abs = File.join File.dirname(__FILE__), '..', 'files'
+abs = File.join File.dirname(__FILE__), '..'
 
 Given /^an aip containing a pdf with embedded fonts$/ do
   @file = "#{abs}/files/pdf-monodescriptor.xml"
