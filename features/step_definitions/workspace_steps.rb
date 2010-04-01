@@ -2,7 +2,6 @@ require 'db/operations_agents'
 require 'db/operations_events'
 require 'db/aip'
 require 'daitss/config'
-require 'helper'
 require 'fileutils'
 
 REPO_ROOT = File.join File.dirname(__FILE__), '..', '..'
