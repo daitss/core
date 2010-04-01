@@ -23,7 +23,7 @@ describe Wip do
     it_should_behave_like "all preservations"
 
     before :all do
-      @wip = submit 'lorem' 
+      @wip = submit 'lorem'
       @wip.preserve!
 
       @files = {
@@ -43,13 +43,13 @@ describe Wip do
     it_should_behave_like "all preservations"
 
     before :all do
-      @wip = submit 'mimi' 
+      @wip = submit 'wave'
       @wip.preserve!
 
       @files = {
-        :xml => @wip.datafiles.find { |df| df['sip-path'] == 'mimi.xml' },
-        :pdf => @wip.datafiles.find { |df| df['sip-path'] == 'mimi.pdf' },
-        :tif => @wip.datafiles.find { |df| df['aip-path'] }
+        :xml => @wip.datafiles.find { |df| df['sip-path'] == 'wave.xml' },
+        :wav => @wip.datafiles.find { |df| df['sip-path'] == 'obj1.wav' },
+        :wavn => @wip.datafiles.find { |df| df['aip-path'] }
       }
 
     end
@@ -57,22 +57,22 @@ describe Wip do
     it "should have an original representation with only an xml and a pdf" do
       @wip.original_rep.should have_exactly(2).items
       @wip.original_rep.should include(@files[:xml])
-      @wip.original_rep.should include(@files[:pdf])
-      @wip.original_rep.should_not include(@files[:tif])
+      @wip.original_rep.should include(@files[:wav])
+      @wip.original_rep.should_not include(@files[:wavn])
     end
 
-    it "should have a current representation just with only an xml and a pdf" do
+    it "should have a current representation just with only an xml and a wav" do
       @wip.current_rep.should have_exactly(2).items
       @wip.current_rep.should include(@files[:xml])
-      @wip.current_rep.should include(@files[:pdf])
-      @wip.current_rep.should_not include(@files[:tif])
+      @wip.current_rep.should include(@files[:wav])
+      @wip.current_rep.should_not include(@files[:wavn])
     end
 
-    it "should have a normalized representation just with only an xml and a tif" do
+    it "should have a normalized representation just with only an xml and a wavn" do
       @wip.normalized_rep.should have_exactly(2).items
       @wip.normalized_rep.should include(@files[:xml])
-      @wip.normalized_rep.should include(@files[:tif])
-      @wip.normalized_rep.should_not include(@files[:pdf])
+      @wip.normalized_rep.should include(@files[:wavn])
+      @wip.normalized_rep.should_not include(@files[:wav])
     end
 
   end
