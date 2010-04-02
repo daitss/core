@@ -44,6 +44,7 @@ describe Submission::App do
     DataMapper.auto_migrate!
 
     a = add_account "ACT", "ACT"
+    add_project a
     add_operator a
     add_contact a
   end
@@ -310,6 +311,28 @@ describe Submission::App do
     authenticated_post "/", "operator", "operator", sip_string
 
     last_response.status.should == 200
+  end
+
+  it "should return 403 if the specified project does not exist" do
+    sip_string = StringIO.new
+    sip_md5 = Digest::MD5.new
+
+    # read file into string io
+    File.open "spec/test-sips/ateam-bad-project.zip" do |sip_file|
+      sip_string << sip_file.read 
+    end
+
+    # read into md5 object
+    sip_string.rewind
+    sip_md5 << sip_string.read
+
+    # send the correct md5 header
+    header "CONTENT_MD5", sip_md5.hexdigest
+    
+    # send request with real zip file, but with an project of "DNE" specified in the descriptor
+    authenticated_post "/", "operator", "operator", sip_string
+
+    last_response.status.should == 403
   end
 
   private
