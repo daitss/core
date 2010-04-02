@@ -6,11 +6,29 @@
 
   <ns prefix="M" uri="http://www.loc.gov/METS/"/>
   <ns prefix="P" uri="info:lc/xmlns/premis-v2"/>
+  <ns prefix="daitss" uri="http://www.fcla.edu/dls/md/daitss/"/>
   <ns prefix="beta" uri="info:lc/xmlns/premis-v2-beta"/>
   <ns prefix="xsi" uri="http://www.w3.org/2001/XMLSchema-instance"/>
   <ns prefix="xlink" uri="http://www.w3.org/1999/xlink"/>
 
   <let name="aip-uri" value="/M:mets/@OBJID"/>
+
+  <pattern>
+    <title>Account / Project</title>
+    <rule context="/M:mets">
+      <assert test="M:amdSec/M:digiprovMD//daitss:AGREEMENT_INFO">
+        AGREEMENT_INFO is required
+      </assert>
+    </rule>
+    <rule context="M:amdSec/M:digiprovMD//daitss:AGREEMENT_INFO">
+      <assert test="@ACCOUNT">
+        DAITSS account is required
+      </assert>
+      <assert test="@PROJECT">
+        DAITSS project is required
+      </assert>
+    </rule>
+  </pattern>
 
   <pattern>
     <title>PREMIS identifiers</title>
@@ -82,12 +100,6 @@
         <value-of select="$aip-uri"/> should have a ingest event
       </assert>
     </rule>
-
-    <!--<rule context="//P:event[P:eventType = 'submit'][P:relatedObjectIdentifier/P:relatedObjectIdentifierValue = $aip_uri]">-->
-      <!--<assert test="//P:agent/P:agentIdentifier/P:agentIdentifierValue = ./P:linkingAgentIdentifier/P:linkingObjectIdentifierValue">-->
-        <!--<value-of select="P:agentIdentifier/P:agentIdentifierValue"/> should have a ingest event-->
-      <!--</assert>-->
-    <!--</rule>-->
 
   </pattern>
 
