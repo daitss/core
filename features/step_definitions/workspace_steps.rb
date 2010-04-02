@@ -49,6 +49,7 @@ Given /^an archive (\w+)$/ do |actor|
 
   when "operator"
     a = add_account
+    add_project a
     add_operator a
 
     @username = "operator"
@@ -56,6 +57,7 @@ Given /^an archive (\w+)$/ do |actor|
 
   when "contact"
     a = add_account "ACT", "ACT"
+    add_project a
     add_contact a
 
     @username = "contact"
