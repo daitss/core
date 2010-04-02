@@ -10,6 +10,7 @@ class ArchiveExtractionError < StandardError; end
 class DescriptorNotFoundError < StandardError; end
 class DescriptorCannotBeParsedError < StandardError; end
 class SubmitterDescriptorAccountMismatch < StandardError; end
+class InvalidProject < StandardError; end
 
 class PackageSubmitter
 
@@ -54,7 +55,13 @@ class PackageSubmitter
 
     # check that package account in descriptor is specified and matches submitter
     submitter = OperationsAgent.first(:identifier => submitter_username)
-    raise SubmitterDescriptorAccountMismatch unless submitter.account.code == wip["dmd-account"] or submitter.type == Operator
+    account = submitter.account
+
+    raise SubmitterDescriptorAccountMismatch unless account.code == wip["dmd-account"] or submitter.type == Operator
+
+    # check that the project in the descriptor exists in the database
+    raise InvalidProject unless account.projects
+    raise InvalidProject unless account.projects.map {|project| project.code == wip['dmd-project']}.include? true
 
     wip['submit-agent'] = agent :id => 'info:fcla/daitss/submission_service',
                                 :name => 'daitss submission service', 

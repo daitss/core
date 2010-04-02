@@ -14,6 +14,7 @@ describe PackageSubmitter do
   ZIP_DMD_METADATA = "spec/test-sips/ateam-dmd.zip"
   ZIP_BROKEN_DESCRIPTOR = "spec/test-sips/ateam-broken-descriptor.zip"
   ZIP_WRONG_ACCOUNT = "spec/test-sips/ateam-wrong-account.zip"
+  ZIP_BAD_PROJECT = "spec/test-sips/ateam-bad-project"
 
   URI_PREFIX = "test:/"
 
@@ -25,6 +26,7 @@ describe PackageSubmitter do
     ENV["WORKSPACE"] = "/tmp/d2ws"
 
     a = add_account "ACT", "ACT"
+    add_project a
     add_operator a
     add_contact a, [], "foobar", "foobar"
 
@@ -157,7 +159,11 @@ describe PackageSubmitter do
     lambda { ieid = PackageSubmitter.submit_sip :zip, ZIP_WRONG_ACCOUNT, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error(SubmitterDescriptorAccountMismatch)
   end
 
-  it "should not raise error if package account does not match submitter account if the submitter is an operator" do
-    lambda { ieid = PackageSubmitter.submit_sip :zip, ZIP_WRONG_ACCOUNT, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should_not raise_error(SubmitterDescriptorAccountMismatch)
+  it "should raise error if package account does not match submitter account if the submitter is an operator" do
+    lambda { ieid = PackageSubmitter.submit_sip :zip, ZIP_BAD_PROJECT, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error(InvalidProject)
+  end
+
+  it "should raise error if package account does not match submitter account if the submitter is an contact" do
+    lambda { ieid = PackageSubmitter.submit_sip :zip, ZIP_BAD_PROJECT, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error(InvalidProject)
   end
 end

@@ -8,6 +8,17 @@ def add_account name = "FDA", code = "FDA"
   return a
 end
 
+def add_project account, name = "PRJ", code = "PRJ"
+  p = Project.new
+  p.attributes = { :name => name,
+                   :code => code }
+
+  p.account = account
+  p.save!
+
+  return p
+end
+
 def add_operator account, identifier = "operator", password = "operator"
   o = Operator.new  
 

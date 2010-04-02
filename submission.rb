@@ -57,7 +57,7 @@ module Submission
     end
 
     # All submissions are expected to be POST requests
-    post '/*' do 
+    post "/*" do 
       begin
         #return 401 if credentials not provided
         halt 401 unless credentials?
@@ -118,6 +118,8 @@ module Submission
         halt 400, "Error extracting files in request body, is it malformed?"
       rescue SubmitterDescriptorAccountMismatch => e
         halt 403, "Submitter account does not match account specified in SIP descriptor"
+      rescue InvalidProject => e
+        halt 403, "Specified account does not exist under project"
       rescue => e
         halt 500, e.message
       end
