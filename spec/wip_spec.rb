@@ -4,13 +4,12 @@ require 'wip/task'
 require 'wip/process'
 require 'uuid'
 require 'uri'
-gen = UUID.new
 
 # Proto AIP: Work In Progress
 describe Wip do
 
   subject do
-    uuid = gen.generate
+    uuid = UUID.generate
     path = File.join $sandbox, uuid
     uri = URI.join('bogus:/', uuid) .to_s
     Wip.new path, uri
