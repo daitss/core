@@ -9,8 +9,12 @@ class Wip
   attr_reader :id, :path, :metadata, :tags
 
   METADATA_DIR = 'metadata'
-  FILES_DIR = 'files'
   TAGS_DIR = 'tags'
+
+  FILES_DIR = 'files'
+  ORIGINAL_FILES = File.join FILES_DIR, 'original'
+  NORMALIZED_FILES = File.join FILES_DIR, 'normalized'
+  MIGRATED_FILES = File.join FILES_DIR, 'migrated'
 
   # make a new proto-aip at a path
   def initialize path, uri=nil
@@ -20,7 +24,7 @@ class Wip
 
     @metadata = FsHash.new File.join(@path, METADATA_DIR)
     @tags = FsHash.new File.join(@path, TAGS_DIR)
-  
+
     if uri
       raise "wip #{@path} has a uri" if metadata.has_key? 'uri'
       metadata['uri'] = uri
@@ -33,10 +37,10 @@ class Wip
   def_delegators :@metadata, :[]=, :[], :has_key?, :delete
 
   # returns a list of datafiles
-  def datafiles
-    pattern = File.join @path, FILES_DIR, '*'
+  def original_datafiles
+    pattern = File.join @path, ORIGINAL_FILES, '*'
 
-    Dir[pattern].map do |path| 
+    Dir[pattern].map do |path|
       df_id = File.basename path
       DataFile.new self, df_id
     end
@@ -45,12 +49,12 @@ class Wip
 
   # returns a new data file that will persist in this aip
   # if two processes are calling this method it will produce unspecified results
-  def new_datafile id=nil
+  def new_original_datafile id=nil
 
     df_id = if id
               id
             else
-              @cached_max_id ||= (datafiles.map { |df| df.id.to_i }.max || -1)
+              @cached_max_id ||= (original_datafiles.map { |df| df.id.to_i }.max || -1)
               @cached_max_id += 1
             end
 
@@ -60,7 +64,7 @@ class Wip
   def remove_datafile df_to_remove
 
     unless datafiles.find { |df| df == df_to_remove }
-      raise "datafile #{df_to_remove} is not of wip #{self}" 
+      raise "datafile #{df_to_remove} is not of wip #{self}"
     end
 
     FileUtils::rm_r File.join @path, FILES_DIR, df_to_remove.id
@@ -71,7 +75,6 @@ class Wip
   end
 
   alias_method :to_s, :uri
-
 
   def == other
     id == other.id and uri == other.uri and path == other.path

@@ -10,101 +10,54 @@ class Wip
 
   def preserve!
 
-    datafiles.each do |df| 
-
-      step("describe-#{df.id}") do
-        df.describe!
-      end
-
+    original_datafiles.each do |df|
+      step("describe-#{df.id}") { df.describe! }
+      step("migrate-#{df.id}") { df.migrate! }
+      step("normalize-#{df.id}") { df.normalize! }
     end
 
-    step 'set-original-representation' do
-      self.original_rep = datafiles if original_rep.empty?
+    migrated_datafiles.each do |df|
+      step("describe-#{df.id}") { df.describe! }
     end
 
-    step 'set-current-representation'  do
-      self.current_rep = original_rep if current_rep.empty?
+    normalized_datafiles.each do |df|
+      step("describe-#{df.id}") { df.describe! }
     end
 
-    new_current_rep = current_rep.map do |df| 
-
-      transformation_url = df.migration
-
-      if transformation_url
-        products = df.transform transformation_url
-        data, extension = products.first # XXX only 1-1 is supported now
-
-        begin
-          new_df = new_datafile
-          new_df.open('w') { |io| io.write data }
-          new_df['extension'] = extension
-          new_df['aip-path'] = "#{df.id}-migration#{extension}"
-          new_df.describe!(:derivation_source => df.uri,
-                           :derivation_method => :migrate,
-                           :derivation_agent => transformation_url)
-          new_df
-        rescue
-          remove_datafile new_df
-          raise
-        end
-
-      else
-        df
-      end
-
-
-    end
-
-    new_normalized_rep = original_rep.map do |df| 
-
+    original_datafiles.each do |df|
       transformation_url = df.normalization
 
       if transformation_url
-        products = df.transform transformation_url
-        data, extension = products.first # XXX only 1-1 is supported now
+        data, extension = df.transform transformation_url
+
+        new_id = if df.normalized_version.nil?
+                   "#{odf.id}-norm-0"
+                 else
+
+                   if df.normalized_version.id =~ /#{odf.id}-norm-(\d+)/
+                     "#{odf.id}-norm-#{$1.to_i + 1}"
+                   else
+                     raise "normalized id is ill formed"
+                   end
+
+                 end
 
         begin
-          norm_df = df.normalized_version || new_datafile 
-          norm_df.open('w') { |io| io.write data }
-          norm_df['extension'] = extension
-          norm_df['aip-path'] = "#{df.id}-normalization#{extension}"
+          new_df = new_normalized_datafile new_id
+          new_df.open('w') { |io| io.write data }
+          new_df['extension'] = extension
+          new_df['aip-path'] = "#{df.id}-normalization#{extension}"
+          new_df.describe!(:derivation_source => df.uri,
+                           :derivation_method => :normalize,
+                           :derivation_agent => transformation_url)
 
-          step! "describe-#{norm_df.id}" do
-            norm_df.describe!(:derivation_source => df.uri, 
-                              :derivation_method => :normalize,
-                              :derivation_agent => transformation_url)
-          end
-
-          norm_df
         rescue
-          remove_datafile norm_df
+          remove_normalized_datafile new_df
           raise
         end
 
-      else
-        df
       end
 
-    end
-
-    step 'update-current-representation' do
-      self.current_rep = new_current_rep unless new_current_rep == current_rep
-    end
-
-    step 'update-normalized-representation' do
-
-      if new_normalized_rep != current_rep
-
-        if new_normalized_rep != normalized_rep
-          self.normalized_rep = new_normalized_rep 
-        end
-
-      end
-
-    end
-
-    unrepresented_files.each do |df| 
-      step("obsolete-#{df.id}") { df.obsolete! }
     end
 
   end
