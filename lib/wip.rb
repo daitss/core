@@ -58,6 +58,30 @@ class Wip
     new_datafile ORIGINAL_FILES, id
   end
 
+  # return an array of the migrated datafiles
+  def migrated_datafiles
+    datafiles MIGRATED_FILES
+  end
+
+  # add a new migrated datafile
+  def new_migrated_datafile id
+    new_datafile MIGRATED_FILES, id
+  end
+
+  # return an array of the normalized datafiles
+  def normalized_datafiles
+    datafiles NORMALIZED_FILES
+  end
+
+  # add a new normalized datafile
+  def new_normalized_datafile id
+    new_datafile NORMALIZED_FILES, id
+  end
+
+  def all_datafiles
+    original_datafiles + normalized_datafiles + migrated_datafiles
+  end
+
   private
 
   def datafiles container
