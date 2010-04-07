@@ -1,5 +1,5 @@
 require "workspace"
-require "wip/create"
+require "wip/from_sip"
 require "template/premis"
 require "uuid"
 
@@ -19,16 +19,16 @@ def submit sip_name, workspace=nil
   wip_id = UUID.generate :compact
   path = File.join workspace.path, '.tmp', wip_id
   uri = "#{Daitss::CONFIG['uri-prefix']}/#{wip_id}"
-  wip = Wip::make_from_sip path, uri, sip
+  wip = Wip.from_sip path, uri, sip
 
   wip['submit-event'] = event(:id => "#{wip.uri}/event/submit",
-                              :type => 'submit', 
-                              :outcome => 'success', 
+                              :type => 'submit',
+                              :outcome => 'success',
                               :linking_objects => [ wip.uri ],
                               :linking_agents => [ 'info:fcla/daitss/reference-submit-client' ])
 
   wip['submit-agent'] = agent(:id => 'info:fcla/daitss/reference-submit-client',
-                              :name => 'daitss submission service', 
+                              :name => 'daitss submission service',
                               :type => 'software')
 
   # move the wip into the workspace
@@ -44,7 +44,7 @@ end
 
 def pull_aip id
   aip = Aip.get! id
-  path = File.join $sandbox, aip.id 
+  path = File.join $sandbox, aip.id
   wip = Wip.new path
   wip.load_from_aip
   wip
