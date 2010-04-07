@@ -14,6 +14,10 @@
           <titleInfo>
             <title>Haskell Numbers</title>
           </titleInfo>
+          <part>
+            <detail type="volume"><number>1</number></detail>
+            <detail type="issue"><number>2</number></detail>
+          </part>
         </mods>
       </xmlData>
     </mdWrap>
