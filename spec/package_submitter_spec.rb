@@ -50,7 +50,7 @@ describe PackageSubmitter do
   end
 
   it "should generate a unique IEID for each AIP created" do
-    ieid_1 = PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc" 
+    ieid_1 = PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
     ieid_2 = PackageSubmitter.submit_sip :tar, TAR_SIP, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc"
 
     ieid_1.should_not == ieid_2
@@ -62,7 +62,7 @@ describe PackageSubmitter do
 
     wip = Wip.new File.join(ENV["WORKSPACE"], ieid)
 
-    wip.datafiles.each do |datafile|
+    wip.original_datafiles.each do |datafile|
       (["ateam.tiff", "ateam.xml"].include? datafile.metadata["sip-path"]).should == true
     end
 
@@ -95,7 +95,7 @@ describe PackageSubmitter do
 
     wip = Wip.new File.join(ENV["WORKSPACE"], ieid.to_s)
 
-    wip.datafiles.each do |datafile|
+    wip.original_datafiles.each do |datafile|
       (["ateam.tiff", "ateam.xml"].include? datafile.metadata["sip-path"]).should == true
     end
 

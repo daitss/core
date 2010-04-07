@@ -1,5 +1,5 @@
 require 'fileutils'
-require 'wip/create'
+require 'wip/from_sip'
 require 'template/premis'
 require 'uri'
 require 'old_ieid'
@@ -46,7 +46,7 @@ class PackageSubmitter
 
     begin
       sip = Sip.new sip_path
-      wip = Wip.make_from_sip wip_path, URI.join(URI_PREFIX, ieid), sip
+      wip = Wip.from_sip wip_path, URI.join(URI_PREFIX, ieid), sip
     rescue Errno::ENOENT
       raise DescriptorNotFoundError
     rescue LibXML::XML::Error
@@ -64,27 +64,27 @@ class PackageSubmitter
     raise InvalidProject unless account.projects.map {|project| project.code == wip['dmd-project']}.include? true
 
     wip['submit-agent'] = agent :id => 'info:fcla/daitss/submission_service',
-                                :name => 'daitss submission service', 
+                                :name => 'daitss submission service',
                                 :type => 'Software'
 
     linking_agents = [ 'info:fcla/daitss/submission_service' ]
 
 
     wip['submit-agent-account'] = agent :id => "info:fcla/daitss/accounts/#{wip.metadata["dmd-account"]}",
-                                        :name => "DAITSS Account: #{wip.metadata["dmd-account"]}", 
+                                        :name => "DAITSS Account: #{wip.metadata["dmd-account"]}",
                                         :type => 'Affiliate'
 
     linking_agents.push "info:fcla/daitss/accounts/#{wip.metadata["dmd-account"]}"
 
-    wip['submit-event'] = event :id => URI.join(wip.uri, 'event', 'submit').to_s, 
-      :type => 'submit', 
-      :outcome => 'success', 
+    wip['submit-event'] = event :id => URI.join(wip.uri, 'event', 'submit').to_s,
+      :type => 'submit',
+      :outcome => 'success',
       :linking_objects => [ wip.uri ],
       :linking_agents => linking_agents
 
     # write package tracker event
     submission_event_notes = "submitter_ip: #{submitter_ip}, archive_type: #{archive_type}, submitted_package_checksum: #{md5}"
-    PackageTracker.insert_op_event(submitter_username, ieid, "Package Submission", submission_event_notes) 
+    PackageTracker.insert_op_event(submitter_username, ieid, "Package Submission", submission_event_notes)
 
     # clean up
     FileUtils.rm_rf sip_path
@@ -92,7 +92,7 @@ class PackageSubmitter
     return ieid
   end
 
-  private 
+  private
 
   # raises exception if WORKSPACE environment variable is not set to a valid directory on the filesystem
 
@@ -100,7 +100,7 @@ class PackageSubmitter
     raise "The environment variable WORKSPACE is not set to a valid directory." unless File.directory? ENV["WORKSPACE"]
   end
 
-  # returns string corresponding to unzip command to extract SIP from a zip file 
+  # returns string corresponding to unzip command to extract SIP from a zip file
 
   def self.zip_command_string package_name, path_to_archive, destination
     zip_command = `which unzip`.chomp
@@ -109,7 +109,7 @@ class PackageSubmitter
       return "#{zip_command} #{path_to_archive} -d #{destination} 2>&1"
   end
 
-  # returns string corresponding to unzip command to extract SIP from a tar file 
+  # returns string corresponding to unzip command to extract SIP from a tar file
 
   def self.tar_command_string package_name, path_to_archive, destination
     tar_command = `which tar`.chomp
@@ -120,7 +120,7 @@ class PackageSubmitter
 
   # unzips/untars specified archive file to $WORKSPACE/.submit/package_name/
   # if the zip/tar file had all files in a single directory inside the archive, files inside are moved one
-  #   directory level up 
+  #   directory level up
   # Raises exception if unarchiving tool returns non-zero exit status
 
   def self.unarchive_sip archive_type, ieid, path_to_archive, package_name
@@ -147,7 +147,7 @@ class PackageSubmitter
       FileUtils.rm_rf File.join(destination, contents[2])
     end
 
-    raise ArchiveExtractionError, "archive utility exited with non-zero status: #{output}" if $?.exitstatus != 0 
+    raise ArchiveExtractionError, "archive utility exited with non-zero status: #{output}" if $?.exitstatus != 0
   end
 
   # creates a .submit directory under WORKSPACE
