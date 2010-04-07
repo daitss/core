@@ -32,53 +32,50 @@ class Wip
       raise "wip #{@path} has no uri" unless metadata.has_key? 'uri'
     end
 
+    @cached_max_id = {}
+
   end
 
   def_delegators :@metadata, :[]=, :[], :has_key?, :delete
 
-  # returns a list of datafiles
-  def original_datafiles
-    pattern = File.join @path, ORIGINAL_FILES, '*'
-
-    Dir[pattern].map do |path|
-      df_id = File.basename path
-      DataFile.new self, df_id
-    end
-
-  end
-
-  # returns a new data file that will persist in this aip
-  # if two processes are calling this method it will produce unspecified results
-  def new_original_datafile id=nil
-
-    df_id = if id
-              id
-            else
-              @cached_max_id ||= (original_datafiles.map { |df| df.id.to_i }.max || -1)
-              @cached_max_id += 1
-            end
-
-    DataFile.new self, df_id.to_s
-  end
-
-  def remove_datafile df_to_remove
-
-    unless datafiles.find { |df| df == df_to_remove }
-      raise "datafile #{df_to_remove} is not of wip #{self}"
-    end
-
-    FileUtils::rm_r File.join @path, FILES_DIR, df_to_remove.id
-  end
-
   def uri
     metadata['uri']
   end
-
   alias_method :to_s, :uri
 
   def == other
     id == other.id and uri == other.uri and path == other.path
   end
   alias_method :eql?, :==
+
+  # return an array of the original datafiles
+  def original_datafiles
+    datafiles ORIGINAL_FILES
+  end
+
+  # add a new original datafile
+  def new_original_datafile id
+    new_datafile ORIGINAL_FILES, id
+  end
+
+  private
+
+  def datafiles container
+    pattern = File.join @path, container, '*'
+
+    Dir[pattern].map do |path|
+      df_id = File.basename path
+      DataFile.new self, container, df_id
+    end
+  end
+
+  def new_datafile container, id
+
+    if File.exist? File.join(@path, container, id.to_s)
+      raise "datafile #{id} already exists in #{container}"
+    end
+
+    DataFile.new self, container, id.to_s
+  end
 
 end
