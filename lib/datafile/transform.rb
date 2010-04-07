@@ -3,27 +3,37 @@ require 'datafile'
 require 'net/http'
 require 'cgi'
 
+require 'datafile/actionplan'
+
 class DataFile
 
   # Create a migrated version of this datafile if the acitonplan dictates
   def migrate!
     source = (migrated_version || self)
-    old_df = migrated_version
-    mig_df = new_migrated_datafile (old_df ? next_transformed_id df : "#{id}-mig-0")
     transformation_url = source.migration
-    transform_df source, mig_df, old_df, transformation_url
+
+    if transformation_url
+      old_df = migrated_version
+      mig_id = old_df ? next_transformed_id(old_df) : "#{id}-mig-0"
+      mig_df = @wip.new_migrated_datafile mig_id
+      transform_df source, mig_df, old_df, transformation_url
+    end
+
   end
 
   # Create a migrated version of this datafile if the acitonplan dictates
   def normalize!
     source = self
-    old_df = normalized_version
-    norm_df = new_normalized_datafile (old_df ? next_transformed_id df : "#{id}-norm-0")
     transformation_url = source.normalization
-    transform_df source, norm_df, old_df, transformation_url
-  end
 
-  private
+    if transformation_url
+      old_df = normalized_version
+      norm_id = old_df ? next_transformed_id(old_df) : "#{id}-norm-0"
+      norm_df = @wip.new_normalized_datafile norm_id
+      transform_df source, norm_df, old_df, transformation_url
+    end
+
+  end
 
   def next_transformed_id df
     case df.id
@@ -34,28 +44,21 @@ class DataFile
 
   def transform_df source_df, dest_df, old_df, transformation_url
 
-    if transformation_url
+    # perform transformation
+    data, ext = source_df.transform transformation_url
 
-      begin
-        # perform transformation
-        data, ext = source.transform transformation_url
+    # fill in destination datafile
+    dest_df.open('w') { |io| io.write data }
+    dest_df['extension'] = ext
+    dest_df['aip-path'] = "#{dest_df.id}#{ext}"
+    dest_df['transformation-url'] = transformation_url
+    dest_df['transformation-source'] = source_df.uri
 
-        # fill in destination datafile
-        dest_df.open('w') { |io| io.write data }
-        dest_df['extension'] = ext
-        dest_df['aip-path'] = "#{dest_df.id}#{extension}"
-        dest_df['transformation-url'] = transformation_url
-        dest_df['transformation-source'] = source.uri
-
-        # make the old one obsolete
-        old_df.obsolete! if old_df
-      rescue
-        new_df.nuke
-        raise
-      end
-
-    end
-
+    # make the old one obsolete
+    old_df.obsolete! if old_df
+  rescue
+    dest_df.nuke!
+    raise
   end
 
   def transform url
@@ -94,7 +97,7 @@ class DataFile
       else res.error!
       end
 
-    end
+    end.first
 
   end
 
