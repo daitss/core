@@ -3,7 +3,6 @@ require 'wip'
 require 'wip/ingest'
 require 'wip/dmd'
 require 'wip/load_aip'
-require 'datafile/normalized_version'
 
 describe Wip do
 
@@ -16,7 +15,6 @@ describe Wip do
       FileUtils::rm_r proto_wip.path
       @wip = blank_wip id, uri
       @wip.load_from_aip
-      @wip
     end
 
     it "should load the aip descriptor" do
@@ -49,142 +47,158 @@ describe Wip do
     end
 
     it "should pull all datafiles" do
-      @wip.datafiles.should have_exactly(3).items
+      @wip.all_datafiles.should have_exactly(3).items
     end
 
-    it "should pull representations: original, current, normalized" do
+    describe 'representations' do
 
-      files = {
-        :xml => @wip.datafiles.find { |df| df['aip-path'] == 'wave.xml' },
-        :wav => @wip.datafiles.find { |df| df['aip-path'] == 'obj1.wav' },
-        :wavnorm => @wip.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
-      }
+      it 'should pull the original representation' do
+        o_rep = @wip.original_representation
+        o_rep.should have_exactly(2).items
+        o_rep[1]['aip-path'].should == 'wave.xml'
+        o_rep[0]['aip-path'].should == 'obj1.wav'
+      end
 
-      @wip.original_rep.should have_exactly(2).items
-      @wip.original_rep.should include(files[:xml])
-      @wip.original_rep.should include(files[:wav])
+      it 'should pull the current representation' do
+        c_rep = @wip.current_representation
+        c_rep.should have_exactly(2).items
+        c_rep[1]['aip-path'].should == 'wave.xml'
+        c_rep[0]['aip-path'].should == 'obj1.wav'
+      end
 
-      @wip.current_rep.should have_exactly(2).items
-      @wip.current_rep.should include(files[:xml])
-      @wip.current_rep.should include(files[:wav])
+      it 'should pull the normalized representation' do
+        n_rep = @wip.normalized_representation
+        n_rep.should have_exactly(2).items
+        n_rep[1]['aip-path'].should == 'wave.xml'
+        n_rep[0]['aip-path'].should == '0-norm-0.wav'
+      end
 
-      @wip.normalized_rep.should have_exactly(2).items
-      @wip.normalized_rep.should include(files[:xml])
-      @wip.normalized_rep.should include(files[:wavnorm])
     end
 
-    it "should pull in package level provenance (events)" do
-      @wip.should have_key('old-digiprov-events')
-      events = @wip['old-digiprov-events'].split %r{\n(?=<event)}
-      events.should_not be_empty
+    describe "package level provenance (events)" do
 
-      # the submission
-      submission_event = events.find do |e|
-        doc = XML::Document.string e
-        doc.find_first "/P:event[P:eventType = 'submit']", NS_PREFIX
+      before :all do
+        @events = @wip['old-digiprov-events'].split %r{\n(?=<event)}
       end
 
-      submission_event.should_not be_nil
+      it 'should have a submission event' do
+        submission_event = @events.find do |e|
+          doc = XML::Document.string e
+          doc.find_first "/P:event[P:eventType = 'submit']", NS_PREFIX
+        end
 
-      # validation
-      validation_event = events.find do |e|
-        doc = XML::Document.string e
-        doc.find_first "/P:event[P:eventType = 'comprehensive validation']", NS_PREFIX
+        submission_event.should_not be_nil
       end
 
-      validation_event.should_not be_nil
+      it 'should have a validation event' do
+        validation_event = @events.find do |e|
+          doc = XML::Document.string e
+          doc.find_first "/P:event[P:eventType = 'comprehensive validation']", NS_PREFIX
+        end
 
-      # ingest events
-      ingest_event = events.find do |e|
-        doc = XML::Document.string e
-        doc.find_first "/P:event[P:eventType = 'ingest']", NS_PREFIX
+        validation_event.should_not be_nil
       end
 
-      ingest_event.should_not be_nil
+      it 'should have a ingest event' do
+        ingest_event = @events.find do |e|
+          doc = XML::Document.string e
+          doc.find_first "/P:event[P:eventType = 'ingest']", NS_PREFIX
+        end
+
+        ingest_event.should_not be_nil
+      end
+
     end
 
-    it "should pull in package level provenance (agents)" do
-      @wip.should have_key('old-digiprov-agents')
-      agents = @wip['old-digiprov-agents'].split %r{\n(?=<agent)}
-      agents.should_not be_empty
+    describe "package level provenance (agents)" do
 
-      # submit agent
-      submit_agent = agents.find do |a|
-        doc = XML::Document.string a
-        doc.find_first "/P:agent[P:agentName = 'daitss submission service']", NS_PREFIX
+      before :all do
+        @agents = @wip['old-digiprov-agents'].split %r{\n(?=<agent)}
       end
 
-      submit_agent.should_not be_nil
+      it 'should have a submit agent' do
+        submit_agent = @agents.find do |a|
+          doc = XML::Document.string a
+          doc.find_first "/P:agent[P:agentName = 'daitss submission service']", NS_PREFIX
+        end
 
-      # validate agent
-      validate_agent = agents.find do |a|
-        doc = XML::Document.string a
-        doc.find_first "/P:agent[P:agentName = 'daitss validation service']", NS_PREFIX
+        submit_agent.should_not be_nil
       end
 
-      validate_agent.should_not be_nil
+      it 'should have a validate agent' do
+        validate_agent = @agents.find do |a|
+          doc = XML::Document.string a
+          doc.find_first "/P:agent[P:agentName = 'daitss validation service']", NS_PREFIX
+        end
 
-      # ingest agent
-      ingest_agent = agents.find do |a|
-        doc = XML::Document.string a
-        doc.find_first "/P:agent[P:agentName = 'daitss ingest']", NS_PREFIX
+        validate_agent.should_not be_nil
       end
 
-      ingest_agent.should_not be_nil
+      it 'should have an ingest agent' do
+        ingest_agent = @agents.find do |a|
+          doc = XML::Document.string a
+          doc.find_first "/P:agent[P:agentName = 'daitss ingest']", NS_PREFIX
+        end
+
+        ingest_agent.should_not be_nil
+      end
+
     end
 
-    it "should pull in datafile level provenance (events)" do
-      tif = @wip.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
-      tif.should have_key('old-digiprov-events')
-      events = tif['old-digiprov-events'].split %r{\n(?=<event)}
+    describe 'datafile level provenance (events)' do
 
-      # description event
-      description_event = events.find do |e|
-        doc = XML::Document.string e
-        doc.find_first "/P:event[P:eventType = 'format description']", NS_PREFIX
+      before :all do
+        df = @wip.all_datafiles.find { |df| df['aip-path'] == '0-norm-0.wav'}
+        @events = df['old-digiprov-events'].split %r{\n(?=<event)}
       end
 
-      description_event.should_not be_nil
+      it "should have a description event" do
 
-      # normalization event
-      normalization_event = events.find do |e|
-        doc = XML::Document.string e
-        doc.find_first "/P:event[P:eventType = 'normalize']", NS_PREFIX
+        description_event = @events.find do |e|
+          doc = XML::Document.string e
+          doc.find_first "/P:event[P:eventType = 'format description']", NS_PREFIX
+        end
+
+        description_event.should_not be_nil
       end
 
-      normalization_event.should_not be_nil
+      it 'should have a normalization event' do
+
+        normalization_event = @events.find do |e|
+          doc = XML::Document.string e
+          doc.find_first "/P:event[P:eventType = 'normalize']", NS_PREFIX
+        end
+
+        normalization_event.should_not be_nil
+      end
+
     end
 
-    it "should pull in datafilelevel provenance (agents)" do
-      tif = @wip.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
-      tif.should have_key('old-digiprov-agents')
-      agents = tif['old-digiprov-agents'].split %r{\n(?=<agent)}
+    describe "datafile level provenance (agents)" do
 
-      # description agent
-      describe_agent = agents.find do |a|
-        doc = XML::Document.string a
-        doc.find_first "/P:agent[P:agentName = 'Format Description Service']", NS_PREFIX
+      before :all do
+        df = @wip.all_datafiles.find { |df| df['aip-path'] == '0-norm-0.wav'}
+        @agents = df['old-digiprov-agents'].split %r{\n(?=<agent)}
       end
 
-      describe_agent.should_not be_nil
+      it 'should have a description agent' do
+        describe_agent = @agents.find do |a|
+          doc = XML::Document.string a
+          doc.find_first "/P:agent[P:agentName = 'Format Description Service']", NS_PREFIX
+        end
 
-      # normalize agent
-      normalize_agent = agents.find do |a|
-        doc = XML::Document.string a
-        doc.find_first "/P:agent[P:agentName = 'daitss transformation service']", NS_PREFIX
+        describe_agent.should_not be_nil
       end
 
-      normalize_agent.should_not be_nil
-    end
+      it 'should have a normalize agent' do
+        normalize_agent = @agents.find do |a|
+          doc = XML::Document.string a
+          doc.find_first "/P:agent[P:agentName = 'daitss transformation service']", NS_PREFIX
+        end
 
-    it "should pull in the normalized_versions of a datafile if exists" do
-      xml = @wip.datafiles.find { |df| df['aip-path'] == 'wave.xml' }
-      wav = @wip.datafiles.find { |df| df['aip-path'] == 'obj1.wav' }
-      wavnorm = @wip.datafiles.find { |df| df['aip-path'] == '0-normalization.wav'}
+        normalize_agent.should_not be_nil
+      end
 
-      xml.normalized_version.should be_nil
-      wav.normalized_version.should == wavnorm
-      wavnorm.normalized_version.should be_nil
     end
 
   end
