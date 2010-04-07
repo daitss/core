@@ -110,7 +110,7 @@ class Wip
       end
 
       df['sip-path'] = f
-      df['owner-id'] = sip.owner_ids[f] if sip.owner_ids[f]
+      df['aip-path'] = f
     end
 
     # put metadata from SIP in WIP
