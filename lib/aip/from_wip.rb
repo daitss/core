@@ -1,5 +1,5 @@
 require 'net/http'
-require 'db/aip'
+require 'aip'
 require 'descriptor'
 require 'tempdir'
 

@@ -1,7 +1,7 @@
 require 'wip/validate'
 require 'spec_helper'
 require 'wip/preserve'
-require 'db/aip/wip'
+require 'aip/from_wip'
 
 describe Aip do
 

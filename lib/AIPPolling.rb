@@ -1,5 +1,5 @@
 require 'AIPInPremis'
-require 'db/aip'
+require 'aip'
 
 class AIPPolling
 
@@ -11,7 +11,7 @@ class AIPPolling
 
     #gathering all aips that need to be populated to daitss2 fast access database
     # repository(:aipstore) do
-    @needWorkAIP = Aip.all(:needs_work => true) 
+    @needWorkAIP = Aip.all(:needs_work => true)
     # @doc = XML::Document.string(@needWorkAIP.xml)
     # end
 

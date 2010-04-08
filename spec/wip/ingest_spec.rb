@@ -1,5 +1,5 @@
 require 'wip'
-require 'db/aip'
+require 'aip'
 require 'wip/ingest'
 require 'spec_helper'
 
