@@ -1,4 +1,5 @@
 require 'wip'
+require 'datafile/obsolete'
 require 'digest/sha1'
 
 class Wip
@@ -66,21 +67,27 @@ class Wip
     end
 
     # volume
-    volume_node = doc.find_first "//mods:mods/mods:part/mods:detail[@type = 'volume']/mods:number", NS_PREFIX
+    volume_node = doc.find_first(%Q{
+      //mods:mods/mods:part/mods:detail[@type = 'volume']/mods:number
+    }, NS_PREFIX)
 
     if volume_node
       metadata['dmd-volume'] = volume_node.content
     end
 
     # issue
-    issue_node = doc.find_first "//mods:mods/mods:part/mods:detail[@type = 'issue']/mods:number", NS_PREFIX
+    issue_node = doc.find_first(%Q{
+      //mods:mods/mods:part/mods:detail[@type = 'issue']/mods:number
+    }, NS_PREFIX)
 
     if issue_node
       metadata['dmd-issue'] = issue_node.content
     end
 
     # entity id
-    entity_id_node = doc.find_first "//mods:mods/mods:identifier[@type = 'entity id']", NS_PREFIX
+    entity_id_node = doc.find_first(%Q{
+      //mods:mods/mods:identifier[@type = 'entity id']
+    }, NS_PREFIX)
 
     if entity_id_node
       metadata['dmd-entity-id'] = entity_id_node.content
@@ -130,24 +137,37 @@ class Wip
              when /^\d+-norm-\d+$/ then new_normalized_datafile df_id
              end
 
+        uri = file_node['OWNERID']
+        event_node = doc.find_first(%Q{
+          //P:event [P:eventType = 'obsolete']
+                    [P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = '#{uri}']
+        }, NS_PREFIX)
+        df['obsolete-event'] = event_node.to_s if event_node
+
         # extract the data
-        aip_path = file_node.find_first('M:FLocat/@xlink:href', NS_PREFIX).value
-        tar_file = File.join tdir.path, aip_dir, aip_path
-        FileUtils::cp tar_file, df.datapath
+        unless df.obsolete?
+          aip_path = file_node.find_first('M:FLocat/@xlink:href', NS_PREFIX).value
+          tar_file = File.join tdir.path, aip_dir, aip_path
+          FileUtils::cp tar_file, df.datapath
 
-        expected_size = file_node['SIZE'].to_i
-        actual_size = df.size
-        unless df.size == expected_size
-          raise "datafile #{df.id} size is wrong: expected #{expected_size}, actual #{actual_size}"
+          expected_size = file_node['SIZE'].to_i
+          actual_size = df.size
+          unless df.size == expected_size
+            raise "datafile #{df.id} size is wrong: expected #{expected_size}, actual #{actual_size}"
+          end
+
+          expected_sha1 = file_node['CHECKSUM']
+          actual_sha1 = df.open { |io| Digest::SHA1.hexdigest io.read }
+          unless expected_sha1 == actual_sha1
+            raise "datafile #{df.id} sha1 is wrong: expected #{expected_sha1}, actual #{actual_sha1}"
+          end
+
+          df['aip-path'] = aip_path
+        else
+          df['obsolete-size'] = file_node['SIZE']
+          df['obsolete-sha1'] = file_node['CHECKSUM']
         end
 
-        expected_sha1 = file_node['CHECKSUM']
-        actual_sha1 = df.open { |io| Digest::SHA1.hexdigest io.read }
-        unless expected_sha1 == actual_sha1
-          raise "datafile #{df.id} sha1 is wrong: expected #{expected_sha1}, actual #{actual_sha1}"
-        end
-
-        df['aip-path'] = aip_path
       end
 
     end

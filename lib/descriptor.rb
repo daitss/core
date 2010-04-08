@@ -106,7 +106,7 @@ end
 class DataFile
 
   def digiprov_events
-    new_events = metadata_for 'describe-event', 'migrate-event', 'normalize-event'
+    new_events = metadata_for 'describe-event', 'migrate-event', 'normalize-event', 'obsolete-event'
     new_events + old_events.map { |e| e.root.to_s }
   end
 
