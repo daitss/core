@@ -1,6 +1,6 @@
 require 'rack'
 require 'daitss/config'
-require 'db/aip'
+require 'aip'
 
 raise "CONFIG not set" unless ENV['CONFIG']
 Daitss::CONFIG.load ENV['CONFIG']
