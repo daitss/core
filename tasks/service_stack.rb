@@ -150,7 +150,7 @@ namespace :services do
     FileUtils::mkdir_p SILO_DIR
 
     # make the database sandbox
-    require 'db/aip' # RJB: same rjb issue
+    require 'aip' # RJB: same rjb issue
     require 'db/operations_agents'
     require 'db/operations_events'
     DataMapper.setup :default, Daitss::CONFIG['database-url']
