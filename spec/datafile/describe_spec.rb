@@ -6,10 +6,11 @@ describe 'describing a datafile' do
 
   subject do
     wip = submit 'mimi'
-    wip.datafiles.find { |df| df['sip-path'] =~ %r{\.pdf$} }
+    wip.original_datafiles.find { |df| df['aip-path'] == 'mimi.pdf' }
   end
 
   describe "premis metadata" do
+
     before(:all) { subject.describe! }
     it { should have_key('describe-event') }
     it { should have_key('describe-agent') }
@@ -59,64 +60,66 @@ describe 'describing a datafile' do
 
   end
 
-  it "should take derivation options (migration)" do
-    src = subject.wip.datafiles[0]
-    dst = subject.wip.datafiles[1]
-    transformation_url = 'http://optimus/prime'
+  describe 'transformation options' do
 
-    src.describe!
-    dst.describe! :derivation_source => src.uri, :derivation_method => :migrate, :derivation_agent => transformation_url
+    before :all do
+      @df = subject
+      @df['transformation-source'] = 'autobot://optimus/prime'
+      @df['transformation-strategy'] = 'transform'
+      @df['transformation-agent'] = 'cybertron'
+      @df.describe!
+    end
 
-    doc = XML::Document.string dst['describe-file-object']
+    it 'should relate to the source via an event' do
 
-    relationship = doc.find_first "P:relationship[P:relatedObjectIdentification/P:relatedObjectIdentifierValue = '#{src.uri}']", NS_PREFIX
-    relationship.should_not be_nil
+      # the related obejct
+      object_doc = XML::Document.string @df['describe-file-object']
+      relationship = object_doc.find_first(%Q{
+        P:relationship[
+          P:relatedObjectIdentification/
+            P:relatedObjectIdentifierValue = '#{ @df['transformation-source'] }']
+      } , NS_PREFIX)
+      relationship.should_not be_nil
 
-    rel_event = relationship.find_first "P:relatedEventIdentification/P:relatedEventIdentifierValue", NS_PREFIX
-    rel_event.should_not be_nil
-    event_uri = rel_event.content
+      # the event
+      rel_event = relationship.find_first(%Q{
+        P:relatedEventIdentification /
+          P:relatedEventIdentifierValue
+      }, NS_PREFIX)
+      rel_event.should_not be_nil
+      event_doc = XML::Document.string @df["#{ @df['transformation-strategy'] }-event"]
+      event = event_doc.find_first(%Q{
+        /P:event [
+          P:eventIdentifier /
+            P:eventIdentifierValue = '#{rel_event.content}'
+        ]
+      }, NS_PREFIX)
+      event.should_not be_nil
+      event.find("P:eventType = '#{ @df['transformation-strategy'] }'", NS_PREFIX).should be_true
 
-    doc = XML::Document.string dst['migrate-event']
-    event = doc.find_first "/P:event[P:eventIdentifier/P:eventIdentifierValue = '#{event_uri}']", NS_PREFIX
-    event.should_not be_nil
-    event.find("P:eventType = 'migrate'", NS_PREFIX).should be_true
+      event.find(%Q{
+        P:linkingObjectIdentifier [P:linkingObjectRole = 'source'] /
+          P:linkingObjectIdentifierValue = '#{ @df['transformation-source'] }'
+      }, NS_PREFIX).should be_true
 
-    event.find_first("P:linkingObjectIdentifier[P:linkingObjectIdentifierValue = '#{src.uri}'][P:linkingObjectRole = 'source']", NS_PREFIX).should_not be_nil
-    event.find_first("P:linkingObjectIdentifier[P:linkingObjectIdentifierValue = '#{dst.uri}'][P:linkingObjectRole = 'outcome']", NS_PREFIX).should_not be_nil
+      event.find(%Q{
+        P:linkingObjectIdentifier [P:linkingObjectRole = 'outcome'] /
+          P:linkingObjectIdentifierValue = '#{ @df.uri }'
+      }, NS_PREFIX).should be_true
 
-    event.find("P:linkingAgentIdentifier/P:linkingAgentIdentifierValue = '#{transformation_url}'", NS_PREFIX).should be_true
-    doc = XML::Document.string dst['migrate-agent']
-    doc.find("//P:agent/P:agentIdentifier/P:agentIdentifierValue = '#{transformation_url}'", NS_PREFIX).should be_true
-  end
+      # the agent
+      event.find(%Q{
+        P:linkingAgentIdentifier /
+          P:linkingAgentIdentifierValue = '#{ @df['transformation-agent'] }'
+      }, NS_PREFIX).should be_true
+      agent_doc = XML::Document.string @df["#{ @df['transformation-strategy'] }-agent"]
+      agent_doc.find(%Q{
+        //P:agent /
+          P:agentIdentifier /
+            P:agentIdentifierValue = '#{ @df['transformation-agent'] }'
+      }, NS_PREFIX).should be_true
+    end
 
-  it "should take derivation options (normalization)" do
-    src = subject.wip.datafiles[0]
-    dst = subject.wip.datafiles[1]
-    transformation_url = 'http://rodimus/prime'
-
-    src.describe!
-    dst.describe! :derivation_source => src.uri, :derivation_method => :normalize, :derivation_agent => transformation_url
-
-    doc = XML::Document.string dst['describe-file-object']
-
-    relationship = doc.find_first "P:relationship[P:relatedObjectIdentification/P:relatedObjectIdentifierValue = '#{src.uri}']", NS_PREFIX
-    relationship.should_not be_nil
-
-    rel_event = relationship.find_first "P:relatedEventIdentification/P:relatedEventIdentifierValue", NS_PREFIX
-    rel_event.should_not be_nil
-    event_uri = rel_event.content
-
-    doc = XML::Document.string dst['normalize-event']
-    event = doc.find_first "/P:event[P:eventIdentifier/P:eventIdentifierValue = '#{event_uri}']", NS_PREFIX
-    event.should_not be_nil
-    event.find("P:eventType = 'normalize'", NS_PREFIX).should be_true
-
-    event.find_first("P:linkingObjectIdentifier[P:linkingObjectIdentifierValue = '#{src.uri}'][P:linkingObjectRole = 'source']", NS_PREFIX).should_not be_nil
-    event.find_first("P:linkingObjectIdentifier[P:linkingObjectIdentifierValue = '#{dst.uri}'][P:linkingObjectRole = 'outcome']", NS_PREFIX).should_not be_nil
-
-    event.find("P:linkingAgentIdentifier/P:linkingAgentIdentifierValue = '#{transformation_url}'", NS_PREFIX).should be_true
-    doc = XML::Document.string dst['normalize-agent']
-    doc.find("//P:agent/P:agentIdentifier/P:agentIdentifierValue = '#{transformation_url}'", NS_PREFIX).should be_true
   end
 
 end
@@ -125,7 +128,7 @@ describe 'a datafile with multiple bitstreams' do
 
   it "should have multiple bitstreams" do
     wip = submit 'etd'
-    df = wip.datafiles.find { |df| df['sip-path'] == 'etd.pdf' }
+    df = wip.original_datafiles.find { |df| df['aip-path'] == 'etd.pdf' }
     df.describe!
     df.bitstream_objects.size.should == 19
   end
