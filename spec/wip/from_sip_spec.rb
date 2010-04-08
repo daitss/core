@@ -18,7 +18,7 @@ end
 
 describe Wip do
 
-  describe "transforming from Sip" do
+  describe "from a Sip" do
 
     subject do
       sip = Sip.new File.join(SIPS_DIR, 'haskell-nums-pdf')
