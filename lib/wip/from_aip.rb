@@ -3,12 +3,22 @@ require 'digest/sha1'
 
 class Wip
 
+  def Wip.from_aip path
+    id = File.basename path
+    aip = Aip.get! id
+    uri = aip.uri
+    wip = Wip.new path, uri
+    wip.load_from_aip
+    wip
+  end
+
   def load_from_aip
     load_aip_record
     load_copy
     load_dmd
     load_sip_name
     load_datafiles
+    load_datafile_transformation_sources
     load_old_package_digiprov
     load_old_datafile_digiprov
   end
@@ -138,6 +148,32 @@ class Wip
         end
 
         df['aip-path'] = aip_path
+      end
+
+    end
+
+  end
+
+  def load_datafile_transformation_sources
+    doc = XML::Document.string metadata['aip-descriptor']
+
+    {
+      'migrate' => migrated_datafiles,
+      'normalize' => normalized_datafiles
+    }.each do |name, dfs|
+
+      dfs.each do |df|
+        source_uri = doc.find_first(%Q{
+        // P:event [ P:eventType = '#{ name }' ]
+                   [
+                     P:linkingObjectIdentifier [ P:linkingObjectRole = 'outcome']
+                                               [ P:linkingObjectIdentifierValue = '#{ df.uri }' ]
+                   ]/
+          P:linkingObjectIdentifier [ P:linkingObjectRole = 'source' ] /
+            P:linkingObjectIdentifierValue
+        }, NS_PREFIX).content
+
+        df['transformation-source'] = source_uri
       end
 
     end
