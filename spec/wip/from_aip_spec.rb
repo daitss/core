@@ -31,9 +31,10 @@ describe Wip do
       @wip.metadata.should have_key( 'copy-size' )
     end
 
-    it "should load the dmd" do
 
-      Wip::DMD_KEYS.each do |key|
+    Wip::DMD_KEYS.each do |key|
+
+      it "should load the (#{key})" do
         @wip.metadata.should have_key( key )
       end
 
