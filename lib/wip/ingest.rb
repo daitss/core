@@ -1,11 +1,11 @@
-require 'wip'
-require 'wip/step'
 #require 'datafile/virus'
-require 'wip/preserve'
-require 'template/premis'
+require 'aip'
+require 'aip/from_wip'
 require 'descriptor'
-require 'db/aip'
-require 'db/aip/wip'
+require 'template/premis'
+require 'wip'
+require 'wip/preserve'
+require 'wip/step'
 
 class Wip
 

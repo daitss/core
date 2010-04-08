@@ -12,7 +12,7 @@ require 'net/http'
 include LibXML
 
 XML.default_line_numbers = true
-stron_file = File.join File.dirname(__FILE__), '..', '..', 'stron', 'aip.stron'
+stron_file = File.join File.dirname(__FILE__), '..', 'stron', 'aip.stron'
 stron_doc = open(stron_file) { |io| XML::Document.io io }
 AIP_DESCRIPTOR_SCHEMATRON = Schematron::Schema.new stron_doc
 XML_SCHEMA_VALIDATOR = JXML::Validator.new
