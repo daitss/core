@@ -7,7 +7,7 @@ describe 'action planning a datafile' do
 
   subject do
     wip = submit 'wave'
-    df = wip.datafiles.find { |df| df['sip-path'] == 'obj1.wav' }
+    df = wip.original_datafiles.find { |df| df['sip-path'] == 'obj1.wav' }
     df.describe!
     df
   end
@@ -25,7 +25,6 @@ describe 'action planning a datafile' do
     Daitss::CONFIG['actionplan-url'] = 'http://localhost:7000/statusecho/500'
     lambda { subject.normalization }.should raise_error
     Daitss::CONFIG['actionplan-url'] = real_actionplan_url
-
   end
 
 end

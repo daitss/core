@@ -93,9 +93,6 @@
       <assert test="//P:event[P:eventType = 'submit'][P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = $aip-uri]">
         <value-of select="$aip-uri"/> should have a submit event
       </assert>
-      <assert test="//P:event[P:eventType = 'comprehensive validation'][P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = $aip-uri]">
-        <value-of select="$aip-uri"/> should have a validate event
-      </assert>
       <assert test="//P:event[P:eventType = 'ingest'][P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = $aip-uri]">
         <value-of select="$aip-uri"/> should have a ingest event
       </assert>

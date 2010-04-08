@@ -1,7 +1,7 @@
 require 'wip'
 require 'wip/step'
 require 'wip/preserve'
-require 'wip/load_aip'
+require 'wip/from_aip'
 require 'db/aip'
 require 'db/aip/wip'
 require 'descriptor'
@@ -21,16 +21,16 @@ class Wip
     step('write-disseminate-event') do
 
 
-      metadata['disseminate-event'] = event(:id => "#{uri}/event/disseminate/#{next_event_index 'disseminate'}", 
-                                            :type => 'disseminate', 
-                                            :outcome => 'success', 
+      metadata['disseminate-event'] = event(:id => "#{uri}/event/disseminate/#{next_event_index 'disseminate'}",
+                                            :type => 'disseminate',
+                                            :outcome => 'success',
                                             :linking_objects => [ uri ],
                                             :linking_agents => [ "info:fcla/daitss/disseminate" ])
 
     end
 
     step('write-disseminate-agent') do
-      metadata['disseminate-agent'] = agent(:id => "info:fcla/daitss/disseminate", 
+      metadata['disseminate-agent'] = agent(:id => "info:fcla/daitss/disseminate",
                                             :name => 'daitss disseminate',
                                             :type => 'software')
     end
@@ -50,7 +50,7 @@ class Wip
 
       res = Net::HTTP.start(url.host, url.port) do |http|
         http.read_timeout = Daitss::CONFIG['http-timeout']
-        http.get url.path 
+        http.get url.path
       end
 
       res.error! unless Net::HTTPSuccess === res
@@ -58,7 +58,7 @@ class Wip
       sha1 = open(tags['drop-path']) { |io| Digest::SHA1.hexdigest io.read }
 
       unless sha1 == aip.copy_sha1
-        raise "#{aip.copy_url} sha1 is wrong: expected #{aip.copy_sha1}, actual #{sha1}" 
+        raise "#{aip.copy_url} sha1 is wrong: expected #{aip.copy_sha1}, actual #{sha1}"
       end
 
     end

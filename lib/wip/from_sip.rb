@@ -5,7 +5,7 @@ require 'xmlns'
 include LibXML
 
 class Sip
-  
+
   attr_reader :path, :owner_ids, :account, :project, :title, :issue, :volume, :entity_id
 
   def initialize path
@@ -88,14 +88,14 @@ end
 class Wip
 
   # Create an AIP from a sip
-  def Wip.make_from_sip path, uri, sip
+  def Wip.from_sip path, uri, sip
     wip = Wip.new path, uri
     wip['sip-name'] = sip.name
 
-    sip.files.each do |f|
-      df = wip.new_datafile
+    sip.files.each_with_index do |f, index|
+      df = wip.new_original_datafile index
 
-      open(File.join(sip.path, f)) do |i| 
+      open(File.join(sip.path, f)) do |i|
         buffer_size = 1024 * 1024 * 10
         buffer = ""
 
@@ -110,7 +110,7 @@ class Wip
       end
 
       df['sip-path'] = f
-      df['owner-id'] = sip.owner_ids[f] if sip.owner_ids[f]
+      df['aip-path'] = f
     end
 
     # put metadata from SIP in WIP

@@ -52,7 +52,7 @@ end
 <amdSec>
 
 <!-- TECH -->
-<% datafiles.each do |df| %>
+<% all_datafiles.each do |df| %>
   <%= md_section df.file_object, :type => 'techMD', :id => next_id(:tech, df.id) %>
 
   <% df.bitstream_objects.each do |bs| %>
@@ -62,7 +62,7 @@ end
 <% end %>
 
 <!-- DIGIPROV (events) -->
-<% datafiles.each do |df| %>
+<% all_datafiles.each do |df| %>
   <% df.digiprov_events.each do |event| %>
     <%= md_section event, :type => 'digiprovMD',  :id => next_id(:digiprov, df.id) %>
   <% end %>
@@ -76,7 +76,7 @@ end
 
 <fileSec>
 <fileGrp>
-<% datafiles.each do |df| %>
+<% all_datafiles.each do |df| %>
   <%= file_element df %>
 <% end %>
 </fileGrp>
