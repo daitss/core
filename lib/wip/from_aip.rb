@@ -59,28 +59,28 @@ class Wip
     doc = XML::Document.string metadata['aip-descriptor']
 
     # title
-    title_node = doc.find_first "/mods:mods/mods:titleInfo/mods:title", NS_PREFIX
+    title_node = doc.find_first "//mods:mods/mods:titleInfo/mods:title", NS_PREFIX
 
     if title_node
       metadata['dmd-title'] = title_node.content
     end
 
     # volume
-    volume_node = doc.find_first "/mods:mods/mods:part/mods:detail[@type = 'volume']/mods:number", NS_PREFIX
+    volume_node = doc.find_first "//mods:mods/mods:part/mods:detail[@type = 'volume']/mods:number", NS_PREFIX
 
     if volume_node
       metadata['dmd-volume'] = volume_node.content
     end
 
     # issue
-    issue_node = doc.find_first "/mods:mods/mods:part/mods:detail[@type = 'issue']/mods:number", NS_PREFIX
+    issue_node = doc.find_first "//mods:mods/mods:part/mods:detail[@type = 'issue']/mods:number", NS_PREFIX
 
     if issue_node
       metadata['dmd-issue'] = issue_node.content
     end
 
     # entity id
-    entity_id_node = doc.find_first "/mods:mods/mods:identifier[@type = 'entity id']", NS_PREFIX
+    entity_id_node = doc.find_first "//mods:mods/mods:identifier[@type = 'entity id']", NS_PREFIX
 
     if entity_id_node
       metadata['dmd-entity-id'] = entity_id_node.content
