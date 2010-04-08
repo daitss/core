@@ -55,12 +55,14 @@ class DataFile
 
   # a datafile that is a migrated version of this
   def migrated_version
-    @wip.migrated_datafiles.find { |mdf| mdf['transformation-source'] == uri }
+    mdfs = @wip.migrated_datafiles.select { |df| df['transformation-source'] == uri }
+    mdfs.find { |df| not df.obsolete? }
   end
 
   # a datafile that is a normalized version version of this
   def normalized_version
-    @wip.normalized_datafiles.find { |mdf| mdf['transformation-source'] == uri }
+    ndfs = @wip.normalized_datafiles.select { |df| df['transformation-source'] == uri }
+    ndfs.find { |df| not df.obsolete? }
   end
 
   # returns true if other is the same datafile
