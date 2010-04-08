@@ -17,6 +17,7 @@ class DataFile
       mig_id = old_df ? next_transformed_id(old_df) : "#{id}-mig-0"
       mig_df = @wip.new_migrated_datafile mig_id
       transform_df source, mig_df, old_df, transformation_url
+      mig_df['transformation-strategy'] = 'migrate'
     end
 
   end
@@ -31,6 +32,7 @@ class DataFile
       norm_id = old_df ? next_transformed_id(old_df) : "#{id}-norm-0"
       norm_df = @wip.new_normalized_datafile norm_id
       transform_df source, norm_df, old_df, transformation_url
+      norm_df['transformation-strategy'] = 'normalize'
     end
 
   end
@@ -49,9 +51,8 @@ class DataFile
 
     # fill in destination datafile
     dest_df.open('w') { |io| io.write data }
-    dest_df['extension'] = ext
     dest_df['aip-path'] = "#{dest_df.id}#{ext}"
-    dest_df['transformation-url'] = transformation_url
+    dest_df['transformation-agent'] = transformation_url
     dest_df['transformation-source'] = source_df.uri
 
     # make the old one obsolete
