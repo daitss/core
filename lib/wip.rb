@@ -9,8 +9,12 @@ class Wip
   attr_reader :id, :path, :metadata, :tags
 
   METADATA_DIR = 'metadata'
-  FILES_DIR = 'files'
   TAGS_DIR = 'tags'
+
+  FILES_DIR = 'files'
+  ORIGINAL_FILES = File.join FILES_DIR, 'original'
+  NORMALIZED_FILES = File.join FILES_DIR, 'normalized'
+  MIGRATED_FILES = File.join FILES_DIR, 'migrated'
 
   # make a new proto-aip at a path
   def initialize path, uri=nil
@@ -20,7 +24,7 @@ class Wip
 
     @metadata = FsHash.new File.join(@path, METADATA_DIR)
     @tags = FsHash.new File.join(@path, TAGS_DIR)
-  
+
     if uri
       raise "wip #{@path} has a uri" if metadata.has_key? 'uri'
       metadata['uri'] = uri
@@ -28,54 +32,74 @@ class Wip
       raise "wip #{@path} has no uri" unless metadata.has_key? 'uri'
     end
 
+    @cached_max_id = {}
+
   end
 
   def_delegators :@metadata, :[]=, :[], :has_key?, :delete
 
-  # returns a list of datafiles
-  def datafiles
-    pattern = File.join @path, FILES_DIR, '*'
-
-    Dir[pattern].map do |path| 
-      df_id = File.basename path
-      DataFile.new self, df_id
-    end
-
-  end
-
-  # returns a new data file that will persist in this aip
-  # if two processes are calling this method it will produce unspecified results
-  def new_datafile id=nil
-
-    df_id = if id
-              id
-            else
-              @cached_max_id ||= (datafiles.map { |df| df.id.to_i }.max || -1)
-              @cached_max_id += 1
-            end
-
-    DataFile.new self, df_id.to_s
-  end
-
-  def remove_datafile df_to_remove
-
-    unless datafiles.find { |df| df == df_to_remove }
-      raise "datafile #{df_to_remove} is not of wip #{self}" 
-    end
-
-    FileUtils::rm_r File.join @path, FILES_DIR, df_to_remove.id
-  end
-
   def uri
     metadata['uri']
   end
-
   alias_method :to_s, :uri
-
 
   def == other
     id == other.id and uri == other.uri and path == other.path
   end
   alias_method :eql?, :==
+
+  # return an array of the original datafiles
+  def original_datafiles
+    datafiles ORIGINAL_FILES
+  end
+
+  # add a new original datafile
+  def new_original_datafile id
+    new_datafile ORIGINAL_FILES, id
+  end
+
+  # return an array of the migrated datafiles
+  def migrated_datafiles
+    datafiles MIGRATED_FILES
+  end
+
+  # add a new migrated datafile
+  def new_migrated_datafile id
+    new_datafile MIGRATED_FILES, id
+  end
+
+  # return an array of the normalized datafiles
+  def normalized_datafiles
+    datafiles NORMALIZED_FILES
+  end
+
+  # add a new normalized datafile
+  def new_normalized_datafile id
+    new_datafile NORMALIZED_FILES, id
+  end
+
+  def all_datafiles
+    original_datafiles + normalized_datafiles + migrated_datafiles
+  end
+
+  private
+
+  def datafiles container
+    pattern = File.join @path, container, '*'
+
+    Dir[pattern].map do |path|
+      df_id = File.basename path
+      DataFile.new self, container, df_id
+    end
+  end
+
+  def new_datafile container, id
+
+    if File.exist? File.join(@path, container, id.to_s)
+      raise "datafile #{id} already exists in #{container}"
+    end
+
+    DataFile.new self, container, id.to_s
+  end
 
 end

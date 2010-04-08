@@ -57,9 +57,9 @@ class Wip
 
   def rep_name_map
     {
-      'original' => original_rep,
-      'current' => current_rep,
-      'normalized' => normalized_rep
+      'original' => original_representation,
+      'current' => current_representation,
+      'normalized' => normalized_representation
     }
   end
 
@@ -89,7 +89,7 @@ class Wip
   def datafile_agents
     h = Hash.new { |hash, key| hash[key] = [] }
 
-    datafiles.each do |df|
+    all_datafiles.each do |df|
 
       df.digiprov_agents.map(&:strip).each do |agent|
         h[agent] << df

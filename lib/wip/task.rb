@@ -1,6 +1,5 @@
 require 'wip/process'
 require 'wip/snafu'
-require 'wip/reject'
 
 class Wip
 
@@ -36,9 +35,6 @@ class Wip
 
         begin
           wip.ingest!
-          wip.task_complete
-        rescue Reject => e
-          wip.reject = e
           wip.task_complete
         rescue => e
           wip.snafu = e

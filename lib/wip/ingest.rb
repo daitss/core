@@ -1,23 +1,27 @@
 require 'wip'
 require 'wip/step'
-require 'wip/validate'
+#require 'datafile/virus'
 require 'wip/preserve'
+require 'template/premis'
+require 'descriptor'
 require 'db/aip'
 require 'db/aip/wip'
-require 'descriptor'
-require 'template/premis'
 
 class Wip
 
   def ingest!
-    step('validate') { validate! }
+
+    #original_datafiles.each do |df|
+      #step("virus-check-#{df.id}") { df.virus_check! }
+    #end
+
     preserve!
 
     step('write-ingest-event') do
       spec = {
-        :id => "#{uri}/event/ingest", 
-        :type => 'ingest', 
-        :outcome => 'success', 
+        :id => "#{uri}/event/ingest",
+        :type => 'ingest',
+        :outcome => 'success',
         :linking_objects => [ uri ],
         :linking_agents => [ "info:fcla/daitss/ingest" ]
       }
@@ -26,7 +30,7 @@ class Wip
 
     step('write-ingest-agent') do
       spec = {
-        :id => "info:fcla/daitss/ingest", 
+        :id => "info:fcla/daitss/ingest",
         :name => 'daitss ingest',
         :type => 'software'
       }

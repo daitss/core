@@ -1,7 +1,6 @@
 require 'net/http'
 require 'db/aip'
 require 'descriptor'
-require 'wip/representation'
 require 'tempdir'
 
 class Aip
@@ -14,7 +13,7 @@ class Aip
     aip.copy_url, aip.copy_size, aip.copy_md5, aip.copy_sha1 = put_copy wip, "#{Daitss::CONFIG['storage-url']}/#{wip.id}-0"
     aip.needs_work = true
 
-    unless aip.save 
+    unless aip.save
       delete_copy aip.copy_url
       mio = StringIO.new
       mio.puts "could not save aip: #{aip.errors.size} errors"
@@ -33,7 +32,7 @@ class Aip
     aip.copy_url, aip.copy_size, aip.copy_md5, aip.copy_sha1 = put_copy wip, "#{Daitss::CONFIG['storage-url']}/#{wip.id}-#{new_suffix}"
     aip.needs_work = true
 
-    if aip.save 
+    if aip.save
       delete_copy old_url
     else
       delete_copy aip.copy_url
@@ -66,10 +65,10 @@ class Aip
 
         # make a directory representation of the aip
         FileUtils::mkdir aip_dir
-        wip.represented_files.each do |f|
-          sip_path = File.join aip_dir, (f['sip-path'] or f['aip-path'])
-          FileUtils::mkdir_p File.dirname(sip_path)
-          FileUtils::ln_s f.datapath, sip_path
+        wip.represented_datafiles.each do |f|
+          aip_path = File.join aip_dir, f['aip-path']
+          FileUtils::mkdir_p File.dirname(aip_path)
+          FileUtils::ln_s f.datapath, aip_path
         end
 
         descriptor_path = File.join(aip_dir, 'descriptor.xml')
@@ -92,7 +91,7 @@ class Aip
         req['content-md5'] = md5
         req.body_stream = open(tarball_file)
 
-        res = Net::HTTP.start(u.host, u.port) do |http| 
+        res = Net::HTTP.start(u.host, u.port) do |http|
           http.read_timeout = Daitss::CONFIG['http-timeout']
           http.request(req)
         end
