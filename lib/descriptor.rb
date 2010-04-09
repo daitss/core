@@ -17,6 +17,10 @@ class Wip
 
   private
 
+  def agreement_info
+    template_by_name('aip/agreement_info').result(binding)
+  end
+
   def next_id md_type, *things
     n = @id_map[md_type].next!
     new_id = "#{md_type}-#{n}"
@@ -24,13 +28,13 @@ class Wip
     new_id
   end
 
-  # return a list of ids associated with 
+  # return a list of ids associated with
   def admids_for id
     @admid_map[id]
   end
 
   def tag_start name, attributes={}
-    attr_string = attributes.map { |(a_name, a_value)| "#{a_name.id2name}=\"#{a_value}\"" }.join ' ' 
+    attr_string = attributes.map { |(a_name, a_value)| "#{a_name.id2name}=\"#{a_value}\"" }.join ' '
     "<#{name} #{attr_string}>"
   end
 
@@ -39,7 +43,7 @@ class Wip
   end
 
   def tag_single name, attributes={}
-    attr_string = attributes.map { |(name, value)| "#{name.id2name}=\"#{value}\"" }.join ' ' 
+    attr_string = attributes.map { |(name, value)| "#{name.id2name}=\"#{value}\"" }.join ' '
     "<#{name} #{attr_string}/>"
   end
 
@@ -53,9 +57,9 @@ class Wip
 
   def rep_name_map
     {
-      'original' => original_rep, 
-      'current' => current_rep, 
-      'normalized' => normalized_rep 
+      'original' => original_representation,
+      'current' => current_representation,
+      'normalized' => normalized_representation
     }
   end
 
@@ -85,7 +89,7 @@ class Wip
   def datafile_agents
     h = Hash.new { |hash, key| hash[key] = [] }
 
-    datafiles.each do |df| 
+    all_datafiles.each do |df|
 
       df.digiprov_agents.map(&:strip).each do |agent|
         h[agent] << df
@@ -102,8 +106,8 @@ end
 class DataFile
 
   def digiprov_events
-    new_events = metadata_for 'describe-event', 'migrate-event', 'normalize-event'
-    new_events + old_events.map { |e| e.root.to_s } 
+    new_events = metadata_for 'describe-event', 'migrate-event', 'normalize-event', 'obsolete-event'
+    new_events + old_events.map { |e| e.root.to_s }
   end
 
   def digiprov_agents

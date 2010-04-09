@@ -1,7 +1,7 @@
 require 'datamapper'
 require 'fileutils'
 
-require "db/aip"
+require "aip"
 require "db/operations_agents"
 require "db/operations_events"
 require 'daitss/config'

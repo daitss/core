@@ -1,50 +1,39 @@
 require 'spec_helper'
 require 'wip'
-require 'wip/task'
-require 'wip/process'
 require 'uuid'
-require 'uri'
-gen = UUID.new
 
 # Proto AIP: Work In Progress
 describe Wip do
 
   subject do
-    uuid = gen.generate
-    path = File.join $sandbox, uuid
-    uri = URI.join('bogus:/', uuid) .to_s
-    Wip.new path, uri
+    id = UUID.generate :compact
+    uri = "bogus:/#{id}"
+    blank_wip id, uri
   end
 
   it "should require a uri if one does not exist" do
-    lambda { 
-      uuid = gen.generate
+    lambda {
+      uuid = UUID.generate
       path = File.join $sandbox, uuid
       Wip.new path
     }.should raise_error(/wip .+ has no uri/)
   end
 
   it "should not require a uri if one already exists" do
-    lambda { 
+    lambda {
       Wip.new subject.path, subject.uri
     }.should raise_error(/wip .+ has a uri/)
   end
 
   it "should let addition of new files" do
-    df = subject.new_datafile 
-    df['sip-path'] = 'foo/bar.png'
+    df = subject.new_original_datafile 0
+    df.open('w') { |io| io.write 'foo' }
+    df.open { |io| io.read }.should == 'foo'
   end
 
-  it "should let the addition of new files by a given id" do
-    the_id = 5.to_s
-    df = subject.new_datafile the_id
-    subject.datafiles.first.id.should == the_id
-  end
-
-  it "should let removal of files" do
-    df = subject.new_datafile 
-    subject.remove_datafile df
-    subject.datafiles.should_not include(df)
+  it "should not let the addition of existing datafiles" do
+    subject.new_original_datafile 0
+    lambda { subject.new_original_datafile 0 }.should raise_error /datafile 0 already exists/
   end
 
   it "should let addition of new metadata" do
@@ -60,37 +49,20 @@ describe Wip do
   end
 
   it "should have a uri" do
-    subject.uri.should == URI.join("bogus:/", subject.id).to_s 
+    subject.uri.should == "bogus:/#{subject.id}"
   end
 
-  it "should equal a wip with the same id, uri and path" do
+  it "should equal a wip with the same path" do
     other = Wip.new subject.path
     subject.should == other
   end
 
-  it "should have a task" do
-    subject.task = :ingest
-    subject.task.should == :ingest
+  it "should not equal a wip with a different path" do
+    uuid = UUID.generate :compact
+    path = File.join $sandbox, uuid
+    uri = "bogus:/#{uuid}"
+    wip = Wip.new path, uri
+    subject.should_not == wip
   end
 
-  it "should monitor the processing state (idle, running, done)" do
-    subject.should_not be_running
-    subject.start { sleep }
-    subject.should be_running
-    subject.stop
-    subject.should_not be_running
-    subject.should_not be_done
-  end
-
-  it "should know when a package is done" do
-    subject.should_not be_done
-    subject.start { nil } # start a job of nothing
-    sleep 1 # wait for it to finish up
-    subject.should be_done
-  end
-
-  # these are things better handled by the interface
-  it "should know snafu"
-  it "should know reject"
-  it "should know halt"
 end

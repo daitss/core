@@ -33,7 +33,7 @@
   
   <fileSec>
     <fileGrp>
-      <file ID="FILE-0" CHECKSUM="805ae75bc4595521e350564c90a56d28" CHECKSUMTYPE="SHA-1">
+      <file ID="FILE-0" CHECKSUM="805ae75bc4595521e350564c90a56d28" CHECKSUMTYPE="MD5">
         <FLocat xlink:href="ateam.tiff" LOCTYPE="URL"/>
       </file>
     </fileGrp>

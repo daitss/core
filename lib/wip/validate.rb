@@ -12,9 +12,10 @@ class Wip
   def validate!
     doc = XML::Document.string ask_validation
     rr = reject_reasons doc
-    raise Reject, rr unless rr.empty?
     metadata['validate-event'] = validate_event doc
+    metadata['validate-event-full'] = doc
     metadata['validate-agent'] = validate_agent doc
+    raise Reject, rr unless rr.empty?
   end
 
   private
@@ -22,7 +23,7 @@ class Wip
   def ask_validation
     url = URI.parse Daitss::CONFIG['validation-url']
     req = Net::HTTP::Get.new url.path
-    req.form_data = { 'location' => "file:#{File.expand_path path}" } 
+    req.form_data = { 'location' => "file:#{File.expand_path path}" }
 
     res = Net::HTTP.start(url.host, url.port) do |http|
       http.read_timeout = Daitss::CONFIG['http-timeout']
@@ -39,7 +40,7 @@ class Wip
   def reject_reasons doc
     msg = StringIO.new
     doc.find("//P:event", NS_PREFIX).map do |e|
-      if %w(failure missing).include? e.find_first("P:eventOutcomeInformation/P:eventOutcome", NS_PREFIX).content
+      if %w(failure missing mismatch invalid failed).include? e.find_first("P:eventOutcomeInformation/P:eventOutcome", NS_PREFIX).content
         msg.puts "type: #{e.find_first('P:eventType', NS_PREFIX).content.strip}"
         msg.puts "time: #{Time.parse(e.find_first('P:eventDateTime', NS_PREFIX).content.strip).xmlschema 4}"
         msg.puts "message: #{e.find_first('P:eventOutcomeInformation/P:eventOutcome', NS_PREFIX).content.strip}"

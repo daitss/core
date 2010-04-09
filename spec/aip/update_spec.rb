@@ -1,6 +1,9 @@
 require 'spec_helper'
-require 'db/aip'
-require 'db/aip/wip'
+require 'wip/ingest'
+require 'wip/preserve'
+require 'wip/from_aip'
+require 'aip'
+require 'aip/from_wip'
 
 describe Aip do
 
@@ -18,20 +21,22 @@ describe Aip do
     subject do
       proto_wip = submit 'mimi'
       proto_wip.ingest!
-      wip = pull_aip proto_wip.id
-      Aip.get! wip.id
+      path = proto_wip.path
+      FileUtils.rm_r path
+      wip = Wip.from_aip path
+      wip.preserve!
 
       spec = {
-        :id => "#{wip.uri}/event/FOO", 
-        :type => 'FOO', 
-        :outcome => 'success', 
+        :id => "#{wip.uri}/event/FOO",
+        :type => 'FOO',
+        :outcome => 'success',
         :linking_objects => [ wip.uri ]
       }
 
-      wip['old-digiprov-events'] = event spec
+      wip['old-digiprov-events'] = wip['old-digiprov-events'] + "\n" + event(spec)
 
       wip['aip-descriptor'] = wip.descriptor
-      Aip::update_from_wip wip
+      Aip.update_from_wip wip
       Aip.get! wip.id
     end
 

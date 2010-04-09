@@ -1,20 +1,19 @@
 require 'wip/validate'
 require 'spec_helper'
 require 'wip/preserve'
-require 'db/aip/wip'
+require 'aip/from_wip'
 
 describe Aip do
 
   it "should create a new instance based on a WIP" do
     wip = submit 'mimi'
-    wip.validate!
     wip.preserve!
     wip['aip-descriptor'] = wip.descriptor
 
     spec = {
-      :id => "#{wip.uri}/event/ingest", 
-      :type => 'ingest', 
-      :outcome => 'success', 
+      :id => "#{wip.uri}/event/ingest",
+      :type => 'ingest',
+      :outcome => 'success',
       :linking_objects => [ wip.uri ]
     }
 
