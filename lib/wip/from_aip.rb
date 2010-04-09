@@ -137,15 +137,8 @@ class Wip
              when /^\d+-norm-\d+$/ then new_normalized_datafile df_id
              end
 
-        uri = file_node['OWNERID']
-        event_node = doc.find_first(%Q{
-          //P:event [P:eventType = 'obsolete']
-                    [P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = '#{uri}']
-        }, NS_PREFIX)
-        df['obsolete-event'] = event_node.to_s if event_node
-
         # extract the data
-        unless df.obsolete?
+        if file_node.children.any? { |n| n.element? and n.name == 'FLocat' }
           aip_path = file_node.find_first('M:FLocat/@xlink:href', NS_PREFIX).value
           tar_file = File.join tdir.path, aip_dir, aip_path
           FileUtils::cp tar_file, df.datapath
@@ -163,11 +156,32 @@ class Wip
           end
 
           df['aip-path'] = aip_path
-        else
-          df['obsolete-size'] = file_node['SIZE']
-          df['obsolete-sha1'] = file_node['CHECKSUM']
         end
 
+        # load the premis objects
+        uri = file_node['OWNERID']
+        object_node = doc.find_first(%Q{
+            //P:object [@xsi:type='file']
+                       [P:objectIdentifier/P:objectIdentifierValue = '#{uri}']
+        }, NS_PREFIX)
+        df['describe-file-object'] = object_node.to_s if object_node
+
+        bs_uris = object_node.find(%Q{
+          P:relationship
+            [ P:relationshipType = 'structural' ]
+            [ P:relationshipSubType = 'includes' ] /
+              P:relatedObjectIdentification /
+                P:relatedObjectIdentifierValue
+        }, NS_PREFIX).map { |node| node.content }
+
+        bs_nodes = bs_uris.map do |bs_uri|
+          doc.find(%Q{
+              //P:object [@xsi:type='bitstream']
+                         [P:objectIdentifier/P:objectIdentifierValue = '#{bs_uri}']
+          }, NS_PREFIX)
+        end
+
+        df['describe-bitstream-objects'] = bs_nodes.join
       end
 
     end

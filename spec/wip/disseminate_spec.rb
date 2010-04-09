@@ -107,11 +107,6 @@ describe Wip do
       end
 
       it "should have 2 obsolete files" do
-        subject.find("//P:event[P:eventType = 'obsolete']", NS_PREFIX).should have(2).items
-        # obsolete events are being made every time regarless if they are old
-      end
-
-      it "should have 2 obsolete files" do
         @ofs.should have_exactly(2).items
       end
 
@@ -142,7 +137,27 @@ describe Wip do
 
       end
 
-      it "should have the standard events and agents"
+      it 'should have the standard events and agents' do
+
+        @ofs.each do |df|
+
+          subject.find(%Q{
+            //P:event [P:eventType = 'normalize']
+                      [P:linkingObjectIdentifier /
+                         P:linkingObjectIdentifierValue = '#{ df['OWNERID'] }'
+                      ]
+          }, NS_PREFIX).should have_exactly(1).items
+
+          subject.find(%Q{
+            //P:event [P:eventType = 'format description']
+                      [P:linkingObjectIdentifier /
+                         P:linkingObjectIdentifierValue = '#{ df['OWNERID'] }'
+                      ]
+          }, NS_PREFIX).should have_exactly(1).items
+
+        end
+
+      end
 
     end
 

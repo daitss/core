@@ -13,7 +13,11 @@ class DataFile
   end
 
   def obsolete?
-    metadata.has_key? 'obsolete-event'
+
+    metadata.has_key?('obsolete-event') or old_events.any? do |doc|
+      doc.find "//P:eventType = 'obsolete'", NS_PREFIX
+    end
+
   end
 
 end

@@ -13,10 +13,9 @@ class Wip
       step("normalize-#{df.id}") { df.normalize! }
     end
 
-    (migrated_datafiles + normalized_datafiles).each do |df|
-      step("describe-#{df.id}") { df.describe! }
-    end
-
+    # describe transformed files
+    tfs = (migrated_datafiles + normalized_datafiles).reject { |df| df.obsolete? }
+    tfs.each { |df| step("describe-#{df.id}") { df.describe! } }
   end
 
   def original_representation
