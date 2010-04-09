@@ -6,29 +6,22 @@ require 'metadata'
 
 class DataFile
 
-  def describe! options={}
+  def describe!
     doc = ask_description_service(:location => "file:#{File.expand_path datapath }",
-                                  :uri => uri, 
-                                  :originalName => metadata['sip-path'] || metadata['aip-path'] )
+                                  :uri => uri,
+                                  :originalName => metadata['aip-path'])
     fix_event_ids doc
-    metadata['describe-file-object'] = element_doc_as_str doc, "//P:object[@xsi:type='file']" 
+    fix_jhove_ids doc
+    metadata['describe-file-object'] = element_doc_as_str doc, "//P:object[@xsi:type='file']"
     metadata['describe-event'] = element_doc_as_str doc, "//P:event"
-    metadata['describe-agent'] = element_doc_as_str doc, "//P:agent" 
-    metadata['describe-bitstream-objects'] = element_doc_as_str doc, "//P:object[@xsi:type='bitstream']"
+    metadata['describe-agent'] = element_doc_as_str doc, "//P:agent"
+    metadata['describe-bitstream-objects'] = elements_doc_as_str doc, "//P:object[@xsi:type='bitstream']"
 
-    if options[:derivation_source]
-
-      src_uri = options[:derivation_source]
-
-      derivation_method = case options[:derivation_method]
-                          when :normalize then 'normalize'
-                          when :migrate then 'migrate'
-                          else raise "derivation method is missing!"
-                          end
-
-      raise "derivation agent is missing" unless options[:derivation_agent]
-
-      describe_derivation src_uri, derivation_method, options[:derivation_agent]
+    if metadata['transformation-source']
+      src_uri = metadata['transformation-source']
+      strategy = metadata['transformation-strategy']
+      agent = metadata['transformation-agent']
+      describe_derivation src_uri, strategy, agent
     end
 
   end
@@ -40,8 +33,8 @@ class DataFile
   def bitstream_objects
 
    if metadata.has_key? 'describe-bitstream-objects'
-     raw_bs_objects = metadata['describe-bitstream-objects'].split %r{\n(?=<object)} 
-     raw_bs_objects.map { |raw| XML::Document.string(raw).root.to_s }
+     doc = XML::Document.string "<root>#{metadata['describe-bitstream-objects']}</root>"
+     doc.root.children.select { |c| c.element? }.map &:to_s
    else
      []
    end
@@ -50,25 +43,37 @@ class DataFile
 
   private
 
+  def fix_jhove_ids doc
+
+    doc.find("//aes:*/@ID", NS_PREFIX).each do |id_attr|
+
+      doc.find("//aes:*/@*[. = '#{id_attr.value}']", NS_PREFIX).each do |attr|
+        attr.value = "#{attr.value}.#{self.id}"
+      end
+
+    end
+
+  end
+
   def fix_event_ids doc
     event_uri = "#{uri}/event/describe/#{next_event_index 'format description'}"
     doc.find_first("P:object/P:linkingEventIdentifier/P:linkingEventIdentifierValue", NS_PREFIX).content = event_uri
     doc.find_first("P:event/P:eventIdentifier/P:eventIdentifierValue", NS_PREFIX).content = event_uri
   end
 
-  def describe_derivation src_uri, derivation_method, agent_uri
+  def describe_derivation src_uri, strategy, agent_uri
 
-      event_uri = "#{uri}/event/#{derivation_method}/#{next_event_index derivation_method}"
-      metadata["#{derivation_method}-event"] = event(:id => event_uri,
-                                                     :type => derivation_method,
+      event_uri = "#{uri}/event/#{strategy}/#{next_event_index strategy}"
+      metadata["#{strategy}-event"] = event(:id => event_uri,
+                                                     :type => strategy,
                                                      :linking_agents => [ agent_uri ],
-                                                     :linking_objects => [ 
-                                                       {:uri => src_uri, :role => 'source'}, 
+                                                     :linking_objects => [
+                                                       {:uri => src_uri, :role => 'source'},
                                                        {:uri => uri, :role => 'outcome'}
                                                      ])
 
-      metadata["#{derivation_method}-agent"] = agent(:id => agent_uri,
-                                                     :name => 'daitss transformation service', 
+      metadata["#{strategy}-agent"] = agent(:id => agent_uri,
+                                                     :name => 'daitss transformation service',
                                                      :type => 'software')
 
 
@@ -117,6 +122,17 @@ class DataFile
       d = XML::Document.new
       d.root = d.import n
       d.root.to_s
+    end
+
+  end
+
+  def elements_doc_as_str doc, xpath
+    ns = doc.find xpath, NS_PREFIX
+
+    ns.inject("") do |acc, n|
+      d = XML::Document.new
+      d.root = d.import n
+      acc << d.root.to_s
     end
 
   end

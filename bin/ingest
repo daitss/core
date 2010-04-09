@@ -7,19 +7,19 @@ require 'wip/ingest'
 
 wip = begin
 
-        # workspace
-        raise "WORKSPACE must be set" unless ENV['WORKSPACE']
-        raise "WORKSPACE must be a directory" unless File.directory?(ENV['WORKSPACE'])
-
         # config
         raise "CONFIG must be set" unless ENV['CONFIG']
         Daitss::CONFIG.load ENV['CONFIG']
 
+        # workspace
+        workspace_dir = ENV['WORKSPACE'] or raise "WORKSPACE must be set"
+        raise "WORKSPACE must be a directory" unless File.directory? workspace_dir
+
         # wip
         wip_id = ARGV.shift
         raise "no wip id specified" unless wip_id
-        wip_path = File.join ENV['WORKSPACE'], wip_id
-        raise "wip #{wip_id} not found in #{ENV['WORKSPACE']}" unless File.directory? wip_path
+        wip_path = File.join workspace_dir, wip_id
+        raise "wip #{wip_id} not found in #{workspace_dir}" unless File.directory? wip_path
 
         # database
         DataMapper.setup :default, Daitss::CONFIG["database-url"]

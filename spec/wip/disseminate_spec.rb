@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'wip'
+require 'wip/ingest'
 require 'wip/disseminate'
 require 'datamapper'
 
@@ -29,7 +30,7 @@ describe Wip do
 
   describe "post disseminate" do
 
-    subject do 
+    subject do
       proto_wip = submit 'mimi'
       proto_wip.ingest!
       Aip.get! proto_wip.id
@@ -58,12 +59,12 @@ describe Wip do
 
   end
 
-  describe "post multiple disseminations" do
+  describe "after multiple disseminations" do
 
     before :all do
 
       # ingest it
-      proto_wip = submit 'mimi'
+      proto_wip = submit 'wave'
       proto_wip.ingest!
       Aip.get! proto_wip.id
       @id, @uri = proto_wip.id, proto_wip.uri
@@ -93,11 +94,49 @@ describe Wip do
       a = events[0].content
       b = events[1].content
       a.should_not == b
-
     end
 
     it "should have one dissemination agent" do
       subject.find("//P:agent/P:agentName = 'daitss disseminate'", NS_PREFIX).should be_true
+    end
+
+    describe 'obsolete files' do
+
+      before :all do
+        @ofs = subject.find("//M:file[not(M:FLocat)]", NS_PREFIX)
+      end
+
+      it "should have 2 obsolete files" do
+        @ofs.should have_exactly(2).items
+      end
+
+      it "should have 1 PREMIS object for all obsolete files" do
+
+        @ofs.each do |df|
+          subject.find(%Q{
+            //P:object [
+              P:objectIdentifier/P:objectIdentifierValue = '#{ df['OWNERID'] }'
+            ]
+          }, NS_PREFIX).should have_exactly(1).items
+
+        end
+
+      end
+
+      it "should have 1 obsolete event for all obsolete files" do
+
+        @ofs.each do |df|
+          subject.find(%Q{
+            //P:event [P:eventType = 'obsolete']
+                      [P:linkingObjectIdentifier /
+                         P:linkingObjectIdentifierValue = '#{ df['OWNERID'] }'
+                      ]
+          }, NS_PREFIX).should have_exactly(1).items
+
+        end
+
+      end
+
     end
 
   end

@@ -15,6 +15,10 @@
           <titleInfo>
             <title >some broken glass</title>
           </titleInfo>
+          <part>
+            <detail type="volume"><number>1</number></detail>
+            <detail type="issue"><number>2</number></detail>
+          </part>
         </mods>
       </xmlData>
     </mdWrap>
@@ -30,7 +34,7 @@
 				</xmlData>
 			</mdWrap>
 		</digiprovMD>
-		
+
     <digiprovMD ID="DPMD-1">
       <mdWrap MDTYPE="PREMIS" LABEL="RXP">
         <xmlData>
@@ -76,9 +80,9 @@
         </xmlData>
       </mdWrap>
     </digiprovMD>
-    
+
 	</amdSec>
-  
+
   <fileSec>
     <fileGrp>
       <file ID="FILE-0" CHECKSUM="e069a9607fdf60f9ad51ef34e41aac67" CHECKSUMTYPE="MD5">

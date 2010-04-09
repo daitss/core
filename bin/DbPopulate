@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require 'lib/AIPPolling.rb'
+
+begin
+  
+  DataMapper::Logger.new(STDOUT, :debug)
+  DataMapper.setup(:default, 'mysql://daitss:topdrawer@localhost/daitss2')
+   
+  poller = AIPPolling.new
+  poller.populate
+  
+end

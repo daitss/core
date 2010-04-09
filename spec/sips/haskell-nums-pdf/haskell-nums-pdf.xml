@@ -14,6 +14,10 @@
           <titleInfo>
             <title>Haskell Numbers</title>
           </titleInfo>
+          <part>
+            <detail type="volume"><number>1</number></detail>
+            <detail type="issue"><number>2</number></detail>
+          </part>
         </mods>
       </xmlData>
     </mdWrap>
@@ -33,7 +37,7 @@
 
   <fileSec>
     <fileGrp>
-      <file ID="FILE-0" OWNERID="haskell-numbers-poster" CHECKSUM="cbc47ad152cf2488664d9fc920f80fff" CHECKSUMTYPE="SHA-1">
+      <file ID="FILE-0" OWNERID="haskell-numbers-poster" CHECKSUM="d20d46494e5145f68b6e9938a9bbd80d36d28c69" CHECKSUMTYPE="SHA-1">
         <FLocat xlink:href="Haskell98numbers.pdf" LOCTYPE="URL"/>
       </file>
     </fileGrp>

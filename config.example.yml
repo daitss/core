@@ -1,0 +1,17 @@
+# prefix used in minting URIs
+uri-prefix: info:fcla/ # info uri prefix
+
+# number of seconds daitss functions will wait for a service
+http-timeout: 600
+
+# database connection url
+database-url: sqlite3::memory:
+
+# service urls
+actionplan-url: http://localhost:7000/actionplan
+description-url: http://localhost:7000/description/describe
+storage-url: http://localhost:7000/silo
+validation-url: http://localhost:7000/validation/results
+
+# virus scanner
+virus-scanner-executable: clamscan
