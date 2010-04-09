@@ -137,28 +137,6 @@ describe Wip do
 
       end
 
-      it 'should have the standard events and agents' do
-
-        @ofs.each do |df|
-
-          subject.find(%Q{
-            //P:event [P:eventType = 'normalize']
-                      [P:linkingObjectIdentifier /
-                         P:linkingObjectIdentifierValue = '#{ df['OWNERID'] }'
-                      ]
-          }, NS_PREFIX).should have_exactly(1).items
-
-          subject.find(%Q{
-            //P:event [P:eventType = 'format description']
-                      [P:linkingObjectIdentifier /
-                         P:linkingObjectIdentifierValue = '#{ df['OWNERID'] }'
-                      ]
-          }, NS_PREFIX).should have_exactly(1).items
-
-        end
-
-      end
-
     end
 
   end
