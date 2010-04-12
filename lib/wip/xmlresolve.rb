@@ -3,8 +3,11 @@ require 'datafile/actionplan'
 
 class Wip
 
+  XML_RES_TARBALL = 'xmlres.tar'
+
   def xmlresolve!
-    url = put_collection_resource + '/'
+    url = put_collection_resource
+    url.path = url.path + '/'
     resolve_datafiles url
     tar = get_tarball url
 
@@ -52,7 +55,6 @@ class Wip
       http.read_timeout = Daitss::CONFIG['http-read-timeout']
       http.request req
     end
-
     res.error unless Net::HTTPSuccess === res
     res.body
   end

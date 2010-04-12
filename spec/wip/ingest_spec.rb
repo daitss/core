@@ -39,8 +39,32 @@ describe Wip do
       doc.find("//P:agent/P:agentName = 'daitss ingest'", NS_PREFIX).should be_true
     end
 
-    it "should have made an aip" do
-      Aip.get(@wip.id).should_not be_nil
+    describe "the resulting aip" do
+
+      before :all do
+        @aip = Aip.get(@wip.id)
+      end
+
+      it "should have made an aip" do
+        @aip.should_not be_nil
+      end
+
+      it "should put the xmlres tarball in the aip tarball" do
+        url = @aip.copy_url
+        req = Net::HTTP::Get.new url.path
+        res = Net::HTTP.start(url.host, url.port) { |http| http.request req }
+
+        Tempfile.open 'spec' do |t|
+          t.write res.body
+          t.flush
+          tardata = %x{tar xOf #{t.path} #{@wip.id}/#{Wip::XML_RES_TARBALL}}
+          $?.exitstatus.should == 0
+          tardata.should_not be_nil
+          tardata.should == @wip['xml-resolution-tarball']
+        end
+
+      end
+
     end
 
   end
