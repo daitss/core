@@ -14,6 +14,12 @@ shared_examples_for "all preservations" do
 
   end
 
+  it 'should have the xmlresolution tarball' do
+    @wip.metadata['xml-resolution-tarball'].should_not be_nil
+    @wip.metadata['xml-resolution-tarball'].should_not be_empty
+  end
+
+
 end
 
 describe Wip do
