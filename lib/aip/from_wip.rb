@@ -74,6 +74,9 @@ class Aip
         descriptor_path = File.join(aip_dir, 'descriptor.xml')
         open(descriptor_path, 'w') { |io| io.write wip['aip-descriptor'] }
 
+        xmlres_path = File.join(aip_dir, 'xmlres.tar')
+        open(xmlres_path, 'w') { |io| io.write wip['xml-resolution-tarball'] }
+
         # tar it up
         %x{tar --dereference --create --file #{tarball_file} #{aip_dir}}
         raise "could not make tarball: #{$?}" unless $?.exitstatus == 0
