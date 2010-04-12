@@ -74,7 +74,7 @@ class Aip
         descriptor_path = File.join(aip_dir, 'descriptor.xml')
         open(descriptor_path, 'w') { |io| io.write wip['aip-descriptor'] }
 
-        xmlres_path = File.join(aip_dir, 'xmlres.tar')
+        xmlres_path = File.join(aip_dir, Wip::XML_RES_TARBALL)
         open(xmlres_path, 'w') { |io| io.write wip['xml-resolution-tarball'] }
 
         # tar it up

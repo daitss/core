@@ -1,7 +1,7 @@
 require 'template'
 require 'wip'
 require 'wip/dmd'
-require 'datafile'
+require 'datafile/obsolete'
 require 'metadata'
 
 # Helpers for generating the aip descriptor
