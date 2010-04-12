@@ -12,12 +12,16 @@ class DataFile
     ask_actionplan "#{Daitss::CONFIG['actionplan-url']}/normalization"
   end
 
+  def xmlresolution
+    ask_actionplan "#{Daitss::CONFIG['actionplan-url']}/xmlresolution"
+  end
+
   private
 
   def ask_actionplan url
     url = URI.parse(url)
     req = Net::HTTP::Post.new url.path
-    req.set_form_data 'description' => metadata['describe-file-object'] 
+    req.set_form_data 'description' => metadata['describe-file-object']
 
     res = Net::HTTP.start(url.host, url.port) do |http|
       http.read_timeout = Daitss::CONFIG['http-timeout']
