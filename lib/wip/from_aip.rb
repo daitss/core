@@ -19,6 +19,7 @@ class Wip
     load_dmd
     load_sip_name
     load_datafiles
+    load_sip_descriptor
     load_datafile_transformation_sources
     load_old_package_digiprov
     load_old_datafile_digiprov
@@ -186,6 +187,11 @@ class Wip
 
     end
 
+  end
+
+  def load_sip_descriptor
+    sd_df = original_datafiles.find { |df| df['aip-path'] == "#{metadata['sip-name']}.xml" }
+    metadata['sip-descriptor'] = File.read sd_df.datapath
   end
 
   def load_datafile_transformation_sources
