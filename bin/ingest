@@ -34,13 +34,6 @@ wip = begin
 
 begin
   wip.ingest!
-rescue Reject => e
-  sio = StringIO.new
-  sio.puts Time.now
-  sio.puts e.message
-  wip.tags['reject'] = sio.string
-  puts 'rejected'
-  exit 2
 rescue => e
   puts e.message
   puts e.backtrace
