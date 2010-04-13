@@ -19,6 +19,10 @@ describe Wip do
       @wip.metadata.should have_key( 'aip-descriptor' )
     end
 
+    it "should load the sip descriptor" do
+      @wip.metadata.should have_key( 'sip-descriptor' )
+    end
+
     it "should load the copy url" do
       @wip.metadata.should have_key( 'copy-url' )
     end
