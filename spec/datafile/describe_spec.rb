@@ -5,8 +5,8 @@ require 'datafile/describe'
 describe 'describing a datafile' do
 
   subject do
-    wip = submit 'mimi'
-    wip.original_datafiles.find { |df| df['aip-path'] == 'mimi.pdf' }
+    @wip = submit 'mimi'
+    @wip.original_datafiles.find { |df| df['aip-path'] == 'mimi.pdf' }
   end
 
   describe "premis metadata" do
@@ -56,6 +56,45 @@ describe 'describing a datafile' do
       obj_id_type = file_object.find_first "P:originalName", NS_PREFIX
       obj_id_type.should_not be_nil
       obj_id_type.content.should == subject['sip-path']
+    end
+
+    it 'should have a message digest originator of depositor' do
+      doc = XML::Document.string subject['describe-file-object']
+      file_object = doc.find_first "/P:object[@xsi:type = 'file']", NS_PREFIX
+      file_object.should_not be_nil
+
+      file_object.find(%Q{
+        P:objectCharacteristics /
+          P:fixity /
+            P:messageDigestOriginator = 'Archive'
+      }, NS_PREFIX).should be_true
+
+      file_object.find(%Q{
+        P:objectCharacteristics /
+          P:fixity /
+            P:messageDigestOriginator = 'Depositor'
+      }, NS_PREFIX).should be_true
+    end
+
+    it 'should have a message digest originator of archive' do
+      df = @wip.new_original_datafile 'foo'
+      df.open('w') { |io| io.puts 'plain text' }
+      df.describe!
+      doc = XML::Document.string df['describe-file-object']
+      file_object = doc.find_first "/P:object[@xsi:type = 'file']", NS_PREFIX
+      file_object.should_not be_nil
+
+      file_object.find(%Q{
+        P:objectCharacteristics /
+          P:fixity /
+            P:messageDigestOriginator = 'Archive'
+      }, NS_PREFIX).should be_true
+
+      file_object.find(%Q{
+        P:objectCharacteristics /
+          P:fixity /
+            P:messageDigestOriginator = 'Depositor'
+      }, NS_PREFIX).should be_false
     end
 
   end
