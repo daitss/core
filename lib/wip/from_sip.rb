@@ -114,12 +114,14 @@ class Wip
     end
 
     # put metadata from SIP in WIP
-    wip.metadata["dmd-account"] = sip.account
-    wip.metadata["dmd-project"] = sip.project
-    wip.metadata["dmd-title"] = sip.title
-    wip.metadata["dmd-issue"] = sip.issue
-    wip.metadata["dmd-volume"] = sip.volume
-    wip.metadata["dmd-entity-id"] = sip.entity_id
+    wip["dmd-account"] = sip.account
+    wip["dmd-project"] = sip.project
+    wip["dmd-title"] = sip.title
+    wip["dmd-issue"] = sip.issue
+    wip["dmd-volume"] = sip.volume
+    wip["dmd-entity-id"] = sip.entity_id
+    wip['sip-descriptor'] = File.read sip.descriptor_file
+
     wip
   end
 

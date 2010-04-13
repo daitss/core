@@ -28,6 +28,11 @@ describe Wip do
       Wip.from_sip path, uri, sip
     end
 
+    it "should have sip descriptor as metadata" do
+      sd_df = subject.original_datafiles.find { |df| df['sip-path'] == "#{subject['sip-name']}.xml" }
+      subject['sip-descriptor'].should == sd_df.open.read
+    end
+
     it "should have 2 files" do
       subject.original_datafiles.should have_exactly(2).items
     end
