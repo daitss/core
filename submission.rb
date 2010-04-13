@@ -119,7 +119,7 @@ module Submission
       rescue SubmitterDescriptorAccountMismatch => e
         halt 403, "Submitter account does not match account specified in SIP descriptor"
       rescue InvalidProject => e
-        halt 403, "Specified account does not exist under project"
+        halt 403, "Specified project does not exist under account"
       rescue => e
         halt 500, e.message
       end

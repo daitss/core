@@ -5,15 +5,14 @@ require 'uri'
 require 'ostruct'
 require 'digest/md5'
 require 'fileutils'
-require 'pp'
 
 # a simple submission client
-# takes a specified package on a filesystem, zips it up, and "curls" it to the submission at the specified url as the specified
+# takes a specified package on a filesystem, tars it up, and "curls" it to the submission at the specified url as the specified
 #    operations agent.
 # displays curl output, which contains the IEID.
 
 # dependencies:
-# curl, zip
+# curl, tar
 
 def get_options(args)
   config = OpenStruct.new("url" => nil, "package" => nil, "package_name" => nil)  
@@ -52,14 +51,14 @@ def get_options(args)
   return config
 end
 
-# zips directory at path_to_package. Returns string with path to zip file
+# tars directory to /tmp/tarfile. Returns string with path to tar file
 
 def zip_package path_to_package
-  zip_path = File.join(path_to_package, "tempsubmit.zip")
+  zip_path = File.join("/tmp", "tarfile")
 
-  output = `cd #{path_to_package}; zip -r tempsubmit.zip *`  
+  output = `cd #{path_to_package}; tar -cf #{zip_path} * 2>&1; cd $PWD`  
 
-  raise "zip returned non-zero exit status: #{output}" if $?.exitstatus != 0
+  raise "tar returned non-zero exit status: #{output}" if $?.exitstatus != 0
 
   return zip_path
 end
@@ -79,12 +78,10 @@ end
 # calls curl to submit package to service
 
 def submit_to_svc url, path_to_zip, package_name, md5, username, password
-  output = `curl -X POST -H "CONTENT_MD5:#{md5}" -H "X_PACKAGE_NAME:#{package_name}" -u #{username}:#{password} -H "X_ARCHIVE_TYPE:zip" -T "#{path_to_zip}" -v #{url} 2>&1`
+  output = `curl -X POST -H "CONTENT_MD5:#{md5}" -H "X_PACKAGE_NAME:#{package_name}" -H "CONTENT_TYPE:application/tar" -u #{username}:#{password} -H "X_ARCHIVE_TYPE:tar" -T "#{path_to_zip}" -v #{url} 2>&1`
 
   return output
 end
-
-
 
 config = get_options(ARGV) or exit
 zipfile = zip_package config.package
