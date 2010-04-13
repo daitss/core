@@ -1,6 +1,6 @@
 require 'db/operations_agents'
 require 'db/operations_events'
-require 'db/aip'
+require 'aip'
 require 'daitss/config'
 require 'fileutils'
 

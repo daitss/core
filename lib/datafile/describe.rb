@@ -3,6 +3,7 @@ require 'template/premis'
 require 'net/http'
 require 'cgi'
 require 'metadata'
+require 'xmlns'
 
 class DataFile
 
