@@ -30,7 +30,7 @@ class Wip
     req = Net::HTTP::Put.new url.path
 
     res = Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = Daitss::CONFIG['http-read-timeout']
+      http.read_timeout = Daitss::CONFIG['http-timeout']
       http.request req
     end
 
@@ -52,7 +52,7 @@ class Wip
     req = Net::HTTP::Get.new url.path
 
     res = Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = Daitss::CONFIG['http-read-timeout']
+      http.read_timeout = Daitss::CONFIG['http-timeout']
       http.request req
     end
     res.error unless Net::HTTPSuccess === res
