@@ -1,27 +1,23 @@
 require 'fileutils'
 require 'wip/from_sip'
 require 'template/premis'
+require 'datafile/checksum'
+require 'wip/sip_descriptor'
 require 'uri'
 require 'old_ieid'
 require 'libxml'
 require 'package_tracker'
+require 'xmlns'
 
 class ArchiveExtractionError < StandardError; end
 class DescriptorNotFoundError < StandardError; end
 class DescriptorCannotBeParsedError < StandardError; end
 class SubmitterDescriptorAccountMismatch < StandardError; end
 class InvalidProject < StandardError; end
+class ChecksumMismatch < StandardError; end
+class MissingContentFile < StandardError; end
 
 class PackageSubmitter
-
-  NS_PREFIX = {
-    'P' => 'info:lc/xmlns/premis-v2',
-    'M' => 'http://www.loc.gov/METS/',
-    'xlink' => 'http://www.w3.org/1999/xlink',
-    'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-    'mods' => 'http://www.loc.gov/mods/v3',
-    'daitss'=> 'http://www.fcla.edu/dls/md/daitss/'
-  }
 
   URI_PREFIX = "test:/"
 
@@ -62,6 +58,15 @@ class PackageSubmitter
     # check that the project in the descriptor exists in the database
     raise InvalidProject unless account.projects
     raise InvalidProject unless account.projects.map {|project| project.code == wip['dmd-project']}.include? true
+
+    # check for the presence of at least one content file
+    raise MissingContentFile unless wip.all_datafiles.length > 1
+
+    # check that any specified checksums match descriptor
+    checksum_info = wip.described_datafiles.map { |df| [ df['sip-path'] ] + df.checksum_info }
+    checksum_info.reject! { |path, desc, comp| desc == nil and comp == nil }
+    matches, mismatches = checksum_info.partition { |(path, desc, comp)| desc == comp }
+    raise ChecksumMismatch if mismatches.any?
 
     wip['submit-agent'] = agent :id => 'info:fcla/daitss/submission_service',
                                 :name => 'daitss submission service',

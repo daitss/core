@@ -120,7 +120,13 @@ module Submission
         halt 403, "Submitter account does not match account specified in SIP descriptor"
       rescue InvalidProject => e
         halt 403, "Specified project does not exist under account"
+      rescue MissingContentFile => e
+        halt 400, "Package has no content files"
+      rescue ChecksumMismatch => e
+        halt 400, "Checksum mismatch: #{e.message}"
+
       rescue => e
+        pp e
         halt 500, e.message
       end
 

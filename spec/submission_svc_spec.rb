@@ -335,6 +335,50 @@ describe Submission::App do
     last_response.status.should == 403
   end
 
+  it "should raise 400 if package is missing content files" do
+    sip_string = StringIO.new
+    sip_md5 = Digest::MD5.new
+
+    # read file into string io
+    File.open "spec/test-sips/ateam-missing-contentfile.zip" do |sip_file|
+      sip_string << sip_file.read 
+    end
+
+    # read into md5 object
+    sip_string.rewind
+    sip_md5 << sip_string.read
+
+    # send the correct md5 header
+    header "CONTENT_MD5", sip_md5.hexdigest
+    
+    # send request with real zip file, but having no content files
+    authenticated_post "/", "operator", "operator", sip_string
+
+    last_response.status.should == 400
+  end 
+
+  it "should raise 400 if there is a checksum mismatch between the sip descriptor and a datafile" do
+    sip_string = StringIO.new
+    sip_md5 = Digest::MD5.new
+
+    # read file into string io
+    File.open "spec/test-sips/ateam-checksum-mismatch.zip" do |sip_file|
+      sip_string << sip_file.read 
+    end
+
+    # read into md5 object
+    sip_string.rewind
+    sip_md5 << sip_string.read
+
+    # send the correct md5 header
+    header "CONTENT_MD5", sip_md5.hexdigest
+    
+    # send request with real zip file in which the descriptor has the wrong checksum
+    authenticated_post "/", "operator", "operator", sip_string
+
+    last_response.status.should == 400
+  end
+
   private
 
   def encode_credentials(username, password)
