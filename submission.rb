@@ -124,10 +124,6 @@ module Submission
         halt 400, "Package has no content files"
       rescue ChecksumMismatch => e
         halt 400, "Checksum mismatch: #{e.message}"
-
-      rescue => e
-        pp e
-        halt 500, e.message
       end
 
     end
