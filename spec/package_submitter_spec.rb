@@ -15,6 +15,8 @@ describe PackageSubmitter do
   ZIP_BROKEN_DESCRIPTOR = "spec/test-sips/ateam-broken-descriptor.zip"
   ZIP_WRONG_ACCOUNT = "spec/test-sips/ateam-wrong-account.zip"
   ZIP_BAD_PROJECT = "spec/test-sips/ateam-bad-project"
+  ZIP_NO_CONTENT_FILES = "spec/test-sips/ateam-missing-contentfile.zip"
+  ZIP_CHECKSUM_MISMATCH = "spec/test-sips/ateam-checksum-mismatch.zip"
 
   URI_PREFIX = "test:/"
 
@@ -84,7 +86,7 @@ describe PackageSubmitter do
 
     submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_s.should == now.iso8601
+    submission_event.timestamp.to_time.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: tar, submitted_package_checksum: cccccccccccccccccccccccccccccccc"
   end
@@ -117,7 +119,7 @@ describe PackageSubmitter do
 
     submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_s.should == now.iso8601
+    submission_event.timestamp.to_time.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc"
   end
@@ -166,4 +168,13 @@ describe PackageSubmitter do
   it "should raise error if package account does not match submitter account if the submitter is an contact" do
     lambda { ieid = PackageSubmitter.submit_sip :zip, ZIP_BAD_PROJECT, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error(InvalidProject)
   end
+
+  it "should raise error if the package does not have at least one content file" do
+    lambda { ieid = PackageSubmitter.submit_sip :zip, ZIP_NO_CONTENT_FILES, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error(MissingContentFile)
+  end
+
+  it "should raise error if there is a checksum mismatch between the descriptor any data file" do
+    lambda { ieid = PackageSubmitter.submit_sip :zip, ZIP_CHECKSUM_MISMATCH, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error(ChecksumMismatch)
+  end
+
 end
