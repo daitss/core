@@ -20,49 +20,15 @@ class AIPInPremis
     process XML::Document.file aip_file
   end
 
-  def processIntEntity premis
-    @int_entity = Intentity.new
-    @int_entity.fromAIP @doc
-    puts @int_entity.inspect
-    # check if this is an existing int entity, if not create a new int entity object with 
-    # the read-in premis info.  Otheriwse, destroy the existing int entity records in the database 
-    # including all related datafiles, representations, events and agents. 
-    entities = Intentity.all(:id => @int_entity.id)  
-    puts "entity #{entities}"
-
-    entities.each do |entity|
-      # start database traction for deleting the associated record for the aip.  If there is any failure during database save, 
-      # datamapper automatically rollback the change.
-      Intentity.transaction do
-        # puts entity.id
-        # destroy all files in the int entities 
-        files = Hash.new
-        representations = Representation.all(:intentity_id => entity.id)
-        representations.each do |rep| 
-          dfreps = DatafileRepresentation.all(:representation_id => rep.id)
-          dfreps.each do |dfrep|
-            dfs = Datafile.all(:id => dfrep.datafile_id)
-            dfs.each do |df| 
-              # remove all events and relationship associated with this datafile
-              files[df.id] = df 
-            end
-          end
-        end
-
-        files.each do |id,df| 
-          raise "error deleting datafile #{df.inspect}" unless df.destroy
-        end
-
-        raise "error deleting entity #{entity.inspect}" unless entity.destroy
-      end
-    end
-  end
-
   # process an aip descriptor described in a premis-in-mets format.
   def process aipxml
     @doc = aipxml
 
-    processIntEntity @doc
+    # create an new intentities or locate the existing int entities for the int entity object in the aip descriptior.  
+    processIntEntity
+
+    # find the agreement for the int entity
+    processAgreement
 
     # process all premis file objects
     processDatafiles
@@ -92,6 +58,56 @@ class AIPInPremis
     toDB
   end
 
+  def processIntEntity
+    @int_entity = Intentity.new
+    @int_entity.fromAIP @doc
+    # check if this is an existing int entity, if not create a new int entity object with 
+    # the read-in premis info.  Otheriwse, destroy the existing int entity records in the database 
+    # including all related datafiles, representations, events and agents. 
+    entities = Intentity.all(:id => @int_entity.id)  
+    entities.each do |entity|
+      # start database traction for deleting the associated record for the aip.  If there is any failure during database save, 
+      # datamapper automatically rollback the change.
+      Intentity.transaction do
+        # destroy all files in the int entities 
+        files = Hash.new
+        representations = Representation.all(:intentity_id => entity.id)
+        representations.each do |rep| 
+          dfreps = DatafileRepresentation.all(:representation_id => rep.id)
+          dfreps.each do |dfrep|
+            dfs = Datafile.all(:id => dfrep.datafile_id)
+            dfs.each do |df| 
+              # remove all events and relationship associated with this datafile
+              files[df.id] = df 
+            end
+          end
+        end
+
+        files.each do |id,df| 
+          raise "error deleting datafile #{df.inspect}" unless df.destroy
+        end
+
+        raise "error deleting entity #{entity.inspect}" unless entity.destroy
+      end
+    end
+  end
+
+  def processAgreement
+    # retrieve agreement info.
+    agreement = @doc.find_first("//mets:digiprovMD[@ID = 'AGREEMENT-INFO']/mets:mdWrap/mets:xmlData/daitss:AGREEMENT_INFO", NAMESPACES)
+    if agreement
+      account = agreement.find_first("@ACCOUNT", NAMESPACES).value
+      project = agreement.find_first("@PROJECT", NAMESPACES).value
+      acct = Account.first(:code => account)
+      acctProjects = Project.all(:code => project) & Project.all(:account => acct)
+      raise "cannot find the project recrod for #{account}, #{project} " if acctProjects.nil?
+      @acctProject = acctProjects.first
+      @acctProject.intentities << @int_entity
+    else
+      raise "no agreement info specified in the aip descriptor"
+    end
+  end
+
   # extract representation information from the premis document
   def processRepresentations
     r0 = Array.new
@@ -111,7 +127,6 @@ class AIPInPremis
           dfrep = DatafileRepresentation.new
           df.datafile_representation << dfrep
           rep.datafile_representation << dfrep
-          # rep.datafiles << df
           if rep.isR0
             r0 << dfid
           elsif rep.isRC
@@ -233,17 +248,18 @@ class AIPInPremis
       # start database traction for saving the associated record for the aip.  If there is any failure during database save, 
       # datamapper automatically rollback the change.
       Intentity.transaction do 
-        #RubyProf.start  
+        # RubyProf.start  
         @int_entity.save  
+        @acctProject.save
         # not necessary to explicitely save representations since representations will be saved through intentity associations        
         # @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
         @datafiles.each {|dfid, df|  raise 'error saving datafile records' unless  df.save } 
         # @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
         @events.each {|id, e|  raise 'error saving event records' unless e.save }
         @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
-        #r = RubyProf.stop
-        #printer = RubyProf::GraphHtmlPrinter.new r
-        #open('/Users/Carol/Workspace/database/profile.html', 'w') { |io| printer.print io, :min_percent=> 0 }
+        # r = RubyProf.stop
+        # printer = RubyProf::GraphHtmlPrinter.new r
+        # open('/Users/Carol/Workspace/database/profile.html', 'w') { |io| printer.print io, :min_percent=> 0 }
       end
     end
   end

@@ -9,4 +9,5 @@ class Project
   property :code, String, :required => true
   
   belongs_to :account
+  has 0..n, :intentities
 end

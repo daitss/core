@@ -53,8 +53,6 @@ class Document
       font.fromPremis node
       fonts << font
     end
-    puts fonts.inspect
-    
   end
   
   before :save do
