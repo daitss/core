@@ -17,14 +17,14 @@ raise "CONFIG not set" unless ENV['CONFIG']
 Daitss::CONFIG.load ENV['CONFIG']
 DataMapper.setup :default, Daitss::CONFIG['database-url']
 
-def submit_via_client package
+def run_submit package, expect_success = true
   raise "No users created" unless @username and @password
 
   sip_path = File.join SIP_DIR, package
   raise "Specified SIP not found" unless File.directory? sip_path
 
   output = `#{SUBMISSION_CLIENT_PATH} --url #{Daitss::CONFIG['submission-url']} --package #{sip_path} --name #{package} --username #{@username} --password #{@password}`
-  raise "Submission seems to have failed: #{output}" unless $?.exitstatus == 0
+  raise "Submission seems to have failed: #{output}" if ($?.exitstatus != 0 and expect_success == true)
 
   return output.chomp
 end
@@ -65,27 +65,23 @@ Given /^an archive (\w+)$/ do |actor|
   end
 end
 
-Given /^the submission of a known (good|checksum mismatch|empty|virus infected) package$/ do |package|
-  case package
-
-  when "good"
-    @ieid = submit_via_client "ateam"
-
-  when "empty"
-    @ieid = submit_via_client "ateam-missing-contentfile"
-
-  when "checksum mismatch"
-    @ieid = submit_via_client "ateam-checksum-mismatch"
-
-  when "virus infected"
-    @ieid = submit_via_client "ateam-virus"
-
-  end
-end
-
 Given /^a workspace$/ do
   setup_workspace
 end
+
+Given /^(a|an) (good|empty|checksum mismatch) package$/ do |n, package|
+  case package
+
+  when "good"
+    @package = "ateam"
+
+  when "empty"
+    @package = "ateam-missing-contentfile"
+
+  when "checksum mismatch"
+    @package = "ateam-checksum-mismatch"
+  end
+end 
 
 When /^ingest is (run|attempted) on that package$/ do |expectation|
   case expectation
@@ -95,6 +91,17 @@ When /^ingest is (run|attempted) on that package$/ do |expectation|
 
   when "attempted"
     run_ingest @ieid, false
+  end
+end
+
+When /^submission is (run|attempted) on that package$/ do |expectation|
+  case expectation
+
+  when "run"
+    @ieid = run_submit @package
+
+  when "attempted"
+    @submission_output = run_submit @package, false
   end
 end
 
@@ -123,6 +130,15 @@ Then /^the package is rejected$/ do
   tag_file_path = File.join ENV["WORKSPACE"], @ieid, "tags", "reject"
 
   raise "Package not rejected" unless File.exists? tag_file_path
+end
+
+Then /^submission (fails|succeeds)$/ do |outcome|
+  case outcome
+  when "fails"
+    raise "Submission appears to have succeeded: #{@submission_output}" unless @submission_output =~ /< HTTP\/1.1 4[\d]{2}/
+  when "succeeds"
+    raise "Submission appears to have failed: #{@submission_output}" unless @submission_output =~ /< HTTP\/1.1 2[\d]{2}/
+  end
 end
 
 

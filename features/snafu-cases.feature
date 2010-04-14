@@ -1,10 +1,10 @@
 Feature: Cases where packages snafu in processing
 
-  Scenario: A submission and attempted ingest of a known virus infected by an operator
+  Scenario: A submission and attempted ingest of a known virus infected package by an operator
     Given an archive operator
     And a workspace
     And the submission of a known virus infected package
     When ingest is attempted on that package
-    Then the package is rejected
+    Then the package is snafu 
     And there is an operations event for the submission
-    And there is an operations event for the reject
+    And there is an operations event for the snafu
