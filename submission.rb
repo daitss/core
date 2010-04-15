@@ -5,6 +5,7 @@ require 'package_submitter'
 require 'digest/md5'
 require 'tempfile'
 require 'digest/sha1'
+require 'old_ieid'
 
 module Submission
 
@@ -80,18 +81,17 @@ module Submission
           halt 403 unless agent.permissions.include?(:submit)
         end
 
-        request.body.rewind
-
         # return 400 if there is no body in the request
+        request.body.rewind
         halt 400, "Missing body" if request.body.size == 0
 
+        # return 412 if md5 of body does not match the provided CONTENT_MD5
         body_md5 = Digest::MD5.new
 
         while (buffer = request.body.read 1048576)
           body_md5 << buffer
         end
 
-        # return 412 if md5 of body does not match the provided CONTENT_MD5
         halt 412, "MD5 of body (#{body_md5.hexdigest}) does not match provided CONTENT_MD5 (#{@env["HTTP_CONTENT_MD5"]})" unless @env["HTTP_CONTENT_MD5"] == body_md5.hexdigest
 
         # write body to a temporary file
@@ -105,12 +105,11 @@ module Submission
         tf.rewind
 
         # call PackageSubmitter to extract file, generate IEID, and write AIP to workspace
-        if @env["HTTP_X_ARCHIVE_TYPE"] == "zip"
-          ieid = PackageSubmitter.submit_sip :zip, tf.path, @env["HTTP_X_PACKAGE_NAME"], agent.identifier, @env["REMOTE_ADDR"], @env["HTTP_CONTENT_MD5"]
-        elsif @env["HTTP_X_ARCHIVE_TYPE"] == "tar"
-          ieid = PackageSubmitter.submit_sip :tar, tf.path, @env["HTTP_X_PACKAGE_NAME"], agent.identifier, @env["REMOTE_ADDR"], @env["HTTP_CONTENT_MD5"]
-        end
+        type = @env["HTTP_X_ARCHIVE_TYPE"] == "zip" ? :zip : :tar
+        ieid = OldIeid.get_next
+        PackageSubmitter.submit_sip type, tf.path, @env["HTTP_X_PACKAGE_NAME"], agent.identifier, @env["REMOTE_ADDR"], @env["HTTP_CONTENT_MD5"], ieid
 
+        # send IEID back in response as both header and document in body
         headers["X_IEID"] = ieid.to_s
         "<IEID>#{ieid}</IEID>"
 
@@ -125,7 +124,6 @@ module Submission
       rescue ChecksumMismatch => e
         halt 400, "Checksum mismatch: #{e.message}"
       end
-
     end
   end
 end

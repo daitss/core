@@ -4,7 +4,6 @@ require 'template/premis'
 require 'datafile/checksum'
 require 'wip/sip_descriptor'
 require 'uri'
-require 'old_ieid'
 require 'libxml'
 require 'package_tracker'
 require 'xmlns'
@@ -25,15 +24,21 @@ class PackageSubmitter
   # This method:
   #
   # checks WORKSPACE environment var for validity
+  # unarchives the zip/tar to a tmp dir in WORKSPACE
+  # validates SIP descriptor
+  # checks that project is valid in account
+  # checks that account of submitter matches account in package descriptor if operator
+  # checks for the prescence of at least one content file
+  # checks checksums of datafiles against descriptor, if provided
   # inserts an operations event into package tracker
-  # unarchives the zip/tar to a special place in WORKSPACE
   # makes an AIP from extracted files
   # writes a submission event to package provenance
-  # returns new minted IEID of the created AIP
 
-  def self.submit_sip archive_type, path_to_archive, package_name, submitter_username, submitter_ip, md5
+  def self.submit_sip archive_type, path_to_archive, package_name, submitter_username, submitter_ip, md5, ieid
+
+    pt_event_notes = "submitter_ip: #{submitter_ip}, archive_type: #{archive_type}, submitted_package_checksum: #{md5}"
+
     check_workspace
-    ieid = OldIeid.get_next
 
     unarchive_sip archive_type, ieid, path_to_archive, package_name
 
@@ -44,30 +49,31 @@ class PackageSubmitter
       sip = Sip.new sip_path
       wip = Wip.from_sip wip_path, URI.join(URI_PREFIX, ieid), sip
     rescue Errno::ENOENT
-      raise DescriptorNotFoundError
+      reject DescriptorNotFoundError.new, pt_event_notes, ieid, submitter_username
     rescue LibXML::XML::Error
-      raise DescriptorCannotBeParsedError
+      reject DescriptorCannotBeParsedError.new, pt_event_notes, ieid, submitter_username
     end
 
     # check that package account in descriptor is specified and matches submitter
     submitter = OperationsAgent.first(:identifier => submitter_username)
     account = submitter.account
 
-    raise SubmitterDescriptorAccountMismatch unless account.code == wip["dmd-account"] or submitter.type == Operator
+    reject SubmitterDescriptorAccountMismatch.new, pt_event_notes, ieid, submitter_username unless account.code == wip["dmd-account"] or submitter.type == Operator
 
     # check that the project in the descriptor exists in the database
-    raise InvalidProject unless account.projects
-    raise InvalidProject unless account.projects.map {|project| project.code == wip['dmd-project']}.include? true
+    reject InvalidProject.new, pt_event_notes, ieid, submitter_username unless account.projects
+    reject InvalidProject.new, pt_event_notes, ieid, submitter_username unless (account.projects.map {|project| project.code == wip['dmd-project']}).include? true
 
     # check for the presence of at least one content file
-    raise MissingContentFile unless wip.all_datafiles.length > 1
+    reject MissingContentFile.new, pt_event_notes, ieid, submitter_username unless wip.all_datafiles.length > 1
 
     # check that any specified checksums match descriptor
     checksum_info = wip.described_datafiles.map { |df| [ df['sip-path'] ] + df.checksum_info }
     checksum_info.reject! { |path, desc, comp| desc == nil and comp == nil }
     matches, mismatches = checksum_info.partition { |(path, desc, comp)| desc == comp }
-    raise ChecksumMismatch if mismatches.any?
+    reject ChecksumMismatch.new, pt_event_notes, ieid, submitter_username if mismatches.any?
 
+    # create premis agents and events in wip
     wip['submit-agent'] = agent :id => 'info:fcla/daitss/submission_service',
                                 :name => 'daitss submission service',
                                 :type => 'Software'
@@ -88,16 +94,40 @@ class PackageSubmitter
       :linking_agents => linking_agents
 
     # write package tracker event
-    submission_event_notes = "submitter_ip: #{submitter_ip}, archive_type: #{archive_type}, submitted_package_checksum: #{md5}"
-    PackageTracker.insert_op_event(submitter_username, ieid, "Package Submission", submission_event_notes)
+    pt_event_notes = pt_event_notes + ", outcome: success"
+    PackageTracker.insert_op_event(submitter_username, ieid, "Package Submission", pt_event_notes)
 
     # clean up
     FileUtils.rm_rf sip_path
-
-    return ieid
   end
 
   private
+
+  # writes pt record for failed submission and raises exception
+  
+  def self.reject exception, pt_event_notes, ieid, agent_id
+    pt_event_notes = pt_event_notes + ", outcome: failure"
+
+    case exception
+    when DescriptorNotFoundError
+      pt_event_notes = pt_event_notes + ", failure_reason: descriptor not found"
+    when DescriptorCannotBeParsedError
+      pt_event_notes = pt_event_notes + ", failure_reason: descriptor cannot be parsed"
+    when SubmitterDescriptorAccountMismatch
+      pt_event_notes = pt_event_notes + ", failure_reason: submitter account does not match descriptor"
+    when InvalidProject
+      pt_event_notes = pt_event_notes + ", failure_reason: invalid project"
+    when MissingContentFile
+      pt_event_notes = pt_event_notes + ", failure_reason: content file not found"
+    when ChecksumMismatch
+      pt_event_notes = pt_event_notes + ", failure_reason: datafile failed checksum check against descriptor"
+    when ArchiveExtractionError
+      pt_event_notes = pt_event_notes + ", failure_reason: sip extraction error"
+    end
+
+    PackageTracker.insert_op_event(agent_id, ieid, "Package Submission", pt_event_notes)
+    raise exception
+  end
 
   # raises exception if WORKSPACE environment variable is not set to a valid directory on the filesystem
 
