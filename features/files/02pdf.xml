@@ -21,7 +21,16 @@
         </mods>
       </xmlData>
     </mdWrap>
-  </dmdSec>
+</dmdSec>
+<amdSec>
+	<digiprovMD ID="AGREEMENT-INFO">
+		<mdWrap MDTYPE="OTHER">
+			<xmlData>
+				<AGREEMENT_INFO xmlns="http://www.fcla.edu/dls/md/daitss/" ACCOUNT="FDA" PROJECT="PRJ"/>
+			</xmlData>
+		</mdWrap>
+	</digiprovMD>
+</amdSec>
   <!-- AIP AMD -->
   <amdSec>
     <!-- TECH -->

@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mets xmlns="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd                           info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd" OBJID="haskell-nums-pdf">
 	<amdSec>
+	  <digiprovMD ID="AGREEMENT-INFO">
+	    <mdWrap MDTYPE="OTHER">
+	      <xmlData>
+	        <AGREEMENT_INFO xmlns="http://www.fcla.edu/dls/md/daitss/" ACCOUNT="FDA" PROJECT="PRJ"/>
+	      </xmlData>
+	    </mdWrap>
+	  </digiprovMD>
+	</amdSec>
+	<amdSec>
+	    <techMD ID="tech-0" ADMID="dmd-1 digiprov-1 digiprov-2 digiprov-3 digiprov-4 digiprov-5 digiprov-6">
+	      <mdWrap MDTYPE="PREMIS">
+	        <xmlData>
+	          <object xmlns="info:lc/xmlns/premis-v2-beta">
+	            <objectIdentifier>
+	              <objectIdentifierType>URI</objectIdentifierType>
+	              <objectIdentifierValue>E00000000_000000</objectIdentifierValue>
+	            </objectIdentifier>
+	            <objectCategory>intellectual entity</objectCategory>
+	          </object>
+	        </xmlData>
+	      </mdWrap>
+	    </techMD>
 		<techMD ID="tech-1">
 			<mdWrap MDTYPE="PREMIS" LABEL="RC">
 				<xmlData>

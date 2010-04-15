@@ -100,7 +100,7 @@ class AIPInPremis
       project = agreement.find_first("@PROJECT", NAMESPACES).value
       acct = Account.first(:code => account)
       acctProjects = Project.all(:code => project) & Project.all(:account => acct)
-      raise "cannot find the project recrod for #{account}, #{project} " if acctProjects.nil?
+      raise "cannot find the project recrod for #{account}, #{project} " if acctProjects.empty?
       @acctProject = acctProjects.first
       @acctProject.intentities << @int_entity
     else
