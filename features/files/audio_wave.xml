@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mets xmlns="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OBJID="info:fcla/7f9a69e00906012d6f780050569622ff" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd                           http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd                           info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd">
 <!-- DMD -->
+<amdSec>
+  <digiprovMD ID="AGREEMENT-INFO">
+    <mdWrap MDTYPE="OTHER">
+      <xmlData>
+        <AGREEMENT_INFO xmlns="http://www.fcla.edu/dls/md/daitss/" ACCOUNT="FDA" PROJECT="PRJ"/>
+      </xmlData>
+    </mdWrap>
+  </digiprovMD>
+</amdSec>
 <!-- AIP AMD -->
   <amdSec>
 <!-- TECH -->

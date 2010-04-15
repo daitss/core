@@ -6,6 +6,9 @@ DataMapper.setup(:default, 'mysql://daitss:topdrawer@localhost/daitss2')
 
 Before do
   DataMapper.auto_migrate!
+  a = add_account
+  add_project a
+  add_operator a
 end
 
 module AdminHelpers
