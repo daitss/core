@@ -10,7 +10,7 @@ end
 
 module AdminHelpers
 
-  def add_account name = "FDA", code = "FDA"
+  def add_account name = "ACT", code = "ACT"
     a = Account.new
 
     a.attributes = {
