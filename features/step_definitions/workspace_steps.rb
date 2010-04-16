@@ -69,7 +69,7 @@ Given /^a workspace$/ do
   setup_workspace
 end
 
-Given /^(a|an) (good|empty|checksum mismatch) package$/ do |n, package|
+Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account) package$/ do |n, package|
   case package
 
   when "good"
@@ -80,6 +80,12 @@ Given /^(a|an) (good|empty|checksum mismatch) package$/ do |n, package|
 
   when "checksum mismatch"
     @package = "ateam-checksum-mismatch"
+
+  when "bad project"
+    @package = "ateam-bad-project"
+
+  when "bad account"
+    @package = "ateam-bad-account"
   end
 end 
 

@@ -15,3 +15,19 @@ Feature: Cases where packages fail to submit
     When submission is attempted on that package
     Then submission fails
     And there is an operations event for the submission
+
+  Scenario: Attempted submission of a package where the project is invalid by an operator
+    Given an archive operator
+    And a workspace
+    And a bad project package
+    When submission is attempted on that package
+    Then submission fails
+    And there is an operations event for the submission
+
+  Scenario: Attempted submission of a package where the account is invalid by an operator
+    Given an archive operator
+    And a workspace
+    And a bad account package
+    When submission is attempted on that package
+    Then submission fails
+    And there is an operations event for the submission
