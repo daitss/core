@@ -102,6 +102,7 @@ When /^submission is (run|attempted) on that package$/ do |expectation|
 
   when "attempted"
     @submission_output = run_submit @package, false
+    @ieid = @submission_output.split("* Closing connection #0\n")[1].split(":")[0]
   end
 end
 
@@ -122,7 +123,6 @@ Then /^there is an operations event for the (\w+)$/ do |event_type|
     pending "ingest doesn't yet add an op event for reject"
 
   end
-
   raise "No #{event_type} ops event found" unless event
 end
 
