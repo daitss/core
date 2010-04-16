@@ -13,6 +13,7 @@ class DescriptorNotFoundError < StandardError; end
 class DescriptorCannotBeParsedError < StandardError; end
 class SubmitterDescriptorAccountMismatch < StandardError; end
 class InvalidProject < StandardError; end
+class InvalidAccount < StandardError; end
 class ChecksumMismatch < StandardError; end
 class MissingContentFile < StandardError; end
 
@@ -26,6 +27,7 @@ class PackageSubmitter
   # checks WORKSPACE environment var for validity
   # unarchives the zip/tar to a tmp dir in WORKSPACE
   # validates SIP descriptor
+  # checks that account is valid
   # checks that project is valid in account
   # checks that account of submitter matches account in package descriptor if operator
   # checks for the prescence of at least one content file
@@ -54,6 +56,9 @@ class PackageSubmitter
       reject DescriptorCannotBeParsedError.new, pt_event_notes, ieid, submitter_username
     end
 
+    # check that the project in the descriptor exists in the database
+    reject InvalidAccount.new, pt_event_notes, ieid, submitter_username unless Account.first(:code => wip["dmd-account"])
+    
     # check that package account in descriptor is specified and matches submitter
     submitter = OperationsAgent.first(:identifier => submitter_username)
     account = submitter.account
@@ -115,6 +120,8 @@ class PackageSubmitter
       pt_event_notes = pt_event_notes + ", failure_reason: descriptor cannot be parsed"
     when SubmitterDescriptorAccountMismatch
       pt_event_notes = pt_event_notes + ", failure_reason: submitter account does not match descriptor"
+    when InvalidAccount
+      pt_event_notes = pt_event_notes + ", failure_reason: invalid account"
     when InvalidProject
       pt_event_notes = pt_event_notes + ", failure_reason: invalid project"
     when MissingContentFile

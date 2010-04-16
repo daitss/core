@@ -47,6 +47,11 @@ describe Submission::App do
     add_project a
     add_operator a
     add_contact a
+
+    b = add_account "UF", "UF"
+    add_project b
+    add_contact b, [], "bernie", "bernie"
+    add_operator b, "uf_op", "uf_op"
   end
 
   after(:each) do
@@ -274,7 +279,7 @@ describe Submission::App do
     sip_md5 = Digest::MD5.new
 
     # read file into string io
-    File.open "spec/test-sips/ateam-wrong-account.zip" do |sip_file|
+    File.open "spec/test-sips/ateam.zip" do |sip_file|
       sip_string << sip_file.read 
     end
 
@@ -285,8 +290,8 @@ describe Submission::App do
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
     
-    # send request with real zip file, but with an account of "FOO" specified in the descriptor
-    authenticated_post "/", "contact", "contact", sip_string
+    # send request with real zip file
+    authenticated_post "/", "bernie", "bernie", sip_string
 
     last_response.status.should == 403
   end
@@ -296,7 +301,7 @@ describe Submission::App do
     sip_md5 = Digest::MD5.new
 
     # read file into string io
-    File.open "spec/test-sips/ateam-wrong-account.zip" do |sip_file|
+    File.open "spec/test-sips/ateam.zip" do |sip_file|
       sip_string << sip_file.read 
     end
 
@@ -308,7 +313,7 @@ describe Submission::App do
     header "CONTENT_MD5", sip_md5.hexdigest
     
     # send request with real zip file, but with an account of "FOO" specified in the descriptor
-    authenticated_post "/", "operator", "operator", sip_string
+    authenticated_post "/", "uf_op", "uf_op", sip_string
 
     last_response.status.should == 200
   end
@@ -333,6 +338,28 @@ describe Submission::App do
     authenticated_post "/", "operator", "operator", sip_string
 
     last_response.status.should == 403
+  end
+
+  it "should return 400 if the specified account does not exist" do
+    sip_string = StringIO.new
+    sip_md5 = Digest::MD5.new
+
+    # read file into string io
+    File.open "spec/test-sips/ateam-bad-account.zip" do |sip_file|
+      sip_string << sip_file.read 
+    end
+
+    # read into md5 object
+    sip_string.rewind
+    sip_md5 << sip_string.read
+
+    # send the correct md5 header
+    header "CONTENT_MD5", sip_md5.hexdigest
+    
+    # send request with real zip file, but with an account of "DNE" specified in the descriptor
+    authenticated_post "/", "operator", "operator", sip_string
+
+    last_response.status.should == 400
   end
 
   it "should raise 400 if package is missing content files" do
