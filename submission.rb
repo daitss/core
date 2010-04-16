@@ -114,15 +114,15 @@ module Submission
         "<IEID>#{ieid}</IEID>"
 
       rescue ArchiveExtractionError => e
-        halt 400, "Error extracting files in request body, is it malformed?"
+        halt 400, "#{ieid}: Error extracting files in request body, is it malformed?"
       rescue SubmitterDescriptorAccountMismatch => e
-        halt 403, "Submitter account does not match account specified in SIP descriptor"
+        halt 403, "#{ieid}: Submitter account does not match account specified in SIP descriptor"
       rescue InvalidProject => e
-        halt 403, "Specified project does not exist under account"
+        halt 403, "#{ieid}: Specified project does not exist under account"
       rescue MissingContentFile => e
-        halt 400, "Package has no content files"
+        halt 400, "#{ieid}: Package has no content files"
       rescue ChecksumMismatch => e
-        halt 400, "Checksum mismatch: #{e.message}"
+        halt 400, "#{ieid}: Checksum mismatch: #{e.message}"
       end
     end
   end
