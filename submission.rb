@@ -119,6 +119,8 @@ module Submission
         halt 403, "#{ieid}: Submitter account does not match account specified in SIP descriptor"
       rescue InvalidProject => e
         halt 403, "#{ieid}: Specified project does not exist under account"
+      rescue InvalidAccount => e
+        halt 400, "#{ieid}: Specified account does not exist"
       rescue MissingContentFile => e
         halt 400, "#{ieid}: Package has no content files"
       rescue ChecksumMismatch => e

@@ -14,8 +14,8 @@ describe PackageSubmitter do
   ZIP_NO_DESCRIPTOR = "spec/test-sips/ateam-nodesc.zip"
   ZIP_DMD_METADATA = "spec/test-sips/ateam-dmd.zip"
   ZIP_BROKEN_DESCRIPTOR = "spec/test-sips/ateam-broken-descriptor.zip"
-  ZIP_WRONG_ACCOUNT = "spec/test-sips/ateam-wrong-account.zip"
   ZIP_BAD_PROJECT = "spec/test-sips/ateam-bad-project"
+  ZIP_BAD_ACCOUNT = "spec/test-sips/ateam-bad-account"
   ZIP_NO_CONTENT_FILES = "spec/test-sips/ateam-missing-contentfile.zip"
   ZIP_CHECKSUM_MISMATCH = "spec/test-sips/ateam-checksum-mismatch.zip"
 
@@ -32,6 +32,9 @@ describe PackageSubmitter do
     add_project a
     add_operator a
     add_contact a, [], "foobar", "foobar"
+
+    b = add_account "UF", "UF"
+    add_contact b, [], "bernie", "bernie"
 
     LibXML::XML.default_keep_blanks = false
   end
@@ -180,14 +183,14 @@ describe PackageSubmitter do
     ieid = OldIeid.get_next
     now = Time.now
 
-    lambda { PackageSubmitter.submit_sip :zip, ZIP_WRONG_ACCOUNT, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(SubmitterDescriptorAccountMismatch)
+    lambda { PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "bernie", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(SubmitterDescriptorAccountMismatch)
 
     submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
 
     submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
     submission_event.timestamp.to_time.should be_close(now, 1.0)
-    submission_event.operations_agent.identifier.should == "foobar"
+    submission_event.operations_agent.identifier.should == "bernie"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: submitter account does not match descriptor"
   end
 
@@ -219,6 +222,21 @@ describe PackageSubmitter do
     submission_event.timestamp.to_time.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "foobar"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: invalid project"
+  end
+
+  it "should raise error if the package account is invalid - operator" do
+    ieid = OldIeid.get_next
+    now = Time.now
+
+    lambda { PackageSubmitter.submit_sip :zip, ZIP_BAD_ACCOUNT, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(InvalidAccount)
+
+    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
+
+    submission_event.ieid.should == ieid
+    submission_event.event_name.should == "Package Submission"
+    submission_event.timestamp.to_time.should be_close(now, 1.0)
+    submission_event.operations_agent.identifier.should == "operator"
+    submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: invalid account"
   end
 
   it "should raise error if the package does not have at least one content file" do
