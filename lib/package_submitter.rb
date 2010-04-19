@@ -57,7 +57,8 @@ class PackageSubmitter
     end
 
     # check that the project in the descriptor exists in the database
-    reject InvalidAccount.new, pt_event_notes, ieid, submitter_username unless Account.first(:code => wip["dmd-account"])
+    package_account = Account.first(:code => wip["dmd-account"])
+    reject InvalidAccount.new, pt_event_notes, ieid, submitter_username unless package_account
     
     # check that package account in descriptor is specified and matches submitter
     submitter = OperationsAgent.first(:identifier => submitter_username)
@@ -66,8 +67,8 @@ class PackageSubmitter
     reject SubmitterDescriptorAccountMismatch.new, pt_event_notes, ieid, submitter_username unless account.code == wip["dmd-account"] or submitter.type == Operator
 
     # check that the project in the descriptor exists in the database
-    reject InvalidProject.new, pt_event_notes, ieid, submitter_username unless account.projects
-    reject InvalidProject.new, pt_event_notes, ieid, submitter_username unless (account.projects.map {|project| project.code == wip['dmd-project']}).include? true
+    reject InvalidProject.new, pt_event_notes, ieid, submitter_username unless package_account.projects
+    reject InvalidProject.new, pt_event_notes, ieid, submitter_username unless (package_account.projects.map {|project| project.code == wip['dmd-project']}).include? true
 
     # check for the presence of at least one content file
     reject MissingContentFile.new, pt_event_notes, ieid, submitter_username unless wip.all_datafiles.length > 1
