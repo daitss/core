@@ -31,3 +31,33 @@ Feature: Cases where packages fail to submit
     When submission is attempted on that package
     Then submission fails
     And there is an operations event for the submission
+
+  Scenario: Attempted submission of a good package by an invalid user
+    Given an archive invalid user
+    And a workspace
+    And a good package
+    When submission is attempted on that package
+    Then submission fails
+
+  Scenario: Attempted submission of a descriptor invalid package by operator
+    Given an archive operator
+    And a workspace
+    And a descriptor invalid package
+    When submission is attempted on that package
+    Then submission fails
+    And there is an operations event for the submission
+
+  Scenario: Attempted submission of a descriptor missing package by operator
+    Given an archive operator
+    And a workspace
+    And a descriptor missing package
+    When submission is attempted on that package
+    Then submission fails
+    And there is an operations event for the submission
+
+  Scenario: Attempted submission of good package by user without permission to submit
+    Given an archive unauthorized contact
+    And a workspace
+    And a good package
+    When submission is attempted on that package
+    Then submission fails
