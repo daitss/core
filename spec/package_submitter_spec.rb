@@ -165,7 +165,7 @@ describe PackageSubmitter do
 
     agent_identifier = agent_doc.find_first("//xmlns:agentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
 
-    agent_identifier.should == "info:fcla/daitss/accounts/ACT"
+    agent_identifier.should == "info:fda/daitss/accounts/ACT"
 
     # TODO: clean this up so that it's more readable
     # get an array with a string representation of the linkingAgentIdentifier nodes
@@ -174,8 +174,8 @@ describe PackageSubmitter do
     event_linking_agent_strings.length.should == 2
 
     # check array for expected linkingAgentStrings: 1 for service, 1 for account
-    (event_linking_agent_strings.include? "<linkingAgentIdentifierType>URI</linkingAgentIdentifierType><linkingAgentIdentifierValue>info:fcla/daitss/submission_service</linkingAgentIdentifierValue>").should == true
-    (event_linking_agent_strings.include? "<linkingAgentIdentifierType>URI</linkingAgentIdentifierType><linkingAgentIdentifierValue>info:fcla/daitss/accounts/ACT</linkingAgentIdentifierValue>").should == true
+    (event_linking_agent_strings.include? "<linkingAgentIdentifierType>URI</linkingAgentIdentifierType><linkingAgentIdentifierValue>info:fda/daitss/submission_service</linkingAgentIdentifierValue>").should == true
+    (event_linking_agent_strings.include? "<linkingAgentIdentifierType>URI</linkingAgentIdentifierType><linkingAgentIdentifierValue>info:fda/daitss/accounts/ACT</linkingAgentIdentifierValue>").should == true
 
   end
 
