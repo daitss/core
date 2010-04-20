@@ -80,20 +80,20 @@ class PackageSubmitter
     reject ChecksumMismatch.new, pt_event_notes, ieid, submitter_username if mismatches.any?
 
     # create premis agents and events in wip
-    wip['submit-agent'] = agent :id => 'info:fcla/daitss/submission_service',
+    wip['submit-agent'] = agent :id => 'info:fda/daitss/submission_service',
                                 :name => 'daitss submission service',
                                 :type => 'Software'
 
-    linking_agents = [ 'info:fcla/daitss/submission_service' ]
+    linking_agents = [ 'info:fda/daitss/submission_service' ]
 
 
-    wip['submit-agent-account'] = agent :id => "info:fcla/daitss/accounts/#{wip.metadata["dmd-account"]}",
+    wip['submit-agent-account'] = agent :id => "info:fda/daitss/accounts/#{wip.metadata["dmd-account"]}",
                                         :name => "DAITSS Account: #{wip.metadata["dmd-account"]}",
                                         :type => 'Affiliate'
 
-    linking_agents.push "info:fcla/daitss/accounts/#{wip.metadata["dmd-account"]}"
+    linking_agents.push "info:fda/daitss/accounts/#{wip.metadata["dmd-account"]}"
 
-    wip['submit-event'] = event :id => URI.join(wip.uri, 'event', 'submit').to_s,
+    wip['submit-event'] = event :id => "info:fda/#{ieid}/event/submit",
       :type => 'submit',
       :outcome => 'success',
       :linking_objects => [ wip.uri ],
