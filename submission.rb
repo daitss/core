@@ -125,6 +125,10 @@ module Submission
         halt 400, "#{ieid}: Package has no content files"
       rescue ChecksumMismatch => e
         halt 400, "#{ieid}: Checksum mismatch: #{e.message}"
+      rescue DescriptorNotFoundError => e
+        halt 400, "#{ieid}: Descriptor not found in SIP: #{e.message}"
+      rescue DescriptorCannotBeParsedError => e
+        halt 400, "#{ieid}: Descriptor cannot be parsed: #{e.message}"
       end
     end
   end
