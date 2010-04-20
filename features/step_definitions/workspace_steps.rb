@@ -43,7 +43,7 @@ def setup_workspace
   FileUtils.mkdir_p ENV["WORKSPACE"]
 end
 
-Given /^an archive (\w+)$/ do |actor|
+Given /^an archive (operator|contact|unauthorized contact|invalid user)$/ do |actor|
 
   case actor
 
@@ -62,6 +62,17 @@ Given /^an archive (\w+)$/ do |actor|
 
     @username = "contact"
     @password = "contact"
+  when "invalid user"
+    @username = "foo"
+    @password = "bar"
+
+  when "unauthorized contact"
+    a = add_account "ACT", "ACT"
+    add_project a
+    add_contact a, []
+
+    @username = "contact"
+    @password = "contact"
   end
 end
 
@@ -69,7 +80,7 @@ Given /^a workspace$/ do
   setup_workspace
 end
 
-Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account) package$/ do |n, package|
+Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account|descriptor missing|descriptor invalid) package$/ do |n, package|
   case package
 
   when "good"
@@ -86,6 +97,13 @@ Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account) package$/ 
 
   when "bad account"
     @package = "ateam-bad-account"
+
+  when "descriptor missing"
+    @package = "ateam-descriptor-missing"
+
+  when "descriptor invalid"
+    @package = "ateam-descriptor-invalid"
+
   end
 end 
 
@@ -108,7 +126,13 @@ When /^submission is (run|attempted) on that package$/ do |expectation|
 
   when "attempted"
     @submission_output = run_submit @package, false
-    @ieid = @submission_output.split("* Closing connection #0\n")[1].split(":")[0]
+
+    # sometimes there is an IEID in the curl output. If so, save it.
+    if @submission_output.split("* Closing connection #0\n")[1]
+      @ieid = @submission_output.split("* Closing connection #0\n")[1].split(":")[0]
+    else
+      @ieid = nil
+    end
   end
 end
 
