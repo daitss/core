@@ -29,3 +29,6 @@ require 'db/keys'
 require 'db/operations_agents'
 require 'db/operations_events'
 require 'db/projects'
+
+# request
+require 'db/request'
