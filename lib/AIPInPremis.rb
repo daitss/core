@@ -170,7 +170,7 @@ class AIPInPremis
 
   # extract all agents in the premis document
   def processAgents
-    agentObjects = @doc.find("//*:agent", NAMESPACES)
+    agentObjects = @doc.find("//*[ local-name() = 'agent' ]", NAMESPACES)
     agentObjects.each do |obj|
       agent = Agent.new
       agent.fromPremis obj

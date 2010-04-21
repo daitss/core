@@ -14,11 +14,11 @@ class Agent
   has 0..n, :events, :constraint => :destroy  # an agent can create 0-n int events.
 
   def fromPremis premis
-    attribute_set(:id, premis.find_first("*:agentIdentifier/*:agentIdentifierValue", NAMESPACES).content)
-    attribute_set(:name, premis.find_first("*:agentName", NAMESPACES).content)
-    type = premis.find_first("*:agentType", NAMESPACES).content
+    attribute_set(:id, premis.find_first("*[local-name()='agentIdentifier']/*[local-name()='agentIdentifierValue']", NAMESPACES).content)
+    attribute_set(:name, premis.find_first("*[local-name()='agentName']", NAMESPACES).content)
+    type = premis.find_first("*[local-name()='agentType']", NAMESPACES).content
     attribute_set(:type, Agent_Types[type.downcase])
-    note = premis.find_first("*:agentNote", NAMESPACES)
+    note = premis.find_first("*[local-name()='agentNote']", NAMESPACES)
     attribute_set(:note, note.content) if note
   end
 end
