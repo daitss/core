@@ -4,6 +4,9 @@ require 'ruby-debug'
 require "datamapper"
 require "daitss/config"
 require 'wip/ingest'
+require 'rjb'
+
+Rjb.load '.', ["-Xms2G", "-Xmx2G"]
 
 wip = begin
 
