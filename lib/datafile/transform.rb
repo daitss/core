@@ -78,7 +78,7 @@ class DataFile
           else res.error!
           end
 
-    links = doc.find('/links/link').map do |node|
+    links = doc.find('//P:links/P:link', NS_PREFIX).map do |node|
       link = node.content
       url + link
     end
