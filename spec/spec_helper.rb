@@ -12,7 +12,7 @@ require "help/sandbox"
 
 raise 'CONFIG not specified' unless ENV['CONFIG']
 Daitss::CONFIG.load ENV['CONFIG']
-Daitss::CONFIG["database-uri"] = 'sqlite3::memory:'
+Daitss::CONFIG["database-url"] = 'sqlite3::memory:'
 
 
 Spec::Runner.configure do |config|
@@ -21,7 +21,7 @@ Spec::Runner.configure do |config|
     $sandbox = new_sandbox
     FileUtils::mkdir $sandbox
 
-    DataMapper.setup(:default, Daitss::CONFIG["database-uri"])
+    DataMapper.setup(:default, Daitss::CONFIG["database-url"])
     DataMapper.auto_migrate!
   end
 
