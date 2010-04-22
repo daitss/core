@@ -41,6 +41,7 @@ class Aip
 
     combined_results = results[:fatals] + results[:errors]
     combined_results.reject! { |r| r[:message] =~ /(tcf|aes)\:/ }
+    combined_results.reject! { |r| r[:message] =~ /agentNote/ }
     unless combined_results.empty?
       combined_results.each { |r| puts r[:line].to_s + ' ' + r[:message] }
       [false, "descriptor fails daitss aip xml validation (#{combined_results.size} errors)"]
