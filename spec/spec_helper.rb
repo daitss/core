@@ -1,3 +1,13 @@
+require 'daitss/config'
+raise 'CONFIG not specified' unless ENV['CONFIG']
+Daitss::CONFIG.load ENV['CONFIG']
+Daitss::CONFIG["database-url"] ||= 'sqlite3::memory:'
+
+if Daitss::CONFIG["jvm-options"]
+  require 'rjb'
+  Rjb.load '.', Daitss::CONFIG["jvm-options"]
+end
+
 require 'datamapper'
 require 'fileutils'
 
@@ -5,16 +15,10 @@ require "aip"
 require "db/operations_agents"
 require "db/operations_events"
 require "daitss2"
-require 'daitss/config'
 
 require "help/test_stack"
 require "help/test_package"
 require "help/sandbox"
-
-raise 'CONFIG not specified' unless ENV['CONFIG']
-Daitss::CONFIG.load ENV['CONFIG']
-Daitss::CONFIG["database-url"] = 'sqlite3::memory:'
-
 
 Spec::Runner.configure do |config|
 

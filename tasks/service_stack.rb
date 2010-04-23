@@ -1,4 +1,13 @@
 require 'rack'
+require 'daitss/config'
+if Daitss::CONFIG["jvm-options"]
+  require 'rjb'
+  Rjb.load '.', Daitss::CONFIG["jvm-options"]
+end
+
+require 'aip'
+require 'db/operations_agents'
+require 'db/operations_events'
 
 VAR_DIR = File.join File.dirname(__FILE__), '..', 'var'
 SERVICES_DIR = File.join VAR_DIR, 'services'
@@ -143,21 +152,17 @@ namespace :services do
 
   desc "run the service stack"
   task :run do
-    stack = service_stack # RJB: breaks if after db/aip
 
     # make the silo sandbox
     FileUtils::rm_rf SILO_DIR
     FileUtils::mkdir_p SILO_DIR
 
     # make the database sandbox
-    require 'aip' # RJB: same rjb issue
-    require 'db/operations_agents'
-    require 'db/operations_events'
     DataMapper.setup :default, Daitss::CONFIG['database-url']
 
     # run the test stack
     httpd = Rack::Handler::Thin
-    httpd.run stack, :Port => 7000
+    httpd.run service_stack, :Port => 7000
   end
 
 end
