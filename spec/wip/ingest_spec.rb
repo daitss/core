@@ -1,7 +1,7 @@
+require 'spec_helper'
 require 'wip'
 require 'aip'
 require 'wip/ingest'
-require 'spec_helper'
 
 describe Wip do
 

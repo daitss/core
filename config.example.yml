@@ -18,3 +18,8 @@ request-url: http://localhost:7000/request/
 
 # virus scanner
 virus-scanner-executable: clamscan
+
+# jvm options
+jvm-options:
+  - -Dhttp.proxyHost=sake.fcla.edu
+  - -Dhttp.proxyPort=3128
