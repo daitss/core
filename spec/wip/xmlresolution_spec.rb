@@ -30,12 +30,4 @@ describe Wip do
     @wip.should have_key('xml-resolution-agent')
   end
 
-  it "should cleanup the tarball" do
-    pending "deletion is not implemented in xmlresolution service"
-    url = URI.parse "#{Daitss::CONFIG['xmlresolution-url']}/ieids/#{@wip.id}/"
-    req = Net::HTTP::Head.new url.path
-    res = Net::HTTP.start(url.host, url.port) { |http| http.request req }
-    res.should be_a_kind_of(Net::HTTPNotFound)
-  end
-
 end
