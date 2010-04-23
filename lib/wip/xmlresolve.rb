@@ -10,19 +10,7 @@ class Wip
     url.path = url.path + '/'
     resolve_datafiles url
     tar = get_tarball url
-
     metadata['xml-resolution-tarball'] = tar
-    metadata['xml-resolution-event'] = event(:id => "#{uri}/event/xmlresolution",
-                                             :type => 'xml resolution',
-                                             :outcome => 'success',
-                                             :linking_objects => [ uri ],
-                                             :linking_agents => [ Daitss::CONFIG['xmlresolution-url'] ])
-
-
-    metadata['xml-resolution-agent'] = agent(:id => Daitss::CONFIG['xmlresolution-url'],
-                                             :name => 'daitss xmlresolution service',
-                                             :type => 'software')
-
   end
 
   def put_collection_resource
@@ -42,8 +30,13 @@ class Wip
   def resolve_datafiles url
     dfs = all_datafiles.select { |df| df.xmlresolution }
 
-    dfs.each do |df|
-      %x{curl -s -F xmlfile=@#{df.datapath} #{url}}
+    docs = dfs.each do |df|
+      o = %x{curl -s -F xmlfile=@#{df.datapath} #{url}}
+      doc = XML::Document.string o
+      doc.find_first("//P:eventIdentifierValue", NS_PREFIX).content = "#{df.uri}/event/xmlresolution"
+      doc.find_first("//P:linkingObjectIdentifierValue", NS_PREFIX).content = "#{df.uri}/event/xmlresolution"
+      df['xml-resolution-event'] = doc.find_first "//P:event", NS_PREFIX
+      df['xml-resolution-agent'] = doc.find_first "//P:agent", NS_PREFIX
     end
 
   end

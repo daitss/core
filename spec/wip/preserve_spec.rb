@@ -19,7 +19,6 @@ shared_examples_for "all preservations" do
     @wip.metadata['xml-resolution-tarball'].should_not be_empty
   end
 
-
 end
 
 describe Wip do
