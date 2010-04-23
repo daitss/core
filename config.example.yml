@@ -23,3 +23,5 @@ virus-scanner-executable: clamscan
 jvm-options:
   - -Dhttp.proxyHost=sake.fcla.edu
   - -Dhttp.proxyPort=3128
+  - -Xms2G
+  - -Xmx2G
