@@ -11,19 +11,20 @@ SERVICES_DIR = File.join VAR_DIR, 'services'
 
 SUBMISSION_CLIENT_PATH = File.join SERVICES_DIR, "submission", "submit-filesystem.rb"
 INGEST_BIN_PATH = File.join REPO_ROOT, "bin", "ingest"
+DISPATCH_WORKSPACE_BIN_PATH = File.join SERVICES_DIR, "request", "dispatch-workspace.rb"
 
 # setup config
 raise "CONFIG not set" unless ENV['CONFIG']
 Daitss::CONFIG.load ENV['CONFIG']
 DataMapper.setup :default, Daitss::CONFIG['database-url']
 
-def run_submit package, expect_success = true
+def run_submit package, expect_success = true, username = @username, password = @password
   raise "No users created" unless @username and @password
 
   sip_path = File.join SIP_DIR, package
   raise "Specified SIP not found" unless File.directory? sip_path
 
-  output = `#{SUBMISSION_CLIENT_PATH} --url #{Daitss::CONFIG['submission-url']} --package #{sip_path} --name #{package} --username #{@username} --password #{@password}`
+  output = `#{SUBMISSION_CLIENT_PATH} --url #{Daitss::CONFIG['submission-url']} --package #{sip_path} --name #{package} --username #{username} --password #{password}`
   raise "Submission seems to have failed: #{output}" if ($?.exitstatus != 0 and expect_success == true)
 
   return output.chomp
@@ -42,6 +43,73 @@ def setup_workspace
   FileUtils.rm_rf(ENV["WORKSPACE"]) if File.directory? ENV["WORKSPACE"]
   FileUtils.mkdir_p ENV["WORKSPACE"]
 end
+
+def delete_wip ieid
+  FileUtils.rm_rf File.join(ENV["WORKSPACE"], ieid)
+end
+
+def submit_request ieid, request_type, expect_success = true, username = @username, password = @password
+  case request_type
+  when "dissemination"
+    @req_type = "disseminate"
+  when "withdraw"
+    @req_type = "withdraw"
+  when "peek"
+    @req_type = "peek"
+  else
+    raise "Invalid request type: #{request_type}"
+  end
+
+  url = "#{Daitss::CONFIG['request-url']}/requests/#{ieid}/#{@req_type}"
+  output = `curl -v -X POST #{url} -u #{username}:#{password} 2>&1`
+
+  raise "Request submission seems to have failed: #{output}" if (not output =~ /201 Created/ and expect_success == true)
+
+  return output
+end
+
+def delete_request ieid, request_type, expect_success = true, username = @username, password = @password
+  case request_type
+  when "dissemination"
+    @req_type = "disseminate"
+  when "withdraw"
+    @req_type = "withdraw"
+  when "peek"
+    @req_type = "peek"
+  else
+    raise "Invalid request type: #{request_type}"
+  end
+
+  url = "#{Daitss::CONFIG['request-url']}/requests/#{ieid}/#{@req_type}"
+  output = `curl -v -X DELETE #{url} -u #{username}:#{password} 2>&1`
+
+  raise "Request deletion seems to have failed: #{output}" if (not output =~ /200 OK/ and expect_success == true)
+
+  return output
+end
+
+def create_aux_operator
+  if not OperationsAgent.first(:identifier => "op")
+    a = Account.get(1)
+    add_operator a, "op", "op"
+  end
+
+  return "op"
+end
+
+def query_request ieid, request_type 
+  create_aux_operator
+
+  url = "#{Daitss::CONFIG['request-url']}/requests/#{ieid}/#{@req_type}"
+  `curl -v #{url} -u op:op 2>&1`
+end
+
+def dispatch_workspace
+  `#{DISPATCH_WORKSPACE_BIN_PATH}`
+  raise "Non-zero exit status running dispatch-workspace.rb" unless $?.exitstatus == 0
+end
+
+# GIVEN
 
 Given /^an archive (operator|contact|unauthorized contact|invalid user)$/ do |actor|
 
@@ -107,6 +175,16 @@ Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account|descriptor 
   end
 end 
 
+# ingests a package with an operator
+Given /^an ingested good package$/ do
+  id = create_aux_operator
+  @ieid = run_submit "ateam", true, id, id
+  run_ingest @ieid
+  delete_wip @ieid
+end
+
+# WHEN
+
 When /^ingest is (run|attempted) on that package$/ do |expectation|
   case expectation
 
@@ -135,6 +213,24 @@ When /^submission is (run|attempted) on that package$/ do |expectation|
     end
   end
 end
+
+When /^a (dissemination|withdrawal) request is (submitted|attempted|deleted) for that package$/ do |req_type, expectation|
+  case expectation
+
+  when "submitted"
+    @request_output = submit_request @ieid, req_type
+  when "attempted"
+    @request_output = submit_request @ieid, req_type, false
+  when "deleted"
+    @request_output = delete_request @ieid, req_type
+  end
+end
+
+When /^the workspace is polled$/ do
+  dispatch_workspace
+end
+
+### THEN
 
 Then /^the package is present in the aip store$/ do
   Aip.get!(@ieid)
@@ -171,5 +267,22 @@ Then /^submission (fails|succeeds)$/ do |outcome|
   end
 end
 
+Then /^the request is (queued|denied|not queued)$/ do |status|
+  case status
+
+  when "queued"
+    raise "Request not queued" if (query_request @ieid, @req_type) =~ /< HTTP\.1.1 404/
+  when "not queued"
+    raise "Request queued" unless (query_request @ieid, @req_type) =~ /< HTTP\/1.1 404/
+  when "denied"
+    raise "Request not denied" unless @request_output =~ /< HTTP\/1.1 4[\d]{2}/
+  end
+end
+
+Then /^there is a dissemination wip in the workspace$/ do 
+  raise "Wip for #{@ieid} not in workspace" unless File.directory?(File.join(ENV["WORKSPACE"], @ieid))
+  raise "Missing dissemination tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "dissemination-request"))
+  raise "Missing drop path tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "drop-path"))
+end
 
 

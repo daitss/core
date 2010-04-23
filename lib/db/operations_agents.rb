@@ -3,6 +3,7 @@ require 'dm-types'
 require 'db/keys.rb'
 require 'db/operations_events.rb'
 require 'db/accounts.rb'
+require 'db/request.rb'
 
 # TODO: add notes field to OperationsAgent to hold version info
 # TODO: remove id field?
@@ -20,6 +21,7 @@ class OperationsAgent
   has 1, :authentication_key
   has n, :operations_events
   belongs_to :account
+  has n, :requests
 end
 
 class User < OperationsAgent
