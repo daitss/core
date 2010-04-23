@@ -1,10 +1,4 @@
 require 'rack'
-require 'daitss/config'
-if Daitss::CONFIG["jvm-options"]
-  require 'rjb'
-  Rjb.load '.', Daitss::CONFIG["jvm-options"]
-end
-
 require 'aip'
 require 'db/operations_agents'
 require 'db/operations_events'
