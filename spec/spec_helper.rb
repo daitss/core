@@ -4,6 +4,7 @@ require 'fileutils'
 require "aip"
 require "db/operations_agents"
 require "db/operations_events"
+require "daitss2"
 require 'daitss/config'
 
 require "help/test_stack"
