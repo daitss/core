@@ -1,10 +1,10 @@
+require 'daitss/config'
 require 'cucumber/rake/task'
 require 'rake'
 require 'rake/rdoctask'
+require 'ruby-debug'
 require 'semver'
 require 'spec/rake/spectask'
-require 'daitss/config'
-require 'ruby-debug'
 
 raise "CONFIG not set" unless ENV['CONFIG']
 Daitss::CONFIG.load ENV['CONFIG']

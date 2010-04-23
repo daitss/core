@@ -1,12 +1,6 @@
 require 'daitss/config'
 raise 'CONFIG not specified' unless ENV['CONFIG']
 Daitss::CONFIG.load ENV['CONFIG']
-Daitss::CONFIG["database-url"] ||= 'sqlite3::memory:'
-
-if Daitss::CONFIG["jvm-options"]
-  require 'rjb'
-  Rjb.load '.', Daitss::CONFIG["jvm-options"]
-end
 
 require 'datamapper'
 require 'fileutils'
