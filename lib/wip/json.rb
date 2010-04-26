@@ -13,7 +13,6 @@ class Wip
       :running => (running? ? true : false),
       :task_complete => (task_complete? ? true : false),
       :snafu => (snafu? ? snafu : nil),
-      :reject => (reject? ? reject : nil),
       :state => state,
       :task => task,
       :pid => pid,
