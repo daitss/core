@@ -6,18 +6,13 @@ require 'workspace'
 require 'wip/process'
 require 'wip/state'
 require 'wip/json'
-require 'config'
+require 'daitss/config'
 
 configure do
-
-  # workspace
-  raise "no workspace" unless ENV['WORKSPACE']
-  raise "#{ENV['WORKSPACE']} is not a directory" unless File.directory? ENV['WORKSPACE']
-  WORKSPACE = Workspace.new ENV['WORKSPACE']
-
-  # configuration
   raise "no configuration" unless ENV['CONFIG']
-  CONFIG.load ENV['CONFIG']
+  Daitss::CONFIG.load ENV['CONFIG']
+
+  WORKSPACE = Workspace.new Daitss::CONFIG['workspace']
 end
 
 get '/stylesheet.css' do
@@ -41,7 +36,7 @@ post '/' do
   when 'start'
     startable = WORKSPACE.reject { |w| w.running? || w.done? }
     startable.each { |wip| wip.start_task }
-    
+
   when 'stop'
     stoppable = WORKSPACE.select { |w| w.running? }
     stoppable.each { |wip| wip.stop }
