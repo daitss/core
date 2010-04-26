@@ -46,20 +46,18 @@ class DataFile
   private
 
   def augment_fixity doc
-    archive_fixity = doc.find_first '//P:objectCharacteristics / P:fixity', NS_PREFIX
     sip_descriptor_doc = XML::Document.string @wip['sip-descriptor']
     file_node = sip_descriptor_doc.find_first "//M:file[M:FLocat/@xlink:href = '#{ metadata['sip-path'] }']", NS_PREFIX
 
-    if file_node and file_node['CHECKSUM'] and file_node['CHECKSUMTYPE']
-      fixity_doc = XML::Document.string %Q{
-        <fixity xmlns='info:lc/xmlns/premis-v2'>
-          <messageDigestAlgorithm>#{file_node['CHECKSUMTYPE']}</messageDigestAlgorithm>
-          <messageDigest>#{file_node['CHECKSUM']}</messageDigest>
-          <messageDigestOriginator>Depositor</messageDigestOriginator>
-        </fixity>
-      }
-      sip_fixity = doc.import fixity_doc.root
-      archive_fixity.next = sip_fixity
+    # XXX sip checksums could be done better in submit
+    if file_node and file_node['CHECKSUM'] and file_node['CHECKSUMTYPE'] and %w(SHA-1 MD5).include?(file_node['CHECKSUMTYPE'])
+      fixity_origin = doc.find_first %Q{
+        //P:objectCharacteristics /
+          P:fixity[ P:messageDigestAlgorithm = '#{ file_node['CHECKSUMTYPE'] }' ] /
+            P:messageDigestOriginator
+      }, NS_PREFIX
+
+      fixity_origin.content = 'Depositor'
     end
 
   end
