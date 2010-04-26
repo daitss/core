@@ -20,17 +20,24 @@ get '/stylesheet.css' do
   sass :stylesheet
 end
 
+# index
 get '/' do
+  haml :index
+end
+
+# wip resource ######
+
+get '/wip' do
 
   if request.accept.include? 'application/json'
     WORKSPACE.to_json
   else
-    haml :index
+    haml :workspace
   end
 
 end
 
-post '/' do
+post '/wip' do
 
   case params['task']
   when 'start'
@@ -49,10 +56,10 @@ post '/' do
   else error 400, "unknown command: #{params['task']}"
   end
 
-  redirect '/'
+  redirect '/wip'
 end
 
-get '/:id' do |id|
+get '/wip/:id' do |id|
   @wip = WORKSPACE[id] or not_found
 
   if request.accept.include? 'application/json'
@@ -63,7 +70,7 @@ get '/:id' do |id|
 
 end
 
-post '/:id' do |id|
+post '/wip/:id' do |id|
   wip = WORKSPACE[id] or not_found
 
   case params['task']
