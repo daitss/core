@@ -12,7 +12,7 @@ configure do
   raise "no configuration" unless ENV['CONFIG']
   Daitss::CONFIG.load ENV['CONFIG']
 
-  WORKSPACE = Workspace.new Daitss::CONFIG['workspace']
+  set :workspace, Workspace.new(Daitss::CONFIG['workspace'])
 end
 
 get '/stylesheet.css' do
