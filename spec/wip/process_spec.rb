@@ -25,4 +25,5 @@ describe Wip do
     sleep 1 # wait for it to finish up
     subject.should be_done
   end
+
 end
