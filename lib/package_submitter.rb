@@ -7,6 +7,7 @@ require 'uri'
 require 'libxml'
 require 'package_tracker'
 require 'xmlns'
+require 'wip/task'
 
 class ArchiveExtractionError < StandardError; end
 class DescriptorNotFoundError < StandardError; end
@@ -88,16 +89,19 @@ class PackageSubmitter
 
 
     wip['submit-agent-account'] = agent :id => "info:fda/daitss/accounts/#{wip.metadata["dmd-account"]}",
-                                        :name => "DAITSS Account: #{wip.metadata["dmd-account"]}",
-                                        :type => 'Affiliate'
+    :name => "DAITSS Account: #{wip.metadata["dmd-account"]}",
+    :type => 'Affiliate'
 
     linking_agents.push "info:fda/daitss/accounts/#{wip.metadata["dmd-account"]}"
 
     wip['submit-event'] = event :id => "info:fda/#{ieid}/event/submit",
-      :type => 'submit',
+    :type => 'submit',
       :outcome => 'success',
       :linking_objects => [ wip.uri ],
       :linking_agents => linking_agents
+
+    # add task
+    wip.task = :ingest 
 
     # write package tracker event
     pt_event_notes = pt_event_notes + ", outcome: success"
@@ -110,7 +114,7 @@ class PackageSubmitter
   private
 
   # writes pt record for failed submission and raises exception
-  
+
   def self.reject exception, pt_event_notes, ieid, agent_id
     pt_event_notes = pt_event_notes + ", outcome: failure"
 
