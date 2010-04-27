@@ -25,42 +25,42 @@ get '/' do
   haml :index
 end
 
-# wip resource ######
+# workspace resource ######
 
-get '/wip' do
+get '/workspace' do
 
   if request.accept.include? 'application/json'
-    WORKSPACE.to_json
+    settings.workspace.to_json
   else
     haml :workspace
   end
 
 end
 
-post '/wip' do
+post '/workspace' do
 
   case params['task']
   when 'start'
-    startable = WORKSPACE.reject { |w| w.running? || w.done? }
+    startable = settings.workspace.reject { |w| w.running? || w.done? }
     startable.each { |wip| wip.start_task }
 
   when 'stop'
-    stoppable = WORKSPACE.select { |w| w.running? }
+    stoppable = settings.workspace.select { |w| w.running? }
     stoppable.each { |wip| wip.stop }
 
   when 'unsnafu'
-    unsnafuable= WORKSPACE.select { |w| w.snafu? }
+    unsnafuable= settings.workspace.select { |w| w.snafu? }
     unsnafuable.each { |wip| wip.unsnafu! }
 
   when nil, '' then error 400, "parameter task is required"
   else error 400, "unknown command: #{params['task']}"
   end
 
-  redirect '/wip'
+  redirect '/workspace'
 end
 
-get '/wip/:id' do |id|
-  @wip = WORKSPACE[id] or not_found
+get '/workspace/:id' do |id|
+  @wip = settings.workspace[id] or not_found
 
   if request.accept.include? 'application/json'
     @wip.to_json
@@ -70,8 +70,8 @@ get '/wip/:id' do |id|
 
 end
 
-post '/wip/:id' do |id|
-  wip = WORKSPACE[id] or not_found
+post '/workspace/:id' do |id|
+  wip = settings.workspace[id] or not_found
 
   case params['task']
   when 'start'
