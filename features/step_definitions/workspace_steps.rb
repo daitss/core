@@ -22,9 +22,9 @@ When /^I press "([^\"]*)"$/ do |name|
   click_button name
 end
 
-Then /^there should be (1) running sip$/ do |count|
+Then /^there should be (\d+) running sips?$/ do |count|
   doc = Nokogiri::HTML last_response.body
-  (doc / "table#wips tr td.state:contains('running')").size.should == 1
+  (doc / "table#wips tr td.state:contains('running')").size.should == count.to_i
 end
 
 When /^I click on "([^\"]*)"$/ do |link|

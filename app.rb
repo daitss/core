@@ -20,12 +20,9 @@ get '/stylesheet.css' do
   sass :stylesheet
 end
 
-# index
 get '/' do
   haml :index
 end
-
-# workspace resource ######
 
 get '/workspace' do
 
