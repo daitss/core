@@ -236,7 +236,7 @@ Then /^the package is present in the aip store$/ do
   Aip.get!(@ieid)
 end
 
-Then /^there is an operations event for the (\w+)$/ do |event_type|
+Then /^there is an operations event for the (.*)$/ do |event_type|
   case event_type
 
   when "submission"
@@ -247,6 +247,19 @@ Then /^there is an operations event for the (\w+)$/ do |event_type|
 
   when "reject"
     pending "ingest doesn't yet add an op event for reject"
+
+  when "dissemination request queuing"
+    event = OperationsEvent.first(:ieid => @ieid, :event_name => "Request Submission")
+    raise "Operations event does not reflect correct request type" unless event.notes =~ /#{@req_type}/
+
+  when "dissemination request dequeuing"
+    event = OperationsEvent.first(:ieid => @ieid, :event_name => "Request Released To Workspace")
+
+  when "dissemination request deletion"
+    event = OperationsEvent.first(:ieid => @ieid, :event_name => "Request Deletion")
+
+  else
+    pending "Step not yet implemented"
 
   end
   raise "No #{event_type} ops event found" unless event

@@ -5,6 +5,7 @@ Before do
   DataMapper.auto_migrate!
 
   a = add_account
+  add_account "FDA", "FDA"
   add_project a
   add_operator a
 end
