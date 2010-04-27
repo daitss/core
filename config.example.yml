@@ -7,6 +7,9 @@ http-timeout: 600
 # database connection url
 database-url: sqlite3::memory:
 
+# workspace directory
+workspace: /tmp
+
 # service urls
 actionplan-url: http://localhost:7000/actionplan
 description-url: http://localhost:7000/description/describe
