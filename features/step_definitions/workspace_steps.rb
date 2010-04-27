@@ -10,8 +10,21 @@ Given /^an empty workspace$/ do
 
 end
 
-Given /^I goto the operations interface$/ do
-  visit "/"
+Given /^I goto "([^\"]*)"$/ do |path|
+  visit path
+end
+
+When /^I choose "([^\"]*)"$/ do |name|
+  choose name
+end
+
+When /^I press "([^\"]*)"$/ do |name|
+  click_button name
+end
+
+Then /^there should be (1) running sip$/ do |count|
+  doc = Nokogiri::HTML last_response.body
+  (doc / "table#wips tr td.state:contains('running')").size.should == 1
 end
 
 When /^I click on "([^\"]*)"$/ do |link|
