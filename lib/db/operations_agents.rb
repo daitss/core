@@ -11,11 +11,11 @@ class OperationsAgent
   include DataMapper::Resource
 
   property :id, Serial
-  property :description, String
+  property :description, String, :length => 256
   property :active_start_date, DateTime
   property :active_end_date, DateTime
   property :type, Discriminator
-  property :identifier, String, :unique => true
+  property :identifier, String, :unique => true, :length => 256
 
   # TODO: add constraint
   has 1, :authentication_key
