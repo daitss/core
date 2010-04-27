@@ -5,8 +5,7 @@ Feature: list wips
   Scenario Outline:: listing
     Given an empty workspace
     And I submit <quantity> sips
-    And I goto "/"
-    When I click on "workspace"
+    And I goto "/workspace"
     Then there should be <quantity> wip
 
     Examples:

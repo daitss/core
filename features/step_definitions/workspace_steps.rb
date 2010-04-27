@@ -66,3 +66,8 @@ Given /^I submit (a|\d+) sips?$/ do |count|
   end
 
 end
+
+Then /^the response should be OK$/ do
+  last_response.should be_ok
+end
+
