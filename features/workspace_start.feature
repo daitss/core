@@ -20,4 +20,4 @@ Feature: start all
     When I choose "start all"
     And I press "Update"
     And I submit a sip
-    Then there should be 1 running sips
+    Then there should be 1 running sip
