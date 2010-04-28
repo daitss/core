@@ -52,7 +52,7 @@ def submit_request ieid, request_type, expect_success = true, username = @userna
   case request_type
   when "dissemination"
     @req_type = "disseminate"
-  when "withdraw"
+  when "withdrawal"
     @req_type = "withdraw"
   when "peek"
     @req_type = "peek"
@@ -72,7 +72,7 @@ def delete_request ieid, request_type, expect_success = true, username = @userna
   case request_type
   when "dissemination"
     @req_type = "disseminate"
-  when "withdraw"
+  when "withdrawal"
     @req_type = "withdraw"
   when "peek"
     @req_type = "peek"
@@ -109,9 +109,24 @@ def dispatch_workspace
   raise "Non-zero exit status running dispatch-workspace.rb" unless $?.exitstatus == 0
 end
 
+# authorizes a withdrawal request for @ieid. Raises error if no withdrawal request to authorize exists
+def authorize_request use_aux_operator = true
+  if use_aux_operator
+    create_aux_operator
+    user = "op"
+    pass = "op"
+  else
+    user = @username
+    pass = @password
+  end
+
+  url = "#{Daitss::CONFIG['request-url']}/requests/#{@ieid}/withdraw/approve"
+  `curl -v -X POST #{url} -u #{user}:#{pass} 2>&1`
+end
+
 # GIVEN
 
-Given /^an archive (operator|contact|unauthorized contact|invalid user)$/ do |actor|
+Given /^an archive (.*)$/ do |actor|
 
   case actor
 
@@ -130,6 +145,7 @@ Given /^an archive (operator|contact|unauthorized contact|invalid user)$/ do |ac
 
     @username = "contact"
     @password = "contact"
+
   when "invalid user"
     @username = "foo"
     @password = "bar"
@@ -141,6 +157,14 @@ Given /^an archive (operator|contact|unauthorized contact|invalid user)$/ do |ac
 
     @username = "contact"
     @password = "contact"
+
+  when "contact from a different account"
+    a = add_account "FOO", "FOO"
+
+    add_contact a, "foo", "foo"
+
+    @username = "foo"
+    @password = "foo"
   end
 end
 
@@ -214,7 +238,7 @@ When /^submission is (run|attempted) on that package$/ do |expectation|
   end
 end
 
-When /^a (dissemination|withdrawal) request is (submitted|attempted|deleted) for that package$/ do |req_type, expectation|
+When /^a (dissemination|withdrawal|peek) request is (submitted|attempted|deleted) for that package$/ do |req_type, expectation|
   case expectation
 
   when "submitted"
@@ -230,13 +254,25 @@ When /^the workspace is polled$/ do
   dispatch_workspace
 end
 
+When /^that request is authorized by (.*)$/ do |actor|
+
+  case actor
+
+  when "another operator"
+    @authorization_output = authorize_request
+
+  when "the request submitter"
+    @authorization_output = authorize_request false
+  end
+end
+
 ### THEN
 
 Then /^the package is present in the aip store$/ do
   Aip.get!(@ieid)
 end
 
-Then /^there is an operations event for the (.*)$/ do |event_type|
+Then /^there (is|is not) an operations event for the (.*)$/ do |expectation, event_type|
   case event_type
 
   when "submission"
@@ -248,21 +284,30 @@ Then /^there is an operations event for the (.*)$/ do |event_type|
   when "reject"
     pending "ingest doesn't yet add an op event for reject"
 
-  when "dissemination request queuing"
+  when "dissemination request queuing", "withdrawal request queuing", "peek request queuing"
     event = OperationsEvent.first(:ieid => @ieid, :event_name => "Request Submission")
     raise "Operations event does not reflect correct request type" unless event.notes =~ /#{@req_type}/
 
-  when "dissemination request dequeuing"
+  when "dissemination request dequeuing", "withdrawal request dequeuing", "peek request dequeuing"
     event = OperationsEvent.first(:ieid => @ieid, :event_name => "Request Released To Workspace")
 
-  when "dissemination request deletion"
+  when "dissemination request deletion", "withdrawal request deletion", "peek request deletion"
     event = OperationsEvent.first(:ieid => @ieid, :event_name => "Request Deletion")
+
+  when "withdrawal request authorization"
+    event = OperationsEvent.first(:ieid => @ieid, :event_name => "Request Approval")
 
   else
     pending "Step not yet implemented"
 
   end
-  raise "No #{event_type} ops event found" unless event
+
+  if expectation == "is"
+    raise "No #{event_type} ops event found" unless event
+  else
+    raise "#{event_type} ops event found" if event
+  end
+
 end
 
 Then /^the package is rejected$/ do
@@ -280,7 +325,7 @@ Then /^submission (fails|succeeds)$/ do |outcome|
   end
 end
 
-Then /^the request is (queued|denied|not queued)$/ do |status|
+Then /^the request is (queued|denied|not queued|not authorized)$/ do |status|
   case status
 
   when "queued"
@@ -289,13 +334,23 @@ Then /^the request is (queued|denied|not queued)$/ do |status|
     raise "Request queued" unless (query_request @ieid, @req_type) =~ /< HTTP\/1.1 404/
   when "denied"
     raise "Request not denied" unless @request_output =~ /< HTTP\/1.1 4[\d]{2}/
+  when "not authorized"
+    #puts query_request @ieid, @req_type
+    raise "Request authorized" unless (query_request @ieid, @req_type) =~ /authorized="false"/
   end
 end
 
-Then /^there is a dissemination wip in the workspace$/ do 
-  raise "Wip for #{@ieid} not in workspace" unless File.directory?(File.join(ENV["WORKSPACE"], @ieid))
-  raise "Missing dissemination tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "dissemination-request"))
-  raise "Missing drop path tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "drop-path"))
+Then /^there (is|is not) a (dissemination|withdrawal|peek) wip in the workspace$/ do |expectation, req_type|
+  if expectation == "is"
+    raise "Wip for #{@ieid} not in workspace" unless File.directory?(File.join(ENV["WORKSPACE"], @ieid))
+    raise "Missing #{req_type} tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "#{req_type}-request"))
+
+    if req_type == "dissemination"
+      raise "Missing drop path tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "drop-path")) 
+    end
+  else
+    raise "Wip for #{@ieid} is in workspace" if File.directory?(File.join(ENV["WORKSPACE"], @ieid))
+  end
 end
 
 
