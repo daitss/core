@@ -16,6 +16,7 @@ class Wip
   def load_from_aip
     load_aip_record
     load_copy
+    load_account_project
     load_dmd
     load_sip_name
     load_datafiles
@@ -55,6 +56,13 @@ class Wip
     end
 
     metadata['copy-data'] = res.body
+  end
+
+  def load_account_project
+    doc = XML::Document.string metadata['aip-descriptor']
+    ai_node = doc.find_first "//daitss:AGREEMENT_INFO", NS_PREFIX
+    metadata["dmd-account"] = ai_node['ACCOUNT']
+    metadata["dmd-project"] = ai_node['PROJECT']
   end
 
   def load_dmd

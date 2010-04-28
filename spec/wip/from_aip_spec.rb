@@ -35,6 +35,13 @@ describe Wip do
       @wip.metadata.should have_key( 'copy-size' )
     end
 
+    it "should load the account" do
+      @wip.metadata.should have_key( 'dmd-account' )
+    end
+
+    it "should load the project" do
+      @wip.metadata.should have_key( 'dmd-project' )
+    end
 
     Wip::DMD_KEYS.each do |key|
 
