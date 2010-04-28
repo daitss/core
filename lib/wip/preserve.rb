@@ -21,7 +21,8 @@ class Wip
     tfs.each { |df| step("describe-#{df.id}") { df.describe! } }
 
     # xmlresolve this wip
-    step('xml-resolution') { xmlresolve! }
+    # XXX this is disabled until xmlresolution gives valid elements
+    #step('xml-resolution') { xmlresolve! }
   end
 
   def original_representation
