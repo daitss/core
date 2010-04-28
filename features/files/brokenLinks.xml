@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mets xmlns="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OBJID="test:/E0000193O_LGX7CC" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd                           http://www.aes.org/tcf http://schema.fcla.edu/tcf.xsd                           http://www.aes.org/audioObject http://schema.fcla.edu/audioObject.xsd                           http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd                           info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd">
+<!-- DMD -->
+  <dmdSec ID="dmd-1">
+    <mdWrap MDTYPE="PREMIS">
+      <xmlData>
+        <mods xmlns="http://www.loc.gov/mods/v3">
+          <titleInfo>
+            <title>The (fd)A Team</title>
+          </titleInfo>
+          <part>
+            <detail type="volume">
+              <number/>
+            </detail>
+          </part>
+          <part>
+            <detail type="issue">
+              <number/>
+            </detail>
+          </part>
+          <identifier type="entity id">ateam</identifier>
+        </mods>
+      </xmlData>
+    </mdWrap>
+  </dmdSec>
+  <amdSec>
+    <digiprovMD ID="AGREEMENT-INFO">
+      <mdWrap MDTYPE="OTHER">
+        <xmlData>
+          <AGREEMENT_INFO xmlns="http://www.fcla.edu/dls/md/daitss/" ACCOUNT="ACT" PROJECT="PRJ"/>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+  </amdSec>
+<!-- AIP AMD -->
+  <amdSec>
+<!-- TECH -->
+    <techMD ID="tech-1" ADMID="dmd-1 digiprov-1 digiprov-2 digiprov-3 digiprov-4">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2-beta">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000193O_LGX7CC</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCategory>intellectual entity</objectCategory>
+            <originalName>ateam</originalName>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-2">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xsi:type="representation">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000193O_LGX7CC/representation/current</objectIdentifierValue>
+            </objectIdentifier>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000193O_LGX7CC/file/1</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000193O_LGX7CC/file/0</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-3">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xsi:type="representation">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000193O_LGX7CC/representation/normalized</objectIdentifierValue>
+            </objectIdentifier>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000193O_LGX7CC/file/1</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000193O_LGX7CC/file/0</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-4">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xsi:type="representation">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000193O_LGX7CC/representation/original</objectIdentifierValue>
+            </objectIdentifier>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000193O_LGX7CC/file/1</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000193O_LGX7CC/file/0</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+<!-- DIGIPROV (events) -->
+    <digiprovMD ID="digiprov-1">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>info:fda/E0000193O_LGX7CC/event/submit</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>submit</eventType>
+            <eventDateTime>2010-04-27T12:29:53-04:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>success</eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fda/daitss/submission_service</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fda/daitss/accounts/ACT</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>test:/E0000193O_LGX7CC</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-2">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>test:/E0000193O_LGX7CC/event/ingest</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>ingest</eventType>
+            <eventDateTime>2010-04-27T12:30:38-04:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>success</eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fcla/daitss/ingest</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>test:/E0000193O_LGX7CC</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+<!-- DIGIPROV (agents) -->
+    <digiprovMD ID="digiprov-3">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>info:fda/daitss/submission_service</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>daitss submission service</agentName>
+            <agentType>Software</agentType>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-4">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>info:fcla/daitss/ingest</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>daitss ingest</agentName>
+            <agentType>software</agentType>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+  </amdSec>
+<!-- DATA FILE AMD -->
+  <amdSec>
+<!-- TECH -->
+    <techMD ID="tech-5">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000193O_LGX7CC/file/1</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <fixity>
+                <messageDigestAlgorithm>MD5</messageDigestAlgorithm>
+                <messageDigest>5da1104f89ff3bff382509f4c793866f</messageDigest>
+                <messageDigestOriginator>Archive</messageDigestOriginator>
+              </fixity>
+              <fixity>
+                <messageDigestAlgorithm>SHA-1</messageDigestAlgorithm>
+                <messageDigest>e7c145849515baa1ceb72eada33f34ae04efa682</messageDigest>
+                <messageDigestOriginator>Archive</messageDigestOriginator>
+              </fixity>
+              <size>1356</size>
+              <format>
+                <formatDesignation>
+                  <formatName>XML</formatName>
+                  <formatVersion>1.0</formatVersion>
+                </formatDesignation>
+                <formatRegistry>
+                  <formatRegistryName>http://www.nationalarchives.gov.uk/pronom</formatRegistryName>
+                  <formatRegistryKey>fmt/101</formatRegistryKey>
+                </formatRegistry>
+              </format>
+              <objectCharacteristicsExtension>
+                <textMD xmlns="http://www.loc.gov/standards/textMD">
+                  <encoding>
+                    <encoding_platform linebreak="CR/LF"/>
+                  </encoding>
+                  <character_info>
+                    <charset>UTF-8</charset>
+                    <linebreak>CR/LF</linebreak>
+                  </character_info>
+                  <language>
+                    <markup_basis>XML</markup_basis>
+                    <markup_language>http://www.loc.gov/METS/</markup_language>
+                    <processingNote/>
+                  </language>
+                </textMD>
+              </objectCharacteristicsExtension>
+            </objectCharacteristics>
+            <originalName>ateam.xml</originalName>
+            <linkingEventIdentifier>
+              <linkingEventIdentifierType>URI</linkingEventIdentifierType>
+              <linkingEventIdentifierValue>test:/E0000193O_LGX7CC/file/1/event/describe/0</linkingEventIdentifierValue>
+            </linkingEventIdentifier>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-6">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000193O_LGX7CC/file/0</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <fixity>
+                <messageDigestAlgorithm>MD5</messageDigestAlgorithm>
+                <messageDigest>805ae75bc4595521e350564c90a56d28</messageDigest>
+                <messageDigestOriginator>Depositor</messageDigestOriginator>
+              </fixity>
+              <fixity>
+                <messageDigestAlgorithm>SHA-1</messageDigestAlgorithm>
+                <messageDigest>cd6244779b6f21b7000b55403d9451cf87f1bf1b</messageDigest>
+                <messageDigestOriginator>Archive</messageDigestOriginator>
+              </fixity>
+              <size>921972</size>
+              <format>
+                <formatDesignation>
+                  <formatName>TIFF</formatName>
+                  <formatVersion>6.0</formatVersion>
+                </formatDesignation>
+                <formatRegistry>
+                  <formatRegistryName>http://www.nationalarchives.gov.uk/pronom</formatRegistryName>
+                  <formatRegistryKey>fmt/10</formatRegistryKey>
+                </formatRegistry>
+              </format>
+              <format>
+                <formatDesignation>
+                  <formatName>Baseline RGB (Class R)</formatName>
+                </formatDesignation>
+              </format>
+            </objectCharacteristics>
+            <originalName>ateam.tiff</originalName>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000193O_LGX7CC/file/0/1</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <linkingEventIdentifier>
+              <linkingEventIdentifierType>URI</linkingEventIdentifierType>
+              <linkingEventIdentifierValue>test:/E0000193O_LGX7CC/file/0/event/describe/0</linkingEventIdentifierValue>
+            </linkingEventIdentifier>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-7">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000193O_LGX7CC/file/0/1</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <format>
+                <formatDesignation>
+                  <formatName>Uncompressed</formatName>
+                </formatDesignation>
+              </format>
+              <objectCharacteristicsExtension>
+                <mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+                  <mix:BasicDigitalObjectInformation>
+                    <mix:ObjectIdentifier>
+                      <mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+                    </mix:ObjectIdentifier>
+                    <mix:byteOrder>big endian</mix:byteOrder>
+                    <mix:Compression>
+                      <mix:compressionScheme>Uncompressed</mix:compressionScheme>
+                    </mix:Compression>
+                  </mix:BasicDigitalObjectInformation>
+                  <mix:BasicImageInformation>
+                    <mix:BasicImageCharacteristics>
+                      <mix:imageWidth>640</mix:imageWidth>
+                      <mix:imageHeight>480</mix:imageHeight>
+                      <mix:PhotometricInterpretation>
+                        <mix:colorSpace>RGB</mix:colorSpace>
+                        <mix:ReferenceBlackWhite>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>R</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>G</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>B</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                        </mix:ReferenceBlackWhite>
+                      </mix:PhotometricInterpretation>
+                    </mix:BasicImageCharacteristics>
+                  </mix:BasicImageInformation>
+                  <mix:ImageCaptureMetadata>
+                    <mix:orientation>normal*</mix:orientation>
+                  </mix:ImageCaptureMetadata>
+                  <mix:ImageAssessmentMetadata>
+                    <mix:SpatialMetrics>
+                      <mix:samplingFrequencyUnit>in.</mix:samplingFrequencyUnit>
+                      <mix:xSamplingFrequency>
+                        <mix:numerator>1207959552</mix:numerator>
+                        <mix:denominator>16777216</mix:denominator>
+                      </mix:xSamplingFrequency>
+                      <mix:ySamplingFrequency>
+                        <mix:numerator>1207959552</mix:numerator>
+                        <mix:denominator>16777216</mix:denominator>
+                      </mix:ySamplingFrequency>
+                    </mix:SpatialMetrics>
+                    <mix:ImageColorEncoding>
+                      <mix:BitsPerSample>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+                      </mix:BitsPerSample>
+                      <mix:samplesPerPixel>3</mix:samplesPerPixel>
+                    </mix:ImageColorEncoding>
+                  </mix:ImageAssessmentMetadata>
+                </mix:mix>
+              </objectCharacteristicsExtension>
+            </objectCharacteristics>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+<!-- DIGIPROV (events) -->
+    <digiprovMD ID="digiprov-5">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>test:/E0000193O_LGX7CC/file/1/event/describe/0</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>format description</eventType>
+            <eventDateTime>2010-04-27T12:30:35-04:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>Well-Formed and valid</eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>"info:fda/daitss/description/v0</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>test:/E0000193O_LGX7CC/file/1</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-6">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>test:/E0000193O_LGX7CC/file/1/event/xmlresolution</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>XML Resolution</eventType>
+            <eventDateTime>2010-04-27T12:30:37-04:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>success</eventOutcome>
+            </eventOutcomeInformation>
+            <eventOutcomeDetail>
+              <eventOutcomeDetailExtension>
+		        <broken_link>http://www.fcla.edu/dls/md/daitss/daitss.xsd</broken_link>
+		        <broken_link>http://www.loc.gov/mods/v3/mods-3-3.xsd</broken_link>
+		        <broken_link>http://www.loc.gov/standards/mets/mets.xsd</broken_link>
+		        <broken_link>http://www.uflib.ufl.edu/digital/metadata/ufdc2/ufdc2.xsd</broken_link>	
+                <unresolved_namespace>http://www.w3.org/1999/xlink</unresolved_namespace>
+                <unresolved_namespace>http://www.w3.org/2001/XMLSchema-hasFacetAndProperty</unresolved_namespace>
+                <unresolved_namespace>http://www.w3.org/2001/XMLSchema-instance</unresolved_namespace>
+              </eventOutcomeDetailExtension>
+            </eventOutcomeDetail>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fcla/daitss/xmlresolution/0.9.1</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>test:/E0000193O_LGX7CC/file/1</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-7">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>test:/E0000193O_LGX7CC/file/0/event/describe/0</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>format description</eventType>
+            <eventDateTime>2010-04-27T12:30:35-04:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>Well-Formed and valid</eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>"info:fda/daitss/description/v0</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>test:/E0000193O_LGX7CC/file/0</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+<!-- DIGIPROV (agents) -->
+    <digiprovMD ID="digiprov-8">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event>
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>test:/E0000193O_LGX7CC/file/1/event/xmlresolution</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>XML Resolution</eventType>
+            <eventDateTime>2010-04-27T12:30:37-04:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>success</eventOutcome>
+            </eventOutcomeInformation>
+            <eventOutcomeDetail>
+              <eventOutcomeDetailExtension>
+                <unresolved_namespace>http://www.w3.org/1999/xlink</unresolved_namespace>
+                <unresolved_namespace>http://www.w3.org/2001/XMLSchema-hasFacetAndProperty</unresolved_namespace>
+                <unresolved_namespace>http://www.w3.org/2001/XMLSchema-instance</unresolved_namespace>
+              </eventOutcomeDetailExtension>
+            </eventOutcomeDetail>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fcla/daitss/xmlresolution/0.9.1</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>test:/E0000193O_LGX7CC/file/1/event/xmlresolution</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-9">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>"info:fda/daitss/description/v0</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>Format Description Service</agentName>
+            <agentType>Web Service</agentType>
+            <agentNote xmlns="info:lc/xmlns/premis-v2-beta">JHOVE 1.5, DROID 3.0</agentNote>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+  </amdSec>
+  <fileSec>
+    <fileGrp>
+      <file ID="file-1" OWNERID="test:/E0000193O_LGX7CC/file/1" ADMID="tech-5 digiprov-5 digiprov-6 digiprov-8 digiprov-9" SIZE="1356" CHECKSUMTYPE="SHA-1" CHECKSUM="e7c145849515baa1ceb72eada33f34ae04efa682">
+        <FLocat LOCTYPE="URL" xlink:href="ateam.xml"/>
+      </file>
+      <file ID="file-0" OWNERID="test:/E0000193O_LGX7CC/file/0" ADMID="tech-6 tech-7 digiprov-7 digiprov-9" SIZE="921972" CHECKSUMTYPE="SHA-1" CHECKSUM="cd6244779b6f21b7000b55403d9451cf87f1bf1b">
+        <FLocat LOCTYPE="URL" xlink:href="ateam.tiff"/>
+      </file>
+    </fileGrp>
+  </fileSec>
+  <structMap ID="current">
+    <div ADMID="tech-2">
+      <fptr FILEID="file-1"/>
+      <fptr FILEID="file-0"/>
+    </div>
+  </structMap>
+  <structMap ID="normalized">
+    <div ADMID="tech-3">
+      <fptr FILEID="file-1"/>
+      <fptr FILEID="file-0"/>
+    </div>
+  </structMap>
+  <structMap ID="original">
+    <div ADMID="tech-4">
+      <fptr FILEID="file-1"/>
+      <fptr FILEID="file-0"/>
+    </div>
+  </structMap>
+</mets>
