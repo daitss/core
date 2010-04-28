@@ -111,7 +111,7 @@ class DataFile
   end
 
   def digiprov_agents
-    new_agents = metadata_for 'describe-agent', 'migrate-agent', 'normalize-agent', 'xml-resolution-event'
+    new_agents = metadata_for 'describe-agent', 'migrate-agent', 'normalize-agent', 'xml-resolution-agent'
     new_agents + old_agents.map { |a| a.root.to_s }
   end
 
