@@ -178,6 +178,8 @@ describe Wip do
       end
 
       it 'should have a normalize agent' do
+        pending 'transformation service needs to have proper linking for events/agents'
+
         normalize_agent = @agents.find do |a|
           doc = XML::Document.string a
           doc.find_first "/P:agent[P:agentName = 'daitss transformation service']", NS_PREFIX

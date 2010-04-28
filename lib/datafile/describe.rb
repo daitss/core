@@ -22,8 +22,7 @@ class DataFile
     if metadata['transformation-source']
       src_uri = metadata['transformation-source']
       strategy = metadata['transformation-strategy']
-      agent = metadata['transformation-agent']
-      describe_derivation src_uri, strategy, agent
+      describe_derivation src_uri, strategy
     end
 
   end
@@ -80,21 +79,9 @@ class DataFile
     doc.find_first("P:event/P:eventIdentifier/P:eventIdentifierValue", NS_PREFIX).content = event_uri
   end
 
-  def describe_derivation src_uri, strategy, agent_uri
-
-    event_uri = "#{uri}/event/#{strategy}/#{next_event_index strategy}"
-    metadata["#{strategy}-event"] = event(:id => event_uri,
-                                          :type => strategy,
-                                          :linking_agents => [ agent_uri ],
-                                          :linking_objects => [
-                                            {:uri => src_uri, :role => 'source'},
-                                            {:uri => uri, :role => 'outcome'}
-    ])
-
-    metadata["#{strategy}-agent"] = agent(:id => agent_uri,
-                                          :name => 'daitss transformation service',
-                                          :type => 'software')
-
+  def describe_derivation src_uri, strategy
+    event_doc = XML::Document.string metadata["#{strategy}-event"]
+    event_uri = event_doc.find_first("//P:eventIdentifierValue", NS_PREFIX).content
 
     rel_doc = XML::Document::string relationship(:type => 'derivation',
                                                  :sub_type => 'has source',
@@ -105,7 +92,11 @@ class DataFile
     doc = XML::Document::string metadata['describe-file-object']
     rel = doc.import rel_doc.root
     object = doc.find_first "/P:object[@xsi:type='file']", NS_PREFIX
-    insertion_point = object.find_first "P:linkingEventIdentifier | P:linkingIntellectualEntityIdentifier | P:linkingRightsStatementIdentifier", NS_PREFIX
+    insertion_point = object.find_first %Q{
+      P:linkingEventIdentifier |
+      P:linkingIntellectualEntityIdentifier |
+      P:linkingRightsStatementIdentifier
+    }, NS_PREFIX
 
     if insertion_point
       insertion_point.prev = rel
