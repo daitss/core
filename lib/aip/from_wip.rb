@@ -12,6 +12,7 @@ class Aip
     aip.xml = wip['aip-descriptor']
     aip.copy_url, aip.copy_size, aip.copy_md5, aip.copy_sha1 = put_copy wip, "#{Daitss::CONFIG['storage-url']}/#{wip.id}-0"
     aip.needs_work = true
+    aip.datafile_count = wip.represented_datafiles.size
 
     unless aip.save
       delete_copy aip.copy_url
@@ -31,6 +32,7 @@ class Aip
     new_suffix = (old_suffix.to_i + 1).to_s
     aip.copy_url, aip.copy_size, aip.copy_md5, aip.copy_sha1 = put_copy wip, "#{Daitss::CONFIG['storage-url']}/#{wip.id}-#{new_suffix}"
     aip.needs_work = true
+    aip.datafile_count = wip.represented_datafiles.size
 
     if aip.save
       delete_copy old_url
