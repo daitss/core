@@ -42,7 +42,7 @@ class Wip
 
       end
 
-    else raise "cannot start #{task}, unknown"
+    else raise "unknown task #{task ? task : task.inspect}, cannot start wip"
     end
 
   end
