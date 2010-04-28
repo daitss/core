@@ -189,6 +189,7 @@ class AIPInPremis
   def processEvents
     eventObjects = @doc.find("//premis:event", NAMESPACES)
     eventObjects.each do |obj|
+      puts obj
       id = obj.find_first("premis:linkingObjectIdentifier/premis:linkingObjectIdentifierValue", NAMESPACES)
       # make sure this event related to a datafile
       df = @datafiles[id.content] unless id.nil?
@@ -196,7 +197,7 @@ class AIPInPremis
       agent_id = obj.find_first("premis:linkingAgentIdentifier/premis:linkingAgentIdentifierValue", NAMESPACES)
       agent = @agents[agent_id.content] unless agent_id.nil?   
 
-      if df   #first check if this event is linked to a file object
+      if df  #first check if this event is linked to a file object
         event = DatafileEvent.new
         event.fromPremis(obj, df, @anomalies)
         event.setRelatedObject id.content

@@ -47,6 +47,10 @@ Given /^a latest aip$/ do
     @file = "#{abs}/files/02pdf.xml"
 end
 
+Given /^an aip containing a xml with broken links$/ do
+  @file = "#{abs}/files/brokenLinks.xml"
+end
+
 When /^populating the aip$/ do
   aip = AIPInPremis.new
   aip.processAIPFile @file
@@ -152,4 +156,9 @@ Then /^it should have an anomaly$/ do
     found = true if se.class == Anomaly
   end
   found.should == true
+end
+
+Then /^it should have a broken link$/ do
+  brokenLink = BrokenLink.first(:datafile_id => @dfid)
+  brokenLink.should_not be_nil
 end
