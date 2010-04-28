@@ -29,6 +29,7 @@ class Aip
   property :copy_md5, String, :length => 40, :format => %r([a-f0-9]{32}), :required => true
   property :copy_size, Integer, :min => 1, :required => true
   property :needs_work, Boolean, :required => true
+  property :datafile_count, Integer, :min => 1, :required => true
 
   validates_with_method :xml, :validate_against_xmlschema
   validates_with_method :xml, :validate_against_schematron
