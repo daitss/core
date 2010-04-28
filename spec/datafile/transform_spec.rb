@@ -9,12 +9,12 @@ describe DataFile do
 
     it "should raise an error if the url is not a success" do
       lambda {
-        subject.original_datafiles.first.transform 'http://localhost/foo/bar'
+        subject.original_datafiles.first.ask_transformation_service 'http://localhost/foo/bar'
       }.should raise_error(/Not Found/)
     end
 
     it "should get back an array of data and an extension if the transformation is good" do
-      data, ext = subject.original_datafiles.first.transform 'http://localhost:7000/transformation/transform/wave_norm'
+      agnet, event, data, ext = subject.original_datafiles.first.ask_transformation_service 'http://localhost:7000/transformation/transform/wave_norm'
       data.should_not be_empty
       ext.should == '.wav'
     end
@@ -67,8 +67,10 @@ describe DataFile do
       @df['aip-path'].should == "#{@df.id}.wav"
     end
 
-    it 'should have transformation agent' do
-      @df['transformation-agent'].should == 'http://localhost:7000/transformation/transform/wave_norm'
+    it 'should have normalize agent' do
+      @df.should have_key('normalize-agent')
+      doc = XML::Document.string @df['normalize-agent']
+      doc.find_first "/P:agent", NS_PREFIX
     end
 
     it 'should have a transformation source' do

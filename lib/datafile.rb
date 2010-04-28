@@ -2,6 +2,7 @@ require 'forwardable'
 require 'fshash'
 require 'fileutils'
 require 'wip'
+require 'datafile/obsolete'
 
 class DataFile
 

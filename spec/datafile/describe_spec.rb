@@ -104,7 +104,28 @@ describe 'describing a datafile' do
     before :all do
       @df = subject
       @df['transformation-source'] = 'autobot://optimus/prime'
-      @df['transformation-strategy'] = 'transform'
+      @df['transformation-strategy'] = 'migrate'
+      @df['migrate-agent'] = 'foo bar'
+      @df['migrate-event'] = XML::Document.string %Q{
+        <event xmlns="info:lc/xmlns/premis-v2">
+          <eventIdentifier>
+            <eventIdentifierType>URI</eventIdentifierType>
+            <eventIdentifierValue>foo</eventIdentifierValue>
+          </eventIdentifier>
+          <eventType>#{ @df['transformation-strategy'] }</eventType>
+          <linkingAgentIdentifier>
+            <linkingAgentIdentifierValue>#{@df['migrate-agent']}</linkingAgentIdentifierValue>
+          </linkingAgentIdentifier>
+          <linkingObjectIdentifier>
+            <linkingObjectIdentifierValue>#{ @df['transformation-source'] }</linkingObjectIdentifierValue>
+            <linkingObjectRole>source</linkingObjectRole>
+          </linkingObjectIdentifier>
+          <linkingObjectIdentifier>
+            <linkingObjectIdentifierValue>#{ @df.uri }</linkingObjectIdentifierValue>
+            <linkingObjectRole>outcome</linkingObjectRole>
+          </linkingObjectIdentifier>
+        </event>
+      }
       @df['transformation-agent'] = 'cybertron'
       @df.describe!
     end
@@ -149,13 +170,7 @@ describe 'describing a datafile' do
       # the agent
       event.find(%Q{
         P:linkingAgentIdentifier /
-          P:linkingAgentIdentifierValue = '#{ @df['transformation-agent'] }'
-      }, NS_PREFIX).should be_true
-      agent_doc = XML::Document.string @df["#{ @df['transformation-strategy'] }-agent"]
-      agent_doc.find(%Q{
-        //P:agent /
-          P:agentIdentifier /
-            P:agentIdentifierValue = '#{ @df['transformation-agent'] }'
+          P:linkingAgentIdentifierValue = '#{ @df['migrate-agent'] }'
       }, NS_PREFIX).should be_true
     end
 
