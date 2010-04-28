@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'nokogiri'
 require 'datafile/describe'
 require 'wip/xmlresolve'
 
@@ -25,10 +26,15 @@ describe Wip do
 
   it "should have an xml resolution event for datafiles" do
     @df.should have_key('xml-resolution-event')
+    doc = XML::Document.string @df['xml-resolution-event']
+    doc.find("/P:event", NS_PREFIX).should_not be_empty
+    doc.find("/P:event//P:linkingObjectIdentifierValue = '#{@df.uri}'", NS_PREFIX).should be_true
   end
 
   it "should have an xml resolution agent for datafiles" do
     @df.should have_key('xml-resolution-agent')
+    doc = XML::Document.string @df['xml-resolution-agent']
+    doc.find("/P:agent", NS_PREFIX).should_not be_empty
   end
 
 end
