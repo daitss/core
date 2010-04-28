@@ -37,6 +37,8 @@ wip = begin
 
 begin
   wip.ingest!
+  puts "#{wip.id} ingested"
+  FileUtils.rm_r wip.path
 rescue => e
   puts e.message
   puts e.backtrace

@@ -37,6 +37,8 @@ wip = begin
 
 begin
   wip.disseminate
+  puts "#{wip.id} disseminated to #{wip.tags['drop-path']}"
+  FileUtils.rm_r wip.path
 rescue => e
   puts e.message
   puts e.backtrace
