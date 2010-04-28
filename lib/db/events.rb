@@ -26,7 +26,7 @@ Event_Types = {
 
     # datamapper return system error once this constraint is added in.  so we will delete relationship manually
     # has 0..n, :relationships, :constraint=>:destroy
-     
+
     def setRelatedObject objid
       attribute_set(:relatedObjectId, objid)
     end 
@@ -54,39 +54,52 @@ Event_Types = {
   end
 
   class DatafileEvent < Event  
+    attr_reader :df
+    attr_reader :anomalies
+
     def fromPremis(premis, df, anomalies)
       super(premis)
       details = premis.find_first("premis:eventOutcomeInformation/premis:eventOutcomeDetail", NAMESPACES)
-      unless details.nil?
-        detailsExtension = premis.find_first("premis:eventOutcomeInformation/premis:eventOutcomeDetail/premis:eventOutcomeDetailExtension", NAMESPACES)
-        if detailsExtension.nil?
-          attribute_set(:outcome_details, details.content.strip!) 
-        else
-          nodes = detailsExtension.find("premis:anomaly", NAMESPACES)
-          nodes.each do |obj|
-            anomaly = Anomaly.new
-            anomaly.fromPremis(obj)
-
-            # check if it was processed earlier.
-             existinganomaly = anomalies[anomaly.name] 
-
-            # if it's has not processed earlier, use the existing anomaly record 
-            # in the database if we have seen this anomaly before
-            existinganomaly = Anomaly.first(:name => anomaly.name) if existinganomaly.nil?
-             
-            dfse = DatafileSevereElement.new
-            df.datafile_severe_element << dfse
-            if existinganomaly
-              existinganomaly.datafile_severe_element << dfse
-            else
-              anomaly.datafile_severe_element << dfse
-              anomalies[anomaly.name] = anomaly
-            end
+      if details
+        detailsExtension = details.find_first("premis:eventOutcomeDetailExtension", NAMESPACES)
+        attribute_set(:outcome_details, details.content.strip!) if detailsExtension.nil?
+        unless detailsExtension.nil?
+          @df = df
+          @anomalies = anomalies
+          nodes = detailsExtension.find("premis:anomaly", NAMESPACES) 
+          processAnomalies(nodes)
+          nodes = detailsExtension.find("premis:broken_link", NAMESPACES)
+          unless (nodes.empty?)
+            brokenlink = BrokenLink.new
+            brokenlink.fromPremis(@df, detailsExtension)
           end
         end
       end
     end
     
+    def processAnomalies(nodes)
+      nodes.each do |obj|
+        anomaly = Anomaly.new
+        anomaly.fromPremis(obj)
+
+        # check if it was processed earlier.
+        existinganomaly = @anomalies[anomaly.name] 
+
+        # if it's has not processed earlier, use the existing anomaly record 
+        # in the database if we have seen this anomaly before
+        existinganomaly = Anomaly.first(:name => anomaly.name) if existinganomaly.nil?
+
+        dfse = DatafileSevereElement.new
+        @df.datafile_severe_element << dfse
+        if existinganomaly
+          existinganomaly.datafile_severe_element << dfse
+        else
+          anomaly.datafile_severe_element << dfse
+          @anomalies[anomaly.name] = anomaly
+        end
+      end
+    end
+
     before :save do
       #TODO implement validation of objectID, making sure the objectID is a valid datafile
     end
