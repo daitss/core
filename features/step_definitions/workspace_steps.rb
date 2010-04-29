@@ -337,14 +337,21 @@ Then /^the request is (queued|denied|not queued|not authorized)$/ do |status|
   end
 end
 
-Then /^there (is|is not) a (dissemination|withdrawal|peek) wip in the workspace$/ do |expectation, req_type|
+Then /^there (is|is not) a (dissemination|withdrawal|peek|ingest) wip in the workspace$/ do |expectation, req_type|
   if expectation == "is"
     raise "Wip for #{@ieid} not in workspace" unless File.directory?(File.join(ENV["WORKSPACE"], @ieid))
-    raise "Missing #{req_type} tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "#{req_type}-request"))
 
-    if req_type == "dissemination"
-      raise "Missing drop path tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "drop-path")) 
+    if ["dissemination", "withdrawal", "peek"].include? req_type
+      raise "Missing #{req_type} tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "#{req_type}-request")) 
+
+      if req_type == "dissemination"
+        raise "Missing drop path tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "drop-path")) 
+      end
+    elsif req_type == "ingest"
+      raise "Missing #{req_type} tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "task")) 
+      raise "Wrong task in wip" unless File.read(File.join(ENV["WORKSPACE"], @ieid, "tags", "task")) == "ingest" 
     end
+
   else
     raise "Wip for #{@ieid} is in workspace" if File.directory?(File.join(ENV["WORKSPACE"], @ieid))
   end
