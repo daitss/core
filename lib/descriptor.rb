@@ -106,12 +106,12 @@ end
 class DataFile
 
   def digiprov_events
-    new_events = metadata_for 'describe-event', 'migrate-event', 'normalize-event', 'obsolete-event', 'xml-resolution-event'
+    new_events = metadata_for 'describe-event', 'migrate-event', 'normalize-event', 'obsolete-event', 'xml-resolution-event', 'virus-check-event'
     new_events + old_events.map { |e| e.root.to_s }
   end
 
   def digiprov_agents
-    new_agents = metadata_for 'describe-agent', 'migrate-agent', 'normalize-agent', 'obsolete-agent', 'xml-resolution-agent'
+    new_agents = metadata_for 'describe-agent', 'migrate-agent', 'normalize-agent', 'obsolete-agent', 'xml-resolution-agent', 'virus-check-agent'
     new_agents + old_agents.map { |a| a.root.to_s }
   end
 
