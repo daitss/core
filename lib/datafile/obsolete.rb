@@ -1,15 +1,26 @@
 require 'datafile'
+require 'metadata'
 
 class DataFile
 
   def obsolete!
     raise "#{self} is already obsolete" if obsolete?
 
-    metadata['obsolete-event'] = event({
+    a_spec = {
+      :id => "info:fda/daitss",
+      :name => 'daitss processing',
+      :type => 'software'
+    }
+
+    e_spec = {
       :id => "#{uri}/event/obsolete",
       :type => 'obsolete',
-      :linking_objects => [uri]
-    })
+      :linking_objects => [uri],
+      :linking_agents => [a_spec[:id]]
+    }
+
+    metadata['obsolete-event'] = event e_spec
+    metadata['obsolete-agent'] = agent a_spec
   end
 
   def obsolete?

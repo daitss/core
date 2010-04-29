@@ -123,7 +123,7 @@ describe Wip do
 
       end
 
-      it "should have 1 obsolete event for all obsolete files" do
+      it "should have 1 obsolete event for every obsolete file" do
 
         @ofs.each do |df|
           subject.find(%Q{
@@ -132,6 +132,23 @@ describe Wip do
                          P:linkingObjectIdentifierValue = '#{ df['OWNERID'] }'
                       ]
           }, NS_PREFIX).should have_exactly(1).items
+
+        end
+
+      end
+
+      it "should have 1 obsolete agent for every obsolete file" do
+
+        @ofs.each do |df|
+          agent_id = subject.find_first(%Q{
+            //P:event [P:eventType = 'obsolete']
+                      [P:linkingObjectIdentifier / P:linkingObjectIdentifierValue = '#{ df['OWNERID'] }' ]
+                        / P:linkingAgentIdentifier / P:linkingAgentIdentifierValue
+          }, NS_PREFIX).content
+
+          subject.find(%Q{
+            //P:agent/P:agentIdentifier/P:agentIdentifierValue = '#{agent_id}'
+          }, NS_PREFIX).should be_true
 
         end
 
