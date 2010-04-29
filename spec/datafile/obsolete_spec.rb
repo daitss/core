@@ -19,6 +19,11 @@ describe DataFile do
     subject.should have_key('obsolete-event')
   end
 
+  it 'should have an obsolete premis event' do
+    subject.obsolete!
+    subject.should have_key('obsolete-agent')
+  end
+
   it 'should raise an error for obsoleting an obsolete file' do
     subject.obsolete!
     lambda { subject.obsolete! }.should raise_error("#{subject} is already obsolete")
