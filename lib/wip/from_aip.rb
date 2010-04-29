@@ -272,7 +272,6 @@ class Wip
       es = es_desc.to_a + es_xform.to_a
       df['old-digiprov-events'] = es.map { |e| e.to_s }.join "\n"
 
-
       as = es.map do |event|
         xpath = "P:linkingAgentIdentifier/P:linkingAgentIdentifierValue"
         agent_ids = event.find(xpath, NS_PREFIX).map { |agent_id| agent_id.content }
@@ -290,4 +289,3 @@ class Wip
   end
 
 end
-
