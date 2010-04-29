@@ -36,6 +36,7 @@ class PackageSubmitter
   # inserts an operations event into package tracker
   # makes an AIP from extracted files
   # writes a submission event to package provenance
+  # adds a record for the SIP in the Sip table
 
   def self.submit_sip archive_type, path_to_archive, package_name, submitter_username, submitter_ip, md5, ieid
 
@@ -103,6 +104,9 @@ class PackageSubmitter
     # add task
     wip.task = :ingest 
 
+    # add record to sip table
+    add_sip_record package_name, sip_path, ieid
+    
     # write package tracker event
     pt_event_notes = pt_event_notes + ", outcome: success"
     PackageTracker.insert_op_event(submitter_username, ieid, "Package Submission", pt_event_notes)
@@ -112,6 +116,23 @@ class PackageSubmitter
   end
 
   private
+
+  # adds a record to the Sip table for the sip at sip_path
+  def self.add_sip_record package_name, sip_path, ieid
+    sip = SubmittedSip.new
+
+    sip_contents = Dir.glob("#{sip_path}/**/*")
+
+    files_in_sip = sip_contents.reject {|path| File.file?(path) == false}
+    package_size = sip_contents.inject(0) {|sum, path| sum + File.stat(path).size}
+
+    sip.attributes = { :package_name => package_name,
+                       :package_size => package_size,
+                       :number_of_datafiles => files_in_sip.length,
+                       :ieid => ieid }
+
+    sip.save!
+  end
 
   # writes pt record for failed submission and raises exception
 

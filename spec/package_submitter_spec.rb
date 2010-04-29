@@ -55,7 +55,7 @@ describe PackageSubmitter do
     lambda { PackageSubmitter.submit_sip :tar, TAR_SIP, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error
   end
 
-  it "should submit a package creating a wip with submission event from a tar-extracted SIP and a PT event" do
+  it "should submit a package creating a wip with submission event from a tar-extracted SIP, a PT event, submit step, and a new row in the sip table" do
     ieid = OldIeid.get_next
     PackageSubmitter.submit_sip :tar, TAR_SIP_NODIR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid
     now = Time.now
@@ -87,6 +87,12 @@ describe PackageSubmitter do
     submission_event.timestamp.to_time.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: tar, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: success"
+    sip = SubmittedSip.first(:ieid => ieid)
+
+    sip.should_not be_nil
+    sip.package_name.should == "ateam"
+    sip.package_size.should == 923328
+    sip.number_of_datafiles.should == 2
   end
 
   it "should submit a package creating a wip with submission event from a zip-extracted SIP" do
@@ -121,6 +127,13 @@ describe PackageSubmitter do
     submission_event.timestamp.to_time.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: success"
+
+    sip = SubmittedSip.first(:ieid => ieid)
+
+    sip.should_not be_nil
+    sip.package_name.should == "ateam"
+    sip.package_size.should == 923328
+    sip.number_of_datafiles.should == 2
   end
 
   it "should raise error if descriptor cannot be found (package_name.xml)" do

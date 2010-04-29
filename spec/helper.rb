@@ -13,6 +13,7 @@ require 'db/text'
 require 'db/bitstream'
 require 'db/message_digest'
 require 'db/audio'
+require 'db/sip'
 
 def add_account name = "FDA", code = "FDA"
   a = Account.new
