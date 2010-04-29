@@ -23,12 +23,13 @@ require 'db/int_entity'
 require 'db/message_digest'
 require 'db/relationship'
 
-# package tracker database
+# ops database
 require 'db/accounts'
 require 'db/keys'
 require 'db/operations_agents'
 require 'db/operations_events'
 require 'db/projects'
+require 'db/sip'
 
 # request
 require 'db/request'

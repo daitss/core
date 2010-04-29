@@ -1,5 +1,6 @@
 require 'db/operations_agents'
 require 'db/operations_events'
+require 'db/sip'
 require 'aip'
 require 'daitss/config'
 require 'fileutils'
@@ -317,13 +318,8 @@ Then /^the package is rejected$/ do
   raise "Package not rejected" unless File.exists? tag_file_path
 end
 
-Then /^submission (fails|succeeds)$/ do |outcome|
-  case outcome
-  when "fails"
-    raise "Submission appears to have succeeded: #{@submission_output}" unless @submission_output =~ /< HTTP\/1.1 4[\d]{2}/
-  when "succeeds"
-    raise "Submission appears to have failed: #{@submission_output}" unless @submission_output =~ /< HTTP\/1.1 2[\d]{2}/
-  end
+Then /^submission fails$/ do
+  raise "Submission appears to have succeeded: #{@submission_output}" unless @submission_output =~ /< HTTP\/1.1 4[\d]{2}/
 end
 
 Then /^the request is (queued|denied|not queued|not authorized)$/ do |status|
@@ -352,6 +348,10 @@ Then /^there (is|is not) a (dissemination|withdrawal|peek) wip in the workspace$
   else
     raise "Wip for #{@ieid} is in workspace" if File.directory?(File.join(ENV["WORKSPACE"], @ieid))
   end
+end
+
+Then /^there is a record in the ops sip table for the package$/ do
+  raise "No record for sip found for IEID #{@ieid}" unless SubmittedSip.first(:ieid => @ieid)
 end
 
 
