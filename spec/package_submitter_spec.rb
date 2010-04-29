@@ -87,6 +87,9 @@ describe PackageSubmitter do
     submission_event.timestamp.to_time.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: tar, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: success"
+    File.exists?(File.join(ENV["WORKSPACE"], ieid, "tags", "task")).should == true
+    File.read(File.join(ENV["WORKSPACE"], ieid, "tags", "task")).should == "ingest"
+
     sip = SubmittedSip.first(:ieid => ieid)
 
     sip.should_not be_nil
@@ -127,6 +130,9 @@ describe PackageSubmitter do
     submission_event.timestamp.to_time.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: success"
+
+    File.exists?(File.join(ENV["WORKSPACE"], ieid, "tags", "task")).should == true
+    File.read(File.join(ENV["WORKSPACE"], ieid, "tags", "task")).should == "ingest"
 
     sip = SubmittedSip.first(:ieid => ieid)
 

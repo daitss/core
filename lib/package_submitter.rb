@@ -37,6 +37,7 @@ class PackageSubmitter
   # inserts an operations event into package tracker
   # makes an AIP from extracted files
   # writes a submission event to package provenance
+  # writes a task tag file with "ingest"
   # adds a record for the SIP in the Sip table
 
   def self.submit_sip archive_type, path_to_archive, package_name, submitter_username, submitter_ip, md5, ieid
