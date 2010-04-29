@@ -1,4 +1,4 @@
-#require 'datafile/virus'
+require 'datafile/virus'
 require 'aip'
 require 'aip/from_wip'
 require 'descriptor'
@@ -11,9 +11,9 @@ class Wip
 
   def ingest!
 
-    #original_datafiles.each do |df|
-      #step("virus-check-#{df.id}") { df.virus_check! }
-    #end
+    original_datafiles.each do |df|
+      step("virus-check-#{df.id}") { df.virus_check! }
+    end
 
     preserve!
 
