@@ -8,6 +8,7 @@ require 'libxml'
 require 'package_tracker'
 require 'xmlns'
 require 'wip/task'
+require 'db/sip'
 
 class ArchiveExtractionError < StandardError; end
 class DescriptorNotFoundError < StandardError; end
