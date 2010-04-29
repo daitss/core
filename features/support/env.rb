@@ -83,6 +83,22 @@ module AdminHelpers
     return c
   end
 
+  def add_intentity ieid
+    i = Intentity.new
+    project = Project.get(1)
+
+    i.attributes = { :id => ieid,
+      :original_name => "test package",
+      :entity_id => "test",
+      :volume => "vol",
+      :issue => "issue",
+      :title => "title" }
+
+    i.project = project
+    i.save!
+
+    return i
+  end
 end
 
 World(AdminHelpers)

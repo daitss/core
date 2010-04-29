@@ -205,6 +205,7 @@ Given /^an ingested good package$/ do
   @ieid = run_submit "ateam", true, id, id
   run_ingest @ieid
   delete_wip @ieid
+  add_intentity @ieid 
 end
 
 # WHEN
