@@ -18,6 +18,7 @@ describe PackageSubmitter do
   ZIP_BAD_ACCOUNT = "spec/test-sips/ateam-bad-account"
   ZIP_NO_CONTENT_FILES = "spec/test-sips/ateam-missing-contentfile.zip"
   ZIP_CHECKSUM_MISMATCH = "spec/test-sips/ateam-checksum-mismatch.zip"
+  ZIP_INVALID_DESCRIPTOR = "spec/test-sips/ateam-invalid-descriptor.zip"
 
   URI_PREFIX = "test:/"
 
@@ -208,7 +209,7 @@ describe PackageSubmitter do
 
     submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 1.0)
+    submission_event.timestamp.to_time.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "bernie"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: submitter account does not match descriptor"
   end
@@ -223,7 +224,7 @@ describe PackageSubmitter do
 
     submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 1.0)
+    submission_event.timestamp.to_time.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: invalid project"
   end
@@ -238,7 +239,7 @@ describe PackageSubmitter do
 
     submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 1.0)
+    submission_event.timestamp.to_time.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "foobar"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: invalid project"
   end
@@ -253,7 +254,7 @@ describe PackageSubmitter do
 
     submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 1.0)
+    submission_event.timestamp.to_time.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: invalid account"
   end
@@ -268,7 +269,7 @@ describe PackageSubmitter do
 
     submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 1.0)
+    submission_event.timestamp.to_time.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "foobar"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: content file not found"
   end
@@ -283,9 +284,23 @@ describe PackageSubmitter do
 
     submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 1.0)
+    submission_event.timestamp.to_time.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "foobar"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: datafile failed checksum check against descriptor"
   end
 
+  it "should raise error if there is an error validating the sip descriptor and record the reject in pt" do
+    ieid = OldIeid.get_next
+    now = Time.now
+
+    lambda { PackageSubmitter.submit_sip :zip, ZIP_INVALID_DESCRIPTOR, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(InvalidDescriptor)
+
+    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
+
+    submission_event.ieid.should == ieid
+    submission_event.event_name.should == "Package Submission"
+    submission_event.timestamp.to_time.should be_close(now, 5.0)
+    submission_event.operations_agent.identifier.should == "foobar"
+    submission_event.notes.should =~ /submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: descriptor failed validation/
+  end
 end

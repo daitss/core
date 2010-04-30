@@ -16,6 +16,7 @@ class DescriptorCannotBeParsedError < StandardError; end
 class SubmitterDescriptorAccountMismatch < StandardError; end
 class InvalidProject < StandardError; end
 class InvalidAccount < StandardError; end
+class InvalidDescriptor < StandardError; end
 class ChecksumMismatch < StandardError; end
 class MissingContentFile < StandardError; end
 
@@ -54,10 +55,13 @@ class PackageSubmitter
     begin
       sip = Sip.new sip_path
       wip = Wip.from_sip wip_path, URI.join(URI_PREFIX, ieid), sip
+      raise InvalidDescriptor unless wip.sip_descriptor_valid?
     rescue Errno::ENOENT
       reject DescriptorNotFoundError.new, pt_event_notes, ieid, submitter_username
     rescue LibXML::XML::Error
       reject DescriptorCannotBeParsedError.new, pt_event_notes, ieid, submitter_username
+    rescue InvalidDescriptor
+      reject InvalidDescriptor.new(wip.sip_descriptor_errors), pt_event_notes, ieid, submitter_username
     end
 
     # check that the project in the descriptor exists in the database
@@ -158,6 +162,8 @@ class PackageSubmitter
       pt_event_notes = pt_event_notes + ", failure_reason: datafile failed checksum check against descriptor"
     when ArchiveExtractionError
       pt_event_notes = pt_event_notes + ", failure_reason: sip extraction error"
+    when InvalidDescriptor
+      pt_event_notes = pt_event_notes + ", failure_reason: descriptor failed validation -- #{exception.message}"
     end
 
     PackageTracker.insert_op_event(agent_id, ieid, "Package Submission", pt_event_notes)

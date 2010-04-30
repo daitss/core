@@ -129,6 +129,8 @@ module Submission
         halt 400, "#{ieid}: Descriptor not found in SIP: #{e.message}"
       rescue DescriptorCannotBeParsedError => e
         halt 400, "#{ieid}: Descriptor cannot be parsed: #{e.message}"
+      rescue InvalidDescriptor => e
+        halt 400, "#{ieid}: Descriptor did not validate: #{e.message}"
       end
     end
   end
