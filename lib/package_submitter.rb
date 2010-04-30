@@ -23,6 +23,7 @@ class MissingContentFile < StandardError; end
 class PackageSubmitter
 
   URI_PREFIX = "test:/"
+  LINKING_AGENTS = [ 'info:fda/daitss/submission_service' ]
 
   # creates a new aip in the workspace from SIP in a zip or tar file located at path_to_archive.
   # This method:
@@ -88,24 +89,10 @@ class PackageSubmitter
     reject ChecksumMismatch.new, pt_event_notes, ieid, submitter_username if mismatches.any?
 
     # create premis agents and events in wip
-    wip['submit-agent'] = agent :id => 'info:fda/daitss/submission_service',
-                                :name => 'daitss submission service',
-                                :type => 'Software'
-
-    linking_agents = [ 'info:fda/daitss/submission_service' ]
-
-
-    wip['submit-agent-account'] = agent :id => "info:fda/daitss/accounts/#{wip.metadata["dmd-account"]}",
-    :name => "DAITSS Account: #{wip.metadata["dmd-account"]}",
-    :type => 'Affiliate'
-
-    linking_agents.push "info:fda/daitss/accounts/#{wip.metadata["dmd-account"]}"
-
-    wip['submit-event'] = event :id => "info:fda/#{ieid}/event/submit",
-    :type => 'submit',
-      :outcome => 'success',
-      :linking_objects => [ wip.uri ],
-      :linking_agents => linking_agents
+    create_submit_agent wip
+    create_account_agent wip
+    create_submit_event wip, ieid
+    create_package_valid_event wip, ieid
 
     # add task
     wip.task = :ingest 
@@ -123,6 +110,36 @@ class PackageSubmitter
 
   private
 
+  def self.create_submit_agent wip
+    wip['submit-agent'] = agent :id => 'info:fda/daitss/submission_service',
+                                :name => 'daitss submission service',
+                                :type => 'Software'
+  end
+
+  def self.create_account_agent wip
+    wip['submit-agent-account'] = agent :id => "info:fda/daitss/accounts/#{wip.metadata["dmd-account"]}",
+                                        :name => "DAITSS Account: #{wip.metadata["dmd-account"]}",
+                                        :type => 'Affiliate'
+
+    LINKING_AGENTS.push "info:fda/daitss/accounts/#{wip.metadata["dmd-account"]}"
+  end
+
+  def self.create_submit_event wip, ieid
+    wip['submit-event'] = event :id => "info:fda/#{ieid}/event/submit",
+                                :type => 'submit',
+                                :outcome => 'success',
+                                :linking_objects => [ wip.uri ],
+                                :linking_agents => LINKING_AGENTS
+  end
+
+  def self.create_package_valid_event wip, ieid
+    wip['package-valid-event'] = event :id => "info:fda/#{ieid}/event/package-valid",
+                                       :type => 'package valid',
+                                       :outcome => 'success',
+                                       :linking_objects => [ wip.uri ],
+                                       :linking_agents => LINKING_AGENTS
+  end
+
   # adds a record to the Sip table for the sip at sip_path
   def self.add_sip_record package_name, sip_path, ieid
     sip = SubmittedSip.new
@@ -133,9 +150,9 @@ class PackageSubmitter
     package_size = sip_contents.inject(0) {|sum, path| sum + File.stat(path).size}
 
     sip.attributes = { :package_name => package_name,
-                       :package_size => package_size,
-                       :number_of_datafiles => files_in_sip.length,
-                       :ieid => ieid }
+      :package_size => package_size,
+      :number_of_datafiles => files_in_sip.length,
+      :ieid => ieid }
 
     sip.save!
   end
