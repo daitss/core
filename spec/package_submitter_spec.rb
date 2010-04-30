@@ -193,8 +193,6 @@ describe PackageSubmitter do
     # get an array with a string representation of the linkingAgentIdentifier nodes
     event_linking_agent_strings = event_doc.find("//xmlns:linkingAgentIdentifier", "xmlns" => "info:lc/xmlns/premis-v2").map {|node| node.children.to_s}
 
-    event_linking_agent_strings.length.should == 2
-
     # check array for expected linkingAgentStrings: 1 for service, 1 for account
     (event_linking_agent_strings.include? "<linkingAgentIdentifierType>URI</linkingAgentIdentifierType><linkingAgentIdentifierValue>info:fda/daitss/submission_service</linkingAgentIdentifierValue>").should == true
     (event_linking_agent_strings.include? "<linkingAgentIdentifierType>URI</linkingAgentIdentifierType><linkingAgentIdentifierValue>info:fda/daitss/accounts/ACT</linkingAgentIdentifierValue>").should == true
@@ -319,4 +317,12 @@ describe PackageSubmitter do
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_UNKNOWN_CHECKSUM_TYPE, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should_not raise_error
   end
+
+   it  "should add an event for validation of package" do
+     pending "code me"
+   end
+
+   it  "should add an event for checksum check" do
+     pending "code me"
+   end
 end
