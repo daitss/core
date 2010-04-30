@@ -8,7 +8,7 @@ class DataFile
   def checksum_info
     expected = wip.sip_descriptor_checksum self
 
-    if expected[:value]
+    if expected[:value] and ["MD5", "SHA-1", nil].include? expected[:type]
 
       actual_md = open do |io|
 
@@ -16,7 +16,6 @@ class DataFile
         when "MD5" then Digest::MD5.hexdigest io.read
         when "SHA-1" then Digest::SHA1.hexdigest io.read
         when nil then infer expected[:value]
-        else raise "Unsupported checksum type: #{expected[:type]}"
         end
 
       end
