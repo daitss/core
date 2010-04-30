@@ -39,6 +39,14 @@ Feature: Cases where packages fail to submit
     When submission is attempted on that package
     Then submission fails
 
+  Scenario: Attempted submission of a descriptor not well formed package by operator
+    Given an archive operator
+    And a workspace
+    And a descriptor not well formed package
+    When submission is attempted on that package
+    Then submission fails
+    And there is an operations event for the submission
+
   Scenario: Attempted submission of a descriptor invalid package by operator
     Given an archive operator
     And a workspace
