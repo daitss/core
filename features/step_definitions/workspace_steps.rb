@@ -173,7 +173,7 @@ Given /^a workspace$/ do
   setup_workspace
 end
 
-Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account|descriptor missing|descriptor invalid) package$/ do |n, package|
+Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account|descriptor missing|descriptor invalid|descriptor not well formed) package$/ do |n, package|
   case package
 
   when "good"
@@ -194,8 +194,12 @@ Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account|descriptor 
   when "descriptor missing"
     @package = "ateam-descriptor-missing"
 
+  when "descriptor not well formed"
+    @package = "ateam-descriptor-broken"
+
   when "descriptor invalid"
     @package = "ateam-descriptor-invalid"
+
 
   end
 end 
