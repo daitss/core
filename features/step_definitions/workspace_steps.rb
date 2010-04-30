@@ -1,5 +1,6 @@
 require 'db/operations_agents'
 require 'db/operations_events'
+require 'db/sip'
 require 'aip'
 require 'daitss/config'
 require 'fileutils'
@@ -172,7 +173,7 @@ Given /^a workspace$/ do
   setup_workspace
 end
 
-Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account|descriptor missing|descriptor invalid) package$/ do |n, package|
+Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account|descriptor missing|descriptor invalid|descriptor not well formed) package$/ do |n, package|
   case package
 
   when "good"
@@ -193,8 +194,12 @@ Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account|descriptor 
   when "descriptor missing"
     @package = "ateam-descriptor-missing"
 
+  when "descriptor not well formed"
+    @package = "ateam-descriptor-broken"
+
   when "descriptor invalid"
     @package = "ateam-descriptor-invalid"
+
 
   end
 end 
@@ -205,6 +210,7 @@ Given /^an ingested good package$/ do
   @ieid = run_submit "ateam", true, id, id
   run_ingest @ieid
   delete_wip @ieid
+  add_intentity @ieid 
 end
 
 # WHEN
@@ -316,13 +322,8 @@ Then /^the package is rejected$/ do
   raise "Package not rejected" unless File.exists? tag_file_path
 end
 
-Then /^submission (fails|succeeds)$/ do |outcome|
-  case outcome
-  when "fails"
-    raise "Submission appears to have succeeded: #{@submission_output}" unless @submission_output =~ /< HTTP\/1.1 4[\d]{2}/
-  when "succeeds"
-    raise "Submission appears to have failed: #{@submission_output}" unless @submission_output =~ /< HTTP\/1.1 2[\d]{2}/
-  end
+Then /^submission fails$/ do
+  raise "Submission appears to have succeeded: #{@submission_output}" unless @submission_output =~ /< HTTP\/1.1 4[\d]{2}/
 end
 
 Then /^the request is (queued|denied|not queued|not authorized)$/ do |status|
@@ -340,17 +341,28 @@ Then /^the request is (queued|denied|not queued|not authorized)$/ do |status|
   end
 end
 
-Then /^there (is|is not) a (dissemination|withdrawal|peek) wip in the workspace$/ do |expectation, req_type|
+Then /^there (is|is not) a (dissemination|withdrawal|peek|ingest) wip in the workspace$/ do |expectation, req_type|
   if expectation == "is"
     raise "Wip for #{@ieid} not in workspace" unless File.directory?(File.join(ENV["WORKSPACE"], @ieid))
-    raise "Missing #{req_type} tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "#{req_type}-request"))
 
-    if req_type == "dissemination"
-      raise "Missing drop path tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "drop-path")) 
+    if ["dissemination", "withdrawal", "peek"].include? req_type
+      raise "Missing #{req_type} tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "#{req_type}-request")) 
+
+      if req_type == "dissemination"
+        raise "Missing drop path tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "drop-path")) 
+      end
+    elsif req_type == "ingest"
+      raise "Missing #{req_type} tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "task")) 
+      raise "Wrong task in wip" unless File.read(File.join(ENV["WORKSPACE"], @ieid, "tags", "task")) == "ingest" 
     end
+
   else
     raise "Wip for #{@ieid} is in workspace" if File.directory?(File.join(ENV["WORKSPACE"], @ieid))
   end
+end
+
+Then /^there is a record in the ops sip table for the package$/ do
+  raise "No record for sip found for IEID #{@ieid}" unless SubmittedSip.first(:ieid => @ieid)
 end
 
 
