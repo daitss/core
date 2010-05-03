@@ -13,6 +13,7 @@ require "daitss2"
 require "help/test_stack"
 require "help/test_package"
 require "help/sandbox"
+require "help/profile"
 
 Spec::Runner.configure do |config|
 
