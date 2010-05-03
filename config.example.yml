@@ -14,7 +14,7 @@ workspace: /tmp
 actionplan-url: http://localhost:7000/actionplan
 description-url: http://localhost:7000/description/describe
 storage-url: http://localhost:7000/silo
-validation-url: http://localhost:7000/validation
+validation-url: http://localhost:7000/validation/
 xmlresolution-url: http://xmlresolution.dev.fcla.edu
 submission-url: http://localhost:7000/submission/
 request-url: http://localhost:7000/request/
