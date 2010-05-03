@@ -1,19 +1,12 @@
+require 'base64'
 require 'datafile'
 
 class DataFile
 
   def virus_check!
-    url = URI.parse "#{Daitss::CONFIG['validation-url']}"
-    req = Net::HTTP::Post.new url.path
-    req.set_form_data 'data' => open { |io| io.read }
-
-    res = Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = Daitss::CONFIG['http-timeout']
-      http.request req
-    end
-
-    res.error! unless Net::HTTPSuccess === res
-    doc = XML::Document.string res.body
+    output = %x{curl -s -d 'data=@#{self.datapath}' #{Daitss::CONFIG['validation-url']}}
+    raise "could not request virus check: #{output}" unless $?.exitstatus == 0
+    doc = XML::Document.string output
     extract_event doc
     extract_agent doc
   end
