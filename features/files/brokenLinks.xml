@@ -465,8 +465,7 @@
             <eventDateTime>2010-04-27T12:30:37-04:00</eventDateTime>
             <eventOutcomeInformation>
               <eventOutcome>success</eventOutcome>
-            </eventOutcomeInformation>
-            <eventOutcomeDetail>
+              <eventOutcomeDetail>
               <eventOutcomeDetailExtension>
 		        <broken_link>http://www.fcla.edu/dls/md/daitss/daitss.xsd</broken_link>
 		        <broken_link>http://www.loc.gov/mods/v3/mods-3-3.xsd</broken_link>
@@ -477,6 +476,7 @@
                 <unresolved_namespace>http://www.w3.org/2001/XMLSchema-instance</unresolved_namespace>
               </eventOutcomeDetailExtension>
             </eventOutcomeDetail>
+          	</eventOutcomeInformation>
             <linkingAgentIdentifier>
               <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
               <linkingAgentIdentifierValue>info:fcla/daitss/xmlresolution/0.9.1</linkingAgentIdentifierValue>
@@ -518,32 +518,15 @@
     <digiprovMD ID="digiprov-8">
       <mdWrap MDTYPE="PREMIS">
         <xmlData>
-          <event>
-            <eventIdentifier>
-              <eventIdentifierType>URI</eventIdentifierType>
-              <eventIdentifierValue>test:/E0000193O_LGX7CC/file/1/event/xmlresolution</eventIdentifierValue>
-            </eventIdentifier>
-            <eventType>XML Resolution</eventType>
-            <eventDateTime>2010-04-27T12:30:37-04:00</eventDateTime>
-            <eventOutcomeInformation>
-              <eventOutcome>success</eventOutcome>
-            </eventOutcomeInformation>
-            <eventOutcomeDetail>
-              <eventOutcomeDetailExtension>
-                <unresolved_namespace>http://www.w3.org/1999/xlink</unresolved_namespace>
-                <unresolved_namespace>http://www.w3.org/2001/XMLSchema-hasFacetAndProperty</unresolved_namespace>
-                <unresolved_namespace>http://www.w3.org/2001/XMLSchema-instance</unresolved_namespace>
-              </eventOutcomeDetailExtension>
-            </eventOutcomeDetail>
-            <linkingAgentIdentifier>
-              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-              <linkingAgentIdentifierValue>info:fcla/daitss/xmlresolution/0.9.1</linkingAgentIdentifierValue>
-            </linkingAgentIdentifier>
-            <linkingObjectIdentifier>
-              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-              <linkingObjectIdentifierValue>test:/E0000193O_LGX7CC/file/1/event/xmlresolution</linkingObjectIdentifierValue>
-            </linkingObjectIdentifier>
-          </event>
+ 		  <agent xmlns="info:lc/xmlns/premis-v2">
+		    <agentIdentifier>
+		      <agentIdentifierType>URI</agentIdentifierType>
+		      <agentIdentifierValue>info:fcla/daitss/xmlresolution/0.9.1</agentIdentifierValue>
+		    </agentIdentifier>
+		    <agentName>XML Resolution Service</agentName>
+		    <agentType>Web Service</agentType>
+		    <agentNote>we'll put additional version information here</agentNote>
+		  </agent>
         </xmlData>
       </mdWrap>
     </digiprovMD>
