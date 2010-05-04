@@ -1,442 +1,1418 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mets xmlns="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd                           info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd" OBJID="haskell-nums-pdf">
-	<amdSec>
-	  <digiprovMD ID="AGREEMENT-INFO">
-	    <mdWrap MDTYPE="OTHER">
-	      <xmlData>
-	        <AGREEMENT_INFO xmlns="http://www.fcla.edu/dls/md/daitss/" ACCOUNT="ACT" PROJECT="PRJ"/>
-	      </xmlData>
-	    </mdWrap>
-	  </digiprovMD>
-	</amdSec>
-	<amdSec>
-	    <techMD ID="tech-0" ADMID="dmd-1 digiprov-1 digiprov-2 digiprov-3 digiprov-4 digiprov-5 digiprov-6">
-	      <mdWrap MDTYPE="PREMIS">
-	        <xmlData>
-	          <object xmlns="info:lc/xmlns/premis-v2-beta">
-	            <objectIdentifier>
-	              <objectIdentifierType>URI</objectIdentifierType>
-	              <objectIdentifierValue>E00000000_000000</objectIdentifierValue>
-	            </objectIdentifier>
-	            <objectCategory>intellectual entity</objectCategory>
-	          </object>
-	        </xmlData>
-	      </mdWrap>
-	    </techMD>	
-		<techMD ID="tech-1">
-			<mdWrap MDTYPE="PREMIS" LABEL="RC">
-				<xmlData>
-					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="representation">
-						<objectIdentifier>
-							<objectIdentifierType>URI</objectIdentifierType>
-							<objectIdentifierValue>representation/current</objectIdentifierValue>
-						</objectIdentifier>
-						<relationship>
-							<relationshipType>structural</relationshipType>
-							<relationshipSubType>includes</relationshipSubType>
-							<relatedObjectIdentification>
-								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>file-0</relatedObjectIdentifierValue>
-							</relatedObjectIdentification>
-						</relationship>
-						<relationship>
-							<relationshipType>structural</relationshipType>
-							<relationshipSubType>includes</relationshipSubType>
-							<relatedObjectIdentification>
-								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>file-1</relatedObjectIdentifierValue>
-							</relatedObjectIdentification>
-						</relationship>
-					</object>
-				</xmlData>
-			</mdWrap>
-		</techMD>
-		<techMD ID="tech-2">
-			<mdWrap MDTYPE="PREMIS" LABEL="R0">
-				<xmlData>
-					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="representation">
-						<objectIdentifier>
-							<objectIdentifierType>URI</objectIdentifierType>
-							<objectIdentifierValue>representation/original</objectIdentifierValue>
-						</objectIdentifier>
-						<relationship>
-							<relationshipType>structural</relationshipType>
-							<relationshipSubType>includes</relationshipSubType>
-							<relatedObjectIdentification>
-								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>file-0</relatedObjectIdentifierValue>
-							</relatedObjectIdentification>
-						</relationship>
-						<relationship>
-							<relationshipType>structural</relationshipType>
-							<relationshipSubType>includes</relationshipSubType>
-							<relatedObjectIdentification>
-								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>file-1</relatedObjectIdentifierValue>
-							</relatedObjectIdentification>
-						</relationship>
-					</object>
-				</xmlData>
-			</mdWrap>
-		</techMD>
-		<techMD ID="tech-3">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
-						<objectIdentifier>
-							<objectIdentifierType>URI</objectIdentifierType>
-							<objectIdentifierValue>file-1</objectIdentifierValue>
-						</objectIdentifier>
-						<objectCharacteristics>
-							<compositionLevel>0</compositionLevel>
-							<fixity>
-								<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
-								<messageDigest>9a8f523ef764c9b64933c66fa7cb1b36</messageDigest>
-							</fixity>
-							<size>152039676</size>
-							<format>
-								<formatDesignation>
-									<formatName>TIFF</formatName>
-									<formatVersion>6.0</formatVersion>
-								</formatDesignation>
-								<formatRegistry>
-									<formatRegistryName>http://www.nationalarchives.gov.uk/pronom</formatRegistryName>
-									<formatRegistryKey>fmt/10</formatRegistryKey>
-								</formatRegistry>	
-							</format>
-							<format>
-								<formatDesignation>
-									<formatName>Baseline GeoTIFF 1.0</formatName>
-								</formatDesignation>
-							</format>
-							<creatingApplication>
-								<creatingApplicationName></creatingApplicationName>
-								<dateCreatedByApplication>2000-07-12T10:02:00-04:00</dateCreatedByApplication>
-							</creatingApplication>
-						</objectCharacteristics>
-						<originalName>tjpeg.tif</originalName>
-						<relationship>
-							<relationshipType>structural</relationshipType>
-							<relationshipSubType>includes</relationshipSubType>
-							<relatedObjectIdentification>
-								<relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
-								<relatedObjectIdentifierValue>file-1/1</relatedObjectIdentifierValue>
-							</relatedObjectIdentification>
-						</relationship>
-						<linkingEventIdentifier>
-							<linkingEventIdentifierType>URI</linkingEventIdentifierType>
-							<linkingEventIdentifierValue>event-4</linkingEventIdentifierValue>
-						</linkingEventIdentifier>
-					</object>
-				</xmlData>
-			</mdWrap>
-		</techMD>
-		<techMD ID="tech-4">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
-						<objectIdentifier>
-							<objectIdentifierType>URI</objectIdentifierType>
-							<objectIdentifierValue>file-0</objectIdentifierValue>
-						</objectIdentifier>
-						<objectCharacteristics>
-							<compositionLevel>0</compositionLevel>
-							<fixity>
-								<messageDigestAlgorithm>MD5</messageDigestAlgorithm>
-								<messageDigest>1c8717d6f72f3d280a6757fa0f3f6b97</messageDigest>
-							</fixity>
-							<size>1382</size>
-							<format>
-								<formatDesignation>
-									<formatName>XML</formatName>
-									<formatVersion>1.0</formatVersion>
-								</formatDesignation>
-								<formatRegistry>
-									<formatRegistryName>http://www.nationalarchives.gov.uk/pronom</formatRegistryName>
-									<formatRegistryKey>fmt/101</formatRegistryKey>
-								</formatRegistry>
-							</format>
-							<objectCharacteristicsExtension>
-								<textMD xmlns="http://www.loc.gov/standards/textMD">
-									<encoding>
-										<encoding_platform linebreak="CR/LF"/>
-									</encoding>
-									<character_info>
-										<charset>UTF-8</charset>
-										<linebreak>CR/LF</linebreak>
-									</character_info>
-									<language>
-										<markup_basis>XML</markup_basis>
-										<markup_language>http://www.loc.gov/METS/</markup_language>
-										<processingNote/>
-									</language>
-								</textMD>
-							</objectCharacteristicsExtension>
-						</objectCharacteristics>
-						<originalName>files/haskell-nums-pdf.xml</originalName>
-						<linkingEventIdentifier>
-							<linkingEventIdentifierType>URI</linkingEventIdentifierType>
-							<linkingEventIdentifierValue>event-2</linkingEventIdentifierValue>
-						</linkingEventIdentifier>
-					</object>
-				</xmlData>
-			</mdWrap>
-		</techMD>
-		<techMD ID="tech-5">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
-						<objectIdentifier>
-							<objectIdentifierType>URI</objectIdentifierType>
-							<objectIdentifierValue>file-1/1</objectIdentifierValue>
-						</objectIdentifier>
-						<objectCharacteristics>
-							<compositionLevel>0</compositionLevel>
-							<format>
-								<formatDesignation>
-									<formatName>Unknown</formatName>
-								</formatDesignation>
-							</format>
-							<objectCharacteristicsExtension>
-								<mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
-									<mix:BasicDigitalObjectInformation>
-										<mix:ObjectIdentifier>
-											<mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
-										</mix:ObjectIdentifier>
-										<mix:byteOrder>little endian</mix:byteOrder>
-										<mix:Compression>
-											<mix:compressionScheme>Unknown</mix:compressionScheme>
-										</mix:Compression>
-									</mix:BasicDigitalObjectInformation>
-									<mix:BasicImageInformation>
-										<mix:BasicImageCharacteristics>
-											<mix:imageWidth>16716</mix:imageWidth>
-											<mix:imageHeight>16716</mix:imageHeight>
-											<mix:PhotometricInterpretation>
-												<mix:colorSpace>YCbCr</mix:colorSpace>
-												<mix:YCbCr>
-													<mix:YCbCrSubSampling>
-														<mix:yCbCrSubsampleHoriz>2</mix:yCbCrSubsampleHoriz>
-														<mix:yCbCrSubsampleVert>2</mix:yCbCrSubsampleVert>
-													</mix:YCbCrSubSampling>
-													<mix:yCbCrPositioning>1</mix:yCbCrPositioning>
-													<mix:YCbCrCoefficients>
-														<mix:lumaRed>
-															<mix:numerator>299</mix:numerator>
-															<mix:denominator>1000</mix:denominator>
-														</mix:lumaRed>
-														<mix:lumaGreen>
-															<mix:numerator>587</mix:numerator>
-															<mix:denominator>1000</mix:denominator>
-														</mix:lumaGreen>
-														<mix:lumaBlue>
-															<mix:numerator>114</mix:numerator>
-															<mix:denominator>1000</mix:denominator>
-														</mix:lumaBlue>
-													</mix:YCbCrCoefficients>
-												</mix:YCbCr>
-												<mix:ReferenceBlackWhite>
-													<mix:Component>
-														<mix:componentPhotometricInterpretation>Y</mix:componentPhotometricInterpretation>
-														<mix:footroom>
-															<mix:numerator>0</mix:numerator>
-														</mix:footroom>
-														<mix:headroom>
-															<mix:numerator>255</mix:numerator>
-														</mix:headroom>
-													</mix:Component>
-													<mix:Component>
-														<mix:componentPhotometricInterpretation>Cb</mix:componentPhotometricInterpretation>
-														<mix:footroom>
-															<mix:numerator>0</mix:numerator>
-														</mix:footroom>
-														<mix:headroom>
-															<mix:numerator>255</mix:numerator>
-														</mix:headroom>
-													</mix:Component>
-													<mix:Component>
-														<mix:componentPhotometricInterpretation>Cr</mix:componentPhotometricInterpretation>
-														<mix:footroom>
-															<mix:numerator>0</mix:numerator>
-														</mix:footroom>
-														<mix:headroom>
-															<mix:numerator>255</mix:numerator>
-														</mix:headroom>
-													</mix:Component>
-												</mix:ReferenceBlackWhite>
-											</mix:PhotometricInterpretation>
-										</mix:BasicImageCharacteristics>
-									</mix:BasicImageInformation>
-									<mix:ImageCaptureMetadata>
-										<mix:GeneralCaptureInformation>
-											<mix:dateTimeCreated>2000-07-12T10:02:00</mix:dateTimeCreated>
-										</mix:GeneralCaptureInformation>
-										<mix:orientation>normal*</mix:orientation>
-									</mix:ImageCaptureMetadata>
-									<mix:ImageAssessmentMetadata>
-										<mix:SpatialMetrics>
-											<mix:samplingFrequencyUnit>cm</mix:samplingFrequencyUnit>
-											<mix:xSamplingFrequency>
-												<mix:numerator>1497965714</mix:numerator>
-												<mix:denominator>2097152</mix:denominator>
-											</mix:xSamplingFrequency>
-											<mix:ySamplingFrequency>
-												<mix:numerator>1497965714</mix:numerator>
-												<mix:denominator>2097152</mix:denominator>
-											</mix:ySamplingFrequency>
-										</mix:SpatialMetrics>
-										<mix:ImageColorEncoding>
-											<mix:BitsPerSample>
-												<mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
-												<mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
-												<mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
-											</mix:BitsPerSample>
-											<mix:samplesPerPixel>3</mix:samplesPerPixel>
-										</mix:ImageColorEncoding>
-									</mix:ImageAssessmentMetadata>
-								</mix:mix>
-							</objectCharacteristicsExtension>
-						</objectCharacteristics>
-					</object>
-				</xmlData>
-			</mdWrap>
-		</techMD>
-		<digiprovMD ID="digiprov-1">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<agent xmlns="info:lc/xmlns/premis-v2">
-						<agentIdentifier>
-							<agentIdentifierType>URI</agentIdentifierType>
-							<agentIdentifierValue>http://daitss/validation</agentIdentifierValue>
-						</agentIdentifier>
-						<agentName>Validation Service</agentName>
-						<agentType>Web Service</agentType>
-					</agent>
-				</xmlData>
-			</mdWrap>
-		</digiprovMD>
-		<digiprovMD ID="digiprov-2">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<event xmlns="info:lc/xmlns/premis-v2">
-						<eventIdentifier>
-							<eventIdentifierType>URI</eventIdentifierType>
-							<eventIdentifierValue>event-0</eventIdentifierValue>
-						</eventIdentifier>
-						<eventType>SIP passed all validation checks</eventType>
-						<eventDateTime>2009-11-18T14:39:11-05:00</eventDateTime>
-						<eventOutcomeInformation>
-							<eventOutcome>
-								success  
-							</eventOutcome>
-						</eventOutcomeInformation>
-						<linkingAgentIdentifier>
-							<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-							<linkingAgentIdentifierValue>http://daitss/validation</linkingAgentIdentifierValue>
-						</linkingAgentIdentifier>
-						<linkingObjectIdentifier>
-							<linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-							<linkingObjectIdentifierValue>
-								file:///tmp/d2.ws/aip-0
-							</linkingObjectIdentifierValue>
-						</linkingObjectIdentifier>
-					</event>
-				</xmlData>
-			</mdWrap>
-		</digiprovMD>
-		<digiprovMD ID="digiprov-3">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<event xmlns="info:lc/xmlns/premis-v2">
-						<eventIdentifier>
-							<eventIdentifierType>URI</eventIdentifierType>
-							<eventIdentifierValue>event-2</eventIdentifierValue>
-						</eventIdentifier>
-						<eventType>Format Description</eventType>
-						<eventDateTime>2009-11-18T14:39:15-05:00</eventDateTime>
-						<eventOutcomeInformation>
-							<eventOutcome>Well-Formed and valid</eventOutcome>
-						</eventOutcomeInformation>
-						<linkingAgentIdentifier>
-							<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-							<linkingAgentIdentifierValue>http://localhost:7000/describe</linkingAgentIdentifierValue>
-						</linkingAgentIdentifier>
-						<linkingObjectIdentifier>
-							<linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-							<linkingObjectIdentifierValue>file-0</linkingObjectIdentifierValue>
-						</linkingObjectIdentifier>
-					</event>
-				</xmlData>
-			</mdWrap>
-		</digiprovMD>
-		<digiprovMD ID="digiprov-4">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<agent xmlns="info:lc/xmlns/premis-v2">
-						<agentIdentifier>
-							<agentIdentifierType>URI</agentIdentifierType>
-							<agentIdentifierValue>http://localhost:7000/describe</agentIdentifierValue>
-						</agentIdentifier>
-						<agentName>Format Description Service</agentName>
-						<agentType>Web Service</agentType>
-					</agent>
-				</xmlData>
-			</mdWrap>
-		</digiprovMD>
-		<digiprovMD ID="digiprov-5">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<event xmlns="info:lc/xmlns/premis-v2">
-						<eventIdentifier>
-							<eventIdentifierType>URI</eventIdentifierType>
-							<eventIdentifierValue>event-4</eventIdentifierValue>
-						</eventIdentifier>
-						<eventType>Format Description</eventType>
-						<eventDateTime>2009-11-18T14:39:15-05:00</eventDateTime>
-						<eventOutcomeInformation>
-							<eventOutcome>Well-Formed and valid</eventOutcome>
-						</eventOutcomeInformation>
-						<linkingAgentIdentifier>
-							<linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-							<linkingAgentIdentifierValue>http://localhost:7000/describe</linkingAgentIdentifierValue>
-						</linkingAgentIdentifier>
-						<linkingObjectIdentifier>
-							<linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
-							<linkingObjectIdentifierValue>file-1</linkingObjectIdentifierValue>
-						</linkingObjectIdentifier>
-					</event>
-				</xmlData>
-			</mdWrap>
-		</digiprovMD>
-		<digiprovMD ID="digiprov-6">
-			<mdWrap MDTYPE="PREMIS">
-				<xmlData>
-					<agent xmlns="info:lc/xmlns/premis-v2">
-						<agentIdentifier>
-							<agentIdentifierType>URI</agentIdentifierType>
-							<agentIdentifierValue>http://localhost:7000/describe</agentIdentifierValue>
-						</agentIdentifier>
-						<agentName>Format Description Service</agentName>
-						<agentType>Web Service</agentType>
-					</agent>
-				</xmlData>
-			</mdWrap>
-		</digiprovMD>
-	</amdSec>
-	<fileSec>
-		<fileGrp>
-			<file ID="file-0" ADMID="tech-4 digiprov-3 digiprov-4 ">
-				<FLocat LOCTYPE="URL" xlink:href="files/haskell-nums-pdf.xml"/>
-			</file>
-			<file ID="file-1" OWNERID="FILE-0" ADMID="tech-3 digiprov-5 digiprov-6 ">
-				<FLocat LOCTYPE="URL" xlink:href="files/Haskell98numbers.pdf"/>
-			</file>
-		</fileGrp>
-	</fileSec>
-	<structMap>
-		<div ADMID="digiprov-1 digiprov-2  tech-2 tech-1">
-			<fptr FILEID="file-0"/>
-			<fptr FILEID="file-1"/>
-		</div>
-	</structMap>
+<mets xmlns="http://www.loc.gov/METS/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" OBJID="test:/E0000194F_S2DMV5" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd                           http://www.aes.org/tcf http://schema.fcla.edu/tcf.xsd                           http://www.aes.org/audioObject http://schema.fcla.edu/audioObject.xsd                           http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-3.xsd                           info:lc/xmlns/premis-v2 http://www.loc.gov/standards/premis/premis.xsd">
+<!-- DMD -->
+  <dmdSec ID="dmd-1">
+    <mdWrap MDTYPE="PREMIS">
+      <xmlData>
+        <mods xmlns="http://www.loc.gov/mods/v3">
+          <titleInfo>
+            <title>geotiff image</title>
+          </titleInfo>
+          <part>
+            <detail type="volume">
+              <number>1</number>
+            </detail>
+          </part>
+          <part>
+            <detail type="issue">
+              <number>2</number>
+            </detail>
+          </part>
+          <identifier type="entity id">geotiff</identifier>
+        </mods>
+      </xmlData>
+    </mdWrap>
+  </dmdSec>
+  <amdSec>
+    <digiprovMD ID="AGREEMENT-INFO">
+      <mdWrap MDTYPE="OTHER">
+        <xmlData>
+          <AGREEMENT_INFO xmlns="http://www.fcla.edu/dls/md/daitss/" ACCOUNT="ACT" PROJECT="PRJ"/>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+  </amdSec>
+<!-- AIP AMD -->
+  <amdSec>
+<!-- TECH -->
+    <techMD ID="tech-1" ADMID="dmd-1 digiprov-1 digiprov-2 digiprov-3 digiprov-4">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2-beta">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000194F_S2DMV5</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCategory>intellectual entity</objectCategory>
+            <originalName>geotiff</originalName>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-2">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xsi:type="representation">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000194F_S2DMV5/representation/current</objectIdentifierValue>
+            </objectIdentifier>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000194F_S2DMV5/file/1</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000194F_S2DMV5/file/0</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-3">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xsi:type="representation">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000194F_S2DMV5/representation/normalized</objectIdentifierValue>
+            </objectIdentifier>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000194F_S2DMV5/file/1</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000194F_S2DMV5/file/0</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-4">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xsi:type="representation">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000194F_S2DMV5/representation/original</objectIdentifierValue>
+            </objectIdentifier>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000194F_S2DMV5/file/1</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000194F_S2DMV5/file/0</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+<!-- DIGIPROV (events) -->
+    <digiprovMD ID="digiprov-1">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>info:fda/E0000194F_S2DMV5/event/submit</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>submit</eventType>
+            <eventDateTime>2010-05-04T08:52:00-04:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>success</eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fda/daitss/submission_service</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fda/daitss/accounts/ACT</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fda/daitss/accounts/ACT</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>test:/E0000194F_S2DMV5</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-2">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>test:/E0000194F_S2DMV5/event/ingest</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>ingest</eventType>
+            <eventDateTime>2010-05-04T08:52:23-04:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>success</eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fcla/daitss/ingest</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>test:/E0000194F_S2DMV5</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+<!-- DIGIPROV (agents) -->
+    <digiprovMD ID="digiprov-3">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>info:fda/daitss/submission_service</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>daitss submission service</agentName>
+            <agentType>Software</agentType>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-4">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>info:fcla/daitss/ingest</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>daitss ingest</agentName>
+            <agentType>software</agentType>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+  </amdSec>
+<!-- DATA FILE AMD -->
+  <amdSec>
+<!-- TECH -->
+    <techMD ID="tech-5">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000194F_S2DMV5/file/1</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <fixity>
+                <messageDigestAlgorithm>MD5</messageDigestAlgorithm>
+                <messageDigest>9a8f523ef764c9b64933c66fa7cb1b36</messageDigest>
+                <messageDigestOriginator>Archive</messageDigestOriginator>
+              </fixity>
+              <fixity>
+                <messageDigestAlgorithm>SHA-1</messageDigestAlgorithm>
+                <messageDigest>3035899560b1a95b81fc53b65652c7349535d4ec</messageDigest>
+                <messageDigestOriginator>Archive</messageDigestOriginator>
+              </fixity>
+              <size>152039676</size>
+              <format>
+                <formatDesignation>
+                  <formatName>TIFF</formatName>
+                  <formatVersion>6.0</formatVersion>
+                </formatDesignation>
+                <formatRegistry>
+                  <formatRegistryName>http://www.nationalarchives.gov.uk/pronom</formatRegistryName>
+                  <formatRegistryKey>fmt/10</formatRegistryKey>
+                </formatRegistry>
+              </format>
+              <format>
+                <formatDesignation>
+                  <formatName>Baseline GeoTIFF 1.0</formatName>
+                </formatDesignation>
+              </format>
+              <creatingApplication>
+                <creatingApplicationName/>
+                <dateCreatedByApplication>2000-07-12T10:02:00-04:00</dateCreatedByApplication>
+              </creatingApplication>
+            </objectCharacteristics>
+            <originalName>tjpeg.tif</originalName>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000194F_S2DMV5/file/1/1</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000194F_S2DMV5/file/1/2</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000194F_S2DMV5/file/1/3</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000194F_S2DMV5/file/1/4</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000194F_S2DMV5/file/1/5</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000194F_S2DMV5/file/1/6</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000194F_S2DMV5/file/1/7</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <relationship>
+              <relationshipType>structural</relationshipType>
+              <relationshipSubType>includes</relationshipSubType>
+              <relatedObjectIdentification>
+                <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
+                <relatedObjectIdentifierValue>test:/E0000194F_S2DMV5/file/1/8</relatedObjectIdentifierValue>
+              </relatedObjectIdentification>
+            </relationship>
+            <linkingEventIdentifier>
+              <linkingEventIdentifierType>URI</linkingEventIdentifierType>
+              <linkingEventIdentifierValue>test:/E0000194F_S2DMV5/file/1/event/describe/0</linkingEventIdentifierValue>
+            </linkingEventIdentifier>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-6">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000194F_S2DMV5/file/1/1</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <format>
+                <formatDesignation>
+                  <formatName>Unknown</formatName>
+                </formatDesignation>
+              </format>
+              <objectCharacteristicsExtension>
+                <mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+                  <mix:BasicDigitalObjectInformation>
+                    <mix:ObjectIdentifier>
+                      <mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+                    </mix:ObjectIdentifier>
+                    <mix:byteOrder>little endian</mix:byteOrder>
+                    <mix:Compression>
+                      <mix:compressionScheme>Unknown</mix:compressionScheme>
+                    </mix:Compression>
+                  </mix:BasicDigitalObjectInformation>
+                  <mix:BasicImageInformation>
+                    <mix:BasicImageCharacteristics>
+                      <mix:imageWidth>16716</mix:imageWidth>
+                      <mix:imageHeight>16716</mix:imageHeight>
+                      <mix:PhotometricInterpretation>
+                        <mix:colorSpace>YCbCr</mix:colorSpace>
+                        <mix:YCbCr>
+                          <mix:YCbCrSubSampling>
+                            <mix:yCbCrSubsampleHoriz>2</mix:yCbCrSubsampleHoriz>
+                            <mix:yCbCrSubsampleVert>2</mix:yCbCrSubsampleVert>
+                          </mix:YCbCrSubSampling>
+                          <mix:yCbCrPositioning>1</mix:yCbCrPositioning>
+                          <mix:YCbCrCoefficients>
+                            <mix:lumaRed>
+                              <mix:numerator>299</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaRed>
+                            <mix:lumaGreen>
+                              <mix:numerator>587</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaGreen>
+                            <mix:lumaBlue>
+                              <mix:numerator>114</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaBlue>
+                          </mix:YCbCrCoefficients>
+                        </mix:YCbCr>
+                        <mix:ReferenceBlackWhite>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Y</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cb</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cr</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                        </mix:ReferenceBlackWhite>
+                      </mix:PhotometricInterpretation>
+                    </mix:BasicImageCharacteristics>
+                  </mix:BasicImageInformation>
+                  <mix:ImageCaptureMetadata>
+                    <mix:GeneralCaptureInformation>
+                      <mix:dateTimeCreated>2000-07-12T10:02:00</mix:dateTimeCreated>
+                    </mix:GeneralCaptureInformation>
+                    <mix:orientation>normal*</mix:orientation>
+                  </mix:ImageCaptureMetadata>
+                  <mix:ImageAssessmentMetadata>
+                    <mix:SpatialMetrics>
+                      <mix:samplingFrequencyUnit>cm</mix:samplingFrequencyUnit>
+                      <mix:xSamplingFrequency>
+                        <mix:numerator>1497965714</mix:numerator>
+                        <mix:denominator>2097152</mix:denominator>
+                      </mix:xSamplingFrequency>
+                      <mix:ySamplingFrequency>
+                        <mix:numerator>1497965714</mix:numerator>
+                        <mix:denominator>2097152</mix:denominator>
+                      </mix:ySamplingFrequency>
+                    </mix:SpatialMetrics>
+                    <mix:ImageColorEncoding>
+                      <mix:BitsPerSample>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+                      </mix:BitsPerSample>
+                      <mix:samplesPerPixel>3</mix:samplesPerPixel>
+                    </mix:ImageColorEncoding>
+                  </mix:ImageAssessmentMetadata>
+                </mix:mix>
+              </objectCharacteristicsExtension>
+            </objectCharacteristics>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-7">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000194F_S2DMV5/file/1/2</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <format>
+                <formatDesignation>
+                  <formatName>Unknown</formatName>
+                </formatDesignation>
+              </format>
+              <objectCharacteristicsExtension>
+                <mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+                  <mix:BasicDigitalObjectInformation>
+                    <mix:ObjectIdentifier>
+                      <mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+                    </mix:ObjectIdentifier>
+                    <mix:byteOrder>little endian</mix:byteOrder>
+                    <mix:Compression>
+                      <mix:compressionScheme>Unknown</mix:compressionScheme>
+                    </mix:Compression>
+                  </mix:BasicDigitalObjectInformation>
+                  <mix:BasicImageInformation>
+                    <mix:BasicImageCharacteristics>
+                      <mix:imageWidth>8358</mix:imageWidth>
+                      <mix:imageHeight>8358</mix:imageHeight>
+                      <mix:PhotometricInterpretation>
+                        <mix:colorSpace>YCbCr</mix:colorSpace>
+                        <mix:YCbCr>
+                          <mix:YCbCrSubSampling>
+                            <mix:yCbCrSubsampleHoriz>2</mix:yCbCrSubsampleHoriz>
+                            <mix:yCbCrSubsampleVert>2</mix:yCbCrSubsampleVert>
+                          </mix:YCbCrSubSampling>
+                          <mix:yCbCrPositioning>1</mix:yCbCrPositioning>
+                          <mix:YCbCrCoefficients>
+                            <mix:lumaRed>
+                              <mix:numerator>299</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaRed>
+                            <mix:lumaGreen>
+                              <mix:numerator>587</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaGreen>
+                            <mix:lumaBlue>
+                              <mix:numerator>114</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaBlue>
+                          </mix:YCbCrCoefficients>
+                        </mix:YCbCr>
+                        <mix:ReferenceBlackWhite>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Y</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cb</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cr</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                        </mix:ReferenceBlackWhite>
+                      </mix:PhotometricInterpretation>
+                    </mix:BasicImageCharacteristics>
+                  </mix:BasicImageInformation>
+                  <mix:ImageCaptureMetadata>
+                    <mix:orientation>normal*</mix:orientation>
+                  </mix:ImageCaptureMetadata>
+                  <mix:ImageAssessmentMetadata>
+                    <mix:ImageColorEncoding>
+                      <mix:BitsPerSample>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+                      </mix:BitsPerSample>
+                      <mix:samplesPerPixel>3</mix:samplesPerPixel>
+                    </mix:ImageColorEncoding>
+                  </mix:ImageAssessmentMetadata>
+                </mix:mix>
+              </objectCharacteristicsExtension>
+            </objectCharacteristics>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-8">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000194F_S2DMV5/file/1/3</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <format>
+                <formatDesignation>
+                  <formatName>Unknown</formatName>
+                </formatDesignation>
+              </format>
+              <objectCharacteristicsExtension>
+                <mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+                  <mix:BasicDigitalObjectInformation>
+                    <mix:ObjectIdentifier>
+                      <mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+                    </mix:ObjectIdentifier>
+                    <mix:byteOrder>little endian</mix:byteOrder>
+                    <mix:Compression>
+                      <mix:compressionScheme>Unknown</mix:compressionScheme>
+                    </mix:Compression>
+                  </mix:BasicDigitalObjectInformation>
+                  <mix:BasicImageInformation>
+                    <mix:BasicImageCharacteristics>
+                      <mix:imageWidth>4179</mix:imageWidth>
+                      <mix:imageHeight>4179</mix:imageHeight>
+                      <mix:PhotometricInterpretation>
+                        <mix:colorSpace>YCbCr</mix:colorSpace>
+                        <mix:YCbCr>
+                          <mix:YCbCrSubSampling>
+                            <mix:yCbCrSubsampleHoriz>2</mix:yCbCrSubsampleHoriz>
+                            <mix:yCbCrSubsampleVert>2</mix:yCbCrSubsampleVert>
+                          </mix:YCbCrSubSampling>
+                          <mix:yCbCrPositioning>1</mix:yCbCrPositioning>
+                          <mix:YCbCrCoefficients>
+                            <mix:lumaRed>
+                              <mix:numerator>299</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaRed>
+                            <mix:lumaGreen>
+                              <mix:numerator>587</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaGreen>
+                            <mix:lumaBlue>
+                              <mix:numerator>114</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaBlue>
+                          </mix:YCbCrCoefficients>
+                        </mix:YCbCr>
+                        <mix:ReferenceBlackWhite>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Y</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cb</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cr</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                        </mix:ReferenceBlackWhite>
+                      </mix:PhotometricInterpretation>
+                    </mix:BasicImageCharacteristics>
+                  </mix:BasicImageInformation>
+                  <mix:ImageCaptureMetadata>
+                    <mix:orientation>normal*</mix:orientation>
+                  </mix:ImageCaptureMetadata>
+                  <mix:ImageAssessmentMetadata>
+                    <mix:ImageColorEncoding>
+                      <mix:BitsPerSample>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+                      </mix:BitsPerSample>
+                      <mix:samplesPerPixel>3</mix:samplesPerPixel>
+                    </mix:ImageColorEncoding>
+                  </mix:ImageAssessmentMetadata>
+                </mix:mix>
+              </objectCharacteristicsExtension>
+            </objectCharacteristics>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-9">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000194F_S2DMV5/file/1/4</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <format>
+                <formatDesignation>
+                  <formatName>Unknown</formatName>
+                </formatDesignation>
+              </format>
+              <objectCharacteristicsExtension>
+                <mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+                  <mix:BasicDigitalObjectInformation>
+                    <mix:ObjectIdentifier>
+                      <mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+                    </mix:ObjectIdentifier>
+                    <mix:byteOrder>little endian</mix:byteOrder>
+                    <mix:Compression>
+                      <mix:compressionScheme>Unknown</mix:compressionScheme>
+                    </mix:Compression>
+                  </mix:BasicDigitalObjectInformation>
+                  <mix:BasicImageInformation>
+                    <mix:BasicImageCharacteristics>
+                      <mix:imageWidth>2090</mix:imageWidth>
+                      <mix:imageHeight>2090</mix:imageHeight>
+                      <mix:PhotometricInterpretation>
+                        <mix:colorSpace>YCbCr</mix:colorSpace>
+                        <mix:YCbCr>
+                          <mix:YCbCrSubSampling>
+                            <mix:yCbCrSubsampleHoriz>2</mix:yCbCrSubsampleHoriz>
+                            <mix:yCbCrSubsampleVert>2</mix:yCbCrSubsampleVert>
+                          </mix:YCbCrSubSampling>
+                          <mix:yCbCrPositioning>1</mix:yCbCrPositioning>
+                          <mix:YCbCrCoefficients>
+                            <mix:lumaRed>
+                              <mix:numerator>299</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaRed>
+                            <mix:lumaGreen>
+                              <mix:numerator>587</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaGreen>
+                            <mix:lumaBlue>
+                              <mix:numerator>114</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaBlue>
+                          </mix:YCbCrCoefficients>
+                        </mix:YCbCr>
+                        <mix:ReferenceBlackWhite>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Y</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cb</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cr</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                        </mix:ReferenceBlackWhite>
+                      </mix:PhotometricInterpretation>
+                    </mix:BasicImageCharacteristics>
+                  </mix:BasicImageInformation>
+                  <mix:ImageCaptureMetadata>
+                    <mix:orientation>normal*</mix:orientation>
+                  </mix:ImageCaptureMetadata>
+                  <mix:ImageAssessmentMetadata>
+                    <mix:ImageColorEncoding>
+                      <mix:BitsPerSample>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+                      </mix:BitsPerSample>
+                      <mix:samplesPerPixel>3</mix:samplesPerPixel>
+                    </mix:ImageColorEncoding>
+                  </mix:ImageAssessmentMetadata>
+                </mix:mix>
+              </objectCharacteristicsExtension>
+            </objectCharacteristics>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-10">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000194F_S2DMV5/file/1/5</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <format>
+                <formatDesignation>
+                  <formatName>Unknown</formatName>
+                </formatDesignation>
+              </format>
+              <objectCharacteristicsExtension>
+                <mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+                  <mix:BasicDigitalObjectInformation>
+                    <mix:ObjectIdentifier>
+                      <mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+                    </mix:ObjectIdentifier>
+                    <mix:byteOrder>little endian</mix:byteOrder>
+                    <mix:Compression>
+                      <mix:compressionScheme>Unknown</mix:compressionScheme>
+                    </mix:Compression>
+                  </mix:BasicDigitalObjectInformation>
+                  <mix:BasicImageInformation>
+                    <mix:BasicImageCharacteristics>
+                      <mix:imageWidth>1045</mix:imageWidth>
+                      <mix:imageHeight>1045</mix:imageHeight>
+                      <mix:PhotometricInterpretation>
+                        <mix:colorSpace>YCbCr</mix:colorSpace>
+                        <mix:YCbCr>
+                          <mix:YCbCrSubSampling>
+                            <mix:yCbCrSubsampleHoriz>2</mix:yCbCrSubsampleHoriz>
+                            <mix:yCbCrSubsampleVert>2</mix:yCbCrSubsampleVert>
+                          </mix:YCbCrSubSampling>
+                          <mix:yCbCrPositioning>1</mix:yCbCrPositioning>
+                          <mix:YCbCrCoefficients>
+                            <mix:lumaRed>
+                              <mix:numerator>299</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaRed>
+                            <mix:lumaGreen>
+                              <mix:numerator>587</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaGreen>
+                            <mix:lumaBlue>
+                              <mix:numerator>114</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaBlue>
+                          </mix:YCbCrCoefficients>
+                        </mix:YCbCr>
+                        <mix:ReferenceBlackWhite>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Y</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cb</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cr</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                        </mix:ReferenceBlackWhite>
+                      </mix:PhotometricInterpretation>
+                    </mix:BasicImageCharacteristics>
+                  </mix:BasicImageInformation>
+                  <mix:ImageCaptureMetadata>
+                    <mix:orientation>normal*</mix:orientation>
+                  </mix:ImageCaptureMetadata>
+                  <mix:ImageAssessmentMetadata>
+                    <mix:ImageColorEncoding>
+                      <mix:BitsPerSample>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+                      </mix:BitsPerSample>
+                      <mix:samplesPerPixel>3</mix:samplesPerPixel>
+                    </mix:ImageColorEncoding>
+                  </mix:ImageAssessmentMetadata>
+                </mix:mix>
+              </objectCharacteristicsExtension>
+            </objectCharacteristics>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-11">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000194F_S2DMV5/file/1/6</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <format>
+                <formatDesignation>
+                  <formatName>Unknown</formatName>
+                </formatDesignation>
+              </format>
+              <objectCharacteristicsExtension>
+                <mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+                  <mix:BasicDigitalObjectInformation>
+                    <mix:ObjectIdentifier>
+                      <mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+                    </mix:ObjectIdentifier>
+                    <mix:byteOrder>little endian</mix:byteOrder>
+                    <mix:Compression>
+                      <mix:compressionScheme>Unknown</mix:compressionScheme>
+                    </mix:Compression>
+                  </mix:BasicDigitalObjectInformation>
+                  <mix:BasicImageInformation>
+                    <mix:BasicImageCharacteristics>
+                      <mix:imageWidth>523</mix:imageWidth>
+                      <mix:imageHeight>523</mix:imageHeight>
+                      <mix:PhotometricInterpretation>
+                        <mix:colorSpace>YCbCr</mix:colorSpace>
+                        <mix:YCbCr>
+                          <mix:YCbCrSubSampling>
+                            <mix:yCbCrSubsampleHoriz>2</mix:yCbCrSubsampleHoriz>
+                            <mix:yCbCrSubsampleVert>2</mix:yCbCrSubsampleVert>
+                          </mix:YCbCrSubSampling>
+                          <mix:yCbCrPositioning>1</mix:yCbCrPositioning>
+                          <mix:YCbCrCoefficients>
+                            <mix:lumaRed>
+                              <mix:numerator>299</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaRed>
+                            <mix:lumaGreen>
+                              <mix:numerator>587</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaGreen>
+                            <mix:lumaBlue>
+                              <mix:numerator>114</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaBlue>
+                          </mix:YCbCrCoefficients>
+                        </mix:YCbCr>
+                        <mix:ReferenceBlackWhite>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Y</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cb</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cr</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                        </mix:ReferenceBlackWhite>
+                      </mix:PhotometricInterpretation>
+                    </mix:BasicImageCharacteristics>
+                  </mix:BasicImageInformation>
+                  <mix:ImageCaptureMetadata>
+                    <mix:orientation>normal*</mix:orientation>
+                  </mix:ImageCaptureMetadata>
+                  <mix:ImageAssessmentMetadata>
+                    <mix:ImageColorEncoding>
+                      <mix:BitsPerSample>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+                      </mix:BitsPerSample>
+                      <mix:samplesPerPixel>3</mix:samplesPerPixel>
+                    </mix:ImageColorEncoding>
+                  </mix:ImageAssessmentMetadata>
+                </mix:mix>
+              </objectCharacteristicsExtension>
+            </objectCharacteristics>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-12">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000194F_S2DMV5/file/1/7</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <format>
+                <formatDesignation>
+                  <formatName>Unknown</formatName>
+                </formatDesignation>
+              </format>
+              <objectCharacteristicsExtension>
+                <mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+                  <mix:BasicDigitalObjectInformation>
+                    <mix:ObjectIdentifier>
+                      <mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+                    </mix:ObjectIdentifier>
+                    <mix:byteOrder>little endian</mix:byteOrder>
+                    <mix:Compression>
+                      <mix:compressionScheme>Unknown</mix:compressionScheme>
+                    </mix:Compression>
+                  </mix:BasicDigitalObjectInformation>
+                  <mix:BasicImageInformation>
+                    <mix:BasicImageCharacteristics>
+                      <mix:imageWidth>262</mix:imageWidth>
+                      <mix:imageHeight>262</mix:imageHeight>
+                      <mix:PhotometricInterpretation>
+                        <mix:colorSpace>YCbCr</mix:colorSpace>
+                        <mix:YCbCr>
+                          <mix:YCbCrSubSampling>
+                            <mix:yCbCrSubsampleHoriz>2</mix:yCbCrSubsampleHoriz>
+                            <mix:yCbCrSubsampleVert>2</mix:yCbCrSubsampleVert>
+                          </mix:YCbCrSubSampling>
+                          <mix:yCbCrPositioning>1</mix:yCbCrPositioning>
+                          <mix:YCbCrCoefficients>
+                            <mix:lumaRed>
+                              <mix:numerator>299</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaRed>
+                            <mix:lumaGreen>
+                              <mix:numerator>587</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaGreen>
+                            <mix:lumaBlue>
+                              <mix:numerator>114</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaBlue>
+                          </mix:YCbCrCoefficients>
+                        </mix:YCbCr>
+                        <mix:ReferenceBlackWhite>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Y</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cb</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cr</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                        </mix:ReferenceBlackWhite>
+                      </mix:PhotometricInterpretation>
+                    </mix:BasicImageCharacteristics>
+                  </mix:BasicImageInformation>
+                  <mix:ImageCaptureMetadata>
+                    <mix:orientation>normal*</mix:orientation>
+                  </mix:ImageCaptureMetadata>
+                  <mix:ImageAssessmentMetadata>
+                    <mix:ImageColorEncoding>
+                      <mix:BitsPerSample>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+                      </mix:BitsPerSample>
+                      <mix:samplesPerPixel>3</mix:samplesPerPixel>
+                    </mix:ImageColorEncoding>
+                  </mix:ImageAssessmentMetadata>
+                </mix:mix>
+              </objectCharacteristicsExtension>
+            </objectCharacteristics>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-13">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="bitstream">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000194F_S2DMV5/file/1/8</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <format>
+                <formatDesignation>
+                  <formatName>Unknown</formatName>
+                </formatDesignation>
+              </format>
+              <objectCharacteristicsExtension>
+                <mix:mix xmlns:mix="http://www.loc.gov/mix/v20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/mix/v20 http://www.loc.gov/standards/mix/mix20/mix20.xsd">
+                  <mix:BasicDigitalObjectInformation>
+                    <mix:ObjectIdentifier>
+                      <mix:objectIdentifierType>JHOVE</mix:objectIdentifierType>
+                    </mix:ObjectIdentifier>
+                    <mix:byteOrder>little endian</mix:byteOrder>
+                    <mix:Compression>
+                      <mix:compressionScheme>Unknown</mix:compressionScheme>
+                    </mix:Compression>
+                  </mix:BasicDigitalObjectInformation>
+                  <mix:BasicImageInformation>
+                    <mix:BasicImageCharacteristics>
+                      <mix:imageWidth>131</mix:imageWidth>
+                      <mix:imageHeight>131</mix:imageHeight>
+                      <mix:PhotometricInterpretation>
+                        <mix:colorSpace>YCbCr</mix:colorSpace>
+                        <mix:YCbCr>
+                          <mix:YCbCrSubSampling>
+                            <mix:yCbCrSubsampleHoriz>2</mix:yCbCrSubsampleHoriz>
+                            <mix:yCbCrSubsampleVert>2</mix:yCbCrSubsampleVert>
+                          </mix:YCbCrSubSampling>
+                          <mix:yCbCrPositioning>1</mix:yCbCrPositioning>
+                          <mix:YCbCrCoefficients>
+                            <mix:lumaRed>
+                              <mix:numerator>299</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaRed>
+                            <mix:lumaGreen>
+                              <mix:numerator>587</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaGreen>
+                            <mix:lumaBlue>
+                              <mix:numerator>114</mix:numerator>
+                              <mix:denominator>1000</mix:denominator>
+                            </mix:lumaBlue>
+                          </mix:YCbCrCoefficients>
+                        </mix:YCbCr>
+                        <mix:ReferenceBlackWhite>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Y</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cb</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                          <mix:Component>
+                            <mix:componentPhotometricInterpretation>Cr</mix:componentPhotometricInterpretation>
+                            <mix:footroom>
+                              <mix:numerator>0</mix:numerator>
+                            </mix:footroom>
+                            <mix:headroom>
+                              <mix:numerator>255</mix:numerator>
+                            </mix:headroom>
+                          </mix:Component>
+                        </mix:ReferenceBlackWhite>
+                      </mix:PhotometricInterpretation>
+                    </mix:BasicImageCharacteristics>
+                  </mix:BasicImageInformation>
+                  <mix:ImageCaptureMetadata>
+                    <mix:orientation>normal*</mix:orientation>
+                  </mix:ImageCaptureMetadata>
+                  <mix:ImageAssessmentMetadata>
+                    <mix:ImageColorEncoding>
+                      <mix:BitsPerSample>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleValue>8</mix:bitsPerSampleValue>
+                        <mix:bitsPerSampleUnit>integer</mix:bitsPerSampleUnit>
+                      </mix:BitsPerSample>
+                      <mix:samplesPerPixel>3</mix:samplesPerPixel>
+                    </mix:ImageColorEncoding>
+                  </mix:ImageAssessmentMetadata>
+                </mix:mix>
+              </objectCharacteristicsExtension>
+            </objectCharacteristics>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+    <techMD ID="tech-14">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <object xmlns="info:lc/xmlns/premis-v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="file">
+            <objectIdentifier>
+              <objectIdentifierType>URI</objectIdentifierType>
+              <objectIdentifierValue>test:/E0000194F_S2DMV5/file/0</objectIdentifierValue>
+            </objectIdentifier>
+            <objectCharacteristics>
+              <compositionLevel>0</compositionLevel>
+              <fixity>
+                <messageDigestAlgorithm>MD5</messageDigestAlgorithm>
+                <messageDigest>15866dc6aed717147b889af79d5dc394</messageDigest>
+                <messageDigestOriginator>Archive</messageDigestOriginator>
+              </fixity>
+              <fixity>
+                <messageDigestAlgorithm>SHA-1</messageDigestAlgorithm>
+                <messageDigest>cb5031706577f7820a66ce046d1ea662f310f728</messageDigest>
+                <messageDigestOriginator>Archive</messageDigestOriginator>
+              </fixity>
+              <size>1549</size>
+              <format>
+                <formatDesignation>
+                  <formatName>XML</formatName>
+                  <formatVersion>1.0</formatVersion>
+                </formatDesignation>
+                <formatRegistry>
+                  <formatRegistryName>http://www.nationalarchives.gov.uk/pronom</formatRegistryName>
+                  <formatRegistryKey>fmt/101</formatRegistryKey>
+                </formatRegistry>
+              </format>
+              <objectCharacteristicsExtension>
+                <textMD xmlns="http://www.loc.gov/standards/textMD">
+                  <encoding>
+                    <encoding_platform linebreak="CR/LF"/>
+                  </encoding>
+                  <character_info>
+                    <charset>UTF-8</charset>
+                    <linebreak>CR/LF</linebreak>
+                  </character_info>
+                  <language>
+                    <markup_basis>XML</markup_basis>
+                    <markup_language>http://www.loc.gov/METS/</markup_language>
+                    <processingNote/>
+                  </language>
+                </textMD>
+              </objectCharacteristicsExtension>
+            </objectCharacteristics>
+            <originalName>geotiff.xml</originalName>
+            <linkingEventIdentifier>
+              <linkingEventIdentifierType>URI</linkingEventIdentifierType>
+              <linkingEventIdentifierValue>test:/E0000194F_S2DMV5/file/0/event/describe/0</linkingEventIdentifierValue>
+            </linkingEventIdentifier>
+          </object>
+        </xmlData>
+      </mdWrap>
+    </techMD>
+<!-- DIGIPROV (events) -->
+    <digiprovMD ID="digiprov-5">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>test:/E0000194F_S2DMV5/file/1/event/describe/0</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>format description</eventType>
+            <eventDateTime>2010-05-04T08:52:22-04:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>Well-Formed and valid</eventOutcome>
+              <eventOutcomeDetail>
+                <eventOutcomeDetailExtension>
+                  <anomaly>Unknown TIFF IFD tag: 34461</anomaly>
+                </eventOutcomeDetailExtension>
+              </eventOutcomeDetail>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fda/daitss/description/v0</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>test:/E0000194F_S2DMV5/file/1</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-6">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>test:/E0000194F_S2DMV5/file/1/event/virus-check</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>virus check</eventType>
+            <eventDateTime>2010-05-04T08:52:13-04:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>passed</eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fcla/archive/service/viruscheck</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>test:/E0000194F_S2DMV5/file/1</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-7">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>test:/E0000194F_S2DMV5/file/0/event/describe/0</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>format description</eventType>
+            <eventDateTime>2010-05-04T08:52:23-04:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>Well-Formed and valid</eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fda/daitss/description/v0</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>test:/E0000194F_S2DMV5/file/0</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-8">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <event xmlns="info:lc/xmlns/premis-v2">
+            <eventIdentifier>
+              <eventIdentifierType>URI</eventIdentifierType>
+              <eventIdentifierValue>test:/E0000194F_S2DMV5/file/0/event/virus-check</eventIdentifierValue>
+            </eventIdentifier>
+            <eventType>virus check</eventType>
+            <eventDateTime>2010-05-04T08:52:13-04:00</eventDateTime>
+            <eventOutcomeInformation>
+              <eventOutcome>passed</eventOutcome>
+            </eventOutcomeInformation>
+            <linkingAgentIdentifier>
+              <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+              <linkingAgentIdentifierValue>info:fcla/archive/service/viruscheck</linkingAgentIdentifierValue>
+            </linkingAgentIdentifier>
+            <linkingObjectIdentifier>
+              <linkingObjectIdentifierType>URI</linkingObjectIdentifierType>
+              <linkingObjectIdentifierValue>test:/E0000194F_S2DMV5/file/0</linkingObjectIdentifierValue>
+            </linkingObjectIdentifier>
+          </event>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+<!-- DIGIPROV (agents) -->
+    <digiprovMD ID="digiprov-9">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>info:fcla/archive/service/viruscheck</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>daitss virus check service</agentName>
+            <agentType>web service</agentType>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+    <digiprovMD ID="digiprov-10">
+      <mdWrap MDTYPE="PREMIS">
+        <xmlData>
+          <agent xmlns="info:lc/xmlns/premis-v2">
+            <agentIdentifier>
+              <agentIdentifierType>URI</agentIdentifierType>
+              <agentIdentifierValue>info:fda/daitss/description/v0</agentIdentifierValue>
+            </agentIdentifier>
+            <agentName>Format Description Service</agentName>
+            <agentType>Web Service</agentType>
+            <agentNote xmlns="info:lc/xmlns/premis-v2-beta">built with JHOVE 1.5, DROID 3.0 with DROID signature file version 34.</agentNote>
+          </agent>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+  </amdSec>
+  <fileSec>
+    <fileGrp>
+      <file ID="file-1" OWNERID="test:/E0000194F_S2DMV5/file/1" ADMID="tech-5 tech-6 tech-7 tech-8 tech-9 tech-10 tech-11 tech-12 tech-13 digiprov-5 digiprov-6 digiprov-9 digiprov-10" SIZE="152039676" CHECKSUMTYPE="SHA-1" CHECKSUM="3035899560b1a95b81fc53b65652c7349535d4ec">
+        <FLocat LOCTYPE="URL" xlink:href="tjpeg.tif"/>
+      </file>
+      <file ID="file-0" OWNERID="test:/E0000194F_S2DMV5/file/0" ADMID="tech-14 digiprov-7 digiprov-8 digiprov-9 digiprov-10" SIZE="1549" CHECKSUMTYPE="SHA-1" CHECKSUM="cb5031706577f7820a66ce046d1ea662f310f728">
+        <FLocat LOCTYPE="URL" xlink:href="geotiff.xml"/>
+      </file>
+    </fileGrp>
+  </fileSec>
+  <structMap ID="current">
+    <div ADMID="tech-2">
+      <fptr FILEID="file-1"/>
+      <fptr FILEID="file-0"/>
+    </div>
+  </structMap>
+  <structMap ID="normalized">
+    <div ADMID="tech-3">
+      <fptr FILEID="file-1"/>
+      <fptr FILEID="file-0"/>
+    </div>
+  </structMap>
+  <structMap ID="original">
+    <div ADMID="tech-4">
+      <fptr FILEID="file-1"/>
+      <fptr FILEID="file-0"/>
+    </div>
+  </structMap>
 </mets>
