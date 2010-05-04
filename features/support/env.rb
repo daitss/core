@@ -34,6 +34,13 @@ class MyWorld
     File.join File.dirname(__FILE__), '..', 'fixtures', name
   end
 
+  def sip_tarball name
+    path = sip name
+    tar = %x{tar -c -C #{File.dirname path} -f - #{File.basename path} }
+    raise "tar did not work" if $?.exitstatus != 0
+    tar
+  end
+
   def submit name
     sip_path = sip 'ateam'
     url = URI.parse "#{Daitss::CONFIG['submission-url']}"
@@ -73,7 +80,6 @@ end
 
 World{MyWorld.new}
 
-
 Before do
   DataMapper.setup :default, Daitss::CONFIG['database-url']
   DataMapper.auto_migrate!
@@ -106,4 +112,10 @@ Before do
   a.operations_agents << o
   a.projects << p
   a.save or raise "could not save account"
+
+  $cleanup = []
+end
+
+After do
+  $cleanup.each { |f| FileUtils.rm_rf f }
 end
