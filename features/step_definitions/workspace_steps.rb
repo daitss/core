@@ -18,7 +18,7 @@ Given /^it has (\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
     wip = submit 'mimi'
 
     case state
-    when 'idle', nil
+    when 'idle', ""
     when 'snafu'
 
       begin
@@ -51,10 +51,10 @@ end
 Then /^there should be (\d+) (running|idle|snafu|) ?wips?$/ do |count, state|
   doc = Nokogiri::HTML last_response.body
 
-  if state
-    (doc / "table#wips tr td.state:contains('#{state}')").size.should == count.to_i
+  unless state.empty?
+    (doc / "table#packages tr td:contains('#{state}')").size.should == count.to_i
   else
-    (doc / "table#wips tr").size.should == count.to_i
+    (doc / "table#packages tr").size.should == count.to_i
   end
 
 end
