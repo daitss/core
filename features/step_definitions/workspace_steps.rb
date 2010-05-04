@@ -1,4 +1,3 @@
-require 'net/http'
 
 Given /^an empty workspace$/ do
   ws = Workspace.new Daitss::CONFIG['workspace']
@@ -44,30 +43,40 @@ Given /^I submit (a|\d+) sips?$/ do |count|
           else raise 'invalid count'
           end
 
-  count.times do |i|
-    sip_path = sip 'ateam'
-    url = URI.parse "#{Daitss::CONFIG['submission-url']}"
-    req = Net::HTTP::Post.new url.path
-    tar = %x{tar -c -C #{File.dirname sip_path} -f - #{File.basename sip_path} }
-    raise "tar did not work" if $?.exitstatus != 0
-    req.body = tar
-    req.content_type = 'application/tar'
-    req.basic_auth 'operator', 'operator'
-    req['X-Package-Name'] = File.basename sip_path
-    req['Content-MD5'] = Digest::MD5.hexdigest(req.body)
-    req['X-Archive-Type'] = 'tar'
-
-    res = Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = Daitss::CONFIG['http-timeout']
-      http.request req
-    end
-
-    res.error! unless Net::HTTPSuccess === res
-  end
+  count.times { submit 'ateam' }
 
 end
 
 Then /^the response should be OK$/ do
   last_response.should be_ok
+end
+
+Given /^a workspace with (\d+) (running|idle|snafu) wips?$/ do |count, state|
+
+  count.to_i.times do
+
+    wip = submit 'mimi'
+
+    case state
+    when 'idle'
+    when 'snafu'
+
+      begin
+        raise "oops this is not a real error!"
+      rescue => e
+        wip.snafu = e
+      end
+
+    when 'stopped' then wip.stop
+    when 'running' then wip.start_task
+    end
+
+  end
+
+end
+
+Then /^there should be (\d+) (running|idle|snafu) wips?$/ do |count, state|
+  doc = Nokogiri::HTML last_response.body
+  (doc / "table#wips tr td:contains('#{state}')").size.should == count.to_i
 end
 
