@@ -1,10 +1,10 @@
-Feature: stop all
-  To stop all running wips
+Feature: stop
+  To stop running wips
 
   Scenario: one running sip
     Given a workspace with 1 running wip
     And I goto "/workspace"
-    When I choose "stop all"
+    When I choose "stop"
     And I press "Update"
     Then there should be 0 running wips
 
@@ -13,6 +13,6 @@ Feature: stop all
     And it has 2 idle wips
     And it has 2 running wips
     And I goto "/workspace"
-    When I choose "stop all"
+    When I choose "stop"
     And I press "Update"
     Then there should be 0 running wips
