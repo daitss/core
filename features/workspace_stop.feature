@@ -2,22 +2,17 @@ Feature: stop all
   To stop all running wips
 
   Scenario: one running sip
-    Given an empty workspace
+    Given a workspace with 1 running wip
     And I goto "/workspace"
-    And I submit a sip
-    And I choose "start all"
-    And I press "Update"
     When I choose "stop all"
     And I press "Update"
-    Then there should be 0 running sips
+    Then there should be 0 running wips
 
   Scenario: mix of running and non-running
-    Given an empty workspace
+    Given a workspace
+    And it has 2 idle wips
+    And it has 2 running wips
     And I goto "/workspace"
-    And I submit 2 sips
-    And I choose "start all"
-    And I press "Update"
     When I choose "stop all"
     And I press "Update"
-    And I submit a sip
-    Then there should be 0 running sips
+    Then there should be 0 running wips
