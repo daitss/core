@@ -1,6 +1,8 @@
 require 'sinatra'
 require 'haml'
 require 'sass'
+require 'net/http'
+require 'nokogiri'
 
 require 'workspace'
 require 'wip/process'
@@ -8,11 +10,17 @@ require 'wip/state'
 require 'wip/json'
 require 'daitss/config'
 
+require 'datamapper'
+require 'dm-aggregates'
+require 'aip'
+require 'db/sip'
+
 configure do
   raise "no configuration" unless ENV['CONFIG']
   Daitss::CONFIG.load ENV['CONFIG']
 
   set :workspace, Workspace.new(Daitss::CONFIG['workspace'])
+  DataMapper.setup :default, Daitss::CONFIG['database-url']
 end
 
 get '/stylesheet.css' do
@@ -22,6 +30,37 @@ end
 
 get '/' do
   haml :index
+end
+
+get '/submit' do
+  haml :submit
+end
+
+post '/submit' do
+  tempfile = params['sip'][:tempfile]
+  filename = params['sip'][:filename]
+  sip_name = filename[ %r{^(.+)\.\w+$}, 1]
+  type = filename[ %r{^.+\.(\w+)$}, 1]
+  debugger unless sip_name
+
+  url = URI.parse "#{Daitss::CONFIG['submission-url']}"
+  req = Net::HTTP::Post.new url.path
+  req.body = tempfile.read
+  req.content_type = 'application/tar'
+  req.basic_auth 'operator', 'operator'
+  req['X-Package-Name'] = sip_name
+  req['Content-MD5'] = Digest::MD5.hexdigest(req.body)
+  req['X-Archive-Type'] = type
+
+  res = Net::HTTP.start(url.host, url.port) do |http|
+    http.read_timeout = Daitss::CONFIG['http-timeout']
+    http.request req
+  end
+
+  res.error! unless Net::HTTPSuccess === res
+  doc = Nokogiri::XML res.body
+  id = (doc % 'IEID').content
+  redirect "/workspace/#{id}"
 end
 
 get '/workspace' do
