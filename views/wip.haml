@@ -1,68 +1,88 @@
--#%link{:href => "/js/wip.js", :rel => "stylesheet"}
-%h1
-  %a{:href => '../' } ws
-  = "::"
-  %span.value
-    = @wip.uri
-
-#commands.ui-widget-content.ui-corner-all{:style => 'display: none'}
-  %button#start start
-  %button#stop stop
-  &nbsp;
-  %button#unsnafu unsnafu
-  &nbsp;
-  %button#stash stash
-  %input#stash-path.ui-widget-content.ui-corner-all{:value => '/tmp'}
-
-#process
-  %h2.ui-widget-content.ui-corner-all
-    process:
-    - if @wip.running?
-      %span#process-status-pid= @wip.pid
-      %span#process-status-pid-time= @wip.pid_time.to_f * 1000
-    - else
-      %span#process-status-pid inactive
-      %span#process-status-pid-time &nbsp;
-
-  %h2.ui-widget-content.ui-corner-all
-    = @wip.task
-    = ":"
-    %span#task-status= @wip.state
-
-#update-form
-  %form{:action => @wip.id, :method => 'post'}
-
-    %h3 process
-    %input#task-start{:type => 'radio', :name => 'task', :value => 'start'}
-    %label{:for => 'task-start'} start
-
-    %br/
-
-    %input#task-stop{:type => 'radio', :name => 'task', :value => 'stop'}
-    %label{:for => 'task-stop'} stop
-
-    %br/
-
-    %input#task-unsnafu{:type => 'radio', :name => 'task', :value => 'unsnafu'}
-    %label{:for => 'task-unsnafu'} unsnafu
-
-    %br/
-
-    %input#task-stash{:type => 'radio', :name => 'task', :value => 'stash'}
-    %label{:for => 'task-stash'} stash
-    %input#stash-path{:type => 'text', :name => 'path', :value => '/tmp'}
-
-
-    %br/
-
-    %input{:type => 'submit', :value => "Update job"}
+#wip
+  %h1= @wip.id
 
   %hr/
 
-#snafu.ui-widget-content.ui-corner-all
-  %h2 snafu
-  %pre= @wip.snafu
+  %table
+    %tr
+      %th task
+      %td= @wip.task
+    %tr
+      %th status
+      %td= @wip.state
+    %tr
+      %th sip id
+      %td= @wip['sip-name']
+    %tr
+      %th account
+      %td= @wip['dmd-account']
+    %tr
+      %th project
+      %td= @wip['dmd-project']
 
-#reject.ui-widget-content.ui-corner-all
-  %h2 reject
-  %pre= @wip.reject
+  %hr
+
+  %h2 progress
+
+  - case @wip.task
+  - when :ingest, :disseminate
+    %table.progress
+      %tr
+        %th virus check
+        %td ...
+      %tr
+        %th describe original files
+        %td ...
+      %tr
+        %th migrate original files
+        %td ...
+      %tr
+        %th normalize original files
+        %td ...
+      %tr
+        %th describe transformed files
+        %td ...
+      %tr
+        %th xml resolution
+        %td ...
+      %tr
+        %th assemble descriptor
+        %td ...
+      %tr
+        %th save aip
+        %td ...
+
+  - else
+    %p unknown progress
+
+  %hr/
+
+  %h2 update package
+  .ui-widget
+    #update-form
+      %form{:action => @wip.id, :method => 'post'}
+
+        %input#task-start{:type => 'radio', :name => 'task', :value => 'start'}
+        %label{:for => 'task-start'} start
+
+        %br/
+
+        %input#task-stop{:type => 'radio', :name => 'task', :value => 'stop'}
+        %label{:for => 'task-stop'} stop
+
+        %br/
+
+        %input#task-unsnafu{:type => 'radio', :name => 'task', :value => 'unsnafu'}
+        %label{:for => 'task-unsnafu'} unsnafu
+
+        %br/
+
+        %input#task-stash{:type => 'radio', :name => 'task', :value => 'stash'}
+        %label{:for => 'task-stash'} stash
+        %input#stash-path{:type => 'text', :name => 'path', :value => '/tmp'}
+
+
+        %br/
+        %br/
+
+        %input{:type => 'submit', :value => "Update"}
