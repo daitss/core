@@ -11,4 +11,11 @@
     %title Workspace Monitor (new boss)
   %body
     #content.ui-corner-bottom
+      #navigation.ui-corner-bottom
+        %a.overview{ :href => '/' } overview
+        = ":"
+        %a{ :href => '/submit' } submit
+        = ":"
+        %a{ :href => '/workspace' } workspace
+        %hr
       = yield
