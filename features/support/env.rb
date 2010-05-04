@@ -59,6 +59,16 @@ class MyWorld
     wip = ws[id]
   end
 
+  def empty_out_workspace
+    ws = Workspace.new Daitss::CONFIG['workspace']
+
+    ws.each do |wip|
+      wip.stop if wip.running?
+      FileUtils.rm_r wip.path
+    end
+
+  end
+
 end
 
 World{MyWorld.new}
