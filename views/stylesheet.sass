@@ -29,20 +29,6 @@ a
     color = !e_orange
     text-decoration: underline
 
-
-#navigation
-  text-align: center
-  margin-left: 20px
-  margin-right: 20px
-  color = !e_gray
-  padding: 5px
-  font:
-    size: 2em
-  a
-    color = !e_blue
-  a.overview
-    color = !e_red
-
 #content
   margin-top: 0px
   margin-bottom: 0px
@@ -53,7 +39,23 @@ a
     bottom: 5px
     left: 5px
     right: 5px
-  background-color = !white
+  background-color: white
+  border-bottom-right-radius: 10px
+  border-bottom-left-radius: 10px
+
+#navigation
+  text-align: center
+  margin-left: 20px
+  margin-right: 20px
+  color = !e_gray
+  background-color: white
+  padding: 5px
+  font-size: 2em
+  a
+    color = !e_blue
+    text-shadow: #6374AB 1px 1px 2px
+  a.overview
+    color = !e_red
 
 #summary, #workspace, #submit, #wip
   margin-left: 20%

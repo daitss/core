@@ -1,21 +1,16 @@
 %html
   %head
-    %link{:rel => "stylesheet", :href => "/jquery-ui-1.8rc3.custom/css/dot-luv/jquery-ui-1.8rc3.custom.css", :type =>"text/css", :media =>"screen, projection"}
-    %script{:type => "text/javascript", :src => "/jquery-ui-1.8rc3.custom/js/jquery-1.4.2.min.js"}
-    %script{:type => "text/javascript", :src => "/jquery-ui-1.8rc3.custom/js/jquery-ui-1.8rc3.custom.min.js"}
-    %link{:rel => "stylesheet", :href => "/selectmenu/ui.selectmenu.css", :type =>"text/css", :media =>"screen, projection"}
-    %script{:type => "text/javascript", :src => "/selectmenu/ui.selectmenu.js"}
-
     %link{:rel => "stylesheet", :href => "/stylesheet.css", :type =>"text/css", :media =>"screen, projection"}
 
     %title Workspace Monitor (new boss)
   %body
-    #content.ui-corner-bottom
-      #navigation.ui-corner-bottom
+    #content
+      #navigation
         %a.overview{ :href => '/' } overview
         = ":"
         %a{ :href => '/submit' } submit
         = ":"
         %a{ :href => '/workspace' } workspace
         %hr
-      = yield
+      #non-navigationx
+        = yield
