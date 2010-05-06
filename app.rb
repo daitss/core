@@ -25,21 +25,17 @@ end
 
 helpers do
 
-  def submit
-    error 400, 'file upload parameter "sip" required' unless params['sip']
-    tempfile = params['sip'][:tempfile]
-    filename = params['sip'][:filename]
-    sip_name = filename[ %r{^(.+)\.\w+$}, 1]
-    type = filename[ %r{^.+\.(\w+)$}, 1]
+  def submit data, sip, ext
+    url = Daitss::CONFIG['submission-url']
 
-    url = URI.parse "#{Daitss::CONFIG['submission-url']}"
+    url = URI.parse url
     req = Net::HTTP::Post.new url.path
-    req.body = tempfile.read
+    req.body = data
     req.content_type = 'application/tar'
     req.basic_auth 'operator', 'operator'
-    req['X-Package-Name'] = sip_name
-    req['Content-MD5'] = Digest::MD5.hexdigest(req.body)
-    req['X-Archive-Type'] = type
+    req['X-Package-Name'] = sip
+    req['Content-MD5'] = Digest::MD5.hexdigest data
+    req['X-Archive-Type'] = ext
 
     res = Net::HTTP.start(url.host, url.port) do |http|
       http.read_timeout = Daitss::CONFIG['http-timeout']
@@ -47,6 +43,7 @@ helpers do
     end
 
     res.error! unless Net::HTTPSuccess === res
+
     doc = Nokogiri::XML res.body
     (doc % 'IEID').content
   end
@@ -67,7 +64,17 @@ get '/submit' do
 end
 
 post '/submit' do
-  id = submit
+
+  id = begin
+         filename = params['sip'][:filename]
+         sip = filename[ %r{^(.+)\.\w+$}, 1]
+         ext = filename[ %r{^.+\.(\w+)$}, 1]
+         data = params['sip'][:tempfile].read
+         submit data, sip, ext
+       rescue
+         error 400, 'file upload parameter "sip" required' unless params['sip']
+       end
+
   redirect "/workspace/#{id}"
 end
 
