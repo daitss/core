@@ -48,6 +48,11 @@ helpers do
     (doc % 'IEID').content
   end
 
+  def search query
+    ids = query.strip.split
+    SubmittedSip.all(:package_name => ids) | SubmittedSip.all(:ieid => ids)
+  end
+
 end
 
 get '/stylesheet.css' do
@@ -76,6 +81,16 @@ post '/submit' do
        end
 
   redirect "/workspace/#{id}"
+get '/packages?' do
+
+  if params['search']
+    @query = params['search']
+    @results = search @query
+  end
+
+  haml :packages
+end
+
 end
 
 get '/workspace' do

@@ -1,0 +1,29 @@
+#search
+  %h1 search packages
+
+  %form
+    %input#search{:type => 'text', :name => 'search', :value => @query}
+    %input{:type => 'submit', :value => "Search"}
+
+    %p
+      %em aip
+      or
+      %em sip
+      separated by spaces
+
+    %p
+      example:
+      %code UF2543330 E2009_00FJ543
+
+  - if @results
+
+    %hr/
+
+    %h2
+      results (#{@results.size})
+
+    %ol.results
+      - @results.each do |p|
+        %li
+          %h3
+            %a{:href => "/package/#{p.ieid}"}= p.ieid
