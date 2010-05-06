@@ -58,31 +58,30 @@
   %hr/
 
   %h2 update package
-  .ui-widget
-    #update-form
-      %form{:action => @wip.id, :method => 'post'}
+  #update-form
+    %form{:action => @wip.id, :method => 'post'}
 
-        %input#task-start{:type => 'radio', :name => 'task', :value => 'start'}
-        %label{:for => 'task-start'} start
+      %input#task-start{:type => 'radio', :name => 'task', :value => 'start'}
+      %label{:for => 'task-start'} start
 
-        %br/
+      %br/
 
-        %input#task-stop{:type => 'radio', :name => 'task', :value => 'stop'}
-        %label{:for => 'task-stop'} stop
+      %input#task-stop{:type => 'radio', :name => 'task', :value => 'stop'}
+      %label{:for => 'task-stop'} stop
 
-        %br/
+      %br/
 
-        %input#task-unsnafu{:type => 'radio', :name => 'task', :value => 'unsnafu'}
-        %label{:for => 'task-unsnafu'} unsnafu
+      %input#task-unsnafu{:type => 'radio', :name => 'task', :value => 'unsnafu'}
+      %label{:for => 'task-unsnafu'} unsnafu
 
-        %br/
+      %br/
 
-        %input#task-stash{:type => 'radio', :name => 'task', :value => 'stash'}
-        %label{:for => 'task-stash'} stash
-        %input#stash-path{:type => 'text', :name => 'path', :value => '/tmp'}
+      %input#task-stash{:type => 'radio', :name => 'task', :value => 'stash'}
+      %label{:for => 'task-stash'} stash
+      %input#stash-path{:type => 'text', :name => 'path', :value => '/tmp'}
 
 
-        %br/
-        %br/
+      %br/
+      %br/
 
-        %input{:type => 'submit', :value => "Update"}
+      %input{:type => 'submit', :value => "Update"}
