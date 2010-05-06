@@ -4,4 +4,4 @@ Feature: interactive submission
     Given I goto "/submit"
     When I select a sip to upload
     And I press "Submit"
-    Then I should be at a wip page
+    Then I should be at a package page

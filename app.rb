@@ -14,6 +14,7 @@ require 'datamapper'
 require 'dm-aggregates'
 require 'aip'
 require 'db/sip'
+require 'db/operations_events'
 
 configure do
   raise "no configuration" unless ENV['CONFIG']
@@ -80,7 +81,9 @@ post '/submit' do
          error 400, 'file upload parameter "sip" required' unless params['sip']
        end
 
-  redirect "/workspace/#{id}"
+  redirect "/package/#{id}"
+end
+
 get '/packages?' do
 
   if params['search']
@@ -91,6 +94,12 @@ get '/packages?' do
   haml :packages
 end
 
+get '/package/:id' do |id|
+  @sip = SubmittedSip.first :ieid => id
+  @events = OperationsEvent.all :ieid => id, :order => [:timestamp.asc]
+  @wips = [settings.workspace[id]]
+  @aip = Aip.first :id => id
+  haml :package
 end
 
 get '/workspace' do

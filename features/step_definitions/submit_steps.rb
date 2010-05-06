@@ -1,4 +1,4 @@
-Given /^xI submit (a|\d+) sips?$/ do |count|
+Given /^I submit (a|\d+) packages?$/ do |count|
 
   count = case count
           when 'a' then 1
@@ -23,8 +23,8 @@ When /^I select a sip to upload$/ do
   $cleanup << dir
 end
 
-Then /^I should be at a wip page$/ do
-  #debugger
-  #redirected_to
-  last_request.path.should =~ %r{/workspace/\w+}
+Then /^I should be at a package page$/ do
+  last_request.path.should =~ %r{/package/\w+}
 end
+
+

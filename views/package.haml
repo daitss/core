@@ -1,0 +1,31 @@
+#package
+  %h1= @sip.ieid
+
+  %h2 submission
+
+  %table
+    %tr
+      %th sip
+      %td= @sip.package_name
+    %tr
+      %th account
+      %td ...
+    %tr
+      %th project
+      %td ...
+
+  %h2 jobs
+
+  %ol
+    - @wips.each do |w|
+      %li
+        %a{:href => "/workspace/#{w.id}"}
+          = w.task
+
+  %h2 events
+
+  %table
+    - @events.each do |e|
+      %tr
+        %th type
+        %td= e.event_name
