@@ -23,6 +23,36 @@ configure do
   DataMapper.setup :default, Daitss::CONFIG['database-url']
 end
 
+helpers do
+
+  def submit
+    error 400, 'file upload parameter "sip" required' unless params['sip']
+    tempfile = params['sip'][:tempfile]
+    filename = params['sip'][:filename]
+    sip_name = filename[ %r{^(.+)\.\w+$}, 1]
+    type = filename[ %r{^.+\.(\w+)$}, 1]
+
+    url = URI.parse "#{Daitss::CONFIG['submission-url']}"
+    req = Net::HTTP::Post.new url.path
+    req.body = tempfile.read
+    req.content_type = 'application/tar'
+    req.basic_auth 'operator', 'operator'
+    req['X-Package-Name'] = sip_name
+    req['Content-MD5'] = Digest::MD5.hexdigest(req.body)
+    req['X-Archive-Type'] = type
+
+    res = Net::HTTP.start(url.host, url.port) do |http|
+      http.read_timeout = Daitss::CONFIG['http-timeout']
+      http.request req
+    end
+
+    res.error! unless Net::HTTPSuccess === res
+    doc = Nokogiri::XML res.body
+    (doc % 'IEID').content
+  end
+
+end
+
 get '/stylesheet.css' do
   content_type 'text/css', :charset => 'utf-8'
   sass :stylesheet
@@ -37,29 +67,7 @@ get '/submit' do
 end
 
 post '/submit' do
-  tempfile = params['sip'][:tempfile]
-  filename = params['sip'][:filename]
-  sip_name = filename[ %r{^(.+)\.\w+$}, 1]
-  type = filename[ %r{^.+\.(\w+)$}, 1]
-  debugger unless sip_name
-
-  url = URI.parse "#{Daitss::CONFIG['submission-url']}"
-  req = Net::HTTP::Post.new url.path
-  req.body = tempfile.read
-  req.content_type = 'application/tar'
-  req.basic_auth 'operator', 'operator'
-  req['X-Package-Name'] = sip_name
-  req['Content-MD5'] = Digest::MD5.hexdigest(req.body)
-  req['X-Archive-Type'] = type
-
-  res = Net::HTTP.start(url.host, url.port) do |http|
-    http.read_timeout = Daitss::CONFIG['http-timeout']
-    http.request req
-  end
-
-  res.error! unless Net::HTTPSuccess === res
-  doc = Nokogiri::XML res.body
-  id = (doc % 'IEID').content
+  id = submit
   redirect "/workspace/#{id}"
 end
 
