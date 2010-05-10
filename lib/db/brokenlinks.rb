@@ -10,7 +10,7 @@ class BrokenLink
   belongs_to :datafile # the associated Datafile
 
   def fromPremis(df, premis)
-    nodes = detailsExtension.find("premis:broken_link", NAMESPACES)
+    nodes = premis.find("premis:broken_link", NAMESPACES)
     links = Array.new
     nodes.each do |obj|
       links << obj.content

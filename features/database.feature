@@ -18,9 +18,9 @@ Scenario: an aip containing a pdf with many images
 Scenario: an aip containing a pdf with embedded fonts
 	Given an aip containing a pdf with embedded fonts
 	When populating the aip
-	Then I should see E00000000_000000 intentitiy record
-	And all E00000000_000000 representations should exist
-	And I should have a datafile named files/Haskell98numbers.pdf
+	Then I should see test:/E0000194F_T3JNPR intentitiy record
+	And all test:/E0000194F_T3JNPR representations should exist
+	And I should have a datafile named Haskell98numbers.pdf
 	And I should have a document with embedded fonts
 
 Scenario: latest aip
@@ -31,24 +31,24 @@ Scenario: latest aip
 Scenario: an aip containing a jpeg file
 	Given an aip containing a jpeg file
 	When populating the aip
-	Then I should see E00000000_000000 intentitiy record
-	And all E00000000_000000 representations should exist
+	Then I should see test:/E0000194F_Z9BEUK intentitiy record
+	And all test:/E0000194F_Z9BEUK representations should exist
 	And I should have a datafile named DSC04975_small.jpg
 	And the datafile should be associated an image stream
 
 Scenario: an aip containing a jp2 file
 	Given an aip containing a jp2 file
 	When populating the aip
-	Then I should see E00000000_000000 intentitiy record
-	And all E00000000_000000 representations should exist
+	Then I should see test:/E0000194F_SQT19J intentitiy record
+	And all test:/E0000194F_SQT19J representations should exist
 	And I should have a datafile named WF00010502.jp2
 	And there should be an image for bitstream in the datafile
 
 Scenario: an aip containing a geotiff file
 	Given an aip containing a geotiff file
 	When populating the aip
-	Then I should see E00000000_000000 intentitiy record
-	And all E00000000_000000 representations should exist
+	Then I should see test:/E0000194F_S2DMV5 intentitiy record
+	And all test:/E0000194F_S2DMV5 representations should exist
  	And I should have a datafile named tjpeg.tif
  	And there should be an image for bitstream in the datafile	
 
@@ -66,9 +66,9 @@ Scenario: an aip with a normalized wave file
 Scenario: an aip containing a xml
 	Given an aip containing a xml
 	When populating the aip
-	Then I should see E00000000_000000 intentitiy record
-	And all E00000000_000000 representations should exist
-	And I should have a datafile named files/haskell-nums-pdf.xml
+	Then I should see test:/E0000194F_T3JNPR intentitiy record
+	And all test:/E0000194F_T3JNPR representations should exist
+	And I should have a datafile named haskell-nums-pdf.xml
 	And the datafile should be associated a text stream
 	
 Scenario: an aip containing a pdf with inhibitor

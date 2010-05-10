@@ -151,10 +151,13 @@ class AIPInPremis
     fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
 
     fileObjects.each do |obj|
+
       df = Datafile.new
       df.fromPremis(obj, @formats)
-
-      @datafiles[df.id] = df
+      if @doc.find("//mets:file[mets:FLocat]/@OWNERID = '#{df.id}'", NAMESPACES)
+        @datafiles[df.id] = df
+      end
+      
     end
   end
 
@@ -189,7 +192,6 @@ class AIPInPremis
   def processEvents
     eventObjects = @doc.find("//premis:event", NAMESPACES)
     eventObjects.each do |obj|
-      puts obj
       id = obj.find_first("premis:linkingObjectIdentifier/premis:linkingObjectIdentifierValue", NAMESPACES)
       # make sure this event related to a datafile
       df = @datafiles[id.content] unless id.nil?
