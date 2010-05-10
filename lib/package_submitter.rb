@@ -9,6 +9,8 @@ require 'package_tracker'
 require 'xmlns'
 require 'wip/task'
 require 'db/sip'
+require 'workspace'
+require 'daitss/config'
 
 class ArchiveExtractionError < StandardError; end
 class DescriptorNotFoundError < StandardError; end
@@ -21,15 +23,16 @@ class ChecksumMismatch < StandardError; end
 class MissingContentFile < StandardError; end
 
 class PackageSubmitter
-
-  URI_PREFIX = "test:/"
+  include Daitss
+  CONFIG.load_from_env
+  URI_PREFIX = CONFIG['uri-prefix']
   LINKING_AGENTS = [ 'info:fda/daitss/submission_service' ]
+  @@workspace = Workspace.new CONFIG['workspace']
 
   # creates a new aip in the workspace from SIP in a zip or tar file located at path_to_archive.
   # This method:
   #
-  # checks WORKSPACE environment var for validity
-  # unarchives the zip/tar to a tmp dir in WORKSPACE
+  # unarchives the zip/tar to a tmp dir in workspace
   # validates SIP descriptor
   # checks that account is valid
   # checks that project is valid in account
@@ -43,15 +46,14 @@ class PackageSubmitter
   # adds a record for the SIP in the Sip table
 
   def self.submit_sip archive_type, path_to_archive, package_name, submitter_username, submitter_ip, md5, ieid
+    debugger
 
     pt_event_notes = "submitter_ip: #{submitter_ip}, archive_type: #{archive_type}, submitted_package_checksum: #{md5}"
 
-    check_workspace
-
     unarchive_sip archive_type, ieid, path_to_archive, package_name
 
-    wip_path = File.join(ENV["WORKSPACE"], ieid.to_s)
-    sip_path = File.join(ENV["WORKSPACE"], ".submit", package_name)
+    wip_path = File.join(@@workspace.path, ieid.to_s)
+    sip_path = File.join(@@workspace.path, ".submit", package_name)
 
     begin
       sip = Sip.new sip_path
@@ -68,7 +70,7 @@ class PackageSubmitter
     # check that the project in the descriptor exists in the database
     package_account = Account.first(:code => wip["dmd-account"])
     reject InvalidAccount.new, pt_event_notes, ieid, submitter_username unless package_account
-    
+
     # check that package account in descriptor is specified and matches submitter
     submitter = OperationsAgent.first(:identifier => submitter_username)
     account = submitter.account
@@ -95,11 +97,11 @@ class PackageSubmitter
     create_package_valid_event wip, ieid
 
     # add task
-    wip.task = :ingest 
+    wip.task = :ingest
 
     # add record to sip table
     add_sip_record package_name, sip_path, ieid
-    
+
     # write package tracker event
     pt_event_notes = pt_event_notes + ", outcome: success"
     PackageTracker.insert_op_event(submitter_username, ieid, "Package Submission", pt_event_notes)
@@ -187,19 +189,13 @@ class PackageSubmitter
     raise exception
   end
 
-  # raises exception if WORKSPACE environment variable is not set to a valid directory on the filesystem
-
-  def self.check_workspace
-    raise "The environment variable WORKSPACE is not set to a valid directory." unless File.directory? ENV["WORKSPACE"]
-  end
-
   # returns string corresponding to unzip command to extract SIP from a zip file
 
   def self.zip_command_string package_name, path_to_archive, destination
     zip_command = `which unzip`.chomp
     raise "unzip utility not found on this system!" if zip_command =~ /not found/
 
-      return "#{zip_command} #{path_to_archive} -d #{destination} 2>&1"
+      return "#{zip_command} -o #{path_to_archive} -d #{destination} 2>&1"
   end
 
   # returns string corresponding to unzip command to extract SIP from a tar file
@@ -217,9 +213,9 @@ class PackageSubmitter
   # Raises exception if unarchiving tool returns non-zero exit status
 
   def self.unarchive_sip archive_type, ieid, path_to_archive, package_name
-    create_submit_dir unless File.directory? File.join(ENV["WORKSPACE"], ".submit")
+    create_submit_dir unless File.directory? File.join(@@workspace.path, ".submit")
 
-    destination = File.join ENV["WORKSPACE"], ".submit", package_name
+    destination = File.join @@workspace.path, ".submit", package_name
 
     if archive_type == :zip
       output = `#{zip_command_string package_name, path_to_archive, destination}`
@@ -246,6 +242,6 @@ class PackageSubmitter
   # creates a .submit directory under WORKSPACE
 
   def self.create_submit_dir
-    FileUtils.mkdir_p File.join(ENV["WORKSPACE"], ".submit")
+    FileUtils.mkdir_p File.join(@@workspace.path, ".submit")
   end
 end

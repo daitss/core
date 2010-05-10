@@ -6,7 +6,10 @@ require 'stringio'
 require 'sinatra'
 require 'base64'
 require 'helper'
+require 'daitss/config'
 
+include Daitss
+CONFIG.load_from_env
 
 describe Submission::App do
 
@@ -34,7 +37,7 @@ describe Submission::App do
 
   before(:each) do
     FileUtils.mkdir_p "/tmp/d2ws"
-    ENV["DAITSS_WORKSPACE"] = "/tmp/d2ws"
+    CONFIG['workspace'] = "/tmp/d2ws"
 
     header "X_PACKAGE_NAME", "ateam"
     header "CONTENT_MD5", "901890a8e9c8cf6d5a1a542b229febff"
@@ -82,7 +85,7 @@ describe Submission::App do
     authenticated_post "/", "operator", "operator", "FOO"
 
     last_response.status.should == 400
-    last_response.body.should == "Missing header: X_PACKAGE_NAME" 
+    last_response.body.should == "Missing header: X_PACKAGE_NAME"
   end
 
   it "returns 400 on POST if request is missing Content-MD5 header" do
@@ -91,7 +94,7 @@ describe Submission::App do
     authenticated_post "/", "operator", "operator", "FOO"
 
     last_response.status.should == 400
-    last_response.body.should == "Missing header: CONTENT_MD5" 
+    last_response.body.should == "Missing header: CONTENT_MD5"
   end
 
   it "returns 400 on POST if request is missing X_ARCHIVE_TYPE header" do
@@ -100,7 +103,7 @@ describe Submission::App do
     authenticated_post "/", "operator", "operator", "FOO"
 
     last_response.status.should == 400
-    last_response.body.should == "Missing header: X_ARCHIVE_TYPE" 
+    last_response.body.should == "Missing header: X_ARCHIVE_TYPE"
   end
 
 
@@ -110,14 +113,14 @@ describe Submission::App do
     authenticated_post "/", "operator", "operator", "FOO"
 
     last_response.status.should == 400
-    last_response.body.should == "X_ARCHIVE_TYPE header must be either 'tar' or 'zip'" 
+    last_response.body.should == "X_ARCHIVE_TYPE header must be either 'tar' or 'zip'"
   end
 
   it "returns 400 on POST if there is no body" do
     authenticated_post "/", "operator", "operator"
 
     last_response.status.should == 400
-    last_response.body.should == "Missing body" 
+    last_response.body.should == "Missing body"
   end
 
   it "returns 412 on POST if md5 checksum of body does not match md5 query parameter" do
@@ -131,7 +134,7 @@ describe Submission::App do
 
   it "should return 500 if there is an unexpected exception" do
     Digest::MD5.stub!(:new).and_raise(StandardError)
-    
+
     authenticated_post "/", "operator", "operator", "FOO"
     last_response.status.should == 500
 
@@ -141,7 +144,7 @@ describe Submission::App do
     authenticated_post "/", "operator", "operator", "FOO"
 
     last_response.status.should == 400
-    last_response.body.should =~ /Error extracting files in request body, is it malformed?/ 
+    last_response.body.should =~ /Error extracting files in request body, is it malformed?/
   end
 
   it "should return 400 if submitted package is not a tar file when request header says it should be" do
@@ -150,7 +153,7 @@ describe Submission::App do
     authenticated_post "/", "operator", "operator", "FOO"
 
     last_response.status.should == 400
-    last_response.body.should =~ /Error extracting files in request body, is it malformed?/ 
+    last_response.body.should =~ /Error extracting files in request body, is it malformed?/
   end
 
   it "should return 200 on valid post request with a zip file" do
@@ -159,7 +162,7 @@ describe Submission::App do
 
     # read file into string io
     File.open "spec/test-sips/ateam.zip" do |sip_file|
-      sip_string << sip_file.read 
+      sip_string << sip_file.read
     end
 
     # read into md5 object
@@ -168,7 +171,7 @@ describe Submission::App do
 
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
-    
+
     # send request with real zip file
     authenticated_post "/", "operator", "operator", sip_string
 
@@ -186,7 +189,7 @@ describe Submission::App do
 
     # read file into string io
     File.open "spec/test-sips/ateam.tar" do |sip_file|
-      sip_string << sip_file.read 
+      sip_string << sip_file.read
     end
 
     # read into md5 object
@@ -196,7 +199,7 @@ describe Submission::App do
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
     header "X_ARCHIVE_TYPE", "tar"
-    
+
     # send request with real zip file
     authenticated_post "/", "operator", "operator", sip_string
 
@@ -214,7 +217,7 @@ describe Submission::App do
 
     # read file into string io
     File.open "spec/test-sips/ateam.zip" do |sip_file|
-      sip_string << sip_file.read 
+      sip_string << sip_file.read
     end
 
     # read into md5 object
@@ -223,7 +226,7 @@ describe Submission::App do
 
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
-    
+
     # send request with real zip file, but with no credentials
     post "/", sip_string
 
@@ -236,7 +239,7 @@ describe Submission::App do
 
     # read file into string io
     File.open "spec/test-sips/ateam.zip" do |sip_file|
-      sip_string << sip_file.read 
+      sip_string << sip_file.read
     end
 
     # read into md5 object
@@ -245,7 +248,7 @@ describe Submission::App do
 
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
-    
+
     # send request with real zip file, but with credentials for contact without submit permission
     authenticated_post "/", "foobar", "foobar", sip_string
 
@@ -258,7 +261,7 @@ describe Submission::App do
 
     # read file into string io
     File.open "spec/test-sips/ateam.zip" do |sip_file|
-      sip_string << sip_file.read 
+      sip_string << sip_file.read
     end
 
     # read into md5 object
@@ -267,7 +270,7 @@ describe Submission::App do
 
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
-    
+
     # send request with real zip file, but with wrong credentials
     authenticated_post "/", "operator", "foobar", sip_string
 
@@ -280,7 +283,7 @@ describe Submission::App do
 
     # read file into string io
     File.open "spec/test-sips/ateam.zip" do |sip_file|
-      sip_string << sip_file.read 
+      sip_string << sip_file.read
     end
 
     # read into md5 object
@@ -289,7 +292,7 @@ describe Submission::App do
 
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
-    
+
     # send request with real zip file
     authenticated_post "/", "bernie", "bernie", sip_string
 
@@ -302,7 +305,7 @@ describe Submission::App do
 
     # read file into string io
     File.open "spec/test-sips/ateam.zip" do |sip_file|
-      sip_string << sip_file.read 
+      sip_string << sip_file.read
     end
 
     # read into md5 object
@@ -311,7 +314,7 @@ describe Submission::App do
 
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
-    
+
     # send request with real zip file, but with an account of "FOO" specified in the descriptor
     authenticated_post "/", "uf_op", "uf_op", sip_string
 
@@ -324,7 +327,7 @@ describe Submission::App do
 
     # read file into string io
     File.open "spec/test-sips/ateam-bad-project.zip" do |sip_file|
-      sip_string << sip_file.read 
+      sip_string << sip_file.read
     end
 
     # read into md5 object
@@ -333,7 +336,7 @@ describe Submission::App do
 
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
-    
+
     # send request with real zip file, but with an project of "DNE" specified in the descriptor
     authenticated_post "/", "operator", "operator", sip_string
 
@@ -346,7 +349,7 @@ describe Submission::App do
 
     # read file into string io
     File.open "spec/test-sips/ateam-bad-account.zip" do |sip_file|
-      sip_string << sip_file.read 
+      sip_string << sip_file.read
     end
 
     # read into md5 object
@@ -355,7 +358,7 @@ describe Submission::App do
 
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
-    
+
     # send request with real zip file, but with an account of "DNE" specified in the descriptor
     authenticated_post "/", "operator", "operator", sip_string
 
@@ -368,7 +371,7 @@ describe Submission::App do
 
     # read file into string io
     File.open "spec/test-sips/ateam-missing-contentfile.zip" do |sip_file|
-      sip_string << sip_file.read 
+      sip_string << sip_file.read
     end
 
     # read into md5 object
@@ -377,12 +380,12 @@ describe Submission::App do
 
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
-    
+
     # send request with real zip file, but having no content files
     authenticated_post "/", "operator", "operator", sip_string
 
     last_response.status.should == 400
-  end 
+  end
 
   it "should raise 400 if there is a checksum mismatch between the sip descriptor and a datafile" do
     sip_string = StringIO.new
@@ -390,7 +393,7 @@ describe Submission::App do
 
     # read file into string io
     File.open "spec/test-sips/ateam-checksum-mismatch.zip" do |sip_file|
-      sip_string << sip_file.read 
+      sip_string << sip_file.read
     end
 
     # read into md5 object
@@ -399,7 +402,7 @@ describe Submission::App do
 
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
-    
+
     # send request with real zip file in which the descriptor has the wrong checksum
     authenticated_post "/", "operator", "operator", sip_string
 
@@ -412,7 +415,7 @@ describe Submission::App do
 
     # read file into string io
     File.open "spec/test-sips/ateam-nodesc.zip" do |sip_file|
-      sip_string << sip_file.read 
+      sip_string << sip_file.read
     end
 
     # read into md5 object
@@ -421,7 +424,7 @@ describe Submission::App do
 
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
-    
+
     # send request with real zip file in which the descriptor has been deleted
     authenticated_post "/", "operator", "operator", sip_string
 
@@ -434,7 +437,7 @@ describe Submission::App do
 
     # read file into string io
     File.open "spec/test-sips/ateam-broken-descriptor.zip" do |sip_file|
-      sip_string << sip_file.read 
+      sip_string << sip_file.read
     end
 
     # read into md5 object
@@ -443,7 +446,7 @@ describe Submission::App do
 
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
-    
+
     # send request with real zip file in which the descriptor is invalid
     authenticated_post "/", "operator", "operator", sip_string
 
@@ -456,7 +459,7 @@ describe Submission::App do
 
     # read file into string io
     File.open "spec/test-sips/ateam-invalid-descriptor.zip" do |sip_file|
-      sip_string << sip_file.read 
+      sip_string << sip_file.read
     end
 
     # read into md5 object
@@ -465,7 +468,7 @@ describe Submission::App do
 
     # send the correct md5 header
     header "CONTENT_MD5", sip_md5.hexdigest
-    
+
     # send request with real zip file in which the descriptor is invalid
     authenticated_post "/", "operator", "operator", sip_string
 
