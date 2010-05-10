@@ -4,8 +4,13 @@ require 'libxml'
 require 'package_tracker'
 require 'helper.rb'
 require 'old_ieid'
+require 'daitss/config'
+
+include Daitss
+CONFIG.load_from_env
 
 describe PackageSubmitter do
+
 
   ZIP_SIP = "spec/test-sips/ateam.zip"
   TAR_SIP = "spec/test-sips/ateam.tar"
@@ -29,7 +34,7 @@ describe PackageSubmitter do
     DataMapper.auto_migrate!
 
     FileUtils.mkdir_p "/tmp/d2ws"
-    ENV["WORKSPACE"] = "/tmp/d2ws"
+    CONFIG['workspace'] = "/tmp/d2ws"
 
     a = add_account "ACT", "ACT"
     add_project a
@@ -47,13 +52,13 @@ describe PackageSubmitter do
   end
 
   it "should raise error on create AIP from ZIP file if WORKSPACE is not set to a valid dir" do
-    ENV["WORKSPACE"] = ""
+    CONFIG['workspace'] = ""
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error
   end
 
   it "should raise error on create AIP from TAR file if WORKSPACE is not set to a valid dir" do
-    ENV["WORKSPACE"] = ""
+    CONFIG['workspace'] = ""
 
     lambda { PackageSubmitter.submit_sip :tar, TAR_SIP, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error
   end
@@ -63,7 +68,7 @@ describe PackageSubmitter do
     PackageSubmitter.submit_sip :tar, TAR_SIP_NODIR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid
     now = Time.now
 
-    wip = Wip.new File.join(ENV["WORKSPACE"], ieid)
+    wip = Wip.new File.join(CONFIG['workspace'], ieid)
 
     wip.original_datafiles.each do |datafile|
       (["ateam.tiff", "ateam.xml"].include? datafile.metadata["sip-path"]).should == true
@@ -90,8 +95,8 @@ describe PackageSubmitter do
     submission_event.timestamp.to_time.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: tar, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: success"
-    File.exists?(File.join(ENV["WORKSPACE"], ieid, "tags", "task")).should == true
-    File.read(File.join(ENV["WORKSPACE"], ieid, "tags", "task")).should == "ingest"
+    File.exists?(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == true
+    File.read(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == "ingest"
 
     sip = SubmittedSip.first(:ieid => ieid)
 
@@ -106,7 +111,7 @@ describe PackageSubmitter do
     PackageSubmitter.submit_sip :zip, ZIP_SIP_NODIR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid
     now = Time.now
 
-    wip = Wip.new File.join(ENV["WORKSPACE"], ieid.to_s)
+    wip = Wip.new File.join(CONFIG['workspace'], ieid.to_s)
 
     wip.original_datafiles.each do |datafile|
       (["ateam.tiff", "ateam.xml"].include? datafile.metadata["sip-path"]).should == true
@@ -134,8 +139,8 @@ describe PackageSubmitter do
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: success"
 
-    File.exists?(File.join(ENV["WORKSPACE"], ieid, "tags", "task")).should == true
-    File.read(File.join(ENV["WORKSPACE"], ieid, "tags", "task")).should == "ingest"
+    File.exists?(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == true
+    File.read(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == "ingest"
 
     sip = SubmittedSip.first(:ieid => ieid)
 
@@ -179,7 +184,7 @@ describe PackageSubmitter do
     ieid = OldIeid.get_next
     PackageSubmitter.submit_sip :zip, ZIP_DMD_METADATA, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid
 
-    wip = Wip.new File.join(ENV["WORKSPACE"], ieid.to_s)
+    wip = Wip.new File.join(CONFIG['workspace'], ieid.to_s)
 
 
     event_doc = LibXML::XML::Document.string wip.metadata["submit-event"]
@@ -303,7 +308,7 @@ describe PackageSubmitter do
     submission_event.operations_agent.identifier.should == "foobar"
     submission_event.notes.should =~ /submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: descriptor failed validation/
   end
-  
+
   it "should not raise error if checksum type is missing" do
     ieid = OldIeid.get_next
     now = Time.now
