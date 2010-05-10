@@ -6,6 +6,7 @@ class Workspace
   attr_reader :path
 
   def initialize path
+    raise "#{path} must be a directory" unless File.directory? path
     @path = path
   end
 
