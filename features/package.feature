@@ -23,3 +23,10 @@ Feature: overview of a package
     Then in the events I should see a submission event
 
   Scenario: show the aip
+    Given I submit a package
+    When I goto its package page
+    Then in the aip section I should see copy url
+    Then in the aip section I should see copy size
+    Then in the aip section I should see copy sha1
+    Then in the aip section I should see xml
+    Then in the aip section I should see number of datafiles

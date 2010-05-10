@@ -1,5 +1,11 @@
 #package
-  %h1= @sip.ieid
+  %h1
+    = @sip.ieid
+
+  - if @wip
+    .processing
+      currently processing
+      %a{:href=>"/workspace/#{@wip.id}"}= @wip.task
 
   %h2 submission
 
@@ -14,18 +20,18 @@
       %th project
       %td ...
 
-  %h2 jobs
-
-  %ol
-    - @wips.each do |w|
-      %li
-        %a{:href => "/workspace/#{w.id}"}
-          = w.task
-
   %h2 events
 
   %table
+    %tr
+      %th type
+      %th time
     - @events.each do |e|
       %tr
-        %th type
         %td= e.event_name
+      %tr
+        %th time
+        %td= e.timestamp
+
+  %h2 aip
+

@@ -97,7 +97,7 @@ end
 get '/package/:id' do |id|
   @sip = SubmittedSip.first :ieid => id
   @events = OperationsEvent.all :ieid => id, :order => [:timestamp.asc]
-  @wips = [settings.workspace[id]]
+  @wip = settings.workspace[id]
   @aip = Aip.first :id => id
   haml :package
 end
