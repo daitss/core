@@ -51,6 +51,10 @@ Given /^an aip containing a xml with broken links$/ do
   @file = "#{abs}/files/brokenLinks.xml"
 end
 
+Given /^an aip containing a xml with an obsolete file$/ do
+  @file = "#{abs}/files/obsoleteFiles.xml"
+end
+
 When /^populating the aip$/ do
   aip = AIPInPremis.new
   aip.processAIPFile @file
@@ -62,7 +66,6 @@ Then /^I should see (.+?) intentitiy record$/ do |ieid|
 end
 
 Then /^all (.+) representations should exist/ do |ieid|
-  puts ieid
   # check for representation-0, representation-current
   r0 = Representation.first(:intentity_id => ieid, :id.like  => '%representation/original')
   r0.should_not be_nil
@@ -71,10 +74,14 @@ Then /^all (.+) representations should exist/ do |ieid|
 end
 
 Then /^I should have a datafile named (.+)/ do |filename|
-  puts filename
   df = Datafile.first(:original_path => filename)
   df.should_not be_nil
   @dfid = df.id
+end
+
+Then /^I should have not a datafile named (.+)/ do |filename|
+  df = Datafile.first(:original_path => filename)
+  df.should be_nil
 end
 
 Then /^I should have a document with embedded fonts$/ do
