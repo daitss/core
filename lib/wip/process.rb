@@ -38,7 +38,7 @@ class Wip
 
     unless running?
 
-      pid = fork do 
+      pid = fork do
         Signal.trap "INT", "DEFAULT"
         $stderr = StringIO.new
         yield self
@@ -56,8 +56,14 @@ class Wip
 
     while running?
       pid, starttime = process
-      Process::kill "INT", pid.to_i
-      sleep 0.1 # overhead vs responsiveness: 1/100 of a second seems reasonable
+
+      begin
+        Process::kill "INT", pid.to_i
+        sleep 0.1 # overhead vs responsiveness: 1/100 of a second seems reasonable
+      rescue Errno::ESRCH => e
+        # nothing to do, this is OK
+      end
+
     end
 
     tags.delete 'process'
