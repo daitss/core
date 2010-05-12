@@ -56,7 +56,7 @@ end
 def zip_package path_to_package
   zip_path = File.join("/tmp", "tarfile")
 
-  output = `cd #{File.dirname(path_to_package)}; tar -cf #{zip_path} #{path_to_package} 2>&1; cd $PWD`  
+  output = `cd #{File.dirname(path_to_package)}; tar -cf #{zip_path} #{File.basename(path_to_package)} 2>&1; cd $PWD`  
 
   raise "tar returned non-zero exit status: #{output}" if $?.exitstatus != 0
 
