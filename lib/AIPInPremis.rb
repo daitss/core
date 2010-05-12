@@ -70,25 +70,10 @@ class AIPInPremis
       # datamapper automatically rollback the change.
       Intentity.transaction do
         # destroy all files in the int entities 
-        files = Hash.new
-        representations = Representation.all(:intentity_id => entity.id)
-        representations.each do |rep| 
-          dfreps = DatafileRepresentation.all(:representation_id => rep.id)
-          dfreps.each do |dfrep|
-            dfs = Datafile.all(:id => dfrep.datafile_id)
-            dfs.each do |df| 
-              # remove all events and relationship associated with this datafile
-              files[df.id] = df 
-            end
-          end
-        end
-
-        files.each do |id,df| 
-          raise "error deleting datafile #{df.inspect}" unless df.destroy
-        end
-
-        raise "error deleting entity #{entity.inspect}" unless entity.destroy
+        dfs = Datafile.all(:intentity_id => entity.id)
+        raise "error deleting datafile #{df.inspect}" unless df.destroy
       end
+      raise "error deleting entity #{entity.inspect}" unless entity.destroy
     end
   end
 
@@ -110,39 +95,21 @@ class AIPInPremis
 
   # extract representation information from the premis document
   def processRepresentations
-    r0 = Array.new
-    rc = Array.new
-    rn = Array.new
-
     repObjects = @doc.find("//premis:object[@xsi:type='representation']", NAMESPACES)
     repObjects.each do |obj|
-      rep = Representation.new
-      rep.fromPremis obj
-
+      rep_id = obj.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
       files = obj.find("premis:relationship", NAMESPACES)
       files.each do |f|
         dfid = f.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
         df = @datafiles[dfid]
-        unless df.nil?
-          dfrep = DatafileRepresentation.new
-          df.datafile_representation << dfrep
-          rep.datafile_representation << dfrep
-          if rep.isR0
-            r0 << dfid
-          elsif rep.isRC
-            rc << dfid
-          elsif rep.isRN
-            rn << dfid
-          end
-        end
+        df.setRepresentations(rep_id)  unless df.nil? 
       end
-
-      @int_entity.representations << rep
+ 
     end
 
     # set the origin of all datafiles by deriving the origin information from their associations with representations
     @datafiles.each do |dfid, df|
-      df.setOrigin r0, rc, rn
+      df.setOrigin
     end
   end
 
@@ -156,6 +123,7 @@ class AIPInPremis
       df.fromPremis(obj, @formats)
       if @doc.find("//mets:file[mets:FLocat]/@OWNERID = '#{df.id}'", NAMESPACES)
         @datafiles[df.id] = df
+        @int_entity.datafiles << df
       end
       
     end

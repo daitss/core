@@ -67,9 +67,9 @@ end
 
 Then /^all (.+) representations should exist/ do |ieid|
   # check for representation-0, representation-current
-  r0 = Representation.first(:intentity_id => ieid, :id.like  => '%representation/original')
+  r0 = Datafile.first(:intentity_id => ieid, :r0.like  => '%representation/original')
   r0.should_not be_nil
-  rc = Representation.first(:intentity_id => ieid, :id.like  => '%representation/current')
+  rc = Datafile.first(:intentity_id => ieid, :rc.like  => '%representation/current')
   rc.should_not be_nil
 end
 
