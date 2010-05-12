@@ -60,35 +60,35 @@ class PackageSubmitter
       wip = Wip.from_sip wip_path, (URI_PREFIX + ieid), sip
       raise InvalidDescriptor unless wip.sip_descriptor_valid?
     rescue Errno::ENOENT
-      reject DescriptorNotFoundError.new, pt_event_notes, ieid, submitter_username
+      reject DescriptorNotFoundError.new, pt_event_notes, ieid, submitter_username, wip_path
     rescue LibXML::XML::Error
-      reject DescriptorCannotBeParsedError.new, pt_event_notes, ieid, submitter_username
+      reject DescriptorCannotBeParsedError.new, pt_event_notes, ieid, submitter_username, wip_path
     rescue InvalidDescriptor
-      reject InvalidDescriptor.new(wip.sip_descriptor_errors), pt_event_notes, ieid, submitter_username
+      reject InvalidDescriptor.new(wip.sip_descriptor_errors), pt_event_notes, ieid, submitter_username, wip_path
     end
 
     # check that the project in the descriptor exists in the database
     package_account = Account.first(:code => wip["dmd-account"])
-    reject InvalidAccount.new, pt_event_notes, ieid, submitter_username unless package_account
+    reject InvalidAccount.new, pt_event_notes, ieid, submitter_username, wip_path unless package_account
 
     # check that package account in descriptor is specified and matches submitter
     submitter = OperationsAgent.first(:identifier => submitter_username)
     account = submitter.account
 
-    reject SubmitterDescriptorAccountMismatch.new, pt_event_notes, ieid, submitter_username unless account.code == wip["dmd-account"] or submitter.type == Operator
+    reject SubmitterDescriptorAccountMismatch.new, pt_event_notes, ieid, submitter_username, wip_path unless account.code == wip["dmd-account"] or submitter.type == Operator
 
     # check that the project in the descriptor exists in the database
-    reject InvalidProject.new, pt_event_notes, ieid, submitter_username unless package_account.projects
-    reject InvalidProject.new, pt_event_notes, ieid, submitter_username unless (package_account.projects.map {|project| project.code == wip['dmd-project']}).include? true
+    reject InvalidProject.new, pt_event_notes, ieid, submitter_username, wip_path unless package_account.projects
+    reject InvalidProject.new, pt_event_notes, ieid, submitter_username, wip_path unless (package_account.projects.map {|project| project.code == wip['dmd-project']}).include? true
 
     # check for the presence of at least one content file
-    reject MissingContentFile.new, pt_event_notes, ieid, submitter_username unless wip.all_datafiles.length > 1
+    reject MissingContentFile.new, pt_event_notes, ieid, submitter_username, wip_path unless wip.all_datafiles.length > 1
 
     # check that any specified checksums match descriptor
     checksum_info = wip.described_datafiles.map { |df| [ df['sip-path'] ] + df.checksum_info }
     checksum_info.reject! { |path, desc, comp| desc == nil and comp == nil }
     matches, mismatches = checksum_info.partition { |(path, desc, comp)| desc == comp }
-    reject ChecksumMismatch.new, pt_event_notes, ieid, submitter_username if mismatches.any?
+    reject ChecksumMismatch.new, pt_event_notes, ieid, submitter_username, wip_path if mismatches.any?
 
     # create premis agents and events in wip
     create_submit_agent wip
@@ -160,9 +160,10 @@ class PackageSubmitter
     sip.save!
   end
 
-  # writes pt record for failed submission and raises exception
+  # deletes temporary wip, writes pt record for failed submission and raises exception
 
-  def self.reject exception, pt_event_notes, ieid, agent_id
+  def self.reject exception, pt_event_notes, ieid, agent_id, wip_path
+    FileUtils.rm_rf wip_path
     pt_event_notes = pt_event_notes + ", outcome: failure"
 
     case exception
