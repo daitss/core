@@ -27,8 +27,6 @@ describe PackageSubmitter do
   ZIP_UNKNOWN_CHECKSUM_TYPE = "spec/test-sips/ateam-unknown-checksum-type.zip"
   ZIP_MISSING_CHECKSUM = "spec/test-sips/ateam-missing-checksum.zip"
 
-  URI_PREFIX = "test:/"
-
   before(:each) do
     DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/data/submission_svc_test.db")
     DataMapper.auto_migrate!
@@ -48,7 +46,7 @@ describe PackageSubmitter do
   end
 
   after(:each) do
-    FileUtils.rm_rf "/tmp/d2ws"
+    FileUtils.rm_rf Dir.glob("/tmp/d2ws/*")
   end
 
   it "should raise error on create AIP from ZIP file if WORKSPACE is not set to a valid dir" do
@@ -65,7 +63,7 @@ describe PackageSubmitter do
 
   it "should submit a package creating a wip with submission event from a tar-extracted SIP, a PT event, submit step, and a new row in the sip table" do
     ieid = OldIeid.get_next
-    PackageSubmitter.submit_sip :tar, TAR_SIP_NODIR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid
+    PackageSubmitter.submit_sip :tar, TAR_SIP, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid
     now = Time.now
 
     wip = Wip.new File.join(CONFIG['workspace'], ieid)
@@ -81,7 +79,7 @@ describe PackageSubmitter do
 
     (event_doc.find_first "//xmlns:eventOutcome", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "success"
     (event_doc.find_first "//xmlns:eventType", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "submit"
-    (event_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == URI_PREFIX + ieid.to_s
+    (event_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == CONFIG["uri-prefix"] + ieid
 
     event_linking_agent = event_doc.find_first("//xmlns:linkingAgentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
     agent_identifier = agent_doc.find_first("//xmlns:agentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
@@ -108,7 +106,7 @@ describe PackageSubmitter do
 
   it "should submit a package creating a wip with submission event from a zip-extracted SIP" do
     ieid = OldIeid.get_next
-    PackageSubmitter.submit_sip :zip, ZIP_SIP_NODIR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid
+    PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid
     now = Time.now
 
     wip = Wip.new File.join(CONFIG['workspace'], ieid.to_s)
@@ -124,7 +122,7 @@ describe PackageSubmitter do
 
     (event_doc.find_first "//xmlns:eventOutcome", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "success"
     (event_doc.find_first "//xmlns:eventType", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "submit"
-    (event_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == URI_PREFIX + ieid.to_s
+    (event_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == CONFIG["uri-prefix"] + ieid
 
     event_linking_agent = event_doc.find_first("//xmlns:linkingAgentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
     agent_identifier = agent_doc.find_first("//xmlns:agentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
@@ -274,7 +272,7 @@ describe PackageSubmitter do
 
     submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 5.0)
+    submission_event.timestamp.to_time.should be_close(now, 8.0)
     submission_event.operations_agent.identifier.should == "foobar"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: content file not found"
   end

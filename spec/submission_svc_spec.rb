@@ -58,7 +58,7 @@ describe Submission::App do
   end
 
   after(:each) do
-    FileUtils.rm_rf "/tmp/d2ws"
+    FileUtils.rm_rf Dir.glob("/tmp/d2ws/*")
   end
 
   it "returns 405 on GET" do
