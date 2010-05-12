@@ -2,9 +2,10 @@ require 'db/request'
 
 class Intentity 
   include DataMapper::Resource
-  property :id, String, :key => true, :length => 100
-  # daitss1 ieid
-  property :original_name, String # i.e. package_name
+  property :id, String, :key => true, :length => 100 
+    # daitss1 ieid
+  property :original_name, String 
+    # i.e. package_name
   property :entity_id, String
   property :volume, String
   property :issue, String
