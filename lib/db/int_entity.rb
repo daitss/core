@@ -11,7 +11,7 @@ class Intentity
   property :title, Text
 
   belongs_to :project
-  has 1..n, :representations, :constraint=>:destroy
+  has 1..n, :datafiles, :constraint=>:destroy
   has n, :requests
 
   before :destroy, :deleteChildren

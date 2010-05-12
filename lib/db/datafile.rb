@@ -1,5 +1,9 @@
 require 'db/pobject'
 
+REP_CURRENT = "representation/current"
+REP_0 = "representation/original"
+REP_NORM = "representation/normalized"
+
 class Datafile < Pobject
   include DataMapper::Resource 
   property :id, String, :key => true, :length => 100
@@ -10,10 +14,14 @@ class Datafile < Pobject
     # map from package_path + file_title + file_ext
   property :creating_application, String, :length => (0..255)
    
+  property :r0, String, :index => true, :length => 100 
+  property :rn, String, :index => true, :length => 100 
+  property :rc, String, :index => true, :length => 100     
+
+  belongs_to :intentity
+  
   has 0..n, :bitstreams, :constraint=>:destroy # a datafile may contain 0-n bitstream(s)
   has n, :datafile_severe_element, :constraint=>:destroy
-  #  has 0..n, :severe_element, :through => :datafile_severe_element, :constraint=>:destroy # a datafile may contain 0-n severe_elements
-  #has 0..n, :severe_elements, :through => Resource, :constraint=>:destroy # a datafile may contain 0-n severe_elements
   has 0..n, :documents, :constraint => :destroy 
   has 0..n, :texts, :constraint => :destroy 
   has 0..n, :audios, :constraint => :destroy 
@@ -23,10 +31,8 @@ class Datafile < Pobject
   has n, :object_format, :constraint=>:destroy # a datafile may have 0-n file_formats
   has 0..n, :broken_links, :constraint=>:destroy # if there is missing links in the datafiles (only applies to xml)
 
-  has n, :datafile_representation, :constraint=>:destroy
-#  has 1..n, :representations, :through => :datafile_representation #, :constraint=>:destroy
-#  has 1..n, :representations, :through => Resource, :constraint=>:destroy
-  
+  # has n, :datafile_representation, :constraint=>:destroy
+
   before :destroy, :deleteChildren
   
   def fromPremis(premis, formats)
@@ -80,12 +86,23 @@ class Datafile < Pobject
   end
   
   # derive the datafile origin by its association to representations r0, rc
-  def setOrigin(r0, rc, rn)
+  def setOrigin
     # if this datafile is in r(c) or r(n) but not in r(0), it is created by the archive, otherwise it is submitted by depositor.
-    if ( (rc.include?(@id) || rn.include?(@id)) && !r0.include?(@id) )
+    if (( @rc || @rn) && !@r0)
       attribute_set(:origin, :archive)
     else
       attribute_set(:origin, :depositor)
+    end
+  end
+  
+  # set the representation (r0, rn, rc) which contains this datafile
+  def setRepresentations(rep_id)
+    if (rep_id.include? REP_0)
+      attribute_set(:r0, rep_id)
+    elsif  (rep_id.include? REP_CURRENT)
+      attribute_set(:rc, rep_id)
+    elsif (rep_id.include? REP_NORM)
+      attribute_set(:rn, rep_id)      
     end
   end
   
@@ -101,7 +118,6 @@ class Datafile < Pobject
       puts e.inspect
       raise "error deleting event #{e.inspect}" unless e.destroy
     end
-    
   end
   
 end
