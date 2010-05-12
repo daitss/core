@@ -4,6 +4,11 @@ require 'db/sip'
 require 'aip'
 require 'daitss/config'
 require 'fileutils'
+require 'workspace'
+
+# setup config
+Daitss::CONFIG.load_from_env
+DataMapper.setup :default, Daitss::CONFIG['database-url']
 
 REPO_ROOT = File.join File.dirname(__FILE__), '..', '..'
 VAR_DIR = File.join REPO_ROOT, 'var'
@@ -14,10 +19,8 @@ SUBMISSION_CLIENT_PATH = File.join SERVICES_DIR, "submission", "submit-filesyste
 INGEST_BIN_PATH = File.join REPO_ROOT, "bin", "ingest"
 DISPATCH_WORKSPACE_BIN_PATH = File.join SERVICES_DIR, "request", "dispatch-workspace.rb"
 
-# setup config
-raise "CONFIG not set" unless ENV['CONFIG']
-Daitss::CONFIG.load ENV['CONFIG']
-DataMapper.setup :default, Daitss::CONFIG['database-url']
+WORKSPACE = Workspace.new(Daitss::CONFIG['workspace']).path
+
 
 def run_submit package, expect_success = true, username = @username, password = @password
   raise "No users created" unless @username and @password
@@ -39,14 +42,11 @@ def run_ingest ieid, expect_success = true
 end
 
 def setup_workspace
-  raise "$WORKSPACE not set" unless ENV["WORKSPACE"]
-
-  FileUtils.rm_rf(ENV["WORKSPACE"]) if File.directory? ENV["WORKSPACE"]
-  FileUtils.mkdir_p ENV["WORKSPACE"]
+  FileUtils.rm_rf Dir.glob("#{WORKSPACE}/*")
 end
 
 def delete_wip ieid
-  FileUtils.rm_rf File.join(ENV["WORKSPACE"], ieid)
+  FileUtils.rm_rf File.join(WORKSPACE, ieid)
 end
 
 def submit_request ieid, request_type, expect_success = true, username = @username, password = @password
@@ -317,7 +317,7 @@ Then /^there (is|is not) an operations event for the (.*)$/ do |expectation, eve
 end
 
 Then /^the package is rejected$/ do
-  tag_file_path = File.join ENV["WORKSPACE"], @ieid, "tags", "reject"
+  tag_file_path = File.join WORKSPACE, @ieid, "tags", "reject"
 
   raise "Package not rejected" unless File.exists? tag_file_path
 end
@@ -343,21 +343,21 @@ end
 
 Then /^there (is|is not) a (dissemination|withdrawal|peek|ingest) wip in the workspace$/ do |expectation, req_type|
   if expectation == "is"
-    raise "Wip for #{@ieid} not in workspace" unless File.directory?(File.join(ENV["WORKSPACE"], @ieid))
+    raise "Wip for #{@ieid} not in workspace" unless File.directory?(File.join(WORKSPACE, @ieid))
 
     if ["dissemination", "withdrawal", "peek"].include? req_type
-      raise "Missing #{req_type} tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "#{req_type}-request")) 
+      raise "Missing #{req_type} tag file" unless File.file?(File.join(WORKSPACE, @ieid, "tags", "#{req_type}-request")) 
 
       if req_type == "dissemination"
-        raise "Missing drop path tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "drop-path")) 
+        raise "Missing drop path tag file" unless File.file?(File.join(WORKSPACE, @ieid, "tags", "drop-path")) 
       end
     elsif req_type == "ingest"
-      raise "Missing #{req_type} tag file" unless File.file?(File.join(ENV["WORKSPACE"], @ieid, "tags", "task")) 
-      raise "Wrong task in wip" unless File.read(File.join(ENV["WORKSPACE"], @ieid, "tags", "task")) == "ingest" 
+      raise "Missing #{req_type} tag file" unless File.file?(File.join(WORKSPACE, @ieid, "tags", "task")) 
+      raise "Wrong task in wip" unless File.read(File.join(WORKSPACE, @ieid, "tags", "task")) == "ingest" 
     end
 
   else
-    raise "Wip for #{@ieid} is in workspace" if File.directory?(File.join(ENV["WORKSPACE"], @ieid))
+    raise "Wip for #{@ieid} is in workspace" if File.directory?(File.join(WORKSPACE, @ieid))
   end
 end
 
