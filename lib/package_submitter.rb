@@ -11,6 +11,7 @@ require 'wip/task'
 require 'db/sip'
 require 'workspace'
 require 'daitss/config'
+require 'tempdir'
 
 class ArchiveExtractionError < StandardError; end
 class DescriptorNotFoundError < StandardError; end
@@ -46,18 +47,17 @@ class PackageSubmitter
   # adds a record for the SIP in the Sip table
 
   def self.submit_sip archive_type, path_to_archive, package_name, submitter_username, submitter_ip, md5, ieid
-    debugger
 
     pt_event_notes = "submitter_ip: #{submitter_ip}, archive_type: #{archive_type}, submitted_package_checksum: #{md5}"
 
-    unarchive_sip archive_type, ieid, path_to_archive, package_name
+    create_submit_dir unless File.directory? File.join(@@workspace.path, ".submit")
 
-    wip_path = File.join(@@workspace.path, ieid.to_s)
-    sip_path = File.join(@@workspace.path, ".submit", package_name)
+    sip_path = File.join(unarchive_sip(archive_type, ieid, path_to_archive, package_name), package_name)
+    wip_path = File.join(@@workspace.path, ".submit", ieid.to_s)
 
     begin
       sip = Sip.new sip_path
-      wip = Wip.from_sip wip_path, URI.join(URI_PREFIX, ieid), sip
+      wip = Wip.from_sip wip_path, (URI_PREFIX + ieid), sip
       raise InvalidDescriptor unless wip.sip_descriptor_valid?
     rescue Errno::ENOENT
       reject DescriptorNotFoundError.new, pt_event_notes, ieid, submitter_username
@@ -106,7 +106,8 @@ class PackageSubmitter
     pt_event_notes = pt_event_notes + ", outcome: success"
     PackageTracker.insert_op_event(submitter_username, ieid, "Package Submission", pt_event_notes)
 
-    # clean up
+    # move to workspace and clean up
+    FileUtils.mv wip_path, File.join(@@workspace.path, ieid)
     FileUtils.rm_rf sip_path
   end
 
@@ -207,36 +208,23 @@ class PackageSubmitter
       return "#{tar_command} -xf #{path_to_archive} -C #{destination} 2>&1"
   end
 
-  # unzips/untars specified archive file to $WORKSPACE/.submit/package_name/
-  # if the zip/tar file had all files in a single directory inside the archive, files inside are moved one
-  #   directory level up
+  # unzips/untars specified archive file to temp directory
   # Raises exception if unarchiving tool returns non-zero exit status
 
   def self.unarchive_sip archive_type, ieid, path_to_archive, package_name
-    create_submit_dir unless File.directory? File.join(@@workspace.path, ".submit")
-
-    destination = File.join @@workspace.path, ".submit", package_name
+    unarchive_destination = Tempdir.new
 
     if archive_type == :zip
-      output = `#{zip_command_string package_name, path_to_archive, destination}`
+      output = `#{zip_command_string package_name, path_to_archive, unarchive_destination.path}`
     elsif archive_type == :tar
-      FileUtils.mkdir_p destination
-      output = `#{tar_command_string package_name, path_to_archive, destination}`
+      output = `#{tar_command_string package_name, path_to_archive, unarchive_destination.path}`
     else
       raise "Unrecognized archive type"
     end
 
-    contents = Dir.entries destination
-
-    # if package was zipped in a single directory, move files out
-    # in general, contents[0] == ".", contents[1] == ".."
-
-    if contents.length == 3 and File.directory? File.join(destination, contents[2])
-      FileUtils.mv Dir.glob(File.join(destination, "#{contents[2]}/*")), destination
-      FileUtils.rm_rf File.join(destination, contents[2])
-    end
-
     raise ArchiveExtractionError, "archive utility exited with non-zero status: #{output}" if $?.exitstatus != 0
+
+    return unarchive_destination.path
   end
 
   # creates a .submit directory under WORKSPACE
