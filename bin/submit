@@ -1,47 +1,46 @@
 #!/usr/bin/env ruby
 
-require 'fileutils'
-require 'workspace'
-require 'wip/create'
+require 'net/http'
+require 'digest/md5'
+require 'uri'
+
+require 'daitss/config'
 require 'template/premis'
-require 'uuid'
+require 'wip/from_sip'
+require 'wip/task'
+require 'workspace'
 
-if __FILE__ == $0
+begin
 
-  begin
+  # configuration
+  raise "CONFIG must be set" unless ENV['CONFIG']
+  Daitss::CONFIG.load ENV['CONFIG']
+
+  # tar up the sip
   sip_path = ARGV.shift or raise "sip required"
-  sip = Sip.new sip_path
+  url = URI.parse Daitss::CONFIG['submission-url']
+  req = Net::HTTP::Post.new url.path
+  tar = %x{tar -c -C #{File.dirname sip_path} -f - #{File.basename sip_path} }
+  raise "tar did not work" if $?.exitstatus != 0
 
-  raise 'WORKSPACE must be set' unless ENV['WORKSPACE']
-  raise 'WORKSPACE must be a directory' unless File.directory? ENV['WORKSPACE']
-  workspace = Workspace.new ENV['WORKSPACE']
+  # submit it
+  req.body = tar
+  req.content_type = 'application/tar'
+  req.basic_auth 'operator', 'operator'
+  req['X-Package-Name'] = File.basename sip_path
+  req['Content-MD5'] = Digest::MD5.hexdigest(req.body)
+  req['X-Archive-Type'] = 'tar'
 
-  id = UUID.generate :compact
-  stage_dir = File.join workspace.path, '.tmp'
-  FileUtils.mkdir_p stage_dir
-  path = File.join stage_dir, id
-  uri = "info:fcla/#{id}"
-  wip = Wip::make_from_sip path, uri, sip
-
-  wip['submit-event'] = event(:id => "#{wip.uri}/event/submit",
-                              :type => 'submit', 
-                              :outcome => 'success', 
-                              :linking_objects => [ wip.uri ],
-                              :linking_agents => [ 'info:fcla/daitss/reference-submit-client' ])
-
-  wip['submit-agent'] = agent(:id => 'info:fcla/daitss/reference-submit-client',
-                              :name => 'reference implementation submit client', 
-                              :type => 'software')
-
-  wip.tags['task'] = 'ingest'
-
-  new_path = File.join workspace.path, id
-  FileUtils::mv wip.path, new_path
-  puts "#{id} submitted"
-
-  rescue => e
-    puts e.message
-    exit 1
+  res = Net::HTTP.start(url.host, url.port) do |http|
+    http.read_timeout = Daitss::CONFIG['http-timeout']
+    http.request req
   end
 
+  res.error! unless Net::HTTPSuccess === res
+  doc = Nokogiri::XML res.body
+  id = (doc % 'IEID').content
+  puts "#{id} submitted"
+rescue => e
+  puts e.message
+  exit 1
 end
