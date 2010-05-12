@@ -6,41 +6,27 @@ require "daitss/config"
 require 'wip/ingest'
 require 'rjb'
 
-Rjb.load '.', ["-Xms2G", "-Xmx2G"]
-
-wip = begin
-
-        # config
-        raise "CONFIG must be set" unless ENV['CONFIG']
-        Daitss::CONFIG.load ENV['CONFIG']
-
-        # workspace
-        workspace_dir = ENV['WORKSPACE'] or raise "WORKSPACE must be set"
-        raise "WORKSPACE must be a directory" unless File.directory? workspace_dir
-
-        # wip
-        wip_id = ARGV.shift
-        raise "no wip id specified" unless wip_id
-        wip_path = File.join workspace_dir, wip_id
-        raise "wip #{wip_id} not found in #{workspace_dir}" unless File.directory? wip_path
-
-        # database
-        DataMapper.setup :default, Daitss::CONFIG["database-url"]
-
-        # load the wip
-        Wip.new wip_path
-      rescue => e
-        puts "cannot process #{wip_id}: #{e.message}"
-        puts e.backtrace
-        exit 1
-      end
+include Daitss
 
 begin
+
+  # configuration
+  CONFIG.load_from_env
+  Workspace.new config('workspace')
+  DataMapper.setup :default, config('database-url')
+
+  # wip
+  id = ARGV.shift or raise "no wip specified"
+  workspace[id] or raise "wip #{id} not in workspace"
+  raise "no wip id specified" unless wip_id
+  wip_path = File.join workspace_dir, wip_id
+
+  # ingest it
   wip.ingest!
   puts "#{wip.id} ingested"
   FileUtils.rm_r wip.path
 rescue => e
   puts e.message
   puts e.backtrace
-  exit 3
+  exit 1
 end
