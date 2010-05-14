@@ -2,13 +2,13 @@ require 'db/request'
 
 class Intentity 
   include DataMapper::Resource
-  property :id, String, :key => true, :length => 16
+  property :id, String, :key => true, :length => 30
     # daitss1 ieid
   property :original_name, String, :length => 32, :required => true 
     # i.e. package_name
   property :entity_id, String, :length => 32
   property :volume, String, :length => 4
-  property :issue, String, , :length => 3
+  property :issue, String, :length => 3
   property :title, Text
 
   belongs_to :project
