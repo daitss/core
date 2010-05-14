@@ -224,9 +224,9 @@ class AIPInPremis
         @acctProject.save
         # not necessary to explicitely save representations since representations will be saved through intentity associations        
         # @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
-        @datafiles.each {|dfid, df|  raise 'error saving datafile records' unless  df.save } 
+        @datafiles.each {|dfid, df|  raise "error saving datafile records #{df.inspect}" unless  df.save } 
         # @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
-        @events.each {|id, e|  raise 'error saving event records' unless e.save }
+        @events.each {|id, e|  raise "error saving event records #{e.inspect}" unless e.save }
         @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
         # r = RubyProf.stop
         # printer = RubyProf::GraphHtmlPrinter.new r
