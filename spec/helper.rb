@@ -1,6 +1,4 @@
 require 'db/int_entity'
-require 'db/representation'
-require 'db/datafiles_representations'
 require 'db/datafile'
 require 'db/datafile_severe_element'
 require 'db/severe_element'
