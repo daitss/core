@@ -136,12 +136,12 @@ end
 
 Then /^the normalized file should have archive as origin$/ do
  df = Datafile.first(:id => @norm_fileid)
- df.origin.should == :archive
+ df.origin.should == "ARCHIVE"
 end
 
 Then /^the original file should have depositor as origin$/ do
   df = Datafile.first(:id => @dfid)
-  df.origin.should == :depositor
+  df.origin.should == "DEPOSITOR"
 end
 
 Then /^it should have an inhibitor$/ do
