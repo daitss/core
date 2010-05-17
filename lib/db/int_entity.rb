@@ -2,16 +2,17 @@ require 'db/request'
 
 class Intentity 
   include DataMapper::Resource
-  property :id, String, :key => true, :length => 100
-  # daitss1 ieid
-  property :original_name, String # i.e. package_name
-  property :entity_id, String
-  property :volume, String
-  property :issue, String
+  property :id, String, :key => true, :length => 30
+    # daitss1 ieid
+  property :original_name, String, :length => 32, :required => true, :default => "UNKNOWN"
+    # i.e. package_name
+  property :entity_id, String, :length => 32
+  property :volume, String, :length => 4
+  property :issue, String, :length => 3
   property :title, Text
 
   belongs_to :project
-  has 1..n, :representations, :constraint=>:destroy
+  has 1..n, :datafiles, :constraint=>:destroy
   has n, :requests
 
   before :destroy, :deleteChildren

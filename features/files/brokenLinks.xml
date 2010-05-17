@@ -10,12 +10,12 @@
           </titleInfo>
           <part>
             <detail type="volume">
-              <number/>
+               <number>1</number>
             </detail>
           </part>
           <part>
             <detail type="issue">
-              <number/>
+               <number>1</number>
             </detail>
           </part>
           <identifier type="entity id">ateam</identifier>

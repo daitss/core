@@ -5,9 +5,10 @@ DIGEST_CODES = {
 }
 
 ORIGINATOR = { 
-  "archive" => :archive, # MD5 message digest algorithm, 128 bits
-  "depositor" => :depositor, # Secure Hash Algorithm 1, 160 bits    
+  "archive" => :archive,
+  "depositor" => :depositor
 }
+
 class MessageDigest
   include DataMapper::Resource
   property :id, Serial, :key => true
