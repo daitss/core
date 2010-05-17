@@ -100,7 +100,7 @@ class DataFile
     link = url + doc.find_first('//P:links/P:link', NS_PREFIX).content
 
     # ask for the data from the link
-    req = Net::HTTP::Get.new link.path
+    req = Net::HTTP::Get.new link.request_uri
 
     res = Net::HTTP.start(url.host, url.port) do |http|
       http.read_timeout = Daitss::CONFIG['http-timeout']
@@ -109,7 +109,7 @@ class DataFile
 
     res.error! unless Net::HTTPSuccess === res
     data = res.body
-    ext = File::extname(link.path)
+    ext = File::extname(link.request_uri)
 
     # return everything
     [agent, event, data, ext]
