@@ -19,7 +19,7 @@ describe Wip do
       t.write @wip['xml-resolution-tarball']
       t.flush
       tarlist = %x{tar tf #{t.path}}.lines
-      tarlist.should have_exactly(72).items
+      tarlist.should have_exactly(5).items
     end
 
   end
