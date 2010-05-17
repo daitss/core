@@ -1,5 +1,3 @@
-# LINK_SEPARATER "|"
-
 class BrokenLink
   include DataMapper::Resource
   

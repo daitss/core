@@ -67,9 +67,9 @@ end
 
 Then /^all (.+) representations should exist/ do |ieid|
   # check for representation-0, representation-current
-  r0 = Representation.first(:intentity_id => ieid, :id.like  => '%representation/original')
+  r0 = Datafile.first(:intentity_id => ieid, :r0.like  => '%representation/original')
   r0.should_not be_nil
-  rc = Representation.first(:intentity_id => ieid, :id.like  => '%representation/current')
+  rc = Datafile.first(:intentity_id => ieid, :rc.like  => '%representation/current')
   rc.should_not be_nil
 end
 
@@ -136,12 +136,12 @@ end
 
 Then /^the normalized file should have archive as origin$/ do
  df = Datafile.first(:id => @norm_fileid)
- df.origin.should == :archive
+ df.origin.should == "ARCHIVE"
 end
 
 Then /^the original file should have depositor as origin$/ do
   df = Datafile.first(:id => @dfid)
-  df.origin.should == :depositor
+  df.origin.should == "DEPOSITOR"
 end
 
 Then /^it should have an inhibitor$/ do

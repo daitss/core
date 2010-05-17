@@ -2,18 +2,20 @@ Event_Types = {
   "ingest" => :ingest,
   "submit" => :submit,
   "comprehensive validation" => :validate,
-  "dissemination" => :disseminate,
+  "virus check" => :viruscheck,
+  "disseminate" => :disseminate,
   "withdraw" => :withdraw,
   "fixity Check" => :fixitycheck,
   "format description" => :describe,
   "normalize" => :normalize, 
-  "migration" => :migrate }
+  "migration" => :migrate,
+  "xml resolution" => :xmlresolution }
 
   class Event
     include DataMapper::Resource
     property :id, String, :key => true, :length => 100
     property :idType, String # identifier type
-    property :e_type, Enum[:submit, :validate, :ingest, :disseminate, :withdraw, :fixitycheck, :describe, :migrate, :normalize, :deletion]
+    property :e_type, Enum[:submit, :validate, :viruscheck, :ingest, :disseminate, :withdraw, :fixitycheck, :describe, :migrate, :normalize, :xmlresolution, :deletion]
     property :datetime, DateTime
     property :outcome, String, :length => 255   # ex. sucess, failed.  TODO:change to Enum.
     property :outcome_details, Text # additional information about the event outcome.

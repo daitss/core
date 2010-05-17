@@ -18,7 +18,7 @@
               <number>2</number>
             </detail>
           </part>
-          <identifier type="entity id">ateam</identifier>
+          <identifier type="entity id">obsolete</identifier>
         </mods>
       </xmlData>
     </mdWrap>
@@ -44,7 +44,7 @@
               <objectIdentifierValue>test:/E0000193W_8171V7</objectIdentifierValue>
             </objectIdentifier>
             <objectCategory>intellectual entity</objectCategory>
-            <originalName>wave</originalName>
+            <originalName>obsolete file</originalName>
           </object>
         </xmlData>
       </mdWrap>

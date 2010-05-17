@@ -5,6 +5,7 @@ require "datamapper"
 require "daitss/config"
 require 'wip/ingest'
 require 'rjb'
+require 'workspace'
 
 include Daitss
 
@@ -12,18 +13,19 @@ begin
 
   # configuration
   CONFIG.load_from_env
-  Workspace.new config('workspace')
-  DataMapper.setup :default, config('database-url')
+  w = Workspace.new CONFIG['workspace']
+  DataMapper.setup :default, CONFIG['database-url']
 
   # wip
   id = ARGV.shift or raise "no wip specified"
-  workspace[id] or raise "wip #{id} not in workspace"
-  raise "no wip id specified" unless wip_id
-  wip_path = File.join workspace_dir, wip_id
+  w[id] or raise "wip #{id} not in workspace"
+  raise "no wip id specified" unless id
+  wip_path = File.join w.path, id
 
   # ingest it
+  wip = Wip.new wip_path
   wip.ingest!
-  puts "#{wip.id} ingested"
+  puts "#{id} ingested"
   FileUtils.rm_r wip.path
 rescue => e
   puts e.message
