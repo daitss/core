@@ -173,7 +173,7 @@ Given /^a workspace$/ do
   setup_workspace
 end
 
-Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account|descriptor missing|descriptor invalid|descriptor not well formed) package$/ do |n, package|
+Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account|descriptor missing|descriptor invalid|descriptor not well formed|package in package) package$/ do |n, package|
   case package
 
   when "good"
@@ -199,6 +199,9 @@ Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account|descriptor 
 
   when "descriptor invalid"
     @package = "ateam-descriptor-invalid"
+
+  when "package in package"
+    @package = "ateam-package-within"
 
 
   end
@@ -273,6 +276,12 @@ When /^that request is authorized by (.*)$/ do |actor|
 end
 
 ### THEN
+
+Then /^the package is present in the AIP store once$/ do
+  rows = Aip.all
+
+  raise "More than one record found in AIP store" unless rows.length == 1
+end
 
 Then /^the package is present in the aip store$/ do
   Aip.get!(@ieid)
