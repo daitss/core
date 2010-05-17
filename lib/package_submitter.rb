@@ -67,6 +67,9 @@ class PackageSubmitter
       reject InvalidDescriptor.new(wip.sip_descriptor_errors), pt_event_notes, ieid, submitter_username, wip_path
     end
 
+    # add record to sip table
+    add_sip_record package_name, sip_path, ieid
+
     # check that the project in the descriptor exists in the database
     package_account = Account.first(:code => wip["dmd-account"])
     reject InvalidAccount.new, pt_event_notes, ieid, submitter_username, wip_path unless package_account
@@ -98,9 +101,6 @@ class PackageSubmitter
 
     # add task
     wip.task = :ingest
-
-    # add record to sip table
-    add_sip_record package_name, sip_path, ieid
 
     # write package tracker event
     pt_event_notes = pt_event_notes + ", outcome: success"
