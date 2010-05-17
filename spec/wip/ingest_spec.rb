@@ -50,7 +50,6 @@ describe Wip do
       end
 
       it "should put the xmlres tarball in the aip tarball" do
-        pending 'xml resolution is not returning valid premis elements'
         url = @aip.copy_url
         req = Net::HTTP::Get.new url.path
         res = Net::HTTP.start(url.host, url.port) { |http| http.request req }
