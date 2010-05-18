@@ -11,7 +11,7 @@ REPOS = {
   'describe' => 'git://github.com/daitss/describe.git',
   'storage' => 'git://github.com/daitss/storage.git',
   'actionplan' => 'git://github.com/daitss/actionplan.git',
-  'validate' => 'git://github.com/daitss/validate.git',
+  'viruscheck' => 'git://github.com/daitss/viruscheck.git',
   'transform' => 'git://github.com/daitss/transform.git',
   'submission' => 'git://github.com/daitss/submission.git',
   'request' => 'git://github.com/daitss/request.git'
@@ -44,7 +44,7 @@ end
 def require_services
 
 
-  %w(describe validate actionplan transform storage submission request).each do |service|
+  %w(describe viruscheck actionplan transform storage submission request).each do |service|
     service_dir = File.join SERVICES_DIR, service
     $:.unshift File.join(service_dir, 'lib')
 
@@ -78,8 +78,8 @@ def service_stack
       run Describe.new
     end
 
-    map "/validation" do
-      run Validation::App.new
+    map "/viruscheck" do
+      run VirusCheckService::App.new
     end
 
     map "/actionplan" do

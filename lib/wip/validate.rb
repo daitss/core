@@ -21,7 +21,7 @@ class Wip
   private
 
   def ask_validation
-    url = URI.parse Daitss::CONFIG['validation-url']
+    url = URI.parse Daitss::CONFIG['viruscheck-url']
     req = Net::HTTP::Get.new url.path
     req.form_data = { 'location' => "file:#{File.expand_path path}" }
 

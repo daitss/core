@@ -4,7 +4,7 @@ require 'datafile'
 class DataFile
 
   def virus_check!
-    output = %x{curl -s -d 'data=@#{self.datapath}' #{Daitss::CONFIG['validation-url']}}
+    output = %x{curl -s -d 'data=@#{self.datapath}' #{Daitss::CONFIG['viruscheck-url']}}
     raise "could not request virus check: #{output}" unless $?.exitstatus == 0
     doc = XML::Document.string output
     extract_event doc
