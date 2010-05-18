@@ -3,10 +3,12 @@ require 'wip'
 class Wip
 
   def snafu?
+    check_dead
     tags.has_key? 'snafu'
   end
 
   def snafu
+    check_dead
     tags['snafu']
   end
 
@@ -22,6 +24,23 @@ class Wip
 
   def unsnafu!
     tags.delete 'snafu' if snafu?
+  end
+
+  private
+
+  def check_dead
+    pid, ptime = process
+
+    if !running? and pid
+
+      begin
+        raise "dead process #{pid} #{ptime.xmlschema}"
+      rescue => e
+        self.snafu = e
+      end
+
+    end
+
   end
 
 end

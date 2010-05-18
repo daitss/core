@@ -31,11 +31,12 @@ class Wip
 
       start do |wip|
         require 'wip/ingest'
-        DataMapper.setup :default, CONFIG['database-url']
+        DataMapper.setup :default, Daitss::CONFIG['database-url']
 
         begin
           wip.ingest!
           wip.task_complete
+          FileUtils.rm_r wip.path # XXX move to safe place then delete?
         rescue => e
           wip.snafu = e
         end
@@ -45,6 +46,19 @@ class Wip
     else raise "unknown task #{task ? task : task.inspect}, cannot start wip"
     end
 
+  end
+
+  def stop
+    kill
+    tags['stop'] = Time.now.xmlschema
+  end
+
+  def stopped?
+    tags.has_key? 'stop'
+  end
+
+  def unstop
+    tags.delete 'stop'
   end
 
 end
