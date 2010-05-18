@@ -33,5 +33,20 @@
         %th time
         %td= e.timestamp
 
-  %h2 aip
 
+  - if @aip
+    %h2 aip
+
+    %h3
+      %a{:href=>"/package/#{@aip.id}/descriptor"} xml descriptor
+
+    %table
+      %tr
+        %th copy size
+        %td= @aip.copy_size
+      %tr
+        %th copy sha1
+        %td= @aip.copy_sha1
+      %tr
+        %th copy md5
+        %td= @aip.copy_md5

@@ -1,12 +1,29 @@
 #wip
-  %h1= @wip.id
+  %h1
+    = @wip.task
+    of
+    %a{:href => "/package/#{@wip.id}"}
+      = @wip.id
+  -if @wip.snafu?
+    #snafu
+      - time, message, trace = @wip.snafu.split "\n\n"
+      %h2
+        snafu
+
+      %table
+        %tr
+          %th time
+          %td= Time.parse(time).xmlschema
+        %tr
+          %th message
+          %td= message
+        %tr
+          %th{:colspan => 2}
+            %a{:href => "/workspace/#{@wip.id}/snafu"} stack trace
 
   %hr/
 
   %table
-    %tr
-      %th task
-      %td= @wip.task
     %tr
       %th status
       %td= @wip.state

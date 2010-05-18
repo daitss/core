@@ -26,5 +26,3 @@ Feature: list wips
       | quantity |
       |        0 |
       |        5 |
-      #|       10 |
-      #|       50 |
