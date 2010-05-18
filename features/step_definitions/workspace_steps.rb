@@ -48,7 +48,7 @@ Given /^a workspace with the following wips:$/ do |table|
 
 end
 
-Then /^there should be (\d+) (running|idle|snafu|) ?wips?$/ do |count, state|
+Then /^there should be (\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
   doc = Nokogiri::HTML last_response.body
 
   unless state.empty?
