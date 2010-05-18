@@ -26,13 +26,14 @@
     %tr
       %th type
       %th time
+      %th note
     - @events.each do |e|
       %tr
         %td= e.event_name
       %tr
-        %th time
         %td= e.timestamp
-
+      %tr
+        %td= e.notes
 
   - if @aip
     %h2 aip
@@ -42,6 +43,9 @@
 
     %table
       %tr
+        %th copy url
+        %td= @aip.copy_url
+      %tr
         %th copy size
         %td= @aip.copy_size
       %tr
@@ -50,3 +54,6 @@
       %tr
         %th copy md5
         %td= @aip.copy_md5
+      %tr
+        %th number of datafiles
+        %td= @aip.datafile_count
