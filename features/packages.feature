@@ -15,14 +15,14 @@ Feature: be able to locate any package
     Then I should see the package in the results
 
   Scenario: search for multiple packages
-    Given I submit 2 sips
+    Given I submit 2 packages
     And I goto "/packages"
     When I enter the package ids into the box
     And I press "Search"
     Then I should see the packages in the results
 
   Scenario: search for multiple packages using sip and package ids
-    Given I submit 2 sips
+    Given I submit 2 packages
     And I goto "/packages"
     When I enter one package id and one sip id into the box
     And I press "Search"
