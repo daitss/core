@@ -1,5 +1,6 @@
 require 'dm-core'
 require 'dm-types'
+require 'dm-validations'
 require 'db/keys.rb'
 require 'db/operations_events.rb'
 require 'db/accounts.rb'
@@ -10,12 +11,12 @@ require 'db/request.rb'
 class OperationsAgent
   include DataMapper::Resource
 
-  property :id, Serial
+  property :id, Serial, :key => true
   property :description, String, :length => 256
   property :active_start_date, DateTime
   property :active_end_date, DateTime
   property :type, Discriminator
-  property :identifier, String, :unique => true, :length => 256
+  property :identifier, String, :unique_index => true, :length => 100
 
   # TODO: add constraint
   has 1, :authentication_key
