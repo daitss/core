@@ -15,4 +15,8 @@ describe Wip do
     subject.task.should == :ingest
   end
 
+  it 'should start based on task'
+  it 'should stop a started task'
+  it 'should start when stopped'
+
 end

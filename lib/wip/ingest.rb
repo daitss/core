@@ -41,7 +41,7 @@ class Wip
       metadata['aip-descriptor'] = descriptor
     end
 
-    step('make-aip') { Aip::new_from_wip self }
+    step('make-aip') { Aip.new_from_wip self }
   end
 
 end
