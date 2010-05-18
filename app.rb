@@ -17,11 +17,26 @@ require 'db/sip'
 require 'db/operations_events'
 
 configure do
-  raise "no configuration" unless ENV['CONFIG']
-  Daitss::CONFIG.load ENV['CONFIG']
-
-  set :workspace, Workspace.new(Daitss::CONFIG['workspace'])
+  Daitss::CONFIG.load_from_env
+  ws = Workspace.new(Daitss::CONFIG['workspace'])
+  set :workspace, ws
   DataMapper.setup :default, Daitss::CONFIG['database-url']
+
+  Thread.new do
+
+    loop do
+      startable = ws.select { |w| w.state == 'idle' }
+
+      startable.each do |wip|
+        puts "starting #{wip.id}"
+        wip.start_task
+      end
+
+      sleep 1
+    end
+
+  end
+
 end
 
 helpers do
@@ -71,16 +86,17 @@ end
 
 post '/submit' do
 
-  id = begin
-         filename = params['sip'][:filename]
-         sip = filename[ %r{^(.+)\.\w+$}, 1]
-         ext = filename[ %r{^.+\.(\w+)$}, 1]
-         data = params['sip'][:tempfile].read
-         submit data, sip, ext
-       rescue
-         error 400, 'file upload parameter "sip" required' unless params['sip']
-       end
+  data, sip, ext = begin
+                     filename = params['sip'][:filename]
+                     sip = filename[ %r{^(.+)\.\w+$}, 1]
+                     ext = filename[ %r{^.+\.(\w+)$}, 1]
+                     data = params['sip'][:tempfile].read
+                     [data, sip, ext]
+                   rescue
+                     error 400, 'file upload parameter "sip" required'
+                   end
 
+  id = submit data, sip, ext
   redirect "/package/#{id}"
 end
 
@@ -100,6 +116,13 @@ get '/package/:id' do |id|
   @wip = settings.workspace[id]
   @aip = Aip.first :id => id
   haml :package
+end
+
+get '/package/:id/descriptor' do |id|
+  @aip = Aip.first :id => id
+  not_found unless @aip
+  content_type = 'application/xml'
+  @aip.xml
 end
 
 get '/workspace' do
@@ -143,6 +166,13 @@ get '/workspace/:id' do |id|
     haml :wip
   end
 
+end
+
+get '/workspace/:id/snafu' do |id|
+  wip = settings.workspace[id] or not_found
+  not_found unless wip.snafu?
+  content_type = 'text/plain'
+  wip.snafu
 end
 
 post '/workspace/:id' do |id|
