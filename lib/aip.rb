@@ -31,7 +31,8 @@ class Aip
   property :needs_work, Boolean, :required => true
   property :datafile_count, Integer, :min => 1, :required => true
 
-  validates_with_method :xml, :validate_against_xmlschema
+  # TODO get this working, rjb doesn't like being forked
+  #validates_with_method :xml, :validate_against_xmlschema
   validates_with_method :xml, :validate_against_schematron
   validates_with_method :copy_size, :check_copy_size
   validates_with_method :copy_md5, :check_copy_md5
@@ -39,10 +40,10 @@ class Aip
   def validate_against_xmlschema
     doc = XML::Document.string xml
     results = XML_SCHEMA_VALIDATOR.validate doc
-
     combined_results = results[:fatals] + results[:errors]
     combined_results.reject! { |r| r[:message] =~ /(tcf|aes)\:/ }
     combined_results.reject! { |r| r[:message] =~ /agentNote/ }
+
     unless combined_results.empty?
       combined_results.each { |r| puts r[:line].to_s + ' ' + r[:message] }
       [false, "descriptor fails daitss aip xml validation (#{combined_results.size} errors)"]
