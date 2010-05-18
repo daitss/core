@@ -14,7 +14,7 @@ describe Wip do
     subject.should_not be_running
     subject.start { sleep }
     subject.should be_running
-    subject.stop
+    subject.kill
     subject.should_not be_running
     subject.should_not be_done
   end

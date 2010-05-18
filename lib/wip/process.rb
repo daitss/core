@@ -40,7 +40,7 @@ class Wip
 
       pid = fork do
         Signal.trap "INT", "DEFAULT"
-        $stderr = StringIO.new
+        #$stderr = StringIO.new
         yield self
         done!
         exit
@@ -52,13 +52,13 @@ class Wip
 
   end
 
-  def stop
+  def kill
 
     while running?
       pid, starttime = process
 
       begin
-        Process::kill "INT", pid.to_i
+        Process.kill "INT", pid.to_i
         sleep 0.1 # overhead vs responsiveness: 1/100 of a second seems reasonable
       rescue Errno::ESRCH => e
         # nothing to do, this is OK
