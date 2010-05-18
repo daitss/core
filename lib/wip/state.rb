@@ -7,14 +7,11 @@ class Wip
 
   def state
 
-    if running?
-      'running'
-    elsif snafu?
-      'snafu'
-    elsif task_complete?
-      'complete'
-    else
-      'idle'
+    if running? then 'running'
+    elsif stopped? then 'stopped'
+    elsif snafu? then 'snafu'
+    elsif task_complete? then 'complete'
+    else 'idle'
     end
 
   end
