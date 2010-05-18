@@ -14,6 +14,10 @@ require 'db/audio'
 require 'db/sip'
 
 def add_account name = "FDA", code = "FDA"
+
+  existing = Account.first(:code => code) 
+  return existing if existing
+
   a = Account.new
   a.attributes = { :name => name,
                    :code => code }
@@ -23,6 +27,10 @@ def add_account name = "FDA", code = "FDA"
 end
 
 def add_project account, name = "PRJ", code = "PRJ"
+
+  existing = Project.first(:code => code) 
+  return existing if existing
+
   p = Project.new
   p.attributes = { :name => name,
                    :code => code }
