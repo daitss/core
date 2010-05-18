@@ -6,7 +6,7 @@ require 'db/operations_agents'
 class OperationsEvent 
   include DataMapper::Resource
 
-  property :id, Serial
+  property :id, Serial, :key => true
   property :timestamp, DateTime, :required => true
   property :event_name, String, :required => true
   property :notes, Text

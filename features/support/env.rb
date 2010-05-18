@@ -90,8 +90,8 @@ module AdminHelpers
     i.attributes = { :id => ieid,
       :original_name => "test package",
       :entity_id => "test",
-      :volume => "vol",
-      :issue => "issue",
+      :volume => "1",
+      :issue => "1",
       :title => "title" }
 
     i.project = project
