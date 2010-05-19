@@ -1,7 +1,6 @@
 require 'package_submitter'
 require 'fileutils'
 require 'libxml'
-require 'package_tracker'
 require 'helper.rb'
 require 'old_ieid'
 require 'daitss/config'
@@ -75,26 +74,21 @@ describe PackageSubmitter do
     wip.metadata["sip-name"].should == "ateam"
 
     event_doc = LibXML::XML::Document.string wip.metadata["submit-event"]
+    validation_doc = LibXML::XML::Document.string wip.metadata["package-valid-event"]
     agent_doc = LibXML::XML::Document.string wip.metadata["submit-agent"]
 
     (event_doc.find_first "//xmlns:eventOutcome", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "success"
     (event_doc.find_first "//xmlns:eventType", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "submit"
     (event_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == CONFIG["uri-prefix"] + ieid
 
+    (validation_doc.find_first "//xmlns:eventOutcome", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "success"
+    (validation_doc.find_first "//xmlns:eventType", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "package valid"
+    (validation_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == CONFIG["uri-prefix"] + ieid
+
     event_linking_agent = event_doc.find_first("//xmlns:linkingAgentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
     agent_identifier = agent_doc.find_first("//xmlns:agentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
 
     event_linking_agent.should == agent_identifier
-
-    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
-
-    submission_event.ieid.should == ieid
-    submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 1.0)
-    submission_event.operations_agent.identifier.should == "operator"
-    submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: tar, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: success"
-    File.exists?(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == true
-    File.read(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == "ingest"
 
     sip = SubmittedSip.first(:ieid => ieid)
 
@@ -102,6 +96,16 @@ describe PackageSubmitter do
     sip.package_name.should == "ateam"
     sip.package_size.should == 923328
     sip.number_of_datafiles.should == 2
+    sip.project.code.should == "PRJ"
+
+    submission_event = sip.operations_events.first(:event_name => "Package Submission")
+
+    submission_event.event_name.should == "Package Submission"
+    submission_event.timestamp.to_time.should be_close(now, 1.0)
+    submission_event.operations_agent.identifier.should == "operator"
+    submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: tar, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: success"
+    File.exists?(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == true
+    File.read(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == "ingest"
   end
 
   it "should submit a package creating a wip with submission event from a zip-extracted SIP" do
@@ -118,20 +122,32 @@ describe PackageSubmitter do
     wip.metadata["sip-name"].should == "ateam"
 
     event_doc = LibXML::XML::Document.string wip.metadata["submit-event"]
+    validation_doc = LibXML::XML::Document.string wip.metadata["package-valid-event"]
     agent_doc = LibXML::XML::Document.string wip.metadata["submit-agent"]
 
     (event_doc.find_first "//xmlns:eventOutcome", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "success"
     (event_doc.find_first "//xmlns:eventType", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "submit"
     (event_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == CONFIG["uri-prefix"] + ieid
 
+    (validation_doc.find_first "//xmlns:eventOutcome", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "success"
+    (validation_doc.find_first "//xmlns:eventType", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "package valid"
+    (validation_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == CONFIG["uri-prefix"] + ieid
+
     event_linking_agent = event_doc.find_first("//xmlns:linkingAgentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
     agent_identifier = agent_doc.find_first("//xmlns:agentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
 
     event_linking_agent.should == agent_identifier
 
-    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
+    sip = SubmittedSip.first(:ieid => ieid)
 
-    submission_event.ieid.should == ieid
+    sip.should_not be_nil
+    sip.package_name.should == "ateam"
+    sip.package_size.should == 923328
+    sip.number_of_datafiles.should == 2
+    sip.project.code.should == "PRJ"
+
+    submission_event = sip.operations_events.first(:event_name => "Package Submission")
+
     submission_event.event_name.should == "Package Submission"
     submission_event.timestamp.to_time.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "operator"
@@ -140,12 +156,6 @@ describe PackageSubmitter do
     File.exists?(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == true
     File.read(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == "ingest"
 
-    sip = SubmittedSip.first(:ieid => ieid)
-
-    sip.should_not be_nil
-    sip.package_name.should == "ateam"
-    sip.package_size.should == 923328
-    sip.number_of_datafiles.should == 2
   end
 
   it "should raise error if descriptor cannot be found (package_name.xml)" do
@@ -154,9 +164,9 @@ describe PackageSubmitter do
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_NO_DESCRIPTOR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(DescriptorNotFoundError)
 
-    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
+    sip = SubmittedSip.first(:ieid => ieid)
+    submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
-    submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
     submission_event.timestamp.to_time.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "operator"
@@ -169,9 +179,9 @@ describe PackageSubmitter do
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_BROKEN_DESCRIPTOR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(DescriptorCannotBeParsedError)
 
-    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
+    sip = SubmittedSip.first(:ieid => ieid)
+    submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
-    submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
     submission_event.timestamp.to_time.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "operator"
@@ -208,9 +218,9 @@ describe PackageSubmitter do
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "bernie", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(SubmitterDescriptorAccountMismatch)
 
-    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
+    sip = SubmittedSip.first(:ieid => ieid)
+    submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
-    submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
     submission_event.timestamp.to_time.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "bernie"
@@ -223,9 +233,9 @@ describe PackageSubmitter do
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_BAD_PROJECT, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(InvalidProject)
 
-    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
+    sip = SubmittedSip.first(:ieid => ieid)
+    submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
-    submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
     submission_event.timestamp.to_time.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "operator"
@@ -238,9 +248,9 @@ describe PackageSubmitter do
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_BAD_PROJECT, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(InvalidProject)
 
-    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
+    sip = SubmittedSip.first(:ieid => ieid)
+    submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
-    submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
     submission_event.timestamp.to_time.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "foobar"
@@ -253,9 +263,9 @@ describe PackageSubmitter do
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_BAD_ACCOUNT, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(InvalidAccount)
 
-    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
+    sip = SubmittedSip.first(:ieid => ieid)
+    submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
-    submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
     submission_event.timestamp.to_time.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "operator"
@@ -268,9 +278,9 @@ describe PackageSubmitter do
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_NO_CONTENT_FILES, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(MissingContentFile)
 
-    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
+    sip = SubmittedSip.first(:ieid => ieid)
+    submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
-    submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
     submission_event.timestamp.to_time.should be_close(now, 8.0)
     submission_event.operations_agent.identifier.should == "foobar"
@@ -283,9 +293,9 @@ describe PackageSubmitter do
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_CHECKSUM_MISMATCH, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(ChecksumMismatch)
 
-    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
+    sip = SubmittedSip.first(:ieid => ieid)
+    submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
-    submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
     submission_event.timestamp.to_time.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "foobar"
@@ -298,9 +308,9 @@ describe PackageSubmitter do
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_INVALID_DESCRIPTOR, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(InvalidDescriptor)
 
-    submission_event = OperationsEvent.first(:ieid => ieid, :event_name => "Package Submission")
+    sip = SubmittedSip.first(:ieid => ieid)
+    submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
-    submission_event.ieid.should == ieid
     submission_event.event_name.should == "Package Submission"
     submission_event.timestamp.to_time.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "foobar"
@@ -320,12 +330,4 @@ describe PackageSubmitter do
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_UNKNOWN_CHECKSUM_TYPE, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should_not raise_error
   end
-
-   it  "should add an event for validation of package" do
-     pending "code me"
-   end
-
-   it  "should add an event for checksum check" do
-     pending "code me"
-   end
 end

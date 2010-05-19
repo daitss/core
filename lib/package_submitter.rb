@@ -5,7 +5,6 @@ require 'datafile/checksum'
 require 'wip/sip_descriptor'
 require 'uri'
 require 'libxml'
-require 'package_tracker'
 require 'xmlns'
 require 'wip/task'
 require 'db/sip'
@@ -40,7 +39,7 @@ class PackageSubmitter
   # checks that account of submitter matches account in package descriptor if operator
   # checks for the prescence of at least one content file
   # checks checksums of datafiles against descriptor, if provided
-  # inserts an operations event into package tracker
+  # inserts an operations event
   # makes an AIP from extracted files
   # writes a submission event to package provenance
   # writes a task tag file with "ingest"
@@ -54,44 +53,46 @@ class PackageSubmitter
 
     sip_path = File.join(unarchive_sip(archive_type, ieid, path_to_archive, package_name), package_name)
     wip_path = File.join(@@workspace.path, ".submit", ieid.to_s)
+    
+    submitter = OperationsAgent.first(:identifier => submitter_username)
+    sip_record = add_sip_record package_name, sip_path, ieid
 
     begin
       sip = Sip.new sip_path
       wip = Wip.from_sip wip_path, (URI_PREFIX + ieid), sip
       raise InvalidDescriptor unless wip.sip_descriptor_valid?
     rescue Errno::ENOENT
-      reject DescriptorNotFoundError.new, pt_event_notes, ieid, submitter_username, wip_path
+      reject DescriptorNotFoundError.new, pt_event_notes, sip_record, submitter, wip_path
     rescue LibXML::XML::Error
-      reject DescriptorCannotBeParsedError.new, pt_event_notes, ieid, submitter_username, wip_path
+      reject DescriptorCannotBeParsedError.new, pt_event_notes, sip_record, submitter, wip_path
     rescue InvalidDescriptor
-      reject InvalidDescriptor.new(wip.sip_descriptor_errors), pt_event_notes, ieid, submitter_username, wip_path
+      reject InvalidDescriptor.new(wip.sip_descriptor_errors), pt_event_notes, sip_record, submitter, wip_path
     end
-
-    # add record to sip table
-    add_sip_record package_name, sip_path, ieid
 
     # check that the project in the descriptor exists in the database
     package_account = Account.first(:code => wip["dmd-account"])
-    reject InvalidAccount.new, pt_event_notes, ieid, submitter_username, wip_path unless package_account
+    reject InvalidAccount.new, pt_event_notes, sip_record, submitter, wip_path unless package_account
 
     # check that package account in descriptor is specified and matches submitter
-    submitter = OperationsAgent.first(:identifier => submitter_username)
     account = submitter.account
 
-    reject SubmitterDescriptorAccountMismatch.new, pt_event_notes, ieid, submitter_username, wip_path unless account.code == wip["dmd-account"] or submitter.type == Operator
+    reject SubmitterDescriptorAccountMismatch.new, pt_event_notes, sip_record, submitter, wip_path unless account.code == wip["dmd-account"] or submitter.type == Operator
 
     # check that the project in the descriptor exists in the database
-    reject InvalidProject.new, pt_event_notes, ieid, submitter_username, wip_path unless package_account.projects
-    reject InvalidProject.new, pt_event_notes, ieid, submitter_username, wip_path unless (package_account.projects.map {|project| project.code == wip['dmd-project']}).include? true
+    reject InvalidProject.new, pt_event_notes, sip_record, submitter, wip_path unless package_account.projects
+    reject InvalidProject.new, pt_event_notes, sip_record, submitter, wip_path unless (package_account.projects.map {|project| project.code == wip['dmd-project']}).include? true
+
+    # add fk to project table
+    add_project_to_sip_record sip_record, Project.first(:code => wip['dmd-project'])
 
     # check for the presence of at least one content file
-    reject MissingContentFile.new, pt_event_notes, ieid, submitter_username, wip_path unless wip.all_datafiles.length > 1
+    reject MissingContentFile.new, pt_event_notes, sip_record, submitter, wip_path unless wip.all_datafiles.length > 1
 
     # check that any specified checksums match descriptor
     checksum_info = wip.described_datafiles.map { |df| [ df['sip-path'] ] + df.checksum_info }
     checksum_info.reject! { |path, desc, comp| desc == nil and comp == nil }
     matches, mismatches = checksum_info.partition { |(path, desc, comp)| desc == comp }
-    reject ChecksumMismatch.new, pt_event_notes, ieid, submitter_username, wip_path if mismatches.any?
+    reject ChecksumMismatch.new, pt_event_notes, sip_record, submitter, wip_path if mismatches.any?
 
     # create premis agents and events in wip
     create_submit_agent wip
@@ -102,9 +103,9 @@ class PackageSubmitter
     # add task
     wip.task = :ingest
 
-    # write package tracker event
+    # write operations event
     pt_event_notes = pt_event_notes + ", outcome: success"
-    PackageTracker.insert_op_event(submitter_username, ieid, "Package Submission", pt_event_notes)
+    add_submission_op_event submitter, sip_record, pt_event_notes
 
     # move to workspace and clean up
     FileUtils.mv wip_path, File.join(@@workspace.path, ieid)
@@ -112,6 +113,20 @@ class PackageSubmitter
   end
 
   private
+
+  def self.add_submission_op_event agent, sip, notes
+    event = OperationsEvent.new
+    event.attributes = { :timestamp => Time.now,
+                         :event_name => "Package Submission",
+                         :notes => notes }
+
+    event.submitted_sip = sip
+    event.operations_agent = agent
+
+    event.save!
+
+    return event
+  end
 
   def self.create_submit_agent wip
     wip['submit-agent'] = agent :id => 'info:fda/daitss/submission_service',
@@ -158,11 +173,18 @@ class PackageSubmitter
       :ieid => ieid }
 
     sip.save!
+
+    return sip
   end
 
-  # deletes temporary wip, writes pt record for failed submission and raises exception
+  def self.add_project_to_sip_record sip_record, project
+    sip_record.project = project
+    sip_record.save!
+  end
 
-  def self.reject exception, pt_event_notes, ieid, agent_id, wip_path
+  # deletes temporary wip, writes ops event record for failed submission and raises exception
+
+  def self.reject exception, pt_event_notes, sip_record, agent, wip_path
     FileUtils.rm_rf wip_path
     pt_event_notes = pt_event_notes + ", outcome: failure"
 
@@ -187,7 +209,8 @@ class PackageSubmitter
       pt_event_notes = pt_event_notes + ", failure_reason: descriptor failed validation -- #{exception.message}"
     end
 
-    PackageTracker.insert_op_event(agent_id, ieid, "Package Submission", pt_event_notes)
+    add_submission_op_event agent, sip_record, pt_event_notes
+
     raise exception
   end
 
