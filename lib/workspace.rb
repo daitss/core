@@ -34,13 +34,16 @@ class Workspace
   end
   alias_method :[], :wip_by_id
 
-  def stash wip_id, dir
+  # move the wip in the stash bin
+  def stash wip_id, bin
     raise "wip #{wip_id} does not exist" unless self[wip_id]
-    FileUtils::mv self[wip_id].path, dir
+    dst = File.join bin.path, wip_id
+    FileUtils.mkdir_p bin.path unless File.directory? bin.path
+    FileUtils.mv self[wip_id].path, dst
   end
 
   def unstash wip_path
-    FileUtils::mv wip_path, path
+    FileUtils.mv wip_path, path
   end
 
   def to_json *a
