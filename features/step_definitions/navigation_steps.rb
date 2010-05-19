@@ -14,6 +14,11 @@ When /^I click on "([^\"]*)"$/ do |link|
   click_link link
 end
 
-Then /^the response should be OK$/ do
-  last_response.should be_ok
+Then /^the response should be (NG|OK)$/ do |condition|
+
+  case condition
+  when 'OK' then last_response.should be_ok
+  when 'NG' then last_response.should_not be_ok
+  end
+
 end
