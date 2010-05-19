@@ -129,19 +129,15 @@ end
 
 Given /^an archive (.*)$/ do |actor|
 
+  a = Account.first(:code => "ACT")
+
   case actor
 
   when "operator"
-    a = add_account
-    add_project a
-    add_operator a
-
     @username = "operator"
     @password = "operator"
 
   when "contact"
-    a = add_account "ACT", "ACT"
-    add_project a
     add_contact a
 
     @username = "contact"
@@ -152,8 +148,6 @@ Given /^an archive (.*)$/ do |actor|
     @password = "bar"
 
   when "unauthorized contact"
-    a = add_account "ACT", "ACT"
-    add_project a
     add_contact a, []
 
     @username = "contact"

@@ -7,7 +7,7 @@ require 'db/int_entity'
 class Request
   include DataMapper::Resource
 
-   property :id, Serial
+   property :id, Serial, :key => true
    property :timestamp, DateTime, :required => true
    property :is_authorized, Boolean, :required => true
    property :status, Enum[:enqueued, :released_to_workspace], :default => :enqueued
