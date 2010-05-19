@@ -5,7 +5,7 @@ require 'dm-core'
 class PackageLocation
   include DataMapper::Resource
 
-  property :id, Serial
+  property :id, Serial, :key => true
   property :timestamp, DateTime, :required => true
   property :path, String, :required => true
   property :ieid, String, :required => true
