@@ -8,7 +8,10 @@ http-timeout: 600
 database-url: sqlite3::memory:
 
 # workspace directory
-workspace: /tmp
+workspace: /tmp/ws
+
+# stash directory
+stashspace: /tmp/stash
 
 # service urls
 actionplan-url: http://localhost:7000/actionplan
