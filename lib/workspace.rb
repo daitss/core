@@ -42,10 +42,6 @@ class Workspace
     FileUtils.mv self[wip_id].path, dst
   end
 
-  def unstash wip_path
-    FileUtils.mv wip_path, path
-  end
-
   def to_json *a
     map.to_json *a
   end
