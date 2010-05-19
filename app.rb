@@ -137,6 +137,8 @@ get '/workspace' do
 
 end
 
+# workspace & wips in the workspace
+
 post '/workspace' do
   ws = settings.workspace
 
@@ -185,7 +187,8 @@ get '/workspace/:id/snafu' do |id|
 end
 
 post '/workspace/:id' do |id|
-  wip = settings.workspace[id] or not_found
+  ws = settings.workspace
+  wip = ws[id] or not_found
 
   case params['task']
   when 'start'
@@ -201,29 +204,33 @@ post '/workspace/:id' do |id|
     wip.unsnafu!
 
   when 'stash'
-    error 400, 'parameter path is required' unless params['path']
-    error 400, "#{params['path']} is not a directory" unless File.directory? params['path']
-    FileUtils.mv wip.path, params['path']
-    redirect '/'
+    error 400, 'parameter stash-bin is required' unless params['stash-bin']
+    error 400, 'can only stash a non-running wip' if wip.running?
+    bin = StashBin.first :name => params['stash-bin']
+    ws.stash wip.id, bin
+    redirect "/stash/#{bin.url_name}/#{wip.id}"
 
   when nil, '' then raise 400, 'parameter task is required'
   else error 400, "unknown command: #{params['task']}"
   end
 
-  redirect wip.id
+  redirect "/workspace/#{wip.id}"
 end
+
+# stash bins & stashed wips
 
 get '/stash' do
   @bins = StashBin.all
-  haml :stashbins
+  haml :stash_bins
 end
 
 get '/stash/:bin' do |bin|
   @bin = StashBin.first :name => bin
-  haml :stashbin
+  haml :stash_bin
 end
 
 get '/stash/:bin/:wip' do |bin, wip|
-  @bin = StashBin.first :bin => bin
-  haml :stashbin
+  @bin = StashBin.first :name => bin
+  @wip = Wip.new File.join(@bin.path, wip)
+  haml :stashed_wip
 end
