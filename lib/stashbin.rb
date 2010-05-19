@@ -23,4 +23,10 @@ class StashBin
     File.join CONFIG['stashspace'], sha1
   end
 
+  def unstash wip_id
+    src = File.join path, wip_id
+    dst = File.join CONFIG['workspace'], wip_id
+    FileUtils.mv src, dst
+  end
+
 end
