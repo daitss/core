@@ -1,0 +1,10 @@
+%h1= @bin.name
+
+%table#packages
+  - @bin.wips.each do |w|
+    %tr
+      %td
+        %a{:href => "/stash/#{@bin.url_name}/#{w.id}"}= w.id
+      %td= w['sip-name']
+      %td= w.task
+      %td= w.state

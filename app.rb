@@ -13,6 +13,7 @@ require 'daitss/config'
 require 'datamapper'
 require 'dm-aggregates'
 require 'aip'
+require 'stashbin'
 require 'db/sip'
 require 'db/operations_events'
 
@@ -22,20 +23,20 @@ configure do
   set :workspace, ws
   DataMapper.setup :default, Daitss::CONFIG['database-url']
 
-  Thread.new do
+  #Thread.new do
 
-    loop do
-      startable = ws.select { |w| w.state == 'idle' }
+    #loop do
+      #startable = ws.select { |w| w.state == 'idle' }
 
-      startable.each do |wip|
-        puts "starting #{wip.id}"
-        wip.start_task
-      end
+      #startable.each do |wip|
+        #puts "starting #{wip.id}"
+        #wip.start_task
+      #end
 
-      sleep 1
-    end
+      #sleep 1
+    #end
 
-  end
+  #end
 
 end
 
@@ -137,19 +138,26 @@ get '/workspace' do
 end
 
 post '/workspace' do
+  ws = settings.workspace
 
   case params['task']
   when 'start'
-    startable = settings.workspace.reject { |w| w.running? || w.done? }
+    startable = ws.reject { |w| w.running? || w.done? }
     startable.each { |wip| wip.start_task }
 
   when 'stop'
-    stoppable = settings.workspace.select { |w| w.running? }
+    stoppable = ws.select { |w| w.running? }
     stoppable.each { |wip| wip.stop }
 
   when 'unsnafu'
-    unsnafuable= settings.workspace.select { |w| w.snafu? }
+    unsnafuable = ws.select { |w| w.snafu? }
     unsnafuable.each { |wip| wip.unsnafu! }
+
+  when 'stash'
+    error 400, 'parameter stash-bin is required' unless params['stash-bin']
+    bin = StashBin.first :name => params['stash-bin']
+    stashable = ws.reject { |w| w.running? || w.done? }
+    stashable.each { |w| ws.stash w.id, bin }
 
   when nil, '' then error 400, "parameter task is required"
   else error 400, "unknown command: #{params['task']}"
@@ -195,7 +203,7 @@ post '/workspace/:id' do |id|
   when 'stash'
     error 400, 'parameter path is required' unless params['path']
     error 400, "#{params['path']} is not a directory" unless File.directory? params['path']
-    FileUtils::mv wip.path, params['path']
+    FileUtils.mv wip.path, params['path']
     redirect '/'
 
   when nil, '' then raise 400, 'parameter task is required'
@@ -203,4 +211,19 @@ post '/workspace/:id' do |id|
   end
 
   redirect wip.id
+end
+
+get '/stash' do
+  @bins = StashBin.all
+  haml :stashbins
+end
+
+get '/stash/:bin' do |bin|
+  @bin = StashBin.first :name => bin
+  haml :stashbin
+end
+
+get '/stash/:bin/:wip' do |bin, wip|
+  @bin = StashBin.first :bin => bin
+  haml :stashbin
 end

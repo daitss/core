@@ -49,6 +49,7 @@ Given /^a workspace with the following wips:$/ do |table|
 end
 
 Then /^there should be (\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
+  last_response.should be_ok
   doc = Nokogiri::HTML last_response.body
 
   unless state.empty?
@@ -67,4 +68,15 @@ Then /^there should be the following wips:$/ do |table|
     Then "there should be #{count} #{state} wips"
   end
 
+end
+
+When /^I select "([^\"]*)"$/ do |bin|
+  select bin, :from => 'stash-bin'
+end
+
+Given /^a stash bin named "([^\"]*)"$/ do |name|
+  path = Dir.mktmpdir
+  $cleanup << path
+  sb = StashBin.new :name => name
+  sb.save! #or raise "could not save stashbin"
 end

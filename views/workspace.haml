@@ -3,6 +3,7 @@
     update all packages
 
   #update-form
+
     %form{:action => '/workspace', :method => 'post'}
 
       %input#state-start{:type => 'radio', :name => 'task', :value => 'start'}
@@ -14,6 +15,12 @@
       %input#state-unsnafu{:type => 'radio', :name => 'task', :value => 'unsnafu'}
       %label{:for => 'state-unsnafu'} unsnafu
       %br/
+      %input#state-stash{:type => 'radio', :name => 'task', :value => 'stash'}
+      %label{:for => 'state-stash'} stash
+      %select{:name => 'stash-bin'}
+        - StashBin.all.each do |bin|
+          %option= bin.name
+      %br/
       %br/
       %input{:type => 'submit', :value => "Update"}
 
@@ -21,11 +28,6 @@
 
   %h1 current packages
   %table#packages
-    -#%tr
-      -#%th id
-      -#%th sip id
-      -#%th task
-      -#%th status
     - settings.workspace.each do |w|
       %tr
         %td
