@@ -7,9 +7,8 @@ Feature: stashing a wip
     When I choose "stash"
     And I select "default bin"
     And I press "Update"
-    Then the response should be <page status>
-    And I should be at <page> page
+    And I should be at <page>
     Examples:
-      | pre status | page status | page            |
-      | idle       | OK          | the stashed wip |
-      | running    | NG          | an error        |
+      | pre status |  page            |
+      | idle       |  the stashed wip |
+      | running    |  an error        |

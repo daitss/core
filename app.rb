@@ -128,6 +128,8 @@ get '/package/:id/descriptor' do |id|
 end
 
 get '/workspace' do
+  @bins = StashBin.all
+  @ws = settings.workspace
 
   if request.accept.include? 'application/json'
     settings.workspace.to_json
@@ -208,7 +210,7 @@ post '/workspace/:id' do |id|
     error 400, 'can only stash a non-running wip' if wip.running?
     bin = StashBin.first :name => params['stash-bin']
     ws.stash wip.id, bin
-    redirect "/stash/#{bin.url_name}/#{wip.id}"
+    redirect "/stashspace/#{bin.url_name}/#{wip.id}"
 
   when nil, '' then raise 400, 'parameter task is required'
   else error 400, "unknown command: #{params['task']}"
@@ -219,17 +221,17 @@ end
 
 # stash bins & stashed wips
 
-get '/stash' do
+get '/stashspace' do
   @bins = StashBin.all
-  haml :stash_bins
+  haml :stashspace
 end
 
-get '/stash/:bin' do |bin|
+get '/stashspace/:bin' do |bin|
   @bin = StashBin.first :name => bin
   haml :stash_bin
 end
 
-get '/stash/:bin/:wip' do |bin, wip|
+get '/stashspace/:bin/:wip' do |bin, wip|
   @bin = StashBin.first :name => bin
   @wip = Wip.new File.join(@bin.path, wip)
   haml :stashed_wip

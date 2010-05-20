@@ -6,7 +6,8 @@ Feature: index links
     When I click on "<link>"
     Then the response should be OK
     Examples:
-      |link     |
-      |workspace|
-      |submit   |
-      |packages |
+      | link       |
+      | workspace  |
+      | submit     |
+      | packages   |
+      | stashspace |

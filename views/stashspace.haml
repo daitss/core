@@ -2,6 +2,6 @@
   - @bins.all.each do |bin|
     %tr
       %td
-        %a{:href => "/stash/#{bin.url_name}" }
+        %a{:href => "/stashspace/#{bin.url_name}" }
           = bin.name
       %td= bin.wips.size
