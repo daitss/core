@@ -14,4 +14,17 @@ class Account
   has n, :operations_agents
   has n, :projects
   has n, :requests
+
+  def Account.operations_account
+    a = Account.first :code => 'OP'
+
+    unless a
+      a = Account.new :code => 'OP', :name => 'account for operations'
+      a.save or raise "cannot save operations account"
+    end
+
+    a
+  end
+
 end
+

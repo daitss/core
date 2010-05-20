@@ -3,14 +3,14 @@ require 'db/operations_agents'
 
 # TODO: this should probably have an association the the Intentity table, not a string for IEID
 
-class OperationsEvent 
+class OperationsEvent
   include DataMapper::Resource
 
   property :id, Serial, :key => true
-  property :timestamp, DateTime, :required => true
+  property :timestamp, DateTime, :required => true, :default => Time.now
   property :event_name, String, :required => true
   property :notes, Text
-  
+
   belongs_to :operations_agent
   belongs_to :submitted_sip
 end
