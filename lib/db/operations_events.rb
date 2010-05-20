@@ -10,7 +10,7 @@ class OperationsEvent
   property :timestamp, DateTime, :required => true
   property :event_name, String, :required => true
   property :notes, Text
-  property :ieid, String, :required => true
   
   belongs_to :operations_agent
+  belongs_to :submitted_sip
 end

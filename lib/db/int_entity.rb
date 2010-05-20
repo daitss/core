@@ -13,7 +13,6 @@ class Intentity
 
   belongs_to :project
   has 1..n, :datafiles, :constraint=>:destroy
-  has n, :requests
 
   before :destroy, :deleteChildren
 

@@ -2,7 +2,7 @@ require 'dm-core'
 require 'dm-types'
 require 'db/accounts'
 require 'db/operations_agents'
-require 'db/int_entity'
+require 'db/sip'
 
 class Request
   include DataMapper::Resource
@@ -15,5 +15,5 @@ class Request
 
    belongs_to :operations_agent
    belongs_to :account
-   belongs_to :intentity
+   belongs_to :submitted_sip
 end

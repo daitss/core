@@ -282,10 +282,12 @@ Then /^the package is present in the aip store$/ do
 end
 
 Then /^there (is|is not) an operations event for the (.*)$/ do |expectation, event_type|
+  sip = SubmittedSip.first(:ieid => @ieid)
+
   case event_type
 
   when "submission"
-    event = OperationsEvent.first(:ieid => @ieid, :event_name => "Package Submission")
+    event = sip.operations_events.first(:event_name => "Package Submission")
 
   when "ingest"
     pending "ingest doesn't yet add an op event for ingest"
@@ -294,17 +296,17 @@ Then /^there (is|is not) an operations event for the (.*)$/ do |expectation, eve
     pending "ingest doesn't yet add an op event for reject"
 
   when "dissemination request queuing", "withdrawal request queuing", "peek request queuing"
-    event = OperationsEvent.first(:ieid => @ieid, :event_name => "Request Submission")
+    event = sip.operations_events.first(:event_name => "Request Submission")
     raise "Operations event does not reflect correct request type" unless event.notes =~ /#{@req_type}/
 
   when "dissemination request dequeuing", "withdrawal request dequeuing", "peek request dequeuing"
-    event = OperationsEvent.first(:ieid => @ieid, :event_name => "Request Released To Workspace")
+    event = sip.operations_events.first(:event_name => "Request Released To Workspace")
 
   when "dissemination request deletion", "withdrawal request deletion", "peek request deletion"
-    event = OperationsEvent.first(:ieid => @ieid, :event_name => "Request Deletion")
+    event = sip.operations_events.first(:event_name => "Request Deletion")
 
   when "withdrawal request authorization"
-    event = OperationsEvent.first(:ieid => @ieid, :event_name => "Request Approval")
+    event = sip.operations_events.first(:event_name => "Request Approval")
 
   else
     pending "Step not yet implemented"
