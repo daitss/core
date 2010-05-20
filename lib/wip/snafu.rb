@@ -29,14 +29,19 @@ class Wip
   private
 
   def check_dead
-    pid, ptime = process
 
-    if !running? and pid
+    unless tags.has_key? 'snafu'
 
-      begin
-        raise "dead process #{pid} #{ptime.xmlschema}"
-      rescue => e
-        self.snafu = e
+      pid, ptime = process
+
+      if !running? and pid
+
+        begin
+          raise "dead process #{pid} #{ptime.xmlschema}"
+        rescue => e
+          self.snafu = e
+        end
+
       end
 
     end
