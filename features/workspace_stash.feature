@@ -17,6 +17,6 @@ Feature: stash
     When I choose "stash"
     And I select "default bin"
     And I press "Update"
-    And I goto "/stash"
+    And I goto "/stashspace"
     And I click on "default bin"
     Then I should see the wip in the stash bin

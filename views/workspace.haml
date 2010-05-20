@@ -18,7 +18,7 @@
       %input#state-stash{:type => 'radio', :name => 'task', :value => 'stash'}
       %label{:for => 'state-stash'} stash
       %select{:name => 'stash-bin'}
-        - StashBin.all.each do |bin|
+        - @bins.each do |bin|
           %option= bin.name
       %br/
       %br/
@@ -28,7 +28,7 @@
 
   %h1 current packages
   %table#packages
-    - settings.workspace.each do |w|
+    - @ws.each do |w|
       %tr
         %td
           %a{:href => "/workspace/#{w.id}"}
