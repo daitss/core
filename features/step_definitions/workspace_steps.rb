@@ -73,10 +73,3 @@ end
 When /^I select "([^\"]*)"$/ do |bin|
   select bin, :from => 'stash-bin'
 end
-
-Given /^a stash bin named "([^\"]*)"$/ do |name|
-  path = Dir.mktmpdir
-  $cleanup << path
-  sb = StashBin.new :name => name
-  sb.save! #or raise "could not save stashbin"
-end

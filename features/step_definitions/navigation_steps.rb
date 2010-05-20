@@ -22,3 +22,11 @@ Then /^the response should be (NG|OK)$/ do |condition|
   end
 
 end
+
+Then /^the response contains "([^\"]*)"$/ do |blurb|
+  last_response.should contain(blurb)
+end
+
+Given /^I fill in "([^\"]*)" with "([^\"]*)"$/ do |field, value|
+  fill_in field, :with => value
+end
