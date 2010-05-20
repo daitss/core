@@ -114,7 +114,7 @@ end
 get '/package/:id' do |id|
   @sip = SubmittedSip.first :ieid => id
   not_found unless @sip
-  @events = OperationsEvent.all :ieid => id, :order => [:timestamp.asc]
+  @events = @sip.operations_events
   @wip = settings.workspace[id]
   @aip = Aip.first :id => id
   haml :package
