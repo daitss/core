@@ -4,6 +4,10 @@
     of
     %a{:href => "/package/#{@wip.id}"}
       = @wip.id
+    (
+    = @wip.state
+    )
+
   -if @wip.snafu?
     #snafu
       - time, message, trace = @wip.snafu.split "\n\n"
@@ -23,21 +27,37 @@
 
   %hr/
 
-  %table
-    %tr
-      %th status
-      %td= @wip.state
-    %tr
-      %th sip id
-      %td= @wip['sip-name']
-    %tr
-      %th account
-      %td= @wip['dmd-account']
-    %tr
-      %th project
-      %td= @wip['dmd-project']
+  %h2 update package
+  #update-form
+    %form{:action => "/workspace/#{@wip.id}", :method => 'post'}
 
-  %hr
+      %input#task-start{:type => 'radio', :name => 'task', :value => 'start'}
+      %label{:for => 'task-start'} start
+
+      %br/
+
+      %input#task-stop{:type => 'radio', :name => 'task', :value => 'stop'}
+      %label{:for => 'task-stop'} stop
+
+      %br/
+
+      %input#task-unsnafu{:type => 'radio', :name => 'task', :value => 'unsnafu'}
+      %label{:for => 'task-unsnafu'} unsnafu
+
+      %br/
+
+      %input#state-stash{:type => 'radio', :name => 'task', :value => 'stash'}
+      %label{:for => 'state-stash'} stash
+      %select{:name => 'stash-bin'}
+        - StashBin.all.each do |bin|
+          %option= bin.name
+
+      %br/
+      %br/
+
+      %input{:type => 'submit', :value => "Update"}
+
+  %hr/
 
   %h2 progress
 
@@ -71,35 +91,3 @@
 
   - else
     %p unknown progress
-
-  %hr/
-
-  %h2 update package
-  #update-form
-    %form{:action => "/workspace/#{@wip.id}", :method => 'post'}
-
-      %input#task-start{:type => 'radio', :name => 'task', :value => 'start'}
-      %label{:for => 'task-start'} start
-
-      %br/
-
-      %input#task-stop{:type => 'radio', :name => 'task', :value => 'stop'}
-      %label{:for => 'task-stop'} stop
-
-      %br/
-
-      %input#task-unsnafu{:type => 'radio', :name => 'task', :value => 'unsnafu'}
-      %label{:for => 'task-unsnafu'} unsnafu
-
-      %br/
-
-      %input#state-stash{:type => 'radio', :name => 'task', :value => 'stash'}
-      %label{:for => 'state-stash'} stash
-      %select{:name => 'stash-bin'}
-        - StashBin.all.each do |bin|
-          %option= bin.name
-
-      %br/
-      %br/
-
-      %input{:type => 'submit', :value => "Update"}
