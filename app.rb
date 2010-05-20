@@ -236,3 +236,32 @@ get '/stashspace/:bin/:wip' do |bin, wip|
   @wip = Wip.new File.join(@bin.path, wip)
   haml :stashed_wip
 end
+
+# admin console
+
+get '/admin' do
+  @bins = StashBin.all
+  haml :admin
+end
+
+post '/admin' do
+
+  if params['new-stash-bin']
+    bin = StashBin.new :name => params['new-stash-bin']
+    bin.save or error "could not save create bin\n\n#{e.message}\n#{e.backtrace}"
+  end
+
+  if params['delete-stash-bin']
+
+    params['delete-stash-bin'].each do |name|
+      bin = StashBin.first :name => name
+      pattern = File.join bin.path, '*'
+      error 400, "cannot delete a non-empty stash bin" unless Dir[pattern].empty?
+      bin.destroy or raise "could not delete stash bin #{name}"
+      FileUtils.rm_rf bin.path
+    end
+
+  end
+
+  redirect '/admin'
+end
