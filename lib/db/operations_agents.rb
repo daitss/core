@@ -41,4 +41,17 @@ class Operator < User; end
 
 class Service < OperationsAgent; end
 
-class Program < OperationsAgent; end
+class Program < OperationsAgent
+
+  def Program.ingest_program
+    p = Program.first :identifier => 'daitss ingest software', :account => Account.operations_account
+
+    unless p
+      p = Program.new :identifier => 'daitss ingest software', :account => Account.operations_account
+      p.save or raise "cannot save ingest software"
+    end
+
+    p
+  end
+
+end
