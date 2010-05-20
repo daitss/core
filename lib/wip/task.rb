@@ -15,12 +15,18 @@ class Wip
     tags['task'] = t.to_s
   end
 
-  def task_complete
-    tags['task-complete'] = Time.now.xmlschema
+  def done?
+
+    if not(running?) and tags.has_key?('done')
+      Time.parse tags['done'] rescue false
+    else
+      false
+    end
+
   end
 
-  def task_complete?
-    tags.has_key? 'task-complete'
+  def done!
+    tags['done'] = Time.now.xmlschema 4
   end
 
   def start_task
@@ -30,15 +36,37 @@ class Wip
     when :ingest
 
       start do |wip|
-        require 'wip/ingest'
-        DataMapper.setup :default, Daitss::CONFIG['database-url']
 
         begin
+          sip = SubmittedSip.first :ieid => wip.id
+          ingest_agent = Program.ingest_program
+
+          # ingest start event
+          event = OperationsEvent.new :event_name => 'Ingest Started'
+          event.operations_agent = ingest_agent
+          event.submitted_sip = sip
+          event.save or raise "cannot save op event for ingest"
+
+          require 'wip/ingest'
+          DataMapper.setup :default, Daitss::CONFIG['database-url']
+
           wip.ingest!
-          wip.task_complete
-          FileUtils.rm_r wip.path # XXX move to safe place then delete?
+          wip.done!
+          FileUtils.rm_r wip.path # XXX move to safe dotfile dir then delete?
+
+          # ingest complete event
+          event = OperationsEvent.new :event_name => 'Ingest Complete'
+          event.operations_agent = ingest_agent
+          event.submitted_sip = sip
+          event.save or raise "cannot save op event for ingest"
         rescue => e
           wip.snafu = e
+
+          # ingest snafu event
+          event = OperationsEvent.new :event_name => 'Ingest Snafu'
+          event.operations_agent = ingest_agent
+          event.submitted_sip = sip
+          event.save or raise "cannot save op event for ingest"
         end
 
       end
