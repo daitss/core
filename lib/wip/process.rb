@@ -20,19 +20,6 @@ class Wip
 
   end
 
-  def done?
-
-    if not(running?) and tags.has_key?('done')
-      Time.parse tags['done'] rescue false
-    else
-      false
-    end
-
-  end
-
-  def done!
-    tags['done'] = Time.now.xmlschema 4
-  end
 
   def start
     unstop if stopped?
@@ -41,13 +28,12 @@ class Wip
 
       pid = fork do
         Signal.trap "INT", "DEFAULT"
-        $stderr = StringIO.new
+        #$stderr = StringIO.new
         yield self
-        done!
         exit
       end
 
-      Process::detach pid
+      Process.detach pid
       self.process = pid
     end
 
