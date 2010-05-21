@@ -140,7 +140,7 @@ post '/workspace' do
 
   case params['task']
   when 'start'
-    startable = ws.reject { |w| w.running? || w.done? }
+    startable = ws.reject { |w| w.running? or w.done? or w.snafu? }
     startable.each { |wip| wip.start_task }
 
   when 'stop'
@@ -183,6 +183,7 @@ post '/workspace/:id' do |id|
   case params['task']
   when 'start'
     error 400, 'cannot start a running wip' if wip.running?
+    error 400, 'cannot start a snafu wip' if wip.snafu?
     wip.start_task
 
   when 'stop'
