@@ -5,102 +5,17 @@
     of
     %a{:href => "/package/#{@wip.id}"}
       = @wip.id
-  -if @wip.snafu?
-    #snafu
-      - time, message, trace = @wip.snafu.split "\n\n"
-      %h2
-        snafu
 
-      %table
-        %tr
-          %th time
-          %td= Time.parse(time).xmlschema
-        %tr
-          %th message
-          %td= message
-        %tr
-          %th{:colspan => 2}
-            %a{:href => "/workspace/#{@wip.id}/snafu"} stack trace
+  - if @wip.snafu?
+    = haml :wip_snafu, :layout => false
 
   %hr/
-
-  %table
-    %tr
-      %th status
-      %td= @wip.state
-    %tr
-      %th sip id
-      %td= @wip['sip-name']
-    %tr
-      %th account
-      %td= @wip['dmd-account']
-    %tr
-      %th project
-      %td= @wip['dmd-project']
-
-  %hr
 
   %h2 progress
-
-  - case @wip.task
-  - when :ingest, :disseminate
-    %table.progress
-      %tr
-        %th virus check
-        %td ...
-      %tr
-        %th describe original files
-        %td ...
-      %tr
-        %th migrate original files
-        %td ...
-      %tr
-        %th normalize original files
-        %td ...
-      %tr
-        %th describe transformed files
-        %td ...
-      %tr
-        %th xml resolution
-        %td ...
-      %tr
-        %th assemble descriptor
-        %td ...
-      %tr
-        %th save aip
-        %td ...
-
-  - else
-    %p unknown progress
-
+  = haml :wip_progress, :layout => false
   %hr/
 
-  %h2 update package
   #update-form
-    %form{:action => "/workspace/#{@wip.id}", :method => 'post'}
-
-      %input#task-start{:type => 'radio', :name => 'task', :value => 'start'}
-      %label{:for => 'task-start'} start
-
-      %br/
-
-      %input#task-stop{:type => 'radio', :name => 'task', :value => 'stop'}
-      %label{:for => 'task-stop'} stop
-
-      %br/
-
-      %input#task-unsnafu{:type => 'radio', :name => 'task', :value => 'unsnafu'}
-      %label{:for => 'task-unsnafu'} unsnafu
-
-      %br/
-
-      %input#state-stash{:type => 'radio', :name => 'task', :value => 'stash'}
-      %label{:for => 'state-stash'} stash
-      %select{:name => 'stash-bin'}
-        - StashBin.all.each do |bin|
-          %option= bin.name
-
-      %br/
-      %br/
-
-      %input{:type => 'submit', :value => "Update"}
+    %form{:action => "/stashspace/#{@bin.url_name}/#{@wip.id}", :method => 'post'}
+      %input#task-start{:type => 'hidden', :name => 'unstash[]', :value => @wip.id }
+      %input{:type => 'submit', :value => "Unstash"}
