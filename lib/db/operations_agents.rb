@@ -43,12 +43,12 @@ class Service < OperationsAgent; end
 
 class Program < OperationsAgent
 
-  def Program.ingest_program
-    p = Program.first :identifier => 'daitss ingest software', :account => Account.operations_account
+  def Program.system_agent
+    p = Program.first :identifier => 'SYSTEM', :account => Account.system_account
 
     unless p
-      p = Program.new :identifier => 'daitss ingest software', :account => Account.operations_account
-      p.save or raise "cannot save ingest software"
+      p = Program.new :identifier => 'SYSTEM', :account => Account.system_account
+      p.save or raise "cannot save system agent"
     end
 
     p
