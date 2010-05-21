@@ -234,12 +234,33 @@ post '/stashspace/:bin/:wip' do |bin_name, wip_id|
   not_found "#{bin.name}" unless bin
 
   # the win in the bin
-  not_found "#{bin.name}" unless File.exist? File.join(bin.path, wip_id)
+  stashed_wip_path = File.join(bin.path, wip_id)
+  not_found "#{bin.name}" unless File.exist? stashed_wip_path
 
-  # unstash it
-  bin.unstash wip_id
+  case params['task']
+  when 'unstash'
+    bin.unstash wip_id
+    redirect "/workspace/#{wip_id}"
 
-  redirect "/workspace/#{wip_id}"
+  when 'abort'
+    # write ops event for abort
+    sip = SubmittedSip.first :ieid => wip_id
+    event = OperationsEvent.new :event_name => 'Abort'
+    event.operations_agent = Program.system_agent
+    event.submitted_sip = sip
+    event.save or raise "cannot save op event"
+
+    # remove package
+    FileUtils.rm_rf stashed_wip_path
+
+    # go home
+    redirect "/package/#{wip_id}"
+
+  else
+    error 400
+
+  end
+
 end
 
 # admin console
