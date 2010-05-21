@@ -11,3 +11,4 @@ Feature: index links
       | submit     |
       | packages   |
       | stashspace |
+      | admin      |
