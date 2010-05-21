@@ -15,12 +15,12 @@ class Account
   has n, :projects
   has n, :requests
 
-  def Account.operations_account
-    a = Account.first :code => 'OP'
+  def Account.system_account
+    a = Account.first :code => 'SYSTEM'
 
     unless a
-      a = Account.new :code => 'OP', :name => 'account for operations'
-      a.save or raise "cannot save operations account"
+      a = Account.new :code => 'SYSTEM', :name => 'account for system operations'
+      a.save or raise "cannot save system account"
     end
 
     a

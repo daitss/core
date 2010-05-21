@@ -43,7 +43,7 @@ class Wip
 
           # ingest start event
           event = OperationsEvent.new :event_name => 'Ingest Started'
-          event.operations_agent = ingest_agent
+          event.operations_agent = system_agent
           event.submitted_sip = sip
           event.save or raise "cannot save op event for ingest"
 
