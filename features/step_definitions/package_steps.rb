@@ -30,3 +30,13 @@ Then /^in the aip section I should see a link to the descriptor$/ do
   id = sips.last[:wip]
   last_response.should have_selector("h3 a[href='/package/#{id}/descriptor']:contains('xml descriptor')")
 end
+
+Then /^in the jobs summary I should see a stashed ingest wip in "([^\"]*)"$/ do |bin_name|
+  id = sips.last[:wip]
+  bin = StashBin.first :name => bin_name
+  last_response.should have_selector("a[href='/stashspace/#{bin.url_name}/#{id}']:contains('ingest')")
+end
+
+Then /^in the jobs summary I should see that no jobs are pending$/ do
+  Then %Q(the response contains "no jobs processing or stashed")
+end

@@ -2,10 +2,19 @@
   %h1
     = @sip.ieid
 
-  - if @wip
+  - if @wip or @stashed_wip
+    - if @wip
+      .processing
+        processing
+        %a{:href=>"/workspace/#{@wip.id}"}= @wip.task
+
+    - elsif @stashed_wip
+      .processing
+        stashed
+        %a{:href=>"/stashspace/#{@bin.url_name}/#{@stashed_wip.id}"}= @stashed_wip.task
+  - else
     .processing
-      currently processing
-      %a{:href=>"/workspace/#{@wip.id}"}= @wip.task
+      no jobs processing or stashed
 
   %h2 submission
 

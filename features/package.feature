@@ -12,10 +12,22 @@ Feature: overview of a package
     And in the submission summary I should see the account
     And in the submission summary I should see the project
 
-  Scenario: show the current jobs
+  Scenario: show the current job
     Given I submit a package
     When I goto its package page
     Then in the jobs summary I should see an ingest wip
+
+  Scenario: show the current stashed location
+    Given I submit a package
+    And a stash bin named "default bin"
+    And I stash it in "default bin"
+    When I goto its package page
+    Then in the jobs summary I should see a stashed ingest wip in "default bin"
+
+  Scenario: show that no jobs are running
+    Given an archived package
+    When I goto its package page
+    Then in the jobs summary I should see that no jobs are pending
 
   Scenario: show the operations events
     Given I submit a package
