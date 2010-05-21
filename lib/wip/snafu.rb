@@ -3,12 +3,12 @@ require 'wip'
 class Wip
 
   def snafu?
-    check_dead
+    make_dead_snafu
     tags.has_key? 'snafu'
   end
 
   def snafu
-    check_dead
+    make_dead_snafu
     tags['snafu']
   end
 
@@ -28,7 +28,7 @@ class Wip
 
   private
 
-  def check_dead
+  def make_dead_snafu
 
     unless tags.has_key? 'snafu'
 
