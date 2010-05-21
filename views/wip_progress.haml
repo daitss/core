@@ -1,0 +1,30 @@
+- case @wip.task
+- when :ingest, :disseminate
+  %table.progress
+    %tr
+      %th virus check
+      %td= @wip.progress :virus_check
+    %tr
+      %th describe original files
+      %td= @wip.progress :describe_original
+    %tr
+      %th migrate original files
+      %td= @wip.progress :migrate_original
+    %tr
+      %th normalize original files
+      %td= @wip.progress :normalize_original
+    %tr
+      %th describe transformed files
+      %td= @wip.progress :describe_transformed
+    %tr
+      %th xml resolution
+      %td= @wip.progress :xmlres
+    %tr
+      %th assemble descriptor
+      %td= @wip.progress :descriptor
+    %tr
+      %th save aip
+      %td= @wip.progress :save
+
+- else
+  %p unknown progress
