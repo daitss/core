@@ -1,4 +1,4 @@
-Then /^I should be at (the stashed wip|the wip|an error)$/ do |page|
+Then /^I should be at (the stashed wip|the wip|an error|the package) page$/ do |page|
 
   case page
 
@@ -12,9 +12,16 @@ Then /^I should be at (the stashed wip|the wip|an error)$/ do |page|
     last_response.should have_selector("p:contains('can only stash a non-running wip')")
 
   when "the wip"
+    id = sips.last[:wip]
+    last_request.url.should =~ %r'/workspace/#{id}'
     last_response.should be_ok
     id = sips.last[:wip]
     last_response.should_not have_selector("h1:contains('stashed')")
+
+  when "the package"
+    id = sips.last[:wip]
+    last_request.url.should =~ %r'/package/#{id}'
+    last_response.should be_ok
 
   end
 
