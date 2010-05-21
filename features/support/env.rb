@@ -1,4 +1,5 @@
 require 'ruby-debug'
+require 'wip/process'
 
 app_file = File.join File.dirname(__FILE__), *%w[.. .. app.rb]
 require app_file
@@ -124,5 +125,12 @@ Before do
 end
 
 After do
+  ws = Workspace.new Daitss::CONFIG['workspace']
+
+  ws.each do|w|
+    w.kill if w.running?
+    FileUtils.rm_rf w.path
+  end
+
   $cleanup.each { |f| FileUtils.rm_rf f }
 end
