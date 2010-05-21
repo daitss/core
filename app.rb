@@ -165,6 +165,7 @@ post '/workspace' do
 end
 
 get '/workspace/:id' do |id|
+  @bins = StashBin.all
   @wip = settings.workspace[id] or not_found
   haml :wip
 end
@@ -224,6 +225,21 @@ get '/stashspace/:bin/:wip' do |bin, wip|
   @bin = StashBin.first :name => bin
   @wip = Wip.new File.join(@bin.path, wip)
   haml :stashed_wip
+end
+
+post '/stashspace/:bin/:wip' do |bin_name, wip_id|
+
+  # the bin
+  bin = StashBin.first :name => bin_name
+  not_found "#{bin.name}" unless bin
+
+  # the win in the bin
+  not_found "#{bin.name}" unless File.exist? File.join(bin.path, wip_id)
+
+  # unstash it
+  bin.unstash wip_id
+
+  redirect "/workspace/#{wip_id}"
 end
 
 # admin console
