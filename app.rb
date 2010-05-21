@@ -117,6 +117,8 @@ get '/package/:id' do |id|
   @events = @sip.operations_events
   @wip = settings.workspace[id]
   @aip = Aip.first :id => id
+  @bin = StashBin.all.find { |b| File.exist? File.join(b.path, id) }
+  @stashed_wip = @bin.wips.find { |w| w.id == id } if @bin
   haml :package
 end
 
