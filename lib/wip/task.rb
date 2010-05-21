@@ -39,11 +39,10 @@ class Wip
 
         begin
           sip = SubmittedSip.first :ieid => wip.id
-          ingest_agent = Program.ingest_program
 
           # ingest start event
           event = OperationsEvent.new :event_name => 'Ingest Started'
-          event.operations_agent = system_agent
+          event.operations_agent = Program.system_agent
           event.submitted_sip = sip
           event.save or raise "cannot save op event for ingest"
 
@@ -56,7 +55,7 @@ class Wip
 
           # ingest complete event
           event = OperationsEvent.new :event_name => 'Ingest Complete'
-          event.operations_agent = ingest_agent
+          event.operations_agent = Program.system_agent
           event.submitted_sip = sip
           event.save or raise "cannot save op event for ingest"
         rescue => e
@@ -64,7 +63,7 @@ class Wip
 
           # ingest snafu event
           event = OperationsEvent.new :event_name => 'Ingest Snafu'
-          event.operations_agent = ingest_agent
+          event.operations_agent = Program.system_agent
           event.submitted_sip = sip
           event.save or raise "cannot save op event for ingest"
         end
