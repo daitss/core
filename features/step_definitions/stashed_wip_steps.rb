@@ -1,4 +1,4 @@
-Then /^I should be at (the stashed wip|an error)$/ do |page|
+Then /^I should be at (the stashed wip|the wip|an error)$/ do |page|
 
   case page
 
@@ -11,6 +11,16 @@ Then /^I should be at (the stashed wip|an error)$/ do |page|
     last_response.should_not be_ok
     last_response.should have_selector("p:contains('can only stash a non-running wip')")
 
+  when "the wip"
+    last_response.should be_ok
+    id = sips.last[:wip]
+    last_response.should_not have_selector("h1:contains('stashed')")
+
   end
 
+end
+
+Given /^I click on the stashed wip$/ do
+  id = sips.last[:wip]
+  click_link id
 end

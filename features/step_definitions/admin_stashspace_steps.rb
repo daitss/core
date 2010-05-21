@@ -5,6 +5,15 @@ Given /^a stash bin named "([^\"]*)"$/ do |name|
   @the_bin.save or raise "could not save stashbin"
 end
 
+Given /^a stash bin named "([^\"]*)" with (\d+) package$/ do |name, count|
+  Given %Q(a stash bin named "#{name}")
+  Given "a workspace with #{count} idle wips"
+  Given %Q(I goto "/workspace")
+  When %Q(I choose "stash")
+  When %Q(I select "#{@the_bin.name}")
+  When %Q(I press "Update")
+end
+
 Then /^there should (be|not be) a stash bin named "([^\"]*)"$/ do |presence, name|
 
   case presence
