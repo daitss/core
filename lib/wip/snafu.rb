@@ -40,6 +40,7 @@ class Wip
           raise "dead process #{pid} #{ptime.xmlschema}"
         rescue => e
           self.snafu = e
+          tags.delete 'process'
         end
 
       end
