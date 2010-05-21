@@ -1,5 +1,5 @@
 class FsHash
-  
+
   include Enumerable
 
   attr_reader :path
@@ -23,6 +23,10 @@ class FsHash
 
   def has_key? key
     File.exist? key_path(key)
+  end
+
+  def keys_like pattern
+    keys.select { |k| k =~ pattern }
   end
 
   def delete key
