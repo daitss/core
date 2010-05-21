@@ -7,7 +7,7 @@ require 'nokogiri'
 require 'workspace'
 require 'wip/process'
 require 'wip/state'
-require 'wip/json'
+require 'wip/progress'
 require 'daitss/config'
 
 require 'datamapper'
@@ -130,13 +130,7 @@ end
 get '/workspace' do
   @bins = StashBin.all
   @ws = settings.workspace
-
-  if request.accept.include? 'application/json'
-    settings.workspace.to_json
-  else
-    haml :workspace
-  end
-
+  haml :workspace
 end
 
 # workspace & wips in the workspace
@@ -172,13 +166,7 @@ end
 
 get '/workspace/:id' do |id|
   @wip = settings.workspace[id] or not_found
-
-  if request.accept.include? 'application/json'
-    @wip.to_json
-  else
-    haml :wip
-  end
-
+  haml :wip
 end
 
 get '/workspace/:id/snafu' do |id|
