@@ -1,14 +1,16 @@
 #!/usr/bin/env ruby
 
 require 'lib/AIPPolling.rb'
+require 'daitss/config'
 
 begin
   
   aipFile  = ARGV.shift or raise "Missing aip descriptor file"
   
   DataMapper::Logger.new(STDOUT, :debug)
-  DataMapper.setup(:default, 'mysql://daitss:topdrawer@localhost/daitss2')
-  
+  Daitss::CONFIG.load_from_env
+  DataMapper.setup(:default, Daitssi::CONFIG['database-url'])
+
   aip = AIPInPremis.new 
   aip.processAIPFile aipFile
   
