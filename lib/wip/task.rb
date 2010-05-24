@@ -38,6 +38,10 @@ class Wip
       start do |wip|
 
         begin
+          #Daitss::CONFIG.load_rjb
+          require 'wip/ingest'
+          DataMapper.setup :default, Daitss::CONFIG['database-url']
+
           sip = SubmittedSip.first :ieid => wip.id
 
           # ingest start event
@@ -45,9 +49,6 @@ class Wip
           event.operations_agent = Program.system_agent
           event.submitted_sip = sip
           event.save or raise "cannot save op event for ingest"
-
-          require 'wip/ingest'
-          DataMapper.setup :default, Daitss::CONFIG['database-url']
 
           wip.ingest!
           wip.done!

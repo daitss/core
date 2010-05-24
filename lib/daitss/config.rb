@@ -12,18 +12,22 @@ module Daitss
       # sane defaults
       CONFIG['http-timeout'] ||= 60 * 10 # 10 minutes
       Daitss::CONFIG["database-url"] ||= 'sqlite3::memory:'
-
-      # jvm options, for this to work it must be ran before any other rjb code
-      if Daitss::CONFIG["jvm-options"]
-        require 'rjb'
-        Rjb.load '.', Daitss::CONFIG["jvm-options"]
-      end
-
+      load_rjb
     end
 
     def load_from_env
       raise "#{ENV_VAR} environment variable must be set" unless ENV[ENV_VAR]
       Daitss::CONFIG.load ENV[ENV_VAR]
+    end
+
+    # load rjb based on the configuration, must happen before any calls to rjb
+    def load_rjb
+
+      if Daitss::CONFIG["jvm-options"]
+        require 'rjb'
+        Rjb.load '.', Daitss::CONFIG["jvm-options"]
+      end
+
     end
 
     def [] key
