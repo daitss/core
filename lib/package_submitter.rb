@@ -49,15 +49,17 @@ class PackageSubmitter
 
     pt_event_notes = "submitter_ip: #{submitter_ip}, archive_type: #{archive_type}, submitted_package_checksum: #{md5}"
 
+    submitter = OperationsAgent.first(:identifier => submitter_username)
+    sip_record = add_sip_record package_name, ieid
+
     create_submit_dir unless File.directory? File.join(@@workspace.path, ".submit")
 
-    sip_path = File.join(unarchive_sip(archive_type, ieid, path_to_archive, package_name), package_name)
-    wip_path = File.join(@@workspace.path, ".submit", ieid.to_s)
-    
-    submitter = OperationsAgent.first(:identifier => submitter_username)
-    sip_record = add_sip_record package_name, sip_path, ieid
-
     begin
+      sip_path = File.join(unarchive_sip(archive_type, ieid, path_to_archive, package_name), package_name)
+      wip_path = File.join(@@workspace.path, ".submit", ieid.to_s)
+
+      update_sip_record sip_record, sip_path
+
       sip = Sip.new sip_path
       wip = Wip.from_sip wip_path, (URI_PREFIX + ieid), sip
       raise InvalidDescriptor unless wip.sip_descriptor_valid?
@@ -67,6 +69,8 @@ class PackageSubmitter
       reject DescriptorCannotBeParsedError.new, pt_event_notes, sip_record, submitter, wip_path
     rescue InvalidDescriptor
       reject InvalidDescriptor.new(wip.sip_descriptor_errors), pt_event_notes, sip_record, submitter, wip_path
+    rescue ArchiveExtractionError
+      reject ArchiveExtractionError.new, pt_event_notes, sip_record, submitter
     end
 
     # check that the project in the descriptor exists in the database
@@ -159,22 +163,30 @@ class PackageSubmitter
   end
 
   # adds a record to the Sip table for the sip at sip_path
-  def self.add_sip_record package_name, sip_path, ieid
+  def self.add_sip_record package_name, ieid
     sip = SubmittedSip.new
 
+    sip.attributes = { :package_name => package_name,
+                       :ieid => ieid }
+
+    sip.save!
+
+    return sip
+  end
+
+  # updates sip record with size info
+  def self.update_sip_record sip_record, sip_path
     sip_contents = Dir.glob("#{sip_path}/**/*")
 
     files_in_sip = sip_contents.reject {|path| File.file?(path) == false}
     package_size = sip_contents.inject(0) {|sum, path| sum + File.stat(path).size}
 
-    sip.attributes = { :package_name => package_name,
+    sip_record.attributes = { 
       :package_size => package_size,
-      :number_of_datafiles => files_in_sip.length,
-      :ieid => ieid }
+      :number_of_datafiles => files_in_sip.length
+       }
 
-    sip.save!
-
-    return sip
+    sip_record.save!
   end
 
   def self.add_project_to_sip_record sip_record, project
@@ -184,8 +196,8 @@ class PackageSubmitter
 
   # deletes temporary wip, writes ops event record for failed submission and raises exception
 
-  def self.reject exception, pt_event_notes, sip_record, agent, wip_path
-    FileUtils.rm_rf wip_path
+  def self.reject exception, pt_event_notes, sip_record, agent, wip_path = nil
+    FileUtils.rm_rf wip_path if wip_path
     pt_event_notes = pt_event_notes + ", outcome: failure"
 
     case exception
