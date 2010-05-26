@@ -145,6 +145,9 @@ describe Submission::App do
 
     last_response.status.should == 400
     last_response.body.should =~ /Error extracting files in request body, is it malformed?/
+
+    ieid = last_response.body.split(":")[0]
+    SubmittedSip.first(:ieid => ieid).should_not be_nil
   end
 
   it "should return 400 if submitted package is not a tar file when request header says it should be" do
@@ -154,6 +157,9 @@ describe Submission::App do
 
     last_response.status.should == 400
     last_response.body.should =~ /Error extracting files in request body, is it malformed?/
+
+    ieid = last_response.body.split(":")[0]
+    SubmittedSip.first(:ieid => ieid).should_not be_nil
   end
 
   it "should return 200 on valid post request with a zip file" do

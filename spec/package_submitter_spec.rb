@@ -25,6 +25,7 @@ describe PackageSubmitter do
   ZIP_INVALID_DESCRIPTOR = "spec/test-sips/ateam-invalid-descriptor.zip"
   ZIP_UNKNOWN_CHECKSUM_TYPE = "spec/test-sips/ateam-unknown-checksum-type.zip"
   ZIP_MISSING_CHECKSUM = "spec/test-sips/ateam-missing-checksum.zip"
+  NOT_VALID_ARCHIVE = __FILE__
 
   before(:each) do
     DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/data/submission_svc_test.db")
@@ -329,5 +330,12 @@ describe PackageSubmitter do
     now = Time.now
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_UNKNOWN_CHECKSUM_TYPE, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should_not raise_error
+  end
+
+  it "should raise error if something that is not a zip file is sent" do
+    ieid = OldIeid.get_next
+    now = Time.now
+
+    lambda { PackageSubmitter.submit_sip :zip, NOT_VALID_ARCHIVE, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(ArchiveExtractionError)
   end
 end
