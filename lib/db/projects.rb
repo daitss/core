@@ -2,6 +2,7 @@ require 'dm-core'
 require 'dm-validations'
 require 'db/accounts'
 require 'db/sip'
+require 'db/int_entity'
 
 class Project
   include DataMapper::Resource
