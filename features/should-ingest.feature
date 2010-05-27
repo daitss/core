@@ -20,4 +20,5 @@ Feature: Packages that should ingest correctly under DAITSS 2
       |bad pdf links|
       |class cast exception in pjx|
       |package in package|
+      |ticket 100|
 
