@@ -22,12 +22,3 @@ Feature: A submission and subsequent ingest operation of a known good package
     And there is an operations event for the submission
     And there is an operations event for the ingest
 
-  Scenario: The submission and ingest of a package with a copy of itself inside itself
-    Given an archive operator
-    And a workspace
-    And a package in package package
-    When submission is run on that package
-    And ingest is run on that package
-    Then the package is present in the AIP store once
-    And there is an operations event for the submission
-    And there is an operations event for the ingest
