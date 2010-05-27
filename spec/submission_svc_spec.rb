@@ -9,7 +9,6 @@ require 'helper'
 require 'daitss/config'
 
 include Daitss
-CONFIG.load_from_env
 
 describe Submission::App do
 
@@ -36,8 +35,7 @@ describe Submission::App do
   end
 
   before(:each) do
-    FileUtils.mkdir_p "/tmp/d2ws"
-    CONFIG['workspace'] = "/tmp/d2ws"
+    CONFIG.load_from_env
 
     header "X_PACKAGE_NAME", "ateam"
     header "CONTENT_MD5", "901890a8e9c8cf6d5a1a542b229febff"
@@ -58,7 +56,7 @@ describe Submission::App do
   end
 
   after(:each) do
-    FileUtils.rm_rf Dir.glob("/tmp/d2ws/*")
+    FileUtils.rm_rf Dir.glob(File.join(CONFIG['workspace'], "*")) if CONFIG['workspace'].length > 0
   end
 
   it "returns 405 on GET" do

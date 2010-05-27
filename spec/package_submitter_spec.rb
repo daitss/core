@@ -6,10 +6,8 @@ require 'old_ieid'
 require 'daitss/config'
 
 include Daitss
-CONFIG.load_from_env
 
 describe PackageSubmitter do
-
 
   ZIP_SIP = "spec/test-sips/ateam.zip"
   TAR_SIP = "spec/test-sips/ateam.tar"
@@ -28,11 +26,10 @@ describe PackageSubmitter do
   NOT_VALID_ARCHIVE = __FILE__
 
   before(:each) do
+    CONFIG.load_from_env
+
     DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/data/submission_svc_test.db")
     DataMapper.auto_migrate!
-
-    FileUtils.mkdir_p "/tmp/d2ws"
-    CONFIG['workspace'] = "/tmp/d2ws"
 
     a = add_account "ACT", "ACT"
     add_project a
@@ -46,7 +43,7 @@ describe PackageSubmitter do
   end
 
   after(:each) do
-    FileUtils.rm_rf Dir.glob("/tmp/d2ws/*")
+    FileUtils.rm_rf Dir.glob(File.join(CONFIG['workspace'], "*")) if CONFIG['workspace'].length > 0
   end
 
   it "should raise error on create AIP from ZIP file if WORKSPACE is not set to a valid dir" do
