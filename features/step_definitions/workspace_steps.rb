@@ -167,7 +167,7 @@ Given /^a workspace$/ do
   setup_workspace
 end
 
-Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account|descriptor missing|descriptor invalid|descriptor not well formed|package in package) package$/ do |n, package|
+Given /^(a|an) (.*) package$/ do |n, package|
   case package
 
   when "good"
@@ -197,6 +197,17 @@ Given /^(a|an) (good|empty|checksum mismatch|bad project|bad account|descriptor 
   when "package in package"
     @package = "ateam-package-within"
 
+  when "35 content files"
+    @package = "35-content-files"
+   
+   when "1000 content files"
+    @package = "1000-content-files"
+
+   when "duplicate content files by checksum"
+    @package = "duplicate-files-checksum"
+
+   else
+     pending "No definition for #{package} package"
 
   end
 end 
