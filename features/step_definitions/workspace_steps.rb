@@ -339,18 +339,18 @@ Then /^the package is rejected$/ do
 end
 
 Then /^submission fails$/ do
-  raise "Submission appears to have succeeded: #{@submission_output}" unless @submission_output =~ /< HTTP\/1.1 4[\d]{2}/
+  raise "Submission appears to have succeeded: #{@submission_output}" unless @submission_output =~ /HTTP\/1.1 4[\d]{2}/
 end
 
 Then /^the request is (queued|denied|not queued|not authorized)$/ do |status|
   case status
 
   when "queued"
-    raise "Request not queued" if (query_request @ieid, @req_type) =~ /< HTTP\.1.1 404/
+    raise "Request not queued" if (query_request @ieid, @req_type) =~ /HTTP\.1.1 404/
   when "not queued"
-    raise "Request queued" unless (query_request @ieid, @req_type) =~ /< HTTP\/1.1 404/
+    raise "Request queued" unless (query_request @ieid, @req_type) =~ /HTTP\/1.1 404/
   when "denied"
-    raise "Request not denied" unless @request_output =~ /< HTTP\/1.1 4[\d]{2}/
+    raise "Request not denied" unless @request_output =~ /HTTP\/1.1 4[\d]{2}/
   when "not authorized"
     #puts query_request @ieid, @req_type
     raise "Request authorized" unless (query_request @ieid, @req_type) =~ /authorized="false"/
