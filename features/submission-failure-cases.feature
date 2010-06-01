@@ -34,9 +34,9 @@ Feature: Cases where packages fail to submit
 	|operator|only a descriptor file|
 	|operator|only a content file|
 	|operator|more than one validation problem|
-	|operator|special character in directory name
+	|operator|special character in directory name|
     |operator|mxf descriptor|
-
+	|operator|toc descriptor|
 
 
   Scenario Outline: Submission failures which should not result in a record in the sip table and an operations event

@@ -244,7 +244,10 @@ Given /^(a|an) (.*) package$/ do |n, package|
 	
 	when "missing project attribute"
     @package = "FDAD25ded_missing_project"
-		
+	
+	when "toc descriptor"
+	@package = "FDAD25deg_TOC"	
+	
 	when "empty account attribute"
     @package = "FDAD25del_account_name"
 	
