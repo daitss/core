@@ -16,9 +16,15 @@ Feature: Packages that should ingest correctly under DAITSS 2
       |1000 content files|
       |10000 content files|
       |duplicate content files by checksum|
-      |class cast exception in pjx|
-      |bad pdf links|
-      |class cast exception in pjx|
-      |package in package|
-      |ticket 100|
+      |empty content file|
+      |content not described|
+      |copy of descriptor|
+      |ISSN Entity ID|
+      |OJBID different than package name|
+      |no checksums for content files|
+      |package name different than ID in metsHDr|
+      |mdRef element in descriptive metadata|
+      |empty lower directory not listed|
+      |more than one lower level directory|
+      |descriptor in lower directory|
 
