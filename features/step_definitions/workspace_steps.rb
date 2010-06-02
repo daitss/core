@@ -200,100 +200,103 @@ Given /^(a|an) (.*) package$/ do |n, package|
   when "35 content files"
     @package = "35-content-files"
    
-   when "1000 content files"
+  when "1000 content files"
     @package = "1000-content-files"
 
-   when "duplicate content files by checksum"
+  when "duplicate content files by checksum"
     @package = "duplicate-files-checksum"
 
-	when "empty content file"
+  when "empty content file"
     @package = "FDAD27coa_empty_content"
 	
-    when "content not described"
+  when "content not described"
     @package = "FDAD27cob_not_described"
 	
-	when "copy of descriptor"
+  when "copy of descriptor"
     @package = "FDAD27dea_copy"
 	
-	when "ISSN Entity ID"
+  when "ISSN Entity ID"
     @package = "FDAD27deb_ISSN_Entity"
 	
-	when "OJBID different than package name"
+  when "OJBID different than package name"
     @package = "FDAD27dec_OBJID_package"
 	
-	when "no checksums for content files"
+  when "no checksums for content files"
     @package = "FDAD27ded_no_checksums"
 	
-	when "package name different than ID in metsHDr"
+  when "package name different than ID in metsHDr"
     @package = "FDAD27def_Hdr_ID"
 	
-	when "mdRef element in descriptive metadata"
+  when "mdRef element in descriptive metadata"
     @package = "FDAD27deg_mdRef"
 	
-	when "empty lower directory not listed"
+  when "empty lower directory not listed"
     @package = "FDAD27dib_empty_not_listed"
 	
-	when "more than one lower level directory"
+  when "more than one lower level directory"
     @package = "FDAD27did_multiple_lower"
 	
-	when "descriptor in lower directory"
+  when "descriptor in lower directory"
     @package = "FDAD25deb_descriptor_lower"
 	
-	when "missing account attribute"
+  when "missing account attribute"
     @package = "FDAD25ded_missing_account"
 	
-	when "missing project attribute"
+  when "missing project attribute"
     @package = "FDAD25ded_missing_project"
 	
-	when "toc descriptor"
-	@package = "FDAD25deg_TOC"	
+  when "mxf descriptor"
+    @package = "FDAD25def_MXF"	
 	
-	when "empty account attribute"
+  when "toc descriptor"
+    @package = "FDAD25deg_TOC"	
+	
+  when "empty account attribute"
     @package = "FDAD25del_account_name"
 	
-	when "empty project attribute"
+  when "empty project attribute"
     @package = "FDAD25del_project_name"
 	
-	when "descriptor present but named incorrectly"
+  when "descriptor present but named incorrectly"
     @package = "FDAD25dei_wrong_name"
 	
-	when "no DAITSS agreement"
+  when "no DAITSS agreement"
     @package = "FDAD25dej_no_agreement"
 	
-	when "two DAITSS agreements"
+  when "two DAITSS agreements"
     @package = "FDAD25dek_two_agreements"
 	
-	when "content in lower directory than listed"
+  when "content in lower directory than listed"
     @package = "FDAD25coc_lower_directory"
 	
-	when "empty directory"
+  when "empty directory"
     @package = "FDAD25ota_empty_directory"
 	
-	when "name with more than 32 characters"
+  when "name with more than 32 characters"
     @package = "FDAD25otb_more_than_32_characters_name"
 	
-	when "described hidden file"
+  when "described hidden file"
     @package = "FDAD25otc_described_hidden"
 	
-	when "undescribed hidden file"
+  when "undescribed hidden file"
     @package = "FDAD25otd_undescribed_hidden"
 	
-	when "content files with special characters"
+  when "content files with special characters"
     @package = "FDAD25ote_special_character"
 	
-	when "lower level content files with special characters"
+  when "lower level content files with special characters"
     @package = "FDAD25otf_character_lower"
 	
-	when "only a descriptor file"
+  when "only a descriptor file"
     @package = "FDAD25otg_not_directory_d"
 	
-	when "only a content file"
+  when "only a content file"
     @package = "FDAD25otg_not_directory_c"
 	
-	when "more than one validation problem"
+  when "more than one validation problem"
     @package = "FDAD25oth_multiple_errors"
 	
-	when "special character in directory name"
+  when "special character in directory name"
     @package = "FDAD25oti_special_character"
 	
 	else
