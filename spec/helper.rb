@@ -1,3 +1,6 @@
+require "rubygems"
+require "bundler"
+Bundler.setup
 require 'db/int_entity'
 require 'db/datafile'
 require 'db/datafile_severe_element'
@@ -15,7 +18,7 @@ require 'db/sip'
 
 def add_account name = "FDA", code = "FDA"
 
-  existing = Account.first(:code => code) 
+  existing = Account.first(:code => code)
   return existing if existing
 
   a = Account.new
@@ -28,7 +31,7 @@ end
 
 def add_project account, name = "PRJ", code = "PRJ"
 
-  existing = Project.first(:code => code) 
+  existing = Project.first(:code => code)
   return existing if existing
 
   p = Project.new
@@ -42,7 +45,7 @@ def add_project account, name = "PRJ", code = "PRJ"
 end
 
 def add_operator account, identifier = "operator", password = "operator"
-  o = Operator.new  
+  o = Operator.new
 
   o.attributes = { :description => "operator",
     :active_start_date => Time.at(0),
