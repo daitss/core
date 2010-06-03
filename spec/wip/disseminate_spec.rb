@@ -20,7 +20,7 @@ describe Wip do
       FileUtils::rm_r proto_wip.path
       wip = blank_wip id, uri
 
-      override_service 'description-url', 500 do
+      override_service 'describe', 500 do
         lambda { wip.disseminate }.should raise_error(Net::HTTPFatalError)
       end
 

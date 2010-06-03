@@ -9,7 +9,7 @@ describe DataFile do
 
     it 'should raise an error' do
 
-      override_service 'actionplan-url', 500 do
+      override_service 'actionplan', 500 do
         lambda { subject.normalization }.should raise_error
       end
 
@@ -52,7 +52,7 @@ describe DataFile do
     end
 
     it 'should redirect to a transformation' do
-      url = 'http://localhost:7000/transformation/transform/wave_norm'
+      url = 'http://localhost:7006/transform/wave_norm'
       @wave.normalization.should == url
     end
 
@@ -71,4 +71,5 @@ describe DataFile do
     end
 
   end
+
 end

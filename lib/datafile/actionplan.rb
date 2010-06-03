@@ -4,16 +4,18 @@ require 'datafile'
 
 class DataFile
 
+  include Daitss
+
   def migration
-    ask_actionplan "#{Daitss::CONFIG['actionplan-url']}/migration"
+    ask_actionplan "#{CONFIG['actionplan']}/migration"
   end
 
   def normalization
-    ask_actionplan "#{Daitss::CONFIG['actionplan-url']}/normalization"
+    ask_actionplan "#{CONFIG['actionplan']}/normalization"
   end
 
   def xmlresolution
-    ask_actionplan "#{Daitss::CONFIG['actionplan-url']}/xmlresolution"
+    ask_actionplan "#{CONFIG['actionplan']}/xmlresolution"
   end
 
   private

@@ -3,6 +3,8 @@ require 'datafile/actionplan'
 
 class Wip
 
+  include Daitss
+
   XML_RES_TARBALL = 'xmlres.tar'
 
   def xmlresolve!
@@ -14,7 +16,7 @@ class Wip
   end
 
   def put_collection_resource
-    url = URI.parse "#{Daitss::CONFIG['xmlresolution-url']}/ieids/#{id}"
+    url = URI.parse "#{CONFIG['xmlresolution']}/ieids/#{id}"
     req = Net::HTTP::Put.new url.path
 
     res = Net::HTTP.start(url.host, url.port) do |http|
