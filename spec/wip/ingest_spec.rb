@@ -10,7 +10,7 @@ describe Wip do
 
     it "should raise error if that has trouble ingesting" do
 
-      override_service 'description-url', 500 do
+      override_service 'describe', 500 do
         lambda { subject.ingest! }.should raise_error(Net::HTTPFatalError)
       end
 
