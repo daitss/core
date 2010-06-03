@@ -1,3 +1,4 @@
+require 'yaml'
 require 'semver'
 
 spec = Gem::Specification.new do |spec|
