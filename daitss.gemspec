@@ -1,7 +1,7 @@
 require 'semver'
 
 spec = Gem::Specification.new do |spec|
-  spec.name = "daitss-core"
+  spec.name = "daitss"
   spec.email = "flazzarino@gmail.com"
   spec.version = SemVer.find.format '%M.%m.%p'
   spec.summary = "daitss core libraries"

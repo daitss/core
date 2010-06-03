@@ -1,10 +1,12 @@
 require 'base64'
 require 'datafile'
+require 'daitss/config'
 
 class DataFile
+  include Daitss
 
   def virus_check!
-    output = %x{curl -s -d 'data=@#{self.datapath}' #{Daitss::CONFIG['viruscheck-url']}}
+    output = %x{curl -s -d 'data=@#{self.datapath}' #{CONFIG['viruscheck']}/}
     raise "could not request virus check: #{output}" unless $?.exitstatus == 0
     doc = XML::Document.string output
     extract_event doc

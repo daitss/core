@@ -7,6 +7,8 @@ require 'xmlns'
 
 class DataFile
 
+  include Daitss
+
   def describe!
     doc = ask_description_service(:location => "file:#{File.expand_path datapath }",
                                   :uri => uri,
@@ -109,8 +111,8 @@ class DataFile
 
   def ask_description_service query={}
     query_str = query.map { |key, value| "#{key.id2name}=#{CGI::escape value.to_s}" }.join '&'
-    url = URI.parse "#{Daitss::CONFIG['description-url']}?#{query_str}"
-      req = Net::HTTP::Get.new url.path
+    url = URI.parse "#{CONFIG['describe']}/describe?#{query_str}"
+    req = Net::HTTP::Get.new url.path
     req.form_data = query unless query.empty?
 
     res = Net::HTTP.start(url.host, url.port) do |http|
