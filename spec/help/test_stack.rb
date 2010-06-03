@@ -1,4 +1,4 @@
-STATUS_ECHO_URL = 'http://localhost:7000/statusecho'
+STATUS_ECHO_URL = 'http://localhost:7003'
 
 def override_service key, code
   old_url = Daitss::CONFIG[key]

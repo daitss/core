@@ -14,7 +14,7 @@ describe DataFile do
     end
 
     it "should get back an array of data and an extension if the transformation is good" do
-      agnet, event, data, ext = subject.original_datafiles.first.ask_transformation_service 'http://localhost:7000/transformation/transform/wave_norm'
+      agnet, event, data, ext = subject.original_datafiles.first.ask_transformation_service 'http://localhost:7006/transform/wave_norm'
       data.should_not be_empty
       ext.should == '.wav'
     end
@@ -38,7 +38,7 @@ describe DataFile do
 
     it 'should have transformation metadata' do
       pending 'need migratable sip'
-      @df['transformation-url'].should == 'http://localhost:7000/transformation/transform/wave_norm'
+      @df['transformation'].should == 'http://localhost:7000/transformation/transform/wave_norm'
     end
 
     it 'should have a transformation source' do
