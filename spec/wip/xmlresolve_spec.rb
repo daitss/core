@@ -18,8 +18,8 @@ describe Wip do
     Tempfile.open 'spec' do |t|
       t.write @wip['xml-resolution-tarball']
       t.flush
-      tarlist = %x{tar tf #{t.path}}.lines
-      tarlist.should have_exactly(5).items
+      tarlist = %x{tar tf #{t.path}}.lines.to_a
+      tarlist.should have_exactly(5).members
     end
 
   end

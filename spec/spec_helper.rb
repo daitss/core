@@ -5,7 +5,7 @@ test_config = File.join File.dirname(__FILE__), '..', 'tasks', 'test-config.yml'
 Daitss::CONFIG.load test_config
 [ Daitss::CONFIG['workspace'], Daitss::CONFIG['stashspace'] ].each { |d| FileUtils.mkdir_p d unless File.exist? d }
 
-require 'datamapper'
+require 'data_mapper'
 
 require "aip"
 require "db/operations_agents"

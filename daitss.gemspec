@@ -17,6 +17,6 @@ spec = Gem::Specification.new do |spec|
   spec.add_dependency 'semver', '~> 0.1.0'
   spec.add_dependency 'sys-proctable', '~> 0.9.0'
   spec.add_dependency 'libxml-ruby', '>= 1.1.2'
-  spec.add_dependency 'datamapper', '~> 0.10.2'
+  spec.add_dependency 'data_mapper', '>= 1.0.0.rc3'
   spec.add_dependency 'jxmlvalidator', '~> 0.1.0'
 end

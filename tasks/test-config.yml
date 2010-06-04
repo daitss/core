@@ -1,4 +1,4 @@
-uri-prefix: info:fcla/ # info uri prefix
+uri-prefix: info:fcla # info uri prefix
 http-timeout: 600
 database-url: 'sqlite3::memory:'
 workspace: /tmp/ws

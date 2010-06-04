@@ -13,34 +13,34 @@ ORIGIN_UNKNOWN = "UNKNOWN"
 Origin = [ ORIGIN_ARCHIVE, ORIGIN_DEPOSITOR, ORIGIN_UNKNOWN ]
 
 class Datafile < Pobject
-  include DataMapper::Resource 
+  include DataMapper::Resource
 
   property :id, String, :key => true, :length => 100
-  property :size, Integer, :length => (0..20),  :required => true 
+  property :size, Integer, :min => 0, :max => 2**20,  :required => true
   property :create_date, DateTime
   property :origin, String, :length => 10, :required => true # :default => ORIGIN_UNKNOWN,
     # the value of the origin is validated by the check_origin method
   validates_with_method :origin, :method => :validateOrigin
 
-  property :original_path, String, :length => (0..255), :required => true 
+  property :original_path, String, :length => (0..255), :required => true
   # map from package_path + file_title + file_ext
   property :creating_application, String, :length => (0..255)
 
-  property :r0, String, :index => true, :length => 100 
+  property :r0, String, :index => true, :length => 100
   # contains the id of the original representation if this datafile is part of it
-  property :rn, String, :index => true, :length => 100 
+  property :rn, String, :index => true, :length => 100
   # contains the id of the representation norm if this datafile is part of it
-  property :rc, String, :index => true, :length => 100     
+  property :rc, String, :index => true, :length => 100
   # contains the id of the representation current if this datafile is part of it
   belongs_to :intentity
 
   has 0..n, :bitstreams, :constraint=>:destroy # a datafile may contain 0-n bitstream(s)
   has n, :datafile_severe_element, :constraint=>:destroy
-  has 0..n, :documents, :constraint => :destroy 
-  has 0..n, :texts, :constraint => :destroy 
-  has 0..n, :audios, :constraint => :destroy 
-  has 0..n, :images, :constraint => :destroy 
-  has 0..n, :message_digest, :constraint => :destroy 
+  has 0..n, :documents, :constraint => :destroy
+  has 0..n, :texts, :constraint => :destroy
+  has 0..n, :audios, :constraint => :destroy
+  has 0..n, :images, :constraint => :destroy
+  has 0..n, :message_digest, :constraint => :destroy
   has n, :object_format, :constraint=>:destroy # a datafile may have 0-n file_formats
   has 0..n, :broken_links, :constraint=>:destroy # if there is missing links in the datafiles (only applies to xml)
 
@@ -70,7 +70,7 @@ class Datafile < Pobject
       self.message_digest << messageDigest
     end
 
-    # process premis ObjectCharacteristicExtension 
+    # process premis ObjectCharacteristicExtension
     node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
     if (node)
       processObjectCharacteristicExtension(self, node)
@@ -121,7 +121,7 @@ class Datafile < Pobject
     elsif  (rep_id.include? REP_CURRENT)
       attribute_set(:rc, rep_id)
     elsif (rep_id.include? REP_NORM)
-      attribute_set(:rn, rep_id)      
+      attribute_set(:rn, rep_id)
     end
   end
 
