@@ -22,6 +22,7 @@ namespace :services do
         s.clone(s.name == 'statusecho')
       end
 
+      s.bundle
     end
 
   end

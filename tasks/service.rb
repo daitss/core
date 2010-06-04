@@ -47,6 +47,10 @@ class Service
 
   end
 
+  def bundle
+    Dir.chdir(dir) { %x{bundle install} }
+  end
+
   def pid_file
     abs_join PID_DIR, "#{name}.pid"
   end
@@ -68,7 +72,7 @@ class Service
   end
 
   def start  port
-    [ LOG_DIR, PID_DIR ].each { |d| File.mkdir_p d unless File.exist? d }
+    [ LOG_DIR, PID_DIR ].each { |d| FileUtils.mkdir_p d unless File.exist? d }
     system "thin --daemonize -c #{dir} --environment test --tag #{name} --port #{port} -P #{pid_file} -l #{log_file} -R #{ru_file} start"
     raise "cannot start #{name}" unless $?.exitstatus == 0
   end
