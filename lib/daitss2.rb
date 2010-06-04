@@ -1,9 +1,12 @@
 require 'rubygems'
 require 'namespaces'
+
+
 require 'dm-core'
 require 'dm-types'
 require 'dm-aggregates'
 require 'dm-constraints'
+
 require 'db/agent'
 require 'db/audio'
 require 'db/image'
@@ -15,9 +18,7 @@ require 'db/bitstream'
 require 'db/severe_element'
 require 'db/brokenlinks'
 require 'db/datafile'
-# require 'db/representation'
 require 'db/datafile_severe_element'
-# require 'db/datafiles_representations'
 require 'db/events'
 require 'db/int_entity'
 require 'db/message_digest'

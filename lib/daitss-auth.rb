@@ -6,7 +6,7 @@ require 'pp'
 
 class AuthenticationResult
 
-  @valid 
+  @valid
   @active
   @metadata
 
@@ -36,7 +36,8 @@ class Authentication
 
     if(agent.authentication_key.auth_key == sha1(key))
 
-      active = agent.active_start_date.to_time < Time.now and agent.active_end_date.to_time > Time.now
+      # XXX temporary fix for now, DateTime from datamapper removed #to_time
+      active = Time.parse(agent.active_start_date.to_s) < Time.now and Time.parse(agent.active_end_date.to_s) > Time.now
       result = AuthenticationResult.new active
 
       account = agent.account
@@ -55,7 +56,7 @@ class Authentication
         result.metadata["account_name"] = account.name
 
         if agent.class == Contact
-          result.metadata["agent_type"] = :contact 
+          result.metadata["agent_type"] = :contact
           result.metadata["can_disseminate"] = agent.permissions.include? :disseminate
           result.metadata["can_withdraw"] = agent.permissions.include? :withdraw
           result.metadata["can_peek"] = agent.permissions.include? :peek

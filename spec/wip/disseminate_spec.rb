@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'wip'
 require 'wip/ingest'
 require 'wip/disseminate'
-require 'datamapper'
+require 'data_mapper'
 
 describe Wip do
 
