@@ -1,8 +1,8 @@
-uri-prefix: info:fcla # info uri prefix
+uri-prefix: info:fcla-test
 http-timeout: 600
-database-url: 'sqlite3::memory:'
-workspace: /tmp/ws
-stashspace: /tmp/stash
+database-url: -- overwritten by test system
+workspace: -- overwritten by test system
+stashspace: -- overwritten by test system
 
 actionplan: http://localhost:7000
 describe: http://localhost:7001

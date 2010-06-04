@@ -2,13 +2,13 @@ require 'aip'
 require 'db/operations_agents'
 require 'db/operations_events'
 
-require 'service'
-SERVICES = %w(actionplan describe request statusecho storage submission transform viruscheck).map { |s| Service.new s }
+require 'test_env'
 
 namespace :services do
 
   desc "fetch the services"
   task :fetch do
+    include TestEnv
     ss = SERVICES.select &:running?
     raise "some services still running" unless ss.empty?
 
@@ -29,23 +29,33 @@ namespace :services do
 
   desc "stop the service stack"
   task :stop do
-    SERVICES.each &:stop
+    TestEnv::SERVICES.each &:stop
   end
 
   desc "start the service stack"
   task :start do
+    TestEnv.config
+    TestEnv.mkdirs
     DataMapper.setup :default, Daitss::CONFIG['database-url']
-    SERVICES.each_with_index { |s,ix| s.start(BASE_PORT + ix) }
+    TestEnv::SERVICES.each_with_index { |s,ix| s.start(TestEnv::BASE_PORT + ix) }
   end
 
-  desc "nuke the services dir"
+  desc "nuke the service stack installation dir"
   task :clobber do
+    include TestEnv
 
-    [ SERVICES_DIR, LOG_DIR, PID_DIR, SILO_DIR].each do |d|
-      FileUtils::rm_rf d
+    FileUtils::rm_rf VAR_DIR
+
+    [ SERVICES_DIR, LOG_DIR, PID_DIR, SILO_DIR, WORKSPACE_DIR, STASHSPACE_DIR].each do |d|
       FileUtils::mkdir_p d
     end
 
+  end
+
+  desc "show the configuration used by specs"
+  task :config do
+    TestEnv.config
+    puts YAML.dump(Daitss::CONFIG)
   end
 
 end
