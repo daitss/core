@@ -1,9 +1,7 @@
 require 'daitss/config'
 require 'fileutils'
 
-test_config = File.join File.dirname(__FILE__), '..', 'tasks', 'test-config.yml'
-Daitss::CONFIG.load test_config
-[ Daitss::CONFIG['workspace'], Daitss::CONFIG['stashspace'] ].each { |d| FileUtils.mkdir_p d unless File.exist? d }
+require File.join(File.dirname(__FILE__), '..', 'tasks', 'test_env')
 
 require 'data_mapper'
 
@@ -20,6 +18,8 @@ require "help/profile"
 Spec::Runner.configure do |config|
 
   config.before :all do
+    TestEnv.config
+    TestEnv.mkdirs
     $sandbox = new_sandbox
     FileUtils::mkdir $sandbox
 

@@ -7,9 +7,6 @@ require 'spec/rake/spectask'
 lib_dir = File.join File.dirname(__FILE__), 'lib'
 $:.unshift lib_dir
 
-require 'daitss/config'
-Daitss::CONFIG.load_from_env
-
 tasks_dir = File.join File.dirname(__FILE__), 'tasks'
 $:.unshift tasks_dir
 

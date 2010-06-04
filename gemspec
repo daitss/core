@@ -1,3 +1,4 @@
+require 'bundler'
 require 'yaml'
 require 'semver'
 
@@ -14,10 +15,5 @@ spec = Gem::Specification.new do |spec|
   spec.files += Dir["spec/**/*"]
   spec.files += Dir["templates/**/*"]
   spec.files += Dir["stron/**/*"]
-
-  spec.add_dependency 'semver', '~> 0.2.0'
-  spec.add_dependency 'sys-proctable', '~> 0.9.0'
-  spec.add_dependency 'libxml-ruby', '>= 1.1.2'
-  spec.add_dependency 'data_mapper', '>= 1.0.0.rc3'
-  spec.add_dependency 'jxmlvalidator', '~> 0.1.0'
+  spec.add_bundler_dependencies
 end
