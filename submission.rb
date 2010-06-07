@@ -7,131 +7,125 @@ require 'tempfile'
 require 'digest/sha1'
 require 'old_ieid'
 
-module Submission
+helpers do
+  # returns true if a set of http basic auth credentials passed in
 
-  class App < Sinatra::Base 
+  def credentials?
+    @auth ||= Rack::Auth::Basic::Request.new(request.env)
+    @auth.provided? && @auth.basic? && @auth.credentials
+  end
 
-    helpers do
-      # returns true if a set of http basic auth credentials passed in
+  # returns array containing the basic auth credentials provided, nil otherwise
 
-      def credentials?
-        @auth ||= Rack::Auth::Basic::Request.new(request.env)
-        @auth.provided? && @auth.basic? && @auth.credentials
-      end
+  def get_credentials
+    return nil unless credentials?
 
-      # returns array containing the basic auth credentials provided, nil otherwise
+    return @auth.credentials
+  end
 
-      def get_credentials
-        return nil unless credentials?
+  # returns OperationsAgent object if matching set of credentials found, nil otherwise
 
-        return @auth.credentials
-      end
+  def get_agent
+    user_credentials = get_credentials
 
-      # returns OperationsAgent object if matching set of credentials found, nil otherwise
+    return nil if user_credentials == nil
 
-      def get_agent
-        user_credentials = get_credentials
+    agent = OperationsAgent.first(:identifier => user_credentials[0])
 
-        return nil if user_credentials == nil
+    if agent && agent.authentication_key.auth_key == Digest::SHA1.hexdigest(user_credentials[1])
+      return agent
+    else
+      return nil
+    end
+  end
+end
 
-        agent = OperationsAgent.first(:identifier => user_credentials[0])
+# return 405 on HEAD, GET, or DELETE
+head "/" do
+  halt 405
+end
 
-        if agent && agent.authentication_key.auth_key == Digest::SHA1.hexdigest(user_credentials[1])
-          return agent
-        else
-          return nil
-        end
-      end
+get "/" do
+  halt 405
+end
+
+delete "/" do
+  halt 405
+end
+
+# All submissions are expected to be POST requests
+post "/*" do
+  begin
+    #return 401 if credentials not provided
+    halt 401 unless credentials?
+
+    # return 400 if missing any expected headers
+    halt 400, "Missing header: CONTENT_MD5" unless @env["HTTP_CONTENT_MD5"]
+    halt 400, "Missing header: X_PACKAGE_NAME" unless @env["HTTP_X_PACKAGE_NAME"]
+    halt 400, "Missing header: X_ARCHIVE_TYPE" unless @env["HTTP_X_ARCHIVE_TYPE"]
+
+    # return 400 if X_ARCHIVE_TYPE header is not the expected value of 'zip' or 'tar'
+
+    halt 400, "X_ARCHIVE_TYPE header must be either 'tar' or 'zip'" unless @env["HTTP_X_ARCHIVE_TYPE"] == "tar" or @env["HTTP_X_ARCHIVE_TYPE"] == "zip"
+
+    # authenticate
+    agent = get_agent
+    halt 403 unless agent
+
+    # check authorization if contact
+    if agent.type == Contact
+      halt 403 unless agent.permissions.include?(:submit)
     end
 
-    # return 405 on HEAD, GET, or DELETE 
-    head "/" do
-      halt 405
+    # return 400 if there is no body in the request
+    request.body.rewind
+    halt 400, "Missing body" if request.body.size == 0
+
+    # return 412 if md5 of body does not match the provided CONTENT_MD5
+    body_md5 = Digest::MD5.new
+
+    while (buffer = request.body.read 1048576)
+      body_md5 << buffer
     end
 
-    get "/" do
-      halt 405
+    halt 412, "MD5 of body (#{body_md5.hexdigest}) does not match provided CONTENT_MD5 (#{@env["HTTP_CONTENT_MD5"]})" unless @env["HTTP_CONTENT_MD5"] == body_md5.hexdigest
+
+    # write body to a temporary file
+    request.body.rewind
+    tf = Tempfile.new(@env["HTTP_CONTENT_MD5"])
+
+    while (buffer = request.body.read 1048576)
+      tf << buffer
     end
 
-    delete "/" do
-      halt 405
-    end
+    tf.rewind
 
-    # All submissions are expected to be POST requests
-    post "/*" do 
-      begin
-        #return 401 if credentials not provided
-        halt 401 unless credentials?
+    # call PackageSubmitter to extract file, generate IEID, and write AIP to workspace
+    type = @env["HTTP_X_ARCHIVE_TYPE"] == "zip" ? :zip : :tar
+    ieid = OldIeid.get_next
+    PackageSubmitter.submit_sip type, tf.path, @env["HTTP_X_PACKAGE_NAME"], agent.identifier, @env["REMOTE_ADDR"], @env["HTTP_CONTENT_MD5"], ieid
 
-        # return 400 if missing any expected headers
-        halt 400, "Missing header: CONTENT_MD5" unless @env["HTTP_CONTENT_MD5"]
-        halt 400, "Missing header: X_PACKAGE_NAME" unless @env["HTTP_X_PACKAGE_NAME"]
-        halt 400, "Missing header: X_ARCHIVE_TYPE" unless @env["HTTP_X_ARCHIVE_TYPE"]
+    # send IEID back in response as both header and document in body
+    headers["X_IEID"] = ieid.to_s
+    "<IEID>#{ieid}</IEID>"
 
-        # return 400 if X_ARCHIVE_TYPE header is not the expected value of 'zip' or 'tar'
-
-        halt 400, "X_ARCHIVE_TYPE header must be either 'tar' or 'zip'" unless @env["HTTP_X_ARCHIVE_TYPE"] == "tar" or @env["HTTP_X_ARCHIVE_TYPE"] == "zip"
-
-        # authenticate
-        agent = get_agent
-        halt 403 unless agent 
-
-        # check authorization if contact
-        if agent.type == Contact
-          halt 403 unless agent.permissions.include?(:submit)
-        end
-
-        # return 400 if there is no body in the request
-        request.body.rewind
-        halt 400, "Missing body" if request.body.size == 0
-
-        # return 412 if md5 of body does not match the provided CONTENT_MD5
-        body_md5 = Digest::MD5.new
-
-        while (buffer = request.body.read 1048576)
-          body_md5 << buffer
-        end
-
-        halt 412, "MD5 of body (#{body_md5.hexdigest}) does not match provided CONTENT_MD5 (#{@env["HTTP_CONTENT_MD5"]})" unless @env["HTTP_CONTENT_MD5"] == body_md5.hexdigest
-
-        # write body to a temporary file
-        request.body.rewind
-        tf = Tempfile.new(@env["HTTP_CONTENT_MD5"])
-
-        while (buffer = request.body.read 1048576)
-          tf << buffer
-        end
-
-        tf.rewind
-
-        # call PackageSubmitter to extract file, generate IEID, and write AIP to workspace
-        type = @env["HTTP_X_ARCHIVE_TYPE"] == "zip" ? :zip : :tar
-        ieid = OldIeid.get_next
-        PackageSubmitter.submit_sip type, tf.path, @env["HTTP_X_PACKAGE_NAME"], agent.identifier, @env["REMOTE_ADDR"], @env["HTTP_CONTENT_MD5"], ieid
-
-        # send IEID back in response as both header and document in body
-        headers["X_IEID"] = ieid.to_s
-        "<IEID>#{ieid}</IEID>"
-
-      rescue ArchiveExtractionError => e
-        halt 400, "#{ieid}: Error extracting files in request body, is it malformed?"
-      rescue SubmitterDescriptorAccountMismatch => e
-        halt 403, "#{ieid}: Submitter account does not match account specified in SIP descriptor"
-      rescue InvalidProject => e
-        halt 403, "#{ieid}: Specified project does not exist under account"
-      rescue InvalidAccount => e
-        halt 400, "#{ieid}: Specified account does not exist"
-      rescue MissingContentFile => e
-        halt 400, "#{ieid}: Package has no content files"
-      rescue ChecksumMismatch => e
-        halt 400, "#{ieid}: Checksum mismatch: #{e.message}"
-      rescue DescriptorNotFoundError => e
-        halt 400, "#{ieid}: Descriptor not found in SIP: #{e.message}"
-      rescue DescriptorCannotBeParsedError => e
-        halt 400, "#{ieid}: Descriptor cannot be parsed: #{e.message}"
-      rescue InvalidDescriptor => e
-        halt 400, "#{ieid}: Descriptor did not validate: #{e.message}"
-      end
-    end
+  rescue ArchiveExtractionError => e
+    halt 400, "#{ieid}: Error extracting files in request body, is it malformed?"
+  rescue SubmitterDescriptorAccountMismatch => e
+    halt 403, "#{ieid}: Submitter account does not match account specified in SIP descriptor"
+  rescue InvalidProject => e
+    halt 403, "#{ieid}: Specified project does not exist under account"
+  rescue InvalidAccount => e
+    halt 400, "#{ieid}: Specified account does not exist"
+  rescue MissingContentFile => e
+    halt 400, "#{ieid}: Package has no content files"
+  rescue ChecksumMismatch => e
+    halt 400, "#{ieid}: Checksum mismatch: #{e.message}"
+  rescue DescriptorNotFoundError => e
+    halt 400, "#{ieid}: Descriptor not found in SIP: #{e.message}"
+  rescue DescriptorCannotBeParsedError => e
+    halt 400, "#{ieid}: Descriptor cannot be parsed: #{e.message}"
+  rescue InvalidDescriptor => e
+    halt 400, "#{ieid}: Descriptor did not validate: #{e.message}"
   end
 end
