@@ -1,3 +1,6 @@
+require 'bundler'
+Bundler.setup
+
 require 'ruby-debug'
 require 'wip/process'
 
@@ -49,7 +52,7 @@ class MyWorld
   def submit name
     sips << {:sip => name}
     sip_path = sip 'ateam'
-    url = URI.parse Daitss::CONFIG['submission-url']
+    url = URI.parse "#{Daitss::CONFIG['submission']}/"
     req = Net::HTTP::Post.new url.path
     tar = %x{tar -c -C #{File.dirname sip_path} -f - #{File.basename sip_path} }
     raise "tar did not work" if $?.exitstatus != 0

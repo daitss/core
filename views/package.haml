@@ -51,7 +51,9 @@
     %table
       %tr
         %th copy url
-        %td= @aip.copy_url
+        %td
+          %a{ :href => @aip.copy_url }
+            =@aip.copy_url
       %tr
         %th copy size
         %td= @aip.copy_size

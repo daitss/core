@@ -1,3 +1,6 @@
+require 'bundler'
+Bundler.setup
+
 require 'sinatra'
 require 'haml'
 require 'sass'
@@ -10,8 +13,7 @@ require 'wip/state'
 require 'wip/progress'
 require 'daitss/config'
 
-require 'datamapper'
-require 'dm-aggregates'
+require 'data_mapper'
 require 'aip'
 require 'stashbin'
 require 'db/sip'
@@ -43,7 +45,7 @@ end
 helpers do
 
   def submit data, sip, ext
-    url = Daitss::CONFIG['submission-url']
+    url = "#{Daitss::CONFIG['submission']}/"
 
     url = URI.parse url
     req = Net::HTTP::Post.new url.path
