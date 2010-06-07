@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
+require 'bundler'
+Bundler.setup
+
 require 'sinatra'
 require 'package_submitter'
 require 'digest/md5'
