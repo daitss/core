@@ -61,7 +61,7 @@ describe PackageSubmitter do
   it "should submit a package creating a wip with submission event from a tar-extracted SIP, a PT event, submit step, and a new row in the sip table" do
     ieid = OldIeid.get_next
     PackageSubmitter.submit_sip :tar, TAR_SIP, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid
-    now = Time.now
+    now = DateTime.now
 
     wip = Wip.new File.join(CONFIG['workspace'], ieid)
 
@@ -99,7 +99,7 @@ describe PackageSubmitter do
     submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 1.0)
+    submission_event.timestamp.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: tar, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: success"
     File.exists?(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == true
@@ -109,7 +109,7 @@ describe PackageSubmitter do
   it "should submit a package creating a wip with submission event from a zip-extracted SIP" do
     ieid = OldIeid.get_next
     PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid
-    now = Time.now
+    now = DateTime.now
 
     wip = Wip.new File.join(CONFIG['workspace'], ieid.to_s)
 
@@ -147,7 +147,7 @@ describe PackageSubmitter do
     submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 1.0)
+    submission_event.timestamp.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: success"
 
@@ -158,7 +158,7 @@ describe PackageSubmitter do
 
   it "should raise error if descriptor cannot be found (package_name.xml)" do
     ieid = OldIeid.get_next
-    now = Time.now
+    now = DateTime.now
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_NO_DESCRIPTOR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(DescriptorNotFoundError)
 
@@ -166,14 +166,14 @@ describe PackageSubmitter do
     submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 1.0)
+    submission_event.timestamp.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: descriptor not found"
   end
 
   it "should raise error if descriptor cannot be parsed" do
     ieid = OldIeid.get_next
-    now = Time.now
+    now = DateTime.now
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_BROKEN_DESCRIPTOR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(DescriptorCannotBeParsedError)
 
@@ -181,7 +181,7 @@ describe PackageSubmitter do
     submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 1.0)
+    submission_event.timestamp.should be_close(now, 1.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: descriptor cannot be parsed"
   end
@@ -212,7 +212,7 @@ describe PackageSubmitter do
 
   it "should raise error if package account does not match submitter account" do
     ieid = OldIeid.get_next
-    now = Time.now
+    now = DateTime.now
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "bernie", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(SubmitterDescriptorAccountMismatch)
 
@@ -220,14 +220,14 @@ describe PackageSubmitter do
     submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 5.0)
+    submission_event.timestamp.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "bernie"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: submitter account does not match descriptor"
   end
 
   it "should raise error if the package project is invalid - operator" do
     ieid = OldIeid.get_next
-    now = Time.now
+    now = DateTime.now
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_BAD_PROJECT, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(InvalidProject)
 
@@ -235,14 +235,14 @@ describe PackageSubmitter do
     submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 5.0)
+    submission_event.timestamp.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: invalid project"
   end
 
   it "should raise error if the package project is invalid - contact" do
     ieid = OldIeid.get_next
-    now = Time.now
+    now = DateTime.now
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_BAD_PROJECT, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(InvalidProject)
 
@@ -250,14 +250,14 @@ describe PackageSubmitter do
     submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 5.0)
+    submission_event.timestamp.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "foobar"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: invalid project"
   end
 
   it "should raise error if the package account is invalid - operator" do
     ieid = OldIeid.get_next
-    now = Time.now
+    now = DateTime.now
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_BAD_ACCOUNT, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(InvalidAccount)
 
@@ -265,14 +265,14 @@ describe PackageSubmitter do
     submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 5.0)
+    submission_event.timestamp.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "operator"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: invalid account"
   end
 
   it "should raise error if the package does not have at least one content file" do
     ieid = OldIeid.get_next
-    now = Time.now
+    now = DateTime.now
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_NO_CONTENT_FILES, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(MissingContentFile)
 
@@ -280,14 +280,14 @@ describe PackageSubmitter do
     submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 8.0)
+    submission_event.timestamp.should be_close(now, 8.0)
     submission_event.operations_agent.identifier.should == "foobar"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: content file not found"
   end
 
   it "should raise error if there is a checksum mismatch between the descriptor any data file and record the reject in pt" do
     ieid = OldIeid.get_next
-    now = Time.now
+    now = DateTime.now
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_CHECKSUM_MISMATCH, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(ChecksumMismatch)
 
@@ -295,14 +295,14 @@ describe PackageSubmitter do
     submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 5.0)
+    submission_event.timestamp.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "foobar"
     submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: datafile failed checksum check against descriptor"
   end
 
   it "should raise error if there is an error validating the sip descriptor and record the reject in pt" do
     ieid = OldIeid.get_next
-    now = Time.now
+    now = DateTime.now
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_INVALID_DESCRIPTOR, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(InvalidDescriptor)
 
@@ -310,28 +310,28 @@ describe PackageSubmitter do
     submission_event = sip.operations_events.first(:event_name => "Package Submission")
 
     submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.to_time.should be_close(now, 5.0)
+    submission_event.timestamp.should be_close(now, 5.0)
     submission_event.operations_agent.identifier.should == "foobar"
     submission_event.notes.should =~ /submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: descriptor failed validation/
   end
 
   it "should not raise error if checksum type is missing" do
     ieid = OldIeid.get_next
-    now = Time.now
+    now = DateTime.now
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_MISSING_CHECKSUM, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should_not raise_error
   end
 
   it "should not raise error if checksum type is unknown" do
     ieid = OldIeid.get_next
-    now = Time.now
+    now = DateTime.now
 
     lambda { PackageSubmitter.submit_sip :zip, ZIP_UNKNOWN_CHECKSUM_TYPE, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should_not raise_error
   end
 
   it "should raise error if something that is not a zip file is sent" do
     ieid = OldIeid.get_next
-    now = Time.now
+    now = DateTime.now
 
     lambda { PackageSubmitter.submit_sip :zip, NOT_VALID_ARCHIVE, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(ArchiveExtractionError)
   end

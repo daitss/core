@@ -10,12 +10,12 @@ require 'daitss/config'
 
 include Daitss
 
-describe Submission::App do
+describe "submission service" do
 
   include Rack::Test::Methods
 
   def app
-    Submission::App
+    Sinatra::Application
   end
 
   def authenticated_post uri, username, password, middle_param = {}
