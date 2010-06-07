@@ -1,3 +1,5 @@
+require 'helper'
+
 require 'submission'
 require 'spec'
 require 'rack/test'
@@ -5,7 +7,6 @@ require 'digest/md5'
 require 'stringio'
 require 'sinatra'
 require 'base64'
-require 'helper'
 require 'daitss/config'
 
 include Daitss

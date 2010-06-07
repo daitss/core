@@ -1,6 +1,7 @@
 require "rubygems"
 require "bundler"
 Bundler.setup
+
 require 'db/int_entity'
 require 'db/datafile'
 require 'db/datafile_severe_element'

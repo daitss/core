@@ -1,7 +1,8 @@
+require 'helper'
+
 require 'package_submitter'
 require 'fileutils'
 require 'libxml'
-require 'helper.rb'
 require 'old_ieid'
 require 'daitss/config'
 
