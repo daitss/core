@@ -6,6 +6,12 @@ require 'digest/md5'
 require 'tempfile'
 require 'digest/sha1'
 require 'old_ieid'
+require 'daitss/config'
+
+configure do
+  Daitss::CONFIG.load_from_env
+  DataMapper.setup :default, Daitss::CONFIG['database-url']
+end
 
 helpers do
   # returns true if a set of http basic auth credentials passed in
