@@ -61,7 +61,9 @@ helpers do
       http.request req
     end
 
-    res.error! unless Net::HTTPSuccess === res
+    unless Net::HTTPSuccess === res
+      error res.status, res.body
+    end
 
     doc = Nokogiri::XML res.body
     (doc % 'IEID').content
