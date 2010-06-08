@@ -27,7 +27,7 @@ class Wip
     unless running?
 
       pid = fork do
-        Signal.trap "INT", "DEFAULT"
+        %w(TERM INT QUIT HUP).each { |signal| Signal.trap signal, "DEFAULT" }
         #$stderr = StringIO.new
         yield self
         exit
