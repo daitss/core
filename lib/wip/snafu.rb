@@ -23,7 +23,14 @@ class Wip
   end
 
   def unsnafu!
-    tags.delete 'snafu' if snafu?
+
+    if snafu?
+      tags.delete 'snafu'
+      tags.delete 'process'
+    else
+      raise "cannot unsnafu a non-snafu package"
+    end
+
   end
 
   private
