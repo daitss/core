@@ -1,0 +1,214 @@
+#!/usr/bin/env ruby
+
+require 'thor'
+require 'fileutils'
+require 'uri'
+require 'yaml'
+
+module Daitss
+
+  DEFAULT_CONFIG = {
+    'uri-prefix' => 'daitss-test',
+    'http-timeout' => 600,
+    'workspace' => 'work',
+    'stashspace' => 'stash',
+    'database-url' => 'sqlite:database.sqlite3',
+    'jvm-options' => %w(-Dhttp.proxyHost=sake.fcla.edu -Dhttp.proxyPort=3128 -Xms2G -Xmx2G)
+  }
+
+  DEFAULT_SERVICE_URLS = {
+    'actionplan' => "http://localhost:7000",
+    'describe' => "http://localhost:7001",
+    'request' => "http://localhost:7002",
+    'storage' => "http://localhost:7003",
+    'submission' => "http://localhost:7004",
+    'transform' => "http://localhost:7005",
+    'viruscheck' => "http://localhost:7006",
+    'boss' => "http://localhost:7007"
+  }
+
+  DEFAULT_SERVICE_DIR = 'service'
+  DEFAULT_SILO_DIR = 'silo'
+  DEFAULT_CONFIG_FILE = 'config.yml'
+
+  class CLI < Thor
+
+    desc "init", "Initialize a daitss installation in the current working directory"
+    method_options :uri => 'sqlite:database.sqlite'
+    def init
+      mkdirs
+      clone_services
+      bundle_services
+      dump_config
+      setup_database options[:uri]
+    end
+
+    desc "start", "Start the daitss services"
+    method_options :environment => 'production'
+    def start
+
+      in_each_service do |name, url|
+
+        thin_options = {
+          'daemonize' => true,
+          'environment' => options[:environment],
+          'tag' => name,
+          'port' => URI.parse(url).port,
+          'pid' => "#{name}.pid",
+          'log' => "#{name}.log",
+          'rackup' => 'config.ru'
+        }
+
+        run_thin 'start', thin_options
+      end
+
+    end
+
+    desc "restart", "restart the daitss services"
+    method_options :environment => 'production'
+    def restart
+
+      in_each_service do |name, url|
+
+        thin_options = {
+          'daemonize' => true,
+          'environment' => options[:environment],
+          'tag' => name,
+          'port' => URI.parse(url).port,
+          'pid' => "#{name}.pid",
+          'log' => "#{name}.log",
+          'rackup' => 'config.ru'
+        }
+
+        run_thin 'restart', thin_options
+      end
+
+    end
+
+    desc "stop", "Stop the daitss services"
+    def stop
+
+      in_each_service do |name, url|
+        run_thin 'stop', 'pid' => "#{name}.pid"
+      end
+
+    end
+
+    private
+
+    def run_thin command, opts={}
+
+      def opts.to_s
+        map { |name, value| "--#{name} #{value}" }.sort.join ' '
+      end
+
+      opts_str = if opts['daemonize']
+                  opts.delete['daemonize']
+                  "--daemonize" + opts.to_s
+                else
+                  opts.to_s
+                end
+
+      system "thin --daemonize #{opts_str} #{command}"
+    end
+
+    def unless_exist path
+
+      unless File.exist? path
+        yield path if block_given?
+      end
+
+    end
+
+    def in_each_service
+
+      DEFAULT_SERVICE_URLS.each do |name, url|
+
+        Dir.chdir File.join(DEFAULT_SERVICE_DIR, name) do
+          yield name, url
+        end
+
+      end
+
+    end
+
+    def setup_database uri
+      require 'aip'
+      require 'db/accounts'
+      require 'db/keys'
+      require 'db/operations_agents'
+      require 'db/operations_events'
+      require 'db/projects'
+      require 'db/sip'
+
+      DataMapper.setup :default, uri
+      DataMapper.auto_migrate!
+    end
+
+    def mkdirs
+      dirs = []
+      dirs += DEFAULT_CONFIG.values_at('workspace', 'stashspace')
+      dirs << DEFAULT_SILO_DIR
+      dirs << DEFAULT_SERVICE_DIR
+      dirs.each { |d| unless_exist(d) { FileUtils.mkdir_p d } }
+    end
+
+    def clone_services
+
+      DEFAULT_SERVICE_URLS.each do |name, url|
+
+        Dir.chdir DEFAULT_SERVICE_DIR do
+
+          unless_exist name do
+            puts "cloning #{name}"
+            system "git clone git://github.com/daitss/#{name}.git"
+            puts
+          end
+
+        end
+
+      end
+
+    end
+
+    def bundle_services
+
+      in_each_service do |name, url|
+        puts "bundling gems for #{name}"
+        system "bundle install"
+        puts
+      end
+
+    end
+
+    def dump_config
+
+      unless_exist DEFAULT_CONFIG_FILE do
+
+        # load defaults
+        config = {}
+        config.merge! DEFAULT_CONFIG
+        config.merge! DEFAULT_SERVICE_URLS
+
+        # make dirs absolute
+        db_url = URI.parse(config['database-url'])
+        config['database-url'] = "#{db_url.scheme}:#{File.join Dir.pwd, db_url.opaque}"
+        config['workspace'] = File.join Dir.pwd, config['workspace']
+        config['stashspace'] = File.join Dir.pwd, config['stashspace']
+
+        # save it
+        open(DEFAULT_CONFIG_FILE, 'w') { |io| io.write YAML.dump config }
+      end
+
+    end
+
+  end
+
+end
+
+begin
+  Daitss::CLI.start
+rescue Interrupt
+  $stderr.puts "\nQuitting..."
+  exit 1
+end

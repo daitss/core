@@ -78,7 +78,7 @@ module TestEnv
 
     def start  port
       [ LOG_DIR, PID_DIR ].each { |d| FileUtils.mkdir_p d unless File.exist? d }
-      system "thin --daemonize -c #{dir} --environment test --tag #{name} --port #{port} -P #{pid_file} -l #{log_file} -R #{ru_file} start"
+      system "thin --daemonize -c #{dir} --environment development --tag #{name} --port #{port} -P #{pid_file} -l #{log_file} -R #{ru_file} start"
       raise "cannot start #{name}" unless $?.exitstatus == 0
     end
 
@@ -99,7 +99,7 @@ module TestEnv
 
   end
 
-  SERVICES = %w(actionplan describe request statusecho storage submission transform viruscheck).map { |s| Service.new s }
+  SERVICES = %w(actionplan describe request statusecho storage submission transform viruscheck boss).map { |s| Service.new s }
 
   def config
 

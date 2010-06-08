@@ -1,5 +1,4 @@
 require 'bundler'
-require 'yaml'
 require 'semver'
 
 spec = Gem::Specification.new do |spec|
@@ -12,8 +11,12 @@ spec = Gem::Specification.new do |spec|
 
   spec.files = ["Rakefile", "README.md"]
   spec.files += Dir["lib/**/*"]
-  spec.files += Dir["spec/**/*"]
+  # spec.files += Dir["spec/**/*"]
   spec.files += Dir["templates/**/*"]
   spec.files += Dir["stron/**/*"]
+  spec.files << "bin/daitss"
+
+  spec.executables = ['daitss']
+
   spec.add_bundler_dependencies
 end
