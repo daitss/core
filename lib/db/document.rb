@@ -5,6 +5,8 @@ FEATURES = {
   "hasAnnotations" => :hasAnnotations
 }
   
+require 'dm-validations' 
+
 class Document
   include DataMapper::Resource
   property :id, Serial, :key => true
