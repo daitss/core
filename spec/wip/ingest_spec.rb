@@ -3,6 +3,8 @@ require 'wip'
 require 'aip'
 require 'wip/ingest'
 
+require 'db/int_entity'
+
 describe Wip do
 
   describe "that wont ingest" do
@@ -21,6 +23,16 @@ describe Wip do
   describe "that is ingested" do
 
     before :all do
+
+      account = Account.new :name => 'the account', :code => 'ACT'
+      account.save or raise "cannot save account"
+
+      agent = Program.new :identifier => 'Bureaucrat', :account => account
+      agent.save or raise "cannot save agent"
+
+      project = Project.new :name => 'the project', :code => 'PRJ', :account => account
+      project.save or raise "cannot save project"
+
       @wip = submit 'mimi'
       @wip.ingest!
     end
@@ -37,6 +49,10 @@ describe Wip do
     it "should have an ingest agent" do
       doc = XML::Document.string @wip['aip-descriptor']
       doc.find("//P:agent/P:agentName = 'daitss ingest'", NS_PREFIX).should be_true
+    end
+
+    it "should have an IntEntity in the db" do
+      Intentity.get(@wip.uri).should_not be_nil
     end
 
     describe "the resulting aip" do

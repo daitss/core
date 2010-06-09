@@ -1,9 +1,9 @@
 require 'db/request'
 require 'daitss2'
 
-class Intentity 
+class Intentity
   include DataMapper::Resource
-  property :id, String, :key => true, :length => 30
+  property :id, String, :key => true, :length => 50
     # daitss1 ieid
   property :original_name, String, :length => 32, :required => true, :default => "UNKNOWN"
     # i.e. package_name
@@ -21,9 +21,9 @@ class Intentity
   def fromAIP aip
     entity = aip.find_first('//p2:object[p2:objectCategory="intellectual entity"]', NAMESPACES)
     raise "cannot find required intellectual entity object in the aip descriptor" if entity.nil?
-    
+
     # extract and set int entity id
-    id = entity.find_first("//p2:objectIdentifierValue", NAMESPACES) 
+    id = entity.find_first("//p2:objectIdentifierValue", NAMESPACES)
     raise "cannot find required objectIdentifierValue for the intellectual entity object in the aip descriptor" if id.nil?
     attribute_set(:id, id.content)
 
@@ -33,16 +33,16 @@ class Intentity
     # extract and set the rest of int entity metadata
     mods = aip.find_first('//mods:mods', NAMESPACES)
     if mods
-      title = mods.find_first("mods:titleInfo/mods:title", NAMESPACES) 
+      title = mods.find_first("mods:titleInfo/mods:title", NAMESPACES)
       attribute_set(:title, title.content) if title
-      volume = mods.find_first("mods:part/mods:detail[@type = 'volume']/mods:number", NAMESPACES) 
+      volume = mods.find_first("mods:part/mods:detail[@type = 'volume']/mods:number", NAMESPACES)
       attribute_set(:volume, volume.content) if volume
-      issue = mods.find_first("mods:part/mods:detail[@type = 'issue']/mods:number", NAMESPACES) 
+      issue = mods.find_first("mods:part/mods:detail[@type = 'issue']/mods:number", NAMESPACES)
       attribute_set(:issue, issue.content) if issue
       entityid = mods.find_first("mods:identifier[@type = 'entity id']", NAMESPACES)
-      attribute_set(:entity_id, entityid.content) if entityid      
-    end    
-  end        
+      attribute_set(:entity_id, entityid.content) if entityid
+    end
+  end
 
   # delete this datafile record and all its children from the database
   def deleteChildren

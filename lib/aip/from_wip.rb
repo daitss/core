@@ -22,6 +22,7 @@ class Aip
       raise mio.string
     end
 
+    aip
   end
 
   def Aip.update_from_wip wip

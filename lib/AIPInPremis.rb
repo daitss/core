@@ -85,7 +85,7 @@ class AIPInPremis
       project = agreement.find_first("@PROJECT", NAMESPACES).value
       acct = Account.first(:code => account)
       acctProjects = Project.all(:code => project) & Project.all(:account => acct)
-      raise "cannot find the project recrod for #{account}, #{project} " if acctProjects.empty?
+      raise "cannot find the project recrod for '#{account}', '#{project}'" if acctProjects.empty?
       @acctProject = acctProjects.first
       @acctProject.intentities << @int_entity
     else
@@ -215,24 +215,20 @@ class AIPInPremis
 
   # save all extracted premis objects/events/agents to the fast access database in one transaction
   def toDB
-    repository(:default) do 
-      # start database traction for saving the associated record for the aip.  If there is any failure during database save, 
-      # datamapper automatically rollback the change.
-      Intentity.transaction do 
-        # RubyProf.start  
-        @int_entity.save  
-        @acctProject.save
-        # not necessary to explicitely save representations since representations will be saved through intentity associations        
-        # @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
-        @datafiles.each {|dfid, df|  raise "error saving datafile records #{df.inspect}" unless  df.save } 
-        # @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
-        @events.each {|id, e|  raise "error saving event records #{e.inspect}" unless e.save }
-        @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
-        # r = RubyProf.stop
-        # printer = RubyProf::GraphHtmlPrinter.new r
-        # open('/Users/Carol/Workspace/database/profile.html', 'w') { |io| printer.print io, :min_percent=> 0 }
-      end
-    end
+      # start database traction for saving the associated record for the aip.  If there is any failure during database save,
+    # datamapper automatically rollback the change.
+    # RubyProf.start
+    @int_entity.save or raise "cannot save aip"
+    @acctProject.save
+    # not necessary to explicitely save representations since representations will be saved through intentity associations
+    # @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
+    @datafiles.each {|dfid, df| raise "error saving datafile records #{df.inspect}" unless  df.save }
+    # @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
+    @events.each {|id, e|  raise "error saving event records #{e.inspect}" unless e.save }
+    @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
+    # r = RubyProf.stop
+    # printer = RubyProf::GraphHtmlPrinter.new r
+    # open('/Users/Carol/Workspace/database/profile.html', 'w') { |io| printer.print io, :min_percent=> 0 }
   end
 
 end
