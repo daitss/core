@@ -5,10 +5,11 @@ gem "sinatra", "~>1.0"
 gem "haml", "~>2.2"
 gem 'nokogiri', "~>1.4"
 gem "daitss"
-gem "data_mapper", ">= 1.0.0.rc3"
-gem "dm-sqlite-adapter", ">= 1.0.0.rc3"
-gem "dm-postgres-adapter", ">= 1.0.0.rc3"
-gem "dm-mysql-adapter", ">= 1.0.0.rc3"
+
+gem "data_mapper", "~>1.0.0"
+gem "dm-sqlite-adapter", "~>1.0.0"
+gem "dm-postgres-adapter", "~>1.0.0"
+gem "dm-mysql-adapter", "~>1.0.0"
 
 group :test do
   gem "rspec", "~>1.3", :require => "spec"
