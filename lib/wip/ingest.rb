@@ -6,6 +6,8 @@ require 'template/premis'
 require 'wip'
 require 'wip/preserve'
 require 'wip/step'
+require 'AIPInPremis'
+require 'dm-transactions'
 
 class Wip
 
@@ -41,7 +43,17 @@ class Wip
       metadata['aip-descriptor'] = descriptor
     end
 
-    step('make-aip') { Aip.new_from_wip self }
+    step('make-aip') do
+
+      Aip.transaction do
+        aip = Aip.new_from_wip self
+        doc = XML::Document.string(aip.xml)
+        aipInPremis = AIPInPremis.new
+        aipInPremis.process doc
+      end
+
+    end
+
   end
 
 end

@@ -16,7 +16,7 @@ class Datafile < Pobject
   include DataMapper::Resource
 
   property :id, String, :key => true, :length => 100
-  property :size, Integer, :min => 0, :max => 2**20,  :required => true
+  property :size, Integer, :min => 0,  :required => true
   property :create_date, DateTime
   property :origin, String, :length => 10, :required => true # :default => ORIGIN_UNKNOWN,
     # the value of the origin is validated by the check_origin method
