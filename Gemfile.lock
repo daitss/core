@@ -15,7 +15,7 @@ dependencies:
   dm-mysql-adapter: 
     group: 
     - :default
-    version: ">= 1.0.0.rc3"
+    version: ~> 1.0.0
   rspec: 
     group: 
     - :test
@@ -25,11 +25,11 @@ dependencies:
   dm-postgres-adapter: 
     group: 
     - :default
-    version: ">= 1.0.0.rc3"
+    version: ~> 1.0.0
   data_mapper: 
     group: 
     - :default
-    version: ">= 1.0.0.rc3"
+    version: ~> 1.0.0
   sinatra: 
     group: 
     - :default
@@ -43,7 +43,7 @@ dependencies:
   dm-sqlite-adapter: 
     group: 
     - :default
-    version: ">= 1.0.0.rc3"
+    version: ~> 1.0.0
   rack-test: 
     group: 
     - :test
@@ -62,41 +62,45 @@ specs:
 - extlib: 
     version: 0.9.15
 - dm-core: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - dm-aggregates: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - dm-migrations: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - dm-constraints: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - fastercsv: 
     version: 1.5.3
 - json_pure: 
     version: 1.4.3
 - dm-serializer: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - dm-timestamps: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - dm-transactions: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - stringex: 
     version: 1.1.0
 - uuidtools: 
     version: 2.1.1
 - dm-types: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - dm-validations: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - data_mapper: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - rjb: 
-    version: 1.2.3
+    version: 1.2.5
 - jxmlvalidator: 
     version: 0.1.1
 - libxml-ruby: 
     version: 1.1.4
+- libxslt-ruby: 
+    version: 0.9.7
 - semver: 
     version: 0.2.1
+- schematron: 
+    version: 1.1.1
 - sys-proctable: 
     version: 0.9.0
 - daitss: 
@@ -104,19 +108,19 @@ specs:
 - data_objects: 
     version: 0.10.2
 - dm-do-adapter: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - do_mysql: 
     version: 0.10.2
 - dm-mysql-adapter: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - do_postgres: 
     version: 0.10.2
 - dm-postgres-adapter: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - do_sqlite3: 
     version: 0.10.2
 - dm-sqlite-adapter: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - linecache: 
     version: "0.43"
 - rack: 
@@ -131,7 +135,7 @@ specs:
     version: 0.10.3
 - sinatra: 
     version: "1.0"
-hash: f5502c8b1fff54324b50824f9339bcccfa964cda
+hash: 0b204b9456fb3638b326b701c6463096ba72ca81
 sources: 
 - Rubygems: 
     uri: http://rubygems.org
