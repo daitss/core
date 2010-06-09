@@ -15,8 +15,9 @@ spec = Gem::Specification.new do |spec|
   spec.files += Dir["templates/**/*"]
   spec.files += Dir["stron/**/*"]
   spec.files << "bin/daitss"
+  spec.files << "bin/ingest"
 
-  spec.executables = ['daitss']
+  spec.executables = ['daitss', 'ingest']
 
   spec.add_bundler_dependencies
 end
