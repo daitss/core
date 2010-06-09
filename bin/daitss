@@ -33,6 +33,8 @@ module Daitss
 
   class CLI < Thor
 
+    include Daitss
+
     desc "init", "Initialize a daitss installation in the current working directory"
     method_options :uri => 'sqlite:database.sqlite'
     def init
@@ -143,6 +145,15 @@ module Daitss
 
       DataMapper.setup :default, uri
       DataMapper.auto_migrate!
+
+      # add default account, project, operator
+      fda_account = add_account
+      act_account = add_account "ACT", "ACT"
+
+      fda_project = add_project fda_account
+      prj_account = add_project act_account, "PRJ", "PRJ"
+
+      add_operator fda_account
     end
 
     def mkdirs
