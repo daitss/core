@@ -123,6 +123,7 @@ get '/package/:id' do |id|
   @aip = Aip.first :id => id
   @bin = StashBin.all.find { |b| File.exist? File.join(b.path, id) }
   @stashed_wip = @bin.wips.find { |w| w.id == id } if @bin
+  @bins = StashBin.all
   haml :package
 end
 
