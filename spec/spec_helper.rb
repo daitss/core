@@ -14,6 +14,7 @@ require "help/test_stack"
 require "help/test_package"
 require "help/sandbox"
 require "help/profile"
+require "help/agreement"
 
 Spec::Runner.configure do |config|
 
@@ -23,8 +24,10 @@ Spec::Runner.configure do |config|
     $sandbox = new_sandbox
     FileUtils::mkdir $sandbox
 
+    #DataMapper::Logger.new($stdout, :debug)
     DataMapper.setup(:default, Daitss::CONFIG["database-url"])
     DataMapper.auto_migrate!
+    setup_agreement
   end
 
   config.after :all do
