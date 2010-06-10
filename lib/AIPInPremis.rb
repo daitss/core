@@ -3,7 +3,7 @@ require 'daitss2.rb'
 require 'ruby-prof'
 
 class AIPInPremis
-  def initialize 
+  def initialize
     @datafiles = Hash.new
     @bitstreams = Hash.new
     @formats = Hash.new
@@ -24,7 +24,7 @@ class AIPInPremis
   def process aipxml
     @doc = aipxml
 
-    # create an new intentities or locate the existing int entities for the int entity object in the aip descriptior.  
+    # create an new intentities or locate the existing int entities for the int entity object in the aip descriptior.
     processIntEntity
 
     # find the agreement for the int entity
@@ -33,13 +33,13 @@ class AIPInPremis
     # process all premis file objects
     processDatafiles
 
-    # extract all premis representations 
-    processRepresentations    
+    # extract all premis representations
+    processRepresentations
 
-    # process all premis bitstreams 
+    # process all premis bitstreams
     processBitstreams
 
-    # process all premis agents 
+    # process all premis agents
     processAgents
 
     # process all premis events
@@ -53,7 +53,7 @@ class AIPInPremis
       relationships.each do |relationship|
         processRelationship(dfid, relationship)
       end
-    end 
+    end
 
     toDB
   end
@@ -61,17 +61,21 @@ class AIPInPremis
   def processIntEntity
     @int_entity = Intentity.new
     @int_entity.fromAIP @doc
-    # check if this is an existing int entity, if not create a new int entity object with 
-    # the read-in premis info.  Otheriwse, destroy the existing int entity records in the database 
-    # including all related datafiles, representations, events and agents. 
-    entities = Intentity.all(:id => @int_entity.id)  
+    # check if this is an existing int entity, if not create a new int entity object with
+    # the read-in premis info.  Otheriwse, destroy the existing int entity records in the database
+    # including all related datafiles, representations, events and agents.
+    entities = Intentity.all(:id => @int_entity.id)
     entities.each do |entity|
-      # start database traction for deleting the associated record for the aip.  If there is any failure during database save, 
+      # start database traction for deleting the associated record for the aip.
+      # If there is any failure during database save,
       # datamapper automatically rollback the change.
       Intentity.transaction do
-        # destroy all files in the int entities 
+        # destroy all files in the int entities
         dfs = Datafile.all(:intentity_id => entity.id)
-        raise "error deleting datafile #{df.inspect}" unless df.destroy
+        dfs.each do |df|
+          raise "error deleting datafile #{df.inspect}" unless df.destroy
+        end
+
       end
       raise "error deleting entity #{entity.inspect}" unless entity.destroy
     end
@@ -102,9 +106,9 @@ class AIPInPremis
       files.each do |f|
         dfid = f.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
         df = @datafiles[dfid]
-        df.setRepresentations(rep_id)  unless df.nil? 
+        df.setRepresentations(rep_id)  unless df.nil?
       end
- 
+
     end
 
     # set the origin of all datafiles by deriving the origin information from their associations with representations
@@ -125,7 +129,7 @@ class AIPInPremis
         @datafiles[df.id] = df
         @int_entity.datafiles << df
       end
-      
+
     end
   end
 
@@ -135,7 +139,7 @@ class AIPInPremis
     bitObjects.each do |obj|
       bs = Bitstream.new
       bs.fromPremis(obj, @formats)
-      @bitstreams[bs.id] = bs 
+      @bitstreams[bs.id] = bs
     end
   end
 
@@ -165,7 +169,7 @@ class AIPInPremis
       df = @datafiles[id.content] unless id.nil?
 
       agent_id = obj.find_first("premis:linkingAgentIdentifier/premis:linkingAgentIdentifierValue", NAMESPACES)
-      agent = @agents[agent_id.content] unless agent_id.nil?   
+      agent = @agents[agent_id.content] unless agent_id.nil?
 
       if df  #first check if this event is linked to a file object
         event = DatafileEvent.new
@@ -201,7 +205,7 @@ class AIPInPremis
       # for derived relationships such as normalization and migration.
       if (type.eql?("derivation") && subtype.eql?("has source"))
         unless (event.nil?)
-          relationship = Relationship.new      
+          relationship = Relationship.new
           relationship.fromPremis(dfid, event.e_type, relationship_element)
           @relationships << relationship
         end
