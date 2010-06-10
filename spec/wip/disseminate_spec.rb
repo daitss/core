@@ -57,6 +57,14 @@ describe Wip do
       File.exist?(path).should be_true
     end
 
+    it "should have an IntEntity in the db" do
+      ie = Intentity.get(subject.uri)
+      ie.should_not be_nil
+      ie.should have(subject.all_datafiles.size).datafiles
+      es = Event.all :e_type => :disseminate, :relatedObjectId => subject.uri
+      es.should have(1).item
+    end
+
   end
 
   describe "after multiple disseminations" do
