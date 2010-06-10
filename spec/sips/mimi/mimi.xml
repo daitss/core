@@ -30,6 +30,18 @@
     </mdWrap>
   </dmdSec>
 
+  <amdSec>
+    <digiprovMD ID="DPMD-0">
+      <mdWrap MDTYPE="OTHER" OTHERMDTYPE="DAITSS">
+        <xmlData>
+          <daitss xmlns="http://www.fcla.edu/dls/md/daitss/">
+            <AGREEMENT_INFO ACCOUNT="ACT" PROJECT="PRJ"/>
+          </daitss>
+        </xmlData>
+      </mdWrap>
+    </digiprovMD>
+  </amdSec>
+
   <fileSec>
     <fileGrp>
       <file ID="FILE-0" CHECKSUM="71b89cf0f36ee34f3e77c409928da62d7a3004bf" CHECKSUMTYPE="SHA-1">

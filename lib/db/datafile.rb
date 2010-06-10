@@ -16,7 +16,7 @@ class Datafile < Pobject
   include DataMapper::Resource
 
   property :id, String, :key => true, :length => 100
-  property :size, Integer, :min => 0, :max => 2**20,  :required => true
+  property :size, Integer, :min => 0,  :required => true
   property :create_date, DateTime
   property :origin, String, :length => 10, :required => true # :default => ORIGIN_UNKNOWN,
     # the value of the origin is validated by the check_origin method
@@ -127,14 +127,12 @@ class Datafile < Pobject
 
   # delete this datafile record and all its children from the database
   def deleteChildren
-    puts "delete datafiles #{self.inspect}"
     # delete all events associated with this datafile
     dfevents = Event.all(:relatedObjectId => @id)
     dfevents.each do |e|
       # delete all relationships associated with this event
       rels = Relationship.all(:event_id => e.id)
       rels.each {|rel| raise "error deleting relationship #{rel.inspect}" unless rel.destroy}
-      puts e.inspect
       raise "error deleting event #{e.inspect}" unless e.destroy
     end
   end

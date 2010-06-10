@@ -3,6 +3,8 @@ require 'wip'
 require 'aip'
 require 'wip/ingest'
 
+require 'db/int_entity'
+
 describe Wip do
 
   describe "that wont ingest" do
@@ -37,6 +39,12 @@ describe Wip do
     it "should have an ingest agent" do
       doc = XML::Document.string @wip['aip-descriptor']
       doc.find("//P:agent/P:agentName = 'daitss ingest'", NS_PREFIX).should be_true
+    end
+
+    it "should have an IntEntity in the db" do
+      ie = Intentity.get(@wip.uri)
+      ie.should_not be_nil
+      ie.should have(@wip.all_datafiles.size).datafiles
     end
 
     describe "the resulting aip" do
