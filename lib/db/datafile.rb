@@ -127,14 +127,12 @@ class Datafile < Pobject
 
   # delete this datafile record and all its children from the database
   def deleteChildren
-    puts "delete datafiles #{self.inspect}"
     # delete all events associated with this datafile
     dfevents = Event.all(:relatedObjectId => @id)
     dfevents.each do |e|
       # delete all relationships associated with this event
       rels = Relationship.all(:event_id => e.id)
       rels.each {|rel| raise "error deleting relationship #{rel.inspect}" unless rel.destroy}
-      puts e.inspect
       raise "error deleting event #{e.inspect}" unless e.destroy
     end
   end
