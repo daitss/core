@@ -28,7 +28,6 @@ class Aip
   property :copy_sha1, String, :length => 40, :format => %r([a-f0-9]{40}), :required => true
   property :copy_md5, String, :length => 40, :format => %r([a-f0-9]{32}), :required => true
   property :copy_size, Integer, :min => 1, :required => true
-  property :needs_work, Boolean, :required => true
   property :datafile_count, Integer, :min => 1, :required => true
 
   # TODO get this working, rjb doesn't like being forked
