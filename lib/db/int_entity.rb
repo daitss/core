@@ -52,7 +52,6 @@ class Intentity
       # delete all relationships associated with this event
       rels = Relationship.all(:event_id => e.id)
       rels.each {|rel| rel.destroy}
-      puts e.inspect
       e.destroy
     end
   end
