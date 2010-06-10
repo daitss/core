@@ -23,16 +23,6 @@ describe Wip do
   describe "that is ingested" do
 
     before :all do
-
-      account = Account.new :name => 'the account', :code => 'ACT'
-      account.save or raise "cannot save account"
-
-      agent = Program.new :identifier => 'Bureaucrat', :account => account
-      agent.save or raise "cannot save agent"
-
-      project = Project.new :name => 'the project', :code => 'PRJ', :account => account
-      project.save or raise "cannot save project"
-
       @wip = submit 'mimi'
       @wip.ingest!
     end
@@ -52,7 +42,9 @@ describe Wip do
     end
 
     it "should have an IntEntity in the db" do
-      Intentity.get(@wip.uri).should_not be_nil
+      ie = Intentity.get(@wip.uri)
+      ie.should_not be_nil
+      ie.should have(@wip.all_datafiles.size).datafiles
     end
 
     describe "the resulting aip" do
