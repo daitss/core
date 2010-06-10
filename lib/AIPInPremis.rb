@@ -69,14 +69,12 @@ class AIPInPremis
       # start database traction for deleting the associated record for the aip.
       # If there is any failure during database save,
       # datamapper automatically rollback the change.
-      Intentity.transaction do
         # destroy all files in the int entities
         dfs = Datafile.all(:intentity_id => entity.id)
         dfs.each do |df|
           raise "error deleting datafile #{df.inspect}" unless df.destroy
         end
 
-      end
       raise "error deleting entity #{entity.inspect}" unless entity.destroy
     end
   end

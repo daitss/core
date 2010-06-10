@@ -45,6 +45,7 @@ class Aip
       raise mio.string
     end
 
+    aip
   end
 
   private

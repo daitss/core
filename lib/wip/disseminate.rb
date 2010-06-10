@@ -40,7 +40,14 @@ class Wip
     end
 
     step('update-aip') do
-      Aip::update_from_wip self
+
+      Aip.transaction do
+        aip = Aip.update_from_wip self
+        doc = XML::Document.string(aip.xml)
+        aipInPremis = AIPInPremis.new
+        aipInPremis.process doc
+      end
+
     end
 
     step('deliver-dip') do
