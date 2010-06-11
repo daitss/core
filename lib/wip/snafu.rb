@@ -26,7 +26,7 @@ class Wip
 
     if snafu?
       tags.delete 'snafu'
-      tags.delete 'process'
+      tags.delete 'process' if tags.has_key? 'process'
     else
       raise "cannot unsnafu a non-snafu package"
     end
