@@ -1,6 +1,5 @@
 require 'xml'
 require 'daitss2.rb'
-require 'ruby-prof'
 
 class AIPInPremis
   def initialize
