@@ -112,12 +112,12 @@ module Daitss
 
       opts_str = if opts['daemonize']
                   opts.delete('daemonize')
-                  "--daemonize" + opts.to_s
+                  "--daemonize " + opts.to_s
                 else
                   opts.to_s
                 end
 
-      system "thin --daemonize #{opts_str} #{command}"
+      system "thin #{opts_str} #{command}"
     end
 
     def unless_exist path
