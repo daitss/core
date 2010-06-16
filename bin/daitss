@@ -105,7 +105,7 @@ module Daitss
       end
 
       opts_str = if opts['daemonize']
-                  opts.delete['daemonize']
+                  opts.delete('daemonize')
                   "--daemonize" + opts.to_s
                 else
                   opts.to_s
