@@ -3,11 +3,12 @@ require 'daitss/config'
 require 'aip'
 
 namespace :db do
+  require 'daitss2'
+  DataMapper::Logger.new STDOUT, :debug
+  Daitss::CONFIG.load_from_env
 
   desc 'setup the database'
   task :setup do
-    require 'daitss2'
-    DataMapper::Logger.new STDOUT, :debug
     DataMapper.setup :default, Daitss::CONFIG['database-url']
   end
 
