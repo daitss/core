@@ -62,7 +62,7 @@ helpers do
     end
 
     unless Net::HTTPSuccess === res
-      error res.status, res.body
+      error res.code, res.body
     end
 
     doc = Nokogiri::XML res.body
