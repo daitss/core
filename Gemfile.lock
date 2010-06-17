@@ -11,7 +11,7 @@ dependencies:
   dm-mysql-adapter: 
     group: 
     - :default
-    version: ">= 1.0.0.rc3"
+    version: ~> 1.0.0
   rspec: 
     group: 
     - :test
@@ -21,11 +21,11 @@ dependencies:
   dm-postgres-adapter: 
     group: 
     - :default
-    version: ">= 1.0.0.rc3"
+    version: ~> 1.0.0
   data_mapper: 
     group: 
     - :default
-    version: ">= 1.0.0.rc3"
+    version: ~> 1.0.0
   webrat: 
     group: 
     - :test
@@ -37,7 +37,7 @@ dependencies:
   dm-sqlite-adapter: 
     group: 
     - :default
-    version: ">= 1.0.0.rc3"
+    version: ~> 1.0.0
   rack-test: 
     group: 
     - :test
@@ -68,43 +68,43 @@ specs:
 - trollop: 
     version: 1.16.2
 - gherkin: 
-    version: 1.0.30
+    version: 2.0.2
 - json_pure: 
     version: 1.4.3
 - term-ansicolor: 
     version: 1.0.5
 - cucumber: 
-    version: 0.7.3
+    version: 0.8.3
 - extlib: 
     version: 0.9.15
 - dm-core: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - dm-aggregates: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - dm-migrations: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - dm-constraints: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - fastercsv: 
     version: 1.5.3
 - dm-serializer: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - dm-timestamps: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - dm-transactions: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - stringex: 
     version: 1.1.0
 - uuidtools: 
     version: 2.1.1
 - dm-types: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - dm-validations: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - data_mapper: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - rjb: 
-    version: 1.2.3
+    version: 1.2.5
 - jxmlvalidator: 
     version: 0.1.1
 - libxml-ruby: 
@@ -117,24 +117,26 @@ specs:
     version: 1.1.1
 - sys-proctable: 
     version: 0.9.0
+- thor: 
+    version: 0.13.6
 - daitss: 
     version: 0.2.0
 - data_objects: 
     version: 0.10.2
 - dm-do-adapter: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - do_mysql: 
     version: 0.10.2
 - dm-mysql-adapter: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - do_postgres: 
     version: 0.10.2
 - dm-postgres-adapter: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - do_sqlite3: 
     version: 0.10.2
 - dm-sqlite-adapter: 
-    version: 1.0.0.rc3
+    version: 1.0.0
 - haml: 
     version: 2.2.24
 - linecache: 
@@ -142,7 +144,7 @@ specs:
 - nokogiri: 
     version: 1.4.2
 - rack: 
-    version: 1.1.0
+    version: 1.2.1
 - rack-test: 
     version: 0.5.4
 - rspec: 
@@ -155,7 +157,7 @@ specs:
     version: "1.0"
 - webrat: 
     version: 0.7.1
-hash: 039f9ae22302a6182aa12f9fa09bd50d43aa3303
+hash: 51b9636c6582e888f41872e8d6e5b986f21e126a
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org
