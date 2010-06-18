@@ -1,21 +1,24 @@
-Event_Types = { 
-  "ingest" => :ingest,
-  "submit" => :submit,
-  "comprehensive validation" => :validate,
-  "virus check" => :viruscheck,
-  "disseminate" => :disseminate,
-  "withdraw" => :withdraw,
-  "fixity Check" => :fixitycheck,
-  "format description" => :describe,
-  "normalize" => :normalize, 
-  "migration" => :migrate,
-  "xml resolution" => :xmlresolution }
+Event_Type = ["ingest", "submit", "validate", "virus check", "disseminate", 
+  "withdraw", "fixity check", "describe", "normalize", "migrate", "xml resolution", "deletion"]
+Event_Map = { 
+  "ingest" => "ingest",
+  "submit" => "submit",
+  "comprehensive validation" => "validate",
+  "virus check" => "viruscheck",
+  "disseminate" => "disseminate",
+  "withdraw" => "withdraw",
+  "fixity Check" => "fixitycheck",
+  "format description" => "describe",
+  "normalize" => "normalize", 
+  "migration" => "migrate",
+  "xml resolution" => "xml resolution" 
+}
 
   class Event
     include DataMapper::Resource
     property :id, String, :key => true, :length => 100
     property :idType, String # identifier type
-    property :e_type, Enum[:submit, :validate, :viruscheck, :ingest, :disseminate, :withdraw, :fixitycheck, :describe, :migrate, :normalize, :xmlresolution, :deletion]
+    property :e_type, String, :length => 20, :required => true
     property :datetime, DateTime
     property :outcome, String, :length => 255   # ex. sucess, failed.  TODO:change to Enum.
     property :outcome_details, Text # additional information about the event outcome.
@@ -37,12 +40,13 @@ Event_Types = {
       attribute_set(:id, premis.find_first("premis:eventIdentifier/premis:eventIdentifierValue", NAMESPACES).content)
       attribute_set(:idType, premis.find_first("premis:eventIdentifier/premis:eventIdentifierType", NAMESPACES).content)
       type = premis.find_first("premis:eventType", NAMESPACES).content
-      attribute_set(:e_type, Event_Types[type.downcase])
+      attribute_set(:e_type, Event_Map[type.downcase])
       attribute_set(:datetime, premis.find_first("premis:eventDateTime", NAMESPACES).content)
       attribute_set(:outcome, premis.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NAMESPACES).content)
     end
 
   end
+
   class IntentityEvent < Event
     before :save do
       #TODO implement validation of objectID, making sure the objectID is a valid IntEntity

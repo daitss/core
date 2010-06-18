@@ -1,13 +1,14 @@
-Agent_Types = { 
-  "web service" => :software,
-  "software" => :software
+Agent_Types = ["software", "person", "organization"]
+Agent_Map = { 
+  "web service" => "software",
+  "software" => "software"
 }
 
 class Agent
   include DataMapper::Resource
   property :id, String, :key => true, :length => 255
   property :name, String, :length => 255
-  property :type, Enum[:software, :person, :organization]
+  property :type, String, :length => 20, :required => true
   property :note, Text # additional agent note which may include external tool information
 
   has 0..n, :events, :constraint => :destroy  # an agent can create 0-n events.
@@ -16,7 +17,7 @@ class Agent
     attribute_set(:id, premis.find_first("premis:agentIdentifier/premis:agentIdentifierValue", NAMESPACES).content)
     attribute_set(:name, premis.find_first("premis:agentName", NAMESPACES).content)
     type = premis.find_first("premis:agentType", NAMESPACES).content
-    attribute_set(:type, Agent_Types[type.downcase])
+    attribute_set(:type, Agent_Map[type.downcase])
     note = premis.find_first("*[local-name()='agentNote']", NAMESPACES)
     attribute_set(:note, note.content) if note
   end

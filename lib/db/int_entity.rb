@@ -63,4 +63,8 @@ class Intentity
     end
     matched
   end
+
+ after :save do
+    puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
+  end
 end

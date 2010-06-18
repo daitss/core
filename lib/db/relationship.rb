@@ -6,23 +6,24 @@
 # a reprensentation, and thus if the shapefiles representation is migrated to another collection 
 # of files, a relationship among representation would be needed. ** further analysis is needed.
 
-RELATIONSHIP_Types = { 
-  :normalize => :normalized_to,
-  :migrate => :migrated_to
+Relationship_Type = ["migrated to", "normalized to", "include", "unknown"]
+Relationship_Map = { 
+  "normalize" => "normalized to",
+  "migrate" => "migrated_to"
 }
 
 class Relationship
   include DataMapper::Resource
   property :id, Serial, :key => true  
   property :object1, String, :index => true, :length => 100
-  property :type, Enum[:migrated_to, :normalized_to, :include, :unknown], :default => :unknown
+  property :type, String, :length => 20, :required => true #:default => :unknown
   property :object2, String, :index => true, :length => 100
   property :event_id, String, :length => 100
   belongs_to :event
  
   def fromPremis(toObj, event_type, premis)
     attribute_set(:object1, premis.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content)
-    attribute_set(:type, RELATIONSHIP_Types[event_type])
+    attribute_set(:type, Relationship_Map[event_type])
     attribute_set(:object2, toObj)
     attribute_set(:event_id, premis.find_first("premis:relatedEventIdentification/premis:relatedEventIdentifierValue", NAMESPACES).content)
   end

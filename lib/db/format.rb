@@ -7,7 +7,6 @@ class Format
   property :registry_id, String # the format identifier in the registry, ex: fmt/10
   property :format_name, String, :length => 255 # common format name, ex:  "TIFF"
   property :format_version, String #format version,  ex: "5.0"
-  property :format_variation, String # format profile, ex: "GeoTiff"
   
   has 0..n, :object_format
   
