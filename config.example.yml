@@ -14,13 +14,13 @@ workspace: /tmp/ws
 stashspace: /tmp/stash
 
 # service urls
-actionplan-url: http://localhost:7000/actionplan
-description-url: http://localhost:7000/description/describe
-storage-url: http://localhost:7000/silo
-viruscheck-url: http://localhost:7000/viruscheck/
-xmlresolution-url: http://xmlresolution.dev.fcla.edu
-submission-url: http://localhost:7000/submission/
-request-url: http://localhost:7000/request/
+actionplan: http://localhost:7000/actionplan
+description: http://localhost:7000/description/describe
+storage: http://localhost:7000/silo
+viruscheck: http://localhost:7000/viruscheck/
+xmlresolution: http://xmlresolution.dev.fcla.edu
+submission: http://localhost:7000/submission/
+request: http://localhost:7000/request/
 
 # virus scanner
 virus-scanner-executable: clamscan
