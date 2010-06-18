@@ -10,7 +10,7 @@ class Request
    property :id, Serial, :key => true
    property :timestamp, DateTime, :required => true
    property :is_authorized, Boolean, :required => true
-   property :status, Enum[:enqueued, :released_to_workspace], :default => :enqueued
+   property :status, Enum[:enqueued, :released_to_workspace], :default => 1 # default => :enqueued
    property :request_type, Enum[:disseminate, :withdraw, :peek]
 
    belongs_to :operations_agent

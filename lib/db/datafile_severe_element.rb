@@ -6,4 +6,7 @@ class DatafileSevereElement
   belongs_to :datafile
   belongs_to :severe_element
   
+ after :save do
+   puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
+ end
 end

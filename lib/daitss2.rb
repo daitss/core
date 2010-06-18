@@ -6,6 +6,7 @@ require 'dm-core'
 require 'dm-types'
 require 'dm-aggregates'
 require 'dm-constraints'
+require "dm-validations"
 
 require 'db/agent'
 require 'db/audio'

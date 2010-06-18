@@ -51,4 +51,9 @@ class Audio
       raise "this audio neither associates with a datafile nor associates with a bitstream"
     end 
   end
+
+  after :save do
+    puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
+  end
+
 end
