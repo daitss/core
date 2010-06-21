@@ -17,10 +17,20 @@ class Relationship
   property :id, Serial, :key => true  
   property :object1, String, :index => true, :length => 100
   property :type, String, :length => 20, :required => true #:default => :unknown
+  	validates_with_method :type, :method => :validateType
   property :object2, String, :index => true, :length => 100
   property :event_id, String, :length => 100
   belongs_to :event
  
+  # validate the relationship type value which is a daitss defined controlled vocabulary
+  def validateType
+    if Relationship_Type.include?(@type)
+      return true
+    else
+      [ false, "value #{@type} is not a valid agent type value" ]
+    end
+  end
+
   def fromPremis(toObj, event_type, premis)
     attribute_set(:object1, premis.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content)
     attribute_set(:type, Relationship_Map[event_type])

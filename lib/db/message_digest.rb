@@ -11,17 +11,26 @@ class MessageDigest
   property :id, Serial, :key => true
   # property :dfid, String, :length => 16, :key => true # :unique_index => :u1 
   property :code, String, :length => 10 #, :key=>true, :unique_index => :u1 
+  	validates_with_method :code, :method => :validateDigestCode
   property :value,  String, :required => true, :length => 255
   property :origin, String, :length => 10, :required => true # :default => :unknown
 
   belongs_to :datafile #, :key => true#, :unique_index => :u1  the associated Datafile
 
-
-#  before :create, :check_unique_code 
+  before :create, :check_unique_code 
   
-#  def check_unique_code 
-#    MessageDigest.first(:code => code, :datafile_id => datafile_id)
-#  end
+  def check_unique_code 
+    MessageDigest.first(:code => code, :datafile_id => datafile_id)
+  end
+
+  # validate the message digest code value which is a daitss defined controlled vocabulary
+  def validateDigestCode
+    if DIGEST_CODES.include?(@code)
+      return true
+    else
+      [ false, "value #{@code} is not a valid message digest code value" ]
+    end
+  end
 
   def fromPremis(premis)
     fixities = premis.find("premis:objectCharacteristics/premis:fixity", NAMESPACES)

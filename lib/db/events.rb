@@ -4,7 +4,7 @@ Event_Map = {
   "ingest" => "ingest",
   "submit" => "submit",
   "comprehensive validation" => "validate",
-  "virus check" => "viruscheck",
+  "virus check" => "virus check",
   "disseminate" => "disseminate",
   "withdraw" => "withdraw",
   "fixity Check" => "fixitycheck",
@@ -19,6 +19,7 @@ Event_Map = {
     property :id, String, :key => true, :length => 100
     property :idType, String # identifier type
     property :e_type, String, :length => 20, :required => true
+  		validates_with_method :e_type, :method => :validateEventType
     property :datetime, DateTime
     property :outcome, String, :length => 255   # ex. sucess, failed.  TODO:change to Enum.
     property :outcome_details, Text # additional information about the event outcome.
@@ -32,6 +33,16 @@ Event_Map = {
     # datamapper return system error once this constraint is added in.  so we will delete relationship manually
     # has 0..n, :relationships, :constraint=>:destroy
 
+  	# validate the event type value which is a daitss defined controlled vocabulary
+  	def validateEventType
+      if Event_Type.include?(@e_type)
+        return true
+      else
+        [ false, "value #{@e_type} is not a valid event type value" ]
+      end
+    end
+	
+	# set related object id which could either be a datafile or an intentity object
     def setRelatedObject objid
       attribute_set(:relatedObjectId, objid)
     end 
