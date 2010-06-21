@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'ruby-debug'
-require "datamapper"
 require "daitss/config"
 require 'wip/ingest'
 require 'rjb'
