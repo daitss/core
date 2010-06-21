@@ -95,6 +95,7 @@ class Datafile < Pobject
 
   end
 
+  # validate the datafile Origin value which is a daitss defined controlled vocabulary
   def validateOrigin
       if Origin.include?(@origin)
         return true
