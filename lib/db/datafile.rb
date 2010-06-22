@@ -63,9 +63,10 @@ class Datafile < Pobject
     processFormats(self, premis, formats)
 
     # process fixity information
-    if premis.find_first("premis:objectCharacteristics/premis:fixity", NAMESPACES)
+	fixities = premis.find("premis:objectCharacteristics/premis:fixity", NAMESPACES)
+    fixities.each do |fixity|
       messageDigest = MessageDigest.new
-      messageDigest.fromPremis(premis)
+      messageDigest.fromPremis(fixity)
       self.message_digest << messageDigest
     end
 
