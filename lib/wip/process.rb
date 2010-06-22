@@ -9,7 +9,7 @@ class Wip
       p = Sys::ProcTable::ps pid.to_i
 
       if p
-        starttime.tv_sec == p.starttime.tv_sec
+        starttime.to_i == p.starttime.to_i
       else
         false
       end
