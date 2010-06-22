@@ -33,14 +33,12 @@ class MessageDigest
   end
 
   def fromPremis(premis)
-    fixities = premis.find("premis:objectCharacteristics/premis:fixity", NAMESPACES)
-    fixities.each do |fixity|
-      code = fixity.find_first("premis:messageDigestAlgorithm", NAMESPACES).content
-      attribute_set(:code, code)
-      attribute_set(:value, fixity.find_first("premis:messageDigest", NAMESPACES).content)
-      origin = fixity.find_first("premis:messageDigestOriginator", NAMESPACES)
-      attribute_set(:origin, origin.content.downcase) if origin
-    end
+	puts premis
+	code = premis.find_first("premis:messageDigestAlgorithm", NAMESPACES).content
+	attribute_set(:code, code)
+	attribute_set(:value, premis.find_first("premis:messageDigest", NAMESPACES).content)
+	origin = premis.find_first("premis:messageDigestOriginator", NAMESPACES)
+	attribute_set(:origin, origin.content.downcase) if origin
   end  
 
   after :save do
