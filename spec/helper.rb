@@ -2,20 +2,7 @@ require "rubygems"
 require "bundler"
 Bundler.setup
 
-require 'db/int_entity'
-require 'db/datafile'
-require 'db/datafile_severe_element'
-require 'db/severe_element'
-require 'db/objectformat'
-require 'db/format'
-require 'db/document'
-require 'db/brokenlinks'
-require 'db/image'
-require 'db/text'
-require 'db/bitstream'
-require 'db/message_digest'
-require 'db/audio'
-require 'db/sip'
+require 'daitss2'
 
 def add_account name = "FDA", code = "FDA"
 
