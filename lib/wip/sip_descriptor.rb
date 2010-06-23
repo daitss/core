@@ -77,4 +77,8 @@ class Wip
 
   end
 
+  def sip_descriptor_obj_id
+    sip_descriptor_doc.root.attributes["OBJID"]
+  end
+
 end
