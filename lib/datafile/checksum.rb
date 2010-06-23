@@ -30,13 +30,12 @@ class DataFile
   private
 
   def infer s
-
-    case s
-    when %r{[a-fA-F0-9]{40}} then Digest::MD5.hexdigest io.read
-    when %r{[a-fA-F0-9]{32}} then  Digest::SHA1.hexdigest io.read
-    else raise "Missing checksum type: Provided checksum: #{s}"
+    action_md = open do |io|
+      case s
+        when %r{^[a-fA-F0-9]{32}$} then Digest::MD5.hexdigest io.read
+        when %r{^[a-fA-F0-9]{40}$} then  Digest::SHA1.hexdigest io.read
+        else s
+      end
     end
-
   end
-
 end
