@@ -33,7 +33,6 @@ class MessageDigest
   end
 
   def fromPremis(premis)
-	puts premis
 	code = premis.find_first("premis:messageDigestAlgorithm", NAMESPACES).content
 	attribute_set(:code, code)
 	attribute_set(:value, premis.find_first("premis:messageDigest", NAMESPACES).content)

@@ -26,5 +26,7 @@ class ObjectFormat
      
   after :save do
     puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
+	puts format.valid?
+	format.errors.to_a
   end
 end
