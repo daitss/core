@@ -87,6 +87,7 @@ Event_Map = {
           processAnomalies(nodes)
           nodes = detailsExtension.find("premis:broken_link", NAMESPACES)
           unless (nodes.empty?)
+			puts detailsExtension
             brokenlink = BrokenLink.new
             brokenlink.fromPremis(@df, detailsExtension)
           end
@@ -105,7 +106,6 @@ Event_Map = {
         # if it's has not processed earlier, use the existing anomaly record 
         # in the database if we have seen this anomaly before
         existinganomaly = Anomaly.first(:name => anomaly.name) if existinganomaly.nil?
-
         dfse = DatafileSevereElement.new
         @df.datafile_severe_element << dfse
         if existinganomaly
