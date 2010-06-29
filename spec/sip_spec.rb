@@ -15,7 +15,7 @@ describe Sip do
     Daitss::CONFIG.load_from_env
 
     DataMapper.setup(:default, Daitss::CONFIG['database-url'])
-    #DataMapper.auto_migrate!
+    DataMapper.auto_migrate!
   end
 
   it "should create sip from zip file" do
