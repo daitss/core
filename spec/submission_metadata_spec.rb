@@ -82,4 +82,16 @@ describe Wip do
 
     wip["package-valid-event"].should_not be_nil
   end
+
+  #TODO: xpaths for a more thourough test
+  it "should create an event for deleted datafile event" do
+    wip_path = extract_wip_to_workspace NORMAL_WIP
+    wip = Wip.new wip_path
+
+    datafile = wip.original_datafiles.first
+
+    wip.add_deleted_datafile_event datafile
+
+    wip["deleted-undescribed-file-#{datafile.id}"].should_not be_nil
+  end
 end
