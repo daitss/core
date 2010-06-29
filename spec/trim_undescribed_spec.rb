@@ -38,17 +38,30 @@ describe Wip do
     wip_path = extract_wip_to_workspace NORMAL_WIP
     wip = Wip.new wip_path
 
-    wip.trim_undescribed_datafiles
-    puts `find #{wip.path}`
+    datafiles_path = File.join wip.path, "files", "original"
+
+    wip.trim_undescribed_datafiles.should == 0
+    Dir.entries(datafiles_path).length.should == 4
   end
 
   it "should delete any files that are undescribed in sip descriptor" do
     wip_path = extract_wip_to_workspace TWO_UNDESCRIBED_FILES
-
     wip = Wip.new wip_path
 
+    datafiles_path = File.join wip.path, "files", "original"
+
     wip.trim_undescribed_datafiles.should == 2
-    puts `find #{wip.path}`
+    Dir.entries(datafiles_path).length.should == 4
+  end
+
+  it "should write a premis event for each deleted undescribed file" do
+    wip_path = extract_wip_to_workspace TWO_UNDESCRIBED_FILES
+    wip = Wip.new wip_path
+
+    expected_metadata_pattern = File.join wip.path, "metadata", "deleted-undescribed-file-*"
+
+    wip.trim_undescribed_datafiles
+    Dir.glob(expected_metadata_pattern).length.should == 2
   end
 
 end
