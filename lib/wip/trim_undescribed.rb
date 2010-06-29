@@ -9,19 +9,19 @@ class Wip
   def trim_undescribed_datafiles
     described = described_datafiles
     package_name = metadata["sip-name"]
-    delete_count = 0
+    deleted_count = 0
 
     original_datafiles.each do |datafile|
       unless described.include? datafile or datafile["sip-path"] =~ /^#{package_name}.xml$/i
+        add_deleted_datafile_event datafile
         delete_datafile datafile
-        # create event for datafile deletion
-        
-        delete_count += 1
+        deleted_count += 1
+
       end
 
     end
 
-    return delete_count
+    return deleted_count
   end
 
   private
