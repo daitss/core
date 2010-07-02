@@ -63,30 +63,17 @@ def zip_package path_to_package
   return zip_path
 end
 
-# returns md5 checksum sum of file at path_to_zip
-
-def md5 path_to_zip
-  md5 = Digest::MD5.new
-  
-  File.open(path_to_zip) do |file|
-    md5 << file.read
-  end
-
-  return md5.hexdigest
-end
-
 # calls curl to submit package to service
 
-def submit_to_svc url, path_to_zip, package_name, md5, username, password
-  output = `curl -X POST -H "CONTENT_MD5:#{md5}" -H "X_PACKAGE_NAME:#{package_name}" -H "CONTENT_TYPE:application/tar" -u #{username}:#{password} -H "X_ARCHIVE_TYPE:tar" -T "#{path_to_zip}" -v #{url} 2>&1`
+def submit_to_svc url, path_to_zip, package_name, username, password
+  output = `curl -X POST -H "X_PACKAGE_NAME:#{package_name}" -u #{username}:#{password} -T "#{path_to_zip}" -v #{url} 2>&1`
 
   return output
 end
 
 config = get_options(ARGV) or exit
 zipfile = zip_package config.package
-md5_of_zipfile = md5 zipfile
-curl_output = submit_to_svc config.url, zipfile, config.package_name, md5_of_zipfile, config.username, config.password
+curl_output = submit_to_svc config.url, zipfile, config.package_name, config.username, config.password
 FileUtils.rm_rf zipfile
 
 if curl_output =~ /X_IEID:/
