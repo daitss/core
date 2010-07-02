@@ -2,35 +2,43 @@ require 'helper'
 
 require 'package_submitter'
 require 'fileutils'
-require 'libxml'
-require 'old_ieid'
 require 'daitss/config'
 
 include Daitss
 
 describe PackageSubmitter do
 
-  ZIP_SIP = "spec/test-sips/ateam.zip"
-  TAR_SIP = "spec/test-sips/ateam.tar"
-  ZIP_SIP_NODIR = "spec/test-sips/ateam-nodir.zip"
-  TAR_SIP_NODIR = "spec/test-sips/ateam-nodir.tar"
-  ZIP_NO_DESCRIPTOR = "spec/test-sips/ateam-nodesc.zip"
-  ZIP_DMD_METADATA = "spec/test-sips/ateam-dmd.zip"
-  ZIP_BROKEN_DESCRIPTOR = "spec/test-sips/ateam-broken-descriptor.zip"
-  ZIP_BAD_PROJECT = "spec/test-sips/ateam-bad-project"
-  ZIP_BAD_ACCOUNT = "spec/test-sips/ateam-bad-account"
-  ZIP_NO_CONTENT_FILES = "spec/test-sips/ateam-missing-contentfile.zip"
-  ZIP_CHECKSUM_MISMATCH = "spec/test-sips/ateam-checksum-mismatch.zip"
-  ZIP_INVALID_DESCRIPTOR = "spec/test-sips/ateam-invalid-descriptor.zip"
-  ZIP_UNKNOWN_CHECKSUM_TYPE = "spec/test-sips/ateam-unknown-checksum-type.zip"
-  ZIP_MISSING_CHECKSUM = "spec/test-sips/ateam-missing-checksum.zip"
+  REPO_ROOT = File.join File.dirname(__FILE__), ".."
+
+  ZIP_SIP = File.join(REPO_ROOT, "spec", "test-sips", "ateam.zip")
+  TAR_SIP = File.join(REPO_ROOT, "spec", "test-sips", "ateam.tar")
+  ZIP_SIP_NODIR = File.join(REPO_ROOT, "spec", "test-sips", "ateam-nodir.zip")
+  TAR_SIP_NODIR = File.join(REPO_ROOT, "spec", "test-sips", "ateam-nodir.tar")
+  ZIP_NO_DESCRIPTOR = File.join(REPO_ROOT, "spec", "test-sips", "ateam-nodesc.zip")
+  ZIP_DMD_METADATA = File.join(REPO_ROOT, "spec", "test-sips", "ateam-dmd.zip")
+  ZIP_BROKEN_DESCRIPTOR = File.join(REPO_ROOT, "spec", "test-sips", "ateam-broken-descriptor.zip")
+  ZIP_BAD_PROJECT = File.join(REPO_ROOT, "spec", "test-sips", "ateam-bad-project.zip")
+  ZIP_BAD_ACCOUNT = File.join(REPO_ROOT, "spec", "test-sips", "ateam-bad-account.zip")
+  ZIP_NO_CONTENT_FILES = File.join(REPO_ROOT, "spec", "test-sips", "ateam-missing-contentfile.zip")
+  ZIP_CHECKSUM_MISMATCH = File.join(REPO_ROOT, "spec", "test-sips", "ateam-checksum-mismatch.zip")
+  ZIP_INVALID_DESCRIPTOR = File.join(REPO_ROOT, "spec", "test-sips", "ateam-invalid-descriptor.zip")
+  ZIP_UNKNOWN_CHECKSUM_TYPE = File.join(REPO_ROOT, "spec", "test-sips", "ateam-unknown-checksum-type.zip")
+  ZIP_MISSING_CHECKSUM = File.join(REPO_ROOT, "spec", "test-sips", "ateam-missing-checksum.zip")
+  ZIP_LONG_PACKAGE_NAME = File.join(REPO_ROOT, "spec", "test-sips", "ateam-long-package-name.zip")
+  ZIP_INVALID_CHAR_IN_NAME = File.join(REPO_ROOT, "spec", "test-sips", "ateam-invalid-char-in-name.zip")
+  ZIP_NO_DESCRIBED_CONTENT_FILE = File.join(REPO_ROOT, "spec", "test-sips", "ateam-no-described-content-file.zip")
+  ZIP_OBJID_MISMATCH = File.join(REPO_ROOT, "spec", "test-sips", "ateam-objid-mismatch.zip")
+  ZIP_INVALID_DATAFILE_NAME = File.join(REPO_ROOT, "spec", "test-sips", "ateam-invalid-datafile-name.zip")
+  ZIP_MULTIPLE_PROBLEMS = File.join(REPO_ROOT, "spec", "test-sips", "ateam-multiple-problems.zip")
   NOT_VALID_ARCHIVE = __FILE__
 
   before(:each) do
     CONFIG.load_from_env
 
-    DataMapper.setup(:default, "sqlite3://#{Dir.pwd}/data/submission_svc_test.db")
+    DataMapper.setup(:default, CONFIG['database-url'])
     DataMapper.auto_migrate!
+
+    @workspace = Workspace.new CONFIG['workspace']
 
     a = add_account "ACT", "ACT"
     add_project a
@@ -39,301 +47,397 @@ describe PackageSubmitter do
 
     b = add_account "UF", "UF"
     add_contact b, [], "bernie", "bernie"
+    add_operator b, "op2", "op2"
 
     LibXML::XML.default_keep_blanks = false
+
+    @ieid = rand(1000).to_s
   end
 
   after(:each) do
-    FileUtils.rm_rf Dir.glob(File.join(CONFIG['workspace'], "*")) if CONFIG['workspace'].length > 0
+    FileUtils.rm_rf File.join(@workspace.path, @ieid)
   end
 
-  it "should raise error on create AIP from ZIP file if WORKSPACE is not set to a valid dir" do
-    CONFIG['workspace'] = ""
+  it "should create a success submission operations event for a good zipped sip" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_SIP
 
-    lambda { PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error
+    PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent
+    
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: success/
+  end
+  
+  it "should put wip in workspace for a good zipped sip" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_SIP
+
+    PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent
+
+    wip = Wip.new File.join(@workspace.path, @ieid)
+    wip.original_datafiles.length.should == 2
+    wip["sip-name"].should == "ateam"
   end
 
-  it "should raise error on create AIP from TAR file if WORKSPACE is not set to a valid dir" do
-    CONFIG['workspace'] = ""
+  # TODO: make test more thorough by checking contents against an xpath
+  it "should create submission premis metadata for a good zipped sip" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_SIP
 
-    lambda { PackageSubmitter.submit_sip :tar, TAR_SIP, "ateam", "0.0.0.0", "cccccccccccccccccccccccccccccccc" }.should raise_error
+    PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent
+
+    wip = Wip.new File.join(@workspace.path, @ieid)
+
+    wip["submit-agent"].should_not be_nil
+    wip["submit-agent-account"].should_not be_nil
+    wip["submit-event"].should_not be_nil
+    wip["accept-event"].should_not be_nil
+    wip["package-valid-event"].should_not be_nil
   end
 
-  it "should submit a package creating a wip with submission event from a tar-extracted SIP, a PT event, submit step, and a new row in the sip table" do
-    ieid = OldIeid.get_next
-    PackageSubmitter.submit_sip :tar, TAR_SIP, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid
-    now = DateTime.now
+  it "should associate submitted sip record with project for a good zipped sip" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_SIP
 
-    wip = Wip.new File.join(CONFIG['workspace'], ieid)
+    PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent
 
-    wip.original_datafiles.each do |datafile|
-      (["ateam.tiff", "ateam.xml"].include? datafile.metadata["sip-path"]).should == true
-    end
+    wip = Wip.new File.join(@workspace.path, @ieid)
 
-    wip.metadata["sip-name"].should == "ateam"
-
-    event_doc = LibXML::XML::Document.string wip.metadata["submit-event"]
-    validation_doc = LibXML::XML::Document.string wip.metadata["package-valid-event"]
-    agent_doc = LibXML::XML::Document.string wip.metadata["submit-agent"]
-
-    (event_doc.find_first "//xmlns:eventOutcome", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "success"
-    (event_doc.find_first "//xmlns:eventType", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "submit"
-    (event_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == CONFIG["uri-prefix"] + ieid
-
-    (validation_doc.find_first "//xmlns:eventOutcome", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "success"
-    (validation_doc.find_first "//xmlns:eventType", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "package valid"
-    (validation_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == CONFIG["uri-prefix"] + ieid
-
-    event_linking_agent = event_doc.find_first("//xmlns:linkingAgentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
-    agent_identifier = agent_doc.find_first("//xmlns:agentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
-
-    event_linking_agent.should == agent_identifier
-
-    sip = SubmittedSip.first(:ieid => ieid)
-
-    sip.should_not be_nil
-    sip.package_name.should == "ateam"
-    sip.package_size.should == 923328
-    sip.number_of_datafiles.should == 2
-    sip.project.code.should == "PRJ"
-
-    submission_event = sip.operations_events.first(:event_name => "Package Submission")
-
-    submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.should be_close(now, 1.0)
-    submission_event.operations_agent.identifier.should == "operator"
-    submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: tar, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: success"
-    File.exists?(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == true
-    File.read(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == "ingest"
+    sip_record = SubmittedSip.first(:ieid => @ieid)
+    sip_record.project.code.should == wip["dmd-project"]
   end
 
-  it "should submit a package creating a wip with submission event from a zip-extracted SIP" do
-    ieid = OldIeid.get_next
-    PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid
-    now = DateTime.now
+  it "should create a wip task for a good zipped sip" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_SIP
 
-    wip = Wip.new File.join(CONFIG['workspace'], ieid.to_s)
+    PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent
 
-    wip.original_datafiles.each do |datafile|
-      (["ateam.tiff", "ateam.xml"].include? datafile.metadata["sip-path"]).should == true
-    end
-
-    wip.metadata["sip-name"].should == "ateam"
-
-    event_doc = LibXML::XML::Document.string wip.metadata["submit-event"]
-    validation_doc = LibXML::XML::Document.string wip.metadata["package-valid-event"]
-    agent_doc = LibXML::XML::Document.string wip.metadata["submit-agent"]
-
-    (event_doc.find_first "//xmlns:eventOutcome", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "success"
-    (event_doc.find_first "//xmlns:eventType", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "submit"
-    (event_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == CONFIG["uri-prefix"] + ieid
-
-    (validation_doc.find_first "//xmlns:eventOutcome", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "success"
-    (validation_doc.find_first "//xmlns:eventType", "xmlns" => "info:lc/xmlns/premis-v2").content.should == "package valid"
-    (validation_doc.find_first "//xmlns:linkingObjectIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content.should == CONFIG["uri-prefix"] + ieid
-
-    event_linking_agent = event_doc.find_first("//xmlns:linkingAgentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
-    agent_identifier = agent_doc.find_first("//xmlns:agentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
-
-    event_linking_agent.should == agent_identifier
-
-    sip = SubmittedSip.first(:ieid => ieid)
-
-    sip.should_not be_nil
-    sip.package_name.should == "ateam"
-    sip.package_size.should == 923328
-    sip.number_of_datafiles.should == 2
-    sip.project.code.should == "PRJ"
-
-    submission_event = sip.operations_events.first(:event_name => "Package Submission")
-
-    submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.should be_close(now, 1.0)
-    submission_event.operations_agent.identifier.should == "operator"
-    submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: success"
-
-    File.exists?(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == true
-    File.read(File.join(CONFIG['workspace'], ieid, "tags", "task")).should == "ingest"
-
+    wip = Wip.new File.join(@workspace.path, @ieid)
+    wip.task.should == :ingest
   end
 
-  it "should raise error if descriptor cannot be found (package_name.xml)" do
-    ieid = OldIeid.get_next
-    now = DateTime.now
+  it "should reject SIPs missing a sip descriptor" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_NO_DESCRIPTOR
 
-    lambda { PackageSubmitter.submit_sip :zip, ZIP_NO_DESCRIPTOR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(DescriptorNotFoundError)
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
 
-    sip = SubmittedSip.first(:ieid => ieid)
-    submission_event = sip.operations_events.first(:event_name => "Package Submission")
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_DESCRIPTOR_NOT_FOUND}/
 
-    submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.should be_close(now, 1.0)
-    submission_event.operations_agent.identifier.should == "operator"
-    submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: descriptor not found"
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
   end
 
-  it "should raise error if descriptor cannot be parsed" do
-    ieid = OldIeid.get_next
-    now = DateTime.now
+  it "should reject SIPs where the package is not in a directory named package_name (zip)" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_SIP_NODIR
 
-    lambda { PackageSubmitter.submit_sip :zip, ZIP_BROKEN_DESCRIPTOR, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(DescriptorCannotBeParsedError)
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
 
-    sip = SubmittedSip.first(:ieid => ieid)
-    submission_event = sip.operations_events.first(:event_name => "Package Submission")
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_ARCHIVE_EXTRACTION_ERROR}/
 
-    submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.should be_close(now, 1.0)
-    submission_event.operations_agent.identifier.should == "operator"
-    submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: descriptor cannot be parsed"
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
   end
 
-  it "if there is an account specified in DMD metadata, then submission should create an agent for it" do
-    ieid = OldIeid.get_next
-    PackageSubmitter.submit_sip :zip, ZIP_DMD_METADATA, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid
+  it "should reject SIPs where the package is not in a directory named package_name (tar)" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = TAR_SIP_NODIR
 
-    wip = Wip.new File.join(CONFIG['workspace'], ieid.to_s)
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
 
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_ARCHIVE_EXTRACTION_ERROR}/
 
-    event_doc = LibXML::XML::Document.string wip.metadata["submit-event"]
-    agent_doc = LibXML::XML::Document.string wip.metadata["submit-agent-account"]
-
-    agent_identifier = agent_doc.find_first("//xmlns:agentIdentifierValue", "xmlns" => "info:lc/xmlns/premis-v2").content
-
-    agent_identifier.should == "info:fda/daitss/accounts/ACT"
-
-    # TODO: clean this up so that it's more readable
-    # get an array with a string representation of the linkingAgentIdentifier nodes
-    event_linking_agent_strings = event_doc.find("//xmlns:linkingAgentIdentifier", "xmlns" => "info:lc/xmlns/premis-v2").map {|node| node.children.to_s}
-
-    # check array for expected linkingAgentStrings: 1 for service, 1 for account
-    (event_linking_agent_strings.include? "<linkingAgentIdentifierType>URI</linkingAgentIdentifierType><linkingAgentIdentifierValue>info:fda/daitss/submission_service</linkingAgentIdentifierValue>").should == true
-    (event_linking_agent_strings.include? "<linkingAgentIdentifierType>URI</linkingAgentIdentifierType><linkingAgentIdentifierValue>info:fda/daitss/accounts/ACT</linkingAgentIdentifierValue>").should == true
-
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
   end
 
-  it "should raise error if package account does not match submitter account" do
-    ieid = OldIeid.get_next
-    now = DateTime.now
+  it "should reject SIPs where the SIP descriptor is not well formed" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_BROKEN_DESCRIPTOR
 
-    lambda { PackageSubmitter.submit_sip :zip, ZIP_SIP, "ateam", "bernie", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(SubmitterDescriptorAccountMismatch)
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
 
-    sip = SubmittedSip.first(:ieid => ieid)
-    submission_event = sip.operations_events.first(:event_name => "Package Submission")
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_INVALID_DESCRIPTOR}/
 
-    submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.should be_close(now, 5.0)
-    submission_event.operations_agent.identifier.should == "bernie"
-    submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: submitter account does not match descriptor"
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
   end
 
-  it "should raise error if the package project is invalid - operator" do
-    ieid = OldIeid.get_next
-    now = DateTime.now
+  it "should reject SIPs where the project specified is invalid" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_BAD_PROJECT
 
-    lambda { PackageSubmitter.submit_sip :zip, ZIP_BAD_PROJECT, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(InvalidProject)
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
 
-    sip = SubmittedSip.first(:ieid => ieid)
-    submission_event = sip.operations_events.first(:event_name => "Package Submission")
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_INVALID_PROJECT}/
 
-    submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.should be_close(now, 5.0)
-    submission_event.operations_agent.identifier.should == "operator"
-    submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: invalid project"
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
   end
 
-  it "should raise error if the package project is invalid - contact" do
-    ieid = OldIeid.get_next
-    now = DateTime.now
+  it "should reject SIPs where the account specified is invalid" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_BAD_ACCOUNT
 
-    lambda { PackageSubmitter.submit_sip :zip, ZIP_BAD_PROJECT, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(InvalidProject)
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
 
-    sip = SubmittedSip.first(:ieid => ieid)
-    submission_event = sip.operations_events.first(:event_name => "Package Submission")
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_INVALID_ACCOUNT}/
 
-    submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.should be_close(now, 5.0)
-    submission_event.operations_agent.identifier.should == "foobar"
-    submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: invalid project"
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
   end
 
-  it "should raise error if the package account is invalid - operator" do
-    ieid = OldIeid.get_next
-    now = DateTime.now
+  it "should reject SIPs where there are no content files" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_NO_CONTENT_FILES
 
-    lambda { PackageSubmitter.submit_sip :zip, ZIP_BAD_ACCOUNT, "ateam", "operator", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(InvalidAccount)
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
 
-    sip = SubmittedSip.first(:ieid => ieid)
-    submission_event = sip.operations_events.first(:event_name => "Package Submission")
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_MISSING_CONTENT_FILE}/
 
-    submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.should be_close(now, 5.0)
-    submission_event.operations_agent.identifier.should == "operator"
-    submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: invalid account"
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
   end
 
-  it "should raise error if the package does not have at least one content file" do
-    ieid = OldIeid.get_next
-    now = DateTime.now
+  it "should reject SIPs when there is a checksum mismatch between sip files and descriptor" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_CHECKSUM_MISMATCH
 
-    lambda { PackageSubmitter.submit_sip :zip, ZIP_NO_CONTENT_FILES, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(MissingContentFile)
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
 
-    sip = SubmittedSip.first(:ieid => ieid)
-    submission_event = sip.operations_events.first(:event_name => "Package Submission")
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_CHECKSUM_MISMATCH}/
 
-    submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.should be_close(now, 8.0)
-    submission_event.operations_agent.identifier.should == "foobar"
-    submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: content file not found"
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
   end
 
-  it "should raise error if there is a checksum mismatch between the descriptor any data file and record the reject in pt" do
-    ieid = OldIeid.get_next
-    now = DateTime.now
+  it "should reject SIPs when it is not a valid zip or tar archive" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = NOT_VALID_ARCHIVE
 
-    lambda { PackageSubmitter.submit_sip :zip, ZIP_CHECKSUM_MISMATCH, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(ChecksumMismatch)
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
 
-    sip = SubmittedSip.first(:ieid => ieid)
-    submission_event = sip.operations_events.first(:event_name => "Package Submission")
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_ARCHIVE_EXTRACTION_ERROR}/
 
-    submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.should be_close(now, 5.0)
-    submission_event.operations_agent.identifier.should == "foobar"
-    submission_event.notes.should == "submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: datafile failed checksum check against descriptor"
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
   end
 
-  it "should raise error if there is an error validating the sip descriptor and record the reject in pt" do
-    ieid = OldIeid.get_next
-    now = DateTime.now
+  it "should reject SIPs when the sip descriptor is invalid" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_INVALID_DESCRIPTOR
 
-    lambda { PackageSubmitter.submit_sip :zip, ZIP_INVALID_DESCRIPTOR, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(InvalidDescriptor)
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
 
-    sip = SubmittedSip.first(:ieid => ieid)
-    submission_event = sip.operations_events.first(:event_name => "Package Submission")
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_INVALID_DESCRIPTOR}/
 
-    submission_event.event_name.should == "Package Submission"
-    submission_event.timestamp.should be_close(now, 5.0)
-    submission_event.operations_agent.identifier.should == "foobar"
-    submission_event.notes.should =~ /submitter_ip: 0.0.0.0, archive_type: zip, submitted_package_checksum: cccccccccccccccccccccccccccccccc, outcome: failure, failure_reason: descriptor failed validation/
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
   end
 
-  it "should not raise error if checksum type is missing" do
-    ieid = OldIeid.get_next
-    now = DateTime.now
+  it "should reject SIPs when content files are present, but none are described" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_NO_DESCRIBED_CONTENT_FILE
 
-    lambda { PackageSubmitter.submit_sip :zip, ZIP_MISSING_CHECKSUM, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should_not raise_error
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
+
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_MISSING_CONTENT_FILE}/
+
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
   end
 
-  it "should not raise error if checksum type is unknown" do
-    ieid = OldIeid.get_next
-    now = DateTime.now
+  it "should reject SIPs when the package name is too long" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam123456789012345678901234567890"
+    package_path = ZIP_LONG_PACKAGE_NAME
 
-    lambda { PackageSubmitter.submit_sip :zip, ZIP_UNKNOWN_CHECKSUM_TYPE, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should_not raise_error
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
+
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_INVALID_PACKAGE_NAME}/
+
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
   end
 
-  it "should raise error if something that is not a zip file is sent" do
-    ieid = OldIeid.get_next
-    now = DateTime.now
+  it "should reject SIPs when the package name has invalid characters" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "a'team"
+    package_path = ZIP_INVALID_CHAR_IN_NAME
 
-    lambda { PackageSubmitter.submit_sip :zip, NOT_VALID_ARCHIVE, "ateam", "foobar", "0.0.0.0", "cccccccccccccccccccccccccccccccc", ieid }.should raise_error(ArchiveExtractionError)
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
+
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_INVALID_PACKAGE_NAME}/
+
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
+  end
+
+  it "should reject SIPs when the OBJID in the descriptor does not match the package name" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_OBJID_MISMATCH
+
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
+
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_OBJID_NAME_MISMATCH}/
+
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
+  end
+
+  it "should reject SIPs if submitted by a contact from a different account" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "bernie")
+    package_name = "ateam"
+    package_path = ZIP_SIP
+
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
+
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_SUBMITTER_DESCRIPTOR_ACCOUNT_MISMATCH}/
+
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
+  end
+
+  it "should reject SIPs if datafile present with invalid name" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_INVALID_DATAFILE_NAME
+
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
+
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_INVALID_DATAFILE_NAME}/
+
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
+  end
+
+  it "should reject and correcly detect SIP with multiple validation problems" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_MULTIPLE_PROBLEMS
+
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
+
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: reject/
+    event.notes.should =~ /failure reason: #{REJECT_INVALID_DATAFILE_NAME}/
+    event.notes.should =~ /failure reason: #{REJECT_CHECKSUM_MISMATCH}/
+    event.notes.should =~ /failure reason: #{REJECT_INVALID_PROJECT}/
+
+    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
+  end
+
+  it "should not reject SIPs when file checksums are missing from descriptor" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_MISSING_CHECKSUM
+
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should_not raise_error
+
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: success/
+  end
+
+  it "should not reject SIPs when file checksum type in descriptor is unknown" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "operator")
+    package_name = "ateam"
+    package_path = ZIP_UNKNOWN_CHECKSUM_TYPE
+
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should_not raise_error
+
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: success/
+  end
+
+  it "should not reject SIPs when submitted by an operator with a different account" do
+    ip_addr = "0.0.0.0"
+    agent = OperationsAgent.first(:identifier => "op2")
+    package_name = "ateam"
+    package_path = ZIP_SIP
+
+    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should_not raise_error
+
+    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
+    event.should_not be_nil
+    event.notes.should =~ /outcome: success/
   end
 end
