@@ -26,6 +26,7 @@ PACKAGE_NAME_STARTS_DOT = File.join(REPO_ROOT, "spec", "wips", "package_name_sta
 PACKAGE_NAME_HAS_SPACE = File.join(REPO_ROOT, "spec", "wips", "package_name_has_space.zip")
 PACKAGE_NAME_HAS_QUOTE = File.join(REPO_ROOT, "spec", "wips", "package_name_has_quote.zip")
 PACKAGE_NAME_LONG = File.join(REPO_ROOT, "spec", "wips", "package_name_long.zip")
+INVALID_DATAFILE_NAME = File.join(REPO_ROOT, "spec", "wips", "invalid_datafile_name.zip")
 
 describe Wip do
 
@@ -39,7 +40,7 @@ describe Wip do
 
     @account = add_account "ACT", "ACT"
     add_project @account, "PRJ", "PRJ"
-  end
+ end
 
   after(:each) do
     FileUtils.rm_rf File.join(@workspace.path, "E0000199Y_L35FP3")
@@ -94,9 +95,19 @@ describe Wip do
     wip.package_account_matches_agent?(agent).should == true
   end
   
-  it "should not validate a package-submitter mismatch" do
+  it "should validate a package-submitter mismatch if submitter is operator" do
     account = add_account "FOO", "FOO"
     agent = add_operator account
+
+    wip_path = extract_wip_to_workspace NORMAL_WIP
+    wip = Wip.new wip_path
+
+    wip.package_account_matches_agent?(agent).should == true
+  end
+
+  it "should not validate a package-submitter mismatch if submitter is contact" do
+    account = add_account "FOO", "FOO"
+    agent = add_contact account
 
     wip_path = extract_wip_to_workspace NORMAL_WIP
     wip = Wip.new wip_path
@@ -239,5 +250,19 @@ describe Wip do
     wip = Wip.new wip_path
 
     wip.package_name_valid?.should == false
+  end
+
+  it "should validate datafile names" do
+    wip_path = extract_wip_to_workspace NORMAL_WIP
+    wip = Wip.new wip_path
+
+    wip.content_files_have_valid_names?.should == true
+  end
+
+  it "should not validate invalid datafile names" do
+    wip_path = extract_wip_to_workspace INVALID_DATAFILE_NAME
+    wip = Wip.new wip_path
+
+    wip.content_files_have_valid_names?.should == false
   end
 end
