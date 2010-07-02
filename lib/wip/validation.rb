@@ -1,6 +1,7 @@
 require 'wip'
 require 'wip/sip_descriptor'
 require 'datafile/checksum'
+require 'datafile/name_validation'
 
 require 'daitss2'
 
@@ -13,7 +14,7 @@ class Wip
 
   # returns true if the package account matches account of submitter, false otherwise
   def package_account_matches_agent? agent
-    agent.account.code == metadata["dmd-account"]
+    agent.account.code == metadata["dmd-account"] or agent.type == Operator
   end
 
   # returns true if package project is present in database, false otherwise
@@ -78,8 +79,17 @@ class Wip
   def package_name_valid?
     return false if metadata["sip-name"] =~ /^\./
     return false if metadata["sip-name"] =~ /"/
+    return false if metadata["sip-name"] =~ /'/
     return false if metadata["sip-name"] =~ / /
     return false if metadata["sip-name"].length > 32
+
+    true
+  end
+
+  def content_files_have_valid_names?
+    original_datafiles.each do |datafile|
+      return false unless datafile.original_name_valid?
+    end
 
     true
   end
