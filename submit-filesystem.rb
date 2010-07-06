@@ -45,7 +45,7 @@ def get_options(args)
 
   rescue => e         # catch the error from opts.parse! and display
     STDERR.puts "Error parsing command line options:\n#{e.message}\n#{opts}"
-    return nil
+    exit 1
   end
 
   return config
