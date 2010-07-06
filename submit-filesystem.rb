@@ -66,7 +66,7 @@ end
 # calls curl to submit package to service
 
 def submit_to_svc url, path_to_zip, package_name, username, password
-  output = `curl -X POST -H "X_PACKAGE_NAME:#{package_name}" -u #{username}:#{password} -T "#{path_to_zip}" -v #{url} 2>&1`
+  output = `curl -X POST -H "X_PACKAGE_NAME:#{package_name}" -H "CONTENT_TYPE:application/tar" -u #{username}:#{password} -T "#{path_to_zip}" -v #{url} 2>&1`
 
   return output
 end
