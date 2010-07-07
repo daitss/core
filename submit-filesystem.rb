@@ -6,6 +6,7 @@ require 'ostruct'
 require 'digest/md5'
 require 'fileutils'
 
+
 # a simple submission client
 # takes a specified package on a filesystem, tars it up, and "curls" it to the submission at the specified url as the specified
 #    operations agent.
