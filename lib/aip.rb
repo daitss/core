@@ -30,8 +30,7 @@ class Aip
   property :copy_size, Integer, :min => 1, :required => true
   property :datafile_count, Integer, :min => 1, :required => true
 
-  # TODO get this working, rjb doesn't like being forked
-  #validates_with_method :xml, :validate_against_xmlschema
+  validates_with_method :xml, :validate_against_xmlschema
   validates_with_method :xml, :validate_against_schematron
   validates_with_method :copy_size, :check_copy_size
   validates_with_method :copy_md5, :check_copy_md5
