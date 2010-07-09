@@ -76,6 +76,24 @@ helpers do
 
 end
 
+def submit_request ieid, type
+    url = "#{Daitss::CONFIG['request']}/requests/#{ieid}/#{type}"
+
+    url = URI.parse url
+    req = Net::HTTP::Post.new url.path
+    req.basic_auth 'operator', 'operator'
+
+    res = Net::HTTP.start(url.host, url.port) do |http|
+      http.read_timeout = Daitss::CONFIG['http-timeout']
+      http.request req
+    end
+
+    unless Net::HTTPSuccess === res
+      error res.code, res.body
+    end
+
+end
+
 get '/stylesheet.css' do
   content_type 'text/css', :charset => 'utf-8'
   sass :stylesheet
@@ -103,6 +121,14 @@ post '/submit' do
 
   id = submit data, sip, ext
   redirect "/package/#{id}"
+end
+
+get '/request' do
+  haml :request
+end
+
+post '/request' do
+  submit_request params['ieid'], params['type']  
 end
 
 get '/packages?' do
