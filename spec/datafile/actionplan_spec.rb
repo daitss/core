@@ -3,6 +3,8 @@ require 'xmlns'
 require 'datafile/describe'
 require 'datafile/actionplan'
 
+require 'aip'
+
 describe DataFile do
 
   describe 'when the actionplan server is not available' do
@@ -21,7 +23,7 @@ describe DataFile do
 
     before :all do
       wip = submit 'mimi'
-      @pdf = wip.original_datafiles.find { |df| df['aip-path'] == 'mimi.pdf' }
+      @pdf = wip.original_datafiles.find { |df| df['aip-path'] == File.join(Aip::SIP_FILES_DIR, 'mimi.pdf') }
       @pdf.describe!
     end
 
@@ -47,7 +49,7 @@ describe DataFile do
 
     before :all do
       wip = submit 'wave'
-      @wave = wip.original_datafiles.find { |df| df['aip-path'] == 'obj1.wav' }
+      @wave = wip.original_datafiles.find { |df| df['aip-path'] == File.join(Aip::SIP_FILES_DIR, 'obj1.wav') }
       @wave.describe!
     end
 
@@ -62,7 +64,7 @@ describe DataFile do
 
     before :all do
       wip = submit 'wave'
-      @xml = wip.original_datafiles.find { |df| df['aip-path'] == 'wave.xml' }
+      @xml = wip.original_datafiles.find { |df| df['aip-path'] == File.join(Aip::SIP_FILES_DIR, 'wave.xml') }
       @xml.describe!
     end
 

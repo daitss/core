@@ -1,6 +1,7 @@
 require 'libxml'
 require 'wip'
 require 'xmlns'
+require 'aip'
 
 include LibXML
 
@@ -95,22 +96,14 @@ class Wip
     sip.files.each_with_index do |f, index|
       df = wip.new_original_datafile index
 
-      open(File.join(sip.path, f)) do |i|
-        buffer_size = 1024 * 1024 * 10
-        buffer = ""
-
-        df.open("w") do |o|
-
-          while i.read(buffer_size, buffer)
-            o.write buffer
-          end
-
-        end
-
+      df.open('w') do |o|
+        sip_file_path = File.join sip.path, f
+        sip_file_data = File.read sip_file_path
+        o.write sip_file_data
       end
 
       df['sip-path'] = f
-      df['aip-path'] = f
+      df['aip-path'] = File.join Aip::SIP_FILES_DIR, f
     end
 
     # put metadata from SIP in WIP

@@ -47,8 +47,8 @@ describe Wip do
     end
 
     it "all files should have a aip path" do
-      subject.original_datafiles[0]['aip-path'].should == 'Haskell98numbers.pdf'
-      subject.original_datafiles[1]['aip-path'].should == 'haskell-nums-pdf.xml'
+      subject.original_datafiles[0]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'Haskell98numbers.pdf')
+      subject.original_datafiles[1]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'haskell-nums-pdf.xml')
     end
 
     it "should extract FDA account from the descriptor" do
