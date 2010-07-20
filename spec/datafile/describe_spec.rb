@@ -6,7 +6,7 @@ describe 'describing a datafile' do
 
   subject do
     @wip = submit 'mimi'
-    @wip.original_datafiles.find { |df| df['aip-path'] == 'mimi.pdf' }
+    @wip.original_datafiles.find { |df| df['aip-path'] == File.join(Aip::SIP_FILES_DIR, 'mimi.pdf') }
   end
 
   describe "premis metadata" do
@@ -55,7 +55,7 @@ describe 'describing a datafile' do
 
       obj_id_type = file_object.find_first "P:originalName", NS_PREFIX
       obj_id_type.should_not be_nil
-      obj_id_type.content.should == subject['sip-path']
+      obj_id_type.content.should == File.join(Aip::SIP_FILES_DIR, subject['sip-path'])
     end
 
     it 'should have a message digest originator of depositor' do
@@ -182,7 +182,7 @@ describe 'a datafile with multiple bitstreams' do
 
   it "should have multiple bitstreams" do
     wip = submit 'etd'
-    df = wip.original_datafiles.find { |df| df['aip-path'] == 'etd.pdf' }
+    df = wip.original_datafiles.find { |df| df['aip-path'] == File.join(Aip::SIP_FILES_DIR, 'etd.pdf') }
     df.describe!
     df.bitstream_objects.size.should == 19
   end

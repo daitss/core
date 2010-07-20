@@ -20,6 +20,9 @@ XML_SCHEMA_VALIDATOR = JXML::Validator.new
 # authoritative aip record
 class Aip
 
+  SIP_FILES_DIR = 'sip-files'
+  AIP_FILES_DIR = 'aip-files'
+
   include DataMapper::Resource
   property :id, String, :key => true # daitss1 ieid
   property :uri, String, :unique => true, :required => true

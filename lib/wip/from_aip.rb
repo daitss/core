@@ -198,7 +198,7 @@ class Wip
   end
 
   def load_sip_descriptor
-    sd_df = original_datafiles.find { |df| df['aip-path'] == "#{metadata['sip-name']}.xml" }
+    sd_df = original_datafiles.find { |df| df['aip-path'] == File.join(Aip::SIP_FILES_DIR, "#{metadata['sip-name']}.xml") }
     metadata['sip-descriptor'] = File.read sd_df.datapath
   end
 

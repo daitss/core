@@ -3,6 +3,8 @@ require 'datafile'
 require 'net/http'
 require 'cgi'
 
+require 'aip'
+
 require 'datafile/actionplan'
 
 class DataFile
@@ -64,7 +66,7 @@ class DataFile
 
         # fill in destination datafile
         dest.open('w') { |io| io.write data }
-        dest['aip-path'] = "#{dest.id}#{ext}"
+        dest['aip-path'] = File.join Aip::AIP_FILES_DIR, "#{dest.id}#{ext}"
         dest[agent_key] = fix_transformation_agent agent
         dest[event_key] = fix_transformation_event event, source, dest, strategy
         dest["transformation-source"] = source.uri
