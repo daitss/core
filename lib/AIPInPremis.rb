@@ -168,6 +168,9 @@ class AIPInPremis
       agent_id = obj.find_first("premis:linkingAgentIdentifier/premis:linkingAgentIdentifierValue", NAMESPACES)
       agent = @agents[agent_id.content] unless agent_id.nil?
 
+      # skip event if agent can't be parsed -- this prevents an event from being written to the database without an agent
+      next if agent_id.nil? or agent.nil?
+
       if df  #first check if this event is linked to a file object
         event = DatafileEvent.new
         event.fromPremis(obj, df, @anomalies)
