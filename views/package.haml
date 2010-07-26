@@ -16,6 +16,18 @@
     .processing
       no jobs processing or stashed
 
+  %h2 submit a package request
+
+  %form{:action => '/request', :method => 'POST'}
+    %br
+    %select{:name=>'type'}
+      %option= 'disseminate'
+      %option= 'withdraw'
+      %option= 'peek'
+    %br
+    %input{:type => 'hidden', :name => 'ieid', :value=>"#{@sip.ieid}"}
+    %input{:type => 'submit', :value => 'Submit'}
+
   %h2 submission
 
   %table
@@ -42,6 +54,28 @@
         %td= e.timestamp
         %td= e.notes
 
+  %h2 requests
+
+  - if @requests.any?
+    %table
+      %tr
+        %th type
+        %th time
+        %th authorized?
+        %th request submitter
+        %th status
+        %th delete
+      - @requests.each do |r|
+        %tr
+          %td= r.request_type
+          %td= r.timestamp
+          %td= r.is_authorized ? "yes" : "no"
+          %td= r.operations_agent.identifier
+          %td= r.status
+          %td
+            - if r.status != :released_to_workspace
+              %a{:href => "/delete_request/#{@sip.ieid}/#{r.request_type}"} delete
+        
   - if @aip
     %h2 aip
 
