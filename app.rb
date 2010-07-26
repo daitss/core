@@ -328,7 +328,76 @@ end
 
 get '/admin' do
   @bins = StashBin.all
+  @accounts = Account.all
+  @users = User.all
+  @projects = Project.all
+  
   haml :admin
+end
+
+get '/delete_user/:id' do |id|
+  user = User.get(id)
+  user.destroy
+
+  redirect '/admin'
+end
+
+get '/delete_account/:id' do |id|
+  account = Account.get(id)
+  account.destroy
+
+  redirect '/admin'
+end
+
+get '/delete_project/:id' do |id|
+  project = Project.get(id)
+  project.destroy
+
+  redirect '/admin'
+end
+
+post '/add_account' do
+  a = Account.new(:name => params['name'],
+                  :code => params['code'])
+  a.save
+
+  redirect '/admin'
+end
+
+post '/add_project' do
+  a = Account.first(:code => params['account'])
+  p = Project.new(:name => params['name'],
+                  :code => params['code'])
+
+  p.account = a
+  p.save
+
+  redirect '/admin'
+end
+
+post '/add_user' do
+  if params["type"] == "operator"
+    u = Operator.new
+    a = Account.system_account
+  else
+    u = Contact.new(:permissions => [:disseminate, :withdraw, :peek, :submit])
+    a = Account.first(:code => params['account'])
+  end
+
+  u.attributes = { :identifier => params['username'],
+                   :first_name => params['first_name'],
+                   :last_name => params['last_name'],
+                   :email => params['email'],
+                   :phone => params['phone'],
+                   :address => params['address'],
+                   :description => "",
+                   :active_start_date => 0,
+                   :active_end_date => Time.now + 31556926 }
+
+  u.account = a
+  u.save
+
+  redirect '/admin'
 end
 
 post '/admin' do
