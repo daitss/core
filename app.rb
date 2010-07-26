@@ -94,6 +94,24 @@ def submit_request ieid, type
 
 end
 
+def delete_request ieid, type
+    url = "#{Daitss::CONFIG['request']}/requests/#{ieid}/#{type}"
+
+    url = URI.parse url
+    req = Net::HTTP::Delete.new url.path
+    req.basic_auth 'operator', 'operator'
+
+    res = Net::HTTP.start(url.host, url.port) do |http|
+      http.read_timeout = Daitss::CONFIG['http-timeout']
+      http.request req
+    end
+
+    unless Net::HTTPSuccess === res
+      error res.code, res.body
+    end
+end
+
+
 get '/stylesheet.css' do
   content_type 'text/css', :charset => 'utf-8'
   sass :stylesheet
@@ -127,8 +145,16 @@ get '/request' do
   haml :request
 end
 
+get '/delete_request/:ieid/:type' do |ieid, type|
+  delete_request ieid, type
+
+  redirect "/package/#{ieid}"
+end
+
 post '/request' do
   submit_request params['ieid'], params['type']  
+
+  redirect "/package/#{params['ieid']}"
 end
 
 get '/packages?' do
@@ -150,6 +176,8 @@ get '/package/:id' do |id|
   @bin = StashBin.all.find { |b| File.exist? File.join(b.path, id) }
   @stashed_wip = @bin.wips.find { |w| w.id == id } if @bin
   @bins = StashBin.all
+  @requests = @sip.requests
+
   haml :package
 end
 
