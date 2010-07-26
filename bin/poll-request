@@ -1,0 +1,72 @@
+#!/usr/bin/env ruby
+
+require 'db/request'
+require 'dispatch'
+require 'daitss/config'
+require 'db/operations_agents'
+require 'db/operations_events'
+require 'db/sip'
+
+WORKSPACE = ENV["WORKSPACE"]
+POLL_INTERVAL = 2
+
+Daitss::CONFIG.load ENV['CONFIG']
+DataMapper.setup :default, Daitss::CONFIG['database-url']
+
+def create_op_agent
+  existing = Program.first(:identifier => File.basename(__FILE__))
+  return existing if existing
+
+  p = Program.new
+
+  p.attributes = {
+    :description => "request dispatch program",
+    :active_start_date => Time.at(0),
+    :active_end_date => Time.now + (86400 * 365),
+    :identifier => File.basename(__FILE__)
+  }
+
+  p.account = Account.system_account
+
+  k = AuthenticationKey.new
+  k.attributes = { :auth_key => Digest::SHA1.hexdigest(__FILE__) }
+  p.authentication_key = k
+
+  p.save!
+
+  return p
+end
+
+def insert_op_event agent, sip, request_id
+  e = OperationsEvent.new
+  e.attributes = { :timestamp => Time.now,
+                   :event_name => "Request Released To Workspace",
+                   :notes => "request_id: #{request_id}" }
+
+  e.operations_agent = agent
+  e.submitted_sip = sip
+
+  e.save!
+end
+
+agent = create_op_agent
+
+while true
+  #for any request ieid for which there is no wip in the workspace, dispatch a "sub-wip" for that request
+
+  enqueued_and_authorized = Request.all(:is_authorized => true, :status => :enqueued, :order => [ :timestamp.asc ])
+
+  enqueued_and_authorized.each do |request|
+    if Dispatch.wip_exists? request.submitted_sip.ieid
+      next
+    else
+      Dispatch.dispatch_request request.submitted_sip.ieid, request.request_type 
+      request.status = :released_to_workspace
+      request.save!
+
+      insert_op_event agent, request.submitted_sip, request.id
+    end
+  end
+
+  sleep POLL_INTERVAL
+end

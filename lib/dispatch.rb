@@ -7,7 +7,7 @@ class Dispatch
 
   Daitss::CONFIG.load_from_env
   WORKSPACE = Workspace.new(Daitss::CONFIG['workspace']).path 
-  PREFIX_URI = "test:/"
+  PREFIX_URI = Daitss::CONFIG['uri-prefix']
   DISSEMINATE_DROP_PATH = "/tmp/disseminations/"
   
   # creates a dissemination "sub-wip" in the workspace 
