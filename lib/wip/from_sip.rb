@@ -77,11 +77,8 @@ class Sip
   end
 
   def files
-
-    Dir.chdir @path do
-      Dir['**/*'].select { |f| File.file? f }.map { |f| f }.sort
-    end
-
+    ns = @descriptor_doc.find "//M:file/M:FLocat/@xlink:href", NS_PREFIX
+    ns.map { |n| n.value } + [File.basename(descriptor_file)]
   end
 
 end
