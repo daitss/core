@@ -33,7 +33,13 @@ class Wip
   end
 
   def normalized_representation
-    original_datafiles.map { |odf| odf.normalized_version || odf }
+
+    if original_datafiles.any? { |odf| odf.normalized_version }
+      original_datafiles.map { |odf| odf.normalized_version || odf }
+    else
+      []
+    end
+
   end
 
   def represented_datafiles
