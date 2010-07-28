@@ -9,7 +9,8 @@ module TestEnv
   STASHSPACE_DIR = File.join VAR_DIR, 'stash'
   SERVICES_DIR = File.join VAR_DIR, 'services'
   SILO_DIR = File.join VAR_DIR, 'silo'
-  DATABASE_URL = "sqlite3:#{File.join VAR_DIR, 'database.sqlite3'}"
+  #DATABASE_URL = "sqlite3:#{File.join VAR_DIR, 'database.sqlite3'}"
+  DATABASE_URL = "postgres://localhost/daitss"
   BASE_PORT = 7000
 
   class Service
