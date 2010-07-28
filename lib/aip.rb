@@ -23,14 +23,16 @@ class Aip
   SIP_FILES_DIR = 'sip-files'
   AIP_FILES_DIR = 'aip-files'
 
+  FILE_SIZE = 2**32-1
+
   include DataMapper::Resource
   property :id, String, :key => true # daitss1 ieid
   property :uri, String, :unique => true, :required => true
-  property :xml, Text, :required => true, :length => 2**32-1
+  property :xml, Text, :required => true, :length => FILE_SIZE
   property :copy_url, URI, :required => true
   property :copy_sha1, String, :length => 40, :format => %r([a-f0-9]{40}), :required => true
   property :copy_md5, String, :length => 40, :format => %r([a-f0-9]{32}), :required => true
-  property :copy_size, Integer, :min => 1, :required => true
+  property :copy_size, Integer, :min => 1, :max => FILE_SIZE ,:required => true
   property :datafile_count, Integer, :min => 1, :required => true
 
   validates_with_method :xml, :validate_against_xmlschema
