@@ -60,7 +60,7 @@ class Wip
       'original' => original_representation,
       'current' => current_representation,
       'normalized' => normalized_representation
-    }
+    }.reject { |k,v| v.empty? }
   end
 
   def representation_object rep, options={}
