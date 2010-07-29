@@ -54,7 +54,7 @@ module TestEnv
     end
 
     def bundle
-      Dir.chdir(dir) { %x{bundle install vendor/bundle} }
+      Dir.chdir(dir) { %x{bundle install} }
     end
 
     def pid_file
@@ -79,8 +79,18 @@ module TestEnv
 
     def start  port
       [ LOG_DIR, PID_DIR ].each { |d| FileUtils.mkdir_p d unless File.exist? d }
-      system "thin --daemonize -c #{dir} --environment development --tag #{name} --port #{port} -P #{pid_file} -l #{log_file} -R #{ru_file} start"
-      raise "cannot start #{name}" unless $?.exitstatus == 0
+
+      Dir.chdir dir do
+        command = "thin --daemonize -c #{dir} --environment development --tag #{name} --port #{port} -P #{pid_file} -l #{log_file} -R #{ru_file} start"
+
+        unless name == 'statusecho'
+          command = "bundle exec " + command
+        end
+
+        system command
+        raise "cannot start #{name}" unless $?.exitstatus == 0
+      end
+
     end
 
     def stop

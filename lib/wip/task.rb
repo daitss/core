@@ -40,7 +40,6 @@ class Wip
 
         begin
 
-          #Daitss::CONFIG.load_rjb
           require 'wip/ingest'
           DataMapper.setup :default, Daitss::CONFIG['database-url']
 
