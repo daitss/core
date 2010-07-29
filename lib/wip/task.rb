@@ -36,6 +36,7 @@ class Wip
     when :ingest
 
       start do |wip|
+        $0 = "#{task} #{wip.id}"
 
         begin
 
