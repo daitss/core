@@ -138,31 +138,4 @@ class Datafile < Pobject
     end
   end
 
-  after :save do
-    puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
-    #puts "saving datafile #{self.inspect}"
-    puts bitstreams.map &:valid?
-    bitstreams.each {|b| puts b.errors.to_a }
-    puts texts.map &:valid?
-    texts.each {|b| puts b.errors.to_a }
-    puts audios.map &:valid?
-    audios.each {|b| puts b.errors.to_a }
-    puts images.map &:valid?
-    images.each {|b| puts b.errors.to_a }
-    puts documents.map &:valid?
-    documents.each {|b| puts b.errors.to_a }
-    puts "message digest"
-    puts message_digest.map &:valid?
-    message_digest.each {|b| puts b.errors.to_a }
-    puts "datafile_severe_element"
-    puts datafile_severe_element.map &:save
-    puts datafile_severe_element.map &:valid?
-    datafile_severe_element.each {|b| puts b.errors.to_a }
-    puts "object_format"
-    puts object_format.save
-    puts object_format.map &:valid?
-    puts "broken_link"
-    puts broken_links.map &:valid?
-    broken_links.each {|b| puts b.errors.to_a }
-  end
 end
