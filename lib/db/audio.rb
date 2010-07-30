@@ -1,17 +1,22 @@
+# byte order values as defined in aes
+Audio_Byte_Order = ["BIG_ENDIAN", "LITTLE_ENDIAN", "Unknown"]
+
 class Audio
   include DataMapper::Resource
   property :id, Serial, :key => true
-  property :encoding, String
+  property :byte_order, String, :length => 32, :required => true, :default => "Unknown"
+    # byte order
+  property :encoding, String, :length => 255
     # the audio encoding scheme
   property :sampling_frequency, Float
     # the number of audio samples that are recorded per second (in Hertz, i.e. cycles per second)
   property :bit_depth, Integer # TODO positive int
-    # the number of bits used each second to represent the audio signal
+    # the number of bits used each sample to represent the audio signal
   property :channels, Integer # TODO positive int
     # the number of channels that are part of the audio stream
   property :duration, Integer
     # the length of the audio recording, described in seconds
-  property :channel_map, String
+  property :channel_map, String, :length => 64
     # channel mapping, mono, stereo, etc, TBD
     
   property :datafile_id, String, :length => 100
@@ -30,6 +35,8 @@ class Audio
   end
     
   def fromPremis premis
+	byte_order = premis.find_first("aes:byte_order", NAMESPACES)
+  	attribute_set(:byte_order, byte_order.content) if byte_order
     attribute_set(:encoding, premis.find_first("aes:audioDataEncoding", NAMESPACES).content)
     attribute_set(:sampling_frequency, premis.find_first("aes:formatList/aes:formatRegion/aes:sampleRate", NAMESPACES).content)
     attribute_set(:bit_depth, premis.find_first("aes:formatList/aes:formatRegion/aes:bitDepth", NAMESPACES).content)
