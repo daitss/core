@@ -223,11 +223,11 @@ class AIPInPremis
     # datamapper automatically rollback the change.
     # RubyProf.start
 #   debugger
- 	if @int_entity.save
-       puts "successfully save int entity into the preservation database"
-	 else
- 		raise "cannot save aip"
-	end
+    if @int_entity.save
+    #  puts "successfully save int entity into the preservation database"
+    else
+      raise "cannot save aip"
+    end
    # @int_entity.save or raise "cannot save aip"
     @acctProject.save
     # not necessary to explicitely save representations since representations will be saved through intentity associations
