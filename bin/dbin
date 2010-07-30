@@ -1,39 +1,46 @@
 #!/usr/bin/env ruby
 
-require 'thor'
+require 'ruby-debug'
 
 require "daitss/config"
 require 'wip/ingest'
-require 'rjb'
+require 'db/operations_events'
 require 'workspace'
 
 include Daitss
 
-class Dbin < Thor
+command = ARGV.shift
 
-  desc "ingest ID", "ingest a package in the workspace"
-  def ingest id
+case command
+when 'ingest'
 
     begin
+      id = ARGV.shift
+
+      #configure
       CONFIG.load_from_env
       DataMapper.setup :default, CONFIG['database-url']
 
+      # find the wip
       ws = Workspace.new CONFIG['workspace']
       wip = ws[id]
       raise "wip not in workspace" unless wip
 
-      $stdout.reopen File.join(wip.path, 'out.log'), 'w'
-      $stderr.reopen File.join(wip.path, 'err.log'), 'w'
+      # reset out & err
+      #$stdout.reopen File.join(wip.path, 'out.log'), 'w'
+      #$stderr.reopen File.join(wip.path, 'err.log'), 'w'
+
+      wip.log_op_event 'ingest started'
       wip.ingest!
+      wip.log_op_event 'ingest finished'
       FileUtils.rm_r wip.path unless wip.snafu?
     rescue => e
-      puts e.message
-      puts e.backtrace
+      wip.snafu = e
+      wip.log_op_event 'ingest snafu'
       exit 1
     end
 
-  end
-
+else
+  $stderr.puts 'invalid command: #{command}'
+  exit 1
 end
-
-Dbin.start
