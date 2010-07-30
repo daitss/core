@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require 'thor'
+
+require "daitss/config"
+require 'wip/ingest'
+require 'rjb'
+require 'workspace'
+
+include Daitss
+
+class Dbin < Thor
+
+  desc "ingest ID", "ingest a package in the workspace"
+  def ingest id
+
+    begin
+      CONFIG.load_from_env
+      DataMapper.setup :default, CONFIG['database-url']
+
+      ws = Workspace.new CONFIG['workspace']
+      wip = ws[id]
+      raise "wip not in workspace" unless wip
+
+      $stdout.reopen File.join(wip.path, 'out.log'), 'w'
+      $stderr.reopen File.join(wip.path, 'err.log'), 'w'
+      wip.ingest!
+      FileUtils.rm_r wip.path unless wip.snafu?
+    rescue => e
+      puts e.message
+      puts e.backtrace
+      exit 1
+    end
+
+  end
+
+end
+
+Dbin.start

@@ -16,6 +16,8 @@ require "help/sandbox"
 require "help/profile"
 require "help/agreement"
 
+SPEC_ROOT = File.dirname __FILE__
+
 Spec::Runner.configure do |config|
 
   config.before :all do

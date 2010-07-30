@@ -7,10 +7,11 @@ describe Wip do
 
     id = UUID.generate :compact
     uri = "bogus:/#{id}"
-    wip =blank_wip id, uri
+    wip = blank_wip id, uri
 
     wip.should_not be_running
-    wip.start { sleep }
+    wip.task = :sleep
+    wip.start
     wip.should be_running
 
     wip.instance_eval do
