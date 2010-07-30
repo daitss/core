@@ -7,12 +7,14 @@ describe Wip do
   subject do
     id = UUID.generate :compact
     uri = "bogus:/#{id}"
-    blank_wip id, uri
+    wip = blank_wip id, uri
+    wip.task = :sleep
+    wip
   end
 
   it "should monitor the processing state" do
     subject.should_not be_running
-    subject.start { sleep }
+    subject.start
     subject.should be_running
     subject.kill
     subject.should_not be_running
