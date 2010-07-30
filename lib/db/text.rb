@@ -1,6 +1,6 @@
 # define arrays used for validating controlled vocabularies as defined in the textmd
 Linebreaks = ["CR", "CR/LF", "LF"]
-Byte_Order = ["little", "big", "middle", "unknown"]
+Text_Byte_Order = ["little", "big", "middle", "Unknown"]
 Markup_Basic = ["SGML", "XML", "GML"]
 Page_Order = ["left to right", "right to left"]
 Page_Sequence = ["reading order", "inverse reading order"]
@@ -11,17 +11,17 @@ class Text
   property :id, Serial, :key => true
   property :charset, String
     # character set employed by the text, see http://www.iana.org/assignments/character-sets
-  property :byte_order, String, :length => 10, :required => true, :default => "unknown"
+  property :byte_order, String, :length => 32, :required => true, :default => "Unknown"
     # byte order
   property :byte_size, Integer
     # the size of individual byte whtin the bits.
-  property :linebreak, String, :length => 10
+  property :linebreak, String, :length => 16
     # how linebreaks are represented in the text
-  property :language, String
+  property :language, String, :length => 128
     # language used in the text, use Use ISO 639-2 codes.
   property :markup_basic, String, :length => 10
     # The metalanguage used to create the markup language
-  property :markup_language, String
+  property :markup_language, String, :length => 255
     # Markup language employed on the text (i.e., the specific schema or dtd).
   property :processingNote, String
     # Any general note about the processing of the file
@@ -41,8 +41,10 @@ class Text
 
   def fromPremis premis
     attribute_set(:charset, premis.find_first("txt:character_info/txt:charset", NAMESPACES).content)
-    # attribute_set(:byte_order, premis.find_first("", NAMESPACES).content)
-    # attribute_set(:byte_size, premis.find_first("", NAMESPACES).content)
+    byte_order = premis.find_first("txt:character_info/txt:byte_order", NAMESPACES)
+    attribute_set(:byte_order, byte_order.content) if byte_order
+   	byte_size = premis.find_first("txt:character_info/txt:byte_size", NAMESPACES)
+ 	attribute_set(:byte_size, byte_size.content) if byte_order
     linebreak = premis.find_first("txt:character_info/txt:linebreak", NAMESPACES).content
     attribute_set(:linebreak, linebreak)
     # attribute_set(:language, premis.find_first("", NAMESPACES).content)
