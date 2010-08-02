@@ -18,3 +18,7 @@ group :test do
   gem 'ruby-debug', "~>0.10"
   gem "rack-test", "~>0.5", :require => 'rack/test'
 end
+
+group :thin do
+  gem 'thin'
+end
