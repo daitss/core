@@ -32,7 +32,7 @@ configure do
 
       #startable.each do |wip|
         #puts "starting #{wip.id}"
-        #wip.start_task
+        #wip.start
       #end
 
       #sleep 1
@@ -152,7 +152,7 @@ get '/delete_request/:ieid/:type' do |ieid, type|
 end
 
 post '/request' do
-  submit_request params['ieid'], params['type']  
+  submit_request params['ieid'], params['type']
 
   redirect "/package/#{params['ieid']}"
 end
@@ -201,8 +201,8 @@ post '/workspace' do
 
   case params['task']
   when 'start'
-    startable = ws.reject { |w| w.running? or w.done? or w.snafu? }
-    startable.each { |wip| wip.start_task }
+    startable = ws.reject { |w| w.running? or w.snafu? }
+    startable.each { |wip| wip.start }
 
   when 'stop'
     stoppable = ws.select { |w| w.running? }
@@ -215,7 +215,7 @@ post '/workspace' do
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']
     bin = StashBin.first :name => params['stash-bin']
-    stashable = ws.reject { |w| w.running? || w.done? }
+    stashable = ws.reject { |w| w.running? }
     stashable.each { |w| ws.stash w.id, bin }
 
   when nil, '' then error 400, "parameter task is required"
@@ -246,7 +246,7 @@ post '/workspace/:id' do |id|
   when 'start'
     error 400, 'cannot start a running wip' if wip.running?
     error 400, 'cannot start a snafu wip' if wip.snafu?
-    wip.start_task
+    wip.start
 
   when 'stop'
     error 400, 'cannot stop an idle wip' unless wip.running?
@@ -304,11 +304,13 @@ post '/stashspace/:bin/:wip' do |bin_name, wip_id|
     redirect "/workspace/#{wip_id}"
 
   when 'abort'
+
     # write ops event for abort
     sip = SubmittedSip.first :ieid => wip_id
     event = OperationsEvent.new :event_name => 'Abort'
     event.operations_agent = Program.system_agent
     event.submitted_sip = sip
+    event.timestamp = Time.now
     event.save or raise "cannot save op event"
 
     # remove package
@@ -331,7 +333,7 @@ get '/admin' do
   @accounts = Account.all
   @users = User.all
   @projects = Project.all
-  
+
   haml :admin
 end
 

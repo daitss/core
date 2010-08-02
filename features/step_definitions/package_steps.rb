@@ -1,7 +1,7 @@
 Given /^an archived package$/ do
   wip = submit 'mimi'
-  wip.start_task
-  sleep 0.5 until !wip.running?
+  wip.start
+  sleep 0.5 while wip.running?
 end
 
 When /^I goto its package page$/ do
