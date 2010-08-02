@@ -69,7 +69,7 @@ class AIPInPremis
       # If there is any failure during database save,
       # datamapper automatically rollback the change.
         # destroy all files in the int entities
-        dfs = Datafile.all(:intentity_id => entity.id)
+        dfs = Datafile.all(:intentity => entity.id)
         dfs.each do |df|
           raise "error deleting datafile #{df.inspect}" unless df.destroy
         end
