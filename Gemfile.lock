@@ -68,13 +68,13 @@ specs:
 - trollop: 
     version: 1.16.2
 - gherkin: 
-    version: 2.0.2
+    version: 2.1.5
 - json_pure: 
     version: 1.4.3
 - term-ansicolor: 
     version: 1.0.5
 - cucumber: 
-    version: 0.8.3
+    version: 0.8.5
 - extlib: 
     version: 0.9.15
 - dm-core: 
@@ -104,7 +104,7 @@ specs:
 - data_mapper: 
     version: 1.0.0
 - rjb: 
-    version: 1.2.5
+    version: 1.2.6
 - jxmlvalidator: 
     version: 0.1.1
 - libxml-ruby: 
@@ -118,9 +118,9 @@ specs:
 - sys-proctable: 
     version: 0.9.0
 - thor: 
-    version: 0.13.6
+    version: 0.14.0
 - daitss: 
-    version: 0.2.0
+    version: 0.3.0
 - data_objects: 
     version: 0.10.2
 - dm-do-adapter: 
@@ -142,7 +142,7 @@ specs:
 - linecache: 
     version: "0.43"
 - nokogiri: 
-    version: 1.4.2
+    version: 1.4.3.1
 - rack: 
     version: 1.2.1
 - rack-test: 
