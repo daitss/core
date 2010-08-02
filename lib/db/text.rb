@@ -3,7 +3,7 @@ Linebreaks = ["CR", "CR/LF", "LF"]
 Text_Byte_Order = ["little", "big", "middle", "Unknown"]
 Markup_Basic = ["SGML", "XML", "GML"]
 Page_Order = ["left to right", "right to left"]
-Page_Sequence = ["reading order", "inverse reading order"]
+Line_Layout = ["right-to-left", "left-to-right", "top-to-bottom", "bottom-to-top"]
 Line_Orientation = ["vertical", "horizontal"]
 
 class Text
@@ -19,17 +19,17 @@ class Text
     # how linebreaks are represented in the text
   property :language, String, :length => 128
     # language used in the text, use Use ISO 639-2 codes.
-  property :markup_basic, String, :length => 10
+  property :markup_basis, String, :length => 10
     # The metalanguage used to create the markup language
   property :markup_language, String, :length => 255
     # Markup language employed on the text (i.e., the specific schema or dtd).
-  property :processingNote, String
+  property :processing_note, String, :length => 255
     # Any general note about the processing of the file
-  property :pageOrder,  String, :length => 20, :required => true, :default => "left to right"
+  property :page_order,  String, :length => 32
     # The natural page turning order of the text
-  property :pageSequence, String, :length => 20, :required => true, :default => "reading order"
+  property :line_layout, String, :length => 32
     # The arrangement of the page-level divs in the METS file.
-  property :lineOrientation, String, :length => 20, :required => true, :default => "horizontal"
+  property :line_orientation, String, :length => 32
     # The orientation of the lines on the page
 
   property :datafile_id, String, :length => 100
@@ -47,13 +47,21 @@ class Text
  	attribute_set(:byte_size, byte_size.content) if byte_order
     linebreak = premis.find_first("txt:character_info/txt:linebreak", NAMESPACES).content
     attribute_set(:linebreak, linebreak)
-    # attribute_set(:language, premis.find_first("", NAMESPACES).content)
-    attribute_set(:markup_basic, premis.find_first("txt:language/txt:markup_basis", NAMESPACES).content)
-    attribute_set(:markup_language, premis.find_first("txt:language/txt:markup_language", NAMESPACES).content)
-    attribute_set(:processingNote, premis.find_first("txt:language/txt:processingNote", NAMESPACES).content)
-    # attribute_set(:pageOrder, premis.find_first("", NAMESPACES).content)
-    # attribute_set(:pageSequence, premis.find_first("", NAMESPACES).content)
-    # attribute_set(:lineOrientation, premis.find_first("", NAMESPACES).content)
+	language = premis.find_first("txt:language", NAMESPACES)
+	attribute_set(:language, language.content) if language
+	markup_basis = premis.find_first("txt:language/txt:markup_basis", NAMESPACES)
+    attribute_set(:markup_basis, markup_basis.content) if markup_basis
+	markup_language = premis.find_first("txt:language/txt:markup_language", NAMESPACES)
+    attribute_set(:markup_language, markup_language.content) if markup_language
+	processing_note = premis.find_first("txt:language/txt:processingNote", NAMESPACES)
+    attribute_set(:processing_note, processing_note.content) if processing_note
+    # following are textmd 3.0 alpha elements
+	page_order = premis.find_first("txt:pageOrder", NAMESPACES)
+	attribute_set(:page_order, page_order.content) if page_order
+	line_layout = premis.find_first("txt:lineLayout", NAMESPACES)
+	attribute_set(:line_layout, line_layout.content) if line_layout
+	line_orientation = premis.find_first("txt:lineOrientation", NAMESPACES)
+	attribute_set(:line_orientation, line_orientation.content) if line_orientation
   end
 
   before :save do
