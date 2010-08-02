@@ -4,43 +4,40 @@ require 'ruby-debug'
 
 require "daitss/config"
 require 'wip/ingest'
+require 'wip/disseminate'
+require 'wip/task'
 require 'db/operations_events'
 require 'workspace'
 
 include Daitss
 
-command = ARGV.shift
+CONFIG.load_from_env
+DataMapper.setup :default, CONFIG['database-url']
+WORKSPACE = Workspace.new CONFIG['workspace']
 
-case command
-when 'ingest'
+task = ARGV.shift or raise "no task given"
+id = ARGV.shift or raise "no wip given"
+wip = WORKSPACE[id] or raise "wip not in workspace"
 
-    begin
-      id = ARGV.shift
+begin
+  OUT_LOG = File.join wip.path, 'out.log'
+  ERR_LOG = File.join wip.path, 'err.log'
 
-      #configure
-      CONFIG.load_from_env
-      DataMapper.setup :default, CONFIG['database-url']
+  $stdout.reopen OUT_LOG, 'w'
+  $stderr.reopen ERR_LOG, 'w'
 
-      # find the wip
-      ws = Workspace.new CONFIG['workspace']
-      wip = ws[id]
-      raise "wip not in workspace" unless wip
+  wip.log_op_event "#{task} started"
 
-      # reset out & err
-      #$stdout.reopen File.join(wip.path, 'out.log'), 'w'
-      #$stderr.reopen File.join(wip.path, 'err.log'), 'w'
+  case task.to_sym
+  when Wip::TASK_INGEST then wip.ingest!
+  when Wip::TASK_DISSEMINATE then wip.disseminate
+  else raise "invalid task #{task.inspect}"
+  end
 
-      wip.log_op_event 'ingest started'
-      wip.ingest!
-      wip.log_op_event 'ingest finished'
-      FileUtils.rm_r wip.path unless wip.snafu?
-    rescue => e
-      wip.snafu = e
-      wip.log_op_event 'ingest snafu'
-      exit 1
-    end
-
-else
-  $stderr.puts 'invalid command: #{command}'
+  wip.log_op_event "#{task} finished"
+  FileUtils.rm_r wip.path unless wip.snafu?
+rescue => e
+  wip.snafu = e
+  wip.log_op_event "#{task} snafu"
   exit 1
 end
