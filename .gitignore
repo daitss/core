@@ -1,4 +1,5 @@
 vendor
+.bundle
 *.gem
 *.log
 *.swo
