@@ -28,9 +28,9 @@ Given /^it has (\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
       end
 
     when 'stopped'
-      wip.start_task
+      wip.start
       wip.stop
-    when 'running' then wip.start_task
+    when 'running' then wip.start
     end
 
   end
