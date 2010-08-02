@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'wip/task'
 require 'uuid'
+require 'wip/ingest'
 
 describe Wip do
 
@@ -36,6 +37,30 @@ describe Wip do
     wip.start
     sleep 0.5 while wip.running?
     Aip.get(wip.id).should_not be_nil
+    File.exist?(wip.path).should be_false
+  end
+
+  it 'should disseminate via task' do
+
+    # ingest a package
+    proto_wip = submit 'mimi'
+    proto_wip.ingest!
+    Aip.get! proto_wip.id
+    id, uri = proto_wip.id, proto_wip.uri
+    FileUtils::rm_r proto_wip.path
+
+    # move it to the workspace
+    ws = Workspace.new Daitss::CONFIG['workspace']
+    wip = blank_wip id, uri
+    wip.tags['drop-path'] = "/tmp/#{id}.tar"
+    FileUtils.mv wip.path, ws.path
+
+    wip = ws[id]
+    wip.task = :disseminate
+    wip.start
+    sleep 0.5 while wip.running?
+    Aip.get(wip.id).should_not be_nil
+    File.exist?(wip.path).should be_false
   end
 
 end

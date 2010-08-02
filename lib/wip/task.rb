@@ -3,6 +3,9 @@ require 'wip/snafu'
 
 class Wip
 
+  TASK_INGEST = :ingest
+  TASK_DISSEMINATE = :disseminate
+
   def task
 
     if tags.has_key? 'task'
