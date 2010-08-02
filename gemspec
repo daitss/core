@@ -19,5 +19,5 @@ spec = Gem::Specification.new do |spec|
 
   spec.executables = ['daitss', 'ingest', 'dbin']
 
-  #spec.add_bundler_dependencies
+  spec.add_bundler_dependencies
 end
