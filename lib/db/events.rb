@@ -87,7 +87,6 @@ Event_Map = {
           processAnomalies(nodes)
           nodes = detailsExtension.find("premis:broken_link", NAMESPACES)
           unless (nodes.empty?)
-			puts detailsExtension
             brokenlink = BrokenLink.new
             brokenlink.fromPremis(@df, detailsExtension)
           end
