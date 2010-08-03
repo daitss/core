@@ -19,7 +19,7 @@ class Document
   property :lineCount, Integer # total number of lines in the document
   property :tableCount, Integer # total number of tables in the document
   property :graphicsCount, Integer # total number of graphics in the document
-  property :language, String # the natural language used in the document (language code)
+  property :language, String, :length => 128 # the natural language used in the document (language code)
   property :features, Flag[:isTagged, :hasOutline, :hasThumbnails, :hasLayers, :hasForms, 
     :hasAnnotations, :hasAttachments, :useTransparency]
     # additional document features.
@@ -73,7 +73,7 @@ end
 class Font
   include DataMapper::Resource
   property :id, Serial, :key => true
-  property :fontname, String 
+  property :fontname, String, :length => 255
     # the name of the font
   property :embedded, Boolean 
     # where  or not the font is embedded in the document

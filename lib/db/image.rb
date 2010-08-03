@@ -1,3 +1,6 @@
+# Please see mix 2.0 data dictionary for byte order values
+Image_Byte_Order = ["big endian", "little endian", "Unknown"]
+
 # Please see mix 2.0 data dictionary and NISO data in JHOVE for the compression scheme value
 Compression_Scheme = ["Unknown", "Uncompressed", "CCITT 1D", "CCITT Group 3", "CCITT Group 4", "LZW", "JPEG",  "ISO JPEG",  "Deflate",
    "JBIG", "RLE with word alignment", "PackBits", "NeXT 2-bit encoding", "ThunderScan 4-bit encoding", "RasterPadding in CT or MP",   
@@ -46,31 +49,33 @@ Extra_Samples = ["unspecified data", "associated alpha data", "unassociated alph
 class Image
   include DataMapper::Resource
   property :id, Serial, :key => true
+  property :byte_order, String, :length => 32, :required => true, :default => "Unknown"
+    # byte order
   property :width, Integer, :min => 0
     # the width of the image, in pixels.
   property :height, Integer, :min => 0
     # the height of the image, in pixels.
-  property :compression_scheme, String, :length => 25, :required => true, :default => "Unknown"
+  property :compression_scheme, String, :length => 64, :required => true, :default => "Unknown"
 	validates_with_method :compression_scheme, :method => :validate_compression_scheme
     # compression scheme used to store the image data
-  property :color_space,  String, :length => 25, :required => true, :default => "Unknown"
+  property :color_space,  String, :length => 64, :required => true, :default => "Unknown"
 	validates_with_method :color_space, :method => :validate_color_space
     # the color model of the decompressed image
-  property :orientation, String, :length => 25, :required => true, :default => "Unknown"
+  property :orientation, String, :length => 32, :required => true, :default => "Unknown"
 	validates_with_method :orientation, :method => :validate_orientation
     # orientation of the image, with respect to the placement of its width and height.
-  property :sample_frequency_unit, String, :length => 50, :required => true, :default => "no absolute unit of measurement"
+  property :sample_frequency_unit, String, :length => 64, :required => true, :default => "no absolute unit of measurement"
 	validates_with_method :sample_frequency_unit, :method => :validate_sample_frequency_unit
     # the unit of measurement for x and y sampling frequency
   property :x_sampling_frequency, Float
     # the number of pixels per sampling frequency unit in the image width
   property :y_sampling_frequency, Float
     # the number of pixels per sampling frequency unit in the image height
-  property :bits_per_sample, String # use value "1", "4", "8", "8,8,8", "8,2,2", "16,16,16", "8,8,8,8"]
+  property :bits_per_sample, String, :length => 255 # use value "1", "4", "8", "8,8,8", "8,2,2", "16,16,16", "8,8,8,8"]
     # the number of bits per component for each pixel
   property :samples_per_pixel, Integer # positive int, TODO min = 0
     # the number of color components per pixel
-  property :extra_samples, String, :length => 25, :required => true, :default => "unspecified data"
+  property :extra_samples, String, :length => 255, :required => true, :default => "unspecified data"
     # specifies that each pixel has M extra components whose interpretation is defined as above
 
   property :datafile_id, String, :length => 100
@@ -121,6 +126,8 @@ class Image
   end
 
   def fromPremis premis
+	byte_order = premis.find_first("mix:BasicDigitalObjectInformation/mix:byteOrder", NAMESPACES)
+	attribute_set(:byte_order, byte_order.content) if byte_order
     attribute_set(:width, premis.find_first("mix:BasicImageInformation/mix:BasicImageCharacteristics/mix:imageWidth", NAMESPACES).content)
     attribute_set(:height, premis.find_first("mix:BasicImageInformation/mix:BasicImageCharacteristics/mix:imageHeight", NAMESPACES).content)
     compressionScheme = premis.find_first("mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme", NAMESPACES)

@@ -25,12 +25,13 @@ class Datafile < Pobject
   # map from package_path + file_title + file_ext
   property :creating_application, String, :length => (0..255)
 
-  property :r0, String, :index => true, :length => 100
-  # contains the id of the original representation if this datafile is part of it
-  property :rn, String, :index => true, :length => 100
-  # contains the id of the representation norm if this datafile is part of it
-  property :rc, String, :index => true, :length => 100
-  # contains the id of the representation current if this datafile is part of it
+  property :r0, Boolean, :default  => false  
+  #true if this datafile is part of the original representation
+  property :rn, Boolean, :default  => false  
+  #true if this datafile is part of the normalized representation
+  property :rc, Boolean, :default  => false  
+  #true if this datafile is part of the current representation
+
   belongs_to :intentity
 
   has 0..n, :bitstreams, :constraint=>:destroy # a datafile may contain 0-n bitstream(s)
@@ -118,11 +119,11 @@ class Datafile < Pobject
   # set the representation (r0, rn, rc) which contains this datafile
   def setRepresentations(rep_id)
     if (rep_id.include? REP_0)
-      attribute_set(:r0, rep_id)
+      attribute_set(:r0, true)
     elsif  (rep_id.include? REP_CURRENT)
-      attribute_set(:rc, rep_id)
+      attribute_set(:rc, true)
     elsif (rep_id.include? REP_NORM)
-      attribute_set(:rn, rep_id)
+      attribute_set(:rn, true)
     end
   end
 
