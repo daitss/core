@@ -17,30 +17,15 @@
 
 %hr/
 
-- if @results
+%h2
+  - if @query
+    results
+    (
+    = @packages.size
+    )
 
-  %h2
-    results (#{@results.size})
+  - else
+    latest activity
 
-  %ol.results
-    - @results.each do |p|
-      %li
-        %h3
-          %a{:href => "/package/#{p.ieid}"}= p.ieid
-- else
-
-  %h2 latest activity
-
-  %table
-    %tr
-      %th package
-      %th account
-      %th project
-      %th activity
-    - @latest.each do |p|
-      %tr
-        %td
-          %a{:href => "/package/#{p.ieid}"}= p.ieid
-        %td= p.project.account.code
-        %td= p.project.code
-        %td= p.operations_events.last.event_name
+- unless @packages.empty?
+  = partial :package_table, :locals => {:packages => @packages }

@@ -21,6 +21,31 @@ require 'db/sip'
 require 'db/operations_events'
 require 'semver'
 
+class Wip
+
+  def package
+    SubmittedSip.first :ieid => id
+  end
+
+end
+
+class DateTime
+
+  def pragma
+    now = DateTime.now
+
+    if now.jd == self.jd
+      self.strftime('%I:%M %p').downcase
+    elsif now.year = self.year
+      self.strftime '%b %d'
+    else
+     self.strftime '%D'
+    end
+
+  end
+
+end
+
 APP_VERSION = SemVer.find(File.dirname(__FILE__)).format "v%M.%m.%p%s"
 
 configure do
@@ -62,41 +87,45 @@ helpers do
     SubmittedSip.all(:package_name => ids) | SubmittedSip.all(:ieid => ids)
   end
 
+  def partial template, options={}
+    haml template, options.merge!(:layout => false)
+  end
+
 end
 
 def submit_request ieid, type
-    url = "#{Daitss::CONFIG['request']}/requests/#{ieid}/#{type}"
+  url = "#{Daitss::CONFIG['request']}/requests/#{ieid}/#{type}"
 
-    url = URI.parse url
-    req = Net::HTTP::Post.new url.path
-    req.basic_auth 'operator', 'operator'
+  url = URI.parse url
+  req = Net::HTTP::Post.new url.path
+  req.basic_auth 'operator', 'operator'
 
-    res = Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = Daitss::CONFIG['http-timeout']
-      http.request req
-    end
+  res = Net::HTTP.start(url.host, url.port) do |http|
+    http.read_timeout = Daitss::CONFIG['http-timeout']
+    http.request req
+  end
 
-    unless Net::HTTPSuccess === res
-      error res.code, res.body
-    end
+  unless Net::HTTPSuccess === res
+    error res.code, res.body
+  end
 
 end
 
 def delete_request ieid, type
-    url = "#{Daitss::CONFIG['request']}/requests/#{ieid}/#{type}"
+  url = "#{Daitss::CONFIG['request']}/requests/#{ieid}/#{type}"
 
-    url = URI.parse url
-    req = Net::HTTP::Delete.new url.path
-    req.basic_auth 'operator', 'operator'
+  url = URI.parse url
+  req = Net::HTTP::Delete.new url.path
+  req.basic_auth 'operator', 'operator'
 
-    res = Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = Daitss::CONFIG['http-timeout']
-      http.request req
-    end
+  res = Net::HTTP.start(url.host, url.port) do |http|
+    http.read_timeout = Daitss::CONFIG['http-timeout']
+    http.request req
+  end
 
-    unless Net::HTTPSuccess === res
-      error res.code, res.body
-    end
+  unless Net::HTTPSuccess === res
+    error res.code, res.body
+  end
 end
 
 
@@ -146,14 +175,20 @@ post '/request' do
 end
 
 get '/packages?' do
+  @query = params['search']
 
-  if params['search']
-    @query = params['search']
-    @results = search @query
-  else
-    t0 = Date.today - 7
-    oes = OperationsEvent.all :timestamp.gt => t0
-    @latest = oes.map { |oe| oe.submitted_sip }.uniq
+  @packages = if @query
+                search @query
+              else
+                t0 = Date.today - 7
+                oes = OperationsEvent.all :timestamp.gt => t0
+                oes.map { |oe| oe.submitted_sip }.uniq
+              end
+
+  @packages.sort! do |a,b|
+    t_a = a.operations_events.last.timestamp
+    t_b = b.operations_events.last.timestamp
+    t_b <=> t_a
   end
 
   haml :packages
@@ -379,14 +414,14 @@ post '/add_user' do
   end
 
   u.attributes = { :identifier => params['username'],
-                   :first_name => params['first_name'],
-                   :last_name => params['last_name'],
-                   :email => params['email'],
-                   :phone => params['phone'],
-                   :address => params['address'],
-                   :description => "",
-                   :active_start_date => 0,
-                   :active_end_date => Time.now + 31556926 }
+    :first_name => params['first_name'],
+    :last_name => params['last_name'],
+    :email => params['email'],
+    :phone => params['phone'],
+    :address => params['address'],
+    :description => "",
+    :active_start_date => 0,
+    :active_end_date => Time.now + 31556926 }
 
   u.account = a
   u.save
