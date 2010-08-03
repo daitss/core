@@ -22,3 +22,22 @@ Then /^I should see the packages? in the results$/ do
   end
 
 end
+
+Then /^I should see a "([^"]*)" heading$/ do |heading|
+  doc = Nokogiri::HTML last_response.body
+  rules = (1..3).map { |n| "h#{n}:contains('#{heading}')"}
+  matches = doc.css *rules
+  matches.should_not be_empty
+end
+
+Then /^I should see the following columns:$/ do |table|
+
+  table.headers.each do |h|
+    last_response.should have_selector("th:contains('#{h}')")
+  end
+
+end
+
+Then /^the package column should link to a package$/ do
+  last_response.should have_selector("td a[href*='/package/']")
+end

@@ -27,3 +27,11 @@ Feature: be able to locate any package
     When I enter one package id and one sip id into the box
     And I press "Search"
     Then I should see the packages in the results
+
+  Scenario: show the latest activity
+    Given I submit 2 packages
+    When I goto "/packages"
+    Then I should see a "latest activity" heading
+    And I should see the following columns:
+      | package | account | project | activity |
+    And the package column should link to a package

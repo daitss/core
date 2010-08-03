@@ -1,29 +1,46 @@
-#search
-  %h1 search packages
+%h1 search packages
 
-  %form
-    %input#search{:type => 'text', :name => 'search', :value => @query}
-    %input{:type => 'submit', :value => "Search"}
+%form
+  %input#search{:type => 'text', :name => 'search', :value => @query}
+  %input{:type => 'submit', :value => "Search"}
 
-    %p
+  %p
+    %strong
       %em aip
-      or
+    or
+    %strong
       %em sip
-      separated by spaces
+    separated by spaces.
 
-    %p
-      example:
-      %code UF2543330 E2009_00FJ543
+    Example:
+    %code UF2543330 E2009_00FJ543
 
-  - if @results
+%hr/
 
-    %hr/
+- if @results
 
-    %h2
-      results (#{@results.size})
+  %h2
+    results (#{@results.size})
 
-    %ol.results
-      - @results.each do |p|
-        %li
-          %h3
-            %a{:href => "/package/#{p.ieid}"}= p.ieid
+  %ol.results
+    - @results.each do |p|
+      %li
+        %h3
+          %a{:href => "/package/#{p.ieid}"}= p.ieid
+- else
+
+  %h2 latest activity
+
+  %table
+    %tr
+      %th package
+      %th account
+      %th project
+      %th activity
+    - @latest.each do |p|
+      %tr
+        %td
+          %a{:href => "/package/#{p.ieid}"}= p.ieid
+        %td= p.project.account.code
+        %td= p.project.code
+        %td= p.operations_events.last.event_name
