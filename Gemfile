@@ -1,10 +1,10 @@
-# A sample Gemfile
 source :gemcutter
 
 gem "sinatra", "~>1.0"
-gem "haml", "~>2.2"
+gem "haml"
 gem 'nokogiri', "~>1.4"
 gem "daitss"
+gem "semver"
 
 gem "data_mapper", "~>1.0.0"
 gem "dm-sqlite-adapter", "~>1.0.0"

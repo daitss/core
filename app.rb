@@ -1,6 +1,7 @@
 require 'bundler'
 Bundler.setup
 
+require 'ruby-debug'
 require 'sinatra'
 require 'haml'
 require 'sass'
@@ -18,28 +19,15 @@ require 'aip'
 require 'stashbin'
 require 'db/sip'
 require 'db/operations_events'
+require 'semver'
+
+APP_VERSION = SemVer.find(File.dirname(__FILE__)).format "v%M.%m.%p%s"
 
 configure do
   Daitss::CONFIG.load_from_env
   ws = Workspace.new(Daitss::CONFIG['workspace'])
   set :workspace, ws
   DataMapper.setup :default, Daitss::CONFIG['database-url']
-
-  #Thread.new do
-
-    #loop do
-      #startable = ws.select { |w| w.state == 'idle' }
-
-      #startable.each do |wip|
-        #puts "starting #{wip.id}"
-        #wip.start
-      #end
-
-      #sleep 1
-    #end
-
-  #end
-
 end
 
 helpers do
