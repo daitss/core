@@ -1,7 +1,8 @@
 class BrokenLink
   include DataMapper::Resource
-  
-  property :datafile_id, String,  :key => true, :length => 100
+
+  property :id, Serial
+
   property :broken_links, Text
   # a "|" separated list of all broken links in the datafile
 
@@ -16,7 +17,7 @@ class BrokenLink
     attribute_set(:broken_links, links.join("|"))
     df.broken_links << self
   end
-  
+
  after :save do
     puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
   end
