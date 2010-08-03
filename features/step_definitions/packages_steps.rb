@@ -18,7 +18,7 @@ Then /^I should see the packages? in the results$/ do
 
   sips.each do |s|
     id = s[:wip]
-    last_response.should have_selector("ol.results li a[href='/package/#{id}']:contains('#{id}')")
+    last_response.should have_selector("td a[href='/package/#{id}']:contains('#{id}')")
   end
 
 end

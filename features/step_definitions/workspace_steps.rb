@@ -30,7 +30,10 @@ Given /^it has (\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
     when 'stopped'
       wip.start
       wip.stop
-    when 'running' then wip.start
+
+    when 'running'
+      wip.start
+
     end
 
   end
@@ -53,9 +56,9 @@ Then /^there should be (\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, s
   doc = Nokogiri::HTML last_response.body
 
   unless state.empty?
-    (doc / "table#packages tr td:contains('#{state}')").size.should == count.to_i
+    (doc / "td:contains('#{state}')").size.should == count.to_i
   else
-    (doc / "table#packages tr").size.should == count.to_i
+    (doc / "tr td:first-child").size.should == count.to_i
   end
 
 end

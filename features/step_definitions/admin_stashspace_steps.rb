@@ -1,8 +1,7 @@
 Given /^a stash bin named "([^\"]*)"$/ do |name|
-  path = Dir.mktmpdir
-  $cleanup << path
   @the_bin = StashBin.new :name => name
   @the_bin.save or raise "could not save stashbin"
+  $cleanup << @the_bin.path
 end
 
 Given /^a stash bin named "([^\"]*)" with (\d+) package$/ do |name, count|
