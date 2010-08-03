@@ -37,7 +37,12 @@ namespace :services do
     TestEnv.config
     TestEnv.mkdirs
     DataMapper.setup :default, Daitss::CONFIG['database-url']
-    TestEnv::SERVICES.each_with_index { |s,ix| s.start(TestEnv::BASE_PORT + ix) }
+
+    TestEnv::SERVICES.each_with_index do |s,ix|
+      puts "starting #{s.name}"
+      s.start(TestEnv::BASE_PORT + ix)
+    end
+
   end
 
   desc "nuke the service stack installation dir"
