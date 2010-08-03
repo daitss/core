@@ -150,6 +150,10 @@ get '/packages?' do
   if params['search']
     @query = params['search']
     @results = search @query
+  else
+    t0 = Date.today - 7
+    oes = OperationsEvent.all :timestamp.gt => t0
+    @latest = oes.map { |oe| oe.submitted_sip }.uniq
   end
 
   haml :packages
