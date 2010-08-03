@@ -1,15 +1,20 @@
 %html
   %head
-    %link{:href => "http://fonts.googleapis.com/css?family=Molengo", :rel => "stylesheet", :type => "text/css"}
-    %link{:href => "http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:300", :rel => "stylesheet", :type => "text/css"}
+    %link{:href => "http://fonts.googleapis.com/css?family=Droid+Sans+Mono",
+          :rel => "stylesheet", :type => "text/css"}
+    %link{:href => "http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold",
+          :rel => "stylesheet", :type => "text/css"}
+    %link{:href => "http://fonts.googleapis.com/css?family=Droid+Serif:regular,bold,italic,bolditalic",
+          :rel => "stylesheet", :type => "text/css"}
     %link{:rel => "stylesheet", :href => "/stylesheet.css", :type =>"text/css", :media =>"screen, projection"}
 
     %title Workspace Monitor (new boss)
   %body
     #content
       #navigation
-        %a.overview{ :href => '/' } overview
-        = ":"
+        %span#applink
+          %a{ :href => '/' }= APP_VERSION
+          &nbsp;
         %a{ :href => '/submit' } submit
         = ":"
         %a{ :href => '/packages' } packages
@@ -20,5 +25,4 @@
         = ":"
         %a{ :href => '/admin' } admin
         %hr
-      #non-navigationx
-        = yield
+      = yield

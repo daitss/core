@@ -1,14 +1,13 @@
-#stashspace
-  %h1
-    stash bins
-    (
-    = @bins.size
-    )
+%h1
+  stash bins
+  (
+  = @bins.size
+  )
 
-  %table
-    - @bins.all.each do |bin|
-      %tr
-        %td
-          %a{:href => "/stashspace/#{bin.url_name}" }
-            = bin.name
-        %td= bin.wips.size
+%table
+  - @bins.all.each do |bin|
+    %tr
+      %td
+        %a{:href => "/stashspace/#{bin.url_name}" }
+          = bin.name
+      %td= bin.wips.size

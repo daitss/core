@@ -1,84 +1,71 @@
-!white = #FFFFFF
-!black = #000000
+$white: #FFFFFF
+$black: #000000
 
-!light_gray = #E4E9E4
-!dark_gray=  #222020
+$light_gray: #E4E9E4
+$dark_gray: #222020
 
-!e_orange = #F58123
-!e_blue = #0097DB
-!e_blue2 = #0084A9
-!e_blue3 = #2baae2
-!e_gray = #364046
-!e_red = #dc2628
+$e_orange: #F58123
+$e_blue: #0097DB
+$e_blue2: #0084A9
+$e_blue3: #2baae2
+$e_gray: #364046
+$e_red: #dc2628
 
 body
   margin: 0px
-  //font-family: "Helvetica", sans-serif
-  font-family: "Molengo", sans-serif
-  background-color = !dark_gray
+  font-family: "Droid Sans", sans-serif
 
 h1, h2, h3
-  color = !e_blue2
-  font-weight: 400
+  color: $e_blue2
+  font-weight: bold
   padding: 5px
 
 a
-  color = !e_blue
+  color: $e_blue
   text-decoration: none
   font-weight: 400
   &:hover
-    color = !e_orange
+    color: $e_orange
     text-decoration: underline
+p
+  font-family: "Droid Serif", serif
 
 hr
-  color = !light_gray
-  background-color = !light_gray
-  //-webkit-box-shadow: gray 1px 1px 2px
-  //-moz-box-shadow: gray 1px 1px 2px
-  //box-shadow: gray 1px 1px 2px
-  border-radius-bottom-left: 5px
-  height: 5px
+  color: $light_gray
+  background-color: $light_gray
+  height: 3px
   border: 0
 
+code
+  font-family: "Droid Sans Mono", monospace
+  font-size: 14pt
+
 #content
-  margin-top: 0px
-  margin-bottom: 0px
   margin-left: 30px
   margin-right: 30px
-  padding:
-    top: 0px
-    bottom: 30px
-    left: 5px
-    right: 5px
-  background-color: white
-  border-bottom-right-radius: 10px
-  border-bottom-left-radius: 10px
+  padding: 5px
 
 #navigation
-  font-family: "Yanone Kaffeesatz", sans-serif
-  text-align: center
-  margin-left: 20px
-  margin-right: 20px
-  color = !e_gray
-  background-color: white
-  padding: 5px
-  font-size: 2em
-  a
-    color = !e_blue
-    //text-shadow: gray 1px 1px 2px
-  a.overview
-    color = !e_red
+  font-family: "Droid Sans", sans-serif
+  color: $e_gray
+  font-size: 18pt
 
-#summary, #workspace, #submit, #search, #wip, #package, #stashspace, #stashbin, #admin, #request
-  margin-left: 20%
-  margin-right: 20%
+  a
+    color: $e_blue3
+
+  span#applink
+    a
+      font-family: "Droid Sans"
+      font-weight: bold
+      font-size: 20pt
+      color: $e_orange
 
 #summary
   table
     width: 80%
     th
       width: 20%
-      color = !e_gray
+      color: $e_gray
       text-align: left
     td
       width: 40%
@@ -89,7 +76,7 @@ hr
     width: 100%
     th
       width: 60%
-      color = !e_gray
+      color: $e_gray
       text-align: left
     td
       width: 40%
@@ -104,7 +91,7 @@ hr
       text-align: left
       padding: 5px
     tr:nth-child(even)
-      background-color = !light_gray
+      background-color: $light_gray
 
 #search
   text-align: left
@@ -113,19 +100,19 @@ hr
 #snafu
   padding: 10px
   border-radius: 10px
-  background-color = !dark_gray
-  color = !light_gray
+  background-color: $dark_gray
+  color: $light_gray
 
   h2
-    color = !e_orange
+    color: $e_orange
 
   table
     tr
       th
         //text-align: right
         width: 10%
-        color = !e_orange
+        color: $e_orange
 
       td
         text-align: left
-        color = !light_gray
+        color: $light_gray
