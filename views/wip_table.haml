@@ -1,0 +1,17 @@
+- space ||= 'workspace'
+%table
+  %tr
+    %th package
+    %th sip
+    %th task
+    %th status
+    %th time
+  - wips.each do |w|
+    %tr
+      %td
+        %a{:href => "/#{space}/#{w.id}"}= w.id
+
+      %td= w['sip-name']
+      %td= w.task
+      %td= w.state
+      %td= w.package.operations_events.last.timestamp.pragma

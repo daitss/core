@@ -9,7 +9,7 @@
     )
 
   - if @wip.snafu?
-    = haml :wip_snafu, :layout => false
+    = partial :wip_snafu
 
   %hr/
 
@@ -46,4 +46,4 @@
   %hr/
 
   %h2 progress
-  = haml :wip_progress, :layout => false
+  = partial :wip_progress

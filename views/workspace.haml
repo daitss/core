@@ -30,12 +30,6 @@
   (
   = @ws.to_a.size
   )
-%table#packages
-  - @ws.each do |w|
-    %tr
-      %td
-        %a{:href => "/workspace/#{w.id}"}
-          = w.id
-      %td= w['sip-name']
-      %td= w.task
-      %td= w.state
+
+- unless @ws.to_a.empty?
+  = partial :wip_table, :locals => { :wips => @ws.to_a }
