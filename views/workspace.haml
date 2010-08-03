@@ -1,38 +1,41 @@
-#workspace
-  %h1
-    update all packages
+%h1
+  update jobs
 
-  #update-form
+#update-form
 
-    %form{:action => '/workspace', :method => 'post'}
+  %form{:action => '/workspace', :method => 'post'}
 
-      %input#state-start{:type => 'radio', :name => 'task', :value => 'start'}
-      %label{:for => 'state-start'} start
-      %br/
-      %input#state-stop{:type => 'radio', :name => 'task', :value => 'stop'}
-      %label{:for => 'state-stop'} stop
-      %br/
-      %input#state-unsnafu{:type => 'radio', :name => 'task', :value => 'unsnafu'}
-      %label{:for => 'state-unsnafu'} unsnafu
-      %br/
-      %input#state-stash{:type => 'radio', :name => 'task', :value => 'stash'}
-      %label{:for => 'state-stash'} stash
-      %select{:name => 'stash-bin'}
-        - @bins.each do |bin|
-          %option= bin.name
-      %br/
-      %br/
-      %input{:type => 'submit', :value => "Update"}
+    %input#state-start{:type => 'radio', :name => 'task', :value => 'start'}
+    %label{:for => 'state-start'} start
+    %br/
+    %input#state-stop{:type => 'radio', :name => 'task', :value => 'stop'}
+    %label{:for => 'state-stop'} stop
+    %br/
+    %input#state-unsnafu{:type => 'radio', :name => 'task', :value => 'unsnafu'}
+    %label{:for => 'state-unsnafu'} unsnafu
+    %br/
+    %input#state-stash{:type => 'radio', :name => 'task', :value => 'stash'}
+    %label{:for => 'state-stash'} stash
+    %select{:name => 'stash-bin'}
+      - @bins.each do |bin|
+        %option= bin.name
+    %br/
+    %br/
+    %input{:type => 'submit', :value => "Update"}
 
-  %hr/
+%hr/
 
-  %h1 current packages
-  %table#packages
-    - @ws.each do |w|
-      %tr
-        %td
-          %a{:href => "/workspace/#{w.id}"}
-            = w.id
-        %td= w['sip-name']
-        %td= w.task
-        %td= w.state
+%h1
+  current jobs
+  (
+  = @ws.to_a.size
+  )
+%table#packages
+  - @ws.each do |w|
+    %tr
+      %td
+        %a{:href => "/workspace/#{w.id}"}
+          = w.id
+      %td= w['sip-name']
+      %td= w.task
+      %td= w.state

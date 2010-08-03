@@ -1,44 +1,43 @@
-#summary
-  %h1 wip summary
+%h1 wip summary
 
-  %table
-    %tr
-      %th count
-      %td= settings.workspace.to_a.size
+%table
+  %tr
+    %th count
+    %td= settings.workspace.to_a.size
 
-    %tr
-      %th running
-      %td= settings.workspace.select { |w| w.running? }.size
-    %tr
-      %th snafu
-      %td= settings.workspace.select { |w| w.snafu? }.size
-  %hr
+  %tr
+    %th running
+    %td= settings.workspace.select { |w| w.running? }.size
+  %tr
+    %th snafu
+    %td= settings.workspace.select { |w| w.snafu? }.size
+%hr
 
-  %h1 sip summary
+%h1 sip summary
 
-  %table
-    %tr
-      %th count
-      %td= SubmittedSip.count
-    %tr
-      %th files
-      %td= SubmittedSip.sum :number_of_datafiles
-    %tr
-      %th total size
-      %td= SubmittedSip.sum :package_size
+%table
+  %tr
+    %th count
+    %td= SubmittedSip.count
+  %tr
+    %th files
+    %td= SubmittedSip.sum :number_of_datafiles
+  %tr
+    %th total size
+    %td= SubmittedSip.sum :package_size
 
-  %hr
+%hr
 
-  %h1 aip summary
+%h1 aip summary
 
-  %table
-    %tr
-      %th count
-      %td= Aip.count
-    %tr
-      %th files
-      %td= Aip.sum :datafile_count
-    %tr
-      %th total size
-      %td= Aip.sum :copy_size
+%table
+  %tr
+    %th count
+    %td= Aip.count
+  %tr
+    %th files
+    %td= Aip.sum :datafile_count
+  %tr
+    %th total size
+    %td= Aip.sum :copy_size
 

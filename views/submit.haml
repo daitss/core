@@ -1,14 +1,15 @@
-#submit
-  %h1
-    submit a package
-  %form{:action => '/submit', :method => 'POST', :enctype => 'multipart/form-data'}
-    %input{:type => 'file', :name=>'sip'}
-    %br
-    %br
-    %input{:type => 'submit', :value => 'Submit'}
-  %p
-    packages must be in
+%h1
+  submit a package
+%form{:action => '/submit', :method => 'POST', :enctype => 'multipart/form-data'}
+  %input{:type => 'file', :name=>'sip'}
+  %br
+  %br
+  %input{:type => 'submit', :value => 'Submit'}
+%p
+  packages must be in
+  %strong
     %em tar
-    or
+  or
+  %strong
     %em zip
-    format
+  format
