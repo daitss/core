@@ -2,6 +2,7 @@ require 'sys/proctable'
 
 class Wip
 
+  # Returns true if the wip is running
   def running?
     pid, starttime = process
 
@@ -20,25 +21,34 @@ class Wip
 
   end
 
-
+  # Starts a wip. if the wip is stopped the stopped stated is removed first.
   def start
     unstop if stopped?
 
     unless running?
 
-      pid = fork do
-        %w(TERM INT QUIT HUP).each { |signal| Signal.trap signal, "DEFAULT" }
-        #$stderr = StringIO.new
-        yield self
-        exit
-      end
+      command = case task
+                when :ingest
+                  ["dbin", "ingest", self.id]
 
+                when :disseminate
+                  ["dbin", "disseminate", self.id]
+
+                when :sleep
+                  %w(sleep 1000)
+
+                else raise "invalid task: #{task}"
+                end
+
+      pid = fork { exec *command }
       Process.detach pid
       self.process = pid
     end
 
   end
 
+  # Kills the process operating on a wip. +signal+ by default is +INT+. any
+  # valid signal may be passed.
   def kill signal="INT"
 
     while running?
@@ -56,10 +66,12 @@ class Wip
     tags.delete 'process'
   end
 
+  # Returns the pid of the process operating on the wip
   def pid
     process.first if running?
   end
 
+  # Returns the time when the process was started
   def pid_time
     process.last if running?
   end

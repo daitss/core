@@ -6,17 +6,29 @@ require "uuid"
 SIPS_DIR = File.join File.dirname(__FILE__), '..', 'sips'
 
 def submit sip_name, workspace=nil
+  wip_id = UUID.generate :compact
+
+
   workspace = Workspace.new $sandbox if workspace.nil?
 
   # make the sip
   sip_path = File.join SIPS_DIR, sip_name
   sip = Sip.new sip_path
 
+  # add a sip record
+  Dir.chdir sip.path do
+    ss = SubmittedSip.new
+    ss.package_name = sip.name
+    ss.package_size = sip.files.inject(0) { |sum, f| sum + File.size(f) }
+    ss.number_of_datafiles = sip.files.size
+    ss.ieid = wip_id
+    ss.save or raise "cannot make submitted sip"
+  end
+
   # make a staging area
   FileUtils.mkdir_p File.join(workspace.path, '.tmp')
 
   # make a wip in the staging area
-  wip_id = UUID.generate :compact
   path = File.join workspace.path, '.tmp', wip_id
   uri = "#{Daitss::CONFIG['uri-prefix']}/#{wip_id}"
   wip = Wip.from_sip path, uri, sip

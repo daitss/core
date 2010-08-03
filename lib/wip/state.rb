@@ -10,7 +10,6 @@ class Wip
     if running? then 'running'
     elsif stopped? then 'stopped'
     elsif snafu? then 'snafu'
-    elsif done? then 'complete'
     else 'idle'
     end
 

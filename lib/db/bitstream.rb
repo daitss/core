@@ -41,19 +41,4 @@ class Bitstream < Pobject
      #   docs.each {|doc| doc.destroy}
    end
 
- after :save do
- 	puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
-
-    # need to call valid? prior to getting the datamapper validation errors, otherwise, datamapper always return empty error
-	documents.map &:valid?
-	texts.map &:valid?
-	audios.map &:valid?
-	images.map &:valid?
-	
-	documents.each {|b| puts b.errors.to_a }
-	texts.each {|b| puts b.errors.to_a }
-	audios.each {|b| puts b.errors.to_a }
-    images.each {|b| puts b.errors.to_a }
-
-  end
 end
