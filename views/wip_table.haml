@@ -14,4 +14,4 @@
       %td= w['sip-name']
       %td= w.task
       %td= w.state
-      %td= w.package.operations_events.last.timestamp.pragma
+      %td= w.package.operations_events.last.timestamp.pragma rescue 'N/A'
