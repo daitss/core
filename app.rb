@@ -37,7 +37,7 @@ class DateTime
 
     if now.jd == self.jd
       self.strftime('%I:%M %p').downcase
-    elsif now.year = self.year
+    elsif now.year == self.year
       self.strftime '%b %d'
     else
      self.strftime '%D'
