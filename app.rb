@@ -29,6 +29,7 @@ class Wip
 
 end
 
+require 'date'
 class DateTime
 
   def pragma
@@ -75,6 +76,7 @@ helpers do
     end
 
     unless Net::HTTPSuccess === res
+      debugger
       error res.code, res.body
     end
 
