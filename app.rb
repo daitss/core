@@ -392,14 +392,14 @@ post '/admin' do
     a.save or error "could not create new account\n\n#{e.message}\n#{e.backtrace}"
 
   when 'delete-account'
-    name = require_param 'id'
+    id = require_param 'id'
     a = Account.get(id) or not_found
     a.destroy or error "could not delete account"
 
   when 'new-project'
     account_code = require_param 'account'
-    a = Account.first(:code => account_code)
-    error 400, "account #{account_code} does not exist"
+    a = Account.first :code => account_code
+    error 400, "account #{account_code} does not exist" unless a
 
     code = require_param 'code'
     name = require_param 'name'
@@ -409,8 +409,8 @@ post '/admin' do
     p.save or error "could not save project bin\n\n#{e.message}\n#{e.backtrace}"
 
   when 'delete-project'
-    name = require_param 'id'
-    p = Project.get(id) or not_found
+    id = require_param 'id'
+    p = Project.get(id) or not_found "no project"
     p.destroy or error "could not delete project"
 
   when 'new-user'
@@ -431,13 +431,13 @@ post '/admin' do
     u.phone = require_param 'phone'
     u.address = require_param 'address'
     u.description = ""
-    u.active_start_date = 0
-    u.active_end_date = Time.now + 31556926
+    u.active_start_date = DateTime.now
+    u.active_end_date = DateTime.now + 365
 
-    u.save or error "could not save user, errors"
+    u.save or error "could not save user, errors: #{u.errors}"
 
   when 'delete-user'
-    id = require_param id
+    id = require_param 'id'
     user = User.get(id) or not_found
     user.destroy or error "could not delete user"
 

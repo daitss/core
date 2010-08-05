@@ -60,8 +60,8 @@
 %form{:action => '/admin', :method => 'POST'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-project'}
   %select{:name=>'account'}
-    - @accounts.each do |p|
-      %option= p.code
+    - @accounts.each do |a|
+      %option= a.code
   %input{:name => 'name', :value=>"project name"}
   %input{:name => 'code', :value=>"project code"}
   %input{:type => 'submit', :value => 'Create project'}
@@ -78,11 +78,10 @@
       %tr
         %td= p.name
         %td= p.code
-        %td= p.account.name
+        %td= p.account.code
         %td
           %form{:action => "/admin", :method => 'post'}
             %input{:type => 'hidden', :name => 'task', :value => 'delete-project'}
-            %input{:type => 'hidden', :name => 'account', :value => p.account.code }
             %input{:type => 'hidden', :name => 'id', :value => p.id }
             %input{:type => 'submit', :value => "Delete"}
 
@@ -128,7 +127,8 @@
         %td= u.phone
         %td= u.address
         %td
-          %input{:type => 'hidden', :name => 'task', :value => 'delete-user'}
-          %input{:type => 'hidden', :name => 'id', :value => u.id }
-          %input{:type => 'submit', :value => "Delete"}
+          %form{:action => '/admin', :method => 'POST'}
+            %input{:type => 'hidden', :name => 'task', :value => 'delete-user'}
+            %input{:type => 'hidden', :name => 'id', :value => u.id }
+            %input{:type => 'submit', :value => "Delete"}
 
