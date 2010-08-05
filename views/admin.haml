@@ -31,8 +31,8 @@
 
 %form{:action => '/admin', :method => 'post'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-account'}
-  %input{:name => 'name', :value=>"account name"}
-  %input{:name => 'code', :value=>"account code"}
+  %input{:name => 'account-name', :value=>"account name"}
+  %input{:name => 'account-code', :value=>"account code"}
   %input{:type => 'submit', :value => "Create Account"}
 
 - if @accounts.any?
