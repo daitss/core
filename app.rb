@@ -387,8 +387,8 @@ post '/admin' do
 
   when 'new-account'
     a = Account.new
-    a.name = require_param 'name'
-    a.code = require_param 'code'
+    a.name = require_param 'account-name'
+    a.code = require_param 'account-code'
     a.save or error "could not create new account\n\n#{e.message}\n#{e.backtrace}"
 
   when 'delete-account'
