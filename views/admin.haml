@@ -5,7 +5,8 @@
 %h2 stash bins
 
 %form{:action => '/admin', :method => 'post'}
-  %input{:name => 'new-stash-bin'}
+  %input{:type => 'hidden', :name => 'task', :value => 'new-stashbin'}
+  %input{:name => 'name'}
   %input{:type => 'submit', :value => "Create Stash Bin"}
 
 %table
@@ -19,13 +20,20 @@
         %a{:href => "/stashspace/#{bin.url_name}" }= bin.name
       %td= bin.wips.size
       %td
-        %form{:action => '/admin', :method => 'post'}
-          %input{:type => 'hidden', :name => 'delete-stash-bin[]', :value => bin.name }
+        %form{:action => "/admin", :method => 'post'}
+          %input{:type => 'hidden', :name => 'task', :value => 'delete-stashbin'}
+          %input{:type => 'hidden', :name => 'name', :value => bin.name }
           %input{:type => 'submit', :value => "Delete"}
 
 %hr/
 
 %h2 accounts
+
+%form{:action => '/admin', :method => 'post'}
+  %input{:type => 'hidden', :name => 'task', :value => 'new-account'}
+  %input{:name => 'name', :value=>"account name"}
+  %input{:name => 'code', :value=>"account code"}
+  %input{:type => 'submit', :value => "Create Account"}
 
 - if @accounts.any?
   %table
@@ -40,18 +48,23 @@
         %td= a.code
         %td
           - if a != Account.system_account
-            %a{:href => "/delete_account/#{a.id}"} delete
-
-%h3 add account
-
-%form{:action => '/add_account', :method => 'POST'}
-  %input{:type => 'input', :name => 'name', :value=>"account name"}
-  %input{:type => 'input', :name => 'code', :value=>"account code"}
-  %input{:type => 'submit', :value => 'Create new account'}
+            %form{:action => "/admin", :method => 'post'}
+              %input{:type => 'hidden', :name => 'task', :value => 'delete-account'}
+              %input{:type => 'hidden', :name => 'id', :value => a.id }
+              %input{:type => 'submit', :value => "Delete"}
 
 %hr/
 
 %h2 projects
+
+%form{:action => '/admin', :method => 'POST'}
+  %input{:type => 'hidden', :name => 'task', :value => 'new-project'}
+  %select{:name=>'account'}
+    - @accounts.each do |p|
+      %option= p.code
+  %input{:name => 'name', :value=>"project name"}
+  %input{:name => 'code', :value=>"project code"}
+  %input{:type => 'submit', :value => 'Create project'}
 
 - if @projects.any?
   %table
@@ -67,21 +80,32 @@
         %td= p.code
         %td= p.account.name
         %td
-          %a{:href => "/delete_project/#{p.id}"} delete
-
-%h3 add project
-
-%form{:action => '/add_project', :method => 'POST'}
-  %select{:name=>'account'}
-    - @accounts.each do |p|
-      %option= p.code
-  %input{:type => 'input', :name => 'name', :value=>"project name"}
-  %input{:type => 'input', :name => 'code', :value=>"project code"}
-  %input{:type => 'submit', :value => 'Create new project'}
+          %form{:action => "/admin", :method => 'post'}
+            %input{:type => 'hidden', :name => 'task', :value => 'delete-project'}
+            %input{:type => 'hidden', :name => 'account', :value => p.account.code }
+            %input{:type => 'hidden', :name => 'id', :value => p.id }
+            %input{:type => 'submit', :value => "Delete"}
 
 %hr/
 
 %h2 users
+
+%form{:action => '/admin', :method => 'POST'}
+  %input{:type => 'hidden', :name => 'task', :value => 'new-user'}
+  %select{:name=>'type'}
+    %option= 'operator'
+    %option= 'affiliate'
+
+  %select{:name=>'account'}
+    - @accounts.each do |p|
+      %option= p.code
+  %input{:name => 'username', :value => "username"}
+  %input{:name => 'first_name', :value => "first name"}
+  %input{:name => 'last_name', :value => "last name"}
+  %input{:name => 'email', :value => "email address"}
+  %input{:name => 'phone', :value => "phone number"}
+  %input{:name => 'address', :value => "mailing address"}
+  %input{:type => 'submit', :value => 'Create new user'}
 
 - if @users.any?
   %table
@@ -104,22 +128,7 @@
         %td= u.phone
         %td= u.address
         %td
-          %a{:href => "/delete_user/#{u.id}"} delete
+          %input{:type => 'hidden', :name => 'task', :value => 'delete-user'}
+          %input{:type => 'hidden', :name => 'id', :value => u.id }
+          %input{:type => 'submit', :value => "Delete"}
 
-%h3 add user
-
-%form{:action => '/add_user', :method => 'POST'}
-  %select{:name=>'type'}
-    %option= 'operator'
-    %option= 'affiliate'
-
-  %select{:name=>'account'}
-    - @accounts.each do |p|
-      %option= p.code
-  %input{:type => 'input', :name => 'username', :value=>"username"}
-  %input{:type => 'input', :name => 'first_name', :value=>"first name"}
-  %input{:type => 'input', :name => 'last_name', :value=>"last name"}
-  %input{:type => 'input', :name => 'email', :value=>"email address"}
-  %input{:type => 'input', :name => 'phone', :value=>"phone number"}
-  %input{:type => 'input', :name => 'address', :value=>"mailing address"}
-  %input{:type => 'submit', :value => 'Create new user'}
