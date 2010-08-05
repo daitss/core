@@ -58,6 +58,10 @@ end
 
 helpers do
 
+  def require_param name
+    params[name.to_s] or error 400, "parameter #{name} required"
+  end
+
   def submit data, sip, ext
     url = "#{Daitss::CONFIG['submission']}/"
 
@@ -355,8 +359,6 @@ post '/stashspace/:bin/:wip' do |bin_name, wip_id|
 
 end
 
-# admin console
-
 get '/admin' do
   @bins = StashBin.all
   @accounts = Account.all
@@ -366,88 +368,81 @@ get '/admin' do
   haml :admin
 end
 
-get '/delete_user/:id' do |id|
-  user = User.get(id)
-  user.destroy
-
-  redirect '/admin'
-end
-
-get '/delete_account/:id' do |id|
-  account = Account.get(id)
-  account.destroy
-
-  redirect '/admin'
-end
-
-get '/delete_project/:id' do |id|
-  project = Project.get(id)
-  project.destroy
-
-  redirect '/admin'
-end
-
-post '/add_account' do
-  a = Account.new(:name => params['name'],
-                  :code => params['code'])
-  a.save
-
-  redirect '/admin'
-end
-
-post '/add_project' do
-  a = Account.first(:code => params['account'])
-  p = Project.new(:name => params['name'],
-                  :code => params['code'])
-
-  p.account = a
-  p.save
-
-  redirect '/admin'
-end
-
-post '/add_user' do
-  if params["type"] == "operator"
-    u = Operator.new
-    a = Account.system_account
-  else
-    u = Contact.new(:permissions => [:disseminate, :withdraw, :peek, :submit])
-    a = Account.first(:code => params['account'])
-  end
-
-  u.attributes = { :identifier => params['username'],
-    :first_name => params['first_name'],
-    :last_name => params['last_name'],
-    :email => params['email'],
-    :phone => params['phone'],
-    :address => params['address'],
-    :description => "",
-    :active_start_date => 0,
-    :active_end_date => Time.now + 31556926 }
-
-  u.account = a
-  u.save
-
-  redirect '/admin'
-end
-
 post '/admin' do
 
-  if params['new-stash-bin']
-    bin = StashBin.new :name => params['new-stash-bin']
-    bin.save or error "could not save create bin\n\n#{e.message}\n#{e.backtrace}"
-  end
+  case params['task']
 
-  if params['delete-stash-bin']
+  when 'new-stashbin'
+    name = require_param 'name'
+    bin = StashBin.new :name => name
+    bin.save or error "could not save bin\n\n#{e.message}\n#{e.backtrace}"
 
-    params['delete-stash-bin'].each do |name|
-      bin = StashBin.first :name => name
-      pattern = File.join bin.path, '*'
-      error 400, "cannot delete a non-empty stash bin" unless Dir[pattern].empty?
-      bin.destroy or raise "could not delete stash bin #{name}"
-      FileUtils.rm_rf bin.path
-    end
+  when 'delete-stashbin'
+    name = require_param 'name'
+    bin = StashBin.first :name => name
+    pattern = File.join bin.path, '*'
+    error 400, "cannot delete a non-empty stash bin" unless Dir[pattern].empty?
+    bin.destroy or raise "could not delete stash bin #{name}"
+    FileUtils.rm_rf bin.path
 
+  when 'new-account'
+    a = Account.new
+    a.name = require_param 'name'
+    a.code = require_param 'code'
+    a.save or error "could not create new account\n\n#{e.message}\n#{e.backtrace}"
+
+  when 'delete-account'
+    name = require_param 'id'
+    a = Account.get(id) or not_found
+    a.destroy or error "could not delete account"
+
+  when 'new-project'
+    account_code = require_param 'account'
+    a = Account.first(:code => account_code)
+    error 400, "account #{account_code} does not exist"
+
+    code = require_param 'code'
+    name = require_param 'name'
+    p = Project.new :name => name, :code => code
+    p.account = a
+
+    p.save or error "could not save project bin\n\n#{e.message}\n#{e.backtrace}"
+
+  when 'delete-project'
+    name = require_param 'id'
+    p = Project.get(id) or not_found
+    p.destroy or error "could not delete project"
+
+  when 'new-user'
+    type = require_param 'type'
+
+    u = if type == "operator"
+          Operator.new :account => Account.system_account
+        else
+          a = Account.first(:code => params['account'])
+          Contact.new(:account => a,
+                      :permissions => [:disseminate, :withdraw, :peek, :submit])
+        end
+
+    u.identifier = require_param 'username'
+    u.first_name = require_param 'first_name'
+    u.last_name = require_param 'last_name'
+    u.email = require_param 'email'
+    u.phone = require_param 'phone'
+    u.address = require_param 'address'
+    u.description = ""
+    u.active_start_date = 0
+    u.active_end_date = Time.now + 31556926
+
+    u.save or error "could not save user, errors"
+
+  when 'delete-user'
+    id = require_param id
+    user = User.get(id) or not_found
+    user.destroy or error "could not delete user"
+
+
+  else raise "unknown task: #{params['task']}"
   end
 
   redirect '/admin'
