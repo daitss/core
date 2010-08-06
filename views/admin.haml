@@ -4,7 +4,7 @@
 
 %h2 stash bins
 
-%form{:action => '/admin', :method => 'post'}
+%form{:id => 'create-stashbin', :action => '/admin', :method => 'post'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-stashbin'}
   %input{:name => 'name'}
   %input{:type => 'submit', :value => "Create Stash Bin"}
@@ -29,10 +29,10 @@
 
 %h2 accounts
 
-%form{:action => '/admin', :method => 'post'}
+%form{:id => 'create-account', :action => '/admin', :method => 'post'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-account'}
-  %input{:name => 'account-name', :value=>"account name"}
-  %input{:name => 'account-code', :value=>"account code"}
+  %input{:name => 'name', :value=>"account name"}
+  %input{:name => 'code', :value=>"account code"}
   %input{:type => 'submit', :value => "Create Account"}
 
 - if @accounts.any?
@@ -57,7 +57,7 @@
 
 %h2 projects
 
-%form{:action => '/admin', :method => 'POST'}
+%form{:id => 'create-project', :action => '/admin', :method => 'POST'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-project'}
   %select{:name=>'account'}
     - @accounts.each do |a|

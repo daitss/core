@@ -1,9 +1,13 @@
 Given /^I fill in the account form with:$/ do |table|
 
-  table.hashes.each do |row|
+  within "form#create-account" do
 
-    row.each do |field, value|
-      fill_in "account-#{field}", :with => value
+    table.hashes.each do |row|
+
+      row.each do |field, value|
+        fill_in field, :with => value
+      end
+
     end
 
   end
@@ -22,8 +26,27 @@ end
 Given /^a account named "([^"]*)"$/ do |name|
   Given 'I goto "/admin"'
   code = name.upcase.tr(' ', '')
-  fill_in "account-code", :with => code
-  fill_in "account-name", :with => name
+
+  within "form#create-account" do
+    fill_in "code", :with => code
+    fill_in "name", :with => name
+  end
+
+  When 'I press "Create Account"'
+  last_response.should be_ok
+  @the_account = Account.first :code => code
+  @the_account.should_not be_nil
+end
+
+Given /^a account coded "([^"]*)"$/ do |code|
+  Given 'I goto "/admin"'
+  name = "name for: #{code}"
+
+  within "form#create-account" do
+    fill_in "code", :with => code
+    fill_in "name", :with => name
+  end
+
   When 'I press "Create Account"'
   last_response.should be_ok
   @the_account = Account.first :code => code
