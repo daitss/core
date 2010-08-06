@@ -387,8 +387,8 @@ post '/admin' do
 
   when 'new-account'
     a = Account.new
-    a.name = require_param 'account-name'
-    a.code = require_param 'account-code'
+    a.name = require_param 'name'
+    a.code = require_param 'code'
     a.save or error "could not create new account\n\n#{e.message}\n#{e.backtrace}"
 
   when 'delete-account'
@@ -412,6 +412,7 @@ post '/admin' do
   when 'delete-project'
     id = require_param 'id'
     p = Project.get(id) or not_found "no project"
+    error 400, "cannot delete a non-empty project" unless p.submitted_sips.empty?
     p.destroy or error "could not delete project"
 
   when 'new-user'
