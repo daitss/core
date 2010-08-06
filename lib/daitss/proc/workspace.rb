@@ -1,5 +1,5 @@
-require 'wip'
-require 'wip/task'
+require 'daitss/proc/wip'
+require 'daitss/proc/wip/task'
 
 class Workspace
 

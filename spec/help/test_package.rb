@@ -1,7 +1,8 @@
-require "workspace"
-require "wip/from_sip"
-require "template/premis"
 require "uuid"
+
+require "daitss/proc/workspace"
+require "daitss/proc/wip/from_sip"
+require "daitss/proc/template/premis"
 
 SIPS_DIR = File.join File.dirname(__FILE__), '..', 'sips'
 

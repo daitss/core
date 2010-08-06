@@ -1,4 +1,4 @@
-require 'db/operations_agents'
+require 'daitss/db/ops/operations_agents'
 
 def sha1 string
   return Digest::SHA1.hexdigest(string)
@@ -35,7 +35,7 @@ def add_contact account, key = "foobar"
 end
 
 def add_operator account, key = "barbaz"
-  o = Operator.new  
+  o = Operator.new
   o.attributes = { :description => "operator",
     :active_start_date => Time.at(0),
     :active_end_date => Time.now + (86400 * 365),
@@ -56,7 +56,7 @@ def add_operator account, key = "barbaz"
 end
 
 def add_service account, key = "service"
-  s = Service.new  
+  s = Service.new
   s.attributes = { :description => "description service",
     :active_start_date => Time.at(0),
     :active_end_date => Time.now + (86400 * 365),
@@ -72,7 +72,7 @@ def add_service account, key = "service"
 end
 
 def add_program account, key = "program"
-  p = Program.new  
+  p = Program.new
   p.attributes = { :description => "disseminate program",
     :active_start_date => Time.at(0),
     :active_end_date => Time.now + (86400 * 365),

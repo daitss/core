@@ -1,7 +1,8 @@
 require 'net/http'
-require 'aip'
-require 'descriptor'
-require 'tempdir'
+
+require 'daitss/db/ops/aip'
+require 'daitss/proc/template/descriptor'
+require 'daitss/proc/tempdir'
 
 class Aip
 

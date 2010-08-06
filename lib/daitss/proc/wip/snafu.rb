@@ -1,4 +1,4 @@
-require 'wip'
+require 'daitss/proc/wip'
 
 class Wip
 

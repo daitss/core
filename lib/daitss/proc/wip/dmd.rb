@@ -1,5 +1,5 @@
-require 'template'
-require 'wip'
+require 'daitss/proc/template'
+require 'daitss/proc/wip'
 
 class Wip
 
@@ -12,7 +12,7 @@ class Wip
     end
 
   end
-  
+
   def dmd
     template_by_name('aip/dmd').result binding
   end

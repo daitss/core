@@ -1,5 +1,5 @@
-require 'wip/process'
-require 'wip/snafu'
+require 'daitss/proc/wip/process'
+require 'daitss/proc/wip/snafu'
 
 class Wip
 

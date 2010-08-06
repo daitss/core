@@ -1,4 +1,4 @@
-require 'db/pobject'
+require 'daitss/db/fast/pobject'
 
 # constant for representation id
 REP_CURRENT = "representation/current"
@@ -25,11 +25,11 @@ class Datafile < Pobject
   # map from package_path + file_title + file_ext
   property :creating_application, String, :length => (0..255)
 
-  property :r0, Boolean, :default  => false  
+  property :r0, Boolean, :default  => false
   #true if this datafile is part of the original representation
-  property :rn, Boolean, :default  => false  
+  property :rn, Boolean, :default  => false
   #true if this datafile is part of the normalized representation
-  property :rc, Boolean, :default  => false  
+  property :rc, Boolean, :default  => false
   #true if this datafile is part of the current representation
 
   belongs_to :intentity

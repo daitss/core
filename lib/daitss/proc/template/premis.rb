@@ -1,5 +1,6 @@
-require 'template'
 require 'time'
+
+require 'daitss/proc/template'
 
 def event options={}
   options[:linking_objects] ||= []

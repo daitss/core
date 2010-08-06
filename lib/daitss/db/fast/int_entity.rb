@@ -1,5 +1,5 @@
-require 'db/request'
-require 'daitss2'
+require 'daitss/db/ops/request'
+require 'daitss/db/fast'
 
 class Intentity
   include DataMapper::Resource
