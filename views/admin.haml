@@ -4,7 +4,7 @@
 
 %h2 stash bins
 
-%form{:id => 'create-stashbin', :action => '/admin', :method => 'post'}
+%form#create-stashbin{:action => '/admin', :method => 'post'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-stashbin'}
   %input{:name => 'name'}
   %input{:type => 'submit', :value => "Create Stash Bin"}
@@ -29,7 +29,7 @@
 
 %h2 accounts
 
-%form{:id => 'create-account', :action => '/admin', :method => 'post'}
+%form#create-account{:action => '/admin', :method => 'post'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-account'}
   %input{:name => 'name', :value=>"account name"}
   %input{:name => 'code', :value=>"account code"}
@@ -57,7 +57,7 @@
 
 %h2 projects
 
-%form{:id => 'create-project', :action => '/admin', :method => 'POST'}
+%form#create-project{:action => '/admin', :method => 'POST'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-project'}
   %select{:name=>'account'}
     - @accounts.each do |a|
@@ -89,7 +89,7 @@
 
 %h2 users
 
-%form{:action => '/admin', :method => 'POST'}
+%form#create-user{:action => '/admin', :method => 'POST'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-user'}
   %select{:name=>'type'}
     %option= 'operator'
@@ -104,7 +104,7 @@
   %input{:name => 'email', :value => "email address"}
   %input{:name => 'phone', :value => "phone number"}
   %input{:name => 'address', :value => "mailing address"}
-  %input{:type => 'submit', :value => 'Create new user'}
+  %input{:type => 'submit', :value => 'Create User'}
 
 - if @users.any?
   %table
@@ -112,7 +112,8 @@
       %th type
       %th account
       %th username
-      %th name
+      %th last name
+      %th first name
       %th email
       %th phone
       %th address
@@ -122,7 +123,8 @@
         %td= u.type
         %td= u.account.name
         %td= u.identifier
-        %td= u.first_name + u.last_name
+        %td= u.last_name
+        %td= u.first_name
         %td= u.email
         %td= u.phone
         %td= u.address

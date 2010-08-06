@@ -441,6 +441,7 @@ post '/admin' do
   when 'delete-user'
     id = require_param 'id'
     user = User.get(id) or not_found
+    error 400, "cannot delete a non-empty user" unless user.operations_events.empty?
     user.destroy or error "could not delete user"
 
 
