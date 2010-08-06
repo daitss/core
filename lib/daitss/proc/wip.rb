@@ -1,7 +1,8 @@
 require 'forwardable'
 require 'fileutils'
-require 'fshash'
-require 'datafile'
+
+require 'daitss/proc/fshash'
+require 'daitss/proc/datafile'
 
 class Wip
   extend Forwardable

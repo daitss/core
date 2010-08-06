@@ -1,7 +1,8 @@
 require 'libxml'
-require 'wip'
-require 'xmlns'
-require 'aip'
+
+require 'daitss/db/ops/aip'
+require 'daitss/proc/wip'
+require 'daitss/xmlns'
 
 include LibXML
 

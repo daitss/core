@@ -1,8 +1,9 @@
 require 'forwardable'
-require 'fshash'
 require 'fileutils'
-require 'wip'
-require 'datafile/obsolete'
+
+require 'daitss/proc/fshash'
+require 'daitss/proc/wip'
+require 'daitss/proc/datafile/obsolete'
 
 class DataFile
 

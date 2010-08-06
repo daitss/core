@@ -1,5 +1,5 @@
-require 'wip'
-require 'datafile'
+require 'daitss/proc/wip'
+require 'daitss/proc/datafile'
 
 # Common metadata functionality between Wip and DataFile
 module Metadata
@@ -7,7 +7,7 @@ module Metadata
   # Return metadata values for the specified keys
   def metadata_for *keys
     new_md_keys = keys.select { |key| metadata.has_key? key }
-    new_digiprov = new_md_keys.map { |key| metadata[key] } 
+    new_digiprov = new_md_keys.map { |key| metadata[key] }
   end
 
   # based on the presence of old events determine the next event index

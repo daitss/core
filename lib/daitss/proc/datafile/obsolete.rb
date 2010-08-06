@@ -1,5 +1,5 @@
-require 'datafile'
-require 'metadata'
+require 'daitss/proc/datafile'
+require 'daitss/proc/metadata'
 
 class DataFile
 

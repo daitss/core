@@ -1,4 +1,4 @@
-require 'db/operations_agents'
+require 'daitss/db/ops/operations_agents'
 require 'digest/sha1'
 require 'pp'
 

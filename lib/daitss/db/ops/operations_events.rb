@@ -1,5 +1,6 @@
 require 'dm-core'
-require 'db/operations_agents'
+
+require 'daitss/db/ops/operations_agents'
 
 # TODO: this should probably have an association the the Intentity table, not a string for IEID
 

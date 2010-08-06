@@ -1,10 +1,11 @@
 require 'dm-core'
 require 'dm-types'
 require 'dm-validations'
-require 'db/keys.rb'
-require 'db/operations_events.rb'
-require 'db/accounts.rb'
-require 'db/request.rb'
+
+require 'daitss/db/ops/accounts'
+require 'daitss/db/ops/keys'
+require 'daitss/db/ops/operations_events'
+require 'daitss/db/ops/request'
 
 # TODO: add notes field to OperationsAgent to hold version info
 # TODO: remove id field?

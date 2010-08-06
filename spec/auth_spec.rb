@@ -1,4 +1,4 @@
-require 'daitss-auth'
+require 'daitss/auth'
 require 'digest/sha1'
 require 'helper'
 require 'spec_helper'
@@ -18,7 +18,7 @@ describe Authentication do
 
     auth_result.valid.should == true
     auth_result.active.should == true
-    
+
     auth_result.metadata["agent_type"].should == :contact
     auth_result.metadata["description"].should == "contact"
     auth_result.metadata["first_name"].should == "Foo"
@@ -54,7 +54,7 @@ describe Authentication do
 
     auth_result.valid.should == true
     auth_result.active.should == true
-    
+
     auth_result.metadata["agent_type"].should == :operator
     auth_result.metadata["description"].should == "operator"
     auth_result.metadata["first_name"].should == "Op"
@@ -86,7 +86,7 @@ describe Authentication do
 
     auth_result.valid.should == true
     auth_result.active.should == true
-    
+
     auth_result.metadata["agent_type"].should == :service
     auth_result.metadata["description"].should == "description service"
     auth_result.metadata["account_code"].should == "FDA"
@@ -113,7 +113,7 @@ describe Authentication do
 
     auth_result.valid.should == true
     auth_result.active.should == true
-    
+
     auth_result.metadata["agent_type"].should == :program
     auth_result.metadata["description"].should == "disseminate program"
     auth_result.metadata["account_code"].should == "FDA"

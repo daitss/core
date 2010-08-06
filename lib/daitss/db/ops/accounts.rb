@@ -1,8 +1,9 @@
 require 'dm-core'
 require 'dm-validations'
-require 'db/operations_agents'
-require 'db/projects'
-require 'db/request'
+
+require 'daitss/db/ops/operations_agents'
+require 'daitss/db/ops/projects'
+require 'daitss/db/ops/request'
 
 class Account
   include DataMapper::Resource
