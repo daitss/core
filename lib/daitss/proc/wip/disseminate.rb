@@ -4,7 +4,7 @@ require 'daitss/proc/wip/preserve'
 require 'daitss/proc/wip/from_aip'
 require 'daitss/db/ops/aip'
 require 'daitss/db/ops/aip/from_wip'
-require 'daitss/proc/descriptor'
+require 'daitss/proc/template/descriptor'
 require 'daitss/proc/template/premis'
 require 'daitss/proc/metadata'
 

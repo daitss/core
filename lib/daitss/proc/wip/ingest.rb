@@ -1,13 +1,14 @@
-require 'daitss/proc/datafile/virus'
+require 'dm-transactions'
+
+require 'daitss/db/fast/AIPInPremis'
 require 'daitss/db/ops/aip'
 require 'daitss/db/ops/aip/from_wip'
-require 'daitss/proc/descriptor'
+require 'daitss/proc/datafile/virus'
+require 'daitss/proc/template/descriptor'
 require 'daitss/proc/template/premis'
 require 'daitss/proc/wip'
 require 'daitss/proc/wip/preserve'
 require 'daitss/proc/wip/step'
-require 'daitss/db/fast/AIPInPremis'
-require 'dm-transactions'
 
 class Wip
 
