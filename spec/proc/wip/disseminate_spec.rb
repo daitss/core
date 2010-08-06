@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'wip'
-require 'wip/ingest'
-require 'wip/disseminate'
+require 'daitss/proc/wip'
+require 'daitss/proc/wip/ingest'
+require 'daitss/proc/wip/disseminate'
 require 'data_mapper'
 
 describe Wip do

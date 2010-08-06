@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'wip/process'
+require 'daitss/proc/wip/process'
 require 'uuid'
 
 describe Wip do

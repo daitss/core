@@ -1,4 +1,4 @@
-require 'datafile/virus'
+require 'daitss/proc/datafile/virus'
 require 'spec_helper'
 
 describe DataFile do

@@ -1,6 +1,6 @@
 require 'spec_helper'
-require 'workspace'
-require 'stashbin'
+require 'daitss/proc/workspace'
+require 'daitss/db/ops/stashbin'
 
 describe Workspace do
 

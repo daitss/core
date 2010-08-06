@@ -1,11 +1,11 @@
-require 'template'
-require 'datafile'
+require 'daitss/proc/template'
+require 'daitss/proc/datafile'
 require 'net/http'
 require 'cgi'
 
-require 'aip'
+require 'daitss/db/ops/aip'
 
-require 'datafile/actionplan'
+require 'daitss/proc/datafile/actionplan'
 
 class DataFile
 

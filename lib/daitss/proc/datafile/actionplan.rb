@@ -1,6 +1,6 @@
 require 'net/http'
 require 'daitss/config'
-require 'datafile'
+require 'daitss/proc/datafile'
 
 class DataFile
 

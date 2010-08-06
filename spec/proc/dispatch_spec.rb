@@ -1,5 +1,5 @@
 require 'dispatch'
-require 'wip'
+require 'daitss/proc/wip'
 require 'time'
 
 describe Dispatch do

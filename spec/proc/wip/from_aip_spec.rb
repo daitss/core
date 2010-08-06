@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'wip/ingest'
-require 'wip/dmd'
-require 'wip/from_aip'
+require 'daitss/proc/wip/ingest'
+require 'daitss/proc/wip/dmd'
+require 'daitss/proc/wip/from_aip'
 
 describe Wip do
 

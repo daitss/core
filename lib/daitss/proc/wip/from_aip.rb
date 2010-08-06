@@ -1,5 +1,5 @@
-require 'wip'
-require 'datafile/obsolete'
+require 'daitss/proc/wip'
+require 'daitss/proc/datafile/obsolete'
 require 'digest/sha1'
 
 class Wip

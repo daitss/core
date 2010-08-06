@@ -1,9 +1,9 @@
-require 'wip'
-require 'wip/step'
-require 'wip/xmlresolve'
-require 'datafile/describe'
-require 'datafile/obsolete'
-require 'datafile/transform'
+require 'daitss/proc/wip'
+require 'daitss/proc/wip/step'
+require 'daitss/proc/wip/xmlresolve'
+require 'daitss/proc/datafile/describe'
+require 'daitss/proc/datafile/obsolete'
+require 'daitss/proc/datafile/transform'
 
 class Wip
 
