@@ -1,5 +1,6 @@
 Event_Type = ["ingest", "submit", "validate", "virus check", "disseminate", 
   "withdraw", "fixity check", "describe", "normalize", "migrate", "xml resolution", "deletion"]
+
 Event_Map = { 
   "ingest" => "ingest",
   "submit" => "submit",
@@ -56,6 +57,10 @@ Event_Map = {
       attribute_set(:outcome, premis.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NAMESPACES).content)
     end
 
+	before :save do
+    	puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
+    	puts "#{agent.errors.to_a} error encountered while saving #{agent.inspect} " unless agent.valid?
+    end
   end
 
   class IntentityEvent < Event

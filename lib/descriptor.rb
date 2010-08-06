@@ -82,7 +82,7 @@ class Wip
   end
 
   def digiprov_agents
-    new_agents = metadata_for 'submit-agent', 'validate-agent', 'ingest-agent', 'disseminate-agent'
+    new_agents = metadata_for 'submit-agent', 'submit-agent-account', 'validate-agent', 'ingest-agent', 'disseminate-agent'
     new_agents + old_agents.map { |a| a.root.to_s }
   end
 

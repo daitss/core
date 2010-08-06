@@ -1,7 +1,8 @@
 Agent_Types = ["software", "person", "organization"]
 Agent_Map = { 
   "web service" => "software",
-  "software" => "software"
+  "software" => "software",
+  "affiliate" => "organization"
 }
 
 class Agent
