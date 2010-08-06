@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'nokogiri'
-require 'datafile/describe'
-require 'wip/xmlresolve'
+require 'daitss/proc/datafile/describe'
+require 'daitss/proc/wip/xmlresolve'
 
 describe Wip do
 

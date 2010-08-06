@@ -1,9 +1,9 @@
 require 'spec_helper'
-require 'xmlns'
-require 'datafile/describe'
-require 'datafile/actionplan'
+require 'daitss/xmlns'
+require 'daitss/proc/datafile/describe'
+require 'daitss/proc/datafile/actionplan'
 
-require 'aip'
+require 'daitss/db/ops/aip'
 
 describe DataFile do
 

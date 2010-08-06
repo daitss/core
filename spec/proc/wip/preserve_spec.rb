@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'wip/preserve'
+require 'daitss/proc/wip/preserve'
 
 shared_examples_for "all preservations" do
 

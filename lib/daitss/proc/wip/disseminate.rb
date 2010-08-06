@@ -1,12 +1,12 @@
-require 'wip'
-require 'wip/step'
-require 'wip/preserve'
-require 'wip/from_aip'
-require 'aip'
-require 'aip/from_wip'
-require 'descriptor'
-require 'template/premis'
-require 'metadata'
+require 'daitss/proc/wip'
+require 'daitss/proc/wip/step'
+require 'daitss/proc/wip/preserve'
+require 'daitss/proc/wip/from_aip'
+require 'daitss/db/ops/aip'
+require 'daitss/db/ops/aip/from_wip'
+require 'daitss/proc/descriptor'
+require 'daitss/proc/template/premis'
+require 'daitss/proc/metadata'
 
 class Wip
 

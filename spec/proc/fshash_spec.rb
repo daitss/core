@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'fshash'
+require 'daitss/proc/fshash'
 
 describe FsHash do
 

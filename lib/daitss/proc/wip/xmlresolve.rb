@@ -1,5 +1,5 @@
-require 'wip'
-require 'datafile/actionplan'
+require 'daitss/proc/wip'
+require 'daitss/proc/datafile/actionplan'
 
 class Wip
 

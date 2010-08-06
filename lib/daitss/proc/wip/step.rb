@@ -1,5 +1,5 @@
-require 'wip'
-require 'mark'
+require 'daitss/proc/wip'
+require 'daitss/proc/mark'
 
 class Wip
 

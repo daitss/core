@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'wip/task'
+require 'daitss/proc/wip/task'
 require 'uuid'
-require 'wip/ingest'
+require 'daitss/proc/wip/ingest'
 
 describe Wip do
 

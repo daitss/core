@@ -1,5 +1,5 @@
 require 'base64'
-require 'datafile'
+require 'daitss/proc/datafile'
 require 'daitss/config'
 
 class DataFile

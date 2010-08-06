@@ -1,6 +1,6 @@
 require 'spec_helper'
-require 'xmlns'
-require 'datafile/describe'
+require 'daitss/xmlns'
+require 'daitss/proc/datafile/describe'
 
 describe 'describing a datafile' do
 

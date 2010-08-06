@@ -1,6 +1,6 @@
 require 'cgi'
 require 'libxml'
-require 'xmlns'
+require 'daitss/xmlns'
 require 'net/http'
 
 include LibXML

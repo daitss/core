@@ -1,4 +1,4 @@
-require 'mark'
+require 'daitss/proc/mark'
 
 describe Mark do
 

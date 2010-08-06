@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'wip'
+require 'daitss/proc/wip'
 require 'uuid'
 
 # Proto AIP: Work In Progress

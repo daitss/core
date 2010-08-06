@@ -1,7 +1,7 @@
-require 'wip/validate'
+require 'daitss/proc/wip/validate'
 require 'spec_helper'
-require 'wip/preserve'
-require 'aip/from_wip'
+require 'daitss/proc/wip/preserve'
+require 'daitss/db/ops/aip/from_wip'
 
 describe Aip do
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
-require 'datafile/describe'
-require 'datafile/transform'
+require 'daitss/proc/datafile/describe'
+require 'daitss/proc/datafile/transform'
 
 describe DataFile do
 

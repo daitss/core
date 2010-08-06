@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'wip/state'
+require 'daitss/proc/wip/state'
 
 describe Wip do
 

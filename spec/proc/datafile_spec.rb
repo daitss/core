@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'datafile'
+require 'daitss/proc/datafile'
 
 # Proto AIP: Work In Progress
 describe DataFile do

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'wip/from_sip'
+require 'daitss/proc/wip/from_sip'
 
 describe Sip do
   subject { Sip.new File.join(SIPS_DIR, 'haskell-nums-pdf') }

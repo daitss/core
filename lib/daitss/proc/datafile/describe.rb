@@ -1,9 +1,9 @@
-require 'datafile'
-require 'template/premis'
+require 'daitss/proc/datafile'
+require 'daitss/proc/template/premis'
 require 'net/http'
 require 'cgi'
-require 'metadata'
-require 'xmlns'
+require 'daitss/proc/metadata'
+require 'daitss/xmlns'
 
 class DataFile
 
