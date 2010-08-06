@@ -4,6 +4,22 @@ Given /^a stash bin named "([^\"]*)"$/ do |name|
   $cleanup << @the_bin.path
 end
 
+Given /^I fill in the stashbin form with:$/ do |table|
+
+  within "form#create-stashbin" do
+
+    table.hashes.each do |row|
+
+      row.each do |field, value|
+        fill_in field, :with => value
+      end
+
+    end
+
+  end
+
+end
+
 Given /^a stash bin named "([^\"]*)" with (\d+) package$/ do |name, count|
   Given %Q(a stash bin named "#{name}")
   Given "a workspace with #{count} idle wips"
@@ -41,7 +57,6 @@ Given /^that stash bin is (empty|not empty)$/ do |contents|
     When %Q(I choose "stash")
     And %Q(I select "#{@the_bin.name}")
     And %Q(I press "Update")
-
   end
 
 end

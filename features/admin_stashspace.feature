@@ -3,7 +3,9 @@ Feature: admin of stashspace
 
   Scenario: add a new stash bin
     Given I goto "/admin"
-    And I fill in "new-stash-bin" with "default bin"
+    And I fill in the stashbin form with:
+      | name        |
+      | default bin |
     When I press "Create Stash Bin"
     Then there should be a stash bin named "default bin"
 
