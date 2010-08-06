@@ -1,4 +1,4 @@
-require 'dispatch'
+require 'daitss/db/ops/dispatch'
 require 'daitss/proc/wip'
 require 'time'
 
