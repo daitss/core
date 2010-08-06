@@ -1,3 +1,5 @@
+# SMELL use Dir.mktempdir and be done with it
+
 require 'tempfile'
 require 'fileutils'
 
@@ -12,7 +14,7 @@ class Tempdir
     FileUtils::mkdir @path
 
     if block_given?
-      yield self 
+      yield self
       rm_rf
     end
 
