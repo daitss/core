@@ -8,8 +8,8 @@ class Intentity
   property :original_name, String, :length => 32, :required => true, :default => "UNKNOWN"
     # i.e. package_name
   property :entity_id, String, :length => 32
-  property :volume, String, :length => 4
-  property :issue, String, :length => 3
+  property :volume, String, :length => 16
+  property :issue, String, :length => 16
   property :title, Text
 
   belongs_to :project

@@ -169,7 +169,7 @@ class AIPInPremis
       agent = @agents[agent_id.content] unless agent_id.nil?
 
       # skip event if agent can't be parsed -- this prevents an event from being written to the database without an agent
-      next if agent_id.nil? or agent.nil?
+      puts "no agent" if agent_id.nil? or agent.nil?
 
       if df  #first check if this event is linked to a file object
         event = DatafileEvent.new
@@ -177,6 +177,7 @@ class AIPInPremis
         event.setRelatedObject id.content
         # associate agent to the event
         agent.events << event unless agent.nil?
+		puts event.inspect
         @events[event.id] = event
       elsif id && @int_entity.match(id.content) #then check if this event links to int entity
         event = IntentityEvent.new
@@ -184,6 +185,7 @@ class AIPInPremis
         event.setRelatedObject id.content
         # associate agent to the event
         agent.events << event unless agent.nil?
+		puts event.inspect
         @events[event.id] = event
       end
     end
@@ -234,7 +236,7 @@ class AIPInPremis
     # @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
     @datafiles.each {|dfid, df| raise "error saving datafile records #{df.inspect}" unless  df.save }
     # @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
-    @events.each {|id, e|  raise "error saving event records #{e.inspect}" unless e.save }
+    @events.each {|id, e| raise "error saving event records #{e.inspect}" unless e.save }
     @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
     # r = RubyProf.stop
     # printer = RubyProf::GraphHtmlPrinter.new r

@@ -148,7 +148,7 @@ class Image
 	  elsif Color_Space_Map[colorspace.content]
 		attribute_set(:color_space, Color_Space_Map[colorspace.content]) 
 	  else
-	    raise "unrecognized color space #{compressionScheme.content}"
+	    raise "unrecognized color space #{colorspace.content}"
 	  end
 	end   
     # TODO: attribute_set(:orientation, premis.find_first("mix:orientation", NAMESPACES).content)
@@ -159,7 +159,7 @@ class Image
 	  elsif Sample_Frequency_Unit_Map[sfu.content]
 		attribute_set(:sample_frequency_unit, Sample_Frequency_Unit_Map[sfu.content]) 
 	  else
-	    raise "unrecognized color space #{compressionScheme.content}"
+	    raise "unrecognized sampling frequency unit #{sfu.content}"
 	  end
 	end
 	
