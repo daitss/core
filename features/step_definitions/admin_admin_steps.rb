@@ -30,8 +30,19 @@ Given /^a account named "([^"]*)"$/ do |name|
   @the_account.should_not be_nil
 end
 
-Given /^that account is empty$/ do
-  @the_account.projects.should be_empty
+Given /^that account (is|is not) empty$/ do |condition|
+
+  if condition == 'is'
+    @the_account.projects.should be_empty
+  else
+    p = Project.new
+    p.name = "the project name";
+    p.code = "TPN"
+    @the_account.projects << p
+    @the_account.save.should be_true
+    @the_account.projects.should_not be_empty
+  end
+
 end
 
 When /^I press "([^"]*)" for the account$/ do |button|

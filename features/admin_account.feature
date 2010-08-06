@@ -22,6 +22,6 @@ Feature: admin of accounts
     Given a account named "test rm non empty"
     And that account is not empty
     And I goto "/admin"
-    When I press "Delete"
+    When I press "Delete" for the account
     Then the response should be NG
     Then the response contains "cannot delete a non-empty account"
