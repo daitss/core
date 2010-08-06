@@ -1,3 +1,5 @@
+# SMELL this could be moved into Request OOP style
+
 require 'wip'
 require 'uri'
 require 'daitss/config'
@@ -6,11 +8,11 @@ require 'workspace'
 class Dispatch
 
   Daitss::CONFIG.load_from_env
-  WORKSPACE = Workspace.new(Daitss::CONFIG['workspace']).path 
+  WORKSPACE = Workspace.new(Daitss::CONFIG['workspace']).path
   PREFIX_URI = Daitss::CONFIG['uri-prefix']
   DISSEMINATE_DROP_PATH = "/tmp/disseminations/"
-  
-  # creates a dissemination "sub-wip" in the workspace 
+
+  # creates a dissemination "sub-wip" in the workspace
 
   def self.dispatch_request ieid, type
     path = File.join(WORKSPACE, ieid.to_s)
