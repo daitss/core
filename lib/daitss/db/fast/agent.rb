@@ -1,5 +1,7 @@
+require 'data_mapper'
+
 Agent_Types = ["software", "person", "organization"]
-Agent_Map = { 
+Agent_Map = {
   "web service" => "software",
   "software" => "software",
   "affiliate" => "organization"
@@ -10,7 +12,7 @@ class Agent
   property :id, String, :key => true, :length => 255
   property :name, String, :length => 255
   property :type, String, :length => 20, :required => true
-  	validates_with_method :type, :method => :validateType
+  validates_with_method :type, :method => :validateType
   property :note, Text # additional agent note which may include external tool information
 
   has 0..n, :events, :constraint => :destroy  # an agent can create 0-n events.
