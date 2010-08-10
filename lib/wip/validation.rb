@@ -66,11 +66,6 @@ class Wip
     end
   end
 
-  # returns true if OBJ_ID in sip descriptor matches the package name, returns false otherwise
-  def obj_id_matches_package_name?
-    sip_descriptor_obj_id == metadata['sip-name']
-  end
-
   # returns true if:
   #   package name has no more than 32 chars
   #   package name does not start with a dot

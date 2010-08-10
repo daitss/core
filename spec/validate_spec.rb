@@ -21,7 +21,6 @@ INFER_SHA1 = File.join(REPO_ROOT, "spec", "wips", "infer_sha1.zip")
 CANT_INFER_CHECKSUM_TYPE = File.join(REPO_ROOT, "spec", "wips", "cant_infer.zip")
 UNKNOWN_CHECKSUM_TYPE = File.join(REPO_ROOT, "spec", "wips", "unknown_checksum_type.zip")
 MISSING_CHECKSUM_DATA = File.join(REPO_ROOT, "spec", "wips", "missing_checksum_data.zip")
-BAD_OBJ_ID = File.join(REPO_ROOT, "spec", "wips", "bad_obj_id.zip")
 PACKAGE_NAME_STARTS_DOT = File.join(REPO_ROOT, "spec", "wips", "package_name_starts_dot.zip")
 PACKAGE_NAME_HAS_SPACE = File.join(REPO_ROOT, "spec", "wips", "package_name_has_space.zip")
 PACKAGE_NAME_HAS_QUOTE = File.join(REPO_ROOT, "spec", "wips", "package_name_has_quote.zip")
@@ -201,20 +200,6 @@ describe Wip do
 
     wip.content_file_checksums_match?.should == false
     wip.metadata["checksum_failures"].should == "ateam.tiff - expected: 905ae75bc4595521e350564c90a56d28 computed: 805ae75bc4595521e350564c90a56d28; "
-  end
-
-  it "should validate that OBJ_ID in root node matches package_name" do
-    wip_path = extract_wip_to_workspace NORMAL_WIP
-    wip = Wip.new wip_path
-
-    wip.obj_id_matches_package_name?.should == true
-  end
-
-  it "should validate that OBJ_ID in root node matches package_name (failure case)" do
-    wip_path = extract_wip_to_workspace BAD_OBJ_ID
-    wip = Wip.new wip_path
-
-    wip.obj_id_matches_package_name?.should == false
   end
 
   it "should validate package names" do

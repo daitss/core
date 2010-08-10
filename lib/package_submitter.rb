@@ -21,7 +21,6 @@ REJECT_SUBMITTER_DESCRIPTOR_ACCOUNT_MISMATCH = "Submitter account does not match
 REJECT_CHECKSUM_MISMATCH = "At least one datafile failed checksum check"
 REJECT_MISSING_CONTENT_FILE = "No content files found in SIP"
 REJECT_INVALID_PACKAGE_NAME = "Package name is invalid"
-REJECT_OBJID_NAME_MISMATCH = "OBJID attribute in root element of descriptor does not match provided package name"
 REJECT_INVALID_DATAFILE_NAME = "Datafile present with invalid filename"
 
 class SipReject < StandardError; end
@@ -70,8 +69,8 @@ class PackageSubmitter
       reject ieid
     else
       validate wip
-      reject ieid if @errors.any?
       add_project_to_sip_record wip
+      reject ieid if @errors.any?
       wip.trim_undescribed_datafiles
       write_metadata wip
       wip.task = :ingest
@@ -89,7 +88,6 @@ class PackageSubmitter
     @errors.push REJECT_CHECKSUM_MISMATCH unless wip.content_file_checksums_match?
     @errors.push REJECT_MISSING_CONTENT_FILE unless wip.content_file_exists?
     @errors.push REJECT_INVALID_PACKAGE_NAME unless wip.package_name_valid?
-    @errors.push REJECT_OBJID_NAME_MISMATCH unless wip.obj_id_matches_package_name?
     @errors.push REJECT_INVALID_DATAFILE_NAME unless wip.content_files_have_valid_names?
   end
 

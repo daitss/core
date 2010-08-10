@@ -27,7 +27,6 @@ describe PackageSubmitter do
   ZIP_LONG_PACKAGE_NAME = File.join(REPO_ROOT, "spec", "test-sips", "ateam-long-package-name.zip")
   ZIP_INVALID_CHAR_IN_NAME = File.join(REPO_ROOT, "spec", "test-sips", "ateam-invalid-char-in-name.zip")
   ZIP_NO_DESCRIBED_CONTENT_FILE = File.join(REPO_ROOT, "spec", "test-sips", "ateam-no-described-content-file.zip")
-  ZIP_OBJID_MISMATCH = File.join(REPO_ROOT, "spec", "test-sips", "ateam-objid-mismatch.zip")
   ZIP_INVALID_DATAFILE_NAME = File.join(REPO_ROOT, "spec", "test-sips", "ateam-invalid-datafile-name.zip")
   ZIP_MULTIPLE_PROBLEMS = File.join(REPO_ROOT, "spec", "test-sips", "ateam-multiple-problems.zip")
   NOT_VALID_ARCHIVE = __FILE__
@@ -332,22 +331,6 @@ describe PackageSubmitter do
     event.should_not be_nil
     event.notes.should =~ /outcome: reject/
     event.notes.should =~ /failure reason: #{REJECT_INVALID_PACKAGE_NAME}/
-
-    File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
-  end
-
-  it "should reject SIPs when the OBJID in the descriptor does not match the package name" do
-    ip_addr = "0.0.0.0"
-    agent = OperationsAgent.first(:identifier => "operator")
-    package_name = "ateam"
-    package_path = ZIP_OBJID_MISMATCH
-
-    lambda {PackageSubmitter.submit_sip @ieid, package_name, package_path, ip_addr, agent}.should raise_error(SipReject)
-
-    event = OperationsEvent.first(:submitted_sip => {:ieid => @ieid }, :event_name => "Package Submission")
-    event.should_not be_nil
-    event.notes.should =~ /outcome: reject/
-    event.notes.should =~ /failure reason: #{REJECT_OBJID_NAME_MISMATCH}/
 
     File.directory?(File.join(PackageSubmitter::SUBMIT_WIP_DIR, @ieid)).should_not == true
   end
