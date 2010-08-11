@@ -2,7 +2,7 @@ require 'bundler'
 Bundler.setup
 
 require 'ruby-debug'
-require 'wip/process'
+require 'daitss/proc/wip/process'
 
 app_file = File.join File.dirname(__FILE__), *%w[.. .. app.rb]
 require app_file
@@ -17,7 +17,7 @@ require 'rack/test'
 require 'webrat'
 require 'nokogiri'
 
-require 'daitss2'
+require 'daitss/db/ops'
 
 Webrat.configure do |config|
   config.mode = :rack

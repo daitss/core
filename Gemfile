@@ -3,7 +3,7 @@ source :gemcutter
 gem "sinatra", "~>1.0"
 gem "haml"
 gem 'nokogiri', "~>1.4"
-gem "daitss", "0.4.0"
+gem "daitss"
 gem "semver"
 
 gem "data_mapper", "~>1.0.0"
