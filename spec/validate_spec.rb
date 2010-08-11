@@ -1,9 +1,9 @@
-require 'wip/validation'
+require 'daitss/proc/wip/validation'
 require 'daitss/config'
-require 'workspace'
+require 'daitss/proc/workspace'
 require 'helper.rb'
 
-require 'daitss2'
+require 'daitss/db/ops'
 
 
 REPO_ROOT = File.join File.dirname(__FILE__), ".."
@@ -63,7 +63,7 @@ describe Wip do
 
     wip.package_account_valid?.should == true
   end
-  
+
   it "should not validate an invalid wip account" do
     wip_path = extract_wip_to_workspace INVALID_ACCOUNT
     wip = Wip.new wip_path
@@ -77,7 +77,7 @@ describe Wip do
 
     wip.package_project_valid?.should == true
   end
-  
+
   it "should not validate an invalid wip project" do
     wip_path = extract_wip_to_workspace INVALID_PROJECT
     wip = Wip.new wip_path
@@ -93,7 +93,7 @@ describe Wip do
 
     wip.package_account_matches_agent?(agent).should == true
   end
-  
+
   it "should validate a package-submitter mismatch if submitter is operator" do
     account = add_account "FOO", "FOO"
     agent = add_operator account
@@ -141,7 +141,7 @@ describe Wip do
 
     wip.content_file_exists?.should == false
   end
-  
+
   it "should be able to confirm that all datafile checksums match" do
     wip_path = extract_wip_to_workspace NORMAL_WIP
     wip = Wip.new wip_path

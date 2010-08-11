@@ -1,9 +1,9 @@
 require 'daitss/config'
-require 'workspace'
+require 'daitss/proc/workspace'
 require 'helper.rb'
-require 'wip/submission_metadata'
+require 'daitss/proc/wip/submission_metadata'
 
-require 'daitss2'
+require 'daitss/db/ops'
 
 REPO_ROOT = File.join File.dirname(__FILE__), ".."
 

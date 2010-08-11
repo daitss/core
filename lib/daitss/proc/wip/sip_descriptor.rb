@@ -1,9 +1,12 @@
-require 'wip'
+require 'daitss/proc/wip'
+require 'daitss/xmlns'
+
 require 'jxml/validator'
 require 'libxml'
-require 'xmlns'
 
 include LibXML
+
+# SMELL should investigate an abstracted memoization library, or if it is 1-time use just read it in
 
 class Wip
 

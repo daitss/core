@@ -90,7 +90,7 @@ specs:
 - data_mapper: 
     version: 1.0.0
 - rjb: 
-    version: 1.2.5
+    version: 1.2.6
 - jxmlvalidator: 
     version: 0.1.1
 - libxml-ruby: 
@@ -98,13 +98,15 @@ specs:
 - libxslt-ruby: 
     version: 0.9.7
 - semver: 
-    version: 0.2.1
+    version: 0.2.2
 - schematron: 
     version: 1.1.1
 - sys-proctable: 
     version: 0.9.0
+- thor: 
+    version: 0.14.0
 - daitss: 
-    version: 0.2.0
+    version: 0.5.0
 - data_objects: 
     version: 0.10.2
 - dm-do-adapter: 
@@ -124,7 +126,7 @@ specs:
 - linecache: 
     version: "0.43"
 - rack: 
-    version: 1.1.0
+    version: 1.2.1
 - rack-test: 
     version: 0.5.4
 - rspec: 

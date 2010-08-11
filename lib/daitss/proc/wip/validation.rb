@@ -1,10 +1,11 @@
-require 'wip'
-require 'wip/sip_descriptor'
-require 'datafile/checksum'
-require 'datafile/name_validation'
+require 'daitss/proc/wip'
+require 'daitss/proc/wip/sip_descriptor'
+require 'daitss/proc/datafile/checksum'
+require 'daitss/proc/datafile/name_validation'
 
-require 'daitss2'
+require 'daitss/db/ops'
 
+# SMELL this can all be moved into a model under validation methods
 class Wip
 
   # returns true if package account is present in the database, false otherwise
@@ -41,8 +42,8 @@ class Wip
   #   no checksum is provided for that file
   #   the checksum type provided is not MD5 or SHA1
   #   the checksum type is not provided and has length other than 32 or 40
-  # if the checksum type not provided and has length 32, it will be assumed to be an MD5 checksum 
-  # if the checksum type not provided and has length 40, it will be assumed to be a SHA1 checksum 
+  # if the checksum type not provided and has length 32, it will be assumed to be an MD5 checksum
+  # if the checksum type not provided and has length 40, it will be assumed to be a SHA1 checksum
   # writes any failures found to metadata file called checksum_failures
   def content_file_checksums_match?
     checksum_failures = ""
@@ -50,9 +51,9 @@ class Wip
       info = datafile.checksum_info
 
       if File.exists?(datafile.datapath) == false
-        checksum_failures << "#{datafile['sip-path']} - missing; " 
+        checksum_failures << "#{datafile['sip-path']} - missing; "
       elsif info[0] != info[1]
-        checksum_failures << "#{datafile['sip-path']} - expected: #{info[0]} computed: #{info[1]}; " 
+        checksum_failures << "#{datafile['sip-path']} - expected: #{info[0]} computed: #{info[1]}; "
       else
         next
       end

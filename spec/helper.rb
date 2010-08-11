@@ -2,7 +2,7 @@ require "rubygems"
 require "bundler"
 Bundler.setup
 
-require 'daitss2'
+require 'daitss/db/ops'
 
 def add_account name = "FDA", code = "FDA"
 

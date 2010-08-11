@@ -1,4 +1,4 @@
-require "db/operations_events"
+require "daitss/db/ops/operations_events"
 
 # generates DAITSS 1 style IEIDs
 
@@ -10,7 +10,7 @@ class OldIeid
     # convert that floating point number to a string
     # remove the decimal point
     # convert the now decimal point less string into an integer object
-    # use Integer's to_s method to get a base 36 representation 
+    # use Integer's to_s method to get a base 36 representation
     string = Time.now.to_f.to_s.gsub(".", "").to_i.to_s(36).upcase
 
     # pad with zeros to 14 characters

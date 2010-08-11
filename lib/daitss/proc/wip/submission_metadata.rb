@@ -1,23 +1,23 @@
-require 'wip'
-require 'template/premis'
+require 'daitss/proc/wip'
+require 'daitss/proc/template/premis'
 
 class Wip
 
   SERVICE_PREMIS_AGENT_ID = 'info:fda/daitss/submission_service'
 
-  def create_submit_agent 
+  def create_submit_agent
     metadata['submit-agent'] = agent :id => SERVICE_PREMIS_AGENT_ID,
       :name => 'daitss submission service',
       :type => 'Software'
   end
 
-  def create_account_agent 
+  def create_account_agent
     metadata['submit-agent-account'] = agent :id => "info:fda/daitss/accounts/#{metadata["dmd-account"]}",
     :name => "DAITSS Account: #{metadata["dmd-account"]}",
     :type => 'Affiliate'
   end
 
-  def create_submit_event 
+  def create_submit_event
     metadata['submit-event'] = event :id => "info:fda/#{File.basename(@path)}/event/submit",
     :type => 'submit',
       :outcome => 'success',
@@ -33,7 +33,7 @@ class Wip
       :linking_agents => SERVICE_PREMIS_AGENT_ID
   end
 
-  def create_package_valid_event 
+  def create_package_valid_event
     metadata['package-valid-event'] = event :id => "info:fda/#{File.basename(@path)}/event/package-valid",
     :type => 'package valid',
       :outcome => 'success',

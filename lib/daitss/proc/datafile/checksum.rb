@@ -1,7 +1,7 @@
 require 'digest/md5'
 require 'digest/sha1'
-require 'xmlns'
 
+require 'daitss/xmlns'
 class DataFile
 
   # Returns [sip descriptor checksum, computed checksum]
