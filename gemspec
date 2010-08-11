@@ -9,7 +9,7 @@ spec = Gem::Specification.new do |spec|
   spec.authors = ["Francesco Lazzarino", "Emmanuel Rodriguez", "Carol Chou"]
   spec.has_rdoc = true
 
-  spec.files = ["Rakefile", "README.md"]
+  spec.files = ["Rakefile"]
   spec.files += Dir["lib/**/*"]
   # spec.files += Dir["spec/**/*"]
   spec.files += Dir["templates/**/*"]
