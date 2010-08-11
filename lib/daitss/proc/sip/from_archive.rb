@@ -1,7 +1,7 @@
-require 'wip/from_sip'
-require 'tempdir'
+require 'daitss/proc/tempdir'
 
-require 'daitss2'
+require 'daitss/proc/wip/from_sip'
+require 'daitss/db/ops'
 
 class ArchiveExtractionError < StandardError; end
 class DescriptorNotFoundError < StandardError; end
@@ -41,7 +41,7 @@ class Sip
     files_in_sip = sip_contents.reject {|path| File.file?(path) == false}
     package_size = sip_contents.inject(0) {|sum, path| sum + File.stat(path).size}
 
-    sip_record.attributes = { 
+    sip_record.attributes = {
       :package_size => package_size,
       :number_of_datafiles => files_in_sip.length
        }
@@ -55,7 +55,7 @@ class Sip
     if file_string =~ /tar/i
       :tar
     elsif file_string =~ /zip/i
-      :zip 
+      :zip
     else
       raise ArchiveExtractionError, "Can't determine archive type"
     end

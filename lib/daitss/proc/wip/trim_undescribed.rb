@@ -1,6 +1,6 @@
-require 'wip'
-require 'wip/submission_metadata'
-require 'wip/sip_descriptor'
+require 'daitss/proc/wip'
+require 'daitss/proc/wip/submission_metadata'
+require 'daitss/proc/wip/sip_descriptor'
 require 'fileutils'
 
 class Wip

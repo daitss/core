@@ -1,11 +1,11 @@
-require 'sip/from_archive'
-require 'wip/from_sip'
-require 'wip/task'
-require 'wip/validation'
-require 'wip/submission_metadata'
-require 'wip/trim_undescribed'
-require 'db/sip'
-require 'workspace'
+require 'daitss/proc/sip/from_archive'
+require 'daitss/proc/wip/from_sip'
+require 'daitss/proc/wip/task'
+require 'daitss/proc/wip/validation'
+require 'daitss/proc/wip/submission_metadata'
+require 'daitss/proc/wip/trim_undescribed'
+require 'daitss/db/ops/sip'
+require 'daitss/proc/workspace'
 require 'daitss/config'
 
 require 'libxml'
@@ -43,11 +43,12 @@ class PackageSubmitter
   # writes operations event for submission/reject
   # clean up temp
 
+  # SMELL a lot of this can be put into the Wip class
   def self.submit_sip ieid, package_name, archive_path, ip_addr, submitting_op_agent
     create_submit_dir
 
     wip_path = File.join SUBMIT_WIP_DIR, ieid
-    wip_uri = URI_PREFIX + ieid 
+    wip_uri = URI_PREFIX + ieid
 
     @errors = []
     @op_event_notes = "submitter_ip: #{ip_addr};"

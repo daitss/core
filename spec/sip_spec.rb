@@ -1,4 +1,4 @@
-require 'sip/from_archive'
+require 'daitss/proc/sip/from_archive'
 require 'daitss/config'
 require 'pp'
 
@@ -73,9 +73,9 @@ describe Sip do
     sip_record.package_name.should == "ateam"
     sip_record.package_size.should == nil
     sip_record.number_of_datafiles.should == nil
-  end 
+  end
 
-  it "should raise error and create sip record if archive cannot be extracted" do 
+  it "should raise error and create sip record if archive cannot be extracted" do
     ieid = rand(1000)
 
     lambda { sip = Sip.from_archive NOT_AN_ARCHIVE, ieid, "ateam" }.should raise_error(ArchiveExtractionError)
