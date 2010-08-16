@@ -92,6 +92,8 @@ class Wip
     wip['sip-name'] = sip.name
 
     sip.files.each_with_index do |f, index|
+      next unless File.exists? File.join(sip.path, f)
+
       df = wip.new_original_datafile index
 
       df.open('w') do |o|
