@@ -1,13 +1,6 @@
 require 'daitss/proc/sip/from_archive'
 require 'daitss/config'
-require 'pp'
-
-REPO_ROOT = File.join File.dirname(__FILE__), ".."
-ZIP_SIP = File.join(REPO_ROOT, "spec", "test-sips", "ateam.zip")
-TAR_SIP = File.join(REPO_ROOT, "spec", "test-sips", "ateam.tar")
-NO_SIP_DESCRIPTOR = File.join(REPO_ROOT, "spec", "test-sips", "ateam-nodesc.zip")
-NO_DIR = File.join(REPO_ROOT, "spec", "test-sips", "ateam-nodir.zip")
-NOT_AN_ARCHIVE = File.join(REPO_ROOT, "spec", "test-sips", "not-an-archive")
+require 'constants'
 
 describe Sip do
 
@@ -54,7 +47,7 @@ describe Sip do
   it "should raise error and create sip record if sip descriptor is not found" do
     ieid = rand(1000)
 
-    lambda { sip = Sip.from_archive NO_SIP_DESCRIPTOR, ieid, "ateam" }.should raise_error(DescriptorNotFoundError)
+    lambda { sip = Sip.from_archive ZIP_NO_DESCRIPTOR, ieid, "ateam" }.should raise_error(DescriptorNotFoundError)
 
     sip_record = SubmittedSip.first(:ieid => ieid)
 
@@ -66,7 +59,7 @@ describe Sip do
   it "should raise error and create sip record if sip is not archived in directory named package name" do
     ieid = rand(1000)
 
-    lambda { sip = Sip.from_archive NO_DIR, ieid, "ateam" }.should raise_error(ArchiveExtractionError)
+    lambda { sip = Sip.from_archive ZIP_SIP_NODIR, ieid, "ateam" }.should raise_error(ArchiveExtractionError)
 
     sip_record = SubmittedSip.first(:ieid => ieid)
 

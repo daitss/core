@@ -2,34 +2,12 @@ require 'helper'
 
 require 'package_submitter'
 require 'fileutils'
+require 'constants'
 require 'daitss/config'
 
 include Daitss
 
 describe PackageSubmitter do
-
-  REPO_ROOT = File.join File.dirname(__FILE__), ".."
-
-  ZIP_SIP = File.join(REPO_ROOT, "spec", "test-sips", "ateam.zip")
-  TAR_SIP = File.join(REPO_ROOT, "spec", "test-sips", "ateam.tar")
-  ZIP_SIP_NODIR = File.join(REPO_ROOT, "spec", "test-sips", "ateam-nodir.zip")
-  TAR_SIP_NODIR = File.join(REPO_ROOT, "spec", "test-sips", "ateam-nodir.tar")
-  ZIP_NO_DESCRIPTOR = File.join(REPO_ROOT, "spec", "test-sips", "ateam-nodesc.zip")
-  ZIP_DMD_METADATA = File.join(REPO_ROOT, "spec", "test-sips", "ateam-dmd.zip")
-  ZIP_BROKEN_DESCRIPTOR = File.join(REPO_ROOT, "spec", "test-sips", "ateam-broken-descriptor.zip")
-  ZIP_BAD_PROJECT = File.join(REPO_ROOT, "spec", "test-sips", "ateam-bad-project.zip")
-  ZIP_BAD_ACCOUNT = File.join(REPO_ROOT, "spec", "test-sips", "ateam-bad-account.zip")
-  ZIP_NO_CONTENT_FILES = File.join(REPO_ROOT, "spec", "test-sips", "ateam-missing-contentfile.zip")
-  ZIP_CHECKSUM_MISMATCH = File.join(REPO_ROOT, "spec", "test-sips", "ateam-checksum-mismatch.zip")
-  ZIP_INVALID_DESCRIPTOR = File.join(REPO_ROOT, "spec", "test-sips", "ateam-invalid-descriptor.zip")
-  ZIP_UNKNOWN_CHECKSUM_TYPE = File.join(REPO_ROOT, "spec", "test-sips", "ateam-unknown-checksum-type.zip")
-  ZIP_MISSING_CHECKSUM = File.join(REPO_ROOT, "spec", "test-sips", "ateam-missing-checksum.zip")
-  ZIP_LONG_PACKAGE_NAME = File.join(REPO_ROOT, "spec", "test-sips", "ateam-long-package-name.zip")
-  ZIP_INVALID_CHAR_IN_NAME = File.join(REPO_ROOT, "spec", "test-sips", "ateam-invalid-char-in-name.zip")
-  ZIP_NO_DESCRIBED_CONTENT_FILE = File.join(REPO_ROOT, "spec", "test-sips", "ateam-no-described-content-file.zip")
-  ZIP_INVALID_DATAFILE_NAME = File.join(REPO_ROOT, "spec", "test-sips", "ateam-invalid-datafile-name.zip")
-  ZIP_MULTIPLE_PROBLEMS = File.join(REPO_ROOT, "spec", "test-sips", "ateam-multiple-problems.zip")
-  NOT_VALID_ARCHIVE = __FILE__
 
   before(:each) do
     CONFIG.load_from_env
@@ -50,7 +28,7 @@ describe PackageSubmitter do
 
     LibXML::XML.default_keep_blanks = false
 
-    @ieid = rand(1000).to_s
+    @ieid = rand(1000000).to_s
   end
 
   after(:each) do
@@ -224,7 +202,6 @@ describe PackageSubmitter do
   end
 
   it "should reject SIPs where there are no content files" do
-    pending "this needs rethinking because Wip#from_sip uses the descriptor as the file list before validation"
     ip_addr = "0.0.0.0"
     agent = OperationsAgent.first(:identifier => "operator")
     package_name = "ateam"
@@ -289,7 +266,6 @@ describe PackageSubmitter do
   end
 
   it "should reject SIPs when content files are present, but none are described" do
-    pending "this needs rethinking because Wip#from_sip uses the descriptor as the file list before validation"
     ip_addr = "0.0.0.0"
     agent = OperationsAgent.first(:identifier => "operator")
     package_name = "ateam"

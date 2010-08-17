@@ -1,13 +1,10 @@
 require 'daitss/config'
 require 'daitss/proc/workspace'
 require 'helper.rb'
+require 'constants'
 require 'daitss/proc/wip/submission_metadata'
 
 require 'daitss/db/ops'
-
-REPO_ROOT = File.join File.dirname(__FILE__), ".."
-
-NORMAL_WIP = File.join(REPO_ROOT, "spec", "wips", "normal_wip.zip")
 
 describe Wip do
 
