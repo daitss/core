@@ -1,5 +1,5 @@
 Given /^an archived package$/ do
-  wip = submit 'mimi'
+  wip = submit 'haskell-nums-pdf'
   wip.start
   sleep 0.5 while wip.running?
 end

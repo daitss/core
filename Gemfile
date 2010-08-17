@@ -1,22 +1,24 @@
 source :gemcutter
 
-gem "sinatra", "~>1.0"
+gem "sinatra"
+gem 'sinatras-hat'
+gem 'metaid'
 gem "haml"
-gem 'nokogiri', "~>1.4"
+gem 'nokogiri'
 gem "daitss"
 gem "semver"
 
-gem "data_mapper", "~>1.0.0"
-gem "dm-sqlite-adapter", "~>1.0.0"
-gem "dm-postgres-adapter", "~>1.0.0"
-gem "dm-mysql-adapter", "~>1.0.0"
+gem "data_mapper"
+gem "dm-sqlite-adapter"
+gem "dm-postgres-adapter"
+gem "dm-mysql-adapter"
 
 group :test do
-  gem "rspec", "~>1.3", :require => "spec"
-  gem "cucumber", "~>0.7"
-  gem "webrat", "~>0.7"
-  gem 'ruby-debug', "~>0.10"
-  gem "rack-test", "~>0.5", :require => 'rack/test'
+  gem "rspec"
+  gem "cucumber"
+  gem "webrat"
+  gem 'ruby-debug'
+  gem "rack-test"
 end
 
 group :thin do
