@@ -51,7 +51,7 @@ class MyWorld
 
   def submit name
     sips << {:sip => name}
-    sip_path = sip 'ateam'
+    sip_path = sip 'haskell-nums-pdf'
     url = URI.parse "#{Daitss::CONFIG['submission']}/"
     req = Net::HTTP::Post.new url.path
     tar = %x{tar -c -C #{File.dirname sip_path} -f - #{File.basename sip_path} }
@@ -68,6 +68,7 @@ class MyWorld
       http.request req
     end
 
+    debugger unless Net::HTTPSuccess === res
     res.error! unless Net::HTTPSuccess === res
     doc = Nokogiri::XML res.body
     id = (doc % 'IEID').content

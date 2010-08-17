@@ -6,12 +6,12 @@ Given /^I submit (a|\d+) packages?$/ do |count|
           else raise 'invalid count'
           end
 
-  count.times { submit 'ateam' }
+  count.times { submit 'haskell-nums-pdf' }
 
 end
 
 When /^I select a sip to upload$/ do
-  name = 'ateam'
+  name = 'haskell-nums-pdf'
   tar = sip_tarball(name)
   tio = Tempfile.open 'cuke'
   dir = tio.path

@@ -3,6 +3,7 @@ Bundler.setup
 
 require 'ruby-debug'
 require 'sinatra'
+require 'sinatras-hat'
 require 'haml'
 require 'sass'
 require 'net/http'
@@ -449,4 +450,25 @@ post '/admin' do
   end
 
   redirect '/admin'
+end
+
+# restful interface
+#get '/ajax/admin' do
+#end
+Sinatra::Delegator.delegate(:mount)
+
+mount Account do
+  finder { |model, params| model.all }
+  record { |model, params| model.first :id => params[:id] }
+
+  mount Project do
+    finder { |model, params| model.all }
+    record { |model, params| model.first :id => params[:id] }
+  end
+
+end
+
+mount StashBin do
+  finder { |model, params| model.all }
+  record { |model, params| model.first :id => params[:id] }
 end
