@@ -17,7 +17,7 @@ spec = Gem::Specification.new do |spec|
   spec.files << "bin/daitss"
   spec.files << "bin/dbin"
 
-  spec.executables = ['daitss', 'ingest', 'dbin']
+  spec.executables = ['daitss', 'dbin', 'dbin']
 
   spec.add_bundler_dependencies
 end
