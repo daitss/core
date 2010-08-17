@@ -266,6 +266,7 @@ describe PackageSubmitter do
   end
 
   it "should reject SIPs when content files are present, but none are described" do
+    pending 'Wip#from_sip handles this, refactor logic!'
     ip_addr = "0.0.0.0"
     agent = OperationsAgent.first(:identifier => "operator")
     package_name = "ateam"
