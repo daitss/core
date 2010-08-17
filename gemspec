@@ -15,7 +15,7 @@ spec = Gem::Specification.new do |spec|
   spec.files += Dir["templates/**/*"]
   spec.files += Dir["stron/**/*"]
   spec.files << "bin/daitss"
-  spec.files << "bin/ingest"
+  spec.files << "bin/dbin"
 
   spec.executables = ['daitss', 'ingest', 'dbin']
 
