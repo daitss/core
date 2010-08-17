@@ -1,0 +1,101 @@
+%h1
+  = @sip.ieid
+
+- if @wip or @stashed_wip
+  - if @wip
+    .processing
+      processing
+      %a{:href=>"/workspace/#{@wip.id}"}= @wip.task
+
+  - elsif @stashed_wip
+    .processing
+      stashed
+      %a{:href=>"/stashspace/#{@bin.url_name}/#{@stashed_wip.id}"}= @stashed_wip.task
+- else
+  .processing
+    no jobs processing or stashed
+
+%h2 submit a package request
+
+%form{:action => '/request', :method => 'POST'}
+  %br
+  %select{:name=>'type'}
+    %option= 'disseminate'
+    %option= 'withdraw'
+    %option= 'peek'
+  %br
+  %input{:type => 'hidden', :name => 'ieid', :value=>"#{@sip.ieid}"}
+  %input{:type => 'submit', :value => 'Submit'}
+
+%h2 submission
+
+%table
+  %tr
+    %th sip
+    %td= @sip.package_name
+  %tr
+    %th account
+    %td= @sip.project.account.code rescue 'N/A'
+  %tr
+    %th project
+    %td= @sip.project.code rescue 'N/A'
+
+%h2 events
+
+%table
+  %tr
+    %th type
+    %th time
+    %th note
+  - @events.each do |e|
+    %tr
+      %td= e.event_name
+      %td= e.timestamp.pragma
+      %td= e.notes
+
+%h2 requests
+
+- if @requests.any?
+  %table
+    %tr
+      %th type
+      %th time
+      %th authorized?
+      %th request submitter
+      %th status
+      %th delete
+    - @requests.each do |r|
+      %tr
+        %td= r.request_type
+        %td= r.timestamp.pragma
+        %td= r.is_authorized ? "yes" : "no"
+        %td= r.operations_agent.identifier
+        %td= r.status
+        %td
+          - if r.status != :released_to_workspace
+            %a{:href => "/delete_request/#{@sip.ieid}/#{r.request_type}"} delete
+
+- if @aip
+  %h2 aip
+
+  %h3
+    %a{:href=>"/package/#{@aip.id}/descriptor"} xml descriptor
+
+  %table
+    %tr
+      %th copy url
+      %td
+        %a{ :href => @aip.copy_url }
+          =@aip.copy_url
+    %tr
+      %th copy size
+      %td= @aip.copy_size
+    %tr
+      %th copy sha1
+      %td= @aip.copy_sha1
+    %tr
+      %th copy md5
+      %td= @aip.copy_md5
+    %tr
+      %th number of datafiles
+      %td= @aip.datafile_count

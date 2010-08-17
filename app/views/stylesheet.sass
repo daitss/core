@@ -1,0 +1,98 @@
+$light_gray: #E4E9E4
+$dark_gray: #222020
+
+$e_orange: #F58123
+$e_blue: #0097DB
+$e_blue2: #0084A9
+$e_blue3: #2baae2
+$e_gray: #364046
+$e_red: #dc2628
+
+body
+  margin: 0px
+  font-family: "Droid Sans", sans-serif
+
+h1, h2, h3
+  color: $e_blue2
+  font-weight: bold
+  padding: 5px
+
+a
+  color: $e_blue
+  text-decoration: none
+  font-weight: 400
+  &:hover
+    color: $e_orange
+    text-decoration: underline
+p
+  font-family: "Droid Serif", serif
+
+hr
+  color: $light_gray
+  background-color: $light_gray
+  height: 3px
+  border: 0
+
+code
+  font-family: "Droid Sans Mono", monospace
+  font-size: 14pt
+
+table
+
+  th
+    background-color: $e_gray
+    color: $e_orange
+    font-family: "Droid Sans", sans-serif
+    font-weight: bold
+    padding: 0.5ex
+  td
+    padding: 0.5ex
+    font-family: "Droid Sans Mono"
+  tr:nth-child(even)
+    background-color: $light_gray
+
+
+#content
+  margin-left: 30px
+  margin-right: 30px
+  padding: 5px
+
+#navigation
+  font-family: "Droid Sans", sans-serif
+  color: $e_gray
+  font-size: 18pt
+
+  a
+    color: $e_blue3
+
+  span#applink
+    a
+      font-family: "Droid Sans"
+      font-weight: bold
+      font-size: 20pt
+      color: $e_orange
+
+
+#search
+  text-align: left
+  padding: 0px
+
+#snafu
+  padding: 10px
+  border-radius: 10px
+  background-color: $dark_gray
+  color: $light_gray
+
+  h2
+    color: $e_orange
+
+  table
+    tr
+      th
+        //text-align: right
+        width: 10%
+        color: $e_orange
+
+      td
+        text-align: left
+        color: $light_gray

@@ -1,0 +1,28 @@
+%html
+  %head
+    %link{:href => "http://fonts.googleapis.com/css?family=Droid+Sans+Mono",
+          :rel => "stylesheet", :type => "text/css"}
+    %link{:href => "http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold",
+          :rel => "stylesheet", :type => "text/css"}
+    %link{:href => "http://fonts.googleapis.com/css?family=Droid+Serif:regular,bold,italic,bolditalic",
+          :rel => "stylesheet", :type => "text/css"}
+    %link{:rel => "stylesheet", :href => "/stylesheet.css", :type =>"text/css", :media =>"screen, projection"}
+
+    %title Workspace Monitor (new boss)
+  %body
+    #content
+      #navigation
+        %span#applink
+          %a{ :href => '/' }= APP_VERSION
+          &nbsp;
+        %a{ :href => '/submit' } submit
+        = ":"
+        %a{ :href => '/packages' } packages
+        = ":"
+        %a{ :href => '/workspace' } workspace
+        = ":"
+        %a{ :href => '/stashspace' } stashspace
+        = ":"
+        %a{ :href => '/admin' } admin
+        %hr
+      = yield

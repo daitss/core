@@ -1,0 +1,15 @@
+#snafu
+  - time, message, trace = @wip.snafu.split "\n\n"
+  %h2
+    snafu
+
+  %table
+    %tr
+      %th time
+      %td= Time.parse(time).xmlschema
+    %tr
+      %th message
+      %td= message
+    %tr
+      %th{:colspan => 2}
+        %a{:href => "/workspace/#{@wip.id}/snafu"} stack trace
