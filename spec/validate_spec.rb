@@ -2,30 +2,9 @@ require 'daitss/proc/wip/validation'
 require 'daitss/config'
 require 'daitss/proc/workspace'
 require 'helper.rb'
+require 'constants'
 
 require 'daitss/db/ops'
-
-
-REPO_ROOT = File.join File.dirname(__FILE__), ".."
-
-NORMAL_WIP = File.join(REPO_ROOT, "spec", "wips", "normal_wip.zip")
-INVALID_ACCOUNT = File.join(REPO_ROOT, "spec", "wips", "invalid_account.zip")
-INVALID_PROJECT = File.join(REPO_ROOT, "spec", "wips", "invalid_project.zip")
-MISSING_CONTENT_FILE = File.join(REPO_ROOT, "spec", "wips", "missing_content_file.zip")
-UNDESCRIBED_CONTENT_FILE = File.join(REPO_ROOT, "spec", "wips", "undescribed_content_file.zip")
-MISSING_UNDESCRIBED_CONTENT_FILE = File.join(REPO_ROOT, "spec", "wips", "missing_undescribed_content_file.zip")
-SHA1_MISMATCH = File.join(REPO_ROOT, "spec", "wips", "sha1_mismatch.zip")
-MD5_MISMATCH = File.join(REPO_ROOT, "spec", "wips", "md5_mismatch.zip")
-INFER_MD5 = File.join(REPO_ROOT, "spec", "wips", "infer_md5.zip")
-INFER_SHA1 = File.join(REPO_ROOT, "spec", "wips", "infer_sha1.zip")
-CANT_INFER_CHECKSUM_TYPE = File.join(REPO_ROOT, "spec", "wips", "cant_infer.zip")
-UNKNOWN_CHECKSUM_TYPE = File.join(REPO_ROOT, "spec", "wips", "unknown_checksum_type.zip")
-MISSING_CHECKSUM_DATA = File.join(REPO_ROOT, "spec", "wips", "missing_checksum_data.zip")
-PACKAGE_NAME_STARTS_DOT = File.join(REPO_ROOT, "spec", "wips", "package_name_starts_dot.zip")
-PACKAGE_NAME_HAS_SPACE = File.join(REPO_ROOT, "spec", "wips", "package_name_has_space.zip")
-PACKAGE_NAME_HAS_QUOTE = File.join(REPO_ROOT, "spec", "wips", "package_name_has_quote.zip")
-PACKAGE_NAME_LONG = File.join(REPO_ROOT, "spec", "wips", "package_name_long.zip")
-INVALID_DATAFILE_NAME = File.join(REPO_ROOT, "spec", "wips", "invalid_datafile_name.zip")
 
 describe Wip do
 
