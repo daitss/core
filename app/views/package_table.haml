@@ -1,0 +1,14 @@
+%table
+  %tr
+    %th package
+    %th account
+    %th activity
+    %th time
+  - packages.each do |p|
+    %tr
+      %td
+        %a{:href => "/package/#{p.ieid}"}= p.ieid
+      %td= p.project.account.code rescue "N/A"
+      - latest_event = p.operations_events.last
+      %td= latest_event.event_name
+      %td= latest_event.timestamp.pragma

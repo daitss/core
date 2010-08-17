@@ -1,6 +1,3 @@
-.bundle
-vendor
-.bundle
 *.gem
 *.log
 *.swo
@@ -8,9 +5,11 @@ vendor
 *.tmproj
 *~
 .DS_Store
+.bundle
 .test-stack
 config.yml
 coverage
 pkg
 tags
 var
+vendor

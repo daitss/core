@@ -1,0 +1,31 @@
+%h1 search packages
+
+%form
+  %input#search{:type => 'text', :name => 'search', :value => @query}
+  %input{:type => 'submit', :value => "Search"}
+
+  %p
+    %strong
+      %em aip
+    or
+    %strong
+      %em sip
+    separated by spaces.
+
+    Example:
+    %code UF2543330 E2009_00FJ543
+
+%hr/
+
+%h2
+  - if @query
+    results
+    (
+    = @packages.size
+    )
+
+  - else
+    latest activity
+
+- unless @packages.empty?
+  = partial :package_table, :locals => {:packages => @packages }

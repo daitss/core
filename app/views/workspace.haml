@@ -1,0 +1,35 @@
+%h1
+  update jobs
+
+#update-form
+
+  %form{:action => '/workspace', :method => 'post'}
+
+    %input#state-start{:type => 'radio', :name => 'task', :value => 'start'}
+    %label{:for => 'state-start'} start
+    %br/
+    %input#state-stop{:type => 'radio', :name => 'task', :value => 'stop'}
+    %label{:for => 'state-stop'} stop
+    %br/
+    %input#state-unsnafu{:type => 'radio', :name => 'task', :value => 'unsnafu'}
+    %label{:for => 'state-unsnafu'} unsnafu
+    %br/
+    %input#state-stash{:type => 'radio', :name => 'task', :value => 'stash'}
+    %label{:for => 'state-stash'} stash
+    %select{:name => 'stash-bin'}
+      - @bins.each do |bin|
+        %option= bin.name
+    %br/
+    %br/
+    %input{:type => 'submit', :value => "Update"}
+
+%hr/
+
+%h1
+  current jobs
+  (
+  = @ws.to_a.size
+  )
+
+- unless @ws.to_a.empty?
+  = partial :wip_table, :locals => { :wips => @ws.to_a }

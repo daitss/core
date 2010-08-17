@@ -1,0 +1,49 @@
+#wip
+  %h1
+    = @wip.task
+    of
+    %a{:href => "/package/#{@wip.id}"}
+      = @wip.id
+    (
+    = @wip.state
+    )
+
+  - if @wip.snafu?
+    = partial :wip_snafu
+
+  %hr/
+
+  %h2 update package
+  #update-form
+    %form{:action => "/workspace/#{@wip.id}", :method => 'post'}
+
+      %input#task-start{:type => 'radio', :name => 'task', :value => 'start'}
+      %label{:for => 'task-start'} start
+
+      %br/
+
+      %input#task-stop{:type => 'radio', :name => 'task', :value => 'stop'}
+      %label{:for => 'task-stop'} stop
+
+      %br/
+
+      %input#task-unsnafu{:type => 'radio', :name => 'task', :value => 'unsnafu'}
+      %label{:for => 'task-unsnafu'} unsnafu
+
+      %br/
+
+      %input#state-stash{:type => 'radio', :name => 'task', :value => 'stash'}
+      %label{:for => 'state-stash'} stash
+      %select{:name => 'stash-bin'}
+        - @bins.each do |bin|
+          %option= bin.name
+
+      %br/
+      %br/
+
+      %input{:type => 'submit', :value => "Update"}
+
+  %hr/
+
+  %h2 progress
+  = partial :wip_progress
