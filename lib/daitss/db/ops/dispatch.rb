@@ -1,4 +1,5 @@
 # SMELL this could be moved into Request OOP style
+# TODO: move to methods to wip class
 
 require 'daitss/proc/wip'
 require 'uri'
