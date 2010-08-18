@@ -22,32 +22,6 @@ require 'daitss/db/ops/sip'
 require 'daitss/db/ops/operations_events'
 require 'semver'
 
-class Wip
-
-  def package
-    SubmittedSip.first :ieid => id
-  end
-
-end
-
-require 'date'
-class DateTime
-
-  def pragma
-    now = DateTime.now
-
-    if now.jd == self.jd
-      self.strftime('%I:%M %p').downcase
-    elsif now.year == self.year
-      self.strftime '%b %d'
-    else
-     self.strftime '%D'
-    end
-
-  end
-
-end
-
 APP_VERSION = SemVer.find(File.dirname(__FILE__)).format "v%M.%m.%p%s"
 
 configure do
