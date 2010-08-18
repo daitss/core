@@ -1,9 +1,26 @@
 require 'data_mapper'
 
+class EggHeadKey < DataMapper::Property::String
+  key true
+  default proc { |res, prop| EggHeadKey.new_egg_head_key }
+
+  def EggHeadKey.new_egg_head_key
+    string = ::Time.now.to_f.to_s.gsub(".", "").to_i.to_s(36).upcase
+
+    # pad with zeros to 14 characters
+    string = ("0" * (14 - string.length)) + string
+
+    # add underscore
+    string = string.insert(8, "_")
+    return "E" + string
+  end
+
+end
+
 class Sip
   include DataMapper::Resource
 
-  property :id, String, :key => true
+  property :id, EggHeadKey
   property :name, String
   property :size_in_bytes, Integer, :min => 0, :max => 2**63-1
   property :number_of_datafiles, Integer, :min => 0, :max => 2**63-1
