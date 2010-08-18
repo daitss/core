@@ -9,6 +9,31 @@ class SipArchive
   attr_reader :path, :owner_ids, :account, :project, :title, :issue, :volume, :entity_id
 
   def initialize path
+    path = File.expand_path path
+
+    filename = File.basename path
+    ext = File.extname path
+    name = File.basename path, ext
+
+
+    Dir.chdir File.dirname(path) do
+
+      case ext
+      when '.zip' then `unzip -o #{filename}`
+      when '.tar' then `tar -xf #{filename}`
+      else raise "unknown archive extension: #{ext}"
+      end
+
+      raise "error extracting #{filename}\n#{output}" unless $? == 0
+    end
+
+    @name = name
+    @path = File.join File.dirname(path), name
+
+    raise "#{filename} is not a package" unless File.directory? @path
+  end
+
+  def old_initialize path
     @path = File.expand_path path
     @descriptor_doc = open(descriptor_file) { |io| XML::Document.io io  }
     @owner_ids = {}
@@ -44,7 +69,7 @@ class SipArchive
   end
 
   def extract_title
-   title_node = @descriptor_doc.find_first("//M:dmdSec/M:mdWrap/M:xmlData/mods:mods/mods:titleInfo/mods:title", NS_PREFIX)
+    title_node = @descriptor_doc.find_first("//M:dmdSec/M:mdWrap/M:xmlData/mods:mods/mods:titleInfo/mods:title", NS_PREFIX)
 
     return title_node ? title_node.content : nil
   end
@@ -96,9 +121,9 @@ class Sip
   def Sip.from_archive path_to_archive, ieid, package_name
 
     # write record to sip table
-    sip = SubmittedSip.new
+    sip = Sip.new
     sip.attributes = { :package_name => package_name,
-                       :ieid => ieid }
+      :ieid => ieid }
     sip.save!
 
     # detect archive type
@@ -127,7 +152,7 @@ class Sip
     sip_record.attributes = {
       :package_size => package_size,
       :number_of_datafiles => files_in_sip.length
-       }
+    }
 
     sip_record.save!
   end
@@ -154,18 +179,18 @@ class Sip
     when :tar
       tar_command = `which tar`.chomp
       raise ArchiveExtractionError, "tar utility not found on this system!" if tar_command =~ /not found/
-      command = "#{tar_command} -xf #{path_to_archive} -C #{unarchive_destination.path} 2>&1"
+        command = "#{tar_command} -xf #{path_to_archive} -C #{unarchive_destination.path} 2>&1"
 
     when :zip
       zip_command = `which unzip`.chomp
       raise ArchiveExtractionError, "unzip utility not found on this system!" if zip_command =~ /not found/
-      command = "#{zip_command} -o #{path_to_archive} -d #{unarchive_destination.path} 2>&1"
+        command = "#{zip_command} -o #{path_to_archive} -d #{unarchive_destination.path} 2>&1"
     end
 
     output = `#{command}`
     raise ArchiveExtractionError, "Extraction utility returned non-zero exit status: #{output}" unless $?.exitstatus == 0
     raise ArchiveExtractionError, "SIP not in #{package_name} subdirectory" unless File.directory? sip_path
 
-   return sip_path
+    return sip_path
   end
 end

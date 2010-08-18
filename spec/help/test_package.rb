@@ -62,3 +62,9 @@ def pull_aip id
   wip.load_from_aip
   wip
 end
+
+SIP_ARCHIVE_DIR = File.join File.dirname(__FILE__), '..', 'sip_archives'
+
+def sip_archive_fixture name
+  File.join SIP_ARCHIVE_DIR, name
+end
