@@ -3,6 +3,8 @@ require 'daitss/proc/wip/task'
 
 class Workspace
 
+  SUBMIT_DIR = '.submit'
+
   attr_reader :path
 
   def initialize path
@@ -44,6 +46,11 @@ class Workspace
 
   def to_json *a
     map.to_json *a
+  end
+
+  def submit_dir
+    d = File.join path, SUBMIT_DIR
+    FileUtils.mkdir d unless File.exist? d
   end
 
 end
