@@ -2,25 +2,26 @@ require 'bundler'
 Bundler.setup
 
 require 'ruby-debug'
-require 'sinatra'
-require 'sinatras-hat'
-require 'haml'
-require 'sass'
-require 'net/http'
-require 'nokogiri'
-
-require 'daitss/proc/workspace'
-require 'daitss/proc/wip/process'
-require 'daitss/proc/wip/state'
-require 'daitss/proc/wip/progress'
-require 'daitss/config'
 
 require 'data_mapper'
-require 'daitss/db/ops/aip'
-require 'daitss/db/ops/stashbin'
-require 'daitss/db/ops/sip'
-require 'daitss/db/ops/operations_events'
+require 'haml'
+require 'net/http'
+require 'nokogiri'
+require 'sass'
 require 'semver'
+require 'sinatra'
+require 'sinatras-hat'
+
+require 'daitss/config'
+require 'daitss/datetime'
+require 'daitss/db/ops/aip'
+require 'daitss/db/ops/operations_events'
+require 'daitss/db/ops/sip'
+require 'daitss/db/ops/stashbin'
+require 'daitss/proc/wip/process'
+require 'daitss/proc/wip/progress'
+require 'daitss/proc/wip/state'
+require 'daitss/proc/workspace'
 
 APP_VERSION = SemVer.find(File.dirname(__FILE__)).format "v%M.%m.%p%s"
 
@@ -33,34 +34,35 @@ end
 
 helpers do
 
-  def require_param name
-    params[name.to_s] or error 400, "parameter #{name} required"
+  def credentials?
+    @auth ||= Rack::Auth::Basic::Request.new(request.env)
+    @auth.provided? && @auth.basic? && @auth.credentials
   end
 
-  def submit data, sip, ext
-    url = "#{Daitss::CONFIG['submission']}/"
+  # returns array containing the basic auth credentials provided, nil otherwise
+  def get_credentials
+    return nil unless credentials?
 
-    url = URI.parse url
-    req = Net::HTTP::Post.new url.path
-    req.body = data
-    req.content_type = 'application/tar'
-    req.basic_auth 'operator', 'operator'
-    req['X-Package-Name'] = sip
-    req['Content-MD5'] = Digest::MD5.hexdigest data
-    req['X-Archive-Type'] = ext
+    return @auth.credentials
+  end
 
-    res = Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = Daitss::CONFIG['http-timeout']
-      http.request req
+  # returns OperationsAgent object if matching set of credentials found, nil otherwise
+  def get_agent
+    user_credentials = get_credentials
+
+    return nil if user_credentials == nil
+
+    agent = OperationsAgent.first(:identifier => user_credentials[0])
+
+    if agent && agent.authentication_key.auth_key == Digest::SHA1.hexdigest(user_credentials[1])
+      return agent
+    else
+      return nil
     end
+  end
 
-    unless Net::HTTPSuccess === res
-      debugger
-      error res.code, res.body
-    end
-
-    doc = Nokogiri::XML res.body
-    (doc % 'IEID').content
+  def require_param name
+    params[name.to_s] or error 400, "parameter #{name} required"
   end
 
   def search query
@@ -125,18 +127,66 @@ end
 
 post '/submit' do
 
-  data, sip, ext = begin
-                     filename = params['sip'][:filename]
-                     sip = filename[ %r{^(.+)\.\w+$}, 1]
-                     ext = filename[ %r{^.+\.(\w+)$}, 1]
-                     data = params['sip'][:tempfile].read
-                     [data, sip, ext]
-                   rescue
-                     error 400, 'file upload parameter "sip" required'
-                   end
+  #return 401 if credentials not provided
+  halt 401 unless credentials?
 
-  id = submit data, sip, ext
-  redirect "/package/#{id}"
+  # SMELL do we need this if the name is in the package?
+  halt 400, "Missing header: X_PACKAGE_NAME" unless @env["HTTP_X_PACKAGE_NAME"]
+
+  # authenticate
+  agent = get_agent
+  halt 403 unless agent
+
+  # check authorization if contact
+  if agent.type == Contact
+    halt 403 unless agent.permissions.include?(:submit)
+  end
+
+  # send IEID back in response as both header and document in body
+  headers["X_IEID"] = ieid.to_s
+
+  # SMELL if we redirect to /package do we need this?
+  #"<IEID>#{ieid}</IEID>"
+
+  error 400, 'file upload parameter "sip" required' unless params['sip']
+  filename = params['sip'][:filename]
+  ext = File.extname filename
+  name = File.basename filename, ext
+  data = params['sip'][:tempfile].read
+
+  # make a new sip archive, fail if at least no name
+  sa = SipArchive.new
+
+  # make a new sip record
+  sip = Sip.from_sip_archive sa
+
+  # make an op event depending on if it is valid
+  e = OperationsEvent.new
+  e.timestamp = Time.now
+  e.operations_agent = Program.system_agent # TODO change this to the logged in user
+
+  if sa.valid?
+    e.event_name = 'submit'
+  else
+    e.event_name = 'reject'
+    e.notes = sa.errors
+  end
+
+  sip.operations_events << e
+
+  # make a new ingest wip
+  if sa.valid?
+    wip = Wip.from_sip_archive settings.workspace, sip, sa
+  else
+    # TODO show validation errors
+  end
+
+  if sip.save
+    redirect "/package/#{id}"
+  else
+    # TODO show errors
+  end
+
 end
 
 get '/request' do

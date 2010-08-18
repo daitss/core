@@ -10,11 +10,12 @@ include LibXML
 class Wip
 
   # Create an AIP from a sip
-  def Wip.from_sip_archive path, uri, sip_archive
+  def Wip.from_sip_archive workspace, sip, uri, sip_archive
+    path = File.join workspace.submit_dir, sip.id
     wip = Wip.new path, uri
     wip['sip-name'] = sip.name
 
-    sip.files.each_with_index do |f, index|
+    sip_archive.files.each_with_index do |f, index|
       next unless File.exists? File.join(sip.path, f)
 
       df = wip.new_original_datafile index
