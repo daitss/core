@@ -1,6 +1,5 @@
-source :gemcutter
+source "http://rubygems.org"
 
-gem "daitss"
 gem "data_mapper"
 gem "haml"
 gem "jxmlvalidator"
