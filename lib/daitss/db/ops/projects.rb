@@ -15,6 +15,6 @@ class Project
   belongs_to :account
 
   # SMELL these are 1-1 to each other should link to one not both
-  has 0..n, :submitted_sips
+  has 0..n, :sips
   has 0..n, :intentities
 end

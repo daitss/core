@@ -12,6 +12,7 @@ gem "thor"
 gem 'metaid'
 gem 'nokogiri'
 gem 'sinatras-hat'
+gem 'uuid'
 
 group :test do
   gem "cucumber"
@@ -19,6 +20,7 @@ group :test do
   gem "rspec"
   gem "webrat"
   gem 'ruby-debug'
+  gem 'ruby-prof'
 end
 
 group :sqlite do
