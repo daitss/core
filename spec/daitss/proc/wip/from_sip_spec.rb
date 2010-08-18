@@ -1,21 +1,6 @@
 require 'spec_helper'
 require 'daitss/proc/wip/from_sip'
 
-describe Sip do
-  subject { Sip.new File.join(SIPS_DIR, 'haskell-nums-pdf') }
-
-  it "should have some files" do
-    subject.files.should have_exactly(2).items
-    subject.files.should include('Haskell98numbers.pdf', 'haskell-nums-pdf.xml')
-  end
-
-  it "should detect the owner id" do
-    subject.owner_ids[subject.files[0]].should == 'haskell-numbers-poster'
-    subject.owner_ids[subject.files[1]].should be_nil
-  end
-
-end
-
 describe Wip do
 
   describe "from a Sip" do
