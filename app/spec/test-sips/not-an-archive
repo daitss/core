@@ -1,0 +1,20 @@
+--- 
+viruscheck: http://localhost:7006
+transform: http://localhost:7005
+workspace: /Users/manny/daitss2/work
+actionplan: http://localhost:7000
+describe: http://localhost:7001
+boss: http://localhost:7007
+submission: http://localhost:7004
+request: http://localhost:7002
+storage: http://localhost:7003
+xmlresolution: http://xmlresolution.dev.fcla.edu
+database-url: mysql://root:@localhost/daitss2
+uri-prefix: daitss-test
+stashspace: /Users/manny/daitss2/stash
+jvm-options: 
+- -Dhttp.proxyHost=sake.fcla.edu
+- -Dhttp.proxyPort=3128
+- -Xms2G
+- -Xmx2G
+http-timeout: 600

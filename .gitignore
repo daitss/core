@@ -9,6 +9,7 @@
 .test-stack
 config.yml
 coverage
+data
 pkg
 tags
 var
