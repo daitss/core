@@ -1,5 +1,8 @@
 require 'data_mapper'
 
+require 'daitss/db/ops/aip'
+require 'daitss/db/ops/operations_events'
+
 class EggHeadKey < DataMapper::Property::String
   key true
   default proc { |res, prop| EggHeadKey.new_egg_head_key }
@@ -37,7 +40,7 @@ class Sip
 
   has n, :operations_events
   has n, :requests
-  has 0..1, :aips
+  #has 0..1, :aips
 
   belongs_to :project, :required => false
 

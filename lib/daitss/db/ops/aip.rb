@@ -6,8 +6,9 @@ require 'libxml'
 require 'schematron'
 require 'uri'
 require 'jxml/validator'
-require 'daitss/config'
 require 'net/http'
+
+require 'daitss/config'
 
 include LibXML
 

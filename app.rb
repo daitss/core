@@ -127,43 +127,32 @@ end
 
 post '/submit' do
 
-  #return 401 if credentials not provided
   halt 401 unless credentials?
 
-  # SMELL do we need this if the name is in the package?
-  halt 400, "Missing header: X_PACKAGE_NAME" unless @env["HTTP_X_PACKAGE_NAME"]
-
-  # authenticate
   agent = get_agent
   halt 403 unless agent
 
-  # check authorization if contact
   if agent.type == Contact
     halt 403 unless agent.permissions.include?(:submit)
   end
 
-  # send IEID back in response as both header and document in body
-  headers["X_IEID"] = ieid.to_s
-
-  # SMELL if we redirect to /package do we need this?
-  #"<IEID>#{ieid}</IEID>"
-
   error 400, 'file upload parameter "sip" required' unless params['sip']
+
   filename = params['sip'][:filename]
-  ext = File.extname filename
-  name = File.basename filename, ext
   data = params['sip'][:tempfile].read
 
-  # make a new sip archive, fail if at least no name
-  sa = SipArchive.new
+  dir = Dir.mktmpdir
+  path = File.join dir, filename
+  open(path, 'w') { |io| io.write data }
+
+  # make a new sip archive
+  sa = SipArchive.new path
 
   # make a new sip record
   sip = Sip.from_sip_archive sa
 
   # make an op event depending on if it is valid
-  e = OperationsEvent.new
-  e.timestamp = Time.now
-  e.operations_agent = Program.system_agent # TODO change this to the logged in user
+  e = OperationsEvent.new :timestamp => Time.now, :operations_agent => agent
 
   if sa.valid?
     e.event_name = 'submit'

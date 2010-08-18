@@ -1,5 +1,6 @@
 require 'dm-core'
 
+require 'daitss/db/ops/sip'
 require 'daitss/db/ops/operations_agents'
 
 # TODO: this should probably have an association the the Intentity table, not a string for IEID
@@ -13,19 +14,19 @@ class OperationsEvent
   property :notes, Text
 
   belongs_to :operations_agent
-  belongs_to :submitted_sip
+  belongs_to :sip
 end
 
 class Wip
 
   def log_op_event name, notes=nil
-    ss = SubmittedSip.first :ieid => self.id
+    ss = Sip.first :ieid => self.id
     e = OperationsEvent.new
     e.event_name = name
     e.notes = notes if notes
     e.timestamp = Time.now
     e.operations_agent = Program.system_agent
-    e.submitted_sip = ss
+    e.sip = ss
     e.save or raise "cannot save op event: #{name}"
   end
 

@@ -16,5 +16,5 @@ class Request
 
    belongs_to :operations_agent
    belongs_to :account
-   belongs_to :submitted_sip
+   belongs_to :sip
 end
