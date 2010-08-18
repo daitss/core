@@ -80,10 +80,6 @@ class Image
 
   property :datafile_id, String, :length => 100
   property :bitstream_id, String, :length => 100
-  # belongs_to :datafile, :index => true # Image may be associated with a Datafile,
-     # null if the image is associated with a bitstream
-  # belongs_to :bitstream, :index => true # Image may be associated with a bitstream,
-     # null if the image is associated with a datafile
 
   def validate_compression_scheme
       if Compression_Scheme.include?(@compression_scheme)
@@ -194,7 +190,7 @@ class Image
   before :save do
     # make sure either dfid or bsid is not null.
     if (:datafile_id.nil? && :bitstream_id.nil?)
-      raise "this image neither associates with a datafile nor associates with a bitstream"
+      raise "this image neither associates with a datafile nor with a bitstream"
     end
   end
 

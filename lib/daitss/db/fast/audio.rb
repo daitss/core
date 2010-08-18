@@ -21,10 +21,6 @@ class Audio
     
   property :datafile_id, String, :length => 100
   property :bitstream_id, String, :length => 100
-  # belongs_to :datafile, :required => false  # Audio may be associated with a Datafile, 
-    # null if the audio is associated with a bitstream
-  # belongs_to :bitstream, :required => false  # Audio may be associated with a bitstream, 
-    # null if the audio is associated with a datafile
   
   def setDFID dfid
     attribute_set(:datafile_id, dfid)

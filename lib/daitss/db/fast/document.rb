@@ -29,10 +29,6 @@ class Document
   has 0..n, :fonts, :constraint=>:destroy # A document can contain 0-n fonts
   property :datafile_id, String, :length => 100
   property :bitstream_id, String, :length => 100
-  # belongs_to :datafile, :index => true
-    # Document may be associated with a Datafile, null if the document is associated with a bitstream
-  # belongs_to :bitstream, :index => true
-    # Document may be associated with a bitstream, null if the document is associated with a datafile
 
   def fromPremis premis
     attribute_set(:pageCount, premis.find_first("doc:PageCount", NAMESPACES).content.to_i)
@@ -78,7 +74,7 @@ class Font
   property :fontname, String, :length => 255
     # the name of the font
   property :embedded, Boolean
-    # where  or not the font is embedded in the document
+    # where or not the font is embedded in the document
 
   belongs_to :document, :index => true
 
