@@ -1,8 +1,10 @@
 require 'bundler'
 Bundler.setup
 
+#$LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
+
 require 'ruby-debug'
-require 'daitss/proc/wip/process'
+#require 'daitss/proc/wip/process'
 
 app_file = File.join File.dirname(__FILE__), *%w[.. .. app.rb]
 require app_file
@@ -68,7 +70,7 @@ class MyWorld
       http.request req
     end
 
-    debugger unless Net::HTTPSuccess === res
+    #debugger unless Net::HTTPSuccess === res
     res.error! unless Net::HTTPSuccess === res
     doc = Nokogiri::XML res.body
     id = (doc % 'IEID').content
