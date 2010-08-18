@@ -7,23 +7,10 @@ describe Sip do
   end
 
   # generate a lot of these as fast as possible and check for collsions
+  # SMELL this doesn't really address people checking at the same time
   it "should not generate any collisions" do
-    a = []
-    dupe = false
-
-    for i in 1..1000
-      a.push Sip.new.id
-    end
-
-    r = a.inject do |i, ieid|
-      if i == ieid or i == "dupe"
-        "dupe"
-      else
-        ieid
-      end
-    end
-
-    r.should_not == "dupe"
+    ids = (1..1000).map { Sip.new.id }
+    ids.size.should == ids.uniq.size
   end
 
 end
