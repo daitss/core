@@ -3,7 +3,7 @@ require 'daitss/db/ops/sip'
 describe Sip do
 
   it "should return an IEID that matches the DAITSS 1 format" do
-    Sip.next_old_id.should match /E\w{8}_\w{6}/
+    Sip.new.id.should match /E\w{8}_\w{6}/
   end
 
   # generate a lot of these as fast as possible and check for collsions
@@ -12,7 +12,7 @@ describe Sip do
     dupe = false
 
     for i in 1..1000
-      a.push Sip.next_old_id
+      a.push Sip.new.id
     end
 
     r = a.inject do |i, ieid|
