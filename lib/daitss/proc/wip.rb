@@ -83,6 +83,11 @@ class Wip
     original_datafiles + normalized_datafiles + migrated_datafiles
   end
 
+  # return the sip this wip belongs to
+  def package
+    SubmittedSip.first :id => id
+  end
+
   private
 
   def datafiles container
