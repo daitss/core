@@ -137,40 +137,38 @@ class SipArchive
 
   end
 
-  def extract_account
-    agreement_info_node = @descriptor_doc.find_first("//M:amdSec/M:digiprovMD/M:mdWrap/M:xmlData/daitss:daitss/daitss:AGREEMENT_INFO", NS_PREFIX)
-
-    return agreement_info_node ? agreement_info_node["ACCOUNT"] : nil
+  def account
+    xpath = "//M:amdSec/M:digiprovMD/M:mdWrap/M:xmlData/daitss:daitss/daitss:AGREEMENT_INFO/@ACCOUNT"
+    node = descriptor_doc.find_first xpath, NS_PREFIX
+    node.value rescue nil
   end
 
-  def extract_project
-    agreement_info_node = @descriptor_doc.find_first("//M:amdSec/M:digiprovMD/M:mdWrap/M:xmlData/daitss:daitss/daitss:AGREEMENT_INFO", NS_PREFIX)
-
-    return agreement_info_node ? agreement_info_node["PROJECT"] : nil
+  def project
+    xpath = "//M:amdSec/M:digiprovMD/M:mdWrap/M:xmlData/daitss:daitss/daitss:AGREEMENT_INFO/@PROJECT"
+    node = descriptor_doc.find_first xpath, NS_PREFIX
+    node.value rescue nil
   end
 
-  def extract_title
-    title_node = @descriptor_doc.find_first("//M:dmdSec/M:mdWrap/M:xmlData/mods:mods/mods:titleInfo/mods:title", NS_PREFIX)
-
-    return title_node ? title_node.content : nil
+  def title
+    xpath = "//M:dmdSec/M:mdWrap/M:xmlData/mods:mods/mods:titleInfo/mods:title"
+    node = descriptor_doc.find_first xpath, NS_PREFIX
+    node.content rescue nil
   end
 
-  def extract_issue
-    issue_node = @descriptor_doc.find_first("//M:dmdSec/M:mdWrap/M:xmlData/mods:mods/mods:part/mods:detail[@type='issue']/mods:number", NS_PREFIX)
-
-    return issue_node ? issue_node.content : nil
+  def issue
+    xpath = "//M:dmdSec/M:mdWrap/M:xmlData/mods:mods/mods:part/mods:detail[@type='issue']/mods:number"
+    node = descriptor_doc.find_first xpath, NS_PREFIX
+    node.content rescue nil
   end
 
-  def extract_volume
-    volume_node = @descriptor_doc.find_first("//M:dmdSec/M:mdWrap/M:xmlData/mods:mods/mods:part/mods:detail[@type='volume']/mods:number", NS_PREFIX)
-
-    return volume_node ? volume_node.content : nil
+  def volume
+    xpath = "//M:dmdSec/M:mdWrap/M:xmlData/mods:mods/mods:part/mods:detail[@type='volume']/mods:number"
+    node = descriptor_doc.find_first xpath, NS_PREFIX
+    node.content rescue nil
   end
 
-  def extract_entity_id
-    root_node = @descriptor_doc.find_first("/M:mets", NS_PREFIX)
-
-    return root_node["OBJID"] ? root_node["OBJID"] : nil
+  def entity_id
+    descriptor_doc.root['OBJID']
   end
 
   def descriptor_doc

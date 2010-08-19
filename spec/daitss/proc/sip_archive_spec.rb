@@ -79,4 +79,40 @@ describe SipArchive do
     sa.errors.should include("invalid characters in file name: .bad \" file")
   end
 
+  describe 'descriptive metadata' do
+
+    before :all do
+      @sa = SipArchive.new new_sip_archive('haskell-nums-pdf.zip')
+    end
+
+    it 'should provide sip descriptor' do
+      @sa.descriptor_doc.to_s.should_not be_empty
+    end
+
+    it 'should provide account' do
+      @sa.account.should == 'ACT'
+    end
+
+    it 'should provide project' do
+      @sa.project.should == 'PRJ'
+    end
+
+    it 'should provide title' do
+      @sa.title.should == 'Haskell Numbers'
+    end
+
+    it 'should provide volume' do
+      @sa.volume.should == '1'
+    end
+
+    it 'should provide issue' do
+      @sa.issue.should == '2'
+    end
+
+    it 'should provide entity id' do
+      @sa.entity_id.should == 'haskell-nums-pdf'
+    end
+
+  end
+
 end
