@@ -30,10 +30,13 @@ Spec::Runner.configure do |config|
     DataMapper.setup(:default, Daitss::CONFIG["database-url"])
     DataMapper.auto_migrate!
     setup_agreement
+
+    $cleanup = []
   end
 
   config.after :all do
     FileUtils::rm_rf $sandbox
+    $cleanup.each { |x| FileUtils::rm_rf x }
   end
 
 end

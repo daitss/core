@@ -65,6 +65,10 @@ end
 
 SIP_ARCHIVE_DIR = File.join File.dirname(__FILE__), '..', 'sip_archives'
 
-def sip_archive_fixture name
-  File.join SIP_ARCHIVE_DIR, name
+def new_sip_archive name
+  dir = Dir.mktmpdir
+  $cleanup << dir
+  original_path = File.join SIP_ARCHIVE_DIR, name
+  FileUtils.cp original_path, dir
+  File.join dir, name
 end
