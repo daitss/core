@@ -1,3 +1,4 @@
+# all possible event types
 Event_Type = ["ingest", "submit", "validate", "virus check", "disseminate", 
   "withdraw", "fixity check", "describe", "normalize", "migrate", "xml resolution", "deletion"]
 
