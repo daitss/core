@@ -45,17 +45,17 @@ Given /^that user (is|is not) empty$/ do |condition|
   if condition == 'is'
     @the_user.operations_events.should be_empty
   else
-    s = SubmittedSip.new
-    s.package_name = 'FOO'
-    s.package_size = 10
+    s = Sip.new
+    s.name = 'FOO'
+    s.size_in_bytes = 10
     s.number_of_datafiles = 10
-    s.ieid = 'E1024'
+    s.id = 'E1024'
 
     e = OperationsEvent.new
     e.event_name = 'test event'
     e.timestamp = Time.now
     #e.operations_agent = Program.system_agent
-    e.submitted_sip = s
+    e.sip = s
 
     @the_user.operations_events << e
     @the_user.save.should be_true

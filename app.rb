@@ -18,6 +18,8 @@ require 'daitss/db/ops/aip'
 require 'daitss/db/ops/operations_events'
 require 'daitss/db/ops/sip'
 require 'daitss/db/ops/stashbin'
+require 'daitss/proc/sip_archive'
+require 'daitss/proc/wip/from_sip'
 require 'daitss/proc/wip/process'
 require 'daitss/proc/wip/progress'
 require 'daitss/proc/wip/state'
@@ -34,40 +36,17 @@ end
 
 helpers do
 
-  def credentials?
-    @auth ||= Rack::Auth::Basic::Request.new(request.env)
-    @auth.provided? && @auth.basic? && @auth.credentials
-  end
-
-  # returns array containing the basic auth credentials provided, nil otherwise
-  def get_credentials
-    return nil unless credentials?
-
-    return @auth.credentials
-  end
-
-  # returns OperationsAgent object if matching set of credentials found, nil otherwise
-  def get_agent
-    user_credentials = get_credentials
-
-    return nil if user_credentials == nil
-
-    agent = OperationsAgent.first(:identifier => user_credentials[0])
-
-    if agent && agent.authentication_key.auth_key == Digest::SHA1.hexdigest(user_credentials[1])
-      return agent
-    else
-      return nil
-    end
+  def authenticate
+    @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+    error 401 unless @auth.provided? && @auth.basic? && @auth.credentials
+    login, passwd = @auth.credentials
+    @user ||= User.first :identifier => login
+    error 401 unless @user
+    error 401 unless user.authentication_key.auth_key == Digest::SHA1.hexdigest(passwd)
   end
 
   def require_param name
     params[name.to_s] or error 400, "parameter #{name} required"
-  end
-
-  def search query
-    ids = query.strip.split
-    SubmittedSip.all(:package_name => ids) | SubmittedSip.all(:ieid => ids)
   end
 
   def partial template, options={}
@@ -76,41 +55,10 @@ helpers do
 
 end
 
-def submit_request ieid, type
-  url = "#{Daitss::CONFIG['request']}/requests/#{ieid}/#{type}"
-
-  url = URI.parse url
-  req = Net::HTTP::Post.new url.path
-  req.basic_auth 'operator', 'operator'
-
-  res = Net::HTTP.start(url.host, url.port) do |http|
-    http.read_timeout = Daitss::CONFIG['http-timeout']
-    http.request req
-  end
-
-  unless Net::HTTPSuccess === res
-    error res.code, res.body
-  end
-
+before do
+  #authenticate
+  @user = Program.system_agent
 end
-
-def delete_request ieid, type
-  url = "#{Daitss::CONFIG['request']}/requests/#{ieid}/#{type}"
-
-  url = URI.parse url
-  req = Net::HTTP::Delete.new url.path
-  req.basic_auth 'operator', 'operator'
-
-  res = Net::HTTP.start(url.host, url.port) do |http|
-    http.read_timeout = Daitss::CONFIG['http-timeout']
-    http.request req
-  end
-
-  unless Net::HTTPSuccess === res
-    error res.code, res.body
-  end
-end
-
 
 get '/stylesheet.css' do
   content_type 'text/css', :charset => 'utf-8'
@@ -125,57 +73,25 @@ get '/submit' do
   haml :submit
 end
 
-post '/submit' do
+post '/packages?/?' do
+  #error 401 unless @user.account == account and @user.permissions.include? :submit
+  require_param 'sip'
 
-  halt 401 unless credentials?
+  sip = begin
+          filename = params['sip'][:filename]
+          data = params['sip'][:tempfile].read
 
-  agent = get_agent
-  halt 403 unless agent
+          dir = Dir.mktmpdir
+          path = File.join dir, filename
+          open(path, 'w') { |io| io.write data }
 
-  if agent.type == Contact
-    halt 403 unless agent.permissions.include?(:submit)
-  end
+          a = Archive.new
+          a.submit path, @user
+        ensure
+          FileUtils.rm_r dir
+        end
 
-  error 400, 'file upload parameter "sip" required' unless params['sip']
-
-  filename = params['sip'][:filename]
-  data = params['sip'][:tempfile].read
-
-  dir = Dir.mktmpdir
-  path = File.join dir, filename
-  open(path, 'w') { |io| io.write data }
-
-  # make a new sip archive
-  sa = SipArchive.new path
-
-  # make a new sip record
-  sip = Sip.from_sip_archive sa
-
-  # make an op event depending on if it is valid
-  e = OperationsEvent.new :timestamp => Time.now, :operations_agent => agent
-
-  if sa.valid?
-    e.event_name = 'submit'
-  else
-    e.event_name = 'reject'
-    e.notes = sa.errors
-  end
-
-  sip.operations_events << e
-
-  # make a new ingest wip
-  if sa.valid?
-    wip = Wip.from_sip_archive settings.workspace, sip, sa
-  else
-    # TODO show validation errors
-  end
-
-  if sip.save
-    redirect "/package/#{id}"
-  else
-    # TODO show errors
-  end
-
+  redirect "/package/#{sip.id}"
 end
 
 get '/request' do
@@ -194,15 +110,16 @@ post '/request' do
   redirect "/package/#{params['ieid']}"
 end
 
-get '/packages?' do
+get '/packages?/?' do
   @query = params['search']
 
   @packages = if @query
-                search @query
+                ids = @query.strip.split
+                Sip.all(:name => ids) | Sip.all(:id => ids)
               else
                 t0 = Date.today - 7
                 oes = OperationsEvent.all :timestamp.gt => t0
-                oes.map { |oe| oe.submitted_sip }.uniq
+                oes.map { |oe| oe.sip }.uniq
               end
 
   @packages.sort! do |a,b|
@@ -215,7 +132,7 @@ get '/packages?' do
 end
 
 get '/package/:id' do |id|
-  @sip = SubmittedSip.first :ieid => id
+  @sip = Sip.first :id => id
   not_found unless @sip
   @events = @sip.operations_events
   @wip = settings.workspace[id]
@@ -353,10 +270,10 @@ post '/stashspace/:bin/:wip' do |bin_name, wip_id|
   when 'abort'
 
     # write ops event for abort
-    sip = SubmittedSip.first :ieid => wip_id
+    sip = Sip.first :id => wip_id
     event = OperationsEvent.new :event_name => 'Abort'
     event.operations_agent = Program.system_agent
-    event.submitted_sip = sip
+    event.sip = sip
     event.timestamp = Time.now
     event.save or raise "cannot save op event"
 
@@ -426,7 +343,7 @@ post '/admin' do
   when 'delete-project'
     id = require_param 'id'
     p = Project.get(id) or not_found "no project"
-    error 400, "cannot delete a non-empty project" unless p.submitted_sips.empty?
+    error 400, "cannot delete a non-empty project" unless p.sips.empty?
     p.destroy or error "could not delete project"
 
   when 'new-user'
@@ -468,20 +385,21 @@ end
 # restful interface
 #get '/ajax/admin' do
 #end
-Sinatra::Delegator.delegate(:mount)
 
-mount Account do
-  finder { |model, params| model.all }
-  record { |model, params| model.first :id => params[:id] }
+#Sinatra::Delegator.delegate(:mount)
 
-  mount Project do
-    finder { |model, params| model.all }
-    record { |model, params| model.first :id => params[:id] }
-  end
+#mount Account do
+#finder { |model, params| model.all }
+#record { |model, params| model.first :id => params[:id] }
 
-end
+#mount Project do
+#finder { |model, params| model.all }
+#record { |model, params| model.first :id => params[:id] }
+#end
 
-mount StashBin do
-  finder { |model, params| model.all }
-  record { |model, params| model.first :id => params[:id] }
-end
+#end
+
+#mount StashBin do
+#finder { |model, params| model.all }
+#record { |model, params| model.first :id => params[:id] }
+#end

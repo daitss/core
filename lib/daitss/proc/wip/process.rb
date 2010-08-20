@@ -21,6 +21,8 @@ class Wip
 
   end
 
+  DBIN_PATH = File.join File.dirname(__FILE__), '..', '..', '..', '..', 'bin', 'dbin'
+
   # Starts a wip. if the wip is stopped the stopped stated is removed first.
   def start
     unstop if stopped?
@@ -29,10 +31,10 @@ class Wip
 
       command = case task
                 when :ingest
-                  ["dbin", "ingest", self.id]
+                  [DBIN_PATH, "ingest", self.id]
 
                 when :disseminate
-                  ["dbin", "disseminate", self.id]
+                  [DBIN_PATH, "disseminate", self.id]
 
                 when :sleep
                   %w(sleep 1000)

@@ -19,7 +19,7 @@ Then /^in the jobs summary I should see an ingest wip$/ do
 end
 
 Then /^in the events I should see a submission event$/ do
-  last_response.should have_selector("td:contains('Package Submission')")
+  last_response.should have_selector("td:contains('submit')")
 end
 
 Then /^in the aip section I should see (copy url|copy size|copy sha1|number of datafiles)$/ do |field|

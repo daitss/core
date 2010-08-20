@@ -6,7 +6,7 @@ require "daitss/proc/template/premis"
 
 SIPS_DIR = File.join File.dirname(__FILE__), '..', 'sips'
 
-def submit sip_name, workspace=nil
+def submit sip_name
   wip_id = UUID.generate :compact
 
 
@@ -14,11 +14,11 @@ def submit sip_name, workspace=nil
 
   # make the sip
   sip_path = File.join SIPS_DIR, sip_name
-  sip = Sip.new sip_path
+  sip = SipArchive.new sip_path
 
   # add a sip record
   Dir.chdir sip.path do
-    ss = SubmittedSip.new
+    ss = Sip.new
     ss.package_name = sip.name
     ss.package_size = sip.files.inject(0) { |sum, f| sum + File.size(f) }
     ss.number_of_datafiles = sip.files.size
@@ -71,4 +71,10 @@ def new_sip_archive name
   original_path = File.join SIP_ARCHIVE_DIR, name
   FileUtils.cp original_path, dir
   File.join dir, name
+end
+
+def new_workspace
+  dir = Dir.mktmpdir
+  $cleanup << dir
+  Workspace.new dir
 end

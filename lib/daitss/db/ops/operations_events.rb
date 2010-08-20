@@ -20,7 +20,7 @@ end
 class Wip
 
   def log_op_event name, notes=nil
-    ss = Sip.first :ieid => self.id
+    ss = Sip.first :id => self.id
     e = OperationsEvent.new
     e.event_name = name
     e.notes = notes if notes

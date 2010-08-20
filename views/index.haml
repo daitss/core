@@ -18,13 +18,13 @@
 %table
   %tr
     %th count
-    %td= SubmittedSip.count
+    %td= Sip.count
   %tr
     %th files
-    %td= SubmittedSip.sum :number_of_datafiles
+    %td= Sip.sum :number_of_datafiles
   %tr
     %th total size
-    %td= SubmittedSip.sum :package_size
+    %td= Sip.sum :size_in_bytes
 
 %hr
 

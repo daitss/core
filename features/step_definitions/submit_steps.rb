@@ -7,20 +7,17 @@ Given /^I submit (a|\d+) packages?$/ do |count|
           end
 
   count.times { submit 'haskell-nums-pdf' }
-
 end
 
 When /^I select a sip to upload$/ do
   name = 'haskell-nums-pdf'
+  sips << {:sip => name}
   tar = sip_tarball(name)
-  tio = Tempfile.open 'cuke'
-  dir = tio.path
-  tio.close!
-  FileUtils.mkdir dir
+  dir = Dir.mktmpdir
+  $cleanup << dir
   tar_file = File.join dir, "#{name}.tar"
   open(tar_file, 'w') { |o| o.write tar }
   attach_file 'sip', tar_file
-  $cleanup << dir
 end
 
 Then /^I should be at a package page$/ do

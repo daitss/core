@@ -7,7 +7,7 @@
   - packages.each do |p|
     %tr
       %td
-        %a{:href => "/package/#{p.ieid}"}= p.ieid
+        %a{:href => "/package/#{p.id}"}= p.id
       %td= p.project.account.code rescue "N/A"
       - latest_event = p.operations_events.last
       %td= latest_event.event_name

@@ -6,11 +6,13 @@ describe Wip do
   describe "from a Sip" do
 
     subject do
-      sip = Sip.new File.join(SIPS_DIR, 'haskell-nums-pdf')
-      id = UUID.generate :compact
-      path = File.join $sandbox, id
+      sa = SipArchive.new new_sip_archive('haskell-nums-pdf.zip')
+      ws = new_workspace
+
+      id = Sip.new.id
       uri = "#{Daitss::CONFIG['uri-prefix']}/#{id}"
-      Wip.from_sip path, uri, sip
+
+      Wip.from_sip_archive ws, id, uri, sa
     end
 
     it "should have sip descriptor as metadata" do
@@ -27,13 +29,13 @@ describe Wip do
     end
 
     it "all files should have a sip path" do
-      subject.original_datafiles[0]['sip-path'].should == 'Haskell98numbers.pdf'
-      subject.original_datafiles[1]['sip-path'].should == 'haskell-nums-pdf.xml'
+      subject.original_datafiles[0]['sip-path'].should == 'haskell-nums-pdf.xml'
+      subject.original_datafiles[1]['sip-path'].should == 'Haskell98numbers.pdf'
     end
 
     it "all files should have a aip path" do
-      subject.original_datafiles[0]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'Haskell98numbers.pdf')
-      subject.original_datafiles[1]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'haskell-nums-pdf.xml')
+      subject.original_datafiles[0]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'haskell-nums-pdf.xml')
+      subject.original_datafiles[1]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'Haskell98numbers.pdf')
     end
 
     it "should extract FDA account from the descriptor" do

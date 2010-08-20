@@ -39,7 +39,7 @@ namespace :services do
     DataMapper.setup :default, Daitss::CONFIG['database-url']
 
     TestEnv::SERVICES.each_with_index do |s,ix|
-      next if %w(request boss).include? s.name
+      next if %w(request submission boss).include? s.name
       puts "starting #{s.name}"
       s.start(TestEnv::BASE_PORT + ix)
     end

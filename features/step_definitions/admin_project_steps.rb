@@ -49,17 +49,17 @@ end
 Given /^that project (is|is not) empty$/ do |condition|
 
   if condition == 'is'
-    @the_project.submitted_sips.should be_empty
+    @the_project.sips .should be_empty
   else
-    s = SubmittedSip.new
-    s.package_name = 'FOO'
-    s.package_size = 10
+    s = Sip.new
+    s.name = 'FOO'
+    s.size_in_bytes = 10
     s.number_of_datafiles = 10
-    s.ieid = 'E1024'
+    s.id = 'E1024'
 
-    @the_project.submitted_sips << s
+    @the_project.sips << s
     @the_project.save.should be_true
-    @the_project.submitted_sips.should_not be_empty
+    @the_project.sips .should_not be_empty
   end
 
 end

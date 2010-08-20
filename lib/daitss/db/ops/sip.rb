@@ -44,6 +44,19 @@ class Sip
 
   belongs_to :project, :required => false
 
+  def Sip.from_sip_archive sa
+    sip = Sip.new
+    sip.name = sa.name
+    sip.number_of_datafiles = sa.files.size
+
+    sip.size_in_bytes = sa.files.inject(0) do |sum, f|
+      path = File.join sa.path, f
+      sum + File.size(path)
+    end
+
+    sip
+  end
+
   def Sip.submit_from_archive workspace, archive_path, id_addr, op_agent
     sip = Sip.new
 
