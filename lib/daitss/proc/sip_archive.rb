@@ -42,7 +42,6 @@ class SipArchive
     @errors.empty?
   end
 
-
   def validate!
     es = Hash.new { |h,k| h[k] = [] }
 

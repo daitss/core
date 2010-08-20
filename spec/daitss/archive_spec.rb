@@ -48,4 +48,32 @@ describe Archive do
 
   end
 
+  describe 'submitting a with bad agreement info' do
+
+    it 'should reject because of the invalid account' do
+      @archive = Archive.new
+      path = new_sip_archive 'bad-account.zip'
+      user = Program.first :identifier => 'Bureaucrat'
+      @sip = @archive.submit path, user
+
+      @sip.operations_events.should_not be_empty
+      reject_event = @sip.operations_events.find { |e| e.event_name == 'reject' }
+      reject_event.should_not be_nil
+      reject_event.notes.should include("cannot submit to account BAD-ACT")
+    end
+
+    it 'should reject because of the invalid project' do
+      @archive = Archive.new
+      path = new_sip_archive 'bad-project.zip'
+      user = Program.first :identifier => 'Bureaucrat'
+      @sip = @archive.submit path, user
+
+      @sip.operations_events.should_not be_empty
+      reject_event = @sip.operations_events.find { |e| e.event_name == 'reject' }
+      reject_event.should_not be_nil
+      reject_event.notes.should include("cannot submit to project BAD-PRJ")
+    end
+
+  end
+
 end

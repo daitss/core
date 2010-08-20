@@ -3,14 +3,14 @@
 %table
   %tr
     %th count
-    %td= settings.workspace.to_a.size
+    %td= @archive.workspace.to_a.size
 
   %tr
     %th running
-    %td= settings.workspace.select { |w| w.running? }.size
+    %td= @archive.workspace.select { |w| w.running? }.size
   %tr
     %th snafu
-    %td= settings.workspace.select { |w| w.snafu? }.size
+    %td= @archive.workspace.select { |w| w.snafu? }.size
 %hr
 
 %h1 sip summary
