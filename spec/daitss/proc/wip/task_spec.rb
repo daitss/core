@@ -32,7 +32,7 @@ describe Wip do
 
   it 'should ingest via task' do
     ws = Workspace.new Daitss::CONFIG['workspace']
-    wip = submit 'mimi', ws
+    wip = submit 'mimi'
     wip.task = :ingest
     wip.start
     sleep 0.5 while wip.running?

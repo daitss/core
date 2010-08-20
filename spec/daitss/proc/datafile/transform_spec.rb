@@ -14,7 +14,8 @@ describe DataFile do
     end
 
     it "should get back an array of data and an extension if the transformation is good" do
-      agnet, event, data, ext = subject.original_datafiles.first.ask_transformation_service 'http://localhost:7006/transform/wave_norm'
+      f = subject.original_datafiles.find { |f| f['aip-path'] =~ %r{\.wav$} }
+      agnet, event, data, ext = f.ask_transformation_service 'http://localhost:7006/transform/wave_norm'
       data.should_not be_empty
       ext.should == '.wav'
     end
