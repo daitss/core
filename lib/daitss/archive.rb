@@ -31,6 +31,7 @@ class Archive
 
     sip
   rescue => e
+    debugger
     FileUtils.rm_r wip.path
     raise
   end
