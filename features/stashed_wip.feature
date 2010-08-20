@@ -17,4 +17,4 @@ Feature: modifying the status of a stashed wip
     When I choose "abort"
     And I press "Update"
     Then I should be at the package page
-    And the response contains "Abort"
+    And the response contains "abort"

@@ -60,4 +60,13 @@ class Sip
     sip
   end
 
+  # add an operations event for abort
+  def abort user
+    event = OperationsEvent.new :event_name => 'abort'
+    event.operations_agent = user
+    event.sip = self
+    event.timestamp = Time.now
+    event.save or raise "cannot save op event"
+  end
+
 end
