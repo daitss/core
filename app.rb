@@ -10,8 +10,8 @@ require 'nokogiri'
 require 'sass'
 require 'semver'
 require 'sinatra'
-require 'sinatras-hat'
 
+require 'daitss/archive'
 require 'daitss/config'
 require 'daitss/datetime'
 require 'daitss/db/ops/aip'
@@ -29,8 +29,6 @@ APP_VERSION = SemVer.find(File.dirname(__FILE__)).format "v%M.%m.%p%s"
 
 configure do
   Daitss::CONFIG.load_from_env
-  ws = Workspace.new(Daitss::CONFIG['workspace'])
-  set :workspace, ws
   DataMapper.setup :default, Daitss::CONFIG['database-url']
 end
 
@@ -57,7 +55,9 @@ end
 
 before do
   #authenticate
-  @user = Program.system_agent
+  @user = Program.system_agent # comment this out when the above us incommented
+
+  @archive = Archive.new
 end
 
 get '/stylesheet.css' do
@@ -135,7 +135,7 @@ get '/package/:id' do |id|
   @sip = Sip.first :id => id
   not_found unless @sip
   @events = @sip.operations_events
-  @wip = settings.workspace[id]
+  @wip = @archive.workspace[id]
   @aip = Aip.first :id => id
   @bin = StashBin.all.find { |b| File.exist? File.join(b.path, id) }
   @stashed_wip = @bin.wips.find { |w| w.id == id } if @bin
@@ -154,14 +154,14 @@ end
 
 get '/workspace' do
   @bins = StashBin.all
-  @ws = settings.workspace
+  @ws = @archive.workspace
   haml :workspace
 end
 
 # workspace & wips in the workspace
 
 post '/workspace' do
-  ws = settings.workspace
+  ws = @archive.workspace
 
   case params['task']
   when 'start'
@@ -191,19 +191,19 @@ end
 
 get '/workspace/:id' do |id|
   @bins = StashBin.all
-  @wip = settings.workspace[id] or not_found
+  @wip = @archive.workspace[id] or not_found
   haml :wip
 end
 
 get '/workspace/:id/snafu' do |id|
-  wip = settings.workspace[id] or not_found
+  wip = @archive.workspace[id] or not_found
   not_found unless wip.snafu?
   content_type = 'text/plain'
   wip.snafu
 end
 
 post '/workspace/:id' do |id|
-  ws = settings.workspace
+  ws = @archive.workspace
   wip = ws[id] or not_found
 
   case params['task']
@@ -271,11 +271,7 @@ post '/stashspace/:bin/:wip' do |bin_name, wip_id|
 
     # write ops event for abort
     sip = Sip.first :id => wip_id
-    event = OperationsEvent.new :event_name => 'Abort'
-    event.operations_agent = Program.system_agent
-    event.sip = sip
-    event.timestamp = Time.now
-    event.save or raise "cannot save op event"
+    sip.abort @user
 
     # remove package
     FileUtils.rm_rf stashed_wip_path
@@ -381,25 +377,3 @@ post '/admin' do
 
   redirect '/admin'
 end
-
-# restful interface
-#get '/ajax/admin' do
-#end
-
-#Sinatra::Delegator.delegate(:mount)
-
-#mount Account do
-#finder { |model, params| model.all }
-#record { |model, params| model.first :id => params[:id] }
-
-#mount Project do
-#finder { |model, params| model.all }
-#record { |model, params| model.first :id => params[:id] }
-#end
-
-#end
-
-#mount StashBin do
-#finder { |model, params| model.all }
-#record { |model, params| model.first :id => params[:id] }
-#end

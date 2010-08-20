@@ -8,6 +8,19 @@ class Archive
     # make a new sip archive
     sa = SipArchive.new sip_path
 
+    # validate account and project outside of class
+    agreement_errors = []
+    acode = sa.account rescue nil
+    pcode = sa.project rescue nil
+
+    unless agent.account.code == acode
+      agreement_errors << "cannot submit to account #{acode}"
+    end
+
+    unless agent.account.projects.first :code => pcode
+      agreement_errors << "cannot submit to project #{pcode}"
+    end
+
     # make a sip with an event
     sip = Sip.from_sip_archive sa
     e = OperationsEvent.new
@@ -15,11 +28,11 @@ class Archive
     e.operations_agent = agent
     sip.operations_events << e
 
-    if sa.valid?
+    if sa.valid? and agreement_errors.empty?
       e.event_name = 'submit'
     else
       e.event_name = 'reject'
-      e.notes = sa.errors
+      e.notes = (agreement_errors + sa.errors).join "\n"
     end
 
     if sa.valid?
@@ -30,10 +43,6 @@ class Archive
     sip.save or raise "cannot save sip: #{sip.id}"
 
     sip
-  rescue => e
-    debugger
-    FileUtils.rm_r wip.path
-    raise
   end
 
   def workspace

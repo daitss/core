@@ -54,8 +54,6 @@ describe SipArchive do
     sa.errors.should include(%q{44: cvc-complex-type.2.4.b: The content of element 'structMap' is not complete. One of '{"http://www.loc.gov/METS/":div}' is expected.})
   end
 
-  it "should be invalid and contain an error is the account is invalid"
-  it "should be invalid and contain an error is the project is invalid"
 
   it "should be invalid and contain an error for every content file with an invalid checksum" do
     path = new_sip_archive 'bad-checksum.zip'
