@@ -1,5 +1,0 @@
-An HTTP server for submission.
-
-To get this to work:
-./lib should be in RUBYLIB somehow
-WORKSPACE needs to be set to a valid directory
