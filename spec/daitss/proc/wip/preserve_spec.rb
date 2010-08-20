@@ -54,22 +54,25 @@ describe Wip do
     it "should have an original representation with only an xml and a pdf" do
       o_rep = @wip.original_representation
       o_rep.should have_exactly(2).items
-      o_rep[0]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'obj1.wav')
-      o_rep[1]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'wave.xml')
+      aip_paths = o_rep.map { |f| f['aip-path'] }
+      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'obj1.wav'))
+      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'wave.xml'))
     end
 
     it "should have a current representation just with only an xml and a wav" do
       c_rep = @wip.current_representation
       c_rep.should have_exactly(2).items
-      c_rep[0]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'obj1.wav')
-      c_rep[1]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'wave.xml')
+      aip_paths = c_rep.map { |f| f['aip-path'] }
+      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'obj1.wav'))
+      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'wave.xml'))
     end
 
     it "should have a normalized representation just with only an xml and a wavn" do
       n_rep = @wip.normalized_representation
       n_rep.should have_exactly(2).items
-      n_rep[0]['aip-path'].should == File.join(Aip::AIP_FILES_DIR, '0-norm-0.wav')
-      n_rep[1]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'wave.xml')
+      aip_paths = n_rep.map { |f| f['aip-path'] }
+      aip_paths.should include(File.join(Aip::AIP_FILES_DIR, '1-norm-0.wav'))
+      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'wave.xml'))
     end
 
   end
