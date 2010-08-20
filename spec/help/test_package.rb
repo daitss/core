@@ -9,6 +9,7 @@ SIPS_DIR = File.join File.dirname(__FILE__), '..', 'sips'
 
 def submit name
   zip_path = File.join SIP_ARCHIVE_DIR, "#{name}.zip"
+  raise "sip not found: #{name}.zip" unless File.file? zip_path
   agent = OperationsAgent.first :identifier => 'Bureaucrat'
   a = Archive.new
   sip = a.submit zip_path, agent
