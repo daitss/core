@@ -217,21 +217,14 @@ class AIPInPremis
 
   # save all extracted premis objects/events/agents to the fast access database in one transaction
   def toDB
-      # start database traction for saving the associated record for the aip.  If there is any failure during database save,
+    # start database traction for saving the associated record for the aip.  If there is any failure during database save,
     # datamapper automatically rollback the change.
     # RubyProf.start
-#   debugger
-    if @int_entity.save
-    #  puts "successfully save int entity into the preservation database"
-    else
-      raise "cannot save aip"
-    end
-   # @int_entity.save or raise "cannot save aip"
+    #   debugger
+    raise "cannot save aip" unless @int_entity.save
     @acctProject.save
-    # not necessary to explicitely save representations since representations will be saved through intentity associations
-    # @formats.each { |fname, fmt| raise 'error saving format records'  unless fmt.save }
+    # explicitly saving the dependencies.
     @datafiles.each {|dfid, df| raise "error saving datafile records #{df.inspect}" unless  df.save }
-    # @bitstreams.each {|id, bs|  raise 'error saving bitstream records' unless bs.save }
     @events.each {|id, e| raise "error saving event records #{e.inspect}" unless e.save }
     @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
     # r = RubyProf.stop
