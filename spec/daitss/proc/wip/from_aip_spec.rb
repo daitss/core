@@ -62,22 +62,25 @@ describe Wip do
     it 'should pull the original representation' do
       o_rep = @wip.original_representation
       o_rep.should have_exactly(2).items
-      o_rep[1]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'wave.xml')
-      o_rep[0]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'obj1.wav')
+      aip_paths = o_rep.map { |f| f['aip-path'] }
+      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'wave.xml'))
+      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'obj1.wav'))
     end
 
     it 'should pull the current representation' do
       c_rep = @wip.current_representation
       c_rep.should have_exactly(2).items
-      c_rep[1]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'wave.xml')
-      c_rep[0]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'obj1.wav')
+      aip_paths = c_rep.map { |f| f['aip-path'] }
+      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'wave.xml'))
+      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'obj1.wav'))
     end
 
     it 'should pull the normalized representation' do
       n_rep = @wip.normalized_representation
       n_rep.should have_exactly(2).items
-      n_rep[1]['aip-path'].should == File.join(Aip::SIP_FILES_DIR, 'wave.xml')
-      n_rep[0]['aip-path'].should == File.join(Aip::AIP_FILES_DIR, '0-norm-0.wav')
+      aip_paths = n_rep.map { |f| f['aip-path'] }
+      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'wave.xml'))
+      aip_paths.should include(File.join(Aip::AIP_FILES_DIR, '1-norm-0.wav'))
     end
 
     describe "package level provenance (events)" do
@@ -115,7 +118,7 @@ describe Wip do
       it 'should have a submit agent' do
         submit_agent = @agents.find do |a|
           doc = XML::Document.string a
-          doc.find_first "/P:agent[P:agentName = 'daitss submission service']", NS_PREFIX
+          doc.find_first "/P:agent[P:agentName = 'DAITSS Account: ACT']", NS_PREFIX
         end
 
         submit_agent.should_not be_nil
@@ -135,7 +138,7 @@ describe Wip do
     describe 'datafile level provenance (events)' do
 
       before :all do
-        df = @wip.all_datafiles.find { |df| df['aip-path'] == File.join(Aip::AIP_FILES_DIR, '0-norm-0.wav')}
+        df = @wip.all_datafiles.find { |df| df['aip-path'] == File.join(Aip::AIP_FILES_DIR, '1-norm-0.wav')}
         @events = df['old-digiprov-events'].split %r{\n(?=<event)}
       end
 
@@ -164,7 +167,7 @@ describe Wip do
     describe "datafile level provenance (agents)" do
 
       before :all do
-        df = @wip.all_datafiles.find { |df| df['aip-path'] == File.join(Aip::AIP_FILES_DIR, '0-norm-0.wav')}
+        df = @wip.all_datafiles.find { |df| df['aip-path'] == File.join(Aip::AIP_FILES_DIR, '1-norm-0.wav')}
         @agents = df['old-digiprov-agents'].split %r{\n(?=<agent)}
       end
 
