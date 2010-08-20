@@ -20,6 +20,7 @@ require 'webrat'
 require 'nokogiri'
 
 require 'daitss/db/ops'
+require 'daitss/archive'
 
 Webrat.configure do |config|
   config.mode = :rack
@@ -34,6 +35,10 @@ class MyWorld
 
   def app
     Sinatra::Application
+  end
+
+  def fixture name
+    File.join File.dirname(__FILE__), '..', 'fixtures', name
   end
 
   def sip name
@@ -52,32 +57,12 @@ class MyWorld
   end
 
   def submit name
-    sips << {:sip => name}
-    sip_path = sip 'haskell-nums-pdf'
-    url = URI.parse "#{Daitss::CONFIG['submission']}/"
-    req = Net::HTTP::Post.new url.path
-    tar = %x{tar -c -C #{File.dirname sip_path} -f - #{File.basename sip_path} }
-    raise "tar did not work" if $?.exitstatus != 0
-    req.body = tar
-    req.content_type = 'application/tar'
-    req.basic_auth 'operator', 'operator'
-    req['X-Package-Name'] = File.basename sip_path
-    req['Content-MD5'] = Digest::MD5.hexdigest(req.body)
-    req['X-Archive-Type'] = 'tar'
-
-    res = Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = Daitss::CONFIG['http-timeout']
-      http.request req
-    end
-
-    #debugger unless Net::HTTPSuccess === res
-    res.error! unless Net::HTTPSuccess === res
-    doc = Nokogiri::XML res.body
-    id = (doc % 'IEID').content
-    sips.last[:wip] = id
-    ws = Workspace.new Daitss::CONFIG['workspace']
-    wip = ws[id]
-    wip
+    a = Archive.new
+    zip_path = fixture 'haskell-nums-pdf.zip'
+    agent = OperationsAgent.first :identifier => 'operator'
+    sip = a.submit zip_path, agent
+    sips << { :sip => sip.name, :wip => sip.id }
+    a.workspace[sip.id]
   end
 
   def empty_out_workspace

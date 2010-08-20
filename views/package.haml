@@ -1,5 +1,5 @@
 %h1
-  = @sip.ieid
+  = @sip.id
 
 - if @wip or @stashed_wip
   - if @wip
@@ -24,7 +24,7 @@
     %option= 'withdraw'
     %option= 'peek'
   %br
-  %input{:type => 'hidden', :name => 'ieid', :value=>"#{@sip.ieid}"}
+  %input{:type => 'hidden', :name => 'ieid', :value=>"#{@sip.id}"}
   %input{:type => 'submit', :value => 'Submit'}
 
 %h2 submission
@@ -32,7 +32,7 @@
 %table
   %tr
     %th sip
-    %td= @sip.package_name
+    %td= @sip.name
   %tr
     %th account
     %td= @sip.project.account.code rescue 'N/A'
@@ -73,7 +73,7 @@
         %td= r.status
         %td
           - if r.status != :released_to_workspace
-            %a{:href => "/delete_request/#{@sip.ieid}/#{r.request_type}"} delete
+            %a{:href => "/delete_request/#{@sip.id}/#{r.request_type}"} delete
 
 - if @aip
   %h2 aip

@@ -51,6 +51,7 @@ class Workspace
   def submit_dir
     d = File.join path, SUBMIT_DIR
     FileUtils.mkdir d unless File.exist? d
+    d
   end
 
 end
