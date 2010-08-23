@@ -8,6 +8,9 @@ Feature: admin of stashspace
       | default bin |
     When I press "Create Stash Bin"
     Then there should be a stash bin named "default bin"
+    And there should be an admin log entry:
+      | user | message                    |
+      | foo  | new stash bin: default bin |
 
   Scenario: remove an empty stash bin
     Given a stash bin named "default bin"
@@ -15,6 +18,9 @@ Feature: admin of stashspace
     And I goto "/admin"
     When I press "Delete"
     Then there should not be a stash bin named "default bin"
+    And there should be an admin log entry:
+      | user | message                       |
+      | foo  | delete stash bin: default bin |
 
   Scenario: remove a non-empty stash bin
     Given a stash bin named "default bin"
