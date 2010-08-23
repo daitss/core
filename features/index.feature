@@ -8,6 +8,7 @@ Feature: index links
     Examples:
       | link       |
       | workspace  |
+      | log        |
       | submit     |
       | packages   |
       | stashspace |
