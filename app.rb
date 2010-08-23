@@ -348,6 +348,7 @@ post '/admin' do
     name = require_param 'name'
     p = Project.new :name => name, :code => code
     p.account = a
+    @archive.log "new project: #{p.name}"
 
     p.save or error "could not save project bin\n\n#{e.message}\n#{e.backtrace}"
 
@@ -356,6 +357,7 @@ post '/admin' do
     p = Project.get(id) or not_found "no project"
     error 400, "cannot delete a non-empty project" unless p.sips.empty?
     p.destroy or error "could not delete project"
+    @archive.log "delete project: #{p.name}"
 
   when 'new-user'
     type = require_param 'type'
