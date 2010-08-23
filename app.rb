@@ -1,8 +1,6 @@
 require 'bundler'
 Bundler.setup
 
-require 'ruby-debug'
-
 require 'data_mapper'
 require 'haml'
 require 'net/http'
