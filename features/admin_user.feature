@@ -10,6 +10,9 @@ Feature: admin of users
     Then there should be a user with:
       | username | first_name | last_name | email             | phone    | address  |
       | snake    | S.D.       | Plissken  | snake@example.com | 555-1212 | New York |
+    And there should be an admin log entry:
+      | user | message         |
+      | foo  | new user: snake |
 
   Scenario: remove an empty user
     Given a user named "usermagee"
@@ -17,6 +20,9 @@ Feature: admin of users
     And I goto "/admin"
     When I press "Delete" for the user
     Then there should not be a user named "usermagee"
+    And there should be an admin log entry:
+      | user | message             |
+      | foo  | delete user: usermagee |
 
   Scenario: remove a non-empty user
     Given a user named "usermagee"

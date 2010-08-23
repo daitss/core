@@ -3,6 +3,12 @@ require 'daitss/db/ops/entry'
 
 class Archive
 
+  def log message
+    e = Entry.new
+    e.message = message
+    e.save or error "could not save archive log entry"
+  end
+
   # submit a sip on behalf of an agent
   def submit sip_path, agent
 

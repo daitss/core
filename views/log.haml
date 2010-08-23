@@ -9,8 +9,10 @@
 %table
   %tr
     %th time
+    %th operator
     %th message
   - @entries.each do |e|
     %tr
       %td= e.timestamp.pragma
+      %td TODO
       %td= e.message
