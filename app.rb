@@ -394,7 +394,5 @@ post '/admin' do
   else raise "unknown task: #{params['task']}"
   end
 
-  # TODO write admin event for this action
-
   redirect '/admin'
 end
