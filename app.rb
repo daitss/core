@@ -76,9 +76,7 @@ end
 
 post '/log' do
   m = require_param 'message'
-  e = Entry.new
-  e.message = m
-  e.save or error "could not save message"
+  @archive.log m
   redirect '/log'
 end
 
@@ -383,16 +381,20 @@ post '/admin' do
     u.active_end_date = DateTime.now + 365
 
     u.save or error "could not save user, errors: #{u.errors}"
+    @archive.log "new user: #{u.identifier}"
 
   when 'delete-user'
     id = require_param 'id'
-    user = User.get(id) or not_found
-    error 400, "cannot delete a non-empty user" unless user.operations_events.empty?
-    user.destroy or error "could not delete user"
+    u = User.get(id) or not_found
+    error 400, "cannot delete a non-empty user" unless u.operations_events.empty?
+    u.destroy or error "could not delete user"
+    @archive.log "delete user: #{u.identifier}"
 
 
   else raise "unknown task: #{params['task']}"
   end
+
+  # TODO write admin event for this action
 
   redirect '/admin'
 end
