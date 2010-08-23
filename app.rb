@@ -316,6 +316,7 @@ post '/admin' do
     name = require_param 'name'
     bin = StashBin.new :name => name
     bin.save or error "could not save bin\n\n#{e.message}\n#{e.backtrace}"
+    @archive.log "new stash bin: #{name}"
 
   when 'delete-stashbin'
     name = require_param 'name'
@@ -324,6 +325,7 @@ post '/admin' do
     error 400, "cannot delete a non-empty stash bin" unless Dir[pattern].empty?
     bin.destroy or raise "could not delete stash bin #{name}"
     FileUtils.rm_rf bin.path
+    @archive.log "delete stash bin: #{name}"
 
   when 'new-account'
     a = Account.new
