@@ -69,6 +69,19 @@ get '/' do
   haml :index
 end
 
+get '/log' do
+  @entries = Entry.all
+  haml :log
+end
+
+post '/log' do
+  m = require_param 'message'
+  e = Entry.new
+  e.message = m
+  e.save or error "could not save message"
+  redirect '/log'
+end
+
 get '/submit' do
   haml :submit
 end

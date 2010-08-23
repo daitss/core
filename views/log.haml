@@ -1,0 +1,16 @@
+%h1 add a log entry
+
+%form{:action => '/log', :method => 'POST'}
+  %input{:name => 'message'}
+  %br
+  %br
+  %input{:type => 'submit', :value => 'Update'}
+
+%table
+  %tr
+    %th time
+    %th message
+  - @entries.each do |e|
+    %tr
+      %td= e.timestamp
+      %td= e.message
