@@ -330,12 +330,14 @@ post '/admin' do
     a.name = require_param 'name'
     a.code = require_param 'code'
     a.save or error "could not create new account\n\n#{e.message}\n#{e.backtrace}"
+    @archive.log "new account: #{a.name}"
 
   when 'delete-account'
     id = require_param 'id'
     a = Account.get(id) or not_found
     error 400, "cannot delete a non-empty account" unless a.projects.empty?
     a.destroy or error "could not delete account"
+    @archive.log "delete account: #{a.name}"
 
   when 'new-project'
     account_code = require_param 'account'

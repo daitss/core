@@ -10,6 +10,9 @@ Feature: admin of accounts
     Then there should be an account with:
       | code | name     |
       | ADD  | add test |
+    And there should be an admin log entry:
+      | user | message               |
+      | foo  | new account: add test |
 
   Scenario: remove an empty account
     Given a account named "test rm"
@@ -17,6 +20,9 @@ Feature: admin of accounts
     And I goto "/admin"
     When I press "Delete" for the account
     Then there should not be a account named "test rm"
+    And there should be an admin log entry:
+      | user | message               |
+      | foo  | delete account: test rm |
 
   Scenario: remove a non-empty account
     Given a account named "test rm non empty"
