@@ -1,8 +1,8 @@
 require 'dm-core'
 require 'dm-types'
 
-require 'daitss/db/ops/accounts'
-require 'daitss/db/ops/operations_agents'
+require 'daitss/db/ops/account'
+require 'daitss/db/ops/agent'
 require 'daitss/db/ops/sip'
 
 class Request

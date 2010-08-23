@@ -6,8 +6,8 @@ require File.join(File.dirname(__FILE__), '..', 'tasks', 'test_env')
 require 'data_mapper'
 
 require "daitss/db/ops/aip"
-require "daitss/db/ops/operations_agents"
-require "daitss/db/ops/operations_events"
+require "daitss/db/ops/agent"
+require "daitss/db/ops/event"
 require "daitss/db/fast"
 
 require "help/test_stack"

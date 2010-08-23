@@ -1,7 +1,7 @@
 require 'data_mapper'
 
 require 'daitss/db/ops/aip'
-require 'daitss/db/ops/operations_events'
+require 'daitss/db/ops/event'
 
 class EggHeadKey < DataMapper::Property::String
   key true

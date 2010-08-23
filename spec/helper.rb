@@ -1,4 +1,4 @@
-require 'daitss/db/ops/operations_agents'
+require 'daitss/db/ops/agent'
 
 def sha1 string
   return Digest::SHA1.hexdigest(string)

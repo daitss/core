@@ -2,7 +2,7 @@ require 'dm-core'
 require 'dm-validations'
 
 require 'daitss/db/fast/int_entity'
-require 'daitss/db/ops/accounts'
+require 'daitss/db/ops/account'
 require 'daitss/db/ops/sip'
 
 class Project
