@@ -2,9 +2,9 @@ require 'dm-core'
 require 'dm-types'
 require 'dm-validations'
 
-require 'daitss/db/ops/accounts'
-require 'daitss/db/ops/keys'
-require 'daitss/db/ops/operations_events'
+require 'daitss/db/ops/account'
+require 'daitss/db/ops/authentication_key'
+require 'daitss/db/ops/event'
 require 'daitss/db/ops/request'
 
 # TODO: add notes field to OperationsAgent to hold version info

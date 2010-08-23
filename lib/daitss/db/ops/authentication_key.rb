@@ -1,6 +1,6 @@
 require 'dm-core'
 
-require 'daitss/db/ops/operations_agents'
+require 'daitss/db/ops/agent'
 
 class AuthenticationKey
   include DataMapper::Resource
