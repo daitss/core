@@ -11,6 +11,9 @@ Feature: admin of projects
     Then there should be an project with:
       | code | name     | account |
       | ADD  | add test | ACTPRJ  |
+    And there should be an admin log entry:
+      | user | message                  |
+      | foo  | new project: add test |
 
   Scenario: remove an empty project
     Given a project named "test rm"
@@ -18,6 +21,9 @@ Feature: admin of projects
     And I goto "/admin"
     When I press "Delete" for the project
     Then there should not be a project named "test rm"
+    And there should be an admin log entry:
+      | user | message                 |
+      | foo  | delete project: test rm |
 
   Scenario: remove a non-empty project
     Given a project named "test rm non empty"
