@@ -1,5 +1,5 @@
 require 'daitss/proc/workspace'
-require 'daitss/db/ops/entry'
+require 'daitss/model/entry'
 
 class Archive
 

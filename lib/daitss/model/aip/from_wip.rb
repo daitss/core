@@ -1,6 +1,6 @@
 require 'net/http'
 
-require 'daitss/db/ops/aip'
+require 'daitss/model/aip'
 require 'daitss/proc/template/descriptor'
 require 'daitss/proc/tempdir'
 

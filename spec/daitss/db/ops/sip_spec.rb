@@ -1,4 +1,4 @@
-require 'daitss/db/ops/sip'
+require 'daitss/model/sip'
 
 describe Sip do
 

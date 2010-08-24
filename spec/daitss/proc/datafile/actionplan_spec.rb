@@ -3,7 +3,7 @@ require 'daitss/xmlns'
 require 'daitss/proc/datafile/describe'
 require 'daitss/proc/datafile/actionplan'
 
-require 'daitss/db/ops/aip'
+require 'daitss/model/aip'
 
 describe DataFile do
 

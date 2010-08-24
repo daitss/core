@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'daitss/proc/wip'
-require 'daitss/db/ops/aip'
+require 'daitss/model/aip'
 require 'daitss/proc/wip/ingest'
 
-require 'daitss/db/fast/int_entity'
+require 'daitss/db/int_entity'
 
 describe Wip do
 

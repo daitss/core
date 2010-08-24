@@ -1,11 +1,11 @@
-require 'daitss/db/ops/account'
-require 'daitss/db/ops/authentication_key'
-require 'daitss/db/ops/agent'
-require 'daitss/db/ops/event'
-require 'daitss/db/ops/project'
-require 'daitss/db/ops/request'
-require 'daitss/db/ops/sip'
-require 'daitss/db/ops/stashbin'
+require 'daitss/model/account'
+require 'daitss/model/authentication_key'
+require 'daitss/model/agent'
+require 'daitss/model/event'
+require 'daitss/model/project'
+require 'daitss/model/request'
+require 'daitss/model/sip'
+require 'daitss/model/stashbin'
 
 # SMELL this should be easy enough with just datamapper
 module Daitss

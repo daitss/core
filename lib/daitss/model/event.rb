@@ -1,7 +1,7 @@
 require 'dm-core'
 
-require 'daitss/db/ops/sip'
-require 'daitss/db/ops/agent'
+require 'daitss/model/sip'
+require 'daitss/model/agent'
 
 # TODO: this should probably have an association the the Intentity table, not a string for IEID
 

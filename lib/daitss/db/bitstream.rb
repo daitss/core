@@ -1,4 +1,4 @@
-require 'daitss/db/fast/pobject'
+require 'daitss/db/pobject'
 
 class Bitstream < Pobject
   include DataMapper::Resource

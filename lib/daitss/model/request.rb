@@ -1,9 +1,9 @@
 require 'dm-core'
 require 'dm-types'
 
-require 'daitss/db/ops/account'
-require 'daitss/db/ops/agent'
-require 'daitss/db/ops/sip'
+require 'daitss/model/account'
+require 'daitss/model/agent'
+require 'daitss/model/sip'
 
 class Request
   include DataMapper::Resource
