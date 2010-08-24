@@ -1,6 +1,6 @@
-require 'daitss/db/ops/aip'
-require 'daitss/db/ops/operations_agents'
-require 'daitss/db/ops/operations_events'
+require 'daitss/model/aip'
+require 'daitss/model/agent'
+require 'daitss/model/event'
 
 require 'test_env'
 

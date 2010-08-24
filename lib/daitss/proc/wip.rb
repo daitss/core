@@ -3,7 +3,7 @@ require 'fileutils'
 
 require 'daitss/proc/fshash'
 require 'daitss/proc/datafile'
-require 'daitss/db/ops/sip'
+require 'daitss/model/sip'
 
 class Wip
   extend Forwardable

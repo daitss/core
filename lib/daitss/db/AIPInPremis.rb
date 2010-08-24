@@ -1,6 +1,6 @@
 require 'xml'
 
-require 'daitss/db/fast'
+require 'daitss/db'
 
 class AIPInPremis
   def initialize

@@ -1,4 +1,4 @@
-require 'daitss/db/fast/pobject'
+require 'daitss/db/pobject'
 
 # constant for representation id
 REP_CURRENT = "representation/current"

@@ -3,7 +3,7 @@ require 'daitss/proc/datafile'
 require 'net/http'
 require 'cgi'
 
-require 'daitss/db/ops/aip'
+require 'daitss/model/aip'
 
 require 'daitss/proc/datafile/actionplan'
 

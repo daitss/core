@@ -19,7 +19,7 @@ require 'rack/test'
 require 'webrat'
 require 'nokogiri'
 
-require 'daitss/db/ops'
+require 'daitss/model'
 require 'daitss/archive'
 
 Webrat.configure do |config|

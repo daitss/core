@@ -2,8 +2,8 @@ require 'spec_helper'
 require 'daitss/proc/wip/ingest'
 require 'daitss/proc/wip/preserve'
 require 'daitss/proc/wip/from_aip'
-require 'daitss/db/ops/aip'
-require 'daitss/db/ops/aip/from_wip'
+require 'daitss/model/aip'
+require 'daitss/model/aip/from_wip'
 
 describe Aip do
 

@@ -1,6 +1,6 @@
-require 'daitss/db/ops/account'
-require 'daitss/db/ops/agent'
-require 'daitss/db/ops/project'
+require 'daitss/model/account'
+require 'daitss/model/agent'
+require 'daitss/model/project'
 
 def setup_agreement
   account = Account.new :name => 'the account', :code => 'ACT'

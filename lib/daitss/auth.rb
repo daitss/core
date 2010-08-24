@@ -1,4 +1,4 @@
-require 'daitss/db/ops/agent'
+require 'daitss/model/agent'
 require 'digest/sha1'
 require 'pp'
 

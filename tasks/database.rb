@@ -1,7 +1,7 @@
 require 'rack'
 require 'daitss/config'
-require 'daitss/db/fast'
-require 'daitss/db/ops/aip'
+require 'daitss/db'
+require 'daitss/model/aip'
 
 namespace :db do
   DataMapper::Logger.new STDOUT, :debug

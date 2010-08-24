@@ -1,6 +1,6 @@
 require 'libxml'
 
-require 'daitss/db/ops/aip'
+require 'daitss/model/aip'
 require 'daitss/proc/sip_archive'
 require 'daitss/proc/template/premis'
 require 'daitss/proc/wip'

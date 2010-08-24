@@ -2,10 +2,10 @@ require 'dm-core'
 require 'dm-types'
 require 'dm-validations'
 
-require 'daitss/db/ops/account'
-require 'daitss/db/ops/authentication_key'
-require 'daitss/db/ops/event'
-require 'daitss/db/ops/request'
+require 'daitss/model/account'
+require 'daitss/model/authentication_key'
+require 'daitss/model/event'
+require 'daitss/model/request'
 
 # TODO: add notes field to OperationsAgent to hold version info
 # TODO: remove id field?
