@@ -3,13 +3,18 @@ require 'daitss/model/entry'
 
 class Archive
 
+  def Archive.setup_db
+    adapter = DataMapper.setup :default, Daitss::CONFIG['database-url']
+    #adapter.resource_naming_convention = UnderscoredAndPluralizedWithoutModule
+  end
+
   def log message
     e = Entry.new
     e.message = message
     e.save or error "could not save archive log entry"
   end
 
-  # submit a sip on behalf of an agent
+  # submit a sip on behalf of an agent, return a package
   def submit sip_path, agent
 
     # make a new sip archive
@@ -17,43 +22,51 @@ class Archive
 
     # validate account and project outside of class
     agreement_errors = []
-    acode = sa.account rescue nil
-    pcode = sa.project rescue nil
+    a_id = sa.account rescue nil
+    p_id = sa.project rescue nil
 
-    unless agent.account.code == acode
-      agreement_errors << "cannot submit to account #{acode}"
+    package = Package.new
+
+    unless agent.account.id == a_id
+      agreement_errors << "cannot submit to account #{a_id}"
     end
 
-    unless agent.account.projects.first :code => pcode
-      agreement_errors << "cannot submit to project #{pcode}"
+    project = agent.account.projects.first :id => p_id
+
+    if project
+      p.project = project
+    else
+      p.project = agent.account.default_project
+      agreement_errors << "cannot submit to project #{p_id}"
     end
 
-    # make a sip with an event
-    sip = Sip.from_sip_archive sa
-    e = OperationsEvent.new
-    e.timestamp = Time.now
-    e.operations_agent = agent
-    sip.operations_events << e
+    package.sip = Sip.new :name => sa.name
+    package.sip.number_of_datafiles = sa.files.size rescue nil
+    package.sip.size_in_bytes = sa.size_in_bytes rescue nil
 
     if sa.valid? and agreement_errors.empty?
-      e.event_name = 'submit'
-    else
-      e.event_name = 'reject'
-      e.notes = (agreement_errors + sa.errors).join "\n"
-    end
-
-    if sa.valid?
       uri = "#{Daitss::CONFIG['uri-prefix']}/#{sip.id}"
-      wip = Wip.from_sip_archive workspace, sip.id, uri, sa
+      wip = Wip.from_sip_archive workspace, package.id, uri, sa
+      p.log 'submit', :agent => agent
+    else
+      combined_errors = (agreement_errors + sa.errors).join "\n"
+      p.log 'reject', :agent => agent, :notes => combined_errors
     end
 
-    sip.save or raise "cannot save sip: #{sip.id}"
+    unless package.save
+      FileUtils.rm_r wip.path
+      raise "cannot save package: #{p.id}"
+    end
 
-    sip
+    package
   end
 
   def workspace
     Workspace.new Daitss::CONFIG['workspace']
+  end
+
+  def stashspace
+    Daitss::CONFIG['stashspace']
   end
 
 end

@@ -1,5 +1,6 @@
 require 'data_mapper'
 
+# represents an admin log entry
 class Entry
   include DataMapper::Resource
 

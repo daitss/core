@@ -1,7 +1,6 @@
 require 'daitss/config'
 
 class StashBin
-  include Daitss
   include DataMapper::Resource
 
   property :name, String, :key => true
@@ -20,12 +19,12 @@ class StashBin
   end
 
   def path
-    File.join CONFIG['stashspace'], sha1
+    File.join Archive.new.stashspace, sha1
   end
 
   def unstash wip_id
     src = File.join path, wip_id
-    dst = File.join CONFIG['workspace'], wip_id
+    dst = File.join Archive.new.stashspace, wip_id
     FileUtils.mv src, dst
   end
 
