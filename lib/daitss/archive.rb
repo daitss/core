@@ -4,6 +4,7 @@ require 'daitss/model/entry'
 class Archive
 
   def Archive.setup_db
+    #DataMapper::Logger.new($stdout, :debug)
     adapter = DataMapper.setup :default, Daitss::CONFIG['database-url']
     #adapter.resource_naming_convention = UnderscoredAndPluralizedWithoutModule
   end
@@ -34,9 +35,9 @@ class Archive
     project = agent.account.projects.first :id => p_id
 
     if project
-      p.project = project
+      package.project = project
     else
-      p.project = agent.account.default_project
+      package.project = agent.account.default_project
       agreement_errors << "cannot submit to project #{p_id}"
     end
 
@@ -45,17 +46,17 @@ class Archive
     package.sip.size_in_bytes = sa.size_in_bytes rescue nil
 
     if sa.valid? and agreement_errors.empty?
-      uri = "#{Daitss::CONFIG['uri-prefix']}/#{sip.id}"
+      uri = "#{Daitss::CONFIG['uri-prefix']}/#{package.id}"
       wip = Wip.from_sip_archive workspace, package.id, uri, sa
-      p.log 'submit', :agent => agent
+      package.log 'submit', :agent => agent
     else
       combined_errors = (agreement_errors + sa.errors).join "\n"
-      p.log 'reject', :agent => agent, :notes => combined_errors
+      package.log 'reject', :agent => agent, :notes => combined_errors
     end
 
     unless package.save
       FileUtils.rm_r wip.path
-      raise "cannot save package: #{p.id}"
+      raise "cannot save package: #{package.id}"
     end
 
     package

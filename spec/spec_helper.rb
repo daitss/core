@@ -24,13 +24,12 @@ Spec::Runner.configure do |config|
     TestEnv.config
     TestEnv.mkdirs
     $sandbox = Dir.mktmpdir
+    $cleanup = [$sandbox]
 
-    #DataMapper::Logger.new($stdout, :debug)
-    DataMapper.setup(:default, Daitss::CONFIG["database-url"])
+    Archive.setup_db
+
     DataMapper.auto_migrate!
     setup_agreement
-
-    $cleanup = [$sandbox]
   end
 
   config.after :all do

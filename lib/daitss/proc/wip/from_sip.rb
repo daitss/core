@@ -2,6 +2,7 @@ require 'libxml'
 
 require 'daitss/model/aip'
 require 'daitss/proc/sip_archive'
+require 'daitss/proc/aip_archive'
 require 'daitss/proc/template/premis'
 require 'daitss/proc/wip'
 require 'daitss/xmlns'
@@ -31,7 +32,7 @@ class Wip
         end
 
         df['sip-path'] = f
-        df['aip-path'] = File.join Aip::SIP_FILES_DIR, f
+        df['aip-path'] = File.join AipArchive::SIP_FILES_DIR, f
       end
 
       # put metadata from SIP in WIP
@@ -67,7 +68,7 @@ class Wip
       Wip.new new_path
     rescue
       FileUtils.rm_r path if File.exist? path
-      FileUtils.rm_r new_path if FIle.exist? new_path
+      FileUtils.rm_r new_path if File.exist? new_path if new_path
       raise
     end
 

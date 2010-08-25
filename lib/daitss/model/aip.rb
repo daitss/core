@@ -9,6 +9,7 @@ require 'jxml/validator'
 require 'net/http'
 
 require 'daitss/config'
+require 'daitss/model/copy'
 
 include LibXML
 
@@ -20,6 +21,8 @@ AIP_DESCRIPTOR_SCHEMATRON = Schematron::Schema.new stron_doc
 
 XML_SCHEMA_VALIDATOR = JXML::Validator.new
 
+XML_SIZE = 2**32-1
+
 # authoritative aip record
 class Aip
 
@@ -28,7 +31,7 @@ class Aip
 
   # SMELL should URI go into the package table?
   property :uri, String, :unique => true, :required => true
-  property :xml, Text, :required => true, :length => FILE_SIZE
+  property :xml, Text, :required => true, :length => XML_SIZE
   property :datafile_count, Integer, :min => 1, :required => true
 
   belongs_to :package
