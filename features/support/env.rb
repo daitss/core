@@ -59,10 +59,10 @@ class MyWorld
   def submit name
     a = Archive.new
     zip_path = fixture 'haskell-nums-pdf.zip'
-    agent = OperationsAgent.first :identifier => 'operator'
-    sip = a.submit zip_path, agent
-    sips << { :sip => sip.name, :wip => sip.id }
-    a.workspace[sip.id]
+    agent = Program.get 'Bureaucrat'
+    package = a.submit zip_path, agent
+    sips << { :sip => package.sip.name, :wip => package.id }
+    a.workspace[package.id]
   end
 
   def empty_out_workspace

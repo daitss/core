@@ -120,7 +120,7 @@ get '/packages?/?' do
                 Sip.all(:name => ids) | Sip.all(:id => ids)
               else
                 t0 = Date.today - 7
-                oes = OperationsEvent.all :timestamp.gt => t0
+                oes = Event.all :timestamp.gt => t0
                 oes.map { |oe| oe.sip }.uniq
               end
 

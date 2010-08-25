@@ -24,7 +24,7 @@ class StashBin
 
   def unstash wip_id
     src = File.join path, wip_id
-    dst = File.join Archive.new.stashspace, wip_id
+    dst = File.join Archive.new.workspace.path, wip_id
     FileUtils.mv src, dst
   end
 
