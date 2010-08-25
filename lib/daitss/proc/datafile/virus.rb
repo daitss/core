@@ -9,6 +9,13 @@ class DataFile
     output = %x{curl -s -d 'data=@#{self.datapath}' #{CONFIG['viruscheck']}/}
     raise "could not request virus check: #{output}" unless $?.exitstatus == 0
     doc = XML::Document.string output
+    failed = doc.find '//P:eventOutcome = "failed"', NS_PREFIX
+
+    if failed
+      note = doc.find '//P:eventOutcomeDetailNote', NS_PREFIX
+      raise "virus check failed:\n#{note.content}"
+    end
+
     extract_event doc
     extract_agent doc
   end
