@@ -145,11 +145,11 @@ class AIPInPremis
   def processAgents
     agentObjects = @doc.find("//premis:agent", NAMESPACES)
     agentObjects.each do |obj|
-      agent = Agent.new
+      agent = PreservationAgent.new
       agent.fromPremis obj
 
       # use the existing agent record in the database if we have seen this agent before
-      existingAgent = Agent.get(agent.id)
+      existingAgent = PreservationAgent.get(agent.id)
       if existingAgent
         @agents[agent.id] = existingAgent
       else

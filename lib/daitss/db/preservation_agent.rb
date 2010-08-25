@@ -7,7 +7,7 @@ Agent_Map = {
   "affiliate" => "organization"
 }
 
-class Agent
+class PreservationAgent
   include DataMapper::Resource
   property :id, String, :key => true, :length => 255
   property :name, String, :length => 255
