@@ -10,6 +10,7 @@ class Copy
   MAX_SIZE = 2**32-1
 
   include DataMapper::Resource
+  property :id, Serial
   property :url, URI, :required => true, :writer => :private, :default => proc { make_url }
   property :sha1, String, :length => 40, :format => %r([a-f0-9]{40}), :required => true
   property :md5, String, :length => 40, :format => %r([a-f0-9]{32}), :required => true

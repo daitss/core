@@ -1,5 +1,4 @@
 require 'daitss/config'
-require 'daitss/auth'
 require 'daitss/proc/wip'
 require 'daitss/proc/workspace'
 require 'daitss/model'

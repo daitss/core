@@ -10,18 +10,18 @@ describe Archive do
       before :all do
         @archive = Archive.new
         path = new_sip_archive 'mimi.zip'
-        user = Program.first :identifier => 'Bureaucrat'
-        @sip = @archive.submit path, user
+        user = Program.get('Bureaucrat')
+        @package = @archive.submit path, user
       end
 
       it 'should submit' do
-        @sip.operations_events.should_not be_empty
-        reject_event = @sip.operations_events.find { |e| e.event_name == 'submit' }
+        @package.events.should_not be_empty
+        reject_event = @package.events.first :name => 'submit'
         reject_event.should_not be_nil
       end
 
       it 'should create an ingest wip' do
-        wip = @archive.workspace[@sip.id]
+        wip = @archive.workspace[@package.id]
         wip.should_not be_nil
         wip.task.should == :ingest
       end
@@ -33,18 +33,18 @@ describe Archive do
       before :all do
         @archive = Archive.new
         path = new_sip_archive 'missing-descriptor.zip'
-        user = Program.first :identifier => 'Bureaucrat'
-        @sip = @archive.submit path, user
+        user = Program.get('Bureaucrat')
+        @package = @archive.submit path, user
       end
 
       it 'should reject' do
-        @sip.operations_events.should_not be_empty
-        reject_event = @sip.operations_events.find { |e| e.event_name == 'reject' }
+        @package.events.should_not be_empty
+        reject_event = @package.events.first :name => 'reject'
         reject_event.should_not be_nil
       end
 
       it 'should not create an ingest wip' do
-        wip = @archive.workspace[@sip.id]
+        wip = @archive.workspace[@package.id]
         wip.should be_nil
       end
 
@@ -55,11 +55,11 @@ describe Archive do
       it 'should reject because of the invalid account' do
         @archive = Archive.new
         path = new_sip_archive 'bad-account.zip'
-        user = Program.first :identifier => 'Bureaucrat'
-        @sip = @archive.submit path, user
+        user = Program.get('Bureaucrat')
+        @package = @archive.submit path, user
 
-        @sip.operations_events.should_not be_empty
-        reject_event = @sip.operations_events.find { |e| e.event_name == 'reject' }
+        @package.events.should_not be_empty
+        reject_event = @package.events.first :name => 'reject'
         reject_event.should_not be_nil
         reject_event.notes.should include("cannot submit to account BAD-ACT")
       end
@@ -67,11 +67,11 @@ describe Archive do
       it 'should reject because of the invalid project' do
         @archive = Archive.new
         path = new_sip_archive 'bad-project.zip'
-        user = Program.first :identifier => 'Bureaucrat'
-        @sip = @archive.submit path, user
+        user = Program.get('Bureaucrat')
+        @package = @archive.submit path, user
 
-        @sip.operations_events.should_not be_empty
-        reject_event = @sip.operations_events.find { |e| e.event_name == 'reject' }
+        @package.events.should_not be_empty
+        reject_event = @package.events.first :name => 'reject'
         reject_event.should_not be_nil
         reject_event.notes.should include("cannot submit to project BAD-PRJ")
       end

@@ -1,9 +1,8 @@
 require 'daitss/proc/template'
 require 'daitss/proc/datafile'
+require 'daitss/proc/aip_archive'
 require 'net/http'
 require 'cgi'
-
-require 'daitss/model/aip'
 
 require 'daitss/proc/datafile/actionplan'
 
@@ -66,7 +65,7 @@ class DataFile
 
         # fill in destination datafile
         dest.open('w') { |io| io.write data }
-        dest['aip-path'] = File.join Aip::AIP_FILES_DIR, "#{dest.id}#{ext}"
+        dest['aip-path'] = File.join AipArchive::AIP_FILES_DIR, "#{dest.id}#{ext}"
         dest[agent_key] = fix_transformation_agent agent
         dest[event_key] = fix_transformation_event event, source, dest, strategy
         dest["transformation-source"] = source.uri

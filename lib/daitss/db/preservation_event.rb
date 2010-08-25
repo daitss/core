@@ -28,7 +28,7 @@ Event_Map = {
     property :relatedObjectId, String , :length => 100 # the identifier of the related object.
     # if object A migrated to object B, the object B will be associated with a migrated_from event
     property :class, Discriminator
-    belongs_to :agent
+    belongs_to :preservation_agent
     # an event must be associated with an agent
     # note: for deletion event, the agent would be reingest.
 

@@ -1,6 +1,7 @@
 source "http://rubygems.org"
 
 gem "data_mapper"
+gem "dm-is-list"
 gem "haml"
 gem "jxmlvalidator"
 gem "libxml-ruby"

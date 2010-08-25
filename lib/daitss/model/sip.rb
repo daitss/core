@@ -1,5 +1,7 @@
 require 'data_mapper'
 
+require 'daitss/model/package'
+
 # description of a submitted sip
 class Sip
   include DataMapper::Resource
