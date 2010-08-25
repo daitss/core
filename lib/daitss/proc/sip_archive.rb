@@ -122,6 +122,15 @@ class SipArchive
 
   end
 
+  def size_in_bytes
+
+    files.inject(0) do |sum, f|
+      path = File.join sa.path, f
+      sum + File.size(path)
+    end
+
+  end
+
   def account
     xpath = "//M:amdSec/M:digiprovMD/M:mdWrap/M:xmlData/daitss:daitss/daitss:AGREEMENT_INFO/@ACCOUNT"
     node = descriptor_doc.find_first xpath, NS_PREFIX

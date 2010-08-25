@@ -6,27 +6,23 @@ require 'daitss/model/account'
 require 'daitss/model/event'
 require 'daitss/model/request'
 
-# TODO: add notes field to OperationsAgent to hold version info
-# TODO: remove id field?
-class OperationsAgent
+class Agent
   include DataMapper::Resource
 
-  property :id, Serial, :key => true
-  property :description, String, :length => 256
-  property :active_start_date, DateTime
-  property :active_end_date, DateTime
+  property :id, String, :key => true
+  property :description, Text
   property :auth_key, Text
-  property :type, Discriminator
-  property :identifier, String, :unique_index => true, :length => 100
 
-  # TODO: add constraint
-  has 1, :authentication_key
-  has n, :operations_events
-  belongs_to :account
+  property :type, Discriminator
+  property :active, ParanoidBoolean
+
+  has n, :events
   has n, :requests
+
+  belongs_to :account
 end
 
-class User < OperationsAgent
+class User < Agent
   property :first_name, String
   property :last_name, String
   property :email, String
@@ -34,15 +30,15 @@ class User < OperationsAgent
   property :address, String
 end
 
-class Contact < User #Rename to Affiliate
-  property :permissions, Flag[:disseminate, :withdraw, :peek, :submit] # add request report
+class Contact < User
+  property :permissions, Flag[:disseminate, :withdraw, :peek, :submit, :report]
 end
 
 class Operator < User; end
 
-class Service < OperationsAgent; end
+class Service < Agent; end
 
-class Program < OperationsAgent
+class Program < Agent
 
   def Program.system_agent
     p = Program.first :identifier => 'SYSTEM', :account => Account.system_account

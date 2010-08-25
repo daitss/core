@@ -3,8 +3,6 @@ Bundler.setup
 
 require 'data_mapper'
 require 'haml'
-require 'net/http'
-require 'nokogiri'
 require 'sass'
 require 'semver'
 require 'sinatra'
@@ -22,7 +20,7 @@ require 'daitss/proc/workspace'
 
 configure do
   Daitss::CONFIG.load_from_env
-  DataMapper.setup :default, Daitss::CONFIG['database-url']
+  Archive.setup_db
 end
 
 helpers do

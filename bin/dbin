@@ -28,7 +28,7 @@ begin
   $stdout.reopen OUT_LOG, 'w'
   $stderr.reopen ERR_LOG, 'w'
 
-  wip.log_op_event "#{task} started"
+  wip.package.log "#{task} started"
 
   case task.to_sym
   when Wip::TASK_INGEST then wip.ingest!
@@ -36,10 +36,10 @@ begin
   else raise "invalid task #{task.inspect}"
   end
 
-  wip.log_op_event "#{task} finished"
+  wip.package.log "#{task} finished"
   FileUtils.rm_r wip.path unless wip.snafu?
 rescue => e
   wip.snafu = e
-  wip.log_op_event "#{task} snafu"
+  wip.package.log "#{task} snafu"
   exit 1
 end
