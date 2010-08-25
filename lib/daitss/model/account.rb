@@ -8,19 +8,19 @@ require 'daitss/model/request'
 class Account
   include DataMapper::Resource
 
-  property :id, Serial, :key => true
-  property :name, String, :required => true
-  property :code, String, :required => true, :unique_index => true
+  property :id, String, :key => true
+  property :description, Text
 
-  has n, :operations_agents
   has n, :projects
+  has 1, :default_project, 'Project'
+  has n, :agents
   has n, :requests
 
   def Account.system_account
-    a = Account.first :code => 'SYSTEM'
+    a = Account.first :id => 'SYSTEM'
 
     unless a
-      a = Account.new :code => 'SYSTEM', :name => 'account for system operations'
+      a = Account.new :id => 'SYSTEM', :name => 'account for system operations'
       a.save or raise "cannot save system account"
     end
 
