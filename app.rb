@@ -20,8 +20,6 @@ require 'daitss/proc/wip/progress'
 require 'daitss/proc/wip/state'
 require 'daitss/proc/workspace'
 
-APP_VERSION = SemVer.find(File.dirname(__FILE__)).format "v%M.%m.%p%s"
-
 configure do
   Daitss::CONFIG.load_from_env
   DataMapper.setup :default, Daitss::CONFIG['database-url']
