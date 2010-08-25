@@ -1,8 +1,8 @@
 # all possible event types
-Event_Type = ["ingest", "submit", "validate", "virus check", "disseminate", 
+Event_Type = ["ingest", "submit", "validate", "virus check", "disseminate",
   "withdraw", "fixity check", "describe", "normalize", "migrate", "xml resolution", "deletion"]
 
-Event_Map = { 
+Event_Map = {
   "ingest" => "ingest",
   "submit" => "submit",
   "comprehensive validation" => "validate",
@@ -11,12 +11,12 @@ Event_Map = {
   "withdraw" => "withdraw",
   "fixity Check" => "fixitycheck",
   "format description" => "describe",
-  "normalize" => "normalize", 
+  "normalize" => "normalize",
   "migration" => "migrate",
-  "xml resolution" => "xml resolution" 
+  "xml resolution" => "xml resolution"
 }
 
-  class Event
+  class PreservationEvent
     include DataMapper::Resource
     property :id, String, :key => true, :length => 100
     property :idType, String # identifier type
@@ -43,11 +43,11 @@ Event_Map = {
         [ false, "value #{@e_type} is not a valid event type value" ]
       end
     end
-	
+
 	# set related object id which could either be a datafile or an intentity object
     def setRelatedObject objid
       attribute_set(:relatedObjectId, objid)
-    end 
+    end
 
     def fromPremis(premis)
       attribute_set(:id, premis.find_first("premis:eventIdentifier/premis:eventIdentifierValue", NAMESPACES).content)
@@ -64,19 +64,19 @@ Event_Map = {
     end
   end
 
-  class IntentityEvent < Event
+  class IntentityEvent < PreservationEvent
     before :save do
       #TODO implement validation of objectID, making sure the objectID is a valid IntEntity
     end
   end
 
-  class RepresentationEvent < Event
+  class RepresentationEvent < PreservationEvent
     before :save do
       #TODO implement validation of objectID, making sure the objectID is a valid representation
     end
   end
 
-  class DatafileEvent < Event  
+  class DatafileEvent < PreservationEvent
     attr_reader :df
     attr_reader :anomalies
 
@@ -89,7 +89,7 @@ Event_Map = {
         unless detailsExtension.nil?
           @df = df
           @anomalies = anomalies
-          nodes = detailsExtension.find("premis:anomaly", NAMESPACES) 
+          nodes = detailsExtension.find("premis:anomaly", NAMESPACES)
           processAnomalies(nodes)
           nodes = detailsExtension.find("premis:broken_link", NAMESPACES)
           unless (nodes.empty?)
@@ -99,16 +99,16 @@ Event_Map = {
         end
       end
     end
-    
+
     def processAnomalies(nodes)
       nodes.each do |obj|
         anomaly = Anomaly.new
         anomaly.fromPremis(obj)
 
         # check if it was processed earlier.
-        existinganomaly = @anomalies[anomaly.name] 
+        existinganomaly = @anomalies[anomaly.name]
 
-        # if it's has not processed earlier, use the existing anomaly record 
+        # if it's has not processed earlier, use the existing anomaly record
         # in the database if we have seen this anomaly before
         existinganomaly = Anomaly.first(:name => anomaly.name) if existinganomaly.nil?
         dfse = DatafileSevereElement.new

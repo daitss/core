@@ -130,7 +130,7 @@ class Datafile < Pobject
   # delete this datafile record and all its children from the database
   def deleteChildren
     # delete all events associated with this datafile
-    dfevents = Event.all(:relatedObjectId => @id)
+    dfevents = PreservationEvent.all(:relatedObjectId => @id)
     dfevents.each do |e|
       # delete all relationships associated with this event
       rels = Relationship.all(:event_id => e.id)
