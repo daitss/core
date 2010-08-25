@@ -51,7 +51,7 @@ Given /^that user (is|is not) empty$/ do |condition|
     s.number_of_datafiles = 10
     s.id = 'E1024'
 
-    e = OperationsEvent.new
+    e = Event.new
     e.event_name = 'test event'
     e.timestamp = Time.now
     #e.operations_agent = Program.system_agent
