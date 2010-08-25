@@ -3,7 +3,6 @@ require 'dm-types'
 require 'dm-validations'
 
 require 'daitss/model/account'
-require 'daitss/model/authentication_key'
 require 'daitss/model/event'
 require 'daitss/model/request'
 
@@ -16,6 +15,7 @@ class OperationsAgent
   property :description, String, :length => 256
   property :active_start_date, DateTime
   property :active_end_date, DateTime
+  property :auth_key, Text
   property :type, Discriminator
   property :identifier, String, :unique_index => true, :length => 100
 
