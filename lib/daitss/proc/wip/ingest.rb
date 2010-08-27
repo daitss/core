@@ -50,7 +50,7 @@ class Wip
         aip = Aip.new_from_wip self
         doc = XML::Document.string(aip.xml)
         aipInPremis = AIPInPremis.new
-        aipInPremis.process doc
+        aipInPremis.process aip.package, doc
       end
 
     end

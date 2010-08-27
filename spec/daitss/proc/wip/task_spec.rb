@@ -36,7 +36,7 @@ describe Wip do
     wip.task = :ingest
     wip.start
     sleep 0.5 while wip.running?
-    Aip.get(wip.id).should_not be_nil
+    Package.get(wip.id).aip.should_not be_nil
     File.exist?(wip.path).should be_false
   end
 
@@ -45,7 +45,7 @@ describe Wip do
     # ingest a package
     proto_wip = submit 'mimi'
     proto_wip.ingest!
-    Aip.get! proto_wip.id
+    proto_wip.package.aip.should_not be_nil
     id, uri = proto_wip.id, proto_wip.uri
     FileUtils::rm_r proto_wip.path
 
@@ -59,7 +59,9 @@ describe Wip do
     wip.task = :disseminate
     wip.start
     sleep 0.5 while wip.running?
-    Aip.get(wip.id).should_not be_nil
+    puts wip.snafu if wip.snafu?
+    wip.should_not be_snafu
+    wip.package.aip.should_not be_nil
     File.exist?(wip.path).should be_false
   end
 

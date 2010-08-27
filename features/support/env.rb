@@ -61,6 +61,7 @@ class MyWorld
     zip_path = fixture 'haskell-nums-pdf.zip'
     agent = Program.get 'Bureaucrat'
     package = a.submit zip_path, agent
+    raise "test submit failed for #{name}:\n\n#{package.events.last.notes}" if package.events.first :name => 'reject'
     sips << { :sip => package.sip.name, :wip => package.id }
     a.workspace[package.id]
   end

@@ -1,4 +1,5 @@
 require 'daitss/proc/wip'
+require 'daitss/proc/aip_archive'
 require 'daitss/proc/datafile/obsolete'
 require 'digest/sha1'
 
@@ -11,7 +12,6 @@ class Wip
 
     # need descriptor
     load_dmd
-    load_sip_name
     load_sip_descriptor
     load_datafile_transformation_sources
     load_old_package_digiprov
@@ -69,7 +69,8 @@ class Wip
     tarball_file = "#{aip_dir}.tar"
 
     Dir.chdir tdir do
-      open(tarball_file, 'w') { |io| io.write self.package.copy.get_from_silo }
+      copy_data = self.package.aip.copy.get_from_silo
+      open(tarball_file, 'w') { |io| io.write copy_data }
       %x{tar xf #{tarball_file}}
       raise "could not extract tarball: #{$?}" unless $?.exitstatus == 0
     end
@@ -143,7 +144,7 @@ class Wip
 
   # transfer sip descriptor
   def load_sip_descriptor
-    name = File.join Aip::SIP_FILES_DIR, "#{self.package.sip.name}.xml"
+    name = File.join AipArchive::SIP_FILES_DIR, "#{self.package.sip.name}.xml"
     sd_df = original_datafiles.find { |df| name == df['aip-path'] }
     metadata['sip-descriptor'] = File.read sd_df.datapath
   end

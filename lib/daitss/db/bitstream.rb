@@ -1,3 +1,5 @@
+require 'data_mapper'
+
 require 'daitss/db/pobject'
 
 class Bitstream < Pobject

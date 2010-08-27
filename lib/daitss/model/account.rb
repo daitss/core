@@ -20,7 +20,7 @@ class Account
     a = Account.first :id => 'SYSTEM'
 
     unless a
-      a = Account.new :id => 'SYSTEM', :name => 'account for system operations'
+      a = Account.new :id => 'SYSTEM', :description => 'account for system operations'
       a.save or raise "cannot save system account"
     end
 
@@ -28,4 +28,3 @@ class Account
   end
 
 end
-

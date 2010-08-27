@@ -58,9 +58,9 @@ Event_Map = {
       attribute_set(:outcome, premis.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NAMESPACES).content)
     end
 
-	before :save do
-    	puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
-    	puts "#{agent.errors.to_a} error encountered while saving #{agent.inspect} " unless agent.valid?
+    before :save do
+      puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
+      puts "#{self.preservation_agent.errors.to_a} error encountered while saving #{self.preservation_agent.inspect} " unless self.preservation_agent.valid?
     end
   end
 

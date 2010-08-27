@@ -12,8 +12,13 @@ def submit name
   raise "sip not found: #{name}.zip" unless File.file? zip_path
   agent = Program.get 'Bureaucrat'
   a = Archive.new
-  sip = a.submit zip_path, agent
-  a.workspace[sip.id]
+  package = a.submit zip_path, agent
+
+  if package.events.first :name => 'reject'
+    raise "test submit failed for #{name}:\n\n#{package.events.last.notes}"
+  end
+
+  a.workspace[package.id]
 end
 
 def blank_wip id, uri
@@ -22,7 +27,7 @@ def blank_wip id, uri
 end
 
 def pull_aip id
-  aip = Aip.get! id
+  aip = Package.get(id).aip or raise "cannot get aip for #{id}"
   path = File.join $sandbox, aip.id
   wip = Wip.new path
   wip.load_from_aip

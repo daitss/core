@@ -3,6 +3,7 @@ require 'xml'
 require 'daitss/db'
 
 class AIPInPremis
+
   def initialize
     @datafiles = Hash.new
     @bitstreams = Hash.new
@@ -21,14 +22,12 @@ class AIPInPremis
   end
 
   # process an aip descriptor described in a premis-in-mets format.
-  def process aipxml
+  def process package, aipxml
+    @package = package
     @doc = aipxml
 
     # create an new intentities or locate the existing int entities for the int entity object in the aip descriptior.
     processIntEntity
-
-    # find the agreement for the int entity
-    processAgreement
 
     # process all premis file objects
     processDatafiles
@@ -75,24 +74,13 @@ class AIPInPremis
           raise "error deleting datafile #{df.inspect}" unless df.destroy
         end
 
-      raise "error deleting entity #{entity.inspect}" unless entity.destroy
-    end
-  end
+      unless entity.destroy
+        raise "error deleting entity #{entity.inspect}"
+      end
 
-  def processAgreement
-    # retrieve agreement info.
-    agreement = @doc.find_first("//mets:digiprovMD[@ID = 'AGREEMENT-INFO']/mets:mdWrap/mets:xmlData/daitss:AGREEMENT_INFO", NAMESPACES)
-    if agreement
-      account = agreement.find_first("@ACCOUNT", NAMESPACES).value
-      project = agreement.find_first("@PROJECT", NAMESPACES).value
-      acct = Account.first(:code => account)
-      acctProjects = Project.all(:code => project) & Project.all(:account => acct)
-      raise "cannot find the project recrod for '#{account}', '#{project}'" if acctProjects.empty?
-      @acctProject = acctProjects.first
-      @acctProject.intentities << @int_entity
-    else
-      raise "no agreement info specified in the aip descriptor"
     end
+
+    @package.intentity = @int_entity
   end
 
   # extract representation information from the premis document
@@ -174,14 +162,14 @@ class AIPInPremis
         event.fromPremis(obj, df, @anomalies)
         event.setRelatedObject id.content
         # associate agent to the event
-        agent.events << event unless agent.nil?
+        agent.preservation_events << event unless agent.nil?
         @events[event.id] = event
       elsif id && @int_entity.match(id.content) #then check if this event links to int entity
         event = IntentityEvent.new
         event.fromPremis(obj)
         event.setRelatedObject id.content
         # associate agent to the event
-        agent.events << event unless agent.nil?
+        agent.preservation_events << event unless agent.nil?
         @events[event.id] = event
       end
     end
@@ -216,13 +204,15 @@ class AIPInPremis
   end
 
   # save all extracted premis objects/events/agents to the fast access database in one transaction
+  # SMELL can this all be replaced with @int_entity.save ?
   def toDB
     # start database traction for saving the associated record for the aip.  If there is any failure during database save,
     # datamapper automatically rollback the change.
     # RubyProf.start
     #   debugger
     raise "cannot save aip" unless @int_entity.save
-    @acctProject.save
+
+    @package.save
     # explicitly saving the dependencies.
     @datafiles.each {|dfid, df| raise "error saving datafile records #{df.inspect}" unless  df.save }
     @events.each {|id, e| raise "error saving event records #{e.inspect}" unless e.save }

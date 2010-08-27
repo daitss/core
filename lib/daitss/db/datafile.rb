@@ -1,3 +1,4 @@
+require 'data_mapper'
 require 'daitss/db/pobject'
 
 # constant for representation id
@@ -19,7 +20,7 @@ class Datafile < Pobject
   property :create_date, DateTime
   property :origin, String, :length => 10, :required => true # :default => ORIGIN_UNKNOWN,
     # the value of the origin is validated by the check_origin method
-  validates_with_method :origin, :method => :validateOrigin
+  validates_with_method :origin, :validateOrigin
 
   property :original_path, String, :length => (0..255), :required => true
   # map from package_path + file_title + file_ext
@@ -133,7 +134,7 @@ class Datafile < Pobject
     dfevents = PreservationEvent.all(:relatedObjectId => @id)
     dfevents.each do |e|
       # delete all relationships associated with this event
-      rels = Relationship.all(:event_id => e.id)
+      rels = Relationship.all(:preservation_event_id => e.id)
       rels.each {|rel| raise "error deleting relationship #{rel.inspect}" unless rel.destroy}
       raise "error deleting event #{e.inspect}" unless e.destroy
     end

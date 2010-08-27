@@ -1,18 +1,19 @@
 source "http://rubygems.org"
 
-gem "data_mapper"
-gem "dm-is-list"
-gem "haml"
-gem "jxmlvalidator"
-gem "libxml-ruby"
-gem "schematron"
-gem "semver"
-gem "sinatra"
-gem "sys-proctable"
-gem "thor"
+gem 'data_mapper'
+gem 'dm-is-list'
+gem 'haml'
+gem 'jxmlvalidator'
+gem 'libxml-ruby'
 gem 'metaid'
 gem 'nokogiri'
+gem 'rake'
+gem 'schematron'
+gem 'semver'
+gem 'sinatra'
 gem 'sinatras-hat'
+gem 'sys-proctable'
+gem 'thor'
 gem 'uuid'
 
 group :test do

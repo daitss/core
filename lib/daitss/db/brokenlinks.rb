@@ -1,3 +1,5 @@
+require 'data_mapper'
+
 class BrokenLink
   include DataMapper::Resource
 

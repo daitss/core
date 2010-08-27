@@ -45,14 +45,14 @@ class Wip
         aip = Aip.update_from_wip self
         doc = XML::Document.string(aip.xml)
         aipInPremis = AIPInPremis.new
-        aipInPremis.process doc
+        aipInPremis.process aip.package, doc
       end
 
     end
 
     step('deliver-dip') do
       raise "no drop path specified" unless tags.has_key? 'drop-path'
-      aip = Aip.get! id
+      aip = Package.get(id).aip or raise "package #{id} not found"
       url = URI.parse aip.copy_url.to_s
 
       res = Net::HTTP.start(url.host, url.port) do |http|

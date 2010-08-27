@@ -1,5 +1,6 @@
 require 'data_mapper'
 
+require 'daitss/db'
 require 'daitss/model/aip'
 require 'daitss/model/eggheadkey'
 require 'daitss/model/event'
@@ -14,6 +15,7 @@ class Package
   has n, :requests
   has 1, :sip
   has 0..1, :aip
+  has 0..1, :intentity
 
   belongs_to :project, :required => false
 
