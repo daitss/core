@@ -11,36 +11,18 @@ describe Wip do
       proto_wip = submit 'wave'
       proto_wip.ingest!
       path = proto_wip.path
-      FileUtils.rm_r path
-      @wip = Wip.from_aip path
-    end
 
-    it "should load the aip descriptor" do
-      @wip.metadata.should have_key( 'aip-descriptor' )
+      id = proto_wip.id
+      uri = proto_wip.uri
+
+      FileUtils.rm_r path
+
+      @wip = blank_wip id, uri
+      @wip.load_from_aip
     end
 
     it "should load the sip descriptor" do
       @wip.metadata.should have_key( 'sip-descriptor' )
-    end
-
-    it "should load the copy url" do
-      @wip.metadata.should have_key( 'copy-url' )
-    end
-
-    it "should load the copy sha1" do
-      @wip.metadata.should have_key( 'copy-sha1' )
-    end
-
-    it "should load the copy size" do
-      @wip.metadata.should have_key( 'copy-size' )
-    end
-
-    it "should load the account" do
-      @wip.metadata.should have_key( 'dmd-account' )
-    end
-
-    it "should load the project" do
-      @wip.metadata.should have_key( 'dmd-project' )
     end
 
     Wip::DMD_KEYS.each do |key|
@@ -51,10 +33,6 @@ describe Wip do
 
     end
 
-    it "should load the originalName (sip-name)" do
-      @wip.metadata.should have_key( 'sip-name' )
-    end
-
     it "should pull all datafiles" do
       @wip.all_datafiles.should have_exactly(3).items
     end
@@ -63,24 +41,24 @@ describe Wip do
       o_rep = @wip.original_representation
       o_rep.should have_exactly(2).items
       aip_paths = o_rep.map { |f| f['aip-path'] }
-      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'wave.xml'))
-      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'obj1.wav'))
+      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'wave.xml'))
+      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'obj1.wav'))
     end
 
     it 'should pull the current representation' do
       c_rep = @wip.current_representation
       c_rep.should have_exactly(2).items
       aip_paths = c_rep.map { |f| f['aip-path'] }
-      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'wave.xml'))
-      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'obj1.wav'))
+      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'wave.xml'))
+      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'obj1.wav'))
     end
 
     it 'should pull the normalized representation' do
       n_rep = @wip.normalized_representation
       n_rep.should have_exactly(2).items
       aip_paths = n_rep.map { |f| f['aip-path'] }
-      aip_paths.should include(File.join(Aip::SIP_FILES_DIR, 'wave.xml'))
-      aip_paths.should include(File.join(Aip::AIP_FILES_DIR, '1-norm-0.wav'))
+      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'wave.xml'))
+      aip_paths.should include(File.join(AipArchive::AIP_FILES_DIR, '1-norm-0.wav'))
     end
 
     describe "package level provenance (events)" do
@@ -138,7 +116,7 @@ describe Wip do
     describe 'datafile level provenance (events)' do
 
       before :all do
-        df = @wip.all_datafiles.find { |df| df['aip-path'] == File.join(Aip::AIP_FILES_DIR, '1-norm-0.wav')}
+        df = @wip.all_datafiles.find { |df| df['aip-path'] == File.join(AipArchive::AIP_FILES_DIR, '1-norm-0.wav')}
         @events = df['old-digiprov-events'].split %r{\n(?=<event)}
       end
 
@@ -167,7 +145,7 @@ describe Wip do
     describe "datafile level provenance (agents)" do
 
       before :all do
-        df = @wip.all_datafiles.find { |df| df['aip-path'] == File.join(Aip::AIP_FILES_DIR, '1-norm-0.wav')}
+        df = @wip.all_datafiles.find { |df| df['aip-path'] == File.join(AipArchive::AIP_FILES_DIR, '1-norm-0.wav')}
         @agents = df['old-digiprov-agents'].split %r{\n(?=<agent)}
       end
 

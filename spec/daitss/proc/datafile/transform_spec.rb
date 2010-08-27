@@ -26,7 +26,7 @@ describe DataFile do
 
     before :all do
       wip = submit 'wave'
-      @source = wip.original_datafiles.find { |odf| odf['aip-path'] == File.join(Aip::SIP_FILES_DIR, 'obj1.wav') }
+      @source = wip.original_datafiles.find { |odf| odf['aip-path'] == File.join(AipArchive::SIP_FILES_DIR, 'obj1.wav') }
       @source.describe!
       @source.migrate!
       @df = @source.migrated_version
@@ -58,14 +58,14 @@ describe DataFile do
 
     before :all do
       wip = submit 'wave'
-      @source = wip.original_datafiles.find { |odf| odf['aip-path'] == File.join(Aip::SIP_FILES_DIR, 'obj1.wav') }
+      @source = wip.original_datafiles.find { |odf| odf['aip-path'] == File.join(AipArchive::SIP_FILES_DIR, 'obj1.wav') }
       @source.describe!
       @source.normalize!
       @df = @source.normalized_version
     end
 
     it 'should have aip path' do
-      @df['aip-path'].should == File.join(Aip::AIP_FILES_DIR, "#{@df.id}.wav")
+      @df['aip-path'].should == File.join(AipArchive::AIP_FILES_DIR, "#{@df.id}.wav")
     end
 
     it 'should have normalize agent' do

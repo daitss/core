@@ -49,7 +49,7 @@ describe DataFile do
 
     before :all do
       wip = submit 'wave'
-      @wave = wip.original_datafiles.find { |df| df['aip-path'] == File.join(Aip::SIP_FILES_DIR, 'obj1.wav') }
+      @wave = wip.original_datafiles.find { |df| df['aip-path'] == File.join(AipArchive::SIP_FILES_DIR, 'obj1.wav') }
       @wave.describe!
     end
 
@@ -64,7 +64,7 @@ describe DataFile do
 
     before :all do
       wip = submit 'wave'
-      @xml = wip.original_datafiles.find { |df| df['aip-path'] == File.join(Aip::SIP_FILES_DIR, 'wave.xml') }
+      @xml = wip.original_datafiles.find { |df| df['aip-path'] == File.join(AipArchive::SIP_FILES_DIR, 'wave.xml') }
       @xml.describe!
     end
 

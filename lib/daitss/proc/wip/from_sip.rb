@@ -67,7 +67,7 @@ class Wip
 
       Wip.new new_path
     rescue
-      FileUtils.rm_r path if File.exist? path
+      FileUtils.rm_r path if File.exist? path if path
       FileUtils.rm_r new_path if File.exist? new_path if new_path
       raise
     end
