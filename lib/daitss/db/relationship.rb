@@ -36,7 +36,7 @@ class Relationship
     attribute_set(:object1, premis.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content)
     attribute_set(:type, Relationship_Map[event_type])
     attribute_set(:object2, toObj)
-    attribute_set(:event_id, premis.find_first("premis:relatedEventIdentification/premis:relatedEventIdentifierValue", NAMESPACES).content)
+    attribute_set(:preservation_event_id, premis.find_first("premis:relatedEventIdentification/premis:relatedEventIdentifierValue", NAMESPACES).content)
   end
 end
 
