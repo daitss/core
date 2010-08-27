@@ -50,7 +50,7 @@ describe Wip do
     describe "the resulting aip" do
 
       before :all do
-        @aip = Aip.get(@wip.id)
+        @aip = @wip.package.aip
       end
 
       it "should have made an aip" do
@@ -58,7 +58,7 @@ describe Wip do
       end
 
       it "should put the xmlres tarball in the aip tarball" do
-        url = @aip.copy_url
+        url = @aip.copy.url
         req = Net::HTTP::Get.new url.path
         res = Net::HTTP.start(url.host, url.port) { |http| http.request req }
 

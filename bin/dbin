@@ -8,7 +8,7 @@ require "daitss/config"
 require 'daitss/proc/wip/ingest'
 require 'daitss/proc/wip/disseminate'
 require 'daitss/proc/wip/task'
-require 'daitss/db/ops/operations_events'
+require 'daitss/db/preservation_event'
 require 'daitss/proc/workspace'
 
 include Daitss
@@ -25,8 +25,8 @@ begin
   OUT_LOG = File.join wip.path, 'out.log'
   ERR_LOG = File.join wip.path, 'err.log'
 
-  $stdout.reopen OUT_LOG, 'w'
-  $stderr.reopen ERR_LOG, 'w'
+  #$stdout.reopen OUT_LOG, 'w'
+  #$stderr.reopen ERR_LOG, 'w'
 
   wip.package.log "#{task} started"
 

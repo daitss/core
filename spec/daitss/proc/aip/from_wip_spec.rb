@@ -24,9 +24,7 @@ describe Aip do
     wip['aip-descriptor'] = wip.descriptor
     Aip::new_from_wip wip
 
-    lambda {
-      Aip.get! wip.id
-    }.should_not raise_error(DataMapper::ObjectNotFoundError)
+    Package.get(wip.id).aip.should_not be_nil
   end
 
   describe "that does not exist" do
@@ -34,7 +32,7 @@ describe Aip do
 
     it "should not update from a wip" do
       lambda {
-        Aip::update_from_wip subject
+        Aip.update_from_wip subject
       }.should raise_error(DataMapper::ObjectNotFoundError)
     end
 
@@ -61,13 +59,11 @@ describe Aip do
 
       wip['aip-descriptor'] = wip.descriptor
       Aip.update_from_wip wip
-      Aip.get! wip.id
+      Package.get(wip.id).aip.should_not be_nil
     end
 
     it "should update from a WIP" do
-      lambda {
-        Aip.get! subject.id
-      }.should_not raise_error(DataMapper::ObjectNotFoundError)
+      Package.get(subject.id).aip.should_not be_nil
     end
 
     it "should have new metadata" do

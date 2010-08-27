@@ -12,7 +12,7 @@ class Intentity
   property :issue, String, :length => 16
   property :title, Text
 
-  belongs_to :project
+  belongs_to :package
   has 1..n, :datafiles, :constraint=>:destroy
 
   before :destroy, :deleteChildren
@@ -50,7 +50,7 @@ class Intentity
     dfevents = PreservationEvent.all(:relatedObjectId => @id)
     dfevents.each do |e|
       # delete all relationships associated with this event
-      rels = Relationship.all(:event_id => e.id)
+      rels = Relationship.all(:preservation_event_id => e.id)
       rels.each {|rel| rel.destroy}
       e.destroy
     end

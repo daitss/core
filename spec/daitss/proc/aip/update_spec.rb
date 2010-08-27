@@ -37,11 +37,12 @@ describe Aip do
 
       wip['aip-descriptor'] = wip.descriptor
       Aip.update_from_wip wip
-      Aip.get! wip.id
+      Package.get(id).aip.should_not be_nil
     end
 
     it "should update based on a WIP" do
-      lambda { Aip.get! subject.id }.should_not raise_error(DataMapper::ObjectNotFoundError)
+      id = subject.id
+      Package.get(id).aip.should_not be_nil
     end
 
     it "should have the new metadata" do

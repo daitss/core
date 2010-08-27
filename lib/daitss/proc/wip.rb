@@ -3,7 +3,7 @@ require 'fileutils'
 
 require 'daitss/proc/fshash'
 require 'daitss/proc/datafile'
-require 'daitss/model/sip'
+require 'daitss/model/package'
 
 class Wip
   extend Forwardable
@@ -86,7 +86,7 @@ class Wip
 
   # return the sip this wip belongs to
   def package
-    Sip.first :id => id
+    Package.get id
   end
 
   private

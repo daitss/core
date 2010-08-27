@@ -20,8 +20,8 @@ describe Aip do
     wip['ingest-event'] = event spec
     wip['aip-descriptor'] = wip.descriptor
 
-    Aip::new_from_wip wip
-    lambda { Aip.get! wip.id }.should_not raise_error(DataMapper::ObjectNotFoundError)
+    Aip.new_from_wip wip
+    Package.get(id).aip.should_not be_nil
   end
 
 end

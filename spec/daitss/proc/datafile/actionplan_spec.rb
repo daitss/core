@@ -23,7 +23,7 @@ describe DataFile do
 
     before :all do
       wip = submit 'mimi'
-      @pdf = wip.original_datafiles.find { |df| df['aip-path'] == File.join(Aip::SIP_FILES_DIR, 'mimi.pdf') }
+      @pdf = wip.original_datafiles.find { |df| df['aip-path'] == File.join(AipArchive::SIP_FILES_DIR, 'mimi.pdf') }
       @pdf.describe!
     end
 

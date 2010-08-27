@@ -1,6 +1,5 @@
-require 'net/http'
-
 require 'daitss/model/aip'
+require 'daitss/proc/aip_archive'
 require 'daitss/proc/template/descriptor'
 require 'daitss/proc/tempdir'
 
@@ -11,18 +10,12 @@ class Aip
     aip.package = wip.package
     aip.uri = wip.uri
     aip.xml = wip['aip-descriptor']
-    aip.number_of_datafiles = wip.represented_datafiles.size
+    aip.datafile_count = wip.represented_datafiles.size
 
     # get the copy ready
     aa = AipArchive.new wip
-
-    copy = Copy.new
-    copy.size = aa.size
-    copy.md5 = aa.md5
-    copy.sha1 = aa.sha1
-
-    copy.put_to_silo
-
+    copy = Copy.new :aip => aip
+    copy.put_to_silo aa
     aip.copy = copy
 
     if aip.save
@@ -35,22 +28,17 @@ class Aip
   end
 
   def Aip.update_from_wip wip
-    aip = Aip.get! wip.id
+    aip = wip.package.aip or raise 'cannot access aip'
     aip.xml = wip['aip-descriptor']
-    aip.number_of_datafiles = wip.represented_datafiles.size
+    aip.datafile_count = wip.represented_datafiles.size
 
     # get the copy ready
     aa = AipArchive.new wip
-    old_revision = copy.revision
 
     copy = aip.copy
-    copy.revision += 1
-    copy.size = aa.size
-    copy.md5 = aa.md5
-    copy.sha1 = aa.sha1
-
-    copy.put_to_silo
-
+    old_revision = copy.revision
+    copy.revision = old_revision.next
+    copy.put_to_silo aa
     aip.copy = copy
 
     if aip.save

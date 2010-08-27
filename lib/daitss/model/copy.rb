@@ -11,7 +11,7 @@ class Copy
 
   include DataMapper::Resource
   property :id, Serial
-  property :url, URI, :required => true, :writer => :private, :default => proc { make_url }
+  property :url, URI, :required => true, :writer => :private #, :default => proc { self.make_url }
   property :sha1, String, :length => 40, :format => %r([a-f0-9]{40}), :required => true
   property :md5, String, :length => 40, :format => %r([a-f0-9]{32}), :required => true
   property :size, Integer, :min => 1, :max => MAX_SIZE ,:required => true
@@ -25,8 +25,8 @@ class Copy
   def check_size
     res = head_from_silo
 
-    unless res['Content-Length'].to_i == copy_size
-      [false, "copy size is wrong: #{copy_size} (record) != #{res['Content-Length']} (silo)"]
+    unless res['Content-Length'].to_i == size
+      [false, "copy size is wrong: #{size} (record) != #{res['Content-Length']} (silo)"]
     else
       true
     end
@@ -36,8 +36,8 @@ class Copy
   def check_md5
     res = head_from_silo
 
-    unless res['Content-MD5'] == copy_md5
-      [false, "copy fixity is wrong: #{copy_md5} (record) != #{res['Content-MD5']} (silo)"]
+    unless res['Content-MD5'] == md5
+      [false, "copy fixity is wrong: #{md5} (record) != #{res['Content-MD5']} (silo)"]
     else
       true
     end
@@ -68,19 +68,24 @@ class Copy
 
   def head_from_silo
     req = Net::HTTP::Head.new self.url.path
-    res = Net::HTTP.start(u.host, u.port) { |http| http.request(req) }
+    res = Net::HTTP.start(self.url.host, self.url.port) { |http| http.request(req) }
     res.error! unless Net::HTTPSuccess === res
     res
   end
 
-  def put_to_silo
-    req = Net::HTTP::Put.new self.url
+  def put_to_silo aip_archive
+    self.size = aip_archive.size
+    self.md5 = aip_archive.md5
+    self.sha1 = aip_archive.sha1
+    self.url = make_url
+
+    req = Net::HTTP::Put.new self.url.path
     req.content_type = 'application/tar'
     req.content_length = aip_archive.size
     req['content-md5'] = aip_archive.md5
     req.body_stream = aip_archive.open
 
-    res = Net::HTTP.start(u.host, u.port) do |http|
+    res = Net::HTTP.start(self.url.host, self.url.port) do |http|
       http.read_timeout = Daitss::CONFIG['http-timeout']
       http.request(req)
     end
@@ -96,8 +101,8 @@ class Copy
             self.url
           end
 
-    req = Net::HTTP::Delete.new self.url
-    res = Net::HTTP.start(u.host, u.port) { |http| http.request(req) }
+    req = Net::HTTP::Delete.new self.url.path
+    res = Net::HTTP.start(self.url.host, self.url.port) { |http| http.request(req) }
     res.error! unless Net::HTTPSuccess === res
   end
 

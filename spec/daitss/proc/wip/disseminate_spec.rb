@@ -33,7 +33,8 @@ describe Wip do
     subject do
       proto_wip = submit 'mimi'
       proto_wip.ingest!
-      Aip.get! proto_wip.id
+      Package.get(proto_wip.id).aip.should_not be_nil
+
       id, uri = proto_wip.id, proto_wip.uri
       FileUtils::rm_r proto_wip.path
       wip = blank_wip id, uri
@@ -74,7 +75,7 @@ describe Wip do
       # ingest it
       proto_wip = submit 'wave'
       proto_wip.ingest!
-      Aip.get! proto_wip.id
+      Package.get(proto_wip.id).aip.should_not be_nil
       @id, @uri = proto_wip.id, proto_wip.uri
       FileUtils::rm_r proto_wip.path
 
@@ -89,7 +90,7 @@ describe Wip do
     end
 
     subject do
-      aip = Aip.get! @id
+      aip = Package.get(@id).aip
       XML::Document.string aip.xml
     end
 
