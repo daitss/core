@@ -11,6 +11,7 @@ require 'daitss/proc/metadata'
 class Wip
 
   def disseminate
+    raise "no aip for #{id}" unless package.aip
 
     step('load-aip') do
       load_from_aip
@@ -53,7 +54,7 @@ class Wip
     step('deliver-dip') do
       raise "no drop path specified" unless tags.has_key? 'drop-path'
       aip = Package.get(id).aip or raise "package #{id} not found"
-      url = URI.parse aip.copy_url.to_s
+      url = URI.parse aip.copy.url.to_s
 
       res = Net::HTTP.start(url.host, url.port) do |http|
         http.read_timeout = Daitss::CONFIG['http-timeout']
@@ -64,8 +65,8 @@ class Wip
       open(tags['drop-path'], 'w') { |io| io.write res.body }
       sha1 = open(tags['drop-path']) { |io| Digest::SHA1.hexdigest io.read }
 
-      unless sha1 == aip.copy_sha1
-        raise "#{aip.copy_url} sha1 is wrong: expected #{aip.copy_sha1}, actual #{sha1}"
+      unless sha1 == aip.copy.sha1
+        raise "#{aip.copy.url} sha1 is wrong: expected #{aip.copy.sha1}, actual #{sha1}"
       end
 
     end

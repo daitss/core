@@ -11,7 +11,7 @@ describe Aip do
     subject { submit 'mimi' }
 
     it "should not update" do
-      lambda { Aip::update_from_wip subject}.should raise_error(DataMapper::ObjectNotFoundError)
+      lambda { Aip.update_from_wip subject}.should raise_error("cannot access aip")
     end
 
   end
@@ -22,8 +22,15 @@ describe Aip do
       proto_wip = submit 'mimi'
       proto_wip.ingest!
       path = proto_wip.path
+
+      id = proto_wip.id
+      uri = proto_wip.uri
+
       FileUtils.rm_r path
-      wip = Wip.from_aip path
+
+      wip = blank_wip id, uri
+      wip.load_from_aip
+
       wip.preserve!
 
       spec = {
@@ -37,12 +44,11 @@ describe Aip do
 
       wip['aip-descriptor'] = wip.descriptor
       Aip.update_from_wip wip
-      Package.get(id).aip.should_not be_nil
+      Package.get(id).aip
     end
 
     it "should update based on a WIP" do
-      id = subject.id
-      Package.get(id).aip.should_not be_nil
+      subject.should_not be_nil
     end
 
     it "should have the new metadata" do

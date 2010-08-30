@@ -69,8 +69,8 @@ class Wip
     tarball_file = "#{aip_dir}.tar"
 
     Dir.chdir tdir do
-      copy_data = self.package.aip.copy.get_from_silo
-      open(tarball_file, 'w') { |io| io.write copy_data }
+      data = self.package.aip.copy.get_from_silo
+      open(tarball_file, 'w') { |io| io.write data }
       %x{tar xf #{tarball_file}}
       raise "could not extract tarball: #{$?}" unless $?.exitstatus == 0
     end

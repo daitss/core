@@ -10,7 +10,7 @@ describe Wip do
 
     it "should raise error if an aip does not exist for the wip" do
       wip = submit 'mimi'
-      lambda { wip.disseminate }.should raise_error(DataMapper::ObjectNotFoundError)
+      lambda { wip.disseminate }.should raise_error("no aip for #{wip.id}")
     end
 
     it "should raise error if there is anything wrong with dissemination" do
@@ -62,7 +62,7 @@ describe Wip do
       ie = Intentity.get(subject.uri)
       ie.should_not be_nil
       ie.should have(subject.all_datafiles.size).datafiles
-      es = Event.all :e_type => :disseminate, :relatedObjectId => subject.uri
+      es = PreservationEvent.all :e_type => :disseminate, :relatedObjectId => subject.uri
       es.should have(1).item
     end
 
