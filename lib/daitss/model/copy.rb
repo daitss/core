@@ -96,13 +96,13 @@ class Copy
   def delete_from_silo rev=nil
 
     url = if rev
-            make_url rev
+            URI.parse make_url(rev)
           else
             self.url
           end
 
-    req = Net::HTTP::Delete.new self.url.path
-    res = Net::HTTP.start(self.url.host, self.url.port) { |http| http.request(req) }
+    req = Net::HTTP::Delete.new url.path
+    res = Net::HTTP.start(url.host, url.port) { |http| http.request(req) }
     res.error! unless Net::HTTPSuccess === res
   end
 

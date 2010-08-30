@@ -22,7 +22,7 @@ describe Aip do
 
     wip['ingest-event'] = event spec
     wip['aip-descriptor'] = wip.descriptor
-    Aip::new_from_wip wip
+    Aip.new_from_wip wip
 
     Package.get(wip.id).aip.should_not be_nil
   end
@@ -33,7 +33,7 @@ describe Aip do
     it "should not update from a wip" do
       lambda {
         Aip.update_from_wip subject
-      }.should raise_error(DataMapper::ObjectNotFoundError)
+      }.should raise_error("cannot access aip")
     end
 
   end
@@ -44,8 +44,15 @@ describe Aip do
       proto_wip = submit 'mimi'
       proto_wip.ingest!
       path = proto_wip.path
+
+      id = proto_wip.id
+      uri = proto_wip.uri
+
       FileUtils.rm_r path
-      wip = Wip.from_aip path
+
+      wip = blank_wip id, uri
+      wip.load_from_aip
+
       wip.preserve!
 
       spec = {
@@ -59,11 +66,11 @@ describe Aip do
 
       wip['aip-descriptor'] = wip.descriptor
       Aip.update_from_wip wip
-      Package.get(wip.id).aip.should_not be_nil
+      Package.get(wip.id).aip
     end
 
     it "should update from a WIP" do
-      Package.get(subject.id).aip.should_not be_nil
+      subject.should_not be_nil
     end
 
     it "should have new metadata" do
