@@ -4,28 +4,28 @@ Feature: admin of users
   Scenario: add a new user
     Given I goto "/admin"
     And I fill in the user form with:
-      | username | first_name | last_name | email             | phone    | address  |
-      | snake    | S.D.       | Plissken  | snake@example.com | 555-1212 | New York |
+      | id    | first_name | last_name | email             | phone    | address  |
+      | snake | S.D.       | Plissken  | snake@example.com | 555-1212 | New York |
     When I press "Create User"
     Then there should be a user with:
-      | username | first_name | last_name | email             | phone    | address  |
-      | snake    | S.D.       | Plissken  | snake@example.com | 555-1212 | New York |
+      | id    | first_name | last_name | email             | phone    | address  |
+      | snake | S.D.       | Plissken  | snake@example.com | 555-1212 | New York |
     And there should be an admin log entry:
       | user | message         |
       | foo  | new user: snake |
 
   Scenario: remove an empty user
-    Given a user named "usermagee"
+    Given a user "usermagee"
     And that user is empty
     And I goto "/admin"
     When I press "Delete" for the user
-    Then there should not be a user named "usermagee"
+    Then there should not be a user "usermagee"
     And there should be an admin log entry:
-      | user | message             |
+      | user | message               |
       | foo  | delete user: usermagee |
 
   Scenario: remove a non-empty user
-    Given a user named "usermagee"
+    Given a user "usermagee"
     And that user is not empty
     And I goto "/admin"
     When I press "Delete" for the user
