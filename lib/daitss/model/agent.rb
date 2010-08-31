@@ -14,7 +14,7 @@ class Agent
   property :auth_key, Text
 
   property :type, Discriminator
-  property :active, ParanoidBoolean
+  property :deleted_at, ParanoidDateTime
 
   has n, :events
   has n, :requests
