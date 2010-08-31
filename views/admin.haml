@@ -31,21 +31,21 @@
 
 %form#create-account{:action => '/admin', :method => 'post'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-account'}
-  %input{:name => 'name', :value=>"account name"}
-  %input{:name => 'code', :value=>"account code"}
+  %input{:name => 'id', :value =>"account id"}
+  %input{:name => 'description', :value =>"account description"}
   %input{:type => 'submit', :value => "Create Account"}
 
 - if @accounts.any?
   %table
     %tr
-      %th name
-      %th code
+      %th id
+      %th description
       %th delete
 
     - @accounts.each do |a|
       %tr
-        %td= a.name
-        %td= a.code
+        %td= a.id
+        %td= a.description
         %td
           - if a != Account.system_account
             %form{:action => "/admin", :method => 'post'}
@@ -61,24 +61,24 @@
   %input{:type => 'hidden', :name => 'task', :value => 'new-project'}
   %select{:name=>'account'}
     - @accounts.each do |a|
-      %option= a.code
-  %input{:name => 'name', :value=>"project name"}
-  %input{:name => 'code', :value=>"project code"}
+      %option= a.id
+  %input{:name => 'id', :value=>"project id"}
+  %input{:name => 'description', :value=>"project description"}
   %input{:type => 'submit', :value => 'Create project'}
 
 - if @projects.any?
   %table
     %tr
-      %th name
-      %th code
+      %th id
+      %th description
       %th account
       %th delete
 
     - @projects.each do |p|
       %tr
-        %td= p.name
-        %td= p.code
-        %td= p.account.code
+        %td= p.id
+        %td= p.description
+        %td= p.account.id
         %td
           %form{:action => "/admin", :method => 'post'}
             %input{:type => 'hidden', :name => 'task', :value => 'delete-project'}
@@ -97,8 +97,8 @@
 
   %select{:name=>'account'}
     - @accounts.each do |p|
-      %option= p.code
-  %input{:name => 'username', :value => "username"}
+      %option= p.id
+  %input{:name => 'id', :value => "id"}
   %input{:name => 'first_name', :value => "first name"}
   %input{:name => 'last_name', :value => "last name"}
   %input{:name => 'email', :value => "email address"}
@@ -121,8 +121,8 @@
     - @users.each do |u|
       %tr
         %td= u.type
-        %td= u.account.name
-        %td= u.identifier
+        %td= u.account.description
+        %td= u.id
         %td= u.last_name
         %td= u.first_name
         %td= u.email
