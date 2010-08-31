@@ -15,7 +15,7 @@ Given /^it has (\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
 
   count.to_i.times do
 
-    wip = submit 'haskell-nums-pdf'
+    wip = submit 'haskell-nums-pdf.zip'
 
     case state
     when 'idle', ""
