@@ -16,6 +16,7 @@ describe Dispatch do
   end
 
   it "should create a dissemination sub-wip" do
+    pending 'this is strange, refactor needed'
     ieid = rand(1000)
     now = Time.now
 
