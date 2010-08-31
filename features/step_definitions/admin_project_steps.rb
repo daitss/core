@@ -6,7 +6,7 @@ Given /^I fill in the project form with:$/ do |table|
 
       row.each do |field, value|
 
-        if field == 'account'
+        if field == 'account_id'
           select value, :from => field
         else
           fill_in field, :with => value
@@ -29,49 +29,48 @@ Then /^there should be an project with:$/ do |table|
 
 end
 
-Given /^a project named "([^"]*)"$/ do |name|
+Given /^a project "([^"]*)"$/ do |id|
   Given 'I goto "/admin"'
-  And 'a account coded "ACTPRJ"'
-  code = name.upcase.tr(' ', '')
+  And 'a account "ACTPRJ"'
 
   within "form#create-project" do
-    fill_in "code", :with => code
-    fill_in "name", :with => name
-    select "ACTPRJ", :from => 'account'
+    fill_in "id", :with => id
+    fill_in "description", :with => "#{id} #{id} #{id}".downcase
+    select "ACTPRJ", :from => 'account_id'
   end
 
   When 'I press "Create Project"'
   last_response.should be_ok
-  @the_project = Project.first :code => code
+  @the_project = Project.get id
   @the_project.should_not be_nil
 end
 
 Given /^that project (is|is not) empty$/ do |condition|
 
   if condition == 'is'
-    @the_project.sips .should be_empty
+    @the_project.packages.should be_empty
   else
-    s = Sip.new
-    s.name = 'FOO'
-    s.size_in_bytes = 10
-    s.number_of_datafiles = 10
-    s.id = 'E1024'
+    p = Package.new
+    p.sip = Sip.new
+    p.sip.name = 'FOO'
+    p.sip.size_in_bytes = 10
+    p.sip.number_of_datafiles = 10
 
-    @the_project.sips << s
+    @the_project.packages << p
     @the_project.save.should be_true
-    @the_project.sips .should_not be_empty
+    @the_project.packages.should_not be_empty
   end
 
 end
 
 When /^I press "([^"]*)" for the project$/ do |button|
 
-  within "tr:contains('#{@the_project.code}')" do
+  within "tr:contains('#{@the_project.id}')" do
     click_button button
   end
 
 end
 
-Then /^there should not be a project named "([^"]*)"$/ do |name|
-  last_response.should_not have_selector("td:contains('#{name}')")
+Then /^there should not be a project "([^"]*)"$/ do |id|
+  last_response.should_not have_selector("td:contains('#{id}')")
 end

@@ -3,30 +3,30 @@ Feature: admin of projects
 
   Scenario: add a new project
     Given I goto "/admin"
-    And a account coded "ACTPRJ"
+    And a account "ACTPRJ"
     And I fill in the project form with:
-      | code | name     | account |
-      | ADD  | add test | ACTPRJ  |
+      | id  | description | account_id |
+      | ADD | add test    | ACTPRJ     |
     When I press "Create Project"
     Then there should be an project with:
-      | code | name     | account |
-      | ADD  | add test | ACTPRJ  |
+      | id  | description | account_id |
+      | ADD | add test    | ACTPRJ     |
     And there should be an admin log entry:
-      | user | message                  |
-      | foo  | new project: add test |
+      | user | message          |
+      | foo  | new project: ADD |
 
   Scenario: remove an empty project
-    Given a project named "test rm"
+    Given a project "RM"
     And that project is empty
     And I goto "/admin"
     When I press "Delete" for the project
-    Then there should not be a project named "test rm"
+    Then there should not be a project "RM"
     And there should be an admin log entry:
-      | user | message                 |
-      | foo  | delete project: test rm |
+      | user | message            |
+      | foo  | delete project: RM |
 
   Scenario: remove a non-empty project
-    Given a project named "test rm non empty"
+    Given a project "RMNE"
     And that project is not empty
     And I goto "/admin"
     When I press "Delete" for the project

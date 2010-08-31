@@ -344,7 +344,7 @@ post '/admin' do
   when 'delete-project'
     id = require_param 'id'
     p = Project.get(id) or not_found
-    error 400, "cannot delete a non-empty project" unless p.sips.empty?
+    error 400, "cannot delete a non-empty project" unless p.packages.empty?
     p.destroy or error "could not delete project"
     @archive.log "delete project: #{p.id}"
 
