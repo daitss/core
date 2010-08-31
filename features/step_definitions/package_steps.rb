@@ -1,5 +1,5 @@
 Given /^an archived package$/ do
-  wip = submit 'haskell-nums-pdf'
+  wip = submit 'haskell-nums-pdf.zip'
   wip.start
   sleep 0.5 while wip.running?
 end
@@ -38,5 +38,6 @@ Then /^in the jobs summary I should see a stashed ingest wip in "([^\"]*)"$/ do 
 end
 
 Then /^in the jobs summary I should see that no jobs are pending$/ do
-  Then %Q(the response contains "no jobs processing or stashed")
+  Then %Q(the response contains "no jobs processing")
+  Then %Q(the response contains "no jobs stashed")
 end

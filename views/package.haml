@@ -1,19 +1,21 @@
-%h1
-  = @sip.id
+%h1= @package.id
 
-- if @wip or @stashed_wip
-  - if @wip
-    .processing
-      processing
-      %a{:href=>"/workspace/#{@wip.id}"}= @wip.task
+%h2 processing
 
-  - elsif @stashed_wip
-    .processing
-      stashed
-      %a{:href=>"/stashspace/#{@bin.url_name}/#{@stashed_wip.id}"}= @stashed_wip.task
+- if @package.wip
+  %a{:href=>"/workspace/#{@package.wip.id}"}
+    = @package.wip.task
 - else
-  .processing
-    no jobs processing or stashed
+  no jobs processing
+
+%h2 stashed
+
+- if @package.stashed_wip
+  %a{:href=>"/stashspace/#{@package.stashed_wip.bin.url_name}/#{@package.stashed_wip.id}"}
+    = @package.stashed_wip.task
+
+- else
+  no jobs stashed
 
 %h2 submit a package request
 
@@ -24,7 +26,7 @@
     %option= 'withdraw'
     %option= 'peek'
   %br
-  %input{:type => 'hidden', :name => 'ieid', :value=>"#{@sip.id}"}
+  %input{:type => 'hidden', :name => 'ieid', :value=>"#{@package.id}"}
   %input{:type => 'submit', :value => 'Submit'}
 
 %h2 submission
@@ -32,13 +34,13 @@
 %table
   %tr
     %th sip
-    %td= @sip.name
+    %td= @package.sip.name
   %tr
     %th account
-    %td= @sip.project.account.code rescue 'N/A'
+    %td= @package.project.account.id rescue 'N/A'
   %tr
     %th project
-    %td= @sip.project.code rescue 'N/A'
+    %td= @package.project.id rescue 'N/A'
 
 %h2 events
 
@@ -47,15 +49,15 @@
     %th type
     %th time
     %th note
-  - @events.each do |e|
+  - @package.events.each do |e|
     %tr
-      %td= e.event_name
+      %td= e.name
       %td= e.timestamp.pragma
       %td= e.notes
 
 %h2 requests
 
-- if @requests.any?
+- if @package.requests.any?
   %table
     %tr
       %th type
@@ -64,7 +66,7 @@
       %th request submitter
       %th status
       %th delete
-    - @requests.each do |r|
+    - @package.requests.each do |r|
       %tr
         %td= r.request_type
         %td= r.timestamp.pragma
@@ -73,29 +75,33 @@
         %td= r.status
         %td
           - if r.status != :released_to_workspace
-            %a{:href => "/delete_request/#{@sip.id}/#{r.request_type}"} delete
+            %a{:href => "/delete_request/#{@package.id}/#{r.request_type}"}
+              delete
 
-- if @aip
+- if @package.aip
+  - aip = @package.aip
+
   %h2 aip
 
   %h3
-    %a{:href=>"/package/#{@aip.id}/descriptor"} xml descriptor
+    %a{:href=>"/package/#{@package.id}/descriptor"}
+      xml descriptor
 
   %table
     %tr
       %th copy url
       %td
-        %a{ :href => @aip.copy_url }
-          =@aip.copy_url
+        %a{ :href => aip.copy.url }
+          = aip.copy.url
     %tr
       %th copy size
-      %td= @aip.copy_size
+      %td= aip.copy.size
     %tr
       %th copy sha1
-      %td= @aip.copy_sha1
+      %td= aip.copy.sha1
     %tr
       %th copy md5
-      %td= @aip.copy_md5
+      %td= aip.copy.md5
     %tr
       %th number of datafiles
-      %td= @aip.datafile_count
+      %td= aip.datafile_count

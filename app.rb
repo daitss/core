@@ -118,16 +118,16 @@ get '/packages?/?' do
 
   @packages = if @query
                 ids = @query.strip.split
-                Sip.all(:name => ids) | Sip.all(:id => ids)
+                Sip.all(:name => ids).packages | Package.all(:id => ids)
               else
                 t0 = Date.today - 7
-                oes = Event.all :timestamp.gt => t0
-                oes.map { |oe| oe.sip }.uniq
+                es = Event.all :timestamp.gt => t0
+                es.map { |e| e.package }.uniq
               end
 
   @packages.sort! do |a,b|
-    t_a = a.operations_events.last.timestamp
-    t_b = b.operations_events.last.timestamp
+    t_a = a.events.last.timestamp
+    t_b = b.events.last.timestamp
     t_b <=> t_a
   end
 
@@ -135,15 +135,14 @@ get '/packages?/?' do
 end
 
 get '/package/:id' do |id|
-  @sip = Sip.first :id => id
-  not_found unless @sip
-  @events = @sip.operations_events
+  @package = Package.get(id) or not_found
+  @sip = @package.sip
   @wip = @archive.workspace[id]
-  @aip = Aip.first :id => id
+  @aip = @package
   @bin = StashBin.all.find { |b| File.exist? File.join(b.path, id) }
   @stashed_wip = @bin.wips.find { |w| w.id == id } if @bin
   @bins = StashBin.all
-  @requests = @sip.requests
+  @requests = @package.requests
 
   haml :package
 end
@@ -273,8 +272,8 @@ post '/stashspace/:bin/:wip' do |bin_name, wip_id|
   when 'abort'
 
     # write ops event for abort
-    sip = Sip.first :id => wip_id
-    sip.abort @user
+    p = Package.get wip_id
+    p.abort @user
 
     # remove package
     FileUtils.rm_rf stashed_wip_path

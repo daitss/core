@@ -21,8 +21,8 @@ class Package
 
   # add an operations event for abort
   def abort user
-    event = Event.new :name => 'abort', sip => self, :agent => user
-    event.save or raise "cannot save op event"
+    event = Event.new :name => 'abort', :package => self, :agent => user
+    event.save or raise "cannot save abort event"
   end
 
   # make an event for this package
@@ -31,6 +31,17 @@ class Package
     e.agent = options[:agent] || Program.system_agent
     e.notes = options[:notes]
     e.save or raise "cannot save op event: #{name}"
+  end
+
+  # return a wip if exists in workspace, otherwise nil
+  def wip
+    Archive.new.workspace[id]
+  end
+
+  # return a stashed wip, otherwise nil
+  def stashed_wip
+    bin = StashBin.all.find { |b| File.exist? File.join(b.path, id) }
+    bin.wips.find { |w| w.id == id } if bin
   end
 
 end

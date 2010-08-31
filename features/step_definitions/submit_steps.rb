@@ -6,11 +6,11 @@ Given /^I submit (a|\d+) packages?$/ do |count|
           else raise 'invalid count'
           end
 
-  count.times { submit 'haskell-nums-pdf' }
+  count.times { submit 'haskell-nums-pdf.zip' }
 end
 
 When /^I select a sip to upload$/ do
-  name = 'haskell-nums-pdf'
+  name = 'haskell-nums-pdf'.zip
   sips << {:sip => name}
   tar = sip_tarball(name)
   dir = Dir.mktmpdir
