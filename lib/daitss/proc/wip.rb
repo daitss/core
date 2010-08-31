@@ -89,6 +89,12 @@ class Wip
     Package.get id
   end
 
+  # return the stashbin if in one
+  def bin
+    dir = File.dirname path
+    StashBin.find { |b| b.path == dir }
+  end
+
   private
 
   def datafiles container
