@@ -59,7 +59,7 @@
 
 %form#create-project{:action => '/admin', :method => 'POST'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-project'}
-  %select{:name=>'account'}
+  %select{:name=>'account_id'}
     - @accounts.each do |a|
       %option= a.id
   %input{:name => 'id', :value=>"project id"}

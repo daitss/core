@@ -38,21 +38,6 @@ Given /^a account "([^"]*)"$/ do |name|
   @the_account.should_not be_nil
 end
 
-Given /^a account coded "([^"]*)"$/ do |code|
-  Given 'I goto "/admin"'
-  name = "name for: #{code}"
-
-  within "form#create-account" do
-    fill_in "code", :with => code
-    fill_in "name", :with => name
-  end
-
-  When 'I press "Create Account"'
-  last_response.should be_ok
-  @the_account = Account.first :code => code
-  @the_account.should_not be_nil
-end
-
 Given /^that account (is|is not) empty$/ do |condition|
 
   if condition == 'is'
