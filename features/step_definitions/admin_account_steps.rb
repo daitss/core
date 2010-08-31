@@ -23,18 +23,18 @@ Then /^there should be an account with:$/ do |table|
 
 end
 
-Given /^a account named "([^"]*)"$/ do |name|
+Given /^a account "([^"]*)"$/ do |name|
   Given 'I goto "/admin"'
-  code = name.upcase.tr(' ', '')
+  id = name.upcase.tr(' ', '')
 
   within "form#create-account" do
-    fill_in "code", :with => code
-    fill_in "name", :with => name
+    fill_in "id", :with => id
+    fill_in "description", :with => "#{id} #{id} #{id}".downcase
   end
 
   When 'I press "Create Account"'
   last_response.should be_ok
-  @the_account = Account.first :code => code
+  @the_account = Account.get id
   @the_account.should_not be_nil
 end
 
@@ -59,8 +59,8 @@ Given /^that account (is|is not) empty$/ do |condition|
     @the_account.projects.should be_empty
   else
     p = Project.new
-    p.name = "the project name";
-    p.code = "TPN"
+    p.description = "the project name";
+    p.id = "TPN"
     @the_account.projects << p
     @the_account.save.should be_true
     @the_account.projects.should_not be_empty
@@ -70,12 +70,12 @@ end
 
 When /^I press "([^"]*)" for the account$/ do |button|
 
-  within "tr:contains('#{@the_account.code}')" do
+  within "tr:contains('#{@the_account.id}')" do
     click_button button
   end
 
 end
 
-Then /^there should not be a account named "([^"]*)"$/ do |name|
+Then /^there should not be a account "([^"]*)"$/ do |name|
   last_response.should_not have_selector("td:contains('#{name}')")
 end

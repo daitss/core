@@ -4,28 +4,28 @@ Feature: admin of accounts
   Scenario: add a new account
     Given I goto "/admin"
     And I fill in the account form with:
-      | code | name     |
-      | ADD  | add test |
+      | id | description |
+      | ADD  | add test  |
     When I press "Create Account"
     Then there should be an account with:
-      | code | name     |
-      | ADD  | add test |
+      | id | description |
+      | ADD  | add test  |
     And there should be an admin log entry:
-      | user | message               |
-      | foo  | new account: add test |
+      | user | message          |
+      | foo  | new account: ADD |
 
   Scenario: remove an empty account
-    Given a account named "test rm"
+    Given a account "RM"
     And that account is empty
     And I goto "/admin"
     When I press "Delete" for the account
-    Then there should not be a account named "test rm"
+    Then there should not be a account "RM"
     And there should be an admin log entry:
-      | user | message               |
-      | foo  | delete account: test rm |
+      | user | message            |
+      | foo  | delete account: RM |
 
   Scenario: remove a non-empty account
-    Given a account named "test rm non empty"
+    Given a account "RMNE"
     And that account is not empty
     And I goto "/admin"
     When I press "Delete" for the account

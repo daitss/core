@@ -58,6 +58,7 @@ class MyWorld
 
   def submit name
     a = Archive.new
+    # TODO fix this to use name
     zip_path = fixture 'haskell-nums-pdf.zip'
     agent = Program.get 'Bureaucrat'
     package = a.submit zip_path, agent
@@ -85,31 +86,27 @@ Before do
   DataMapper.auto_migrate!
 
   a = Account.new(
-    :name => 'The Test Account',
-    :code => 'ACT'
+    :description => 'The Test Account',
+    :id => 'ACT'
   )
 
   o = Operator.new(
-    :description => "operator",
-    :active_start_date => Time.at(0),
-    :active_end_date => Time.now + (86400 * 365),
-    :identifier => 'operator',
+    :id => 'operator',
+    :description => "the operator",
     :first_name => "Op",
     :last_name => "Perator",
     :email => "operator@ufl.edu",
     :phone => "666-6666",
-    :address => "FCLA"
+    :address => "FCLA",
+    :auth_key => Digest::SHA1.hexdigest('operator')
   )
-
-  k = AuthenticationKey.new :auth_key => Digest::SHA1.hexdigest('operator')
-  o.authentication_key = k
 
   p = Project.new(
-    :name => 'The Test Project',
-    :code => 'PRJ'
+    :description => 'The Test Project',
+    :id => 'PRJ'
   )
 
-  a.operations_agents << o
+  a.agents << o
   a.projects << p
   a.save or raise "could not save account"
 

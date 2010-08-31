@@ -7,6 +7,7 @@ require 'sass'
 require 'semver'
 require 'sinatra'
 
+require 'daitss'
 require 'daitss/archive'
 require 'daitss/config'
 require 'daitss/datetime'
@@ -31,7 +32,7 @@ helpers do
     login, passwd = @auth.credentials
     @user ||= User.first :identifier => login
     error 401 unless @user
-    error 401 unless user.authentication_key.auth_key == Digest::SHA1.hexdigest(passwd)
+    error 401 unless user.auth_key == Digest::SHA1.hexdigest(passwd)
   end
 
   def require_param name
@@ -318,37 +319,34 @@ post '/admin' do
 
   when 'new-account'
     a = Account.new
-    a.name = require_param 'name'
-    a.code = require_param 'code'
+    a.id = require_param 'id'
+    a.description = require_param 'description'
     a.save or error "could not create new account\n\n#{e.message}\n#{e.backtrace}"
-    @archive.log "new account: #{a.name}"
+    @archive.log "new account: #{a.id}"
 
   when 'delete-account'
     id = require_param 'id'
     a = Account.get(id) or not_found
     error 400, "cannot delete a non-empty account" unless a.projects.empty?
     a.destroy or error "could not delete account"
-    @archive.log "delete account: #{a.name}"
+    @archive.log "delete account: #{a.id}"
 
   when 'new-project'
-    account_code = require_param 'account'
-    a = Account.first :code => account_code
-    error 400, "account #{account_code} does not exist" unless a
-
-    code = require_param 'code'
-    name = require_param 'name'
-    p = Project.new :name => name, :code => code
+    account_id = require_param 'account_id'
+    a = Account.get(account_id) or error 400, "account #{account_id} does not exist"
+    id = require_param 'id'
+    description = require_param 'description'
+    p = Project.new :id => id, :description => description
     p.account = a
-    @archive.log "new project: #{p.name}"
-
+    @archive.log "new project: #{p.id}"
     p.save or error "could not save project bin\n\n#{e.message}\n#{e.backtrace}"
 
   when 'delete-project'
     id = require_param 'id'
-    p = Project.get(id) or not_found "no project"
+    p = Project.get(id) or not_found
     error 400, "cannot delete a non-empty project" unless p.sips.empty?
     p.destroy or error "could not delete project"
-    @archive.log "delete project: #{p.name}"
+    @archive.log "delete project: #{p.id}"
 
   when 'new-user'
     type = require_param 'type'
@@ -356,31 +354,27 @@ post '/admin' do
     u = if type == "operator"
           Operator.new :account => Account.system_account
         else
-          a = Account.first(:code => params['account'])
-          Contact.new(:account => a,
-                      :permissions => [:disseminate, :withdraw, :peek, :submit])
+          account_id = require_param 'account_id'
+          a = Account.get account_id
+          Contact.new :account => a, :permissions => [:disseminate, :withdraw, :peek, :submit]
         end
 
-    u.identifier = require_param 'username'
+    u.id = require_param 'id'
     u.first_name = require_param 'first_name'
     u.last_name = require_param 'last_name'
     u.email = require_param 'email'
     u.phone = require_param 'phone'
     u.address = require_param 'address'
     u.description = ""
-    u.active_start_date = DateTime.now
-    u.active_end_date = DateTime.now + 365
-
     u.save or error "could not save user, errors: #{u.errors}"
-    @archive.log "new user: #{u.identifier}"
+    @archive.log "new user: #{u.id}"
 
   when 'delete-user'
     id = require_param 'id'
     u = User.get(id) or not_found
-    error 400, "cannot delete a non-empty user" unless u.operations_events.empty?
+    error 400, "cannot delete a non-empty user" unless u.events.empty?
     u.destroy or error "could not delete user"
-    @archive.log "delete user: #{u.identifier}"
-
+    @archive.log "delete user: #{u.id}"
 
   else raise "unknown task: #{params['task']}"
   end
