@@ -58,10 +58,8 @@ class MyWorld
 
   def submit name
     a = Archive.new
-    # TODO fix this to use name
-    zip_path = fixture 'haskell-nums-pdf.zip'
-    agent = Program.get 'Bureaucrat'
-    package = a.submit zip_path, agent
+    zip_path = fixture name
+    package = a.submit zip_path, @test_operator
     raise "test submit failed for #{name}:\n\n#{package.events.last.notes}" if package.events.first :name => 'reject'
     sips << { :sip => package.sip.name, :wip => package.id }
     a.workspace[package.id]
@@ -85,12 +83,12 @@ Before do
   DataMapper.setup :default, Daitss::CONFIG['database-url']
   DataMapper.auto_migrate!
 
-  a = Account.new(
-    :description => 'The Test Account',
-    :id => 'ACT'
+  @test_account = Account.new(
+    :id => 'ACT',
+    :description => 'The Test Account'
   )
 
-  o = Operator.new(
+  @test_operator = Operator.new(
     :id => 'operator',
     :description => "the operator",
     :first_name => "Op",
@@ -101,14 +99,14 @@ Before do
     :auth_key => Digest::SHA1.hexdigest('operator')
   )
 
-  p = Project.new(
-    :description => 'The Test Project',
-    :id => 'PRJ'
+  @test_project = Project.new(
+    :id => 'PRJ',
+    :description => 'The Test Project'
   )
 
-  a.agents << o
-  a.projects << p
-  a.save or raise "could not save account"
+  @test_account.agents << @test_operator
+  @test_account.projects << @test_project
+  @test_account.save or raise "could not save account"
 
   $cleanup = []
 end
