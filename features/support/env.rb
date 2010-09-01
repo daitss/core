@@ -1,5 +1,5 @@
-require 'bundler'
-Bundler.setup
+require 'rubygems'
+require 'bundler/setup'
 
 #$LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
 
