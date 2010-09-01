@@ -1,5 +1,5 @@
-require 'bundler'
-Bundler.setup
+require 'rubygems'
+require 'bundler/setup'
 
 require 'data_mapper'
 require 'haml'
