@@ -6,7 +6,7 @@ class DataFile
   include Daitss
 
   def virus_check!
-    output = %x{curl -s -d 'data=@#{self.datapath}' #{CONFIG['viruscheck']}/}
+    output = %x{curl -f -s -F'data=@#{self.datapath}' #{CONFIG['viruscheck']}/}
     raise "could not request virus check: #{output}" unless $?.exitstatus == 0
     doc = XML::Document.string output
     failed = doc.find '//P:eventOutcome = "failed"', NS_PREFIX
