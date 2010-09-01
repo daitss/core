@@ -3,8 +3,8 @@ require 'daitss/model/entry'
 
 class Archive
 
-  def Archive.setup_db
-    #DataMapper::Logger.new($stdout, :debug)
+  def Archive.setup_db options={}
+    DataMapper::Logger.new $stdout if options[:log]
     adapter = DataMapper.setup :default, Daitss::CONFIG['database-url']
     #adapter.resource_naming_convention = UnderscoredAndPluralizedWithoutModule
   end
