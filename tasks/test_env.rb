@@ -9,7 +9,6 @@ module TestEnv
   STASHSPACE_DIR = File.join VAR_DIR, 'stash'
   SERVICES_DIR = File.join VAR_DIR, 'services'
   SILO_DIR = File.join VAR_DIR, 'silo'
-  #DATABASE_URL = "sqlite3:#{File.join VAR_DIR, 'database.sqlite3'}"
   DATABASE_URL = "postgres://localhost/daitss"
   BASE_PORT = 7000
 
@@ -110,7 +109,7 @@ module TestEnv
 
   end
 
-  SERVICES = %w(actionplan describe request statusecho storage submission transform viruscheck boss).map { |s| Service.new s }
+  SERVICES = %w(actionplan describe statusecho storage transform viruscheck).map { |s| Service.new s }
 
   def config
 
