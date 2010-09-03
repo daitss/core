@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'daitss/proc/wip/task'
 require 'uuid'
 require 'daitss/proc/wip/ingest'
+require 'daitss/archive'
 
 describe Wip do
 
@@ -31,7 +32,7 @@ describe Wip do
   end
 
   it 'should ingest via task' do
-    ws = Workspace.new Daitss::CONFIG['workspace']
+    ws = Archive.new.workspace
     wip = submit 'mimi'
     wip.task = :ingest
     wip.start
@@ -50,7 +51,7 @@ describe Wip do
     FileUtils::rm_r proto_wip.path
 
     # move it to the workspace
-    ws = Workspace.new Daitss::CONFIG['workspace']
+    ws = Archive.new.workspace
     wip = blank_wip id, uri
     wip.tags['drop-path'] = "/tmp/#{id}.tar"
     FileUtils.mv wip.path, ws.path

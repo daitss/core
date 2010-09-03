@@ -74,11 +74,11 @@ class Archive
   end
 
   def workspace
-    Workspace.new Daitss::CONFIG['workspace']
+    Workspace.new Archive.work_path
   end
 
   def stashspace
-    Daitss::CONFIG['stashspace']
+    Archive.stash_path
   end
 
 end
