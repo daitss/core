@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler/setup'
+require 'daitss/config'
+require 'daitss/archive'
+require 'fileutils'
+require 'digest/sha1'
+
+include Daitss
+
+CONFIG.load_from_env
+
+
+def create_work_directories
+  FileUtils.mkdir Archive.work_path
+  FileUtils.mkdir Archive.stash_path
+end
+
+
+def create_initial_data
+  a = Account.new :id => 'SYSTEM', :description => 'account for system operations'
+
+  a.save or raise "cannot save system account"
+
+  p = Program.new(:id => 'SYSTEM',
+                  :description => "daitss software agent",
+                  :account => a)
+
+  p.save or raise "cannot save system program agent"
+
+  u = Operator.new(:id => "root", 
+                   :account => a, 
+                   :auth_key => Digest::SHA1.hexdigest("root"), 
+                   :description => "default operator account")
+
+  u.save or raise "cannot save system operator agent"
+end
+
+create_work_directories
+Archive.setup_db
+create_initial_data
+
+
+
