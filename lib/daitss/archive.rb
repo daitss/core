@@ -20,6 +20,10 @@ class Archive
     #adapter.resource_naming_convention = UnderscoredAndPluralizedWithoutModule
   end
 
+  def Archive.init_db
+    DataMapper.auto_migrate!
+  end
+
   def log message
     e = Entry.new
     e.message = message
