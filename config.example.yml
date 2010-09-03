@@ -7,11 +7,8 @@ http-timeout: 600
 # database connection url
 database-url: sqlite3::memory:
 
-# workspace directory
-workspace: /tmp/ws
-
-# stash directory
-stashspace: /tmp/stash
+# data directory root
+data: /var/daitss
 
 # service urls
 actionplan: http://localhost:7000/actionplan

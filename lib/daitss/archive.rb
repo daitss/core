@@ -3,6 +3,17 @@ require 'daitss/model/entry'
 
 class Archive
 
+  WORK_DIR = "work"
+  STASH_DIR = "stash"
+
+  def Archive.work_path
+    File.join Daitss::CONFIG["data"], WORK_DIR
+  end
+
+  def Archive.stash_path
+    File.join Daitss::CONFIG["data"], STASH_DIR
+  end
+
   def Archive.setup_db options={}
     DataMapper::Logger.new $stdout if options[:log]
     adapter = DataMapper.setup :default, Daitss::CONFIG['database-url']
