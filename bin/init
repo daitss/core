@@ -29,9 +29,9 @@ def create_initial_data
 
   p.save or raise "cannot save system program agent"
 
-  u = Operator.new(:id => "root", 
-                   :account => a, 
-                   :auth_key => Digest::SHA1.hexdigest("root"), 
+  u = Operator.new(:id => "root",
+                   :account => a,
+                   :auth_key => Digest::SHA1.hexdigest("root"),
                    :description => "default operator account")
 
   u.save or raise "cannot save system operator agent"
@@ -39,7 +39,5 @@ end
 
 create_work_directories
 Archive.setup_db
+Archive.init_db
 create_initial_data
-
-
-
