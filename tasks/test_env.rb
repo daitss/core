@@ -93,7 +93,7 @@ module TestEnv
     end
 
     def stop
-      system "thin -P #{pid_file} stop"
+      system "bundle exec thin -P #{pid_file} stop"
       raise "cannot stop #{name}" unless $?.exitstatus == 0
     end
 
@@ -121,8 +121,9 @@ module TestEnv
       'jvm-options' => ["-Dhttp.proxyHost=sake.fcla.edu", "-Dhttp.proxyPort=3128", "-Xms2G", "-Xmx2G"]
     }
 
-    SERVICES.each_with_index { |s,ix| h[s.name] = "http://localhost:#{BASE_PORT + ix}" }
-    h['xmlresolution'] = 'http://xmlresolution.dev.fcla.edu'
+    #SERVICES.each_with_index { |s,ix| h[s.name] = "http://localhost:#{BASE_PORT + ix}" }
+    #h['xmlresolution'] = 'http://xmlresolution.dev.fcla.edu'
+    Daitss::CONFIG.load_from_env
     Daitss::CONFIG.merge! h
   end
   module_function :config

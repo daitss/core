@@ -5,7 +5,7 @@ class Wip
 
   include Daitss
 
-  XML_RES_TARBALL = 'xmlres.tar'
+  XML_RES_TARBALL_BASENAME = 'xmlres'
 
   def xmlresolve!
     url = put_collection_resource

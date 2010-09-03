@@ -139,7 +139,28 @@ class Wip
       df['describe-bitstream-objects'] = bs_nodes.join
     end
 
+    # load xml res tarballs
+    unless File.directory? old_xml_res_tarball_dir
+      FileUtils.mkdir old_xml_res_tarball_dir
+    end
+
+    pattern = File.join tdir, aip_dir, "#{XML_RES_TARBALL_BASENAME}-*.tar"
+
+    Dir[pattern].each do |f|
+      FileUtils.cp f, File.join(old_xml_res_tarball_dir, File.basename(f))
+    end
+
     FileUtils.rm_r tdir
+  end
+
+  OLD_XML_RES_DIR = 'xmlresolutions'
+  def old_xml_res_tarball_dir
+    File.join(path, OLD_XML_RES_DIR)
+  end
+
+  def old_xml_res_tarballs
+    pattern = File.join old_xml_res_tarball_dir, '*'
+    Dir[pattern]
   end
 
   # transfer sip descriptor

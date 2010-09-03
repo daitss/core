@@ -56,18 +56,47 @@ class AipArchive
     Dir.chdir @tdir do
       FileUtils.mkdir @aip_dir
 
+      # copy in datafiles
       @wip.represented_datafiles.each do |f|
         aip_path = File.join @aip_dir, f['aip-path']
-        FileUtils::mkdir_p File.dirname(aip_path)
-        FileUtils::ln_s f.datapath, aip_path
+        FileUtils.mkdir_p File.dirname(aip_path)
+        FileUtils.ln_s f.datapath, aip_path
       end
 
-      descriptor_path = File.join(@aip_dir, 'descriptor.xml')
-      Kernel.open(descriptor_path, 'w') { |io| io.write @wip['aip-descriptor'] }
+      # copy in old xmlres tarballs
+      @wip.old_xml_res_tarballs.each do |f|
+        FileUtils.ln_s f, File.join(@aip_dir, File.basename(f))
+      end
 
-      xmlres_path = File.join(@aip_dir, Wip::XML_RES_TARBALL)
+      # copy in current xmlres tarball
+      n = next_xml_res_tarball_index
+      xmlres_path = File.join(@aip_dir, "#{Wip::XML_RES_TARBALL_BASENAME}-#{n}.tar")
       Kernel.open(xmlres_path, 'w') { |io| io.write @wip['xml-resolution-tarball'] }
 
+      # copy in xml descriptor
+      descriptor_path = File.join(@aip_dir, 'descriptor.xml')
+      Kernel.open(descriptor_path, 'w') { |io| io.write @wip['aip-descriptor'] }
+    end
+
+  end
+
+  def next_xml_res_tarball_index
+    ts = @wip.old_xml_res_tarballs
+
+    if ts.empty?
+      0
+    else
+      old_indices = ts.map do |f|
+
+        if f =~ %r{#{Wip::XML_RES_TARBALL_BASENAME}-(\d+).tar$}
+          $1.to_i
+        else
+          raise "old xmlres tarball has bad name: #{f}"
+        end
+
+      end
+
+      old_indices.max + 1
     end
 
   end
