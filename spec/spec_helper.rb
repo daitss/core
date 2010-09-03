@@ -21,8 +21,7 @@ SPEC_ROOT = File.dirname __FILE__
 Spec::Runner.configure do |config|
 
   config.before :all do
-    TestEnv.config
-    TestEnv.mkdirs
+    Daitss::CONFIG.load_from_env
     $sandbox = Dir.mktmpdir
     $cleanup = [$sandbox]
 
