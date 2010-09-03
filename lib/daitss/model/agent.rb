@@ -38,17 +38,4 @@ class Operator < User; end
 
 class Service < Agent; end
 
-class Program < Agent
-
-  def Program.system_agent
-    p = Program.first :id => 'SYSTEM', :account => Account.system_account
-
-    unless p
-      p = Program.new :id => 'SYSTEM', :account => Account.system_account
-      p.save or raise "cannot save system agent"
-    end
-
-    p
-  end
-
-end
+class Program < Agent; end
