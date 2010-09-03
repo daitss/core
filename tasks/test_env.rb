@@ -116,8 +116,7 @@ module TestEnv
     h = {
       'uri-prefix' => 'daitss-test',
       'http-timeout' => 600,
-      'workspace' => WORKSPACE_DIR,
-      'stashspace' => STASHSPACE_DIR,
+      'data' => DATA_DIR,
       'database-url' => DATABASE_URL,
       'jvm-options' => ["-Dhttp.proxyHost=sake.fcla.edu", "-Dhttp.proxyPort=3128", "-Xms2G", "-Xmx2G"]
     }
@@ -129,7 +128,7 @@ module TestEnv
   module_function :config
 
   def mkdirs
-    dirs = [VAR_DIR, LOG_DIR, PID_DIR, WORKSPACE_DIR, STASHSPACE_DIR, SERVICES_DIR, SILO_DIR]
+    dirs = [VAR_DIR, LOG_DIR, PID_DIR, DATA_DIR, Archive.stash_path, Archive.work_path, SERVICES_DIR, SILO_DIR]
     dirs.each { |d| FileUtils.mkdir_p d unless File.exist? d }
   end
   module_function :mkdirs

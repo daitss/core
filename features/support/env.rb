@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
+require 'daitss/archive'
 
 #$LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
 
@@ -66,7 +67,7 @@ class MyWorld
   end
 
   def empty_out_workspace
-    ws = Workspace.new Daitss::CONFIG['workspace']
+    ws = Archive.new.workspace
 
     ws.each do |wip|
       wip.stop if wip.running?
@@ -112,7 +113,7 @@ Before do
 end
 
 After do
-  ws = Workspace.new Daitss::CONFIG['workspace']
+  ws = Archive.new.workspace
 
   ws.each do|w|
     w.kill if w.running?
