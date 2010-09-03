@@ -1,8 +1,6 @@
 require 'daitss/config'
 require 'fileutils'
 
-require File.join(File.dirname(__FILE__), '..', 'tasks', 'test_env')
-
 require 'data_mapper'
 
 require "daitss/model/aip"
