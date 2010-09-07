@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
+#require 'rubygems'
+#require 'bundler/setup'
+
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'ruby-debug'
 
@@ -16,7 +19,7 @@ include Daitss
 
 CONFIG.load_from_env
 DataMapper.setup :default, CONFIG['database-url']
-WORKSPACE = Archive.workspace
+WORKSPACE = Archive.new.workspace
 
 task = ARGV.shift or raise "no task given"
 id = ARGV.shift or raise "no wip given"
@@ -26,8 +29,8 @@ begin
   OUT_LOG = File.join wip.path, 'out.log'
   ERR_LOG = File.join wip.path, 'err.log'
 
-  #$stdout.reopen OUT_LOG, 'w'
-  #$stderr.reopen ERR_LOG, 'w'
+  $stdout.reopen OUT_LOG, 'w'
+  $stderr.reopen ERR_LOG, 'w'
 
   wip.package.log "#{task} started"
 

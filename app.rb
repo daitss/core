@@ -47,8 +47,7 @@ end
 
 before do
   #authenticate
-  @user = Program.system_agent # comment this out when the above us incommented
-
+  @user = Operator.get('root') or raise "cannot get root op"
   @archive = Archive.new
 end
 
@@ -351,7 +350,7 @@ post '/admin' do
     type = require_param 'type'
 
     u = if type == "operator"
-          Operator.new :account => Account.system_account
+          Operator.new :account => Account.get("SYSTEM")
         else
           account_id = require_param 'account_id'
           a = Account.get account_id

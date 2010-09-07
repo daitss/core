@@ -37,6 +37,7 @@ describe Wip do
     wip.task = :ingest
     wip.start
     sleep 0.5 while wip.running?
+    wip.should_not be_snafu
     Package.get(wip.id).aip.should_not be_nil
     File.exist?(wip.path).should be_false
   end

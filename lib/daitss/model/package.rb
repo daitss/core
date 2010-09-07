@@ -28,7 +28,7 @@ class Package
   # make an event for this package
   def log name, options={}
     e = Event.new :name => name, :package => self
-    e.agent = options[:agent] || Program.system_agent
+    e.agent = options[:agent] || Program.get("SYSTEM")
     e.notes = options[:notes]
     e.save or raise "cannot save op event: #{name}"
   end
