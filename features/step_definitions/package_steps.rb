@@ -2,6 +2,8 @@ Given /^an archived package$/ do
   wip = submit 'haskell-nums-pdf.zip'
   wip.start
   sleep 0.5 while wip.running?
+  debugger
+  wip.should_not be_snafu
 end
 
 When /^I goto its package page$/ do

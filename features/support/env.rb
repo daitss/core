@@ -2,10 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'daitss/archive'
 
-#$LOAD_PATH << File.join(File.dirname(__FILE__), 'lib')
-
 require 'ruby-debug'
-#require 'daitss/proc/wip/process'
 
 app_file = File.join File.dirname(__FILE__), *%w[.. .. app.rb]
 require app_file
@@ -23,9 +20,7 @@ require 'nokogiri'
 require 'daitss/model'
 require 'daitss/archive'
 
-Webrat.configure do |config|
-  config.mode = :rack
-end
+Webrat.configure { |config| config.mode = :rack }
 
 class MyWorld
   include Rack::Test::Methods
@@ -60,7 +55,7 @@ class MyWorld
   def submit name
     a = Archive.new
     zip_path = fixture name
-    package = a.submit zip_path, @test_operator
+    package = a.submit zip_path, Operator.get('root')
     raise "test submit failed for #{name}:\n\n#{package.events.last.notes}" if package.events.first :name => 'reject'
     sips << { :sip => package.sip.name, :wip => package.id }
     a.workspace[package.id]
@@ -81,33 +76,16 @@ end
 World{MyWorld.new}
 
 Before do
-  DataMapper.setup :default, Daitss::CONFIG['database-url']
-  DataMapper.auto_migrate!
+  Daitss::CONFIG.load_from_env
+  Archive.create_work_directories
+  Archive.setup_db
+  Archive.init_db
+  Archive.create_initial_data
 
-  @test_account = Account.new(
-    :id => 'ACT',
-    :description => 'The Test Account'
-  )
-
-  @test_operator = Operator.new(
-    :id => 'operator',
-    :description => "the operator",
-    :first_name => "Op",
-    :last_name => "Perator",
-    :email => "operator@ufl.edu",
-    :phone => "666-6666",
-    :address => "FCLA",
-    :auth_key => Digest::SHA1.hexdigest('operator')
-  )
-
-  @test_project = Project.new(
-    :id => 'PRJ',
-    :description => 'The Test Project'
-  )
-
-  @test_account.agents << @test_operator
-  @test_account.projects << @test_project
-  @test_account.save or raise "could not save account"
+  a = Account.new :id => 'ACT', :description => 'the description'
+  p = Project.new :id => 'PRJ', :description => 'the description', :account => a
+  a.save or 'cannot save ACT'
+  p.save or 'cannot save PRJ'
 
   $cleanup = []
 end

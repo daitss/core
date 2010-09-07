@@ -1,10 +1,18 @@
+require 'digest/sha1'
+
 require 'daitss/proc/workspace'
-require 'daitss/model/entry'
+require 'daitss/model'
+require 'daitss/db'
 
 class Archive
 
   WORK_DIR = "work"
+
   STASH_DIR = "stash"
+
+  SYSTEM_ACCOUNT_ID = 'SYSTEM'
+  SYSTEM_PROGRAM_ID = 'SYSTEM'
+  ROOT_OPERATOR_ID = 'root'
 
   def Archive.work_path
     File.join Daitss::CONFIG["data"], WORK_DIR
@@ -22,6 +30,35 @@ class Archive
 
   def Archive.init_db
     DataMapper.auto_migrate!
+  end
+
+  def Archive.create_work_directories
+
+    unless File.directory? Archive.work_path
+      FileUtils.mkdir Archive.work_path
+    end
+
+    unless File.directory? Archive.stash_path
+      FileUtils.mkdir Archive.stash_path
+    end
+
+  end
+
+  def Archive.create_initial_data
+    a = Account.new(:id => SYSTEM_ACCOUNT_ID,
+                    :description => 'account for system operations')
+    a.save or raise "cannot save system account"
+
+    p = Program.new(:id => SYSTEM_PROGRAM_ID,
+                    :description => "daitss software agent",
+                    :account => a)
+    p.save or raise "cannot save system program agent"
+
+    u = Operator.new(:id => ROOT_OPERATOR_ID,
+                     :auth_key => Digest::SHA1.hexdigest(ROOT_OPERATOR_ID),
+                     :description => "default operator account",
+                     :account => a)
+    u.save or raise "cannot save system operator agent"
   end
 
   def log message
@@ -43,17 +80,24 @@ class Archive
 
     package = Package.new
 
-    unless agent.account.id == a_id
-      agreement_errors << "cannot submit to account #{a_id}"
-    end
-
-    project = agent.account.projects.first :id => p_id
-
-    if project
-      package.project = project
+    if agent.kind_of? Operator
+      account = Account.get(a_id)
+      package.project = account.projects.first :id => p_id
     else
-      package.project = agent.account.default_project
-      agreement_errors << "cannot submit to project #{p_id}"
+
+      unless agent.account.id == a_id
+        agreement_errors << "cannot submit to account #{a_id}"
+      end
+
+      project = agent.account.projects.first :id => p_id
+
+      if project
+        package.project = project
+      else
+        package.project = agent.account.default_project
+        agreement_errors << "cannot submit to project #{p_id}"
+      end
+
     end
 
     package.sip = Sip.new :name => sa.name
