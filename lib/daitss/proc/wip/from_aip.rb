@@ -153,16 +153,6 @@ class Wip
     FileUtils.rm_r tdir
   end
 
-  OLD_XML_RES_DIR = 'xmlresolutions'
-  def old_xml_res_tarball_dir
-    File.join(path, OLD_XML_RES_DIR)
-  end
-
-  def old_xml_res_tarballs
-    pattern = File.join old_xml_res_tarball_dir, '*'
-    Dir[pattern]
-  end
-
   # transfer sip descriptor
   def load_sip_descriptor
     name = File.join AipArchive::SIP_FILES_DIR, "#{self.package.sip.name}.xml"

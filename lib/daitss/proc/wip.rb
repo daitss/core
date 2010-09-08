@@ -17,6 +17,8 @@ class Wip
   ORIGINAL_FILES = File.join FILES_DIR, 'original'
   NORMALIZED_FILES = File.join FILES_DIR, 'normalized'
   MIGRATED_FILES = File.join FILES_DIR, 'migrated'
+  OLD_XML_RES_DIR = 'xmlresolutions'
+
 
   # make a new proto-aip at a path
   def initialize path, uri=nil
@@ -93,6 +95,15 @@ class Wip
   def bin
     dir = File.dirname path
     StashBin.find { |b| b.path == dir }
+  end
+
+  def old_xml_res_tarball_dir
+    File.join(path, OLD_XML_RES_DIR)
+  end
+
+  def old_xml_res_tarballs
+    pattern = File.join old_xml_res_tarball_dir, '*'
+    Dir[pattern]
   end
 
   private

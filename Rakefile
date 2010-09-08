@@ -15,6 +15,11 @@ require 'daitss/config'
 require 'daitss/db'
 require 'daitss/model/aip'
 
+desc 'generate tags file'
+task :ctags do
+  system "ctags lib/**/*.rb app.rb bin/dbin spec/**/*.rb features/**/*.rb"
+end
+
 namespace :db do
   Daitss::CONFIG.load_from_env
 

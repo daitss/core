@@ -20,13 +20,24 @@ Spec::Runner.configure do |config|
 
   config.before :all do
     Daitss::CONFIG.load_from_env
+    Archive.create_work_directories
+    Archive.setup_db
+    Archive.init_db
+    Archive.create_initial_data
+
+    # some test data
+    ac = Account.new :id => 'ACT', :description => 'the description'
+    pr = Project.new :id => 'PRJ', :description => 'the description', :account => ac
+    ag = User.new :id => 'Bureaucrat', :account => ac
+
+    ac.save or "cannot save #{ac.id}"
+    pr.save or "cannot save #{pr.id}"
+    ag.save or "cannot save #{ag.id}"
+
     $sandbox = Dir.mktmpdir
     $cleanup = [$sandbox]
 
-    Archive.setup_db
-
-    DataMapper.auto_migrate!
-    setup_agreement
+    #setup_agreement
   end
 
   config.after :all do

@@ -42,7 +42,14 @@ class Wip
                 else raise "invalid task: #{task}"
                 end
 
-      pid = fork { exec *command }
+      pid = fork do
+        out_log = File.join self.path, 'out.log'
+        err_log = File.join self.path, 'err.log'
+        $stdout.reopen out_log, 'w'
+        $stderr.reopen err_log, 'w'
+        exec *command
+      end
+
       Process.detach pid
       self.process = pid
     end

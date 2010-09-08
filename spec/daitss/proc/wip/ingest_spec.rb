@@ -65,7 +65,8 @@ describe Wip do
         Tempfile.open 'spec' do |t|
           t.write res.body
           t.flush
-          tardata = %x{tar xOf #{t.path} #{@wip.id}/#{Wip::XML_RES_TARBALL}}
+          tarfile = File.join @wip.id, "#{Wip::XML_RES_TARBALL_BASENAME}-0.tar"
+          tardata = %x{tar xOf #{t.path} #{tarfile}}
           $?.exitstatus.should == 0
           tardata.should_not be_nil
           tardata.should == @wip['xml-resolution-tarball']

@@ -26,12 +26,6 @@ id = ARGV.shift or raise "no wip given"
 wip = WORKSPACE[id] or raise "wip not in workspace"
 
 begin
-  OUT_LOG = File.join wip.path, 'out.log'
-  ERR_LOG = File.join wip.path, 'err.log'
-
-  $stdout.reopen OUT_LOG, 'w'
-  $stderr.reopen ERR_LOG, 'w'
-
   wip.package.log "#{task} started"
 
   case task.to_sym

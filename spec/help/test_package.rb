@@ -10,7 +10,7 @@ SIPS_DIR = File.join File.dirname(__FILE__), '..', 'sips'
 def submit name
   zip_path = File.join SIP_ARCHIVE_DIR, "#{name}.zip"
   raise "sip not found: #{name}.zip" unless File.file? zip_path
-  agent = Program.get 'Bureaucrat'
+  agent = Operator.get(Archive::ROOT_OPERATOR_ID) or raise 'cannot get root account'
   a = Archive.new
   package = a.submit zip_path, agent
 
