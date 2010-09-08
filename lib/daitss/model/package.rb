@@ -30,7 +30,11 @@ class Package
     e = Event.new :name => name, :package => self
     e.agent = options[:agent] || Program.get("SYSTEM")
     e.notes = options[:notes]
-    e.save or raise "cannot save op event: #{name}"
+
+    unless e.save
+      raise "cannot save op event: #{name} (#{e.errors.size}):\n#{e.errors.map.join "\n"}"
+    end
+
   end
 
   # return a wip if exists in workspace, otherwise nil

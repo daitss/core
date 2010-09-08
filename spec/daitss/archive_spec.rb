@@ -10,7 +10,7 @@ describe Archive do
       before :all do
         @archive = Archive.new
         path = new_sip_archive 'mimi.zip'
-        user = Program.get('Bureaucrat')
+        user = User.get('Bureaucrat')
         @package = @archive.submit path, user
       end
 
@@ -33,7 +33,7 @@ describe Archive do
       before :all do
         @archive = Archive.new
         path = new_sip_archive 'missing-descriptor.zip'
-        user = Program.get('Bureaucrat')
+        user = User.get('Bureaucrat')
         @package = @archive.submit path, user
       end
 
@@ -55,7 +55,7 @@ describe Archive do
       it 'should reject because of the invalid account' do
         @archive = Archive.new
         path = new_sip_archive 'bad-account.zip'
-        user = Program.get('Bureaucrat')
+        user = User.get('Bureaucrat')
         @package = @archive.submit path, user
 
         @package.events.should_not be_empty
@@ -67,7 +67,7 @@ describe Archive do
       it 'should reject because of the invalid project' do
         @archive = Archive.new
         path = new_sip_archive 'bad-project.zip'
-        user = Program.get('Bureaucrat')
+        user = User.get('Bureaucrat')
         @package = @archive.submit path, user
 
         @package.events.should_not be_empty
