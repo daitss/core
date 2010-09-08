@@ -51,6 +51,19 @@ Given /^a workspace with the following wips:$/ do |table|
 
 end
 
+When /^all running wips have finished$/ do
+  while true
+    visit "/workspace"
+    last_response.should be_ok
+    doc = Nokogiri::HTML last_response.body
+
+    if (doc / "td:contains('running')").size == 0
+      break
+    end
+    sleep 0.5
+  end
+end
+
 Then /^there should be (\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
   last_response.should be_ok
   doc = Nokogiri::HTML last_response.body
