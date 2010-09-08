@@ -82,7 +82,12 @@ class Archive
 
     if agent.kind_of? Operator
       account = Account.get(a_id)
-      package.project = account.projects.first :id => p_id
+
+      if account
+        package.project = account.projects.first :id => p_id
+      else
+        agreement_errors << "cannot submit to account #{a_id}"
+      end
     else
 
       unless agent.account.id == a_id
