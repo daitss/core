@@ -8,8 +8,12 @@ require "daitss/proc/template/premis"
 SIPS_DIR = File.join File.dirname(__FILE__), '..', 'sips'
 
 def submit name
-  zip_path = File.join SIP_ARCHIVE_DIR, "#{name}.zip"
-  raise "sip not found: #{name}.zip" unless File.file? zip_path
+  file_name = "#{name}.zip"
+  original_zip_path = File.join SIP_ARCHIVE_DIR, file_name
+  raise "sip not found: #{name}.zip" unless File.file? original_zip_path
+  zip_path = File.join Dir.tmpdir, file_name
+  FileUtils.cp original_zip_path, zip_path
+  raise "sip not copied: #{name}.zip" unless File.file? zip_path
   agent = Operator.get(Archive::ROOT_OPERATOR_ID) or raise 'cannot get root account'
   a = Archive.new
   package = a.submit zip_path, agent
