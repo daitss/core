@@ -17,7 +17,7 @@ require 'daitss/model/aip'
 
 desc 'generate tags file'
 task :ctags do
-  system "ctags lib/**/*.rb app.rb bin/dbin spec/**/*.rb features/**/*.rb"
+  system "ctags -R --exclude=.git lib spec features views bin app.rb"
 end
 
 namespace :db do
