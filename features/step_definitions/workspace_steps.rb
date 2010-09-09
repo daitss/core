@@ -12,10 +12,21 @@ Given /^a workspace with (\d+) (\w*) ?wips?$/ do |count, state|
 end
 
 Given /^it has (\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
+  Given "it contains #{count} good #{state} wips"
+end
+
+Given /^it contains (\d+) (\w+) (running|idle|snafu|stopped|) ?wips?$/ do |count, package, state|
+
+  case package
+  when 'good'
+    package = 'haskell-nums-pdf.zip'
+  when 'virus'
+    package = 'ateam-virus.zip'
+  end
 
   count.to_i.times do
 
-    wip = submit 'haskell-nums-pdf.zip'
+    wip = submit package
 
     case state
     when 'idle', ""
