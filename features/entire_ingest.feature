@@ -13,4 +13,16 @@ Feature: ingest a package
     And there is an event for ingest started
     And there is an event for ingest finished
 
+  Scenario: ingest a virus infected package. Package should snafu
+    Given a workspace
+    And it contains 1 virus idle wip
+    And I goto "/workspace"
+    When I choose "start"
+    And I press "Update"
+    And all running wips have finished
+    Then there should be 1 snafu wips
+    And there is an event for submit
+    And there is an event for ingest started
+    And there is an event for ingest snafu
+
     
