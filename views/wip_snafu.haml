@@ -6,10 +6,12 @@
   %table
     %tr
       %th time
-      %td= Time.parse(time).xmlschema
+      %td= DateTime.parse(time).pragma
     %tr
       %th message
       %td= message
     %tr
-      %th{:colspan => 2}
-        %a{:href => "/workspace/#{@wip.id}/snafu"} stack trace
+      %th stacktrace
+      %td
+        %pre= trace
+        -#%a{:href => "/workspace/#{@wip.id}/snafu"} stack trace
