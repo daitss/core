@@ -1,0 +1,118 @@
+<METS:mets  OBJID="FDAD27dea_copy"
+   xmlns:METS="http://www.loc.gov/METS/" 
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:daitss="http://www.fcla.edu/dls/md/daitss/"  
+   xsi:schemaLocation="http://www.loc.gov/METS/ 
+		       http://www.loc.gov/standards/mets/version17/mets.v1-7.xsd 
+		       http://www.fcla.edu/dls/md/daitss/ 
+		       http://www.fcla.edu/dls/md/daitss/daitss.xsd 
+		       http://purl.org/dc/elements/1.1/ 
+		       http://dublincore.org/schemas/xmls/simpledc20021212.xsd">
+
+
+<METS:metsHdr CREATEDATE="2010-05-24T13:29:07-04:00" ID= "FDAD27dea_copy" RECORDSTATUS="NEW">
+  <METS:agent ROLE="CREATOR" TYPE="ORGANIZATION">
+    <METS:name>Florida Digital Archive</METS:name>
+  </METS:agent>
+</METS:metsHdr>
+
+
+<METS:dmdSec ID="DMD-1">
+<METS:mdWrap MIMETYPE="text/xml" MDTYPE="DC" LABEL="Simple Dublin Core">
+<METS:xmlData>
+
+<dc:title> FDA Testing SIP - Copy of Descriptor</dc:title><dc:creator> Lindsey </dc:creator><dc:description> Valid SIP containing a copy of the descriptor with a different name.</dc:description>
+</METS:xmlData>
+</METS:mdWrap>
+</METS:dmdSec>
+
+
+  <METS:amdSec>
+    <METS:digiprovMD ID="AMD_DAITTS">
+      <METS:mdWrap MDTYPE="OTHER" OTHERMDTYPE="DAITTS">
+	<METS:xmlData>
+	  <daitss:daitss>
+	    <daitss:AGREEMENT_INFO ACCOUNT="FDA" PROJECT="FDA"/>
+
+	  </daitss:daitss>
+	</METS:xmlData>
+      </METS:mdWrap>
+    </METS:digiprovMD>
+  </METS:amdSec>
+
+
+  <METS:fileSec> 
+    <METS:fileGrp> 
+
+     
+        <METS:file ID="file-1" CHECKSUM="449f85a57b9382e7854deced268d329c" CHECKSUMTYPE="MD5">
+	<METS:FLocat LOCTYPE="URL" xlink:href="00024.QC.jpg"/> 
+      </METS:file>
+     
+        <METS:file ID="file-2" CHECKSUM="30fdc8ff88e3c4601a310a698d6abec8" CHECKSUMTYPE="MD5">
+	<METS:FLocat LOCTYPE="URL" xlink:href="FDA01.dc"/> 
+      </METS:file>
+     
+        <METS:file ID="file-3" CHECKSUM="a16d54720dcdb979596060ba284f0c8e" CHECKSUMTYPE="MD5">
+	<METS:FLocat LOCTYPE="URL" xlink:href="00024thm.jpg"/> 
+      </METS:file>
+     
+        <METS:file ID="file-4" CHECKSUM="9f8a6c506b42bbe5208889eea3e383f4" CHECKSUMTYPE="MD5">
+	<METS:FLocat LOCTYPE="URL" xlink:href="00024.tif"/> 
+      </METS:file>
+     
+        <METS:file ID="file-5" CHECKSUM="81c0fc0b586ecf7489bdc4e42a95e6aa" CHECKSUMTYPE="MD5">
+	<METS:FLocat LOCTYPE="URL" xlink:href="00024.pro"/> 
+      </METS:file>
+     
+        <METS:file ID="file-6" CHECKSUM="49e93aa4aaab85036c931f3542bf33ed" CHECKSUMTYPE="MD5">
+	<METS:FLocat LOCTYPE="URL" xlink:href="00021.jp2"/> 
+      </METS:file>
+     
+        <METS:file ID="file-7" CHECKSUM="fd96e6ac922e5d9a6abdb7fde70c765a" CHECKSUMTYPE="MD5">
+	<METS:FLocat LOCTYPE="URL" xlink:href="00020thm.jpg"/> 
+      </METS:file>
+     
+        <METS:file ID="file-8" CHECKSUM="730bd20d0ed1e95dd6b04e64a1fb42e0" CHECKSUMTYPE="MD5">
+	<METS:FLocat LOCTYPE="URL" xlink:href="00024.txt"/> 
+      </METS:file>
+     
+        <METS:file ID="file-9" CHECKSUM="8dcc81173dbd400f104e7a3e15f3cf55" CHECKSUMTYPE="MD5">
+	<METS:FLocat LOCTYPE="URL" xlink:href="00024.pdf"/> 
+      </METS:file>
+     
+
+    </METS:fileGrp>
+  </METS:fileSec>
+
+  <METS:structMap>
+
+
+    <METS:div TYPE="Monograph" >   
+
+       
+	<METS:fptr FILEID="file-1"/>
+       
+	<METS:fptr FILEID="file-2"/>
+       
+	<METS:fptr FILEID="file-3"/>
+       
+	<METS:fptr FILEID="file-4"/>
+       
+	<METS:fptr FILEID="file-5"/>
+       
+	<METS:fptr FILEID="file-6"/>
+       
+	<METS:fptr FILEID="file-7"/>
+       
+	<METS:fptr FILEID="file-8"/>
+       
+	<METS:fptr FILEID="file-9"/>
+       
+
+      </METS:div>
+  </METS:structMap>
+</METS:mets>
+

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF SYSTEM "http://purl.org/dc/schemas/dcmes-xml-20000714.dtd">
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:Description about="">
+	<dc:title> FDA Testing SIP - Content at lower directory level </dc:title>
+	<dc:creator> Lindsey </dc:creator>
+	<dc:description> Validation error caused by content being at a lower directory level than described </dc:description>
+</rdf:Description>
+</rdf:RDF>
