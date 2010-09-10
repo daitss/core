@@ -8,7 +8,7 @@ Feature: overview of a package
   Scenario: show overview of the submission
     Given I submit a package
     When I goto its package page
-    Then in the submission summary I should see the sip
+    Then in the submission summary I should see the name
     And in the submission summary I should see the account
     And in the submission summary I should see the project
 
