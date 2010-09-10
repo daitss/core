@@ -1,10 +1,21 @@
+%h1 new stash bin
+
+%form#create-stashbin{:action => '/stashspace', :method => 'post'}
+  %input{:name => 'name'}
+  %input{:type => 'submit', :value => "Create Stash Bin"}
+
+%hr
+
 %h1
-  stash bins
+  current stash bins
   (
   = @bins.size
   )
 
 %table
+  %tr
+    %th name
+    %th wips
   - @bins.all.each do |bin|
     %tr
       %td

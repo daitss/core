@@ -1,23 +1,36 @@
-%h1 search packages
+#submit
+  %h1 submit
 
-%form
-  %input#search{:type => 'text', :name => 'search', :value => @query}
-  %input{:type => 'submit', :value => "Search"}
-
+  %form{:action => '/package', :method => 'POST', :enctype => 'multipart/form-data'}
+    %input{:type => 'file', :name => 'sip'}
+    %input{:type => 'submit', :value => 'Submit'}
   %p
+    packages must be in
     %strong
-      %em aip
+      %em tar
     or
     %strong
-      %em sip
-    separated by spaces.
+      %em zip
+    format
 
-    Example:
-    %code UF2543330 E2009_00FJ543
+#search
+  %h1 search
+
+  %form
+    %input#search{:type => 'text', :name => 'search', :value => @query}
+    %input{:type => 'submit', :value => "Search"}
+
+    %p
+      %strong
+        %em aip
+      or
+      %strong
+        %em sip
+      separated by spaces.
 
 %hr/
 
-%h2
+%h1
   - if @query
     results
     (

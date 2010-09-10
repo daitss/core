@@ -7,20 +7,15 @@
 
     %input#state-start{:type => 'radio', :name => 'task', :value => 'start'}
     %label{:for => 'state-start'} start
-    %br/
     %input#state-stop{:type => 'radio', :name => 'task', :value => 'stop'}
     %label{:for => 'state-stop'} stop
-    %br/
     %input#state-unsnafu{:type => 'radio', :name => 'task', :value => 'unsnafu'}
     %label{:for => 'state-unsnafu'} unsnafu
-    %br/
     %input#state-stash{:type => 'radio', :name => 'task', :value => 'stash'}
     %label{:for => 'state-stash'} stash
     %select{:name => 'stash-bin'}
       - @bins.each do |bin|
         %option= bin.name
-    %br/
-    %br/
     %input{:type => 'submit', :value => "Update"}
 
 %hr/

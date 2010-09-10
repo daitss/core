@@ -16,7 +16,7 @@ end
 
 Then /^in the jobs summary I should see an ingest wip$/ do
   id = sips.last[:wip]
-  last_response.should have_selector("a[href='/workspace/#{id}']:contains('ingest')")
+  last_response.should have_selector("a[href='/workspace/#{id}']:contains('ingesting')")
 end
 
 Then /^in the events I should see a (submission|reject) event$/ do |type|
@@ -39,10 +39,9 @@ end
 Then /^in the jobs summary I should see a stashed ingest wip in "([^\"]*)"$/ do |bin_name|
   id = sips.last[:wip]
   bin = StashBin.first :name => bin_name
-  last_response.should have_selector("a[href='/stashspace/#{bin.url_name}/#{id}']:contains('ingest')")
+  last_response.should have_selector("a[href='/stashspace/#{bin.url_name}/#{id}']:contains('stashed')")
 end
 
 Then /^in the jobs summary I should see that no jobs are pending$/ do
-  Then %Q(the response contains "no jobs processing")
-  Then %Q(the response contains "no jobs stashed")
+  Then %Q(the response contains "archived")
 end

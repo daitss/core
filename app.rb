@@ -43,6 +43,10 @@ helpers do
     haml template, options.merge!(:layout => false)
   end
 
+  def navlink name, href='#'
+    partial :navlink, :locals => { :name => name, :href => href }
+  end
+
 end
 
 before do
@@ -57,10 +61,12 @@ get '/stylesheet.css' do
 end
 
 get '/' do
+  @active_nav = 'dashboard'
   haml :index
 end
 
 get '/log' do
+  @active_nav = 'log'
   @entries = Entry.all
   haml :log
 end
@@ -72,6 +78,7 @@ post '/log' do
 end
 
 get '/submit' do
+  @active_nav = 'submit'
   haml :submit
 end
 
@@ -113,6 +120,7 @@ post '/request' do
 end
 
 get '/packages?/?' do
+  @active_nav = 'packages'
   @query = params['search']
 
   @packages = if @query
@@ -134,6 +142,7 @@ get '/packages?/?' do
 end
 
 get '/package/:id' do |id|
+  @active_nav = 'packages'
   @package = Package.get(id) or not_found
   @sip = @package.sip
   @wip = @archive.workspace[id]
@@ -147,6 +156,7 @@ get '/package/:id' do |id|
 end
 
 get '/package/:id/descriptor' do |id|
+  @active_nav = 'packages'
   @aip = Aip.first :id => id
   not_found unless @aip
   content_type = 'application/xml'
@@ -154,6 +164,7 @@ get '/package/:id/descriptor' do |id|
 end
 
 get '/workspace' do
+  @active_nav = 'workspace'
   @bins = StashBin.all
   @ws = @archive.workspace
   haml :workspace
@@ -191,6 +202,7 @@ post '/workspace' do
 end
 
 get '/workspace/:id' do |id|
+  @active_nav = 'workspace'
   @bins = StashBin.all
   @wip = @archive.workspace[id]
 
@@ -205,6 +217,7 @@ get '/workspace/:id' do |id|
 end
 
 get '/workspace/:id/snafu' do |id|
+  @active_nav = 'workspace'
   wip = @archive.workspace[id] or not_found
   not_found unless wip.snafu?
   content_type = 'text/plain'
@@ -246,16 +259,27 @@ end
 # stash bins & stashed wips
 
 get '/stashspace' do
+  @active_nav = 'stashspace'
   @bins = StashBin.all
   haml :stashspace
 end
 
+post '/stashspace' do
+  name = require_param 'name'
+  bin = StashBin.new :name => name
+  bin.save or error "could not save bin\n\n#{e.message}\n#{e.backtrace}"
+  @archive.log "new stash bin: #{name}"
+  redirect "/stashspace/#{name}"
+end
+
 get '/stashspace/:bin' do |bin|
+  @active_nav = 'stashspace'
   @bin = StashBin.first :name => bin
   haml :stash_bin
 end
 
 get '/stashspace/:bin/:wip' do |bin, wip|
+  @active_nav = 'stashspace'
   @bin = StashBin.first :name => bin
   @wip = Wip.new File.join(@bin.path, wip)
   haml :stashed_wip
@@ -296,6 +320,7 @@ post '/stashspace/:bin/:wip' do |bin_name, wip_id|
 end
 
 get '/admin' do
+  @active_nav = 'admin'
   @bins = StashBin.all
   @accounts = Account.all :id.not => Archive::SYSTEM_ACCOUNT_ID
   @users = User.all
