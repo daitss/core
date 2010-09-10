@@ -15,10 +15,8 @@ require 'daitss/db/preservation_event'
 require 'daitss/proc/workspace'
 require 'daitss/archive'
 
-include Daitss
-
-CONFIG.load_from_env
-DataMapper.setup :default, CONFIG['database-url']
+Daitss::CONFIG.load_from_env
+Archive.setup_db
 WORKSPACE = Archive.new.workspace
 
 task = ARGV.shift or raise "no task given"
