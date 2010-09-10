@@ -33,14 +33,13 @@
 
 %table
   %tr
-    %th sip
-    %td= @package.sip.name
-  %tr
+    %th name
     %th account
-    %td= @package.project.account.id rescue 'N/A'
-  %tr
     %th project
-    %td= @package.project.id rescue 'N/A'
+  %tr
+    %td= @package.sip.name
+    %td= @package.project.account.id
+    %td= @package.project.id
 
 %h2 events
 
