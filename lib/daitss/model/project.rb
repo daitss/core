@@ -13,5 +13,5 @@ class Project
 
   has 0..n, :packages
 
-  belongs_to :account
+  belongs_to :account, :key => true
 end

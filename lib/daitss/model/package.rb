@@ -17,7 +17,7 @@ class Package
   has 0..1, :aip
   has 0..1, :intentity
 
-  belongs_to :project, :required => false
+  belongs_to :project
 
   # add an operations event for abort
   def abort user

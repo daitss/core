@@ -2,6 +2,9 @@ require 'sys/proctable'
 
 class Wip
 
+  OUT_LOG = 'out.log'
+  ERR_LOG = 'err.log'
+
   # Returns true if the wip is running
   def running?
     pid, starttime = process
@@ -43,10 +46,8 @@ class Wip
                 end
 
       pid = fork do
-        out_log = File.join self.path, 'out.log'
-        err_log = File.join self.path, 'err.log'
-        $stdout.reopen out_log, 'w'
-        $stderr.reopen err_log, 'w'
+        $stdout.reopen File.join(self.path, OUT_LOG), 'w'
+        $stderr.reopen File.join(self.path, ERR_LOG), 'w'
         exec *command
       end
 

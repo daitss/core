@@ -28,10 +28,12 @@ Spec::Runner.configure do |config|
     # some test data
     ac = Account.new :id => 'ACT', :description => 'the description'
     pr = Project.new :id => 'PRJ', :description => 'the description', :account => ac
+    dpr = Project.new :id => Archive::DEFAULT_PROJECT_ID, :description => 'the default project', :account => ac
     ag = User.new :id => 'Bureaucrat', :account => ac
 
     ac.save or "cannot save #{ac.id}"
     pr.save or "cannot save #{pr.id}"
+    dpr.save or "cannot save #{dpr.id}"
     ag.save or "cannot save #{ag.id}"
 
     $sandbox = Dir.mktmpdir

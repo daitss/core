@@ -46,6 +46,7 @@ Given /^that user (is|is not) empty$/ do |condition|
     @the_user.events.should be_empty
   else
     p = Package.new
+    p.project = @the_user.account.default_project
     p.sip = Sip.new
     p.sip.name = 'FOO'
     p.sip.size_in_bytes = 10

@@ -14,3 +14,8 @@ end
 Then /^in the progress section I should see a field for "([^\"]*)"$/ do |field|
   last_response.should have_selector("td:contains('#{field}')")
 end
+
+Then /^I should be redirected to the package page$/ do
+  last_request['PATH_INFO']
+  last_response.should be_ok
+end
