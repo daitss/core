@@ -12,3 +12,8 @@ Feature: show information about the wip
     And in the progress section I should see a field for "xml resolution"
     And in the progress section I should see a field for "assemble descriptor"
     And in the progress section I should see a field for "save aip"
+
+  Scenario: redirect to the package page when a wip is complete
+    Given an archived package
+    When I goto its wip page
+    Then I should be redirected to the package page
