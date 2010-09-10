@@ -52,11 +52,17 @@ class MyWorld
     @sips ||= []
   end
 
+  # TODO make this work from the real submission interface
   def submit name
     a = Archive.new
     zip_path = fixture name
     package = a.submit zip_path, Operator.get('root')
-    raise "test submit failed for #{name}:\n\n#{package.events.last.notes}" if package.events.first :name => 'reject'
+
+    if package.events.first :name => 'reject'
+      error_msg = package.events.last.notes
+      raise "test submit failed for #{name}:\n\n#{error_msg}"
+    end
+
     sips << { :sip => package.sip.name, :wip => package.id }
     a.workspace[package.id]
   end

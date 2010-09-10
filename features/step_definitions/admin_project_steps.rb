@@ -30,18 +30,19 @@ Then /^there should be an project with:$/ do |table|
 end
 
 Given /^a project "([^"]*)"$/ do |id|
+  account_id = 'ACTPRJ'
   Given 'I goto "/admin"'
-  And 'a account "ACTPRJ"'
+  And "a account \"#{account_id}\""
 
   within "form#create-project" do
     fill_in "id", :with => id
     fill_in "description", :with => "#{id} #{id} #{id}".downcase
-    select "ACTPRJ", :from => 'account_id'
+    select account_id, :from => 'account_id'
   end
 
   When 'I press "Create Project"'
   last_response.should be_ok
-  @the_project = Project.get id
+  @the_project = Account.get(account_id).projects.first :id => id
   @the_project.should_not be_nil
 end
 

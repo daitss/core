@@ -13,6 +13,7 @@ class Archive
   SYSTEM_ACCOUNT_ID = 'SYSTEM'
   SYSTEM_PROGRAM_ID = 'SYSTEM'
   ROOT_OPERATOR_ID = 'root'
+  DEFAULT_PROJECT_ID = 'default'
 
   def Archive.work_path
     File.join Daitss::CONFIG["data"], WORK_DIR
@@ -45,20 +46,27 @@ class Archive
   end
 
   def Archive.create_initial_data
+
+    # account
     a = Account.new(:id => SYSTEM_ACCOUNT_ID,
                     :description => 'account for system operations')
+    p = Project.new(:id => DEFAULT_PROJECT_ID,
+                    :description => 'default project for system operations',
+                    :account => a)
     a.save or raise "cannot save system account"
+    p.save or raise "cannot save system project"
 
-    p = Program.new(:id => SYSTEM_PROGRAM_ID,
+    # some agents
+    program = Program.new(:id => SYSTEM_PROGRAM_ID,
                     :description => "daitss software agent",
                     :account => a)
-    p.save or raise "cannot save system program agent"
+    program.save or raise "cannot save system program agent"
 
-    u = Operator.new(:id => ROOT_OPERATOR_ID,
+    operator = Operator.new(:id => ROOT_OPERATOR_ID,
                      :auth_key => Digest::SHA1.hexdigest(ROOT_OPERATOR_ID),
                      :description => "default operator account",
                      :account => a)
-    u.save or raise "cannot save system operator agent"
+    operator.save or raise "cannot save system operator agent"
   end
 
   def log message
@@ -69,6 +77,7 @@ class Archive
 
   # submit a sip on behalf of an agent, return a package
   def submit sip_path, agent
+    package = Package.new
 
     # make a new sip archive
     sa = SipArchive.new sip_path
@@ -78,26 +87,28 @@ class Archive
     a_id = sa.account rescue nil
     p_id = sa.project rescue nil
 
-    package = Package.new
-
-    if agent.kind_of? Operator
+    # determine the project to use
+    if p_id != 'default' and agent.kind_of?(Operator) or agent.account.id == a_id
       account = Account.get(a_id)
-      package.project = account.projects.first :id => p_id
-    else
 
-      unless agent.account.id == a_id
-        agreement_errors << "cannot submit to account #{a_id}"
-      end
+      if account
+        project = account.projects.first :id => p_id
 
-      project = agent.account.projects.first :id => p_id
+        if project
+          package.project = project
+        else
+          agreement_errors << "no project #{p_id} for account #{a_id}"
+          package.project = account.default_project
+        end
 
-      if project
-        package.project = project
       else
+        agreement_errors << "no account #{a_id}"
         package.project = agent.account.default_project
-        agreement_errors << "cannot submit to project #{p_id}"
       end
 
+    else
+      agreement_errors << "cannot submit to account #{a_id}"
+      package.project = agent.account.default_project
     end
 
     package.sip = Sip.new :name => sa.name

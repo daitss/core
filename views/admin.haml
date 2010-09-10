@@ -83,6 +83,7 @@
           %form{:action => "/admin", :method => 'post'}
             %input{:type => 'hidden', :name => 'task', :value => 'delete-project'}
             %input{:type => 'hidden', :name => 'id', :value => p.id }
+            %input{:type => 'hidden', :name => 'account_id', :value => p.account.id }
             %input{:type => 'submit', :value => "Delete"}
 
 %hr/

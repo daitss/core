@@ -41,7 +41,7 @@ end
 Given /^that account (is|is not) empty$/ do |condition|
 
   if condition == 'is'
-    @the_account.projects.should be_empty
+    @the_account.projects.should == [@the_account.default_project]
   else
     p = Project.new
     p.description = "the project name";

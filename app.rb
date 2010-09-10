@@ -297,9 +297,9 @@ end
 
 get '/admin' do
   @bins = StashBin.all
-  @accounts = Account.all
+  @accounts = Account.all :id.not => Archive::SYSTEM_ACCOUNT_ID
   @users = User.all
-  @projects = Project.all
+  @projects = Project.all :id.not => 'default'
 
   haml :admin
 end
@@ -327,14 +327,21 @@ post '/admin' do
     a = Account.new
     a.id = require_param 'id'
     a.description = require_param 'description'
-    a.save or error "could not create new account\n\n#{e.message}\n#{e.backtrace}"
+    p = Project.new :id => Archive::DEFAULT_PROJECT_ID, :description => 'default project'
+    a.projects << p
+    a.save or error "could not create new account"
     @archive.log "new account: #{a.id}"
 
   when 'delete-account'
     id = require_param 'id'
     a = Account.get(id) or not_found
-    error 400, "cannot delete a non-empty account" unless a.projects.empty?
-    a.destroy or error "could not delete account"
+
+    if a.projects == [a.default_project] and a.default_project.packages.empty?
+      a.destroy or error "could not delete account"
+    else
+      error 400, "cannot delete a non-empty account"
+    end
+
     @archive.log "delete account: #{a.id}"
 
   when 'new-project'
@@ -349,7 +356,8 @@ post '/admin' do
 
   when 'delete-project'
     id = require_param 'id'
-    p = Project.get(id) or not_found
+    account_id = require_param 'account_id'
+    p = Account.get(account_id).projects.first(:id => id) or not_found
     error 400, "cannot delete a non-empty project" unless p.packages.empty?
     p.destroy or error "could not delete project"
     @archive.log "delete project: #{p.id}"

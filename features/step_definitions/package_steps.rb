@@ -10,8 +10,8 @@ When /^I goto its package page$/ do
   visit "/package/#{id}"
 end
 
-Then /^in the submission summary I should see the (sip|account|project)$/ do |field|
-  last_response.should have_selector("th:contains('#{field}') + td")
+Then /^in the submission summary I should see the (name|account|project)$/ do |field|
+  last_response.should have_selector("th:contains('#{field}')")
 end
 
 Then /^in the jobs summary I should see an ingest wip$/ do

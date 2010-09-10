@@ -73,7 +73,7 @@ describe Archive do
         @package.events.should_not be_empty
         reject_event = @package.events.first :name => 'reject'
         reject_event.should_not be_nil
-        reject_event.notes.should include("cannot submit to project BAD-PRJ")
+        reject_event.notes.should include("no project BAD-PRJ for account ACT")
       end
 
     end
