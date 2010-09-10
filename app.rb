@@ -192,8 +192,16 @@ end
 
 get '/workspace/:id' do |id|
   @bins = StashBin.all
-  @wip = @archive.workspace[id] or not_found
-  haml :wip
+  @wip = @archive.workspace[id]
+
+  if @wip
+    haml :wip
+  elsif Package.get(id)
+    redirect "/package/#{id}"
+  else
+    not_found
+  end
+
 end
 
 get '/workspace/:id/snafu' do |id|
