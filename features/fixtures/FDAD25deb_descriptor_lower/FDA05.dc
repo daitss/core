@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF SYSTEM "http://purl.org/dc/schemas/dcmes-xml-20000714.dtd">
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:Description about="">
+	<dc:title> FDA Testing SIP - Described hidden files </dc:title>
+	<dc:creator> Lindsey </dc:creator>
+	<dc:description> Validation error caused by hidden files listed in the descriptor </dc:description>
+</rdf:Description>
+</rdf:RDF>
