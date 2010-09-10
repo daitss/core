@@ -48,4 +48,20 @@ class Package
     bin.wips.find { |w| w.id == id } if bin
   end
 
+  def status
+
+    if self.aip
+      'archived'
+    elsif self.events.first :name => 'reject'
+      'rejected'
+    elsif self.wip
+      'ingesting'
+    elsif self.stashed_wip
+      'stashed'
+    else
+      'submitted'
+    end
+
+  end
+
 end

@@ -1,39 +1,25 @@
-%h1= @package.id
-
-%h2 processing
-
-- if @package.wip
-  %a{:href=>"/workspace/#{@package.wip.id}"}
-    = @package.wip.task
-- else
-  no jobs processing
-
-%h2 stashed
-
-- if @package.stashed_wip
-  %a{:href=>"/stashspace/#{@package.stashed_wip.bin.url_name}/#{@package.stashed_wip.id}"}
-    = @package.stashed_wip.task
-
-- else
-  no jobs stashed
-
-%h2 submit a package request
-
-%form{:action => '/request', :method => 'POST'}
-  %br
-  %select{:name=>'type'}
-    %option= 'disseminate'
-    %option= 'withdraw'
-    %option= 'peek'
-  %br
-  %input{:type => 'hidden', :name => 'ieid', :value=>"#{@package.id}"}
-  %input{:type => 'submit', :value => 'Submit'}
-
-%h2 submission
+%h1
+  %span.package
+    = @package.id
+  = ": "
+  - case @package.status
+  - when 'ingesting'
+    %span.status.ingesting
+      %a{:href=>"/workspace/#{@package.wip.id}"}
+        = @package.status
+  - when 'stashed'
+    %span.status.stashed
+      %a{:href=>"/stashspace/#{@package.stashed_wip.bin.url_name}/#{@package.stashed_wip.id}"}
+        = @package.status
+  - when 'rejected'
+    %span.status.rejected
+      = @package.status
+  - else
+    = @package.status
 
 %table
   %tr
-    %th name
+    %th sip name
     %th account
     %th project
   %tr
@@ -47,37 +33,59 @@
   %tr
     %th type
     %th time
-    %th note
+    %th notes
+    %th agent
   - @package.events.each do |e|
     %tr
       %td= e.name
       %td= e.timestamp.pragma
       %td= e.notes
-
-%h2 requests
-
-- if @package.requests.any?
-  %table
-    %tr
-      %th type
-      %th time
-      %th authorized?
-      %th request submitter
-      %th status
-      %th delete
-    - @package.requests.each do |r|
-      %tr
-        %td= r.request_type
-        %td= r.timestamp.pragma
-        %td= r.is_authorized ? "yes" : "no"
-        %td= r.operations_agent.identifier
-        %td= r.status
-        %td
-          - if r.status != :released_to_workspace
-            %a{:href => "/delete_request/#{@package.id}/#{r.request_type}"}
-              delete
+      %td= e.agent.id
 
 - if @package.aip
+  %h2 stashed
+
+  - if @package.stashed_wip
+    %a{:href=>"/stashspace/#{@package.stashed_wip.bin.url_name}/#{@package.stashed_wip.id}"}
+      = @package.stashed_wip.task
+
+  - else
+    no jobs stashed
+
+  %h2 requests
+
+  %form{:action => '/request', :method => 'POST'}
+    %br
+    %select{:name=>'type'}
+      %option= 'disseminate'
+      %option= 'withdraw'
+      %option= 'peek'
+    %br
+    %input{:type => 'hidden', :name => 'ieid', :value=>"#{@package.id}"}
+    %input{:type => 'submit', :value => 'Submit'}
+
+
+  - if @package.requests.any?
+    %table
+      %tr
+        %th type
+        %th time
+        %th authorized?
+        %th request submitter
+        %th status
+        %th delete
+      - @package.requests.each do |r|
+        %tr
+          %td= r.request_type
+          %td= r.timestamp.pragma
+          %td= r.is_authorized ? "yes" : "no"
+          %td= r.operations_agent.identifier
+          %td= r.status
+          %td
+            - if r.status != :released_to_workspace
+              %a{:href => "/delete_request/#{@package.id}/#{r.request_type}"}
+                delete
+
   - aip = @package.aip
 
   %h2 aip

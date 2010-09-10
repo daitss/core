@@ -9,23 +9,13 @@
   - if @wip.snafu?
     = haml :wip_snafu, :layout => false
 
-  %hr/
-
-  %h2 update package
   #update-form
     %form{:action => "/stashspace/#{@bin.url_name}/#{@wip.id}", :method => 'post'}
 
       %input#task-abort{:type => 'radio', :name => 'task', :value => 'abort'}
       %label{:for => 'task-abort'} abort
-
-      %br/
-
       %input#state-unstash{:type => 'radio', :name => 'task', :value => 'unstash'}
       %label{:for => 'state-unstash'} unstash
-
-      %br/
-      %br/
-
       %input{:type => 'submit', :value => "Update"}
 
   %hr/

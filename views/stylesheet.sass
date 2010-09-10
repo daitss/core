@@ -7,25 +7,27 @@ $e_blue2: #0084A9
 $e_blue3: #2baae2
 $e_gray: #364046
 $e_red: #dc2628
+$e_green: #26dc28
 
 body
   margin: 0px
   font-family: "Droid Sans", sans-serif
+  background-color: $dark_gray
+  color: $light_gray
 
 h1, h2, h3
   color: $e_blue2
   font-weight: bold
-  padding: 5px
 
 a
   color: $e_blue
   text-decoration: none
   font-weight: 400
   &:hover
-    color: $e_orange
     text-decoration: underline
 p
   font-family: "Droid Serif", serif
+  padding: 7px
 
 hr
   color: $light_gray
@@ -41,36 +43,46 @@ table
 
   th
     background-color: $e_gray
-    color: $e_orange
-    font-family: "Droid Sans", sans-serif
+    color: white
     font-weight: bold
     padding: 0.5ex
   td
     padding: 0.5ex
+    color: $dark_gray
     font-family: "Droid Sans Mono"
-  tr:nth-child(even)
     background-color: $light_gray
 
-
 #content
-  margin-left: 30px
-  margin-right: 30px
-  padding: 5px
+  color: black
+  background-color: white
+  margin: 0
+  padding: 10px
+  min-height: 40em
 
-#navigation
-  font-family: "Droid Sans", sans-serif
-  color: $e_gray
+nav
   font-size: 18pt
+  padding: 5px
+  margin: 0
 
   a
+    color: $light_gray
+
+  a.active
     color: $e_blue3
 
-  span#applink
-    a
-      font-family: "Droid Sans"
-      font-weight: bold
-      font-size: 20pt
-      color: $e_orange
+  span#logo
+    float: right
+    color: $e_orange
+
+footer
+  font-family: "Droid Sans", sans-serif
+  font-size: 12pt
+  background-color: $dark_gray
+  padding: 5px
+
+  span#daitss-version
+    float: right
+    color: $e_orange
 
 
 #search
@@ -89,7 +101,6 @@ table
   table
     tr
       th
-        //text-align: right
         width: 10%
         color: $e_orange
 
@@ -97,3 +108,28 @@ table
         text-align: left
         color: $light_gray
         background-color: $dark_gray
+
+h1
+  span.account
+  span.project
+  span.package
+
+  span.status a
+    font-weight: bold
+  span.status.submitted a
+    color: $e_blue
+  span.status.rejected
+    color: $e_red
+  span.status.ingesting a
+    color: $e_green
+  span.status.stashed a
+    color: $e_gray
+  span.status.archived
+
+#submit
+  float: left
+  width: 50%
+
+#search
+  float: left
+  width: 50%

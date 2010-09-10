@@ -8,23 +8,33 @@
           :rel => "stylesheet", :type => "text/css"}
     %link{:rel => "stylesheet", :href => "/stylesheet.css", :type =>"text/css", :media =>"screen, projection"}
 
-    %title Workspace Monitor (new boss)
+    %title
+      daitss
+      = Daitss::VERSION
   %body
+    %nav
+      = navlink 'dashboard', '/'
+      = ":"
+      = navlink 'packages', '/packages'
+      = ":"
+      = navlink 'workspace', '/workspace'
+      = ":"
+      = navlink 'stashspace', '/stashspace'
+      = ":"
+      = navlink 'log', '/log'
+      = ":"
+      = navlink 'admin', '/admin'
+
+      %span#logo (logo)
+
+
     #content
-      #navigation
-        %span#applink
-          %a{ :href => '/' }= Daitss::VERSION
-          &nbsp;
-        %a{ :href => '/submit' } submit
-        = ":"
-        %a{ :href => '/packages' } packages
-        = ":"
-        %a{ :href => '/workspace' } workspace
-        = ":"
-        %a{ :href => '/stashspace' } stashspace
-        = ":"
-        %a{ :href => '/log' } log
-        = ":"
-        %a{ :href => '/admin' } admin
-        %hr
       = yield
+
+    %footer
+      %span#daitss-branding
+        (daitss branding)
+
+      %span#daitss-version
+        %a{ :href => 'http://github.com/daitss/core' }
+          = Daitss::VERSION

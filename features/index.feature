@@ -7,9 +7,8 @@ Feature: index links
     Then the response should be OK
     Examples:
       | link       |
-      | workspace  |
-      | log        |
-      | submit     |
       | packages   |
+      | workspace  |
       | stashspace |
+      | log        |
       | admin      |

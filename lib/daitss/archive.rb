@@ -115,18 +115,29 @@ class Archive
     package.sip.number_of_datafiles = sa.files.size rescue nil
     package.sip.size_in_bytes = sa.size_in_bytes rescue nil
 
-    if sa.valid? and agreement_errors.empty?
-      uri = "#{Daitss::CONFIG['uri-prefix']}/#{package.id}"
-      wip = Wip.from_sip_archive workspace, package.id, uri, sa
-      package.log 'submit', :agent => agent
-    else
-      combined_errors = (agreement_errors + sa.errors).join "\n"
-      package.log 'reject', :agent => agent, :notes => combined_errors
-    end
+    # save the package and make a wip, or reject
+    begin
 
-    unless package.save
-      FileUtils.rm_r wip.path
-      raise "cannot save package: #{package.id}"
+      Package.transaction do
+
+        unless package.save
+          raise "cannot save package: #{package.id}"
+        end
+
+        if sa.valid? and agreement_errors.empty?
+          uri = "#{Daitss::CONFIG['uri-prefix']}/#{package.id}"
+          wip = Wip.from_sip_archive workspace, package.id, uri, sa
+          package.log 'submit', :agent => agent
+        else
+          combined_errors = (agreement_errors + sa.errors).join "\n"
+          package.log 'reject', :agent => agent, :notes => combined_errors
+        end
+
+      end
+
+    rescue
+      FileUtils.rm_r wip.path if File.exist?(wip.path) rescue nil
+      raise
     end
 
     package
