@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><METS:mets xmlns:METS="http://www.loc.gov/METS/" xmlns:daitss="http://www.fcla.edu/dls/md/daitss/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:palmm="http://www.fcla.edu/dls/md/palmm/" xmlns:rightsmd="http://www.fcla.edu/dls/md/rightsmd/" xmlns:techmd="http://www.fcla.edu/dls/md/techmd/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LABEL="Bocco_Michael__200812_MS.pdf" OBJID="DT_FAU01_107804" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version17/mets.v1-7.xsd http://purl.org/dc/elements/1.1/ http://dublincore.org/schemas/xmls/simpledc20021212.xsd http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-0.xsd http://www.fcla.edu/dls/md/techmd/ http://www.fcla.edu/dls/md/techmd.xsd http://www.fcla.edu/dls/md/palmm/ http://www.fcla.edu/dls/md/palmm.xsd http://www.fcla.edu/dls/md/rightsmd/ http://www.fcla.edu/dls/md/rightsmd.xsd http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss.xsd">
+  <METS:metsHdr CREATEDATE="2009-03-27T17:04:12Z" ID="FDAD26dma_marc" LASTMODDATE="2009-03-27T17:04:12Z" RECORDSTATUS="NEW">
+    <METS:agent OTHERTYPE="SOFTWARE" ROLE="CREATOR" TYPE="OTHER">
+      <METS:name>FCLA DigiTool-to-FDA Processing</METS:name>
+    </METS:agent>
+   <METS:agent ROLE="CREATOR" TYPE="ORGANIZATION">
+      <METS:name>FCLA</METS:name>
+    </METS:agent>
+  </METS:metsHdr>
+  <METS:dmdSec ID="DMD1">
+    <METS:mdWrap MDTYPE="MARC" MIMETYPE="text/xml">
+      <METS:xmlData>        
+      <leader>02216nam^^2200325Ia^4500</leader><controlfield tag="FMT">BK</controlfield><controlfield tag="001">001565584</controlfield><controlfield tag="005">20081201083706.0</controlfield><controlfield tag="008">081201s2008^^^^flu^^^^^sb^^^^000^0^eng^d</controlfield><datafield ind1=" " ind2=" " tag="035"><subfield code="a">(OCoLC)276769367</subfield></datafield><datafield ind1=" " ind2=" " tag="040"><subfield code="a">FGM</subfield><subfield code="c">FGM</subfield></datafield><datafield ind1="1" ind2=" " tag="100"><subfield code="a">Bocco, Michael.</subfield></datafield><datafield ind1="1" ind2="0" tag="245"><subfield code="a">Unintended alliances</subfield><subfield code="h">[electronic resource] :</subfield><subfield code="b">Kennedy, Israel, and Arab nationalism</subfield><subfield code="c">by Michael Bocco.</subfield></datafield><datafield ind1=" " ind2=" " tag="260"><subfield code="c">2008.</subfield></datafield><datafield ind1=" " ind2=" " tag="300"><subfield code="a">v, 128 p.</subfield></datafield><datafield ind1=" " ind2=" " tag="502"><subfield code="a">Thesis (M.A.)--Florida Atlantic University, 2008.</subfield></datafield><datafield ind1=" " ind2=" " tag="504"><subfield code="a">Includes bibliography.</subfield></datafield><datafield ind1="3" ind2=" " tag="520"><subfield code="a">This thesis will explore the origins of the U.S.-Israeli alliance during the Kennedy administration. John F. Kennedy provided Israel with the first U.S. weapons sale, issued the first informal security guarantee, and established the first joint security consultations between both nations. Ironically, Kennedy gave these concessions to contain Israel, not to establish closer relations. His primary objective for the Middle East was to improve U.S. relations with Egyptian President Gamal Abdel Nasser, seeing Nasser as the path for gaining pro-American sentiments among the Arab population in the region to the detriment of the Soviets. Kennedy unintentionally laid the foundations of the U.S.-Israeli alliance while trying to restrain Israel, fearing Israeli actions would impede his plans. The Palestinian refugee issue, the regional arms race between Egypt and Israel, and Israel's secret nuclear weapons program became three pivotal concerns for Kennedy that unintentionally led to the U.S.-Israeli alliance.</subfield></datafield><datafield ind1=" " ind2=" " tag="533"><subfield code="a">Electronic reproduction.</subfield><subfield code="b">Boca Raton, FL :</subfield><subfield code="c">2008</subfield><subfield code="n">Mode of access: World Wide Web.</subfield></datafield><datafield ind1=" " ind2=" " tag="599"><subfield code="a">esu</subfield></datafield><datafield ind1=" " ind2="0" tag="651"><subfield code="a">United States</subfield><subfield code="x">Foreign relations</subfield><subfield code="z">Israel.</subfield></datafield><datafield ind1=" " ind2="0" tag="651"><subfield code="a">Israel</subfield><subfield code="x">Foreign relations</subfield><subfield code="z">United States.</subfield></datafield><datafield ind1=" " ind2="0" tag="650"><subfield code="a">Arab-Israeli conflict.</subfield></datafield><datafield ind1="1" ind2="0" tag="600"><subfield code="a">Kennedy, John F.</subfield><subfield code="q">(John Fitzgerald),</subfield><subfield code="d">1917-1963.</subfield></datafield><datafield ind1=" " ind2="0" tag="650"><subfield code="a">Nationalism</subfield><subfield code="z">Arab countries.</subfield></datafield><datafield ind1=" " ind2="0" tag="651"><subfield code="a">Middle East</subfield><subfield code="x">Politics and government.</subfield></datafield><datafield ind1="2" ind2=" " tag="710"><subfield code="a">Florida Atlantic University.</subfield><subfield code="b">College of Arts and Letters.</subfield><subfield code="k">Master's thesis,</subfield><subfield code="f">2008.</subfield></datafield><datafield ind1="0" ind2=" " tag="852"><subfield code="a">FBoU</subfield><subfield code="b">FAUER</subfield><subfield code="c">ELEC</subfield><subfield code="4">Electronic Resource</subfield></datafield><datafield ind1=" " ind2=" " tag="049"><subfield code="a">FGME</subfield></datafield><datafield ind1=" " ind2=" " tag="994"><subfield code="a">C0</subfield><subfield code="b">FGM</subfield></datafield><datafield ind1=" " ind2=" " tag="956"><subfield code="a">OCLCxfer</subfield><subfield code="b">00</subfield><subfield code="c">20081201</subfield><subfield code="l">FAU01</subfield><subfield code="h">0837</subfield></datafield><datafield ind1=" " ind2=" " tag="SID"><subfield code="a">Z39</subfield><subfield code="b">FAU01</subfield></datafield></METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  
+  
+  
+  
+  <METS:amdSec>
+    <METS:digiprovMD ID="DPMD1">
+      <METS:mdWrap MDTYPE="OTHER" OTHERMDTYPE="DAITSS">
+        <METS:xmlData>
+          <daitss:daitss>
+            <daitss:AGREEMENT_INFO ACCOUNT="FAU" PROJECT="CTD"/>
+          </daitss:daitss>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:digiprovMD>
+  </METS:amdSec> 
+<METS:fileSec>
+    <METS:fileGrp USE="VIEW">
+              <METS:file CHECKSUM="2c8be376682576f7b7420e469d979f42" CHECKSUMTYPE="MD5" ID="FID107804" MIMETYPE="application/pdf">
+              <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="107804_Bocco_Michael__200812_MS.pdf"/>
+        	</METS:file>
+    </METS:fileGrp>
+  </METS:fileSec>
+
+  <METS:structMap>
+    <METS:div DMDID="DMD1" LABEL="Bocco_Michael__200812_MS.pdf">
+                <METS:fptr FILEID="FID107804"/> 
+         </METS:div>
+  </METS:structMap>
+
+</METS:mets>

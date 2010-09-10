@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?fcla fda="yes"?>
+<METS:mets LABEL="Particular draughts and plans of some of the principal towns and harbours belonging to the English, French, and Spaniards, in America and West Indies" OBJID="FDAD26dmd_marc_mods" TYPE="photo" PROFILE="DAITSS METS SIP Profile 1.0" xmlns:METS="http://www.loc.gov/METS/" 
+xmlns:daitss="http://www.fcla.edu/dls/md/daitss/" 
+xmlns:dc="http://purl.org/dc/elements/1.1/" 
+xmlns:mods="http://www.loc.gov/mods/v3" 
+xmlns:palmm="http://www.fcla.edu/dls/md/palmm/" 
+xmlns:rightsmd="http://www.fcla.edu/dls/md/rightsmd/" 
+xmlns:techmd="http://www.fcla.edu/dls/md/techmd/" 
+xmlns:xlink="http://www.w3.org/1999/xlink" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version14/mets.xsd 
+http://purl.org/dc/elements/1.1/ http://dublincore.org/schemas/xmls/simpledc20021212.xsd 
+http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-0.xsd 
+http://www.fcla.edu/dls/md/techmd/ http://www.fcla.edu/dls/md/techmd.xsd 
+http://www.fcla.edu/dls/md/palmm/ http://www.fcla.edu/dls/md/palmm.xsd 
+http://www.fcla.edu/dls/md/rightsmd/ http://www.fcla.edu/dls/md/rightsmd.xsd 
+http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss.xsd
+http://www.w3.org/1999/xlink http://www.loc.gov/standards/mets/xlink.xsd"> 
+<METS:metsHdr CREATEDATE="2010-05-18T06:53:48Z" ID="FDAD26dmd_marc_mods" LASTMODDATE="2010-05-18T06:53:48Z" RECORDSTATUS="NEW">
+ <METS:agent ROLE="OTHER" TYPE="ORGANIZATION"> 
+	<METS:name>University of South Florida Tampa Library</METS:name> 
+	<METS:note>formats=image/tiff</METS:note> 
+	<METS:note>projects=USFDC</METS:note> 
+ </METS:agent> 
+ 
+ <METS:agent ROLE="CREATOR" TYPE="INDIVIDUAL">
+ 	<METS:name>Richard R. Bernardy Jr.</METS:name>
+ </METS:agent>
+ 
+ <METS:agent ROLE="OTHER" TYPE="OTHER" OTHERTYPE="SOFTWARE">
+ 	<METS:name>USFLDC-DCS-DCR2FDA</METS:name>
+ </METS:agent>
+
+</METS:metsHdr>
+<METS:dmdSec ID="DMD1">
+<METS:mdWrap MDTYPE="MODS" MIMETYPE="text/xml">
+<METS:xmlData>
+<mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+<mods:typeOfResource>still image</mods:typeOfResource>
+<mods:titleInfo>
+<mods:title>Particular draughts and plans of some of the principal towns and harbours belonging to the English, French, and Spaniards, in America and West Indies</mods:title>
+</mods:titleInfo>
+<mods:identifier>info:fedora/usfldc:U16-0027</mods:identifier>
+</mods:mods></METS:xmlData>
+</METS:mdWrap></METS:dmdSec><METS:dmdSec ID="DMD2">
+<METS:mdWrap MDTYPE="MARC" MIMETYPE="text/xml">
+<METS:xmlData>
+<record xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">  <leader>00000nem  22      a 4500</leader>  <controlfield tag="007">aj aanz</controlfield>  <controlfield tag="008">      s1752                  000   eng </controlfield>  <datafield ind1="8" ind2=" " tag="024">    <subfield code="a">U16-0027</subfield>  </datafield>  <datafield ind1="0" ind2=" " tag="034">    <subfield code="a">a</subfield>  </datafield>  <datafield ind1=" " ind2=" " tag="040">    <subfield code="a">FHM</subfield>    <subfield code="c">FHM</subfield>  </datafield>  <datafield ind1="1" ind2=" " tag="100">    <subfield code="a">Bowen, Emanuel,</subfield>    <subfield code="d">d. 1767.</subfield>  </datafield>  <datafield ind1="1" ind2="0" tag="245">    <subfield code="a">Particular draughts and plans of some of the principal towns and harbours belonging to the English, French, and Spaniards, in America and West Indies :</subfield>    <subfield code="b">collected from the best authorities /</subfield>    <subfield code="c">by Eman. Bowen.</subfield>  </datafield>  <datafield ind1=" " ind2=" " tag="255">    <subfield code="a">Scales differ.</subfield>  </datafield>  <datafield ind1=" " ind2=" " tag="260">    <subfield code="a">London :</subfield>    <subfield code="b">[s.n.],</subfield>    <subfield code="c">1752.</subfield>  </datafield>  <datafield ind1=" " ind2=" " tag="300">    <subfield code="a">13 maps on 1 sheet ;</subfield>    <subfield code="c">sheet 36 x 44 cm.</subfield>  </datafield>  <datafield ind1=" " ind2=" " tag="500">    <subfield code="a">Relief shown pictorially; depths shown by soundings.</subfield>  </datafield>  <datafield ind1=" " ind2=" " tag="500">    <subfield code="a">Published in the author&apos;s A complete atlas or distinct view of the know world. London : W. Innys, 1752.</subfield>  </datafield>  <datafield ind1="2" ind2=" " tag="505">    <subfield code="a">A draught of Boston harbour -- The harbour of Placentia -- The harbour of Anapolis Royal -- A plan of the town and harbour of Louisbourg in the island of Cape Breton ... -- A draught of New York and Perthamboy Harbour -- Harbour of St. Augustine -- The Harbour of Providence -- The Havana -- Bay of St. Jago de Cuba -- The town and harbour of Charles Town in South Carolina -- Fort Royal in Martinico -- A plan of the town and harbour of Cartagena -- A plan of the harbour town and forts of Porto Bello, when taken by Admiral Vernon on Nov. 22d. 1739 with 6 ships only.</subfield>  </datafield>  <datafield ind1=" " ind2="0" tag="650">    <subfield code="a">Harbors</subfield>    <subfield code="z">Atlantic Coast (U.S.)</subfield>    <subfield code="v">Maps.</subfield>  </datafield>  <datafield ind1=" " ind2="0" tag="650">    <subfield code="a">Harbors</subfield>    <subfield code="z">Caribbean Area</subfield>    <subfield code="v">Maps.</subfield>  </datafield>  <datafield ind1=" " ind2=" " tag="049">    <subfield code="a">FHmm</subfield>  </datafield>  <datafield ind1="1" ind2="8" tag="773">    <subfield code="t">Rare Map Collection.</subfield>  </datafield>  <datafield ind1="4" ind2="0" tag="856">    <subfield code="u">http://digital.lib.usf.edu/?u16.27</subfield>  </datafield></record></METS:xmlData>
+</METS:mdWrap>
+</METS:dmdSec>
+<METS:amdSec ID="AMD1">
+<METS:rightsMD ID="RMD1">
+	<METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="RIGHTSMD">
+		<METS:xmlData>
+			<rightsmd:versionStatement>Electronic version created 2010, University of South Florida Tampa Library</rightsmd:versionStatement>
+			<rightsmd:copyrightStatement>Copyright 2010</rightsmd:copyrightStatement>
+		</METS:xmlData>
+	</METS:mdWrap>
+</METS:rightsMD>
+</METS:amdSec>
+<METS:amdSec ID="AMD2">
+<METS:digiprovMD ID="DPMD1">
+	<METS:mdWrap MDTYPE="OTHER" OTHERMDTYPE="DAITSS">
+		<METS:xmlData>
+			<daitss:daitss>
+				<daitss:AGREEMENT_INFO ACCOUNT="FDA" PROJECT="FDA"/>
+			</daitss:daitss>
+		</METS:xmlData>
+	</METS:mdWrap>
+</METS:digiprovMD>
+</METS:amdSec>
+<METS:fileSec>
+<METS:fileGrp USE="master">
+<METS:file CHECKSUM="805ae75bc4595521e350564c90a56d28" CHECKSUMTYPE="MD5" CREATED="2010-05-18T06:35:26Z" GROUPID="GID1" ID="FID1" MIMETYPE="image/tiff" SIZE="132202536">
+<METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="U16-0027.tif"/>
+</METS:file>
+</METS:fileGrp>
+</METS:fileSec>
+<METS:structMap>
+<METS:div ADMID="RMD1" DMDID="DMD1 DMD2" LABEL="Particular draughts and plans of some of the principal towns and harbours belonging to the English, French, and Spaniards, in America and West Indies" TYPE="image">
+<METS:fptr FILEID="FID1"/>
+</METS:div>
+</METS:structMap>
+</METS:mets>

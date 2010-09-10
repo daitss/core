@@ -1,0 +1,76 @@
+<METS:mets  OBJID="FDAD25dei_wrong_name1"
+   xmlns:METS="http://www.loc.gov/METS/" 
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:daitss="http://www.fcla.edu/dls/md/daitss/"  
+   xsi:schemaLocation="http://www.loc.gov/METS/ 
+		       http://www.loc.gov/standards/mets/version17/mets.v1-7.xsd 
+		       http://www.fcla.edu/dls/md/daitss/ 
+		       http://www.fcla.edu/dls/md/daitss/daitss.xsd 
+		       http://purl.org/dc/elements/1.1/ 
+		       http://dublincore.org/schemas/xmls/simpledc20021212.xsd">
+
+
+<METS:metsHdr CREATEDATE="2010-05-24T13:54:40-04:00" ID= "FDAD25dei_wrong_name1" RECORDSTATUS="NEW">
+  <METS:agent ROLE="CREATOR" TYPE="ORGANIZATION">
+    <METS:name>Florida Digital Archive</METS:name>
+  </METS:agent>
+</METS:metsHdr>
+
+
+<METS:dmdSec ID="DMD-1">
+<METS:mdWrap MIMETYPE="text/xml" MDTYPE="DC" LABEL="Simple Dublin Core">
+<METS:xmlData>
+
+<dc:title> FDA Testing SIP - Descriptor with Wrong Name  </dc:title><dc:creator> Lindsey </dc:creator><dc:description> Validation error caused by the descriptor having a different name than the directory </dc:description>
+</METS:xmlData>
+</METS:mdWrap>
+</METS:dmdSec>
+
+
+  <METS:amdSec>
+    <METS:digiprovMD ID="AMD_DAITTS">
+      <METS:mdWrap MDTYPE="OTHER" OTHERMDTYPE="DAITTS">
+	<METS:xmlData>
+	  <daitss:daitss>
+	    <daitss:AGREEMENT_INFO ACCOUNT="FDA" PROJECT="FDA"/>
+
+	  </daitss:daitss>
+	</METS:xmlData>
+      </METS:mdWrap>
+    </METS:digiprovMD>
+  </METS:amdSec>
+
+
+  <METS:fileSec> 
+    <METS:fileGrp> 
+
+     
+        <METS:file ID="file-1" CHECKSUM="ea148de7a96fb5e1885af5dfe3b7a59a" CHECKSUMTYPE="MD5">
+	<METS:FLocat LOCTYPE="URL" xlink:href="FDA05.dc"/> 
+      </METS:file>
+     
+        <METS:file ID="file-2" CHECKSUM="c18e9b55875888021e787e3f8bb11ccd" CHECKSUMTYPE="MD5">
+	<METS:FLocat LOCTYPE="URL" xlink:href="00039.txt"/> 
+      </METS:file>
+     
+
+    </METS:fileGrp>
+  </METS:fileSec>
+
+  <METS:structMap>
+
+
+    <METS:div TYPE="Monograph" >   
+
+       
+	<METS:fptr FILEID="file-1"/>
+       
+	<METS:fptr FILEID="file-2"/>
+       
+
+      </METS:div>
+  </METS:structMap>
+</METS:mets>
+
