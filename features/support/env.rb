@@ -83,6 +83,7 @@ World{MyWorld.new}
 
 Before do
   Daitss::CONFIG.load_from_env
+  FileUtils.mkdir Daitss::CONFIG['data'] unless File.directory? Daitss::CONFIG['data']
   Archive.create_work_directories
   Archive.setup_db
   Archive.init_db
