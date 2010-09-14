@@ -41,7 +41,7 @@ class Document
     attribute_set(:language, lang.content) unless lang.nil?
 
     # set all features associated with this document
-    nodes = premis.find("doc:Feature", NAMESPACES)
+    nodes = premis.find("doc:Features", NAMESPACES)
     nodes.each do |node|
       attribute_set(:features, FEATURES[node.content])
     end
