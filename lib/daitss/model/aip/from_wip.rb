@@ -22,8 +22,6 @@ class Aip
       aip
     else
       aip.copy.delete_from_silo
-      puts aip.errors.inspect
-      puts aip.errors.class
       raise "could not save aip: #{aip.errors.size} errors\n #{aip.errors.to_a.join "\n"}"
     end
 
