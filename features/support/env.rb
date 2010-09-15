@@ -36,13 +36,6 @@ class MyWorld
     File.join File.dirname(__FILE__), '..', 'fixtures', name
   end
 
-  def sip_tarball name
-    path = fixture name
-    tar = %x{tar -c -C #{File.dirname path} -f - #{File.basename path} }
-    raise "tar did not work" if $?.exitstatus != 0
-    tar
-  end
-
   def sips
     @sips ||= []
   end
