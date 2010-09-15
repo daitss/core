@@ -2,8 +2,6 @@ require 'rubygems'
 require 'bundler/setup'
 require 'daitss/archive'
 
-require 'ruby-debug'
-
 app_file = File.join File.dirname(__FILE__), *%w[.. .. app.rb]
 require app_file
 
@@ -11,6 +9,7 @@ require app_file
 Sinatra::Application.app_file = app_file
 Sinatra::Application.set :environment, :test
 
+require 'ruby-debug'
 require 'net/http'
 require 'spec/expectations'
 require 'rack/test'
@@ -37,12 +36,8 @@ class MyWorld
     File.join File.dirname(__FILE__), '..', 'fixtures', name
   end
 
-  def sip name
-    File.join File.dirname(__FILE__), '..', 'fixtures', name
-  end
-
   def sip_tarball name
-    path = sip name
+    path = fixture name
     tar = %x{tar -c -C #{File.dirname path} -f - #{File.basename path} }
     raise "tar did not work" if $?.exitstatus != 0
     tar
@@ -90,8 +85,10 @@ Before do
   Archive.create_initial_data
 
   a = Account.new :id => 'ACT', :description => 'the description'
+  pd = Project.new :id => 'default', :description => 'the default description', :account => a
   p = Project.new :id => 'PRJ', :description => 'the description', :account => a
   a.save or 'cannot save ACT'
+  pd.save or 'cannot save ACT/default'
   p.save or 'cannot save PRJ'
 
   $cleanup = []

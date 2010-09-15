@@ -8,6 +8,8 @@ class SipArchive
 
   MAX_NAME_LENGTH = 32
 
+  AGREEMENT_INFO_XPATH =  "//M:amdSec/M:digiprovMD/M:mdWrap/M:xmlData/daitss:daitss/daitss:AGREEMENT_INFO"
+
   attr_reader :path, :errors, :owner_ids
 
   def initialize path
@@ -18,7 +20,6 @@ class SipArchive
 
     ext = File.extname path
     name = File.basename path, ext
-    raise "package name contains too many characters (#{name.length}) max is #{MAX_NAME_LENGTH}" if name.length > MAX_NAME_LENGTH
 
     Dir.chdir File.dirname(path) do
 
@@ -45,6 +46,10 @@ class SipArchive
   def validate!
     es = Hash.new { |h,k| h[k] = [] }
 
+    if name.length > MAX_NAME_LENGTH
+      es[:package_name] << "package name contains too many characters (#{name.length}) max is #{MAX_NAME_LENGTH}"
+    end
+
     # check for missing descriptor
     es[:descriptor_presence] << "missing descriptor" unless File.file? descriptor_file
 
@@ -62,9 +67,35 @@ class SipArchive
 
     end
 
+    # check for a single agreement info
+    if es[:descriptor_presence].empty? and es[:descriptor_valid].empty?
+      count = descriptor_doc.find "count(#{AGREEMENT_INFO_XPATH})", NS_PREFIX
+
+      if count == 0
+        es[:agreement_info] << "missing agreement info"
+      elsif count == 1
+        ainfo = descriptor_doc.find_first AGREEMENT_INFO_XPATH, NS_PREFIX
+        es[:agreement_info] << "missing account" if ainfo['ACCOUNT'].to_s.strip.empty?
+        es[:agreement_info] << "missing project" if ainfo['PROJECT'].to_s.strip.empty?
+      elsif count > 1
+        es[:agreement_info] << "multiple agreement info"
+      else
+        raise "invalid agreement info count #{count}"
+      end
+
+    end
+
     # check for content files
     if es[:descriptor_presence].empty? and es[:descriptor_valid].empty?
       es[:content_file_presence] << "missing content files" if content_files.empty?
+
+      content_files.each do |f|
+
+        unless Dir.chdir(path) { File.exist? f }
+          es[:content_file_presence] << "missing content file: #{f}"
+        end
+
+      end
     end
 
     # check content file name validity
@@ -100,7 +131,7 @@ class SipArchive
                      else next
                      end
 
-          if computed != expected
+          if computed.downcase != expected.downcase
             es[:content_file_fixity] << "#{expected_type} for #{f} - expected: #{expected}; computed #{computed}"
           end
 
@@ -131,14 +162,15 @@ class SipArchive
 
   end
 
+
   def account
-    xpath = "//M:amdSec/M:digiprovMD/M:mdWrap/M:xmlData/daitss:daitss/daitss:AGREEMENT_INFO/@ACCOUNT"
+    xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
     node = descriptor_doc.find_first xpath, NS_PREFIX
     node.value rescue nil
   end
 
   def project
-    xpath = "//M:amdSec/M:digiprovMD/M:mdWrap/M:xmlData/daitss:daitss/daitss:AGREEMENT_INFO/@PROJECT"
+    xpath = "#{AGREEMENT_INFO_XPATH}/@PROJECT"
     node = descriptor_doc.find_first xpath, NS_PREFIX
     node.value rescue nil
   end
