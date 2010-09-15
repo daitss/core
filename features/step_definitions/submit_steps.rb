@@ -14,13 +14,10 @@ When "I select a sip to upload" do
 end
 
 When /^I select "([^\"]*)" to upload$/ do |name|
+  name = name + ".zip"
   sips << {:sip => name}
-  tar = sip_tarball(name)
-  dir = Dir.mktmpdir
-  $cleanup << dir
-  tar_file = File.join dir, "#{name}.tar"
-  open(tar_file, 'w') { |o| o.write tar }
-  attach_file 'sip', tar_file
+  zip_file = fixture(name)
+  attach_file 'sip', zip_file
 end
 
 Then /^I should be at a package page$/ do
