@@ -21,7 +21,7 @@ Given /^it contains (\d+) (\w+) (running|idle|snafu|stopped|) ?wips?$/ do |count
   when 'good'
     package = 'haskell-nums-pdf.zip'
   when 'virus'
-    package = 'ateam-virus.zip'
+    package = 'virus.zip'
   end
 
   count.to_i.times do

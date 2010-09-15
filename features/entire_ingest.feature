@@ -24,5 +24,3 @@ Feature: ingest a package
     And there is an event for submit
     And there is an event for ingest started
     And there is an event for ingest snafu
-
-    

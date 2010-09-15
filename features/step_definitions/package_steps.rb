@@ -19,12 +19,10 @@ Then /^in the jobs summary I should see an ingest wip$/ do
   last_response.should have_selector("a[href='/workspace/#{id}']:contains('ingesting')")
 end
 
-Then /^in the events I should see a (submission|reject) event$/ do |type|
-  if type == "submission"
-    last_response.should have_selector("td:contains('submit')")
-  else
-    last_response.should have_selector("td:contains('reject')")
-  end
+Then /^in the events I should see a "([^\"]*)" event with "([^"]*)" in the notes$/ do |event, notes|
+  pending notes if notes =~ %r{\?$}
+  last_response.should have_selector("td:contains('#{event}')")
+  last_response.should have_selector("td:contains('#{notes}')")
 end
 
 Then /^in the aip section I should see (copy url|copy size|copy sha1|number of datafiles)$/ do |field|
