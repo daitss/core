@@ -1,12 +1,13 @@
-Given /^I submit (a|\d+) packages?$/ do |count|
+Given /^I submit a package$/ do
+  Given "I goto \"/submit\""
+  When "I select \"haskell-nums-pdf\" to upload"
+  When "I press \"Submit\""
+  last_response.should be_ok
+  packages << current_url
+end
 
-  count = case count
-          when 'a' then 1
-          when /\d+/ then count.to_i
-          else raise 'invalid count'
-          end
-
-  count.times { submit 'haskell-nums-pdf.zip' }
+Given /^I submit (\d+) packages$/ do |count|
+  count.to_i.times { Given "I submit a package" }
 end
 
 When "I select a sip to upload" do
@@ -15,11 +16,10 @@ end
 
 When /^I select "([^\"]*)" to upload$/ do |name|
   name = name + ".zip"
-  sips << {:sip => name}
   zip_file = fixture(name)
   attach_file 'sip', zip_file
 end
 
 Then /^I should be at a package page$/ do
-  last_request.path.should =~ %r{/package/\w+}
+  current_url.should =~ %r{^/package/\w+}
 end
