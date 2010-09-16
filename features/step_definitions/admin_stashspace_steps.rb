@@ -1,7 +1,6 @@
 Given /^a stash bin named "([^\"]*)"$/ do |name|
   @the_bin = StashBin.new :name => name
   @the_bin.save or raise "could not save stashbin"
-  $cleanup << @the_bin.path
 end
 
 Given /^I fill in the stashbin form with:$/ do |table|
@@ -22,7 +21,7 @@ end
 
 Given /^a stash bin named "([^\"]*)" with (\d+) package$/ do |name, count|
   Given %Q(a stash bin named "#{name}")
-  Given "a workspace with #{count} idle wips"
+  Given "#{count} idle wips"
   Given %Q(I goto "/workspace")
   When %Q(I choose "stash")
   When %Q(I select "#{@the_bin.name}")
@@ -52,7 +51,7 @@ Given /^that stash bin is (empty|not empty)$/ do |contents|
     FileUtils.rm_rf Dir[pattern]
 
   when 'not empty'
-    Given "a workspace with 1 idle wip"
+    Given "an idle wip"
     And "I goto its wip page"
     When %Q(I choose "stash")
     And %Q(I select "#{@the_bin.name}")

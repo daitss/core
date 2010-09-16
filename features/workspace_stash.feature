@@ -2,7 +2,7 @@ Feature: stash
   To stash a non-running wip
 
   Scenario: one non-running sip should disappear from the workspace
-    Given a workspace with 1 idle wip
+    Given an idle wip
     And a stash bin named "default bin"
     And I goto "/workspace"
     When I choose "stash"
@@ -11,7 +11,7 @@ Feature: stash
     Then there should be 0 wips
 
   Scenario: one non-running sip should show up in the stash bin
-    Given a workspace with 1 idle wip
+    Given an idle wip
     And a stash bin named "default bin"
     And I goto "/workspace"
     When I choose "stash"

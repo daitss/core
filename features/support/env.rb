@@ -36,23 +36,16 @@ class MyWorld
     File.join File.dirname(__FILE__), '..', 'fixtures', name
   end
 
-  def sips
-    @sips ||= []
+  def packages
+    @packages ||= []
   end
 
-  # TODO make this work from the real submission interface
-  def submit name
-    a = Archive.new
-    zip_path = fixture name
-    package = a.submit zip_path, Operator.get('root')
+  def last_package
+    packages.last
+  end
 
-    if package.events.first :name => 'reject'
-      error_msg = package.events.last.notes
-      raise "test submit failed for #{name}:\n\n#{error_msg}"
-    end
-
-    sips << { :sip => package.sip.name, :wip => package.id }
-    a.workspace[package.id]
+  def last_package_id
+    last_package.split('/').last
   end
 
   def empty_out_workspace
@@ -71,7 +64,8 @@ World{MyWorld.new}
 
 Before do
   Daitss::CONFIG.load_from_env
-  FileUtils.mkdir Daitss::CONFIG['data'] unless File.directory? Daitss::CONFIG['data']
+  FileUtils.rm_rf Daitss::CONFIG['data']
+  FileUtils.mkdir Daitss::CONFIG['data']
   Archive.create_work_directories
   Archive.setup_db
   Archive.init_db
@@ -83,8 +77,6 @@ Before do
   a.save or 'cannot save ACT'
   pd.save or 'cannot save ACT/default'
   p.save or 'cannot save PRJ'
-
-  $cleanup = []
 end
 
 After do
@@ -95,5 +87,4 @@ After do
     FileUtils.rm_rf w.path
   end
 
-  $cleanup.each { |f| FileUtils.rm_rf f }
 end

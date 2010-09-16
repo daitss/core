@@ -1,24 +1,39 @@
 When /^I enter the sip name into the box$/ do
-  query = sips.map { |s| s[:sip] }.join ' '
+  query = packages.map { |p| Package.get(p.split('/').last).sip.name }.join ' '
   fill_in "search", :with => query
 end
 
 When /^I enter the package ids? into the box$/ do
-  query = sips.map { |s| s[:wip] }.join ' '
+  query = packages.map { |p| Package.get(p.split('/').last).id }.join ' '
   fill_in "search", :with => query
 end
 
 When /^I enter one package id and one sip id into the box$/ do
-  raise "need at least two sips" if sips.size < 2
-  query = "#{sips.first[:wip]} #{sips.last[:sip]}"
+  raise "need at least two sips" if packages.size < 2
+
+  qa = []
+
+  packages.each_with_index do |u, ix|
+    p = Package.get u.split('/').last
+
+    term = if ix % 2
+             p.id
+           else
+             p.sip.name
+           end
+
+    qa << term
+  end
+
+  query = qa.join ' '
+
   fill_in "search", :with => query
 end
 
 Then /^I should see the packages? in the results$/ do
 
-  sips.each do |s|
-    id = s[:wip]
-    last_response.should have_selector("td a[href='/package/#{id}']:contains('#{id}')")
+  packages.each do |s|
+    last_response.should have_selector("td a[href='/package/#{last_package_id}']", :content => last_package_id)
   end
 
 end

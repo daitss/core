@@ -12,8 +12,8 @@ class DataFile
     failed = doc.find '//P:eventOutcome = "failed"', NS_PREFIX
 
     if failed
-      note = doc.find '//P:eventOutcomeDetailNote', NS_PREFIX
-      raise "virus check failed:\n#{note.content}"
+      note = doc.find_first '//P:eventOutcomeDetailNote', NS_PREFIX
+      raise "virus detected\n#{note.content}"
     end
 
     extract_event doc

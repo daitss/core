@@ -1,63 +1,54 @@
-Given /^an empty workspace$/ do
-  empty_out_workspace
+Given /^an? ([^"]*) package$/ do |state|
+  Given %Q(a #{state} wip)
 end
 
-Given /^a workspace$/ do
-  Given "an empty workspace"
-end
+Given /^an? ([^"]*) wip$/ do |state|
+  Given "I submit a package"
+  last_response.should be_ok
+  # TODO implement all of this 'over-the-hood'
+  #When %Q(I click on "ingesting")
+  #When %Q(I choose "start")
+  #When %Q(I press "Update")
+  wip = Archive.new.workspace[last_package_id]
+  raise "no wip: #{last_package_id}" unless wip
 
-Given /^a workspace with (\d+) (\w*) ?wips?$/ do |count, state|
-  Given "a workspace"
-  And "it has #{count} #{state} wips"
-end
+  case state
+  when 'idle', ""
+  when 'snafu'
 
-Given /^it has (\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
-  Given "it contains #{count} good #{state} wips"
-end
-
-Given /^it contains (\d+) (\w+) (running|idle|snafu|stopped|) ?wips?$/ do |count, package, state|
-
-  case package
-  when 'good'
-    package = 'haskell-nums-pdf.zip'
-  when 'virus'
-    package = 'virus.zip'
-  end
-
-  count.to_i.times do
-
-    wip = submit package
-
-    case state
-    when 'idle', ""
-    when 'snafu'
-
-      begin
-        raise "oops this is not a real error!"
-      rescue => e
-        wip.snafu = e
-      end
-
-    when 'stopped'
-      wip.start
-      wip.stop
-
-    when 'running'
-      wip.start
-
+    begin
+      raise "oops this is not a real error!"
+    rescue => e
+      wip.snafu = e
     end
 
+  when 'stopped'
+    wip.start
+    wip.stop
+
+  when 'running'
+    wip.start
+
+  when 'archived'
+    wip.start
+    sleep 0.5 while wip.running?
+    wip.should_not be_snafu
+
+  else raise "unknown state: #{state}"
   end
 
+end
+
+Given /^(\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
+  count.to_i.times { Given "a #{state} wip" }
 end
 
 Given /^a workspace with the following wips:$/ do |table|
-  Given "a workspace"
 
   table.hashes.each do |h|
     count = h['count']
     state = h['state']
-    And "it has #{count} #{state} wips"
+    Given %Q(#{count} #{state} wips)
   end
 
 end

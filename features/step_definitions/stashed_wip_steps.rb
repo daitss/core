@@ -4,7 +4,6 @@ Then /^I should be at (the stashed wip|the wip|an error|the package) page$/ do |
 
   when "the stashed wip"
     last_response.should be_ok
-    id = sips.last[:wip]
     last_response.should have_selector("h1:contains('stashed')")
 
   when "an error"
@@ -12,22 +11,17 @@ Then /^I should be at (the stashed wip|the wip|an error|the package) page$/ do |
     last_response.should have_selector("p:contains('can only stash a non-running wip')")
 
   when "the wip"
-    id = sips.last[:wip]
-    last_request.url.should =~ %r'/workspace/#{id}'
+    last_request.url.should =~ %r'/workspace/#{last_package_id}'
     last_response.should be_ok
-    id = sips.last[:wip]
     last_response.should_not have_selector("h1:contains('stashed')")
 
   when "the package"
-    id = sips.last[:wip]
-    last_request.url.should =~ %r'/package/#{id}'
     last_response.should be_ok
-
+    current_url.should =~ %r'/package/#{last_package_id}'
   end
 
 end
 
 Given /^I click on the stashed wip$/ do
-  id = sips.last[:wip]
-  click_link id
+  click_link last_package_id
 end
