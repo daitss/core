@@ -1,4 +1,11 @@
-require 'sys/proctable'
+platform = `uname`.chomp
+
+case platform
+when "Linux"
+  require 'linux/sys/proctable'
+when "Darwin"
+  require 'sys/proctable'
+end
 
 class Wip
 

@@ -88,27 +88,27 @@ class Archive
     p_id = sa.project rescue nil
 
     # determine the project to use
-    package.project = if p_id != 'default' and agent.kind_of?(Operator) or agent.account.id == a_id
+    if p_id != 'default' and agent.kind_of?(Operator) or agent.account.id == a_id
                         account = Account.get(a_id)
 
                         if account
                           project = account.projects.first :id => p_id
 
                           if project
-                            project
+                            project.packages << package
                           else
                             agreement_errors << "no project #{p_id} for account #{a_id}"
-                            account.default_project
+                            account.default_project.packages  << package
                           end
 
                         else
                           agreement_errors << "no account #{a_id}"
-                          agent.account.default_project
+                          agent.account.default_project.packages  << package
                         end
 
                       else
                         agreement_errors << "cannot submit to account #{a_id}"
-                        agent.account.default_project
+                        agent.account.default_project.packages  << package
                       end
 
     package.sip = Sip.new :name => sa.name
