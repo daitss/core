@@ -40,6 +40,11 @@ namespace :db do
   desc 'insert initial data into database'
   task :initial_data => [:setup] do
     Archive.create_initial_data
+
+    a = Account.new :id => 'ACT', :description => 'the description'
+    p = Project.new :id => 'PRJ', :description => 'the description', :account => a
+    a.save or 'cannot save ACT'
+    p.save or 'cannot save PRJ'
   end
 
 end
