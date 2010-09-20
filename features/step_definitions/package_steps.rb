@@ -1,5 +1,5 @@
 When /^I goto its package page$/ do
-  visit last_package
+  visit "/package/" + last_package_id
 end
 
 Then /^in the submission summary I should see the (name|account|project)$/ do |field|
