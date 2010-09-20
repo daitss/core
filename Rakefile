@@ -37,4 +37,9 @@ namespace :db do
     DataMapper.auto_upgrade!
   end
 
+  desc 'insert initial data into database'
+  task :initial_data => [:setup] do
+    Archive.create_initial_data
+  end
+
 end
