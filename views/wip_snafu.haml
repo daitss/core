@@ -9,9 +9,8 @@
       %td= DateTime.parse(time).pragma
     %tr
       %th message
-      %td= message
+      %td#snafu-message= message
     %tr
       %th stacktrace
       %td
         %pre= trace
-        -#%a{:href => "/workspace/#{@wip.id}/snafu"} stack trace

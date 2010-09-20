@@ -2,17 +2,18 @@ Feature: stop
   To stop running wips
 
   Scenario: one running sip
-    Given a workspace with 1 running wip
+    Given a running wip
     And I goto "/workspace"
     When I choose "stop"
     And I press "Update"
     Then there should be 0 running wips
+    Then there should be 1 stopped wips
 
   Scenario: mix of running and non-running
-    Given a workspace
-    And it has 2 idle wips
-    And it has 2 running wips
+    Given 2 idle wips
+    And 2 running wip
     And I goto "/workspace"
     When I choose "stop"
     And I press "Update"
     Then there should be 0 running wips
+    Then there should be 2 stopped wips

@@ -18,7 +18,7 @@ Feature: list wips
       |     1 | stopped |
 
   Scenario Outline: listing
-    Given a workspace with <quantity> wips
+    Given <quantity> wips
     When I goto "/workspace"
     Then there should be <quantity> wips
 
