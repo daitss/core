@@ -1,7 +1,7 @@
 Feature: stashing a wip
 
   Scenario Outline: stash to a wip
-    Given a workspace with 1 <pre status> wip
+    Given a <pre status> wip
     And a stash bin named "default bin"
     And I goto its wip page
     When I choose "stash"

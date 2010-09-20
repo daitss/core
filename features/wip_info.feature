@@ -1,7 +1,7 @@
 Feature: show information about the wip
 
   Scenario: show all the processing steps of a wip
-    Given a workspace with 1 wip
+    Given an idle wip
     When I goto its wip page
     Then I should see a "progress" heading
     And in the progress section I should see a field for "virus check"
@@ -16,4 +16,4 @@ Feature: show information about the wip
   Scenario: redirect to the package page when a wip is complete
     Given an archived package
     When I goto its wip page
-    Then I should be redirected to the package page
+    Then I should be at the pacakge page

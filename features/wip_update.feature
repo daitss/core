@@ -1,7 +1,7 @@
 Feature: update the processing of a wip
 
   Scenario Outline: updates to a wip
-    Given a workspace with 1 <pre status> wip
+    Given a <pre status> wip
     And I goto its wip page
     When I choose "<task>"
     And I press "Update"
