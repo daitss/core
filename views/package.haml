@@ -42,6 +42,17 @@
       %td= e.notes
       %td= e.agent.id
 
+- if @ingest_time
+  %h2 ingest stats
+
+  %table
+    %tr
+      %th name
+      %th value
+    %tr
+      %td elapsed time
+      %td= @ingest_time
+
 - if @package.aip
   %h2 stashed
 
