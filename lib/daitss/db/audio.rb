@@ -1,3 +1,5 @@
+require 'data_mapper'
+
 # byte order values as defined in aes
 Audio_Byte_Order = ["BIG_ENDIAN", "LITTLE_ENDIAN", "Unknown"]
 
@@ -5,6 +7,7 @@ class Audio
   include DataMapper::Resource
   property :id, Serial, :key => true
   property :byte_order, String, :length => 32, :required => true, :default => "Unknown"
+ 	validates_with_method :byte_order, :validateByteOrder
     # byte order
   property :encoding, String, :length => 255
     # the audio encoding scheme
@@ -22,6 +25,15 @@ class Audio
   property :datafile_id, String, :length => 100
   property :bitstream_id, String, :length => 100
   
+  # validate the audio byte order value which is a daitss defined controlled vocabulary
+  def validateByteOrder
+      if Audio_Byte_Order.include?(@byte_order)
+        return true
+      else
+        [ false, "value #{@byte_order} is not a valid byte_order value" ]
+      end
+    end
+
   def setDFID dfid
     attribute_set(:datafile_id, dfid)
   end
@@ -38,14 +50,20 @@ class Audio
     attribute_set(:bit_depth, premis.find_first("aes:formatList/aes:formatRegion/aes:bitDepth", NAMESPACES).content)
     attribute_set(:channels, premis.find_first("aes:face/aes:region/aes:numChannels", NAMESPACES).content)  
 
-    # calculate the duration in number of seconds
-    hours = premis.find_first("aes:face/aes:timeline/tcf:duration/tcf:hours", NAMESPACES).content
-    minutes = premis.find_first("aes:face/aes:timeline/tcf:duration/tcf:minutes", NAMESPACES).content
-    seconds = premis.find_first("aes:face/aes:timeline/tcf:duration/tcf:seconds", NAMESPACES).content  
-    durationInS = seconds.to_i + minutes.to_i * 60 + hours.to_i * 3600
-    attribute_set(:duration, durationInS)
-    channelMap = premis.find_first("//@mapLocation", NAMESPACES).value 
-    attribute_set(:channel_map, channelMap)
+    # calculate the duration in number of seconds, make sure timeline/duration exist
+    if premis.find_first("aes:face/aes:timeline/tcf:duration")
+      hours = premis.find_first("aes:face/aes:timeline/tcf:duration/tcf:hours", NAMESPACES).content
+      minutes = premis.find_first("aes:face/aes:timeline/tcf:duration/tcf:minutes", NAMESPACES).content
+      seconds = premis.find_first("aes:face/aes:timeline/tcf:duration/tcf:seconds", NAMESPACES).content  
+      durationInS = seconds.to_i + minutes.to_i * 60 + hours.to_i * 3600
+      attribute_set(:duration, durationInS)
+    end
+
+	if node = premis.find_first("//@mapLocation", NAMESPACES)
+	  puts node.inspect
+      channelMap = node.value 
+      attribute_set(:channel_map, channelMap)
+	end 
   end
   
   before :save do
@@ -56,6 +74,7 @@ class Audio
   end
 
   after :save do
+    puts self.methods
     puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
   end
 
