@@ -140,6 +140,14 @@ get '/package/:id' do |id|
   @stashed_wip = @bin.wips.find { |w| w.id == id } if @bin
   @bins = StashBin.all
   @requests = @package.requests
+  
+  ingest_start_event = @package.events.first(:name => "ingest started")
+  ingest_finished_event = @package.events.first(:name => "ingest finished")
+
+  if ingest_start_event and ingest_finished_event
+    t = Time.parse(ingest_finished_event.timestamp.to_s) - Time.parse(ingest_start_event.timestamp.to_s)
+    @ingest_time = t.to_i.to_s + " sec"
+  end
 
   haml :package
 end
