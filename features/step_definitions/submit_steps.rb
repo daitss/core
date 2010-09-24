@@ -1,7 +1,7 @@
 Given /^I submit a package$/ do
-  Given "I goto \"/submit\""
-  When "I select \"haskell-nums-pdf\" to upload"
-  When "I press \"Submit\""
+  Given %q(I goto "/packages")
+  When %q(I select "haskell-nums-pdf" to upload)
+  When %q(I press "Submit")
   last_response.should be_ok
   packages << current_url
 end

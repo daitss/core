@@ -10,7 +10,7 @@ describe Wip do
       ws = new_workspace
 
       id = Package.new.id
-      uri = "#{Daitss::CONFIG['uri-prefix']}/#{id}"
+      uri = "#{Daitss::Archive.instance.uri_prefix}/#{id}"
 
       Wip.from_sip_archive ws, id, uri, sa
     end

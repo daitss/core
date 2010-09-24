@@ -1,16 +1,16 @@
 database-url: sqlite:/var/daitss/database.sqlite
-data: /var/daitss
+data-dir: /var/daitss
 
 uri-prefix: daitss-test
 http-timeout: 600
 
-actionplan: http://localhost:7001
-describe: http://localhost:7002
-storage: http://localhost:7003
-statusecho: http://localhost:7004
-viruscheck: http://localhost:7005
-transform: http://localhost:7006
-xmlresolution: http://xmlresolution.dev.fcla.edu
+actionplan-url: http://localhost:7001
+describe-url: http://localhost:7002
+storage-url: http://localhost:7003
+statusecho-url: http://localhost:7004
+viruscheck-url: http://localhost:7005
+transform-url: http://localhost:7006
+xmlresolution-url: http://xmlresolution.dev.fcla.edu
 
 jvm-options:
 - -Dhttp.proxyHost=sake.fcla.edu

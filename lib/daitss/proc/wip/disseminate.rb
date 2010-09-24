@@ -57,7 +57,7 @@ class Wip
       url = URI.parse aip.copy.url.to_s
 
       res = Net::HTTP.start(url.host, url.port) do |http|
-        http.read_timeout = Daitss::CONFIG['http-timeout']
+        http.read_timeout = Archive.instance.http_timeout
         http.get url.path
       end
 

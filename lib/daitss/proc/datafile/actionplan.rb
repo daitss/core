@@ -1,5 +1,5 @@
 require 'net/http'
-require 'daitss/config'
+require 'daitss/archive'
 require 'daitss/proc/datafile'
 
 class DataFile
@@ -7,15 +7,15 @@ class DataFile
   include Daitss
 
   def migration
-    ask_actionplan "#{CONFIG['actionplan']}/migration"
+    ask_actionplan "#{Archive.instance.actionplan_url}/migration"
   end
 
   def normalization
-    ask_actionplan "#{CONFIG['actionplan']}/normalization"
+    ask_actionplan "#{Archive.instance.actionplan_url}/normalization"
   end
 
   def xmlresolution
-    ask_actionplan "#{CONFIG['actionplan']}/xmlresolution"
+    ask_actionplan "#{Archive.instance.actionplan_url}/xmlresolution"
   end
 
   private
@@ -26,7 +26,7 @@ class DataFile
     req.set_form_data 'description' => metadata['describe-file-object']
 
     res = Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = Daitss::CONFIG['http-timeout']
+      http.read_timeout = Archive.instance.http_timeout
       http.request req
     end
 

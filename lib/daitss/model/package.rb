@@ -39,7 +39,7 @@ class Package
 
   # return a wip if exists in workspace, otherwise nil
   def wip
-    Archive.new.workspace[id]
+    Daitss::Archive.instance.workspace[id]
   end
 
   # return a stashed wip, otherwise nil

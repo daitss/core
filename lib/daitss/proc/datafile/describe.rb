@@ -111,12 +111,12 @@ class DataFile
 
   def ask_description_service query={}
     query_str = query.map { |key, value| "#{key.id2name}=#{CGI::escape value.to_s}" }.join '&'
-    url = URI.parse "#{CONFIG['describe']}/describe?#{query_str}"
+    url = URI.parse "#{Archive.instance.describe_url}/describe?#{query_str}"
     req = Net::HTTP::Get.new url.path
     req.form_data = query unless query.empty?
 
     res = Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = Daitss::CONFIG['http-timeout']
+      http.read_timeout = Archive.instance.http_timeout
       http.request req
     end
 
