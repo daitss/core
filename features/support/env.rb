@@ -41,11 +41,11 @@ class MyWorld
   end
 
   def last_package
-    Package.first(:order => [ :id.desc ])
+    packages.last
   end
 
   def last_package_id
-    last_package.id
+    last_package.split('/').last
   end
 
   def empty_out_workspace
