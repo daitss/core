@@ -1,7 +1,7 @@
 Feature: ingest a package
 
   Scenario: ingest a package. After complete, look for aip record, storage record, and events
-    Given I goto "/submit"
+    Given I goto "/packages"
     When I select "haskell-nums-pdf" to upload
     And I press "Submit"
     And I click on "ingesting"
