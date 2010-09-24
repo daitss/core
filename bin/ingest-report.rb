@@ -4,7 +4,6 @@
 
 require 'rexml/document'
 require 'daitss2'
-require 'daitss/config'
 require 'time'
 require 'pp'
 
@@ -33,7 +32,7 @@ end
   #fail "Error, #{PATH_TO_WRITE_FILE} is not a directory."
 #end
 #
-# check that destination is writable 
+# check that destination is writable
 #if not File.writable? PATH_TO_WRITE_FILE
   #fail "Error, #{PATH_TO_WRITE_FILE} is not a writable."
 #end
@@ -82,7 +81,7 @@ ingest_element << files_element
 intentity_record.datafiles.each do |datafile_record|
   file_element = REXML::Element.new "FILE"
   md_sha1_element = REXML::Element.new "MESSAGE_DIGEST"
-  
+
   file_element.attributes["DFID"] = datafile_record.id
   file_element.attributes["ORIGIN"] = datafile_record.origin
   file_element.attributes["PATH"] = datafile_record.original_path
@@ -104,10 +103,10 @@ intentity_record.datafiles.each do |datafile_record|
 
       file_element << broken_link_element
     end
-  end 
+  end
 
   # add warning element if there are any severe elements
- 
+
   if datafile_record.datafile_severe_element.any?
     datafile_record.datafile_severe_element.each do |severe_element_record|
       warning_element = REXML::Element.new "WARNING"

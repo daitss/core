@@ -32,7 +32,7 @@ describe Wip do
   end
 
   it 'should ingest via task' do
-    ws = Archive.new.workspace
+    ws = Daitss::Archive.instance.workspace
     wip = submit 'mimi'
     wip.task = :ingest
     wip.start
@@ -52,7 +52,7 @@ describe Wip do
     FileUtils::rm_r proto_wip.path
 
     # move it to the workspace
-    ws = Archive.new.workspace
+    ws = Daitss::Archive.instance.workspace
     wip = blank_wip id, uri
     wip.tags['drop-path'] = "/tmp/#{id}.tar"
     FileUtils.mv wip.path, ws.path

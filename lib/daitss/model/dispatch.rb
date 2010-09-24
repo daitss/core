@@ -3,7 +3,6 @@
 
 require 'daitss/proc/wip'
 require 'uri'
-require 'daitss/config'
 require 'daitss/proc/workspace'
 require 'daitss/archive'
 
@@ -14,8 +13,8 @@ class Dispatch
   # creates a dissemination "sub-wip" in the workspace
 
   def self.dispatch_request ieid, type
-    ws_path = Archive.new.workspace.path
-    prefix_uri = Daitss::CONFIG['uri-prefix']
+    ws_path = Daitss::Archive.instance.workspace.path
+    prefix_uri = Daitss::Archive.instance.uri_prefix
     path = File.join(ws_path, ieid.to_s)
     wip = Wip.new path, prefix_uri
 
@@ -36,7 +35,7 @@ class Dispatch
   end
 
   def self.wip_exists? ieid
-    ws_path = Archive.new.workspace.path
+    ws_path = Daitss::Archive.instance.workspace.path
     File.exists? File.join(ws_path, ieid.to_s)
   end
 

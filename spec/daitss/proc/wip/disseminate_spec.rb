@@ -13,19 +13,6 @@ describe Wip do
       lambda { wip.disseminate }.should raise_error("no aip for #{wip.id}")
     end
 
-    it "should raise error if there is anything wrong with dissemination" do
-      proto_wip = submit 'mimi'
-      proto_wip.ingest!
-      id, uri = proto_wip.id, proto_wip.uri
-      FileUtils::rm_r proto_wip.path
-      wip = blank_wip id, uri
-
-      override_service 'describe', 500 do
-        lambda { wip.disseminate }.should raise_error(Net::HTTPFatalError)
-      end
-
-    end
-
   end
 
   describe "post disseminate" do

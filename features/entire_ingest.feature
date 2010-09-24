@@ -11,7 +11,7 @@ Feature: ingest a package
     And there should be an "ingest finished" event
 
   Scenario: ingest a virus infected package. Package should snafu
-    Given I goto "/submit"
+    Given I goto "/packages"
     When I select "virus" to upload
     And I press "Submit"
     And I click on "ingesting"

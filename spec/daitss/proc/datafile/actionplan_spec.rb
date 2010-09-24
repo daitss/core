@@ -7,18 +7,6 @@ require 'daitss/model/aip'
 
 describe DataFile do
 
-  describe 'when the actionplan server is not available' do
-
-    it 'should raise an error' do
-
-      override_service 'actionplan', 500 do
-        lambda { subject.normalization }.should raise_error
-      end
-
-    end
-
-  end
-
   describe "with no preservation actions" do
 
     before :all do

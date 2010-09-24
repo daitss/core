@@ -1,4 +1,4 @@
-require 'daitss/config'
+require 'daitss/archive'
 require 'daitss/proc/wip'
 require 'daitss/proc/workspace'
 require 'daitss/model'
@@ -7,7 +7,6 @@ require 'daitss/db'
 require 'semver'
 
 module Daitss
-
-  VERSION = SemVer.find(File.dirname(__FILE__)).format "v%M.%m.%p%s"
-
+  VERSION_FORMAT = "v%M.%m.%p%s"
+  VERSION = SemVer.find(File.dirname(__FILE__)).format VERSION_FORMAT
 end

@@ -1,14 +1,14 @@
 require 'spec_helper'
 require 'daitss/archive'
 
-describe Archive do
+describe Daitss::Archive do
 
   describe 'submitting' do
 
     describe 'a valid package' do
 
       before :all do
-        @archive = Archive.new
+        @archive = Daitss::Archive.instance
         path = new_sip_archive 'mimi.zip'
         user = User.get('Bureaucrat')
         @package = @archive.submit path, user
@@ -31,7 +31,7 @@ describe Archive do
     describe 'invalid package' do
 
       before :all do
-        @archive = Archive.new
+        @archive = Daitss::Archive.instance
         path = new_sip_archive 'missing-descriptor.zip'
         user = User.get('Bureaucrat')
         @package = @archive.submit path, user
@@ -53,7 +53,7 @@ describe Archive do
     describe 'submitting a with bad agreement info' do
 
       it 'should reject because of the invalid account' do
-        @archive = Archive.new
+        @archive = Daitss::Archive.instance
         path = new_sip_archive 'bad-account.zip'
         user = User.get('Bureaucrat')
         @package = @archive.submit path, user
@@ -65,7 +65,7 @@ describe Archive do
       end
 
       it 'should reject because of the invalid project' do
-        @archive = Archive.new
+        @archive = Daitss::Archive.instance
         path = new_sip_archive 'bad-project.zip'
         user = User.get('Bureaucrat')
         @package = @archive.submit path, user

@@ -5,7 +5,7 @@ require 'daitss/proc/datafile'
 describe DataFile do
 
   subject do
-    wip = Wip.new File.join($sandbox, UUID.generate), Daitss::CONFIG['uri-prefix']
+    wip = Wip.new File.join($sandbox, UUID.generate), Daitss::Archive.instance.uri_prefix
     wip.new_original_datafile 0
   end
 

@@ -1,13 +1,13 @@
 require 'base64'
 require 'daitss/proc/datafile'
-require 'daitss/config'
+require 'daitss/archive'
 
 class DataFile
   include Daitss
 
   def virus_check!
-    output = %x{curl -f -s -F'data=@#{self.datapath}' #{CONFIG['viruscheck']}/}
-    raise "could not request virus check: #{output}" unless $?.exitstatus == 0
+    output = %x{curl -f -s -F'data=@#{self.datapath}' #{Archive.instance.viruscheck_url}/}
+    raise "could not request virus check\n#{output}" unless $?.exitstatus == 0
     doc = XML::Document.string output
     failed = doc.find '//P:eventOutcome = "failed"', NS_PREFIX
 

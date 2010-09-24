@@ -8,7 +8,7 @@ require 'uri'
 require 'jxml/validator'
 require 'net/http'
 
-require 'daitss/config'
+require 'daitss/archive'
 require 'daitss/model/copy'
 
 include LibXML

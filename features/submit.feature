@@ -1,7 +1,7 @@
 Feature: interactive submission
 
   Scenario Outline: packages that should reject or submit
-    Given I goto "/submit"
+    Given I goto "/packages"
     When I select "<package>" to upload
     And I press "Submit"
     Then I should be at a package page
