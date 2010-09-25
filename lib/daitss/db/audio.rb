@@ -60,7 +60,8 @@ class Audio
     end
 
 	if node = premis.find_first("//@mapLocation", NAMESPACES)
-	  puts node.inspect
+	  # NOISE
+          # puts node.inspect
       channelMap = node.value
       attribute_set(:channel_map, channelMap)
 	end

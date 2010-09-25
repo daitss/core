@@ -10,6 +10,7 @@ class Package
   include DataMapper::Resource
 
   property :id, EggHeadKey
+  property :uri, String, :unique => true, :required => true
 
   has n, :events
   has n, :requests

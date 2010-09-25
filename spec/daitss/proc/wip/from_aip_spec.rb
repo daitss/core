@@ -10,14 +10,12 @@ describe Wip do
     before :all do
       proto_wip = submit 'wave'
       proto_wip.ingest!
+
       path = proto_wip.path
-
       id = proto_wip.id
-      uri = proto_wip.uri
-
       FileUtils.rm_r path
 
-      @wip = blank_wip id, uri
+      @wip = blank_wip id
       @wip.load_from_aip
     end
 

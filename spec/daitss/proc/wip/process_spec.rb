@@ -4,13 +4,7 @@ require 'uuid'
 
 describe Wip do
 
-  subject do
-    id = UUID.generate :compact
-    uri = "bogus:/#{id}"
-    wip = blank_wip id, uri
-    wip.task = :sleep
-    wip
-  end
+  subject { submit 'haskell-nums-pdf' }
 
   it "should monitor the processing state" do
     subject.should_not be_running

@@ -3,18 +3,16 @@ require 'daitss/proc/wip/state'
 
 describe Wip do
 
-  it 'should have dead wips be snafu' do
+  subject { submit 'haskell-nums-pdf' }
 
-    id = UUID.generate :compact
-    uri = "bogus:/#{id}"
-    wip = blank_wip id, uri
+  it 'should have dead subject. be snafu' do
 
-    wip.should_not be_running
-    wip.task = :sleep
-    wip.start
-    wip.should be_running
+    subject.should_not be_running
+    subject.task = :sleep
+    subject.start
+    subject.should be_running
 
-    wip.instance_eval do
+    subject.instance_eval do
       pid, ptime = process
 
       begin
@@ -25,7 +23,7 @@ describe Wip do
 
     end
 
-    wip.state.should == 'snafu'
+    subject.state.should == 'snafu'
   end
 
 end

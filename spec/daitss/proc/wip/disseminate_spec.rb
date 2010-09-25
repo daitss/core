@@ -22,9 +22,9 @@ describe Wip do
       proto_wip.ingest!
       Package.get(proto_wip.id).aip.should_not be_nil
 
-      id, uri = proto_wip.id, proto_wip.uri
+      id = proto_wip.id
       FileUtils::rm_r proto_wip.path
-      @wip = blank_wip id, uri
+      @wip = blank_wip id
       @wip.tags['drop-path'] = "/tmp/#{id}.tar"
       @wip.disseminate
     end
@@ -62,13 +62,13 @@ describe Wip do
       proto_wip = submit 'wave'
       proto_wip.ingest!
       Package.get(proto_wip.id).aip.should_not be_nil
-      @id, @uri = proto_wip.id, proto_wip.uri
+      @id = proto_wip.id
       FileUtils::rm_r proto_wip.path
 
       # disseminate it twice
       @dips = []
       2.times.each do |n|
-        wip = blank_wip @id, @uri
+        wip = blank_wip @id
         dip_path = "/tmp/#{@id}-#{n}.tar"
         @dips << dip_path
         wip.tags['drop-path'] = dip_path

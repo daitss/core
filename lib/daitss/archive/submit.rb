@@ -7,6 +7,7 @@ module Daitss
     # submit a sip on behalf of an agent, return a package
     def submit sip_path, agent
       package = Package.new
+      package.uri = uri_prefix + package.id
 
       # make a new sip archive
       sa = SipArchive.new sip_path
@@ -54,8 +55,7 @@ module Daitss
           end
 
           if sa.valid? and agreement_errors.empty?
-            uri = "#{uri_prefix}/#{package.id}"
-            wip = Wip.from_sip_archive workspace, package.id, uri, sa
+            wip = Wip.from_sip_archive workspace, package, sa
             package.log 'submit', :agent => agent
           else
             combined_errors = (agreement_errors + sa.errors).join "\n"

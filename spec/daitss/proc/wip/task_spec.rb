@@ -10,11 +10,7 @@ describe Wip do
     ENV['PATH'] = [File.join(SPEC_ROOT, '..', 'bin'), ENV['PATH']].join ':'
   end
 
-  subject do
-    id = UUID.generate :compact
-    uri = "bogus:/#{id}"
-    blank_wip id, uri
-  end
+  subject { submit 'haskell-nums-pdf' }
 
   it "should have a task" do
     subject.task = :ingest
@@ -32,32 +28,25 @@ describe Wip do
   end
 
   it 'should ingest via task' do
-    ws = Daitss::Archive.instance.workspace
-    wip = submit 'mimi'
-    wip.task = :ingest
-    wip.start
-    sleep 0.5 while wip.running?
-    wip.should_not be_snafu
-    Package.get(wip.id).aip.should_not be_nil
-    File.exist?(wip.path).should be_false
+    subject.start
+    sleep 0.5 while subject.running?
+    subject.should_not be_snafu
+    Package.get(subject.id).aip.should_not be_nil
+    File.exist?(subject.path).should be_false
   end
 
   it 'should disseminate via task' do
+    subject.start
+    sleep 0.5 while subject.running?
+    subject.should_not be_snafu
+    Package.get(subject.id).aip.should_not be_nil
+    File.exist?(subject.path).should be_false
 
-    # ingest a package
-    proto_wip = submit 'mimi'
-    proto_wip.ingest!
-    proto_wip.package.aip.should_not be_nil
-    id, uri = proto_wip.id, proto_wip.uri
-    FileUtils::rm_r proto_wip.path
-
-    # move it to the workspace
     ws = Daitss::Archive.instance.workspace
-    wip = blank_wip id, uri
-    wip.tags['drop-path'] = "/tmp/#{id}.tar"
-    FileUtils.mv wip.path, ws.path
+    path = File.join ws.path, subject.id
+    wip = Wip.new path
+    wip.tags['drop-path'] = "/tmp/#{wip.id}.tar"
 
-    wip = ws[id]
     wip.task = :disseminate
     wip.start
     sleep 0.5 while wip.running?
@@ -65,6 +54,7 @@ describe Wip do
     wip.should_not be_snafu
     wip.package.aip.should_not be_nil
     File.exist?(wip.path).should be_false
+    File.exist?( "/tmp/#{wip.id}.tar").should be_true
   end
 
 end

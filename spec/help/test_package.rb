@@ -29,9 +29,10 @@ def submit name
   a.workspace[package.id]
 end
 
-def blank_wip id, uri
-  path = File.join $sandbox, id
-  Wip.new path, uri
+def blank_wip id
+  ws = Daitss::Archive.instance.workspace
+  path = File.join ws.path, id
+  Wip.new path
 end
 
 def pull_aip id

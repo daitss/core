@@ -4,10 +4,12 @@ require 'daitss/proc/datafile'
 # Proto AIP: Work In Progress
 describe DataFile do
 
-  subject do
-    wip = Wip.new File.join($sandbox, UUID.generate), Daitss::Archive.instance.uri_prefix
-    wip.new_original_datafile 0
+  before :all do
+    @wip = submit 'haskell-nums-pdf'
+    @df = @wip.new_original_datafile 'test'
   end
+
+  subject { @df }
 
   it "should let one add new metadata" do
     subject['sip-path'] = 'foo/bar/baz'
@@ -20,7 +22,7 @@ describe DataFile do
   end
 
   it "should have a uri" do
-    subject.uri.should == "#{subject.wip.uri}/file/#{subject.id}"
+    subject.uri.should == "#{subject.wip.package.uri}/file/#{subject.id}"
   end
 
   it "should equal datafiles with the same path" do

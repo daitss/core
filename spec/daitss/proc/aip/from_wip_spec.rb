@@ -50,16 +50,16 @@ describe Aip do
 
       FileUtils.rm_r path
 
-      wip = blank_wip id, uri
+      wip = blank_wip id
       wip.load_from_aip
 
       wip.preserve!
 
       spec = {
-        :id => "#{wip.uri}/event/FOO",
+        :id => "#{wip.package.uri}/event/FOO",
         :type => 'FOO',
         :outcome => 'success',
-        :linking_objects => [ wip.uri ]
+        :linking_objects => [ wip.package.uri ]
       }
 
       wip['old-digiprov-events'] = wip['old-digiprov-events'] + "\n" + event(spec)

@@ -8,6 +8,7 @@ require 'daitss/archive'
 
 class Dispatch
 
+  # TODO this needs to be in the config file or part of the data-dir
   DISSEMINATE_DROP_PATH = "/tmp/disseminations/"
 
   # creates a dissemination "sub-wip" in the workspace
@@ -16,7 +17,7 @@ class Dispatch
     ws_path = Daitss::Archive.instance.workspace.path
     prefix_uri = Daitss::Archive.instance.uri_prefix
     path = File.join(ws_path, ieid.to_s)
-    wip = Wip.new path, prefix_uri
+    wip = Wip.new path
 
     case type
 

@@ -14,6 +14,10 @@ class Wip
     XML::Document.string template_by_name('aip/descriptor').result(binding)
   end
 
+  def uri
+    package.uri
+  end
+
   private
 
   def agreement_info

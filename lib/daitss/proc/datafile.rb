@@ -19,7 +19,7 @@ class DataFile
   def initialize wip, container, id
     @id = id
     @wip = wip
-    @uri = @wip.uri + '/file/' + @id
+    @uri = @wip.package.uri + '/file/' + @id
     @dir = File.join @wip.path, container, @id
     @metadata = FsHash.new File.join(@dir, METADATA_DIR)
     @datapath = File.join @dir, DATA_FILE
