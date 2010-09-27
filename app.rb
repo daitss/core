@@ -44,6 +44,10 @@ helpers do
 
 end
 
+configure do
+  Daitss::Archive.instance
+end
+
 before do
   #authenticate
   @user = Operator.get('root') or raise "cannot get root op"
@@ -140,7 +144,7 @@ get '/package/:id' do |id|
   @stashed_wip = @bin.wips.find { |w| w.id == id } if @bin
   @bins = StashBin.all
   @requests = @package.requests
-  
+
   ingest_start_event = @package.events.first(:name => "ingest started")
   ingest_finished_event = @package.events.first(:name => "ingest finished")
 
