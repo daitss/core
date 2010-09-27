@@ -47,7 +47,7 @@
         %td= a.id
         %td= a.description
         %td
-          - unless a.id == Archive::SYSTEM_ACCOUNT_ID
+          - unless a.id == Daitss::Archive::SYSTEM_ACCOUNT_ID
             %form{:action => "/admin", :method => 'post'}
               %input{:type => 'hidden', :name => 'task', :value => 'delete-account'}
               %input{:type => 'hidden', :name => 'id', :value => a.id }

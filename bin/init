@@ -2,14 +2,10 @@
 
 require 'rubygems'
 require 'bundler/setup'
-require 'daitss/config'
 require 'daitss/archive'
-require 'fileutils'
 
-include Daitss
-
-CONFIG.load_from_env
-Archive.create_work_directories
-Archive.setup_db :log => true
-Archive.init_db
-Archive.create_initial_data
+a = Daitss::Archive.instance
+a.init_data_dir
+a.setup_db :log => true
+a.init_db
+a.create_initial_data

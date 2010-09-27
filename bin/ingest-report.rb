@@ -5,13 +5,14 @@
 require 'rexml/document'
 require 'daitss/db'
 require 'daitss/model'
-require 'daitss/config'
+require 'daitss/archive'
 require 'time'
 require 'pp'
 
+include Daitss
+
 # Connect to database
-Daitss::CONFIG.load_from_env
-DataMapper.setup :default, Daitss::CONFIG['database-url']
+DataMapper.setup :default, Archive.instance.db_url
 
 IEID = ARGV[0]
 
@@ -21,7 +22,7 @@ def fail message
 end
 
 # get data from database to build report
-intentity_record = Intentity.first(:id => Daitss::CONFIG['uri-prefix'] + "/" + IEID)
+intentity_record = Intentity.first(:id => Archive.instance.uri_prefix + "/" + IEID)
 package = Package.first(:id => IEID)
 sip = package.sip
 

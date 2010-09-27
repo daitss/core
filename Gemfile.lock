@@ -97,7 +97,7 @@ GEM
     rack-test (0.5.4)
       rack (>= 1.0)
     rake (0.8.7)
-    rjb (1.2.6)
+    rjb (1.2.9)
     rspec (1.3.0)
     ruby-debug (0.10.3)
       columnize (>= 0.1)

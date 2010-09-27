@@ -21,34 +21,22 @@ class Wip
 
 
   # make a new proto-aip at a path
-  def initialize path, uri=nil
+  def initialize path
     @path = File.expand_path path
     @id = File.basename @path
     FileUtils::mkdir_p @path unless File.exist? @path
 
     @metadata = FsHash.new File.join(@path, METADATA_DIR)
     @tags = FsHash.new File.join(@path, TAGS_DIR)
-
-    if uri
-      raise "wip #{@path} has a uri" if metadata.has_key? 'uri'
-      metadata['uri'] = uri
-    else
-      raise "wip #{@path} has no uri" unless metadata.has_key? 'uri'
-    end
-
     @cached_max_id = {}
-
   end
 
   def_delegators :@metadata, :[]=, :[], :has_key?, :delete
 
-  def uri
-    metadata['uri']
-  end
-  alias_method :to_s, :uri
+  alias_method :to_s, :id
 
   def == other
-    id == other.id and uri == other.uri and path == other.path
+    id == other.id and path == other.path
   end
   alias_method :eql?, :==
 

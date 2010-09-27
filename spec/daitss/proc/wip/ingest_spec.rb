@@ -7,19 +7,6 @@ require 'daitss/db/int_entity'
 
 describe Wip do
 
-  describe "that wont ingest" do
-    subject { submit 'mimi' }
-
-    it "should raise error if that has trouble ingesting" do
-
-      override_service 'describe', 500 do
-        lambda { subject.ingest! }.should raise_error(Net::HTTPFatalError)
-      end
-
-    end
-
-  end
-
   describe "that is ingested" do
 
     before :all do

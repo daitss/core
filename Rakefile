@@ -9,9 +9,7 @@ require 'spec/rake/spectask'
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'lib')
 
-require 'daitss'
 require 'daitss/archive'
-require 'daitss/config'
 require 'daitss/db'
 require 'daitss/model/aip'
 
@@ -21,10 +19,9 @@ task :ctags do
 end
 
 namespace :db do
-  Daitss::CONFIG.load_from_env
 
   task :setup do
-    Archive.setup_db :log => true
+    Archive.instance.setup_db :log => true
   end
 
   desc 'migrate the database'

@@ -8,7 +8,6 @@ class Aip
   def Aip.new_from_wip wip
     aip = Aip.new
     aip.package = wip.package
-    aip.uri = wip.uri
     aip.xml = wip['aip-descriptor']
     aip.datafile_count = wip.represented_datafiles.size
 

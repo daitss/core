@@ -7,22 +7,13 @@ describe Wip do
 
   subject do
     id = UUID.generate :compact
-    uri = "bogus:/#{id}"
-    blank_wip id, uri
-  end
-
-  it "should require a uri if one does not exist" do
-    lambda {
-      uuid = UUID.generate
-      path = File.join $sandbox, uuid
-      Wip.new path
-    }.should raise_error(/wip .+ has no uri/)
-  end
-
-  it "should not require a uri if one already exists" do
-    lambda {
-      Wip.new subject.path, subject.uri
-    }.should raise_error(/wip .+ has a uri/)
+    p = Package.new
+    p.uri = UUID.generate :urn
+    ac = Account.get Daitss::Archive::SYSTEM_ACCOUNT_ID
+    pr = ac.projects.first :id => Daitss::Archive::DEFAULT_PROJECT_ID
+    p.project = pr
+    p.save or raise "cant save package"
+    blank_wip p.id
   end
 
   it "should let addition of new files" do
@@ -38,18 +29,13 @@ describe Wip do
 
   it "should let addition of new metadata" do
     subject['submit-event'] = "submitted at #{Time.now}"
-
-    wip_prime = Wip.new File.join($sandbox, subject.id)
+    wip_prime = Daitss::Archive.instance.workspace[subject.id]
     subject['submit-event'].should == wip_prime['submit-event']
   end
 
   it "should let new tags be set" do
     subject.tags['FOO'] = '100'
     subject.tags['FOO'].should == '100'
-  end
-
-  it "should have a uri" do
-    subject.uri.should == "bogus:/#{subject.id}"
   end
 
   it "should equal a wip with the same path" do
@@ -60,8 +46,7 @@ describe Wip do
   it "should not equal a wip with a different path" do
     uuid = UUID.generate :compact
     path = File.join $sandbox, uuid
-    uri = "bogus:/#{uuid}"
-    wip = Wip.new path, uri
+    wip = Wip.new path
     subject.should_not == wip
   end
 

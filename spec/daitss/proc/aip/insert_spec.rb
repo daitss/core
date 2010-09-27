@@ -1,4 +1,3 @@
-require 'daitss/proc/wip/validate'
 require 'spec_helper'
 require 'daitss/proc/wip/preserve'
 require 'daitss/model/aip/from_wip'

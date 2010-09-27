@@ -10,6 +10,7 @@ class Package
   include DataMapper::Resource
 
   property :id, EggHeadKey
+  property :uri, String, :unique => true, :required => true
 
   has n, :events
   has n, :requests
@@ -39,7 +40,7 @@ class Package
 
   # return a wip if exists in workspace, otherwise nil
   def wip
-    Archive.new.workspace[id]
+    Daitss::Archive.instance.workspace[id]
   end
 
   # return a stashed wip, otherwise nil

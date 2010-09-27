@@ -22,10 +22,10 @@ class Wip
 
     step('write-ingest-event') do
       spec = {
-        :id => "#{uri}/event/ingest",
+        :id => "#{package.uri}/event/ingest",
         :type => 'ingest',
         :outcome => 'success',
-        :linking_objects => [ uri ],
+        :linking_objects => [ package.uri ],
         :linking_agents => [ "info:fcla/daitss/ingest" ]
       }
       metadata['ingest-event'] = event spec

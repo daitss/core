@@ -24,11 +24,10 @@ describe Aip do
       path = proto_wip.path
 
       id = proto_wip.id
-      uri = proto_wip.uri
 
       FileUtils.rm_r path
 
-      wip = blank_wip id, uri
+      wip = blank_wip id
       wip.load_from_aip
 
       wip.preserve!

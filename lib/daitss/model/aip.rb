@@ -8,7 +8,7 @@ require 'uri'
 require 'jxml/validator'
 require 'net/http'
 
-require 'daitss/config'
+require 'daitss/archive'
 require 'daitss/model/copy'
 
 include LibXML
@@ -29,8 +29,6 @@ class Aip
   include DataMapper::Resource
   property :id, Serial
 
-  # SMELL should URI go into the package table?
-  property :uri, String, :unique => true, :required => true
   property :xml, Text, :required => true, :length => XML_SIZE
   property :datafile_count, Integer, :min => 1, :required => true
 
@@ -56,6 +54,7 @@ class Aip
 
   end
 
+  # SMELL ditch this
   def validate_against_schematron
     doc = XML::Document.string xml
     results = AIP_DESCRIPTOR_SCHEMATRON.validate doc

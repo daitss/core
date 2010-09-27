@@ -9,7 +9,7 @@ Given /^an? ([^"]*) wip$/ do |state|
   #When %Q(I click on "ingesting")
   #When %Q(I choose "start")
   #When %Q(I press "Update")
-  wip = Archive.new.workspace[last_package_id]
+  wip = Daitss::Archive.instance.workspace[last_package_id]
   raise "no wip: #{last_package_id}" unless wip
 
   case state

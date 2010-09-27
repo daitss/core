@@ -9,7 +9,7 @@ require 'sinatra'
 
 require 'daitss'
 require 'daitss/archive'
-require 'daitss/config'
+require 'daitss/archive/submit'
 require 'daitss/datetime'
 require 'daitss/model'
 require 'daitss/proc/sip_archive'
@@ -18,11 +18,6 @@ require 'daitss/proc/wip/process'
 require 'daitss/proc/wip/progress'
 require 'daitss/proc/wip/state'
 require 'daitss/proc/workspace'
-
-configure do
-  Daitss::CONFIG.load_from_env
-  Archive.setup_db
-end
 
 helpers do
 
@@ -49,10 +44,14 @@ helpers do
 
 end
 
+configure do
+  Daitss::Archive.instance
+end
+
 before do
   #authenticate
   @user = Operator.get('root') or raise "cannot get root op"
-  @archive = Archive.new
+  @archive = Daitss::Archive.instance
 end
 
 get '/stylesheet.css' do
@@ -77,11 +76,6 @@ post '/log' do
   redirect '/log'
 end
 
-get '/submit' do
-  @active_nav = 'submit'
-  haml :submit
-end
-
 post '/packages?/?' do
   #error 401 unless @user.account == account and @user.permissions.include? :submit
   require_param 'sip'
@@ -94,8 +88,7 @@ post '/packages?/?' do
           path = File.join dir, filename
           open(path, 'w') { |io| io.write data }
 
-          a = Archive.new
-          a.submit path, @user
+          @archive.submit path, @user
         ensure
           FileUtils.rm_r dir
         end
@@ -151,7 +144,7 @@ get '/package/:id' do |id|
   @stashed_wip = @bin.wips.find { |w| w.id == id } if @bin
   @bins = StashBin.all
   @requests = @package.requests
-  
+
   ingest_start_event = @package.events.first(:name => "ingest started")
   ingest_finished_event = @package.events.first(:name => "ingest finished")
 
@@ -330,7 +323,7 @@ end
 get '/admin' do
   @active_nav = 'admin'
   @bins = StashBin.all
-  @accounts = Account.all :id.not => Archive::SYSTEM_ACCOUNT_ID
+  @accounts = Account.all :id.not => Daitss::Archive::SYSTEM_ACCOUNT_ID
   @users = User.all
   @projects = Project.all :id.not => 'default'
 
@@ -360,7 +353,7 @@ post '/admin' do
     a = Account.new
     a.id = require_param 'id'
     a.description = require_param 'description'
-    p = Project.new :id => Archive::DEFAULT_PROJECT_ID, :description => 'default project'
+    p = Project.new :id => Daitss::Archive::DEFAULT_PROJECT_ID, :description => 'default project'
     a.projects << p
     a.save or error "could not create new account"
     @archive.log "new account: #{a.id}"

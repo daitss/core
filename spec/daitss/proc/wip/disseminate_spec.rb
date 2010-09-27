@@ -13,19 +13,6 @@ describe Wip do
       lambda { wip.disseminate }.should raise_error("no aip for #{wip.id}")
     end
 
-    it "should raise error if there is anything wrong with dissemination" do
-      proto_wip = submit 'mimi'
-      proto_wip.ingest!
-      id, uri = proto_wip.id, proto_wip.uri
-      FileUtils::rm_r proto_wip.path
-      wip = blank_wip id, uri
-
-      override_service 'describe', 500 do
-        lambda { wip.disseminate }.should raise_error(Net::HTTPFatalError)
-      end
-
-    end
-
   end
 
   describe "post disseminate" do
@@ -35,9 +22,9 @@ describe Wip do
       proto_wip.ingest!
       Package.get(proto_wip.id).aip.should_not be_nil
 
-      id, uri = proto_wip.id, proto_wip.uri
+      id = proto_wip.id
       FileUtils::rm_r proto_wip.path
-      @wip = blank_wip id, uri
+      @wip = blank_wip id
       @wip.tags['drop-path'] = "/tmp/#{id}.tar"
       @wip.disseminate
     end
@@ -61,7 +48,7 @@ describe Wip do
       ie = Intentity.get(@wip.uri)
       ie.should_not be_nil
       ie.should have(@wip.all_datafiles.size).datafiles
-      es = PreservationEvent.all :e_type => :disseminate, :relatedObjectId => @wip.uri
+      es = PremisEvent.all :e_type => :disseminate, :relatedObjectId => @wip.uri
       es.should have(1).item
     end
 
@@ -75,13 +62,13 @@ describe Wip do
       proto_wip = submit 'wave'
       proto_wip.ingest!
       Package.get(proto_wip.id).aip.should_not be_nil
-      @id, @uri = proto_wip.id, proto_wip.uri
+      @id = proto_wip.id
       FileUtils::rm_r proto_wip.path
 
       # disseminate it twice
       @dips = []
       2.times.each do |n|
-        wip = blank_wip @id, @uri
+        wip = blank_wip @id
         dip_path = "/tmp/#{@id}-#{n}.tar"
         @dips << dip_path
         wip.tags['drop-path'] = dip_path

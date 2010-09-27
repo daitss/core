@@ -1,8 +1,7 @@
 require 'data_mapper'
 
+require 'daitss/archive'
 require 'daitss/model/aip'
-require 'daitss/model/eggheadkey'
-require 'daitss/model/event'
 
 # tarball serialization of an AIP
 class Copy
@@ -48,7 +47,7 @@ class Copy
     req = Net::HTTP::Get.new self.url.path
 
     res = Net::HTTP.start(url.host, url.port) do |http|
-      http.read_timeout = Daitss::CONFIG['http-timeout']
+      http.read_timeout = Daitss::Archive.instance.http_timeout
       http.request(req)
     end
 
@@ -86,7 +85,7 @@ class Copy
     req.body_stream = aip_archive.open
 
     res = Net::HTTP.start(self.url.host, self.url.port) do |http|
-      http.read_timeout = Daitss::CONFIG['http-timeout']
+      http.read_timeout = Daitss::Archive.instance.http_timeout
       http.request(req)
     end
 
@@ -109,7 +108,7 @@ class Copy
   private
 
   def make_url rev=nil
-    "#{Daitss::CONFIG['storage']}/#{self.aip.package.id}-#{rev || self.revision}"
+    "#{Daitss::Archive.instance.storage_url}/#{self.aip.package.id}-#{rev || self.revision}"
   end
 
 end

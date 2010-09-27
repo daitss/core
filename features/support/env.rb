@@ -41,15 +41,15 @@ class MyWorld
   end
 
   def last_package
-    Package.first(:order => [ :id.desc ])
+    packages.last
   end
 
   def last_package_id
-    last_package.id
+    last_package.split('/').last
   end
 
   def empty_out_workspace
-    ws = Archive.new.workspace
+    ws = Daitss::Archive.instance.workspace
 
     ws.each do |wip|
       wip.stop if wip.running?
@@ -60,17 +60,18 @@ class MyWorld
 
 end
 
-World{MyWorld.new}
+World { MyWorld.new }
 
 Before do
-  Daitss::CONFIG.load_from_env
-  FileUtils.rm_rf Daitss::CONFIG['data']
-  FileUtils.mkdir Daitss::CONFIG['data']
-  Archive.create_work_directories
-  Archive.setup_db
-  Archive.init_db
-  Archive.create_initial_data
+  archive = Daitss::Archive.instance
+  FileUtils.rm_rf archive.data_dir
+  FileUtils.mkdir archive.data_dir
+  archive.init_data_dir
+  archive.setup_db
+  archive.init_db
+  archive.create_initial_data
 
+  # extra initial data
   a = Account.new :id => 'ACT', :description => 'the description'
   pd = Project.new :id => 'default', :description => 'the default description', :account => a
   p = Project.new :id => 'PRJ', :description => 'the description', :account => a
@@ -80,9 +81,8 @@ Before do
 end
 
 After do
-  ws = Archive.new.workspace
 
-  ws.each do|w|
+  Daitss::Archive.instance.workspace.each do |w|
     w.kill if w.running?
     FileUtils.rm_rf w.path
   end

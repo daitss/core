@@ -18,7 +18,7 @@ class Account
   has n, :requests
 
   def default_project
-    self.projects.first :id => Archive::DEFAULT_PROJECT_ID
+    self.projects.first :id => Daitss::Archive::DEFAULT_PROJECT_ID
   end
 
 end

@@ -1,9 +1,13 @@
-Given /^I submit a package$/ do
-  Given "I goto \"/submit\""
-  When "I select \"haskell-nums-pdf\" to upload"
-  When "I press \"Submit\""
+Given /^I submit "([^"]*)"$/ do |package|
+  Given %q(I goto "/packages")
+  When %Q(I select "#{package}" to upload)
+  When %q(I press "Submit")
   last_response.should be_ok
   packages << current_url
+end
+
+Given /^I submit a package$/ do
+  Given %q(I submit "haskell-nums-pdf")
 end
 
 Given /^I submit (\d+) packages$/ do |count|

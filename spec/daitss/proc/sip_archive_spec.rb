@@ -5,7 +5,9 @@ describe SipArchive do
 
   it "should be an error if the package name is too long" do
     path = new_sip_archive 'very-long-name-0123456789abcdefABCDEF.zip'
-    lambda { SipArchive.new path }.should raise_error("package name contains too many characters (37) max is 32")
+    sa = SipArchive.new path
+    sa.should_not be_valid
+    sa.errors.should include("package name contains too many characters (37) max is 32")
   end
 
   it "should be an error if the package name is contains invalid characters" do

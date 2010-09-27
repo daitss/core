@@ -12,11 +12,12 @@ include LibXML
 class Wip
 
   # Create an AIP from a sip archive
-  def Wip.from_sip_archive workspace, id, uri, sip_archive
+  def Wip.from_sip_archive workspace, package, sip_archive
+    uri = package.uri
 
     begin
-      path = File.join workspace.submit_dir, id
-      wip = Wip.new path, uri
+      path = File.join workspace.submit_dir, package.id
+      wip = Wip.new path
       wip['sip-name'] = sip_archive.name
       wip.task = :ingest
 
