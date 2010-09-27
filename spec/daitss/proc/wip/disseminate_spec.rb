@@ -48,7 +48,7 @@ describe Wip do
       ie = Intentity.get(@wip.uri)
       ie.should_not be_nil
       ie.should have(@wip.all_datafiles.size).datafiles
-      es = PreservationEvent.all :e_type => :disseminate, :relatedObjectId => @wip.uri
+      es = PremisEvent.all :e_type => :disseminate, :relatedObjectId => @wip.uri
       es.should have(1).item
     end
 

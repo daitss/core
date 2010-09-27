@@ -7,7 +7,7 @@ Agent_Map = {
   "affiliate" => "organization"
 }
 
-class PreservationAgent
+class PremisAgent
   include DataMapper::Resource
   property :id, String, :key => true, :length => 255
   property :name, String, :length => 255
@@ -15,7 +15,7 @@ class PreservationAgent
   validates_with_method :type, :method => :validateType
   property :note, Text # additional agent note which may include external tool information
 
-  has 0..n, :preservation_events, :constraint => :destroy  # an agent can create 0-n events.
+  has 0..n, :premis_events, :constraint => :destroy  # an agent can create 0-n events.
 
   # validate the agent type value which is a daitss defined controlled vocabulary
   def validateType

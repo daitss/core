@@ -19,9 +19,9 @@ class Relationship
   property :type, String, :length => 20, :required => true #:default => :unknown
   	validates_with_method :type, :method => :validateType
   property :object2, String, :index => true, :length => 100
-  property :preservation_event_id, String, :length => 100
+  property :premis_event_id, String, :length => 100
 
-  belongs_to :preservation_event
+  belongs_to :premis_event
 
   # validate the relationship type value which is a daitss defined controlled vocabulary
   def validateType
@@ -36,7 +36,7 @@ class Relationship
     attribute_set(:object1, premis.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content)
     attribute_set(:type, Relationship_Map[event_type])
     attribute_set(:object2, toObj)
-    attribute_set(:preservation_event_id, premis.find_first("premis:relatedEventIdentification/premis:relatedEventIdentifierValue", NAMESPACES).content)
+    attribute_set(:premis_event_id, premis.find_first("premis:relatedEventIdentification/premis:relatedEventIdentifierValue", NAMESPACES).content)
   end
 end
 

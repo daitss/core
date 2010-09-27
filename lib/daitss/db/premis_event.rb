@@ -16,7 +16,7 @@ Event_Map = {
   "xml resolution" => "xml resolution"
 }
 
-  class PreservationEvent
+  class PremisEvent
     include DataMapper::Resource
     property :id, String, :key => true, :length => 100
     property :idType, String # identifier type
@@ -28,7 +28,7 @@ Event_Map = {
     property :relatedObjectId, String , :length => 100 # the identifier of the related object.
     # if object A migrated to object B, the object B will be associated with a migrated_from event
     property :class, Discriminator
-    belongs_to :preservation_agent
+    belongs_to :premis_agent
     # an event must be associated with an agent
     # note: for deletion event, the agent would be reingest.
 
@@ -60,23 +60,23 @@ Event_Map = {
 
     before :save do
       puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
-      puts "#{self.preservation_agent.errors.to_a} error encountered while saving #{self.preservation_agent.inspect} " unless self.preservation_agent.valid?
+      puts "#{self.premis_agent.errors.to_a} error encountered while saving #{self.premis_agent.inspect} " unless self.premis_agent.valid?
     end
   end
 
-  class IntentityEvent < PreservationEvent
+  class IntentityEvent < PremisEvent
     before :save do
       #TODO implement validation of objectID, making sure the objectID is a valid IntEntity
     end
   end
 
-  class RepresentationEvent < PreservationEvent
+  class RepresentationEvent < PremisEvent
     before :save do
       #TODO implement validation of objectID, making sure the objectID is a valid representation
     end
   end
 
-  class DatafileEvent < PreservationEvent
+  class DatafileEvent < PremisEvent
     attr_reader :df
     attr_reader :anomalies
 

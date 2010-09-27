@@ -133,11 +133,11 @@ class AIPInPremis
   def processAgents
     agentObjects = @doc.find("//premis:agent", NAMESPACES)
     agentObjects.each do |obj|
-      agent = PreservationAgent.new
+      agent = PremisAgent.new
       agent.fromPremis obj
 
       # use the existing agent record in the database if we have seen this agent before
-      existingAgent = PreservationAgent.get(agent.id)
+      existingAgent = PremisAgent.get(agent.id)
       if existingAgent
         @agents[agent.id] = existingAgent
       else
@@ -162,14 +162,14 @@ class AIPInPremis
         event.fromPremis(obj, df, @anomalies)
         event.setRelatedObject id.content
         # associate agent to the event
-        agent.preservation_events << event unless agent.nil?
+        agent.premis_events << event unless agent.nil?
         @events[event.id] = event
       elsif id && @int_entity.match(id.content) #then check if this event links to int entity
         event = IntentityEvent.new
         event.fromPremis(obj)
         event.setRelatedObject id.content
         # associate agent to the event
-        agent.preservation_events << event unless agent.nil?
+        agent.premis_events << event unless agent.nil?
         @events[event.id] = event
       end
     end
