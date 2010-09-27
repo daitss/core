@@ -3,7 +3,7 @@ require 'daitss/archive'
 
 describe Daitss::Archive do
 
-  describe 'submitting' do
+  describe 'when submitting' do
 
     describe 'a valid package' do
 
@@ -26,7 +26,20 @@ describe Daitss::Archive do
         wip.task.should == :ingest
       end
 
-      describe 'resulting wip' do
+      describe 'the resulting sip' do
+        subject { @package.sip }
+
+        it 'should have the size in bytes' do
+          subject.size_in_bytes.should == 29508
+        end
+
+        it 'should have the number of data files' do
+          subject.number_of_datafiles.should == 2
+        end
+
+      end
+
+      describe 'the resulting wip' do
 
         subject { Daitss::Archive.instance.workspace[@package.id] }
 

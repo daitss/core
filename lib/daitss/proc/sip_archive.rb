@@ -153,10 +153,11 @@ class SipArchive
 
   end
 
+  # the sum of all the files' size in bytes
   def size_in_bytes
 
     files.inject(0) do |sum, f|
-      path = File.join sa.path, f
+      path = File.join self.path, f
       sum + File.size(path)
     end
 
