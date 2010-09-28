@@ -53,6 +53,7 @@ Given /^that project (is|is not) empty$/ do |condition|
   else
     p = Package.new
     p.sip = Sip.new
+    p.uri = "daitss-test://#{p.id}"
     p.sip.name = 'FOO'
     p.sip.size_in_bytes = 10
     p.sip.number_of_datafiles = 10
