@@ -96,22 +96,6 @@ post '/packages?/?' do
   redirect "/package/#{sip.id}"
 end
 
-get '/request' do
-  haml :request
-end
-
-get '/delete_request/:ieid/:type' do |ieid, type|
-  delete_request ieid, type
-
-  redirect "/package/#{ieid}"
-end
-
-post '/request' do
-  submit_request params['ieid'], params['type']
-
-  redirect "/package/#{params['ieid']}"
-end
-
 get '/packages?/?' do
   @active_nav = 'packages'
   @query = params['search']
@@ -162,6 +146,39 @@ get '/package/:id/descriptor' do |id|
   not_found unless @aip
   content_type = 'application/xml'
   @aip.xml
+end
+
+# enqueue a new request
+post '/package/:id/request' do |id|
+  @active_nav = 'packages'
+  @package = Package.get(id) or not_found
+  type = require_param 'type'
+  r = Request.new
+  r.type = type
+
+  @user.requests << r
+  r.agent = @user
+  @package.requests << r
+  r.package = @package
+
+  #require 'ruby-debug'
+  #debugger
+  r.save or error "cannot save request: #{r.errors.inspect}"
+  redirect "/package/#{id}"
+end
+
+# modify a request
+post '/package/:pid/request/:rid' do |pid, rid|
+  @active_nav = 'packages'
+
+  @package = Package.get(pid) or not_found
+  @request = @package.requests.first(:id => rid) or not_found
+
+  task = require_param 'task'
+  error "unknown task: #{task}" unless task == 'delete'
+
+  @request.destroy or error "cannot delete request: #{@request.errors.inspect}"
+  redirect "/package/#{pid}"
 end
 
 get '/workspace' do
