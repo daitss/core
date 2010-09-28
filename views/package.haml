@@ -54,63 +54,57 @@
       %td= @ingest_time
 
 - if @package.aip
-  %h2 stashed
 
-  - if @package.stashed_wip
-    %a{:href=>"/stashspace/#{@package.stashed_wip.bin.url_name}/#{@package.stashed_wip.id}"}
-      = @package.stashed_wip.task
+  #request
+    %h2 requests
 
-  - else
-    no jobs stashed
-
-  %h2 requests
-
-  %form{:action => '/request', :method => 'POST'}
-    %br
-    %select{:name=>'type'}
-      %option= 'disseminate'
-      %option= 'withdraw'
-      %option= 'peek'
-    %br
-    %input{:type => 'hidden', :name => 'ieid', :value=>"#{@package.id}"}
-    %input{:type => 'submit', :value => 'Submit'}
-
-
-  - if @package.requests.any?
-    %table
-      %tr
-        %th type
-        %th time
-        %th authorized?
-        %th request submitter
-        %th status
-        %th delete
-      - @package.requests.each do |r|
+    - if @package.requests.any?
+      %table
         %tr
-          %td= r.request_type
-          %td= r.timestamp.pragma
-          %td= r.is_authorized ? "yes" : "no"
-          %td= r.operations_agent.identifier
-          %td= r.status
-          %td
-            - if r.status != :released_to_workspace
-              %a{:href => "/delete_request/#{@package.id}/#{r.request_type}"}
-                delete
+          %th type
+          %th position
+          %th time
+          %th authorized
+          %th request submitter
+          %th status
+          %th &nbsp;
+
+        - @package.requests.each do |r|
+          %tr
+            %td= r.type
+            %td= r.position
+            %td= r.timestamp.pragma
+            %td= r.is_authorized ? "yes" : "no"
+            %td= r.agent.id
+            %td= r.status
+            %td
+              %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
+                %input{:type => 'hidden', :name => 'task', :value => 'delete'}
+                %input{:type => 'submit', :value => 'Cancel'}
+
+    %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
+      %select{:name=>'type'}
+        %option= 'disseminate'
+        %option= 'withdraw'
+        %option= 'peek'
+      %input{:type => 'submit', :value => 'Request'}
+
 
   - aip = @package.aip
 
   %h2 aip
 
-  %h3
-    %a{:href=>"/package/#{@package.id}/descriptor"}
-      xml descriptor
-
   %table
+    %tr
+      %th descriptor
+      %td
+        %a{:href=>"/package/#{@package.id}/descriptor"}
+          = @package.id + ".xml"
     %tr
       %th copy url
       %td
         %a{ :href => aip.copy.url }
-          = aip.copy.url
+          = @package.id + ".tar"
     %tr
       %th copy size
       %td= aip.copy.size

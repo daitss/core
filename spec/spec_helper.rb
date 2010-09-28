@@ -28,9 +28,15 @@ Spec::Runner.configure do |config|
 
     # some test data
     ac = Account.new :id => 'ACT', :description => 'the description'
-    pr = Project.new :id => 'PRJ', :description => 'the description', :account => ac
-    dpr = Project.new :id => Daitss::Archive::DEFAULT_PROJECT_ID, :description => 'the default project', :account => ac
-    ag = User.new :id => 'Bureaucrat', :account => ac
+    dpr = Project.new :id => Daitss::Archive::DEFAULT_PROJECT_ID, :description => 'the default project'
+    pr = Project.new :id => 'PRJ', :description => 'the description'
+    ag = User.new :id => 'Bureaucrat'
+
+    dpr.account = ac
+    pr.account = ac
+    ac.projects << dpr
+    ac.projects << pr
+    ac.agents << ag
 
     ac.save or "cannot save #{ac.id}"
     pr.save or "cannot save #{pr.id}"
@@ -39,8 +45,6 @@ Spec::Runner.configure do |config|
 
     $sandbox = Dir.mktmpdir
     $cleanup = [$sandbox]
-
-    #setup_agreement
   end
 
   config.after :all do
