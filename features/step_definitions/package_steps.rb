@@ -30,7 +30,7 @@ Then /^in the aip section I should see (copy url|copy size|copy sha1|number of d
 end
 
 Then /^in the aip section I should see a link to the descriptor$/ do
-  last_response.should have_selector("h3 a[href='/package/#{last_package_id}/descriptor']", :content => 'xml descriptor')
+  last_response.should have_selector("a[href='/package/#{last_package_id}/descriptor']")
 end
 
 Then /^in the jobs summary I should see a stashed ingest wip in "([^\"]*)"$/ do |bin_name|

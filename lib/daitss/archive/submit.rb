@@ -7,7 +7,6 @@ module Daitss
     # submit a sip on behalf of an agent, return a package
     def submit sip_path, agent
       package = Package.new
-      package.uri = uri_prefix + package.id
 
       # make a new sip archive
       sa = SipArchive.new sip_path

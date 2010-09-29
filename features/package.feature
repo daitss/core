@@ -32,7 +32,7 @@ Feature: overview of a package
   Scenario: show the operations events
     Given I submit a package
     When I goto its package page
-    Then in the events I should see a submission event
+    Then in the events I should see a "submit" event with "" in the notes
 
   Scenario: show the aip
     Given an archived package
