@@ -51,6 +51,7 @@ Given /^that user (is|is not) empty$/ do |condition|
     p.sip.name = 'FOO'
     p.sip.size_in_bytes = 10
     p.sip.number_of_datafiles = 10
+    p.uri = "daitss-test://#{p.id}"
 
     e = Event.new
     e.name = 'test event'
