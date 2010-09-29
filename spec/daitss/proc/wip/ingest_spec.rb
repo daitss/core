@@ -25,7 +25,7 @@ describe Wip do
 
     it "should have an ingest agent" do
       doc = XML::Document.string @wip['aip-descriptor']
-      doc.find("//P:agent/P:agentName = 'daitss ingest'", NS_PREFIX).should be_true
+      doc.find("//P:agent/P:agentName = '#{system_agent_spec[:name]}'", NS_PREFIX).should be_true
     end
 
     it "should have an IntEntity in the db" do

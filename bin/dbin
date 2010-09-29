@@ -18,7 +18,7 @@ begin
 
   case task.to_sym
   when Wip::TASK_INGEST then wip.ingest!
-  when Wip::TASK_DISSEMINATE then wip.disseminate
+  when Wip::TASK_DISSEMINATE then wip.disseminate!
   else raise "invalid task #{task.inspect}"
   end
 

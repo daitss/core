@@ -10,7 +10,7 @@ describe Wip do
 
     it "should raise error if an aip does not exist for the wip" do
       wip = submit 'mimi'
-      lambda { wip.disseminate }.should raise_error("no aip for #{wip.id}")
+      lambda { wip.disseminate! }.should raise_error("no aip for #{wip.id}")
     end
 
   end
@@ -26,7 +26,7 @@ describe Wip do
       FileUtils::rm_r proto_wip.path
       @wip = blank_wip id
       @wip.tags['drop-path'] = "/tmp/#{id}.tar"
-      @wip.disseminate
+      @wip.disseminate!
     end
 
     it "should have an disseminate event" do
@@ -36,7 +36,7 @@ describe Wip do
 
     it "should have an disseminate agent" do
       doc = XML::Document.string @wip['aip-descriptor']
-      doc.find("//P:agent/P:agentName = 'daitss disseminate'", NS_PREFIX).should be_true
+      doc.find("//P:agent/P:agentName = '#{system_agent_spec[:name]}'", NS_PREFIX).should be_true
     end
 
     it "should produce a dip in a disseminate area" do
@@ -72,7 +72,7 @@ describe Wip do
         dip_path = "/tmp/#{@id}-#{n}.tar"
         @dips << dip_path
         wip.tags['drop-path'] = dip_path
-        wip.disseminate
+        wip.disseminate!
         FileUtils::rm_r wip.path
       end
 
@@ -114,7 +114,7 @@ describe Wip do
       end
 
       it "should have one dissemination agent" do
-        subject.find("//P:agent/P:agentName = 'daitss disseminate'", NS_PREFIX).should be_true
+        subject.find("//P:agent/P:agentName = '#{system_agent_spec[:name]}'", NS_PREFIX).should be_true
       end
 
       describe 'obsolete files' do

@@ -21,23 +21,11 @@ class Wip
     preserve!
 
     step('write-ingest-event') do
-      spec = {
-        :id => "#{package.uri}/event/ingest",
-        :type => 'ingest',
-        :outcome => 'success',
-        :linking_objects => [ package.uri ],
-        :linking_agents => [ "info:fcla/daitss/ingest" ]
-      }
-      metadata['ingest-event'] = event spec
+      metadata['ingest-event'] = ingest_event package
     end
 
     step('write-ingest-agent') do
-      spec = {
-        :id => "info:fcla/daitss/ingest",
-        :name => 'daitss ingest',
-        :type => 'software'
-      }
-      metadata['ingest-agent'] = agent spec
+      metadata['ingest-agent'] = system_agent
     end
 
     step('make-aip-descriptor') do

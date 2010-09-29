@@ -103,7 +103,7 @@ describe Wip do
       it 'should have an ingest agent' do
         ingest_agent = @agents.find do |a|
           doc = XML::Document.string a
-          doc.find_first "/P:agent[P:agentName = 'daitss ingest']", NS_PREFIX
+          doc.find_first "/P:agent[P:agentName = '#{system_agent_spec[:name]}']", NS_PREFIX
         end
 
         ingest_agent.should_not be_nil

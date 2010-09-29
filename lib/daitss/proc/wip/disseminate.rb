@@ -10,7 +10,7 @@ require 'daitss/proc/metadata'
 
 class Wip
 
-  def disseminate
+  def disseminate!
     raise "no aip for #{id}" unless package.aip
 
     step('load-aip') do
@@ -20,20 +20,11 @@ class Wip
     preserve!
 
     step('write-disseminate-event') do
-
-
-      metadata['disseminate-event'] = event(:id => "#{uri}/event/disseminate/#{next_event_index 'disseminate'}",
-                                            :type => 'disseminate',
-                                            :outcome => 'success',
-                                            :linking_objects => [ uri ],
-                                            :linking_agents => [ "info:fcla/daitss/disseminate" ])
-
+      metadata['disseminate-event'] = disseminate_event package, next_event_index('disseminate')
     end
 
     step('write-disseminate-agent') do
-      metadata['disseminate-agent'] = agent(:id => "info:fcla/daitss/disseminate",
-                                            :name => 'daitss disseminate',
-                                            :type => 'software')
+      metadata['disseminate-agent'] = system_agent
     end
 
     step('make-aip-descriptor') do
