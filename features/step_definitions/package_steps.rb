@@ -60,8 +60,17 @@ When /^I choose request type "([^"]*)"$/ do |type|
 
 end
 
-Then /^I should see a ([^"]*) request$/ do |type|
+When /^I fill in request note with "([^"]*)"$/ do |note|
+
+  within "#request form" do
+    fill_in 'note', :with => note
+  end
+
+end
+
+Then /^I should see a ([^"]*) request with note "([^"]*)"$/ do |type, note|
   last_response.should have_selector("#request table tr td", :content => type)
+  last_response.should have_selector("#request table tr td", :content => note)
 end
 
 Then /^there should be a request heading$/ do

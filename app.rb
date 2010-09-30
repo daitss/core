@@ -153,8 +153,11 @@ post '/package/:id/request' do |id|
   @active_nav = 'packages'
   @package = Package.get(id) or not_found
   type = require_param 'type'
+  note = require_param 'note'
   r = Request.new
+
   r.type = type
+  r.note = note
 
   @user.requests << r
   r.agent = @user

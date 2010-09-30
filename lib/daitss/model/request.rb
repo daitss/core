@@ -8,6 +8,7 @@ require 'daitss/model/sip'
 class Request
   include DataMapper::Resource
    property :id, Serial, :key => true
+   property :note, Text
 
    property :timestamp, DateTime, :required => true, :default => proc { DateTime.now }
    property :is_authorized, Boolean, :required => true, :default => false

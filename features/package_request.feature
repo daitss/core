@@ -11,13 +11,14 @@ Feature: package requests
     Given an archived package
     When I goto its package page
     And I choose request type "<type>"
+    And I fill in request note with "<note>"
     And I press "Request"
-    Then I should see a <type> request
+    Then I should see a <type> request with note "<note>"
     Examples:
-      | type        |
-      | disseminate |
-      | withdraw    |
-      | peek        |
+      | type        | note      |
+      | disseminate | nice job! |
+      | withdraw    | good bye  |
+      | peek        | oh hai    |
 
   Scenario Outline: requests can be canceled
     Given an archived package

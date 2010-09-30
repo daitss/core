@@ -61,9 +61,9 @@
     - if @package.requests.any?
       %table
         %tr
-          %th type
-          %th position
           %th time
+          %th type
+          %th note
           %th authorized
           %th request submitter
           %th status
@@ -71,9 +71,9 @@
 
         - @package.requests.each do |r|
           %tr
-            %td= r.type
-            %td= r.position
             %td= r.timestamp.pragma
+            %td= r.type
+            %td= r.note
             %td= r.is_authorized ? "yes" : "no"
             %td= r.agent.id
             %td= r.status
@@ -87,6 +87,7 @@
         %option= 'disseminate'
         %option= 'withdraw'
         %option= 'peek'
+      %input{:name => 'note'}
       %input{:type => 'submit', :value => 'Request'}
 
 
