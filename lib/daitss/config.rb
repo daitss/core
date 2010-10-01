@@ -12,6 +12,9 @@ module Daitss
     # name of directory for stashspace
     STASH_DIR = "stash"
 
+    # name of the directory for submissions
+    SUBMIT_DIR = 'submit'
+
     # id of system account
     SYSTEM_ACCOUNT_ID = 'SYSTEM'
 
@@ -38,7 +41,8 @@ module Daitss
     TRANSFORM_URL = 'transform-url'
     XMLRESOLUTION_URL = 'xmlresolution-url'
 
-    attr_reader :db_url, :data_dir, :uri_prefix, :http_timeout, :stash_path
+    attr_reader :db_url, :uri_prefix, :http_timeout
+    attr_reader :work_path, :stash_path, :submit_path
     attr_reader :actionplan_url, :describe_url, :storage_url, :viruscheck_url, :transform_url, :xmlresolution_url
 
     # load the settings from the file specified
@@ -58,6 +62,7 @@ module Daitss
       @data_dir = yaml[DATA_DIR]
       @work_path = File.join @data_dir, WORK_DIR
       @stash_path = File.join @data_dir, STASH_DIR
+      @submit_path = File.join @data_dir, SUBMIT_DIR
 
       # uri prefix
       @uri_prefix = yaml[URI_PREFIX]
@@ -91,7 +96,10 @@ module Daitss
     # create the stash and work directories in the data dir
     def init_data_dir
 
-      [@work_path, @stash_path].each do |p|
+      [ @work_path,
+        @stash_path,
+        @submit_path
+      ].each do |p|
         FileUtils.mkdir p unless File.directory? p
       end
 
