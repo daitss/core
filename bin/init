@@ -8,4 +8,4 @@ a = Daitss::Archive.instance
 a.init_data_dir
 a.setup_db :log => true
 a.init_db
-a.init_default_data
+a.init_seed
