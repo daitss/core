@@ -43,9 +43,9 @@ describe DataFile do
       @wave.describe!
     end
 
-    it 'should redirect to a transformation' do
-      url = 'http://localhost:7006/transform/wave_norm'
-      @wave.normalization.should == url
+    it 'should return a transformation id' do
+      id = 'wave_norm'
+      @wave.normalization['transformation']['id'].should == id
     end
 
   end

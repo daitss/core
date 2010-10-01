@@ -9,11 +9,13 @@ module Daitss
     include Daitss
 
     def migration
-      ask_actionplan "#{Archive.instance.actionplan_url}/migration"
+      body = ask_actionplan "#{Archive.instance.actionplan_url}/migration"
+      JSON.parse body if body
     end
 
     def normalization
-      ask_actionplan "#{Archive.instance.actionplan_url}/normalization"
+      body = ask_actionplan "#{Archive.instance.actionplan_url}/normalization"
+      JSON.parse body if body
     end
 
     def xmlresolution
@@ -33,7 +35,7 @@ module Daitss
       end
 
       case res
-      when Net::HTTPRedirection then res['location']
+      when Net::HTTPSuccess then res.body
       when Net::HTTPNotFound then nil
       else res.error!
       end

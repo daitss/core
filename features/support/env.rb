@@ -69,7 +69,7 @@ Before do
   archive.init_data_dir
   archive.setup_db
   archive.init_db
-  archive.init_default_data
+  archive.init_seed
 
   # extra initial data
   a = Daitss::Account.new :id => 'ACT', :description => 'the description'

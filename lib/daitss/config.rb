@@ -109,7 +109,7 @@ module Daitss
     # - system account (with default project)
     # - system program
     # - default operator
-    def init_default_data
+    def init_seed
 
       # account
       a = Account.new(:id => SYSTEM_ACCOUNT_ID,
