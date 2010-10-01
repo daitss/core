@@ -32,6 +32,8 @@ helpers do
 end
 
 configure do
+  enable :method_override
+
   Daitss.archive
 end
 
