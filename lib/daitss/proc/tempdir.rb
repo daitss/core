@@ -3,33 +3,37 @@
 require 'tempfile'
 require 'fileutils'
 
-class Tempdir
+module Daitss
 
-  attr_reader :path
+  class Tempdir
 
-  def initialize
-    t = Tempfile.new 'tempdir'
-    @path = t.path
-    t.close!
-    FileUtils::mkdir @path
+    attr_reader :path
 
-    if block_given?
-      yield self
-      rm_rf
+    def initialize
+      t = Tempfile.new 'tempdir'
+      @path = t.path
+      t.close!
+      FileUtils::mkdir @path
+
+      if block_given?
+        yield self
+        rm_rf
+      end
+
     end
 
-  end
+    def rmdir
+      FileUtils::rmdir @path
+    end
 
-  def rmdir
-    FileUtils::rmdir @path
-  end
+    def rm_rf
+      FileUtils::rm_rf @path
+    end
 
-  def rm_rf
-    FileUtils::rm_rf @path
-  end
+    def to_s
+      @path
+    end
 
-  def to_s
-    @path
   end
 
 end

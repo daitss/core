@@ -1,20 +1,24 @@
 require 'daitss/proc/template'
 require 'daitss/proc/wip'
 
-class Wip
+module Daitss
 
-  DMD_KEYS = ['dmd-issue', 'dmd-volume', 'dmd-title', 'dmd-entity-id']
+  class Wip
 
-  def has_dmd?
+    DMD_KEYS = ['dmd-issue', 'dmd-volume', 'dmd-title', 'dmd-entity-id']
 
-    DMD_KEYS.any? do |dmd_key|
-      metadata.keys.include? dmd_key
+    def has_dmd?
+
+      DMD_KEYS.any? do |dmd_key|
+        metadata.keys.include? dmd_key
+      end
+
     end
 
-  end
+    def dmd
+      template_by_name('aip/dmd').result binding
+    end
 
-  def dmd
-    template_by_name('aip/dmd').result binding
   end
 
 end

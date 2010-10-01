@@ -1,32 +1,36 @@
 require 'daitss/proc/datafile'
 require 'daitss/proc/metadata'
 
-class DataFile
+module Daitss
 
-  def obsolete!
-    raise "#{self} is already obsolete" if obsolete?
+  class DataFile
 
-    a_spec = {
-      :id => "info:fda/daitss",
-      :name => 'daitss processing',
-      :type => 'software'
-    }
+    def obsolete!
+      raise "#{self} is already obsolete" if obsolete?
 
-    e_spec = {
-      :id => "#{uri}/event/obsolete",
-      :type => 'obsolete',
-      :linking_objects => [uri],
-      :linking_agents => [a_spec[:id]]
-    }
+      a_spec = {
+        :id => "info:fda/daitss",
+        :name => 'daitss processing',
+        :type => 'software'
+      }
 
-    metadata['obsolete-event'] = event e_spec
-    metadata['obsolete-agent'] = agent a_spec
-  end
+      e_spec = {
+        :id => "#{uri}/event/obsolete",
+        :type => 'obsolete',
+        :linking_objects => [uri],
+        :linking_agents => [a_spec[:id]]
+      }
 
-  def obsolete?
+      metadata['obsolete-event'] = event e_spec
+      metadata['obsolete-agent'] = agent a_spec
+    end
 
-    metadata.has_key?('obsolete-event') or old_events.any? do |doc|
-      doc.find "//P:eventType = 'obsolete'", NS_PREFIX
+    def obsolete?
+
+      metadata.has_key?('obsolete-event') or old_events.any? do |doc|
+        doc.find "//P:eventType = 'obsolete'", NS_PREFIX
+      end
+
     end
 
   end

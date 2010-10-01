@@ -5,6 +5,8 @@ require 'daitss/proc/datafile/actionplan'
 
 require 'daitss/model/aip'
 
+include Daitss
+
 describe DataFile do
 
   describe "with no preservation actions" do

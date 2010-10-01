@@ -3,59 +3,63 @@ require 'time'
 require 'daitss'
 require 'daitss/proc/template'
 
-def event options={}
-  options[:linking_objects] ||= []
-  options[:linking_agents] ||= []
-  template_by_name('premis/event').result binding
-end
+module Daitss
 
-def agent options={}
-  template_by_name('premis/agent').result binding
-end
+  def event options={}
+    options[:linking_objects] ||= []
+    options[:linking_agents] ||= []
+    template_by_name('premis/event').result binding
+  end
 
-def relationship options={}
-  options[:related_objects] ||= []
-  options[:related_events] ||= []
-  template_by_name('premis/object/relationship').result binding
-end
+  def agent options={}
+    template_by_name('premis/agent').result binding
+  end
 
-def system_agent_spec
-  pre = Daitss.archive.uri_prefix
-  version = Daitss::VERSION
+  def relationship options={}
+    options[:related_objects] ||= []
+    options[:related_events] ||= []
+    template_by_name('premis/object/relationship').result binding
+  end
 
-  {
-    :id => "#{pre}system-#{version}",
-    :name => "daitss system (#{version})",
-    :type => 'software'
-  }
-end
+  def system_agent_spec
+    pre = Daitss.archive.uri_prefix
+    version = Daitss::VERSION
 
-def system_agent
-  agent system_agent_spec
-end
+    {
+      :id => "#{pre}system-#{version}",
+      :name => "daitss system (#{version})",
+        :type => 'software'
+    }
+  end
 
-def ingest_event package
+  def system_agent
+    agent system_agent_spec
+  end
 
-  spec = {
-    :id => "#{package.uri}/event/ingest",
-    :type => 'ingest',
-    :outcome => 'success',
-    :linking_objects => [ package.uri ],
-    :linking_agents => [ system_agent_spec[:id] ]
-  }
+  def ingest_event package
 
-  event spec
-end
-
-def disseminate_event package, index
-
-  spec = {
-    :id => "#{package.uri}/event/disseminate/#{index}",
-    :type => 'disseminate',
+    spec = {
+      :id => "#{package.uri}/event/ingest",
+      :type => 'ingest',
       :outcome => 'success',
       :linking_objects => [ package.uri ],
       :linking_agents => [ system_agent_spec[:id] ]
-  }
+    }
 
-  event spec
+    event spec
+  end
+
+  def disseminate_event package, index
+
+    spec = {
+      :id => "#{package.uri}/event/disseminate/#{index}",
+      :type => 'disseminate',
+        :outcome => 'success',
+        :linking_objects => [ package.uri ],
+        :linking_agents => [ system_agent_spec[:id] ]
+    }
+
+    event spec
+  end
+
 end

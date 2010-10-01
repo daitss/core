@@ -1,53 +1,57 @@
 require 'daitss/proc/wip'
 
-class Wip
+module Daitss
 
-  def snafu?
-    make_dead_snafu
-    tags.has_key? 'snafu'
-  end
+  class Wip
 
-  def snafu
-    make_dead_snafu
-    tags['snafu']
-  end
-
-  def snafu= e
-    msg = StringIO.new
-    msg.puts Time.now.xmlschema 4
-    msg.puts
-    msg.puts e.message
-    msg.puts
-    msg.puts e.backtrace
-    tags['snafu'] = msg.string
-  end
-
-  def unsnafu!
-
-    if snafu?
-      tags.delete 'snafu'
-      tags.delete 'process' if tags.has_key? 'process'
-    else
-      raise "cannot unsnafu a non-snafu package"
+    def snafu?
+      make_dead_snafu
+      tags.has_key? 'snafu'
     end
 
-  end
+    def snafu
+      make_dead_snafu
+      tags['snafu']
+    end
 
-  private
+    def snafu= e
+      msg = StringIO.new
+      msg.puts Time.now.xmlschema 4
+      msg.puts
+      msg.puts e.message
+      msg.puts
+      msg.puts e.backtrace
+      tags['snafu'] = msg.string
+    end
 
-  def make_dead_snafu
+    def unsnafu!
 
-    unless tags.has_key? 'snafu'
+      if snafu?
+        tags.delete 'snafu'
+        tags.delete 'process' if tags.has_key? 'process'
+      else
+        raise "cannot unsnafu a non-snafu package"
+      end
 
-      pid, ptime = process
+    end
 
-      if !running? and pid
+    private
 
-        begin
-          raise "dead process #{pid} #{ptime.xmlschema}"
-        rescue => e
-          self.snafu = e
-          tags.delete 'process'
+    def make_dead_snafu
+
+      unless tags.has_key? 'snafu'
+
+        pid, ptime = process
+
+        if !running? and pid
+
+          begin
+            raise "dead process #{pid} #{ptime.xmlschema}"
+          rescue => e
+            self.snafu = e
+            tags.delete 'process'
+          end
+
         end
 
       end

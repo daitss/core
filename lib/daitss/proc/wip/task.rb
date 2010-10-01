@@ -1,34 +1,38 @@
 require 'daitss/proc/wip/process'
 require 'daitss/proc/wip/snafu'
 
-class Wip
+module Daitss
 
-  TASK_INGEST = :ingest
-  TASK_DISSEMINATE = :disseminate
+  class Wip
 
-  def task
+    TASK_INGEST = :ingest
+    TASK_DISSEMINATE = :disseminate
 
-    if tags.has_key? 'task'
-      tags['task'].to_sym
+    def task
+
+      if tags.has_key? 'task'
+        tags['task'].to_sym
+      end
+
     end
 
-  end
+    def task= t
+      tags['task'] = t.to_s
+    end
 
-  def task= t
-    tags['task'] = t.to_s
-  end
+    def stop
+      kill
+      tags['stop'] = Time.now.xmlschema
+    end
 
-  def stop
-    kill
-    tags['stop'] = Time.now.xmlschema
-  end
+    def stopped?
+      tags.has_key? 'stop'
+    end
 
-  def stopped?
-    tags.has_key? 'stop'
-  end
+    def unstop
+      tags.delete 'stop'
+    end
 
-  def unstop
-    tags.delete 'stop'
   end
 
 end

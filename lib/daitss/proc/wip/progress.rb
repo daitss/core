@@ -1,49 +1,54 @@
 require 'daitss/proc/wip'
 
-class Wip
+module Daitss
 
-  def progress sym
+  class Wip
 
-    case sym
-    when :virus_check
-      steps_performed_against_original /^step\.virus-check-\d+$/
+    def progress sym
 
-    when :describe_original
-      steps_performed_against_original /^step\.describe-\d+$/
+      case sym
+      when :virus_check
+        steps_performed_against_original /^step\.virus-check-\d+$/
 
-    when :migrate_original
-      steps_performed_against_original /^step\.migrate-\d+$/
+      when :describe_original
+        steps_performed_against_original /^step\.describe-\d+$/
 
-    when :normalize_original
-      steps_performed_against_original /^step\.normalize-\d+$/
+      when :migrate_original
+        steps_performed_against_original /^step\.migrate-\d+$/
 
-    when :describe_transformed
-      steps_performed_against_transformed /^step\.describe-\d+(norm|mig)-\d+$/
+      when :normalize_original
+        steps_performed_against_original /^step\.normalize-\d+$/
 
-    when :xmlres
-      tags.has_key?('step.xml-resolution') ? 'done' : '...'
+      when :describe_transformed
+        steps_performed_against_transformed /^step\.describe-\d+(norm|mig)-\d+$/
 
-    when :descriptor
-      tags.has_key?('step.make-aip-descriptor') ? 'done' : '...'
+      when :xmlres
+        tags.has_key?('step.xml-resolution') ? 'done' : '...'
 
-    when :save
-      tags.has_key?('step.make-aip') ? 'done' : '...'
+      when :descriptor
+        tags.has_key?('step.make-aip-descriptor') ? 'done' : '...'
 
-    else raise "unknown progress for #{sym}"
+      when :save
+        tags.has_key?('step.make-aip') ? 'done' : '...'
+
+      else raise "unknown progress for #{sym}"
+      end
+
+    end
+
+    private
+
+    def steps_performed_against_original pattern
+      ks = tags.keys_like pattern
+      "#{ks.size} of #{original_datafiles.size} datafiles"
+    end
+
+    def steps_performed_against_transformed pattern
+      ks = tags.keys_like pattern
+      transformed = normalized_datafiles + migrated_datafiles
+      "#{ks.size} of #{transformed.size} datafiles"
     end
 
   end
 
-  private
-
-  def steps_performed_against_original pattern
-    ks = tags.keys_like pattern
-    "#{ks.size} of #{original_datafiles.size} datafiles"
-  end
-
-  def steps_performed_against_transformed pattern
-    ks = tags.keys_like pattern
-    transformed = normalized_datafiles + migrated_datafiles
-    "#{ks.size} of #{transformed.size} datafiles"
-  end
 end

@@ -5,45 +5,49 @@ require 'daitss/proc/datafile/describe'
 require 'daitss/proc/datafile/obsolete'
 require 'daitss/proc/datafile/transform'
 
-class Wip
+module Daitss
 
-  def preserve!
+  class Wip
 
-    # describe and preserve original_files
-    original_datafiles.each do |df|
-      step("describe-#{df.id}") { df.describe! }
-      step("migrate-#{df.id}") { df.migrate! }
-      step("normalize-#{df.id}") { df.normalize! }
+    def preserve!
+
+      # describe and preserve original_files
+      original_datafiles.each do |df|
+        step("describe-#{df.id}") { df.describe! }
+        step("migrate-#{df.id}") { df.migrate! }
+        step("normalize-#{df.id}") { df.normalize! }
+      end
+
+      # describe transformed files
+      tfs = (migrated_datafiles + normalized_datafiles).reject { |df| df.obsolete? }
+      tfs.each { |df| step("describe-#{df.id}") { df.describe! } }
+
+      # xmlresolve this wip
+      step('xml-resolution') { xmlresolve! }
     end
 
-    # describe transformed files
-    tfs = (migrated_datafiles + normalized_datafiles).reject { |df| df.obsolete? }
-    tfs.each { |df| step("describe-#{df.id}") { df.describe! } }
-
-    # xmlresolve this wip
-    step('xml-resolution') { xmlresolve! }
-  end
-
-  def original_representation
-    original_datafiles
-  end
-
-  def current_representation
-    original_datafiles.map { |odf| odf.migrated_version || odf }
-  end
-
-  def normalized_representation
-
-    if original_datafiles.any? { |odf| odf.normalized_version }
-      original_datafiles.map { |odf| odf.normalized_version || odf }
-    else
-      []
+    def original_representation
+      original_datafiles
     end
 
-  end
+    def current_representation
+      original_datafiles.map { |odf| odf.migrated_version || odf }
+    end
 
-  def represented_datafiles
-    (original_representation + current_representation + normalized_representation).uniq
+    def normalized_representation
+
+      if original_datafiles.any? { |odf| odf.normalized_version }
+        original_datafiles.map { |odf| odf.normalized_version || odf }
+      else
+        []
+      end
+
+    end
+
+    def represented_datafiles
+      (original_representation + current_representation + normalized_representation).uniq
+    end
+
   end
 
 end
