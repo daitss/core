@@ -32,13 +32,13 @@ helpers do
 end
 
 configure do
-  Daitss::Archive.instance
+  Daitss.archive
 end
 
 before do
   #authenticate
   @user = Operator.get('root') or raise "cannot get root op"
-  @archive = Daitss::Archive.instance
+  @archive = Daitss.archive
 
   @active_nav = case ENV['PATH_INFO']
                 when '/' then 'dashboard'

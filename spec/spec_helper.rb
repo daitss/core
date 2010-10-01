@@ -18,7 +18,7 @@ SPEC_ROOT = File.dirname __FILE__
 Spec::Runner.configure do |config|
 
   config.before :all do
-    archive = Daitss::Archive.instance
+    archive = Daitss.archive
     FileUtils.rm_rf archive.data_dir
     FileUtils.mkdir archive.data_dir
     archive.init_data_dir

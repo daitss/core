@@ -29,7 +29,7 @@ describe Wip do
 
   it "should let addition of new metadata" do
     subject['submit-event'] = "submitted at #{Time.now}"
-    wip_prime = Daitss::Archive.instance.workspace[subject.id]
+    wip_prime = Daitss.archive.workspace[subject.id]
     subject['submit-event'].should == wip_prime['submit-event']
   end
 

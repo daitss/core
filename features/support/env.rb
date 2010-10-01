@@ -49,7 +49,7 @@ class MyWorld
   end
 
   def empty_out_workspace
-    ws = Daitss::Archive.instance.workspace
+    ws = Daitss.archive.workspace
 
     ws.each do |wip|
       wip.stop if wip.running?
@@ -63,7 +63,7 @@ end
 World { MyWorld.new }
 
 Before do
-  archive = Daitss::Archive.instance
+  archive = Daitss.archive
   FileUtils.rm_rf archive.data_dir
   FileUtils.mkdir archive.data_dir
   archive.init_data_dir
@@ -82,7 +82,7 @@ end
 
 After do
 
-  Daitss::Archive.instance.workspace.each do |w|
+  Daitss.archive.workspace.each do |w|
     w.kill if w.running?
     FileUtils.rm_rf w.path
   end

@@ -42,7 +42,7 @@ describe Wip do
     Package.get(subject.id).aip.should_not be_nil
     File.exist?(subject.path).should be_false
 
-    ws = Daitss::Archive.instance.workspace
+    ws = Daitss.archive.workspace
     path = File.join ws.path, subject.id
     wip = Wip.new path
     wip.tags['drop-path'] = "/tmp/#{wip.id}.tar"

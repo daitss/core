@@ -10,7 +10,7 @@ class Package
   include DataMapper::Resource
 
   property :id, EggHeadKey
-  property :uri, String, :unique => true, :required => true, :default => proc { |r,p| Daitss::Archive.instance.uri_prefix + r.id }
+  property :uri, String, :unique => true, :required => true, :default => proc { |r,p| Daitss.archive.uri_prefix + r.id }
 
   has n, :events
   has n, :requests

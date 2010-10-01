@@ -19,7 +19,7 @@ def submit name
   FileUtils.cp original_zip_path, zip_path
   raise "sip not copied: #{name}.zip" unless File.file? zip_path
   agent = Operator.get(Daitss::Archive::ROOT_OPERATOR_ID) or raise 'cannot get root account'
-  a = Daitss::Archive.instance
+  a = Daitss.archive
   package = a.submit zip_path, agent
 
   if package.events.first :name => 'reject'
@@ -30,7 +30,7 @@ def submit name
 end
 
 def blank_wip id
-  ws = Daitss::Archive.instance.workspace
+  ws = Daitss.archive.workspace
   path = File.join ws.path, id
   Wip.new path
 end

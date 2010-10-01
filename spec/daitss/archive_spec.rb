@@ -8,7 +8,7 @@ describe Daitss::Archive do
     describe 'a valid package' do
 
       before :all do
-        @archive = Daitss::Archive.instance
+        @archive = Daitss.archive
         path = new_sip_archive 'haskell-nums-pdf.zip'
         user = User.get('Bureaucrat')
         @package = @archive.submit path, user
@@ -41,7 +41,7 @@ describe Daitss::Archive do
 
       describe 'the resulting wip' do
 
-        subject { Daitss::Archive.instance.workspace[@package.id] }
+        subject { Daitss.archive.workspace[@package.id] }
 
         it "should have sip descriptor as metadata" do
           sd_df = subject.original_datafiles.find { |df| df['sip-path'] == "#{subject['sip-name']}.xml" }
@@ -97,7 +97,7 @@ describe Daitss::Archive do
     describe 'invalid package' do
 
       before :all do
-        @archive = Daitss::Archive.instance
+        @archive = Daitss.archive
         path = new_sip_archive 'missing-descriptor.zip'
         user = User.get('Bureaucrat')
         @package = @archive.submit path, user
@@ -119,7 +119,7 @@ describe Daitss::Archive do
     describe 'submitting a with bad agreement info' do
 
       it 'should reject because of the invalid account' do
-        @archive = Daitss::Archive.instance
+        @archive = Daitss.archive
         path = new_sip_archive 'bad-account.zip'
         user = User.get('Bureaucrat')
         @package = @archive.submit path, user
@@ -131,7 +131,7 @@ describe Daitss::Archive do
       end
 
       it 'should reject because of the invalid project' do
-        @archive = Daitss::Archive.instance
+        @archive = Daitss.archive
         path = new_sip_archive 'bad-project.zip'
         user = User.get('Bureaucrat')
         @package = @archive.submit path, user

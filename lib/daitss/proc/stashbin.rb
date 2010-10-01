@@ -7,7 +7,7 @@ class StashBin
 
   def StashBin.make! name
     id = URI.encode name
-    path = File.join Daitss::Archive.instance.stash_path, id
+    path = File.join Daitss.archive.stash_path, id
     FileUtils.mkdir path
     StashBin.new id
   end
@@ -27,7 +27,7 @@ class StashBin
   alias_method :to_s, :name
 
   def path
-    File.join Daitss::Archive.instance.stash_path, @id
+    File.join Daitss.archive.stash_path, @id
   end
 
   def delete
@@ -54,7 +54,7 @@ class StashBin
 
   def unstash wip_id
     src = File.join path, wip_id
-    dst = File.join Daitss::Archive.instance.workspace.path, wip_id
+    dst = File.join Daitss.archive.workspace.path, wip_id
     FileUtils.mv src, dst
   end
 

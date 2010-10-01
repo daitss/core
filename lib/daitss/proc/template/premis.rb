@@ -20,7 +20,7 @@ def relationship options={}
 end
 
 def system_agent_spec
-  pre = Daitss::Archive.instance.uri_prefix
+  pre = Daitss.archive.uri_prefix
   version = Daitss::VERSION
 
   {
