@@ -1,17 +1,20 @@
 require 'dm-core'
 require 'dm-validations'
 
-require 'daitss/db/int_entity'
 require 'daitss/model/account'
-require 'daitss/model/sip'
+require 'daitss/model/package'
 
-class Project
-  include DataMapper::Resource
+module Daitss
 
-  property :id, String, :key => true
-  property :description, Text
+  class Project
+    include DataMapper::Resource
 
-  has 0..n, :packages
+    property :id, String, :key => true
+    property :description, Text
 
-  belongs_to :account, :key => true
+    has 0..n, :packages
+
+    belongs_to :account, :key => true
+  end
+
 end

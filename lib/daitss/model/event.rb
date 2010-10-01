@@ -1,16 +1,20 @@
 require 'dm-core'
 
-require 'daitss/model/sip'
 require 'daitss/model/agent'
+require 'daitss/model/package'
 
-class Event
-  include DataMapper::Resource
+module Daitss
 
-  property :id, Serial, :key => true
-  property :name, String, :required => true
-  property :timestamp, DateTime, :required => true, :default => proc { DateTime.now }
-  property :notes, Text
+  class Event
+    include DataMapper::Resource
 
-  belongs_to :agent
-  belongs_to :package
+    property :id, Serial, :key => true
+    property :name, String, :required => true
+    property :timestamp, DateTime, :required => true, :default => proc { DateTime.now }
+    property :notes, Text
+
+    belongs_to :agent
+    belongs_to :package
+  end
+
 end

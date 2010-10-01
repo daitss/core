@@ -1,22 +1,25 @@
 require 'data_mapper'
 require 'dm-is-list'
 
-require 'daitss/model/account'
 require 'daitss/model/agent'
-require 'daitss/model/sip'
+require 'daitss/model/package'
 
-class Request
-  include DataMapper::Resource
-   property :id, Serial, :key => true
-   property :note, Text
+module Daitss
 
-   property :timestamp, DateTime, :required => true, :default => proc { DateTime.now }
-   property :is_authorized, Boolean, :required => true, :default => false
-   property :status, Enum[:enqueued, :released_to_workspace], :default => :enqueued
-   property :type, Enum[:disseminate, :withdraw, :peek]
+  class Request
+    include DataMapper::Resource
+    property :id, Serial, :key => true
+    property :note, Text
 
-   belongs_to :agent
-   belongs_to :package
+    property :timestamp, DateTime, :required => true, :default => proc { DateTime.now }
+    property :is_authorized, Boolean, :required => true, :default => false
+    property :status, Enum[:enqueued, :released_to_workspace], :default => :enqueued
+    property :type, Enum[:disseminate, :withdraw, :peek]
 
-   is :list, :scope => [:package_id]
+    belongs_to :agent
+    belongs_to :package
+
+    is :list, :scope => [:package_id]
+  end
+
 end

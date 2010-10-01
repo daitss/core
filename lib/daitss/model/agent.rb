@@ -1,41 +1,40 @@
-require 'dm-core'
-require 'dm-types'
-require 'dm-validations'
+require 'data_mapper'
 
 require 'daitss/model/account'
 require 'daitss/model/event'
 require 'daitss/model/request'
 
-class Agent
-  include DataMapper::Resource
+module Daitss
 
-  property :id, String, :key => true
-  property :description, Text
-  property :auth_key, Text
+  class Agent
+    include DataMapper::Resource
 
-  property :type, Discriminator
-  property :deleted_at, ParanoidDateTime
+    property :id, String, :key => true
+    property :description, Text
+    property :auth_key, Text
 
-  has n, :events
-  has n, :requests
+    property :type, Discriminator
+    property :deleted_at, ParanoidDateTime
 
-  belongs_to :account
+    has n, :events
+    has n, :requests
+
+    belongs_to :account
+  end
+
+  class User < Agent
+    property :first_name, String
+    property :last_name, String
+    property :email, String
+    property :phone, String
+    property :address, String
+  end
+
+  class Contact < User
+    property :permissions, Flag[:disseminate, :withdraw, :peek, :submit, :report]
+  end
+
+  class Operator < User; end
+  class Service < Agent; end
+  class Program < Agent; end
 end
-
-class User < Agent
-  property :first_name, String
-  property :last_name, String
-  property :email, String
-  property :phone, String
-  property :address, String
-end
-
-class Contact < User
-  property :permissions, Flag[:disseminate, :withdraw, :peek, :submit, :report]
-end
-
-class Operator < User; end
-
-class Service < Agent; end
-
-class Program < Agent; end
