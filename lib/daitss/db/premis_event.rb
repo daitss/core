@@ -1,27 +1,29 @@
-# all possible event types
-Event_Type = ["ingest", "submit", "validate", "virus check", "disseminate",
-  "withdraw", "fixity check", "describe", "normalize", "migrate", "xml resolution", "deletion"]
+module Daitss
 
-Event_Map = {
-  "ingest" => "ingest",
-  "submit" => "submit",
-  "comprehensive validation" => "validate",
-  "virus check" => "virus check",
-  "disseminate" => "disseminate",
-  "withdraw" => "withdraw",
-  "fixity Check" => "fixitycheck",
-  "format description" => "describe",
-  "normalize" => "normalize",
-  "migration" => "migrate",
-  "xml resolution" => "xml resolution"
-}
+  # all possible event types
+  Event_Type = ["ingest", "submit", "validate", "virus check", "disseminate",
+    "withdraw", "fixity check", "describe", "normalize", "migrate", "xml resolution", "deletion"]
+
+  Event_Map = {
+    "ingest" => "ingest",
+    "submit" => "submit",
+    "comprehensive validation" => "validate",
+    "virus check" => "virus check",
+    "disseminate" => "disseminate",
+    "withdraw" => "withdraw",
+    "fixity Check" => "fixitycheck",
+    "format description" => "describe",
+    "normalize" => "normalize",
+    "migration" => "migrate",
+    "xml resolution" => "xml resolution"
+  }
 
   class PremisEvent
     include DataMapper::Resource
     property :id, String, :key => true, :length => 100
     property :idType, String # identifier type
     property :e_type, String, :length => 20, :required => true
-  		validates_with_method :e_type, :method => :validateEventType
+    validates_with_method :e_type, :method => :validateEventType
     property :datetime, DateTime
     property :outcome, String, :length => 255   # ex. sucess, failed.  TODO:change to Enum.
     property :outcome_details, Text # additional information about the event outcome.
@@ -35,8 +37,8 @@ Event_Map = {
     # datamapper return system error once this constraint is added in.  so we will delete relationship manually
     # has 0..n, :relationships, :constraint=>:destroy
 
-  	# validate the event type value which is a daitss defined controlled vocabulary
-  	def validateEventType
+    # validate the event type value which is a daitss defined controlled vocabulary
+    def validateEventType
       if Event_Type.include?(@e_type)
         return true
       else
@@ -44,7 +46,7 @@ Event_Map = {
       end
     end
 
-	# set related object id which could either be a datafile or an intentity object
+    # set related object id which could either be a datafile or an intentity object
     def setRelatedObject objid
       attribute_set(:relatedObjectId, objid)
     end
@@ -126,3 +128,5 @@ Event_Map = {
       #TODO implement validation of objectID, making sure the objectID is a valid datafile
     end
   end
+
+end

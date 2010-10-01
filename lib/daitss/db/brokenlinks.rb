@@ -1,26 +1,30 @@
 require 'data_mapper'
 
-class BrokenLink
-  include DataMapper::Resource
+module Daitss
 
-  property :id, Serial
+  class BrokenLink
+    include DataMapper::Resource
 
-  property :broken_links, Text
-  # a "|" separated list of all broken links in the datafile
+    property :id, Serial
 
-  belongs_to :datafile # the associated Datafile
+    property :broken_links, Text
+    # a "|" separated list of all broken links in the datafile
 
-  def fromPremis(df, premis)
-    nodes = premis.find("premis:broken_link", NAMESPACES)
-    links = Array.new
-    nodes.each do |obj|
-      links << obj.content
+    belongs_to :datafile # the associated Datafile
+
+    def fromPremis(df, premis)
+      nodes = premis.find("premis:broken_link", NAMESPACES)
+      links = Array.new
+      nodes.each do |obj|
+        links << obj.content
+      end
+      attribute_set(:broken_links, links.join("|"))
+      df.broken_links << self
     end
-    attribute_set(:broken_links, links.join("|"))
-    df.broken_links << self
+
+    after :save do
+      puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
+    end
   end
 
- after :save do
-    puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
-  end
 end
