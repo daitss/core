@@ -2,20 +2,19 @@
   %span.package
     = @package.id
   = ": "
-  - case @package.status
-  - when 'ingesting'
-    %span.status.ingesting
-      %a{:href=>"/workspace/#{@package.wip.id}"}
-        = @package.status
-  - when 'stashed'
-    %span.status.stashed
-      %a{:href=>"/stashspace/#{@package.stashed_wip.bin.url_name}/#{@package.stashed_wip.id}"}
-        = @package.status
-  - when 'rejected'
-    %span.status.rejected
-      = @package.status
+
+  - if @package.rejected?
+    rejected
+
+  - elsif @package.wip
+
+    - if @package.wip.stashed?
+      %a{:href=>"/stashspace/#{@package.wip.bin.id}/#{@package.wip.id}"} stashed
+    - else
+      %a{:href=>"/workspace/#{@package.wip.id}"} ingesting
+
   - else
-    = @package.status
+    archived
 
 %table
   %tr

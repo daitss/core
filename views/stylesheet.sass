@@ -110,13 +110,9 @@ footer
         background-color: $dark_gray
 
 h1
-  //span.account
-  //span.project
-  //span.package
-
   span.status a
     font-weight: bold
-  span.status.submitted a
+  span.status:contains('submitted') a
     color: $e_blue
   span.status.rejected
     color: $e_red

@@ -1,8 +1,8 @@
 %h1 new stash bin
 
-%form#create-stashbin{:action => '/stashspace', :method => 'post'}
+%form{:action => '/stashspace', :method => 'POST'}
   %input{:name => 'name'}
-  %input{:type => 'submit', :value => "Create Stash Bin"}
+  %input{:type => 'submit', :value => "Create"}
 
 %hr
 
@@ -16,9 +16,15 @@
   %tr
     %th name
     %th wips
-  - @bins.all.each do |bin|
+  - @bins.each do |bin|
     %tr
       %td
-        %a{:href => "/stashspace/#{bin.url_name}" }
+        %a{:href => "/stashspace/#{bin.id}" }
           = bin.name
-      %td= bin.wips.size
+      %td
+        - if bin.empty?
+          %form{:action => "/stashspace/#{bin.id}", :method => 'POST'}
+            %input{:type => 'hidden', :name => '_method', :value => 'DELETE'}
+            %input{:type => 'submit', :value => "Delete"}
+        - else
+          = bin.size

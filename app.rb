@@ -1,23 +1,10 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'data_mapper'
 require 'haml'
 require 'sass'
-require 'semver'
 require 'sinatra'
-
 require 'daitss'
-require 'daitss/archive'
-require 'daitss/archive/submit'
-require 'daitss/datetime'
-require 'daitss/model'
-require 'daitss/proc/sip_archive'
-require 'daitss/proc/wip/from_sip'
-require 'daitss/proc/wip/process'
-require 'daitss/proc/wip/progress'
-require 'daitss/proc/wip/state'
-require 'daitss/proc/workspace'
 
 helpers do
 
@@ -52,6 +39,17 @@ before do
   #authenticate
   @user = Operator.get('root') or raise "cannot get root op"
   @archive = Daitss::Archive.instance
+
+  @active_nav = case ENV['PATH_INFO']
+                when '/' then 'dashboard'
+                when %r{^/log} then 'log'
+                when %r{^/package} then 'packages'
+                when %r{^/workspace} then 'workspace'
+                when %r{^/stashspace} then 'stashspace'
+                when %r{^/admin} then 'admin'
+                else
+                end
+
 end
 
 get '/stylesheet.css' do
@@ -60,12 +58,10 @@ get '/stylesheet.css' do
 end
 
 get '/' do
-  @active_nav = 'dashboard'
   haml :index
 end
 
 get '/log' do
-  @active_nav = 'log'
   @entries = Entry.all
   haml :log
 end
@@ -77,7 +73,6 @@ post '/log' do
 end
 
 post '/packages?/?' do
-  #error 401 unless @user.account == account and @user.permissions.include? :submit
   require_param 'sip'
 
   sip = begin
@@ -97,7 +92,6 @@ post '/packages?/?' do
 end
 
 get '/packages?/?' do
-  @active_nav = 'packages'
   @query = params['search']
 
   @packages = if @query
@@ -119,15 +113,9 @@ get '/packages?/?' do
 end
 
 get '/package/:id' do |id|
-  @active_nav = 'packages'
   @package = Package.get(id) or not_found
-  @sip = @package.sip
-  @wip = @archive.workspace[id]
-  @aip = @package
-  @bin = StashBin.all.find { |b| File.exist? File.join(b.path, id) }
-  @stashed_wip = @bin.wips.find { |w| w.id == id } if @bin
-  @bins = StashBin.all
-  @requests = @package.requests
+  @bins = @archive.stashspace
+  @bin = @archive.stashspace.find { |b| File.exist? File.join(b.path, id) }
 
   ingest_start_event = @package.events.first(:name => "ingest started")
   ingest_finished_event = @package.events.first(:name => "ingest finished")
@@ -141,7 +129,6 @@ get '/package/:id' do |id|
 end
 
 get '/package/:id/descriptor' do |id|
-  @active_nav = 'packages'
   @aip = Aip.first :id => id
   not_found unless @aip
   content_type = 'application/xml'
@@ -150,7 +137,6 @@ end
 
 # enqueue a new request
 post '/package/:id/request' do |id|
-  @active_nav = 'packages'
   @package = Package.get(id) or not_found
   type = require_param 'type'
   note = require_param 'note'
@@ -164,16 +150,12 @@ post '/package/:id/request' do |id|
   @package.requests << r
   r.package = @package
 
-  #require 'ruby-debug'
-  #debugger
   r.save or error "cannot save request: #{r.errors.inspect}"
   redirect "/package/#{id}"
 end
 
 # modify a request
 post '/package/:pid/request/:rid' do |pid, rid|
-  @active_nav = 'packages'
-
   @package = Package.get(pid) or not_found
   @request = @package.requests.first(:id => rid) or not_found
 
@@ -185,14 +167,14 @@ post '/package/:pid/request/:rid' do |pid, rid|
 end
 
 get '/workspace' do
-  @active_nav = 'workspace'
-  @bins = StashBin.all
+  @bins = @archive.stashspace
   @ws = @archive.workspace
   haml :workspace
 end
 
 # workspace & wips in the workspace
 
+# TODO deprecate the multiple interface with js hitting each one
 post '/workspace' do
   ws = @archive.workspace
 
@@ -211,7 +193,8 @@ post '/workspace' do
 
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']
-    bin = StashBin.first :name => params['stash-bin']
+    bin = @archive.stashspace.find { |b| b.name == params['stash-bin'] }
+    error 400, "bin #{bin} does not exist" unless bin
     stashable = ws.reject { |w| w.running? }
     stashable.each { |w| ws.stash w.id, bin }
 
@@ -223,8 +206,7 @@ post '/workspace' do
 end
 
 get '/workspace/:id' do |id|
-  @active_nav = 'workspace'
-  @bins = StashBin.all
+  @bins = @archive.stashspace
   @wip = @archive.workspace[id]
 
   if @wip
@@ -238,7 +220,6 @@ get '/workspace/:id' do |id|
 end
 
 get '/workspace/:id/snafu' do |id|
-  @active_nav = 'workspace'
   wip = @archive.workspace[id] or not_found
   not_found unless wip.snafu?
   content_type = 'text/plain'
@@ -266,9 +247,10 @@ post '/workspace/:id' do |id|
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']
     error 400, 'can only stash a non-running wip' if wip.running?
-    bin = StashBin.first :name => params['stash-bin']
+    bin = @archive.stashspace.find { |b| b.name == params['stash-bin'] }
+    error 400, "bin #{bin} does not exist" unless bin
     ws.stash wip.id, bin
-    redirect "/stashspace/#{bin.url_name}/#{wip.id}"
+    redirect "/stashspace/#{bin.id}/#{wip.id}"
 
   when nil, '' then raise 400, 'parameter task is required'
   else error 400, "unknown command: #{params['task']}"
@@ -280,58 +262,72 @@ end
 # stash bins & stashed wips
 
 get '/stashspace' do
-  @active_nav = 'stashspace'
-  @bins = StashBin.all
+  @bins = @archive.stashspace
   haml :stashspace
 end
 
 post '/stashspace' do
   name = require_param 'name'
-  bin = StashBin.new :name => name
-  bin.save or error "could not save bin\n\n#{e.message}\n#{e.backtrace}"
-  @archive.log "new stash bin: #{name}"
-  redirect "/stashspace/#{name}"
+  bin = StashBin.make! name
+  @archive.log "new stash bin: #{bin}"
+  redirect "/stashspace"
 end
 
-get '/stashspace/:bin' do |bin|
-  @active_nav = 'stashspace'
-  @bin = StashBin.first :name => bin
+get '/stashspace/:id' do |id|
+  id = URI.encode id # SMELL sinatra is decoding this
+  @bin = @archive.stashspace.find { |b| b.id == id }
+  not_found unless @bin
   haml :stash_bin
 end
 
-get '/stashspace/:bin/:wip' do |bin, wip|
-  @active_nav = 'stashspace'
-  @bin = StashBin.first :name => bin
-  @wip = Wip.new File.join(@bin.path, wip)
+delete '/stashspace/:id' do |id|
+  id = URI.encode id # SMELL sinatra is decoding this
+  bin = @archive.stashspace.find { |b| b.id == id }
+  error 400, "cannot delete a non-empty stash bin" unless bin.empty?
+  bin.delete or error "cannot not delete stash bin"
+  @archive.log "delete stash bin: #{bin}"
+  redirect "/stashspace"
+end
+
+get '/stashspace/:bin/:wip' do |b_id, w_id|
+  b_id = URI.encode b_id # SMELL sinatra is decoding this
+
+  @bin = @archive.stashspace.find { |b| b.id == b_id }
+  not_found unless @bin
+
+  @wip = @bin.find { |w| w.id == w_id }
+  not_found unless @wip
+
   haml :stashed_wip
 end
 
-post '/stashspace/:bin/:wip' do |bin_name, wip_id|
+delete '/stashspace/:bin/:wip' do |b_id, w_id|
+  b_id = URI.encode b_id # SMELL sinatra is decoding this
 
-  # the bin
-  bin = StashBin.first :name => bin_name
-  not_found "#{bin.name}" unless bin
+  @bin = @archive.stashspace.find { |b| b.id == b_id }
+  not_found unless @bin
 
-  # the win in the bin
-  stashed_wip_path = File.join(bin.path, wip_id)
-  not_found "#{bin.name}" unless File.exist? stashed_wip_path
+  @wip = @bin.find { |w| w.id == w_id }
+  not_found unless @wip
 
-  case params['task']
+  task = require_param 'task'
+
+  case task
   when 'unstash'
-    bin.unstash wip_id
-    redirect "/workspace/#{wip_id}"
+    @bin.unstash w_id
+    redirect "/workspace/#{w_id}"
 
   when 'abort'
 
     # write ops event for abort
-    p = Package.get wip_id
+    p = Package.get w_id
     p.abort @user
 
     # remove package
-    FileUtils.rm_rf stashed_wip_path
+    FileUtils.rm_rf @wip.path
 
     # go home
-    redirect "/package/#{wip_id}"
+    redirect "/package/#{w_id}"
 
   else
     error 400
@@ -341,8 +337,6 @@ post '/stashspace/:bin/:wip' do |bin_name, wip_id|
 end
 
 get '/admin' do
-  @active_nav = 'admin'
-  @bins = StashBin.all
   @accounts = Account.all :id.not => Daitss::Archive::SYSTEM_ACCOUNT_ID
   @users = User.all
   @projects = Project.all :id.not => 'default'
@@ -353,21 +347,6 @@ end
 post '/admin' do
 
   case params['task']
-
-  when 'new-stashbin'
-    name = require_param 'name'
-    bin = StashBin.new :name => name
-    bin.save or error "could not save bin\n\n#{e.message}\n#{e.backtrace}"
-    @archive.log "new stash bin: #{name}"
-
-  when 'delete-stashbin'
-    name = require_param 'name'
-    bin = StashBin.first :name => name
-    pattern = File.join bin.path, '*'
-    error 400, "cannot delete a non-empty stash bin" unless Dir[pattern].empty?
-    bin.destroy or raise "could not delete stash bin #{name}"
-    FileUtils.rm_rf bin.path
-    @archive.log "delete stash bin: #{name}"
 
   when 'new-account'
     a = Account.new

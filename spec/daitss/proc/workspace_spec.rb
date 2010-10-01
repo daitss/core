@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'daitss/proc/workspace'
-require 'daitss/model/stashbin'
+require 'daitss/proc/stashbin'
 
 describe Workspace do
 
@@ -24,7 +24,7 @@ describe Workspace do
   end
 
   it "should stash & unstash a package" do
-    bin = StashBin.new :name => 'test bin'
+    bin = StashBin.make! 'test bin'
     w = Daitss::Archive.instance.workspace
     wip = submit 'mimi'
     wip_id = wip.id

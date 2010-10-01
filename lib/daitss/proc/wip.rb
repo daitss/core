@@ -82,7 +82,12 @@ class Wip
   # return the stashbin if in one
   def bin
     dir = File.dirname path
-    StashBin.find { |b| b.path == dir }
+    bins = Daitss.archive.stashspace
+    bins.find { |b| b.path == dir }
+  end
+
+  def stashed?
+    not bin.nil?
   end
 
   def old_xml_res_tarball_dir

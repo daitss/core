@@ -10,12 +10,15 @@
     = haml :wip_snafu, :layout => false
 
   #update-form
-    %form{:action => "/stashspace/#{@bin.url_name}/#{@wip.id}", :method => 'post'}
+    %form{:action => "/stashspace/#{@bin.id}/#{@wip.id}", :method => 'POST'}
+      %input{:type => 'hidden', :name => '_method', :value => 'DELETE'}
 
       %input#task-abort{:type => 'radio', :name => 'task', :value => 'abort'}
       %label{:for => 'task-abort'} abort
+
       %input#state-unstash{:type => 'radio', :name => 'task', :value => 'unstash'}
       %label{:for => 'state-unstash'} unstash
+
       %input{:type => 'submit', :value => "Update"}
 
   %hr/

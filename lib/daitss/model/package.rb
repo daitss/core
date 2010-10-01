@@ -40,13 +40,20 @@ class Package
 
   # return a wip if exists in workspace, otherwise nil
   def wip
-    Daitss::Archive.instance.workspace[id]
+    ws_wip = Daitss.archive.workspace[id]
+
+    if ws_wip
+      ws_wip
+    else
+      bins = Daitss.archive.stashspace
+      bin = bins.find { |b| File.exist? File.join(b.path, id) }
+      bin.find { |w| w.id == id } if bin
+    end
+
   end
 
-  # return a stashed wip, otherwise nil
-  def stashed_wip
-    bin = StashBin.all.find { |b| File.exist? File.join(b.path, id) }
-    bin.wips.find { |w| w.id == id } if bin
+  def rejected?
+    events.first :name => 'reject'
   end
 
   def status

@@ -34,8 +34,9 @@ Then /^in the aip section I should see a link to the descriptor$/ do
 end
 
 Then /^in the jobs summary I should see a stashed ingest wip in "([^\"]*)"$/ do |bin_name|
-  bin = StashBin.first :name => bin_name
-  last_response.should have_selector("a[href='/stashspace/#{bin.url_name}/#{last_package_id}']", :content => 'stashed')
+  bin = Daitss.archive.stashspace.find { |b| b.name == bin_name }
+  bin.should_not be_nil
+  last_response.should have_selector("a[href='/stashspace/#{bin.id}/#{last_package_id}']", :content => 'stashed')
 end
 
 Then /^in the jobs summary I should see that no jobs are pending$/ do

@@ -38,16 +38,16 @@ class Workspace
 
   # move the wip in the stash bin
   def stash wip_id, bin
-    raise "wip #{wip_id} does not exist" unless self[wip_id]
+    src = File.join path, wip_id
     dst = File.join bin.path, wip_id
-    FileUtils.mkdir_p bin.path unless File.directory? bin.path
-    FileUtils.mv self[wip_id].path, dst
+    FileUtils.mv src, dst
   end
 
   def to_json *a
     map.to_json *a
   end
 
+  # TODO put this as a data dir in archive
   def submit_dir
     d = File.join path, SUBMIT_DIR
     FileUtils.mkdir d unless File.exist? d

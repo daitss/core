@@ -2,31 +2,6 @@
 
 %hr/
 
-%h2 stash bins
-
-%form#create-stashbin{:action => '/admin', :method => 'post'}
-  %input{:type => 'hidden', :name => 'task', :value => 'new-stashbin'}
-  %input{:name => 'name'}
-  %input{:type => 'submit', :value => "Create Stash Bin"}
-
-%table
-  %tr
-    %th name
-    %th wips
-    %th delete
-  - @bins.each do |bin|
-    %tr
-      %td
-        %a{:href => "/stashspace/#{bin.url_name}" }= bin.name
-      %td= bin.wips.size
-      %td
-        %form{:action => "/admin", :method => 'post'}
-          %input{:type => 'hidden', :name => 'task', :value => 'delete-stashbin'}
-          %input{:type => 'hidden', :name => 'name', :value => bin.name }
-          %input{:type => 'submit', :value => "Delete"}
-
-%hr/
-
 %h2 accounts
 
 %form#create-account{:action => '/admin', :method => 'post'}

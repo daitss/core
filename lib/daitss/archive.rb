@@ -25,6 +25,19 @@ module Daitss
       @workspace ||= Workspace.new @work_path
     end
 
+    def stashspace
+
+      Dir.chdir stash_path do
+        ids = Dir['*'].map { |id| StashBin.new id }
+      end
+
+    end
+
   end
+
+  def archive
+    Archive.instance
+  end
+  module_function :archive
 
 end

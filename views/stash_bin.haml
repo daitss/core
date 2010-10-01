@@ -2,5 +2,5 @@
   stash bin:
   = @bin.name
 
-- unless @bin.wips.empty?
-  = partial :wip_table, :locals => { :space => "stashspace/#{@bin.url_name}", :wips => @bin.wips }
+- unless @bin.empty?
+  = partial :wip_table, :locals => { :space => "stashspace/#{@bin.id}", :wips => @bin }

@@ -1,12 +1,10 @@
-Feature: admin of stashspace
+Feature: stash bins
   To be able to add & remove bins
 
   Scenario: add a new stash bin
-    Given I goto "/admin"
-    And I fill in the stashbin form with:
-      | name        |
-      | default bin |
-    When I press "Create Stash Bin"
+    Given I goto "/stashspace"
+    And I fill in "name" with "default bin"
+    When I press "Create"
     Then there should be a stash bin named "default bin"
     And there should be an admin log entry:
       | user | message                    |
@@ -15,7 +13,7 @@ Feature: admin of stashspace
   Scenario: remove an empty stash bin
     Given a stash bin named "default bin"
     And that stash bin is empty
-    And I goto "/admin"
+    And I goto "/stashspace"
     When I press "Delete"
     Then there should not be a stash bin named "default bin"
     And there should be an admin log entry:
@@ -25,7 +23,5 @@ Feature: admin of stashspace
   Scenario: remove a non-empty stash bin
     Given a stash bin named "default bin"
     And that stash bin is not empty
-    And I goto "/admin"
-    When I press "Delete"
-    Then the response should be NG
-    Then the response contains "cannot delete a non-empty stash bin"
+    When I goto "/stashspace"
+    Then I cannot press "Delete"
