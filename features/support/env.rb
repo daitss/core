@@ -69,12 +69,12 @@ Before do
   archive.init_data_dir
   archive.setup_db
   archive.init_db
-  archive.create_initial_data
+  archive.init_default_data
 
   # extra initial data
-  a = Account.new :id => 'ACT', :description => 'the description'
-  pd = Project.new :id => 'default', :description => 'the default description', :account => a
-  p = Project.new :id => 'PRJ', :description => 'the description', :account => a
+  a = Daitss::Account.new :id => 'ACT', :description => 'the description'
+  pd = Daitss::Project.new :id => 'default', :description => 'the default description', :account => a
+  p = Daitss::Project.new :id => 'PRJ', :description => 'the description', :account => a
   a.save or 'cannot save ACT'
   pd.save or 'cannot save ACT/default'
   p.save or 'cannot save PRJ'

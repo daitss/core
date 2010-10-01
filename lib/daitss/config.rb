@@ -42,7 +42,7 @@ module Daitss
     XMLRESOLUTION_URL = 'xmlresolution-url'
 
     attr_reader :db_url, :uri_prefix, :http_timeout
-    attr_reader :work_path, :stash_path, :submit_path
+    attr_reader :data_dir, :work_path, :stash_path, :submit_path
     attr_reader :actionplan_url, :describe_url, :storage_url, :viruscheck_url, :transform_url, :xmlresolution_url
 
     # load the settings from the file specified
@@ -84,7 +84,7 @@ module Daitss
     def setup_db options={}
       DataMapper::Logger.new $stdout if options[:log]
       adapter = DataMapper.setup :default, @db_url
-      #adapter.resource_naming_convention = UnderscoredAndPluralizedWithoutModule
+      adapter.resource_naming_convention = DataMapper::NamingConventions::Resource::UnderscoredAndPluralizedWithoutModule
       adapter
     end
 
@@ -109,7 +109,7 @@ module Daitss
     # - system account (with default project)
     # - system program
     # - default operator
-    def create_initial_data
+    def init_default_data
 
       # account
       a = Account.new(:id => SYSTEM_ACCOUNT_ID,

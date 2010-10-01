@@ -6,6 +6,8 @@ require 'sass'
 require 'sinatra'
 require 'daitss'
 
+include Daitss
+
 helpers do
 
   def authenticate

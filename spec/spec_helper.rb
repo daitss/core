@@ -1,12 +1,7 @@
 require 'fileutils'
-
 require 'data_mapper'
 
-require "daitss/archive"
-require "daitss/model/aip"
-require "daitss/model/agent"
-require "daitss/model/event"
-require "daitss/db"
+require "daitss"
 
 require "help/test_package"
 require "help/sandbox"
@@ -15,16 +10,17 @@ require "help/agreement"
 
 SPEC_ROOT = File.dirname __FILE__
 
+include Daitss
+
 Spec::Runner.configure do |config|
 
   config.before :all do
-    archive = Daitss.archive
     FileUtils.rm_rf archive.data_dir
     FileUtils.mkdir archive.data_dir
     archive.init_data_dir
     archive.setup_db
     archive.init_db
-    archive.create_initial_data
+    archive.init_default_data
 
     # some test data
     ac = Account.new :id => 'ACT', :description => 'the description'
