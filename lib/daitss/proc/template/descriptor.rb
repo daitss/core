@@ -116,7 +116,7 @@ module Daitss
     end
 
     def digiprov_agents
-      new_agents = metadata_for 'describe-agent', 'migrate-agent', 'normalize-agent', 'obsolete-agent', 'xml-resolution-agent', 'virus-check-agent'
+      new_agents = metadata_for 'describe-agent', 'actionplan-agent', 'migrate-agent', 'normalize-agent', 'obsolete-agent', 'xml-resolution-agent', 'virus-check-agent'
       new_agents + old_agents.map { |a| a.root.to_s }
     end
 

@@ -41,7 +41,10 @@ module Daitss
                   else raise "unknown transformation strategy: #{strategy}"
                   end
 
-      xform_id = xform_data ? xform_data['transformation']['id'] : nil
+      if xform_data
+        xform_id = xform_data['transformation']['id']
+        ap_agent = XML::Document.string(xform_data['agent']).root
+      end
 
       if xform_id
 
@@ -71,7 +74,8 @@ module Daitss
           dest.open('w') { |io| io.write data }
           dest['aip-path'] = File.join AipArchive::AIP_FILES_DIR, "#{dest.id}#{ext}"
           dest[agent_key] = fix_transformation_agent agent
-          dest[event_key] = fix_transformation_event event, source, dest, strategy
+          dest[event_key] = fix_transformation_event event, source, dest, strategy, ap_agent
+          dest['actionplan-agent'] = ap_agent.to_s
           dest["transformation-source"] = source.uri
           dest["transformation-strategy"] = strategy.to_s
 
@@ -120,10 +124,22 @@ module Daitss
       [agent, event, data, ext]
     end
 
-    def fix_transformation_event node, source, dest, strategy
+    def fix_transformation_event node, source, dest, strategy, ap_agent
       d = XML::Document.new
       d.root = d.import node
 
+      # attach actionplan agent
+      ap_agent_id = ap_agent.find_first("//P:agentIdentifierValue", NS_PREFIX).content
+      linking_agent = %Q{
+        <linkingAgentIdentifier>
+          <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
+          <linkingAgentIdentifierValue>#{ap_agent_id}</linkingAgentIdentifierValue>
+        </linkingAgentIdentifier>
+      }
+      linking_agent_node = d.import XML::Document.string(linking_agent).root
+      d.root << linking_agent_node
+
+      # attach objects
       event_uri = "#{dest.uri}/event/#{strategy}/#{next_event_index strategy}"
       d.find_first("//P:eventIdentifierValue", NS_PREFIX).content = event_uri
       d.find_first("//P:eventType", NS_PREFIX).content = strategy.to_s

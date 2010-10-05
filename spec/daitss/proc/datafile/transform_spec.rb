@@ -39,7 +39,7 @@ describe DataFile do
 
     it 'should have transformation metadata' do
       pending 'need migratable sip'
-      @df['transformation'].should == 'http://localhost:7000/transformation/transform/wave_norm'
+      @df['transformation'].should == 'wave_norm'
     end
 
     it 'should have a transformation source' do
@@ -51,6 +51,8 @@ describe DataFile do
       pending 'need migratable sip'
       @df['transformation-strategy'].should == 'migrate'
     end
+
+    it 'should have actionplan agent'
 
   end
 
@@ -71,6 +73,12 @@ describe DataFile do
     it 'should have normalize agent' do
       @df.should have_key('normalize-agent')
       doc = XML::Document.string @df['normalize-agent']
+      doc.find_first "/P:agent", NS_PREFIX
+    end
+
+    it 'should have actionplan agent' do
+      @df.should have_key('actionplan-agent')
+      doc = XML::Document.string @df['actionplan-agent']
       doc.find_first "/P:agent", NS_PREFIX
     end
 
