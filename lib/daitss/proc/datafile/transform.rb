@@ -35,13 +35,15 @@ module Daitss
                else raise "unknown transformation strategy: #{strategy}"
                end
 
-      xform_url = case strategy
+      xform_data = case strategy
                   when :migrate then source.migration
                   when :normalize then source.normalization
                   else raise "unknown transformation strategy: #{strategy}"
                   end
 
-      if xform_url
+      xform_id = xform_data ? xform_data['transformation']['id'] : nil
+
+      if xform_id
 
         agent_key, event_key = case strategy
                                when :normalize then ['normalize-agent', 'normalize-event']
@@ -63,7 +65,7 @@ module Daitss
                     end
 
         begin
-          agent, event, data, ext = source.ask_transformation_service xform_url
+          agent, event, data, ext = source.ask_transformation_service xform_id
 
           # fill in destination datafile
           dest.open('w') { |io| io.write data }
@@ -84,10 +86,10 @@ module Daitss
 
     end
 
-    def ask_transformation_service url
+    def ask_transformation_service xform_id
 
       # ask for the main doc with the link, event, agent
-      url = URI.parse url
+      url = URI.parse archive.transform_url + '/transform/' + xform_id
       req = Net::HTTP::Get.new url.path
       req.form_data = { 'location' => "file:#{File.expand_path datapath}" }
 
