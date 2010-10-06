@@ -43,9 +43,23 @@ describe DataFile do
       @wave.describe!
     end
 
-    it 'should return a transformation id' do
-      id = 'wave_norm'
-      @wave.normalization['transformation']['id'].should == id
+    subject { @wave.normalization }
+
+    it 'should have actionplan event' do
+      subject.find("contains(//P:event/P:eventType, 'actionplan')", NS_PREFIX).should be_true
+    end
+
+    describe "event outcome" do
+      subject { @wave.normalization.find_first("//P:event/P:eventDetail", NS_PREFIX).content }
+      it { should include('normalization: wave_norm') }
+      it { should include('codec: PCM') }
+      it { should include('format: Waveform Audio') }
+      it { should include('format version: None') }
+      it { should include('revision date: 2010.09.16') }
+    end
+
+    it 'should have actionplan agent' do
+      subject.find("contains(//P:agent/P:agentName, 'Action Plan Service')", NS_PREFIX).should be_true
     end
 
   end
