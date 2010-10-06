@@ -9,25 +9,32 @@ module Daitss
     include Daitss
 
     def migration
-      body = ask_actionplan "#{Archive.instance.actionplan_url}/migration"
+      body = ask_actionplan "migration"
       XML::Document.string body if body
     end
 
     def normalization
-      body = ask_actionplan "#{Archive.instance.actionplan_url}/normalization"
+      body = ask_actionplan "normalization"
       XML::Document.string body if body
     end
 
     def xmlresolution
-      ask_actionplan "#{Archive.instance.actionplan_url}/xmlresolution"
+      ask_actionplan "xmlresolution"
     end
 
     private
 
-    def ask_actionplan url
-      url = URI.parse(url)
+    def ask_actionplan strategy
+      url = URI.parse(archive.actionplan_url + '/' + strategy)
       req = Net::HTTP::Post.new url.path
-      req.set_form_data 'object' => metadata['describe-file-object'], 'event-id-type' => 'URL', 'event-id-value' => 'TODO'
+
+      form_data = {
+        'object' => metadata['describe-file-object'],
+        'event-id-type' => 'URL',
+        'event-id-value' => "#{uri}/event/#{strategy}/#{next_event_index strategy}"
+      }
+
+      req.set_form_data form_data
 
       res = Net::HTTP.start(url.host, url.port) do |http|
         http.read_timeout = Archive.instance.http_timeout

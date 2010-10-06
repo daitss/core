@@ -35,18 +35,13 @@ module Daitss
                else raise "unknown transformation strategy: #{strategy}"
                end
 
-      xform_data = case strategy
-                  when :migrate then source.migration
-                  when :normalize then source.normalization
-                  else raise "unknown transformation strategy: #{strategy}"
-                  end
+      ap_data = case strategy
+                when :migrate then source.migration
+                when :normalize then source.normalization
+                else raise "unknown transformation strategy: #{strategy}"
+                end
 
-      if xform_data
-        xform_id = xform_data['transformation']['id']
-        ap_agent = XML::Document.string(xform_data['agent']).root
-      end
-
-      if xform_id
+      if ap_data
 
         agent_key, event_key = case strategy
                                when :normalize then ['normalize-agent', 'normalize-event']
@@ -67,6 +62,13 @@ module Daitss
                     else raise "unknown transformation strategy: #{strategy}"
                     end
 
+        # write actionplan event/agent
+        source['actionplan-event'] = ap_data.find_first('//P:event', NS_PREFIX).to_s
+        source['actionplan-agent'] = ap_data.find_first('//P:agent', NS_PREFIX).to_s
+
+        event_detail = ap_data.find_first('//P:event/P:eventDetail', NS_PREFIX).content
+        xform_id = event_detail[/(migration|normalization): (\w+)\n/, 2] or raise "cannot extract transformation id"
+
         begin
           agent, event, data, ext = source.ask_transformation_service xform_id
 
@@ -74,8 +76,7 @@ module Daitss
           dest.open('w') { |io| io.write data }
           dest['aip-path'] = File.join AipArchive::AIP_FILES_DIR, "#{dest.id}#{ext}"
           dest[agent_key] = fix_transformation_agent agent
-          dest[event_key] = fix_transformation_event event, source, dest, strategy, ap_agent
-          dest['actionplan-agent'] = ap_agent.to_s
+          dest[event_key] = fix_transformation_event event, source, dest, strategy
           dest["transformation-source"] = source.uri
           dest["transformation-strategy"] = strategy.to_s
 
@@ -124,20 +125,9 @@ module Daitss
       [agent, event, data, ext]
     end
 
-    def fix_transformation_event node, source, dest, strategy, ap_agent
+    def fix_transformation_event node, source, dest, strategy
       d = XML::Document.new
       d.root = d.import node
-
-      # attach actionplan agent
-      ap_agent_id = ap_agent.find_first("//P:agentIdentifierValue", NS_PREFIX).content
-      linking_agent = %Q{
-        <linkingAgentIdentifier>
-          <linkingAgentIdentifierType>URI</linkingAgentIdentifierType>
-          <linkingAgentIdentifierValue>#{ap_agent_id}</linkingAgentIdentifierValue>
-        </linkingAgentIdentifier>
-      }
-      linking_agent_node = d.import XML::Document.string(linking_agent).root
-      d.root << linking_agent_node
 
       # attach objects
       event_uri = "#{dest.uri}/event/#{strategy}/#{next_event_index strategy}"
