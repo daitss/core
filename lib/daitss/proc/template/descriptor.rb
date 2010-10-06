@@ -113,12 +113,12 @@ module Daitss
     DIGIPROV_KEYS = %w[describe actionplan migrate normalize obsolete xml-resolution virus-check]
 
     def digiprov_events
-      new_events = metadata_for DIGIPROV_KEYS.map { |k| k + '-event' }
+      new_events = metadata_for *DIGIPROV_KEYS.map { |k| k + '-event' }
       new_events + old_events.map { |e| e.root.to_s }
     end
 
     def digiprov_agents
-      new_agents = metadata_for DIGIPROV_KEYS.map { |k| k + '-agent' }
+      new_agents = metadata_for *DIGIPROV_KEYS.map { |k| k + '-agent' }
       new_agents + old_agents.map { |a| a.root.to_s }
     end
 
