@@ -34,6 +34,12 @@ Feature: overview of a package
     When I goto its package page
     Then in the events I should see a "submit" event with "" in the notes
 
+  Scenario: download ingest report
+    Given an archived package
+    When I goto its package page
+    And I click on "ingest report download"
+    Then the response should contain a valid ingest report
+
   Scenario: show the aip
     Given an archived package
     When I goto its package page
