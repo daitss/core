@@ -6,6 +6,8 @@ require 'sass'
 require 'sinatra'
 require 'daitss'
 
+require 'daitss/archive/report'
+
 include Daitss
 
 helpers do
@@ -137,6 +139,10 @@ get '/package/:id/descriptor' do |id|
   not_found unless @aip
   content_type = 'application/xml'
   @aip.xml
+end
+
+get '/package/:id/ingest_report' do |id|
+  Archive.instance.ingest_report id
 end
 
 # enqueue a new request
