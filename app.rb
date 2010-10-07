@@ -362,6 +362,7 @@ post '/admin' do
     a = Account.new
     a.id = require_param 'id'
     a.description = require_param 'description'
+    a.report_email = require_param 'report-email'
     p = Project.new :id => Daitss::Archive::DEFAULT_PROJECT_ID, :description => 'default project'
     a.projects << p
     a.save or error "could not create new account"
