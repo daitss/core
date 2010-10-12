@@ -23,6 +23,10 @@ Then /^the response should be (NG|OK)$/ do |condition|
 
 end
 
+Then /^the response code should be (\d+)$/ do |code|
+  last_response.status.should == code.to_i
+end
+
 Then /^the response contains "([^\"]*)"$/ do |blurb|
   last_response.should contain(blurb)
 end

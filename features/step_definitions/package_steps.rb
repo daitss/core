@@ -11,6 +11,10 @@ When /^I goto its package page$/ do
   visit last_package
 end
 
+When /^I goto its ingest report$/ do
+  visit last_package + "/ingest_report"
+end
+
 Then /^in the submission summary I should see the (name|account|project)$/ do |field|
   last_response.should have_selector("th:contains('#{field}')")
 end

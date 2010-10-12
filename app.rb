@@ -142,6 +142,7 @@ get '/package/:id/descriptor' do |id|
 end
 
 get '/package/:id/ingest_report' do |id|
+  halt 404 unless Package.get(id).status == "archived"
   Archive.instance.ingest_report id
 end
 

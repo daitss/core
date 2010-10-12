@@ -40,6 +40,11 @@ Feature: overview of a package
     And I click on "ingest report download"
     Then the response should contain a valid ingest report
 
+  Scenario: download ingest report for not yet archived package
+    Given I submit a package
+    When I goto its ingest report
+    Then the response code should be 404
+
   Scenario: show the aip
     Given an archived package
     When I goto its package page
