@@ -27,6 +27,7 @@ module Daitss
     property :original_path, String, :length => (0..255), :required => true
     # map from package_path + file_title + file_ext
     property :creating_application, String, :length => (0..255)
+    property :is_sip_descriptor, Boolean
 
     property :r0, Boolean, :default  => false
     #true if this datafile is part of the original representation
