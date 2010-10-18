@@ -72,7 +72,7 @@ Before do
   archive.init_seed
 
   # extra initial data
-  a = Daitss::Account.new :id => 'ACT', :description => 'the description'
+  a = Daitss::Account.new :id => 'ACT', :description => 'the description', :report_email => 'daitss2@gmail.com'
   pd = Daitss::Project.new :id => 'default', :description => 'the default description', :account => a
   p = Daitss::Project.new :id => 'PRJ', :description => 'the description', :account => a
   a.save or 'cannot save ACT'

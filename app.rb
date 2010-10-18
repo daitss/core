@@ -6,6 +6,8 @@ require 'sass'
 require 'sinatra'
 require 'daitss'
 
+require 'daitss/archive/report'
+
 include Daitss
 
 helpers do
@@ -137,6 +139,11 @@ get '/package/:id/descriptor' do |id|
   not_found unless @aip
   content_type = 'application/xml'
   @aip.xml
+end
+
+get '/package/:id/ingest_report' do |id|
+  halt 404 unless Package.get(id).status == "archived"
+  Archive.instance.ingest_report id
 end
 
 # enqueue a new request
@@ -356,6 +363,7 @@ post '/admin' do
     a = Account.new
     a.id = require_param 'id'
     a.description = require_param 'description'
+    a.report_email = require_param 'report-email'
     p = Project.new :id => Daitss::Archive::DEFAULT_PROJECT_ID, :description => 'default project'
     a.projects << p
     a.save or error "could not create new account"
