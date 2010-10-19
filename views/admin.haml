@@ -8,6 +8,7 @@
   %input{:type => 'hidden', :name => 'task', :value => 'new-account'}
   %input{:name => 'id', :value =>"account id"}
   %input{:name => 'description', :value =>"account description"}
+  %input{:name => 'report-email', :value =>"report e-mail address"}
   %input{:type => 'submit', :value => "Create Account"}
 
 - if @accounts.any?
@@ -15,12 +16,14 @@
     %tr
       %th id
       %th description
+      %th report e-mail address
       %th delete
 
     - @accounts.each do |a|
       %tr
         %td= a.id
         %td= a.description
+        %td= a.report_email
         %td
           - unless a.id == Daitss::Archive::SYSTEM_ACCOUNT_ID
             %form{:action => "/admin", :method => 'post'}

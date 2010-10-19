@@ -2,7 +2,7 @@ module Daitss
 
   # all possible event types
   Event_Type = ["ingest", "submit", "validate", "virus check", "disseminate",
-    "withdraw", "fixity check", "describe", "normalize", "migrate", "xml resolution", "deletion"]
+    "withdraw", "fixitycheck", "describe", "normalize", "migrate", "xml resolution", "deletion"]
 
   Event_Map = {
     "ingest" => "ingest",
@@ -25,6 +25,7 @@ module Daitss
     property :e_type, String, :length => 20, :required => true
     validates_with_method :e_type, :method => :validateEventType
     property :datetime, DateTime
+    property :event_detail, String, :length => 255 # event detail
     property :outcome, String, :length => 255   # ex. sucess, failed.  TODO:change to Enum.
     property :outcome_details, Text # additional information about the event outcome.
     property :relatedObjectId, String , :length => 100 # the identifier of the related object.
@@ -56,6 +57,8 @@ module Daitss
       attribute_set(:idType, premis.find_first("premis:eventIdentifier/premis:eventIdentifierType", NAMESPACES).content)
       type = premis.find_first("premis:eventType", NAMESPACES).content
       attribute_set(:e_type, Event_Map[type.downcase])
+	  eventDetail = premis.find_first("premis:eventDetail", NAMESPACES)
+      attribute_set(:event_detail, eventdetail.content) if eventDetail
       attribute_set(:datetime, premis.find_first("premis:eventDateTime", NAMESPACES).content)
       attribute_set(:outcome, premis.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NAMESPACES).content)
     end

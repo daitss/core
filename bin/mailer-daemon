@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+require 'daitss/archive'
+require 'daitss/model'
+require 'daitss/archive/email'
+
+include Daitss
+
+archive
+
+# find all ingested packages. If it doesn't have an ingest report ops event, mail the report to the account address, and add an event for the report being mailed
+while true
+  Aip.all.packages.all.each do |package|
+    next if package.events.first(:name => "ingest report mailed")
+
+    Archive.instance.email_report package
+    package.log "ingest report mailed"
+  end
+
+  sleep 60
+end
+
+

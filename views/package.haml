@@ -107,6 +107,12 @@
         %a{ :href => aip.copy.url }
           = @package.id + ".tar"
     %tr
+      %th ingest report
+      %td
+        %a{:href=>"/package/#{@package.id}/ingest_report"}
+          = "ingest report download"
+
+    %tr
       %th copy size
       %td= aip.copy.size
     %tr

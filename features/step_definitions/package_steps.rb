@@ -11,6 +11,10 @@ When /^I goto its package page$/ do
   visit last_package
 end
 
+When /^I goto its ingest report$/ do
+  visit last_package + "/ingest_report"
+end
+
 Then /^in the submission summary I should see the (name|account|project)$/ do |field|
   last_response.should have_selector("th:contains('#{field}')")
 end
@@ -111,3 +115,12 @@ Then /^I should not see the request$/ do
   last_response.should_not have_selector("#request table tr")
 end
 
+# ensure that response can be parsed as xml and contains the IEID
+# TODO: thorough ingest report testing, checking contents against database
+Then /^the response should contain a valid ingest report$/ do
+  last_response.body.should_not be_nil
+
+  doc = Nokogiri::XML last_response.body
+  ieid = File.basename last_package
+  last_response.body.should =~ /#{ieid}/
+end
