@@ -61,8 +61,12 @@ module Daitss
         # copy in datafiles
         @wip.represented_datafiles.each do |f|
           aip_path = File.join @aip_dir, f['aip-path']
-          FileUtils.mkdir_p File.dirname(aip_path)
-          FileUtils.ln_s f.datapath, aip_path
+
+          unless File.exist?(aip_path) and Digest::MD5.file(aip_path).hexdigest == Digest::MD5.file(f.datapath).hexdigest
+            FileUtils.mkdir_p File.dirname(aip_path)
+            FileUtils.ln_s f.datapath, aip_path
+          end
+
         end
 
         # copy in old xmlres tarballs

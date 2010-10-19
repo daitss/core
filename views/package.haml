@@ -38,7 +38,8 @@
     %tr
       %td= e.name
       %td= e.timestamp.pragma
-      %td= e.notes
+      %td
+        %pre= e.notes
       %td= e.agent.id
 
 - if @ingest_time

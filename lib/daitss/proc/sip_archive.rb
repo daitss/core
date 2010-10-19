@@ -134,7 +134,12 @@ module Daitss
                        end
 
             if computed.downcase != expected.downcase
-              es[:content_file_fixity] << "#{expected_type} for #{f} - expected: #{expected}; computed #{computed}"
+              message = <<MSG
+#{expected_type} for #{f}:
+  expected: #{expected}
+  computed: #{computed}
+MSG
+              es[:content_file_fixity] << message
             end
 
           end

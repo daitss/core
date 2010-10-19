@@ -34,6 +34,10 @@ module Daitss
         metadata['aip-descriptor'] = descriptor
       end
 
+      step('make-aip-descriptor') do
+        metadata['aip-descriptor'] = descriptor
+      end
+
       step('make-aip') do
 
         Aip.transaction do
