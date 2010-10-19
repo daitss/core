@@ -11,7 +11,7 @@ Feature: interactive submission
       | haskell-nums-pdf                  | submit | |
       | mixed-case-checksums              | submit | |
       | virus                             | submit | |
-      | checksum-mismatch                 | reject | MD5 for ateam.tiff - expected: 905ae75bc4595521e350564c90a56d28; computed 805ae75bc4595521e350564c90a56d28 |
+      | checksum-mismatch                 | reject | MD5 for ateam.tiff |
       | missing-descriptor                | reject | missing descriptor |
       | missing-content-file              | reject | missing content file: ateam.tiff |
       | bad-account                       | reject | no account DNE |
