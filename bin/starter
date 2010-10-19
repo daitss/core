@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'daitss'
+
+include Daitss
+
+loop do
+
+  startable = archive.workspace.reject do |w|
+    w.running? or w.snafu? or w.stopped?
+  end
+
+  startable.each do |wip|
+    puts 'starting:' + wip.id
+    wip.start
+  end
+
+  sleep 1
+end
