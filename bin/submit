@@ -1,46 +1,84 @@
 #!/usr/bin/env ruby
 
-require 'net/http'
-require 'digest/md5'
+require 'optparse'
 require 'uri'
+require 'ostruct'
+require 'digest/md5'
+require 'fileutils'
 
-require 'daitss/config'
-require 'template/premis'
-require 'wip/from_sip'
-require 'wip/task'
-require 'workspace'
+# a simple submission client
+# takes a specified package on a filesystem, zips it up, and "curls" it to the submission at the specified url as the specified
+# operations agent.
+# displays curl output, which contains the IEID.
 
-begin
+# dependencies:
+# curl, zip
 
-  # configuration
-  raise "CONFIG must be set" unless ENV['CONFIG']
-  Daitss::CONFIG.load ENV['CONFIG']
+def get_options(args)
+  config = OpenStruct.new("url" => nil, "package" => nil, "package_name" => nil)
 
-  # tar up the sip
-  sip_path = ARGV.shift or raise "sip required"
-  url = URI.parse Daitss::CONFIG['submission-url']
-  req = Net::HTTP::Post.new url.path
-  tar = %x{tar -c -C #{File.dirname sip_path} -f - #{File.basename sip_path} }
-  raise "tar did not work" if $?.exitstatus != 0
+  begin
+    opts = OptionParser.new do |opt|
 
-  # submit it
-  req.body = tar
-  req.content_type = 'application/tar'
-  req.basic_auth 'operator', 'operator'
-  req['X-Package-Name'] = File.basename sip_path
-  req['Content-MD5'] = Digest::MD5.hexdigest(req.body)
-  req['X-Archive-Type'] = 'tar'
+      opt.banner << "\nSubmits a SIP DAITSS 2"
+      opt.on_tail("--help", "Show this message") { puts opts; exit }
 
-  res = Net::HTTP.start(url.host, url.port) do |http|
-    http.read_timeout = Daitss::CONFIG['http-timeout']
-    http.request req
+      opt.on("--url URL", String, "URL of service to submit package to, required") { |key| config.url = key }
+      opt.on("--package PATH", String, "Path on filesystem to SIP to submit, required") { |path| config.package = path }
+      opt.on("--username USERNAME", String, "Operations agent username, required") { |username| config.username = username }
+      opt.on("--password PASSWORD", String, "Operations agent password, required") { |password| config.password = password }
+    end
+
+    opts.parse!(args)
+
+    raise StandardError, "URL not specified" unless config.url
+    raise StandardError, "Package not specified" unless config.package
+    raise StandardError, "Username not specified" unless config.username
+    raise StandardError, "Password not specified" unless config.password
+
+    url_obj = URI.parse(config.url)
+
+    raise StandardError, "Specified URL #{config.url} does not look like an HTTP URL" unless url_obj.scheme == "http"
+    raise StandardError, "Specified package path is not a directory" unless File.directory? config.package
+
+  rescue => e # catch the error from opts.parse! and display
+    STDERR.puts "Error parsing command line options:\n#{e.message}\n#{opts}"
+    exit 1
   end
 
-  res.error! unless Net::HTTPSuccess === res
-  doc = Nokogiri::XML res.body
-  id = (doc % 'IEID').content
-  puts "#{id} submitted"
-rescue => e
-  puts e.message
+  return config
+end
+
+# zips directory to /tmp/DIRNAME.zip. Returns string with path to zip file
+
+def zip_package path_to_package
+  zip_path = File.join("/tmp", File.basename(path_to_package) + ".zip")
+  FileUtils.rm_rf zip_path if File.exists? zip_path
+
+  output = `cd #{File.dirname(path_to_package)}; zip -r #{zip_path} #{File.basename(path_to_package)} 2>&1; cd $PWD`
+
+  raise "zip returned non-zero exit status: #{output}" if $?.exitstatus != 0
+
+  return zip_path
+end
+
+# calls curl to submit package to service
+
+def submit_to_svc url, path_to_zip, username, password
+  output = `curl -X POST -u #{username}:#{password} -F "sip=@#{path_to_zip};type=application/zip" #{url}/packages -i 2>&1`
+
+  return output
+end
+
+config = get_options(ARGV) or exit
+zipfile = zip_package config.package
+curl_output = submit_to_svc config.url, zipfile, config.username, config.password
+FileUtils.rm_rf zipfile
+
+if curl_output =~ /Location:/
+  puts curl_output
+else
+  puts curl_output
   exit 1
 end
+
