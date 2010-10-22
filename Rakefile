@@ -13,6 +13,8 @@ require 'daitss/archive'
 require 'daitss/db'
 require 'daitss/model/aip'
 
+include Daitss
+
 desc 'generate tags file'
 task :ctags do
   system "ctags -R --exclude=.git lib spec features views bin app.rb"

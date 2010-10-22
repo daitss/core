@@ -77,6 +77,19 @@ module Daitss
 
     end
 
-  end
+    def elapsed_time
+      raise "package not yet ingested" unless status == 'archived'
 
+      event_list = self.events.all(:name => "ingest started") + self.events.all(:name => "ingest snafu") + self.events.all(:name => "ingest stopped") + self.events.first(:name => "ingest finished")
+
+      event_list.sort {|a, b| a.timestamp <=> b.timestamp} 
+
+      elapsed = 0
+      while event_list.length >= 2
+        elapsed += Time.parse(event_list.pop.timestamp.to_s) - Time.parse(event_list.pop.timestamp.to_s)
+      end
+
+      return elapsed
+    end
+  end
 end

@@ -18,15 +18,26 @@ describe Wip do
       @wip.should have_step('make-aip-descriptor')
     end
 
-    it "should have an ingest event" do
-      doc = XML::Document.string @wip['aip-descriptor']
-      doc.find("//P:event/P:eventType = 'ingest'", NS_PREFIX).should be_true
+    describe "aip descriptor" do
+
+      subject do
+        XML::Document.string @wip['aip-descriptor']
+      end
+
+      it "should have an ingest event" do
+        subject.find("//P:event/P:eventType = 'ingest'", NS_PREFIX).should be_true
+      end
+
+      it "should have an ingest agent" do
+        subject.find("//P:agent/P:agentName = '#{system_agent_spec[:name]}'", NS_PREFIX).should be_true
+      end
+
+      it "should have a sip descriptor denoted" do
+        subject.find("//M:file/@USE='sip descriptor'", NS_PREFIX).should be_true
+      end
+
     end
 
-    it "should have an ingest agent" do
-      doc = XML::Document.string @wip['aip-descriptor']
-      doc.find("//P:agent/P:agentName = '#{system_agent_spec[:name]}'", NS_PREFIX).should be_true
-    end
 
     it "should have an IntEntity in the db" do
       ie = Intentity.get(@wip.uri)

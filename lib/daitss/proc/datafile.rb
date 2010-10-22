@@ -26,6 +26,7 @@ module Daitss
       @metadata = FsHash.new File.join(@dir, METADATA_DIR)
       @datapath = File.join @dir, DATA_FILE
       FileUtils::touch @datapath
+      @is_sip_descriptor = metadata['sip-path'] == @wip.package.sip.name + '.xml'
     end
 
     def_delegators :@metadata, :[]=, :[], :has_key?, :delete
@@ -73,11 +74,15 @@ module Daitss
     def == other
       id == other.id and wip == other.wip
     end
-    alias_method :eql?, :==
+    alias_method(:eql?, :==)
 
-      def hash
-        @dir.hash
-      end
+    def hash
+      @dir.hash
+    end
+
+    def sip_descriptor?
+      @is_sip_descriptor
+    end
 
   end
 

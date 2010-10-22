@@ -3,6 +3,9 @@
       ADMID='<%= @admid_map[df.id].join ' ' %>'
       SIZE='<%= df.size %>'
       CHECKSUMTYPE='SHA-1'
+      <% if df.sip_descriptor? %>
+        USE="sip descriptor"
+      <% end %>
       CHECKSUM='<%= df.open { |io| Digest::SHA1.hexdigest io.read } %>'>
   <% unless df.obsolete? %>
     <FLocat LOCTYPE='URL' xlink:href='<%= df['aip-path'] %>'/>
