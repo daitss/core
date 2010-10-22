@@ -12,16 +12,17 @@ module Daitss
 
     include DataMapper::Resource
     property :id, Serial
-    property :url, URI, :required => true, :writer => :private #, :default => proc { self.make_url }
-    property :sha1, String, :length => 40, :format => %r([a-f0-9]{40}), :required => true
+    property :url, URI, :required => true # uncomment after all d1 packages are migrated, , :writer => :private #, :default => proc { self.make_url }
+    property :sha1, String, :length => 40, :format => %r([a-f0-9]{40}) # uncomment after all d1 packages are migrated, :required => true
     property :md5, String, :length => 40, :format => %r([a-f0-9]{32}), :required => true
-    property :size, Integer, :min => 1, :max => MAX_SIZE ,:required => true
+    property :size, Integer, :min => 1, :max => MAX_SIZE # uncomment after all d1 packages are migrated,:required => true
     property :revision, Integer, :default => 0, :required => true
 
     belongs_to :aip
 
-    validates_with_method :size, :check_size
-    validates_with_method :md5, :check_md5
+    # skip validation for daitss 1 package not yet migrated
+    validates_with_method :size, :check_size,  :if => lambda { |t| t.size}
+    validates_with_method :md5, :check_md5, :if => lambda { |t| t.size}
 
     def check_size
       res = head_from_silo

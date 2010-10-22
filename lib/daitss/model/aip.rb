@@ -27,16 +27,20 @@ module Daitss
     property :id, Serial
 
     property :xml, Text, :required => true, :length => XML_SIZE
-    property :datafile_count, Integer, :min => 1, :required => true
+    property :datafile_count, Integer, :min => 1 # uncomment after all d1 packages are migrated, :required => true
 
     belongs_to :package
-    has 1, :copy
+    has 0..1, :copy # 0 if package has been withdrawn, otherwise, 1
 
-    validates_with_method :xml, :validate_against_xmlschema
-    validates_with_method :xml, :validate_against_schematron
+    # skip validation for daitss 1 package not yet migrated
+    validates_with_method :xml, :validate_against_xmlschema, :if => lambda { |t| t.datafile_count}
+    # validates_with_method :xml, :validate_against_schematron
 
     def validate_against_xmlschema
       doc = XML::Document.string xml
+      # skip validation is this is a daitss1 package not yet migrated to daitss2
+	  # return true if doc.root.name == 'daitss1'
+	
       results = XML_SCHEMA_VALIDATOR.validate doc
       combined_results = results[:fatals] + results[:errors]
       combined_results.reject! { |r| r[:message] =~ /(tcf|aes)\:/ }
