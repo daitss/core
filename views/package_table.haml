@@ -1,6 +1,9 @@
 %table
   %tr
     %th package
+    %th name
+    %th size (MB)
+    %th # of datafiles
     %th account
     %th activity
     %th time
@@ -8,6 +11,9 @@
     %tr
       %td
         %a{:href => "/package/#{p.id}"}= p.id
+      %td= p.sip.name
+      %td= sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000)
+      %td= p.sip.number_of_datafiles
       %td= p.project.account.id rescue "N/A"
       - latest_event = p.events.last
       %td= latest_event.name
