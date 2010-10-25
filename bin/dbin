@@ -26,6 +26,6 @@ begin
   FileUtils.rm_r wip.path unless wip.snafu?
 rescue => e
   wip.snafu = e
-  wip.package.log "#{task} snafu"
+  wip.package.log "#{task} snafu", :notes => e.message.split("\n\n")[0]
   exit 1
 end
