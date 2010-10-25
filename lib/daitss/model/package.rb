@@ -57,6 +57,12 @@ module Daitss
 
     end
 
+    def stashed_wip
+      bins = Daitss.archive.stashspace
+      bin = bins.find { |b| File.exist? File.join(b.path, id) }
+      bin.find { |w| w.id == id } if bin
+    end
+
     def rejected?
       events.first :name => 'reject'
     end
