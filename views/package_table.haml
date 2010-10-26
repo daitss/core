@@ -4,6 +4,8 @@
     %th sip
     %th account
     %th project
+    %th size (MB)
+    %th # of datafiles
     %th activity
     %th time
   - packages.each do |p|
@@ -13,6 +15,8 @@
       %td= p.sip.name
       %td= p.project.account.id
       %td= p.project.id
+      %td= sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000)
+      %td= p.sip.number_of_datafiles
       - latest_event = p.events.last
       %td= latest_event.name
       %td= latest_event.timestamp.pragma
