@@ -193,6 +193,7 @@ post '/workspace' do
   when 'stop'
     stoppable = ws.select { |w| w.running? }
     stoppable.each { |wip| wip.stop }
+    stoppable.each { |wip| Package.get(wip.id).log "ingest stopped" }
 
   when 'unsnafu'
     unsnafuable = ws.select { |w| w.snafu? }
@@ -246,6 +247,7 @@ post '/workspace/:id' do |id|
   when 'stop'
     error 400, 'cannot stop an idle wip' unless wip.running?
     wip.stop
+    Package.get(wip.id).log "ingest stopped"
 
   when 'unsnafu'
     error 400, 'can only unsnafu a snafu wip' unless wip.snafu?
