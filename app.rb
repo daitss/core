@@ -147,6 +147,9 @@ post '/package/:id/request' do |id|
   @package = Package.get(id) or not_found
   type = require_param 'type'
   note = require_param 'note'
+
+  error 400, "#{type} request already enqueued" if @package.requests.first(:type => type, :status => :enqueued)
+
   r = Request.new
 
   r.type = type
@@ -169,7 +172,9 @@ post '/package/:pid/request/:rid' do |pid, rid|
   task = require_param 'task'
   error "unknown task: #{task}" unless task == 'delete'
 
-  @request.destroy or error "cannot delete request: #{@request.errors.inspect}"
+  @request.delete or error "cannot delete request: #{@request.errors.inspect}"
+  @package.log "#{@request.type} request deleted", :notes => "deleted by: #{@user.id}"
+  
   redirect "/package/#{pid}"
 end
 

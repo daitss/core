@@ -25,11 +25,21 @@ Feature: package requests
     And a <type> request
     When I goto its package page
     And I press "Cancel" for the request
-    Then I should not see the request
+    Then I should see a <type> request with status "deleted"
+    And there should be an "<type> request deleted" event
     Examples:
       | type        |
       | disseminate |
       | withdraw    |
       | peek        |
+
+  Scenario: duplicate requests result in 400 returned
+    Given an archived package
+    And a disseminate request
+    When I goto its package page
+    And I choose request type "disseminate"
+    And I press "Request"
+    Then the response code should be 400
+ 
 
   Scenario: the top request can has a wip

@@ -59,7 +59,7 @@ end
 
 When /^I choose request type "([^"]*)"$/ do |type|
 
-  within "#request form" do
+  within "#request" do
     select type, :from => 'type'
   end
 
@@ -67,10 +67,14 @@ end
 
 When /^I fill in request note with "([^"]*)"$/ do |note|
 
-  within "#request form" do
+  within "#request" do
     fill_in 'note', :with => note
   end
 
+end
+
+Then /^I should see a ([^"]*) request$/ do |type|
+  last_response.should have_selector("#request table tr td", :content => type)
 end
 
 Then /^I should see a ([^"]*) request with note "([^"]*)"$/ do |type, note|
@@ -78,12 +82,17 @@ Then /^I should see a ([^"]*) request with note "([^"]*)"$/ do |type, note|
   last_response.should have_selector("#request table tr td", :content => note)
 end
 
+Then /^I should see a ([^"]*) request with status "([^"]*)"$/ do |type, status|
+  last_response.should have_selector("#request table tr td", :content => type)
+  last_response.should have_selector("#request table tr td", :content => status)
+end
+
 Then /^there should be a request heading$/ do
   last_response.should have_selector("#request h2", :content => 'requests')
 end
 
 Then /^there should be a request form$/ do
-  last_response.should have_selector("#request form")
+  last_response.should have_selector("#request")
 end
 
 Then /^there should (be|not be) a request table$/ do |cond|

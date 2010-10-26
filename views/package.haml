@@ -77,10 +77,13 @@
             %td= r.is_authorized ? "yes" : "no"
             %td= r.agent.id
             %td= r.status
-            %td
-              %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
-                %input{:type => 'hidden', :name => 'task', :value => 'delete'}
-                %input{:type => 'submit', :value => 'Cancel'}
+            - if r.status == :enqueued
+              %td
+                %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
+                  %input{:type => 'hidden', :name => 'task', :value => 'delete'}
+                  %input{:type => 'submit', :value => 'Cancel'}
+            - else
+              %td &nbsp;
 
     %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
       %select{:name=>'type'}
