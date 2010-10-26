@@ -52,14 +52,6 @@ describe DataFile do
       @df['transformation-strategy'].should == 'migrate'
     end
 
-    it 'should have actionplan agent' do
-      pending 'need migratable sip'
-    end
-
-    it 'should have actionplan event' do
-      pending 'need migratable sip'
-    end
-
   end
 
   describe 'normalization' do
@@ -82,6 +74,22 @@ describe DataFile do
       doc.find_first "/P:agent", NS_PREFIX
     end
 
+    it 'should have normalize event' do
+      @df.should have_key('normalize-event')
+      doc = XML::Document.string @df['normalize-event']
+      doc.find_first "/P:event", NS_PREFIX
+    end
+
+    it 'should have some action plan info in the normalize event' do
+      doc = XML::Document.string @df['normalize-event']
+      detail = doc.find_first "/P:event/P:eventDetail", NS_PREFIX
+      detail.content.should include('normalization: wave_norm')
+      detail.content.should include('codec: PCM')
+      detail.content.should include('format: Waveform Audio')
+      detail.content.should include('format version: None')
+      detail.content.should include('revision date: 2010.09.16')
+    end
+
     it 'should have a transformation source' do
       @df['transformation-source'].should == @source.uri
     end
@@ -89,19 +97,6 @@ describe DataFile do
     it 'should have a transformation strategy' do
       @df['transformation-strategy'].should == 'normalize'
     end
-
-    it 'should have actionplan event' do
-      @source.should have_key('actionplan-event')
-      doc = XML::Document.string @source['actionplan-event']
-      doc.find_first "/P:event", NS_PREFIX
-    end
-
-    it 'should have actionplan agent' do
-      @source.should have_key('actionplan-agent')
-      doc = XML::Document.string @source['actionplan-agent']
-      doc.find_first "/P:agent", NS_PREFIX
-    end
-
 
   end
 

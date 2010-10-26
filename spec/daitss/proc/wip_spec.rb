@@ -12,6 +12,7 @@ describe Wip do
     ac = Account.get Daitss::Archive::SYSTEM_ACCOUNT_ID
     pr = ac.projects.first :id => Daitss::Archive::DEFAULT_PROJECT_ID
     p.project = pr
+    p.sip = Sip.new :name => "foo"
     p.save or raise "cant save package"
     blank_wip p.id
   end

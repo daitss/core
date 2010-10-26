@@ -41,25 +41,27 @@ describe DataFile do
       wip = submit 'wave'
       @wave = wip.original_datafiles.find { |df| df['aip-path'] == File.join(AipArchive::SIP_FILES_DIR, 'obj1.wav') }
       @wave.describe!
+      @norm = @wave.normalization
     end
 
-    subject { @wave.normalization }
-
-    it 'should have actionplan event' do
-      subject.find("contains(//P:event/P:eventType, 'actionplan')", NS_PREFIX).should be_true
+    it 'should have the normalization id' do
+      @norm['normalization'].should == 'wave_norm'
     end
 
-    describe "event outcome" do
-      subject { @wave.normalization.find_first("//P:event/P:eventDetail", NS_PREFIX).content }
-      it { should include('normalization: wave_norm') }
-      it { should include('codec: PCM') }
-      it { should include('format: Waveform Audio') }
-      it { should include('format version: None') }
-      it { should include('revision date: 2010.09.16') }
+    it 'should have coded' do
+      @norm['codec'].should == 'PCM'
     end
 
-    it 'should have actionplan agent' do
-      subject.find("contains(//P:agent/P:agentName, 'Action Plan Service')", NS_PREFIX).should be_true
+    it 'should have format' do
+      @norm['format'].should == 'Waveform Audio'
+    end
+
+    it 'should have format version' do
+      @norm['format version'].should == 'None'
+    end
+
+    it 'should have revision date' do
+      @norm['revision date'].should == '2010.09.16'
     end
 
   end

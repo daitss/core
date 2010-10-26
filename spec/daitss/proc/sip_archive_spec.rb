@@ -61,7 +61,7 @@ describe SipArchive do
     path = new_sip_archive 'bad-checksum.zip'
     sa = SipArchive.new path
     sa.should_not be_valid
-    sa.errors.should include('SHA-1 for Haskell98numbers.pdf - expected: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa; computed d20d46494e5145f68b6e9938a9bbd80d36d28c69')
+    sa.errors.should include("SHA-1 for Haskell98numbers.pdf:\n  expected: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n  computed: d20d46494e5145f68b6e9938a9bbd80d36d28c69\n")
   end
 
   it "should be invalid and contain an error if there are no content files" do
