@@ -8,7 +8,8 @@ Feature: admin of projects
       | id  | description | account_id |
       | ADD | add test    | ACTPRJ     |
     When I press "Create Project"
-    Then there should be an project with:
+    Then I should be redirected
+    And there should be an project with:
       | id  | description | account_id |
       | ADD | add test    | ACTPRJ     |
     And there should be an admin log entry:
@@ -20,7 +21,8 @@ Feature: admin of projects
     And that project is empty
     And I goto "/admin"
     When I press "Delete" for the project
-    Then there should not be a project "RM"
+    Then I should be redirected
+    And there should not be a project "RM"
     And there should be an admin log entry:
       | user | message            |
       | foo  | delete project: RM |

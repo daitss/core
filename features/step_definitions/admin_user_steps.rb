@@ -36,6 +36,7 @@ Given /^a user "([^"]*)"$/ do |id|
   end
 
   When 'I press "Create User"'
+  Then 'I should be redirected'
   last_response.should be_ok
   @the_user = User.get id
   @the_user.should_not be_nil

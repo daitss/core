@@ -12,7 +12,7 @@ SPEC_ROOT = File.dirname __FILE__
 
 include Daitss
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
 
   config.before :all do
     FileUtils.rm_rf archive.data_dir

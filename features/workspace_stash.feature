@@ -8,7 +8,8 @@ Feature: stash
     When I choose "stash"
     And I select "default bin"
     And I press "Update"
-    Then there should be 0 wips
+    Then I should be redirected
+    And there should be 0 wips
 
   Scenario: one non-running sip should show up in the stash bin
     Given an idle wip

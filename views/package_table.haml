@@ -1,14 +1,18 @@
 %table
   %tr
     %th package
+    %th sip
     %th account
+    %th project
     %th activity
     %th time
   - packages.each do |p|
     %tr
       %td
         %a{:href => "/package/#{p.id}"}= p.id
-      %td= p.project.account.id rescue "N/A"
+      %td= p.sip.name
+      %td= p.project.account.id
+      %td= p.project.id
       - latest_event = p.events.last
       %td= latest_event.name
       %td= latest_event.timestamp.pragma

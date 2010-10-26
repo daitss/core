@@ -15,9 +15,6 @@ Then /^I should be at (the stashed wip|the wip|an error|the package) page$/ do |
     last_response.should be_ok
     last_response.should_not have_selector("h1:contains('stashed')")
 
-  when "the package"
-    last_response.should be_ok
-    current_url.should =~ %r'/package/#{last_package_id}'
   end
 
 end

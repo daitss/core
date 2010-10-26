@@ -33,6 +33,7 @@ Given /^a account "([^"]*)"$/ do |name|
   end
 
   When 'I press "Create Account"'
+  Then 'I should be redirected to "/admin"'
   last_response.should be_ok
   @the_account = Account.get id
   @the_account.should_not be_nil

@@ -13,7 +13,8 @@ Feature: package requests
     And I choose request type "<type>"
     And I fill in request note with "<note>"
     And I press "Request"
-    Then I should see a <type> request with note "<note>"
+    Then I should be redirected
+    And I should see a <type> request with note "<note>"
     Examples:
       | type        | note      |
       | disseminate | nice job! |
