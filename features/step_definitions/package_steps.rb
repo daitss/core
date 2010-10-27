@@ -74,15 +74,18 @@ When /^I fill in request note with "([^"]*)"$/ do |note|
 end
 
 Then /^I should see a ([^"]*) request$/ do |type|
+  When %Q(I goto its package page)
   last_response.should have_selector("#request table tr td", :content => type)
 end
 
 Then /^I should see a ([^"]*) request with note "([^"]*)"$/ do |type, note|
+  When %Q(I goto its package page)
   last_response.should have_selector("#request table tr td", :content => type)
   last_response.should have_selector("#request table tr td", :content => note)
 end
 
 Then /^I should see a ([^"]*) request with status "([^"]*)"$/ do |type, status|
+  When %Q(I goto its package page)
   last_response.should have_selector("#request table tr td", :content => type)
   last_response.should have_selector("#request table tr td", :content => status)
 end
