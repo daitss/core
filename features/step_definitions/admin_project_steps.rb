@@ -41,6 +41,7 @@ Given /^a project "([^"]*)"$/ do |id|
   end
 
   When 'I press "Create Project"'
+  Then 'I should be redirected to "/admin"'
   last_response.should be_ok
   @the_project = Account.get(account_id).projects.first :id => id
   @the_project.should_not be_nil

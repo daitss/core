@@ -62,12 +62,11 @@ module Daitss
                     else raise "unknown transformation strategy: #{strategy}"
                     end
 
-        # write actionplan event/agent
-        source['actionplan-event'] = ap_data.find_first('//P:event', NS_PREFIX).to_s
-        source['actionplan-agent'] = ap_data.find_first('//P:agent', NS_PREFIX).to_s
-
-        event_detail = ap_data.find_first('//P:event/P:eventDetail', NS_PREFIX).content
-        xform_id = event_detail[/(migration|normalization): (\w+)\n/, 2] or raise "cannot extract transformation id"
+        xform_id = case strategy
+                   when :migrate then ap_data['migration']
+                   when :normalize then ap_data['normalization']
+                   else raise "unknown transformation strategy: #{strategy}"
+                   end
 
         begin
           agent, event, data, ext = source.ask_transformation_service xform_id
@@ -76,7 +75,7 @@ module Daitss
           dest.open('w') { |io| io.write data }
           dest['aip-path'] = File.join AipArchive::AIP_FILES_DIR, "#{dest.id}#{ext}"
           dest[agent_key] = fix_transformation_agent agent
-          dest[event_key] = fix_transformation_event event, source, dest, strategy
+          dest[event_key] = fix_transformation_event event, source, dest, strategy, ap_data
           dest["transformation-source"] = source.uri
           dest["transformation-strategy"] = strategy.to_s
 
@@ -125,7 +124,7 @@ module Daitss
       [agent, event, data, ext]
     end
 
-    def fix_transformation_event node, source, dest, strategy
+    def fix_transformation_event node, source, dest, strategy, ap_data
       d = XML::Document.new
       d.root = d.import node
 
@@ -133,6 +132,12 @@ module Daitss
       event_uri = "#{dest.uri}/event/#{strategy}/#{next_event_index strategy}"
       d.find_first("//P:eventIdentifierValue", NS_PREFIX).content = event_uri
       d.find_first("//P:eventType", NS_PREFIX).content = strategy.to_s
+
+      date_time = d.find_first("//P:eventDateTime", NS_PREFIX)
+
+      detail = XML::Node.new 'eventDetail'
+      detail << ap_data.map { |k,v| "#{k}: #{v}" }.join("\n")
+      date_time.next = detail
 
       linking_objects = [%Q{
       <linkingObjectIdentifier>

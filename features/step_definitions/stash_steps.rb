@@ -7,5 +7,6 @@ Given /^I stash it in "([^\"]*)"$/ do |bin_name|
   When %Q(I choose "stash")
   When %Q(I select "#{bin_name}")
   When %Q(I press "Update")
+  Then 'I should be redirected'
   last_response.should be_ok
 end

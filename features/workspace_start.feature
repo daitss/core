@@ -6,7 +6,8 @@ Feature: start
     And I goto "/workspace"
     When I choose "start"
     And I press "Update"
-    Then there should be 1 running wips
+    Then I should be redirected
+    And there should be 1 running wips
 
   Scenario: mix of running and non-running
     Given an idle wip
@@ -14,4 +15,5 @@ Feature: start
     And I goto "/workspace"
     When I choose "start"
     And I press "Update"
-    Then there should be 2 running wips
+    Then I should be redirected
+    And there should be 2 running wips

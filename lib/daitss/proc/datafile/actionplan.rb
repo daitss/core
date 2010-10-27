@@ -1,4 +1,6 @@
 require 'net/http'
+require 'json'
+
 require 'daitss/archive'
 require 'daitss/proc/datafile'
 
@@ -15,7 +17,7 @@ module Daitss
 
     def normalization
       body = ask_actionplan "normalization"
-      XML::Document.string body if body
+      JSON.parse body if body
     end
 
     def xmlresolution

@@ -4,4 +4,5 @@ Feature: keep provenance of archive-level changes
     Given I goto "/log"
     When I enter a log message "foo bar baz"
     And I press "Update"
-    Then I should see a log message "foo bar baz"
+    Then I should be redirected to "/log"
+    And I should see a log message "foo bar baz"

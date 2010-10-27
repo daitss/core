@@ -6,8 +6,9 @@ Feature: stop
     And I goto "/workspace"
     When I choose "stop"
     And I press "Update"
-    Then there should be 0 running wips
-    Then there should be 1 stopped wips
+    Then I should be redirected
+    And there should be 0 running wips
+    And there should be 1 stopped wips
 
   Scenario: mix of running and non-running
     Given 2 idle wips
@@ -15,6 +16,7 @@ Feature: stop
     And I goto "/workspace"
     When I choose "stop"
     And I press "Update"
+    Then I should be redirected
     Then there should be 0 running wips
     Then there should be 2 stopped wips
 
@@ -25,5 +27,4 @@ Feature: stop
     And I press "Update"
     And I goto its package page
     Then there should be an "ingest stopped" event
-
 

@@ -57,8 +57,8 @@ module Daitss
       attribute_set(:idType, premis.find_first("premis:eventIdentifier/premis:eventIdentifierType", NAMESPACES).content)
       type = premis.find_first("premis:eventType", NAMESPACES).content
       attribute_set(:e_type, Event_Map[type.downcase])
-	  eventDetail = premis.find_first("premis:eventDetail", NAMESPACES)
-      attribute_set(:event_detail, eventdetail.content) if eventDetail
+      eventDetail = premis.find_first("premis:eventDetail", NAMESPACES)
+      attribute_set(:event_detail, eventDetail.content) if eventDetail
       attribute_set(:datetime, premis.find_first("premis:eventDateTime", NAMESPACES).content)
       attribute_set(:outcome, premis.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NAMESPACES).content)
     end

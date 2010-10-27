@@ -26,8 +26,6 @@ else
   gem 'sys-proctable'
 end
 
-
-
 group :test do
   gem "cucumber"
   gem "rack-test"

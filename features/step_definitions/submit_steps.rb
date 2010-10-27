@@ -2,8 +2,9 @@ Given /^I submit "([^"]*)"$/ do |package|
   Given %q(I goto "/packages")
   When %Q(I select "#{package}" to upload)
   When %q(I press "Submit")
+  Then %q(I should be at a package page)
   last_response.should be_ok
-  packages << current_url
+  packages << last_request.env["PATH_INFO"]
 end
 
 Given /^I submit a package$/ do
@@ -25,5 +26,6 @@ When /^I select "([^\"]*)" to upload$/ do |name|
 end
 
 Then /^I should be at a package page$/ do
-  current_url.should =~ %r{^/package/\w+}
+  follow_redirect! if last_response.status == 302
+  last_request.env['PATH_INFO'] =~ %r{^/package/\w+}
 end

@@ -5,7 +5,8 @@ Feature: stash bins
     Given I goto "/stashspace"
     And I fill in "name" with "default bin"
     When I press "Create"
-    Then there should be a stash bin named "default bin"
+    Then I should be redirected
+    And there should be a stash bin named "default bin"
     And there should be an admin log entry:
       | user | message                    |
       | foo  | new stash bin: default bin |

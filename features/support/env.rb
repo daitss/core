@@ -11,7 +11,7 @@ Sinatra::Application.set :environment, :test
 
 require 'ruby-debug'
 require 'net/http'
-require 'spec/expectations'
+require 'rspec'
 require 'rack/test'
 require 'webrat'
 require 'nokogiri'
@@ -56,6 +56,10 @@ class MyWorld
       FileUtils.rm_r wip.path
     end
 
+  end
+
+  def reload!
+    visit last_request.env["PATH_INFO"]
   end
 
 end

@@ -7,7 +7,8 @@ Feature: admin of accounts
       | id | description |
       | ADD  | add test  |
     When I press "Create Account"
-    Then there should be an account with:
+    Then I should be redirected to "/admin"
+    And there should be an account with:
       | id | description |
       | ADD  | add test  |
     And there should be an admin log entry:
@@ -19,7 +20,8 @@ Feature: admin of accounts
     And that account is empty
     And I goto "/admin"
     When I press "Delete" for the account
-    Then there should not be a account "RM"
+    Then I should be redirected to "/admin"
+    And there should not be a account "RM"
     And there should be an admin log entry:
       | user | message            |
       | foo  | delete account: RM |
@@ -29,5 +31,6 @@ Feature: admin of accounts
     And that account is not empty
     And I goto "/admin"
     When I press "Delete" for the account
-    Then the response should be NG
-    Then the response contains "cannot delete a non-empty account"
+    Then I should not be redirected to "/admin"
+    And the response should be NG
+    And the response contains "cannot delete a non-empty account"

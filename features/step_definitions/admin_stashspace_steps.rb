@@ -2,6 +2,7 @@ Given /^a stash bin named "([^\"]*)"$/ do |name|
   Given %Q(I goto "/stashspace")
   And %Q(I fill in "name" with "default bin")
   When %Q(I press "Create")
+  Then 'I should be redirected to "/stashspace"'
   last_response.should be_ok
   @the_bin = Daitss.archive.stashspace.find { |b| b.name == name }
   @the_bin.should_not be_nil

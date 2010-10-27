@@ -7,8 +7,9 @@ Feature: stashing a wip
     When I choose "stash"
     And I select "default bin"
     And I press "Update"
+    Then I should <redir>
     And I should be at <page> page
     Examples:
-      | pre status |  page            |
-      | idle       |  the stashed wip |
-      | running    |  an error        |
+      | pre status | redir              | page            |
+      | idle       |  be redirected     | the stashed wip |
+      | running    |  not be redirected | an error        |
