@@ -26,8 +26,8 @@ Feature: package requests
     And a <type> request
     When I goto its package page
     And I press "Cancel" for the request
-    Then I should see a <type> request with status "deleted"
-    And there should be an "<type> request deleted" event
+    Then I should see a <type> request with status "cancelled"
+    And there should be an "<type> request cancelled" event
     Examples:
       | type        |
       | disseminate |

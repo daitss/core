@@ -167,13 +167,13 @@ end
 # modify a request
 post '/package/:pid/request/:rid' do |pid, rid|
   @package = Package.get(pid) or not_found
-  @request = @package.requests.first(:id => rid) or not_found
+  req = @package.requests.first(:id => rid) or not_found
 
   task = require_param 'task'
   error "unknown task: #{task}" unless task == 'delete'
 
-  @request.delete or error "cannot delete request: #{@request.errors.inspect}"
-  @package.log "#{@request.type} request deleted", :notes => "deleted by: #{@user.id}"
+  req.cancel or error "cannot cancel request: #{req.errors.inspect}"
+  @package.log "#{req.type} request cancelled", :notes => "cancelled by: #{@user.id}"
   
   redirect "/package/#{pid}"
 end

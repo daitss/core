@@ -13,7 +13,7 @@ module Daitss
 
     property :timestamp, DateTime, :required => true, :default => proc { DateTime.now }
     property :is_authorized, Boolean, :required => true, :default => false
-    property :status, Enum[:enqueued, :released_to_workspace, :deleted], :default => :enqueued
+    property :status, Enum[:enqueued, :released_to_workspace, :cancelled], :default => :enqueued
     property :type, Enum[:disseminate, :withdraw, :peek]
 
     belongs_to :agent
@@ -21,8 +21,8 @@ module Daitss
 
     is :list, :scope => [:package_id]
 
-    def delete
-      self.status = :deleted
+    def cancel
+      self.status = :cancelled
       self.save
     end
   end
