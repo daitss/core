@@ -28,6 +28,8 @@ module Daitss
     property :email, String
     property :phone, String
     property :address, String
+    property :is_admin_contact, Boolean, :default => false
+    property :is_tech_contact, Boolean, :default => false
   end
 
   class Contact < User

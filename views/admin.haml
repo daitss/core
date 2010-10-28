@@ -74,7 +74,7 @@
     %option= 'operator'
     %option= 'affiliate'
 
-  %select{:name=>'account'}
+  %select{:name=>'account_id'}
     - @accounts.each do |p|
       %option= p.id
   %input{:name => 'id', :value => "id"}
@@ -96,6 +96,7 @@
       %th email
       %th phone
       %th address
+      %th account flags
 
     - @users.each do |u|
       %tr
@@ -107,9 +108,39 @@
         %td= u.email
         %td= u.phone
         %td= u.address
+        %td= (u.is_tech_contact ? "Technical Contact\n" : "") + (u.is_admin_contact ? "Admin Contact" : "")
         %td
           %form{:action => '/admin', :method => 'POST'}
             %input{:type => 'hidden', :name => 'task', :value => 'delete-user'}
             %input{:type => 'hidden', :name => 'id', :value => u.id }
             %input{:type => 'submit', :value => "Delete"}
+        - if u.type == Contact
+          - unless u.is_admin_contact
+            %td
+              %form{:action => '/admin', :method => 'POST'}
+                %input{:type => 'hidden', :name => 'task', :value => 'make-admin-contact'}
+                %input{:type => 'hidden', :name => 'id', :value => u.id }
+                %input{:type => 'submit', :value => "Make admin contact"}
+          - else
+            %td
+              %form{:action => '/admin', :method => 'POST'}
+                %input{:type => 'hidden', :name => 'task', :value => 'unmake-admin-contact'}
+                %input{:type => 'hidden', :name => 'id', :value => u.id }
+                %input{:type => 'submit', :value => "Unmake admin contact"}
+          - unless u.is_tech_contact
+            %td
+              %form{:action => '/admin', :method => 'POST'}
+                %input{:type => 'hidden', :name => 'task', :value => 'make-tech-contact'}
+                %input{:type => 'hidden', :name => 'id', :value => u.id }
+                %input{:type => 'submit', :value => "Make technical contact"}
+          - else
+            %td
+              %form{:action => '/admin', :method => 'POST'}
+                %input{:type => 'hidden', :name => 'task', :value => 'unmake-tech-contact'}
+                %input{:type => 'hidden', :name => 'id', :value => u.id }
+                %input{:type => 'submit', :value => "Unmake technical contact"}
+        - else
+          %td &nbsp;
+          %td &nbsp;
+
 

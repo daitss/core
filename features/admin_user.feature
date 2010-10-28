@@ -33,3 +33,57 @@ Feature: admin of users
     When I press "Delete" for the user
     Then the response should be NG
     Then the response contains "cannot delete a non-empty user"
+
+  Scenario: Make admin contact
+    Given a contact "admin"
+    And I goto "/admin"
+    When I press "Make admin contact" for the user
+    Then I should be redirected
+    Then there should be a user with:
+      | account flags |
+      | Admin Contact |
+    Then there should be an admin log entry:
+      | user | message               |
+      | foo  | made admin contact: admin |
+
+  Scenario: Make tech contact
+    Given a contact "admin"
+    And I goto "/admin"
+    When I press "Make technical contact" for the user
+    Then I should be redirected
+    Then there should be a user with:
+      | account flags |
+      | Technical Contact |
+    Then there should be an admin log entry:
+      | user | message               |
+      | foo  | made tech contact: admin |
+
+  Scenario: Unmake admin contact
+    Given a contact "admin"
+    And I goto "/admin"
+    When I press "Make admin contact" for the user
+    Then I should be redirected
+    And I goto "/admin"
+    When I press "Unmake admin contact" for the user
+    Then I should be redirected
+    Then there should not be a user with:
+      | account flags |
+      | Admin Contact |
+    Then there should be an admin log entry:
+      | user | message               |
+      | foo  | unmade admin contact: admin |
+
+  Scenario: Unmake tech contact
+    Given a contact "admin"
+    And I goto "/admin"
+    When I press "Make technical contact" for the user
+    Then I should be redirected
+    And I goto "/admin"
+    When I press "Unmake technical contact" for the user
+    Then I should be redirected
+    Then there should not be a user with:
+      | account flags |
+      | Technical Contact |
+    Then there should be an admin log entry:
+      | user | message               |
+      | foo  | unmade tech contact: admin |

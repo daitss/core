@@ -23,10 +23,38 @@ Then /^there should be a user with:$/ do |table|
 
 end
 
+Then /^there should not be a user with:$/ do |table|
+
+  table.hashes.each do |row|
+    cell_conditions = row.values.map { |v| "td = '#{v}'"}.join ' and '
+    last_response.should_not have_xpath("//tr[#{cell_conditions}]")
+  end
+end
+
 Given /^a user "([^"]*)"$/ do |id|
   Given 'I goto "/admin"'
 
   within "form#create-user" do
+    fill_in 'id', :with => id
+    fill_in 'first_name', :with => "#{id} first name"
+    fill_in 'last_name', :with => "#{id}last name"
+    fill_in 'email', :with => "#{id}@example.com"
+    fill_in 'phone', :with => "555 1212"
+    fill_in 'address', :with => "San Jose"
+  end
+
+  When 'I press "Create User"'
+  Then 'I should be redirected'
+  last_response.should be_ok
+  @the_user = User.get id
+  @the_user.should_not be_nil
+end
+
+Given /^a contact "([^"]*)"$/ do |id|
+  Given 'I goto "/admin"'
+
+  within "form#create-user" do
+    select "affiliate", :from => "type"
     fill_in 'id', :with => id
     fill_in 'first_name', :with => "#{id} first name"
     fill_in 'last_name', :with => "#{id}last name"

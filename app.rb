@@ -430,6 +430,36 @@ post '/admin' do
     u.destroy or error "could not delete user"
     @archive.log "delete user: #{u.id}"
 
+  when 'make-admin-contact'
+    id = require_param 'id'
+    u = Contact.get(id) or not_found
+    u.is_admin_contact = true
+    u.save or error "could not save user, errors: #{u.errors}"
+    @archive.log "made admin contact: #{u.id}"
+
+  when 'make-tech-contact'
+    id = require_param 'id'
+    u = Contact.get(id) or not_found
+    u.is_tech_contact = true
+    u.save or error "could not save user, errors: #{u.errors}"
+    @archive.log "made tech contact: #{u.id}"
+
+  when 'unmake-admin-contact'
+    id = require_param 'id'
+    u = Contact.get(id) or not_found
+    u.is_admin_contact = false
+    u.save or error "could not save user, errors: #{u.errors}"
+    @archive.log "unmade admin contact: #{u.id}"
+
+  when 'unmake-tech-contact'
+    id = require_param 'id'
+    u = Contact.get(id) or not_found
+    u.is_tech_contact = false
+    u.save or error "could not save user, errors: #{u.errors}"
+    @archive.log "unmade tech contact: #{u.id}"
+
+
+
   else raise "unknown task: #{params['task']}"
   end
 
