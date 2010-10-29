@@ -89,7 +89,7 @@ post '/packages?/?' do
           path = File.join dir, filename
           open(path, 'w') { |io| io.write data }
 
-          @archive.submit path, @user
+          @archive.submit path, @user, params['note']
         ensure
           FileUtils.rm_r dir
         end

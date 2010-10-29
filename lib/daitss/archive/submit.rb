@@ -6,7 +6,7 @@ module Daitss
   class Archive
 
     # submit a sip on behalf of an agent, return a package
-    def submit sip_path, agent
+    def submit sip_path, agent, event_note
       package = Package.new
 
       # make a new sip archive
@@ -56,7 +56,7 @@ module Daitss
 
           if sa.valid? and agreement_errors.empty?
             wip = Wip.from_sip_archive workspace, package, sa
-            package.log 'submit', :agent => agent
+            package.log 'submit', :agent => agent, :notes => event_note 
           else
             combined_errors = (agreement_errors + sa.errors).join "\n"
             package.log 'reject', :agent => agent, :notes => combined_errors
