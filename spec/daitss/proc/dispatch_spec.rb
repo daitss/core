@@ -1,62 +1,71 @@
-require 'daitss/model/dispatch'
+require 'daitss/model/request'
 require 'daitss/proc/wip'
+require 'fileutils'
 require 'time'
 
-describe Dispatch do
+include Daitss 
+
+describe Request do
 
   URI_PREFIX = "test:/"
 
   before(:each) do
-    FileUtils.mkdir_p "/tmp/d2ws"
-    ENV["WORKSPACE"] = "/tmp/d2ws"
+    archive
+    sip = Sip.new :name => "mock_sip"
+    @package = Package.new :sip => sip, :project => Project.first
+    @agent = Agent.first
   end
 
   after(:each) do
-    FileUtils.rm_rf Dir.glob("/tmp/d2ws/*")
+    FileUtils.rm_rf(File.join(archive.workspace.path, @package.id))
   end
 
   it "should create a dissemination sub-wip" do
-    pending 'this is strange, refactor needed'
-    ieid = rand(1000)
-    now = Time.now
+    request = Request.new :package => @package, :agent => @agent, :type => :disseminate 
+    request.dispatch
 
-    path_to_wip = Dispatch.dispatch_request ieid, :disseminate
+    wip_path = File.join archive.workspace.path, request.package.id
+    File.directory?(wip_path).should == true
 
-    wip = Wip.new path_to_wip
-    Time.parse(wip.tags["dissemination-request"]).should be_close(now, 1.0)
+    wip = Wip.new wip_path
+    wip.tags["dissemination-request"].should_not be_nil
+    wip.tags["drop-path"].should_not be_nil
+    request.status.should == :released_to_workspace
   end
 
   it "should create a withdrawl sub-wip" do
-    ieid = rand(1000)
-    now = Time.now
+    request = Request.new :package => @package, :agent => @agent, :type => :withdraw
+    request.dispatch
 
-    path_to_wip = Dispatch.dispatch_request ieid, :withdraw
+    wip_path = File.join archive.workspace.path, request.package.id
+    File.directory?(wip_path).should == true
 
-    wip = Wip.new path_to_wip
-    Time.parse(wip.tags["withdrawal-request"]).should be_close(now, 1.0)
+    wip = Wip.new wip_path
+    wip.tags["withdrawal-request"].should_not be_nil
+    request.status.should == :released_to_workspace
   end
 
   it "should create a peek sub-wip" do
-    ieid = rand(1000)
-    now = Time.now
+    request = Request.new :package => @package, :agent => @agent, :type => :peek
+    request.dispatch
 
-    path_to_wip = Dispatch.dispatch_request ieid, :peek
+    wip_path = File.join archive.workspace.path, request.package.id
+    File.directory?(wip_path).should == true
 
-    wip = Wip.new path_to_wip
-    Time.parse(wip.tags["peek-request"]).should be_close(now, 1.0)
+    wip = Wip.new wip_path
+    wip.tags["peek-request"].should_not be_nil
+    request.status.should == :released_to_workspace
   end
 
-  it "should correctly tell when a wip for an ieid exists in the workspace" do
-    ieid = rand(1000)
+  it "should create a migration sub-wip" do
+    request = Request.new :package => @package, :agent => @agent, :type => :migration
+    request.dispatch
 
-    path_to_wip = Dispatch.dispatch_request ieid, :disseminate
+    wip_path = File.join archive.workspace.path, request.package.id
+    File.directory?(wip_path).should == true
 
-    Dispatch.wip_exists?(ieid).should == true
-  end
-
-  it "should correctly tell when a wip for an ieid does not exist in the workspace" do
-    ieid = rand(1000)
-
-    Dispatch.wip_exists?(ieid).should == false
+    wip = Wip.new wip_path
+    wip.tags["migration-request"].should_not be_nil
+    request.status.should == :released_to_workspace
   end
 end
