@@ -62,4 +62,17 @@ module Daitss
     event spec
   end
 
+  def d1migrate_event package, index
+
+    spec = {
+      :id => "#{package.uri}/event/d1migrate/#{index}",
+      :type => 'd1migrate',
+        :outcome => 'success',
+        :linking_objects => [ package.uri ],
+        :linking_agents => [ system_agent_spec[:id] ]
+    }
+
+    event spec
+  end
+
 end

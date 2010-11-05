@@ -1,3 +1,5 @@
+require 'daitss/proc/template/premis'
+
 module Daitss
 
   # all possible event types
@@ -130,6 +132,11 @@ module Daitss
     before :save do
       #TODO implement validation of objectID, making sure the objectID is a valid datafile
     end
+    
+    def to_premis_xml
+      event :id => self.id, :type => self.e_type, :time => self.datetime, :outcome => self.outcome, :linking_agents => [self.premis_agent.id]. :linking_objects => [self.related_object_id]
+    end
+    
   end
 
 end
