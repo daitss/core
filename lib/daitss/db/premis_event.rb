@@ -134,7 +134,7 @@ module Daitss
     end
     
     def to_premis_xml
-      event :id => self.id, :type => self.e_type, :time => self.datetime, :outcome => self.outcome, :linking_agents => [self.premis_agent.id]. :linking_objects => [self.related_object_id]
+      event :id => self.id, :type => self.e_type, :time => self.datetime, :outcome => self.outcome, :linking_agents => [self.premis_agent.id], :linking_objects => [self.related_object_id]
     end
     
   end
