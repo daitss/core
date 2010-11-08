@@ -6,7 +6,7 @@ module Daitss
   class Archive
 
     # submit a sip on behalf of an agent, return a package
-    def submit sip_path, agent, event_note
+    def submit sip_path, agent, event_note = ""
       package = Package.new
 
       # make a new sip archive
