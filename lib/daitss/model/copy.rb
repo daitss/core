@@ -75,17 +75,17 @@ module Daitss
       res
     end
 
-    def put_to_silo aip_archive
-      self.size = aip_archive.size
-      self.md5 = aip_archive.md5
-      self.sha1 = aip_archive.sha1
+    def put_to_silo wip
+      self.size = wip.tarball_size
+      self.md5 = wip.tarball_md5
+      self.sha1 = wip.tarball_sha1
       self.url = make_url
 
       req = Net::HTTP::Put.new self.url.path
       req.content_type = 'application/tar'
-      req.content_length = aip_archive.size
-      req['content-md5'] = aip_archive.md5
-      req.body_stream = aip_archive.open
+      req.content_length = self.size
+      req['content-md5'] = self.md5
+      req.body_stream = File.open wip.tarball_file
 
       res = Net::HTTP.start(self.url.host, self.url.port) do |http|
         http.read_timeout = Daitss.archive.http_timeout
@@ -111,7 +111,7 @@ module Daitss
     private
 
     def make_url rev=nil
-      "#{Daitss.archive.storage_url}/#{self.aip.package.id}-#{rev || self.revision}"
+      "#{archive.storage_url}/#{self.aip.package.id}-#{rev || self.revision}"
     end
 
   end

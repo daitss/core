@@ -9,6 +9,7 @@ require 'daitss/proc/template/premis'
 require 'daitss/proc/wip'
 require 'daitss/proc/wip/preserve'
 require 'daitss/proc/wip/step'
+require 'daitss/proc/wip/tarball'
 
 module Daitss
 
@@ -32,6 +33,10 @@ module Daitss
 
       step('make-aip-descriptor') do
         metadata['aip-descriptor'] = descriptor
+      end
+
+      step('make-tarball') do
+        make_tarball
       end
 
       step('make-aip') do

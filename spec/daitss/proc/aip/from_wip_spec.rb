@@ -22,6 +22,7 @@ describe Aip do
 
     wip['ingest-event'] = event spec
     wip['aip-descriptor'] = wip.descriptor
+    wip.make_tarball
     Aip.new_from_wip wip
 
     Package.get(wip.id).aip.should_not be_nil
@@ -65,6 +66,8 @@ describe Aip do
       wip['old-digiprov-events'] = wip['old-digiprov-events'] + "\n" + event(spec)
 
       wip['aip-descriptor'] = wip.descriptor
+      wip.make_tarball
+
       Aip.update_from_wip wip
       Package.get(wip.id).aip
     end
