@@ -11,6 +11,7 @@ module Daitss
     attr_reader :size, :sha1, :md5
 
     def initialize wip
+      raise "deprecated"
       @tdir = Dir.mktmpdir
       @wip = wip
       @aip_dir = wip.id

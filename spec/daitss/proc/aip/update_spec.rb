@@ -42,6 +42,8 @@ describe Aip do
       wip['old-digiprov-events'] = wip['old-digiprov-events'] + "\n" + event(spec)
 
       wip['aip-descriptor'] = wip.descriptor
+      wip.make_tarball
+
       Aip.update_from_wip wip
       Package.get(id).aip
     end

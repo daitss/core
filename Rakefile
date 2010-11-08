@@ -5,7 +5,7 @@ require 'rake'
 require 'rake/rdoctask'
 require 'ruby-debug'
 require 'semver'
-require 'spec/rake/spectask'
+require 'rspec'
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'lib')
 

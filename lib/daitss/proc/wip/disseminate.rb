@@ -33,6 +33,10 @@ module Daitss
         metadata['aip-descriptor'] = descriptor
       end
 
+      step('make-tarball') do
+        make_tarball
+      end
+
       step('update-aip') do
 
         Aip.transaction do

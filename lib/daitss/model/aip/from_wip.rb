@@ -1,5 +1,4 @@
 require 'daitss/model/aip'
-require 'daitss/proc/aip_archive'
 require 'daitss/proc/template/descriptor'
 require 'daitss/proc/tempdir'
 
@@ -14,9 +13,8 @@ module Daitss
       aip.datafile_count = wip.represented_datafiles.size
 
       # get the copy ready
-      aa = AipArchive.new wip
       copy = Copy.new :aip => aip
-      copy.put_to_silo aa
+      copy.put_to_silo wip
       aip.copy = copy
 
       if aip.save
@@ -34,12 +32,10 @@ module Daitss
       aip.datafile_count = wip.represented_datafiles.size
 
       # get the copy ready
-      aa = AipArchive.new wip
-
       copy = aip.copy
       old_revision = copy.revision
       copy.revision = old_revision.next
-      copy.put_to_silo aa
+      copy.put_to_silo wip
       aip.copy = copy
 
       if aip.save
