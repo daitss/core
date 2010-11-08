@@ -14,12 +14,12 @@ Feature: package requests
     And I fill in request note with "<note>"
     And I press "Request"
     Then I should be redirected
-    And I should see a <type> request with note "<note>"
+    And I should see a <type> request with note "<note>" and authorized "<authorized>"
     Examples:
-      | type        | note      |
-      | disseminate | nice job! |
-      | withdraw    | good bye  |
-      | peek        | oh hai    |
+      | type        | note      | authorized |
+      | disseminate | nice job! | yes        |
+      | withdraw    | good bye  | no         |
+      | peek        | oh hai    | yes        |
 
   Scenario Outline: requests can be canceled
     Given an archived package

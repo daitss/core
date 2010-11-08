@@ -78,10 +78,11 @@ Then /^I should see a ([^"]*) request$/ do |type|
   last_response.should have_selector("#request table tr td", :content => type)
 end
 
-Then /^I should see a ([^"]*) request with note "([^"]*)"$/ do |type, note|
+Then /^I should see a ([^"]*) request with note "([^"]*)" and authorized "(yes|no)"$/ do |type, note, auth|
   When %Q(I goto its package page)
   last_response.should have_selector("#request table tr td", :content => type)
   last_response.should have_selector("#request table tr td", :content => note)
+  last_response.should have_selector("#request table tr td", :content => auth)
 end
 
 Then /^I should see a ([^"]*) request with status "([^"]*)"$/ do |type, status|
