@@ -5,14 +5,14 @@ require 'uri'
 require 'ostruct'
 require 'digest/md5'
 require 'fileutils'
+require 'net/http'
 
-# a simple submission client
-# takes a specified package on a filesystem, zips it up, and "curls" it to the submission at the specified url as the specified
+# a commandline DAITSS 2 submission client
+# takes a specified package on a filesystem, zips it up, and POSTs it to the submission at the specified url as the specified
 # operations agent.
-# displays curl output, which contains the IEID.
 
 # dependencies:
-# curl, zip
+# zip
 
 def get_options(args)
   config = OpenStruct.new("url" => nil, "package" => nil, "package_name" => nil)
@@ -23,7 +23,7 @@ def get_options(args)
       opt.banner << "\nSubmits a SIP DAITSS 2"
       opt.on_tail("--help", "Show this message") { puts opts; exit }
 
-      opt.on("--url URL", String, "URL of service to submit package to, required") { |key| config.url = key }
+      opt.on("--url URL", String, "URL of service to submit package to, required") { |key| config.url = key + "/packages"}
       opt.on("--path PATH", String, "Path on filesystem containing SIPs to submit, either --path or --package required") { |path| config.path = path }
       opt.on("--package PATH", String, "Path on filesystem to a single sip, either --path or --package required") { |path| config.package = path }
       opt.on("--username USERNAME", String, "Operations agent username, required") { |username| config.username = username }
@@ -72,14 +72,45 @@ def zip_package path_to_package
   return zip_path
 end
 
-# calls curl to submit package to service
-
+# POSTs to URL
 def submit_to_svc path_to_zip, path
+  url = URI.parse @config.url
+  req = Net::HTTP::Post.new url.path
+
+  boundary = "deadBEEFEEBdaeddeadBEEFEEBdaeddeadBEEFEEBdaeddeadBEEFEEBdaeddeadBEEFEEBdaeddeadBEEFEEBdaeddeadBEEFEEBdaed"
+  clrf = "\r\n"
+  body = []
+
   n = "sip path: #{path}"
   n += ", submission note: #{@config.note}" if @config.note
-  output = `curl -X POST -u #{@config.username}:#{@config.password} -F "sip=@#{path_to_zip}" -F "note=#{n}" #{@config.url}/packages -i 2>&1`
 
-  return output
+  body << "--#{boundary}"
+  body << 'Content-Disposition: form-data; name="note"'
+  body << ''
+  body << n
+  body << ''
+  body << "--#{boundary}"
+  body << "Content-Disposition: form-data; name=\"sip\"; filename=\"#{File.basename(path_to_zip)}\""
+  body << 'Content-Type: application/zip'
+  body << ''
+  body << File.read(path_to_zip)
+  body << "--#{boundary}--"
+  body << ''
+
+  req.basic_auth @config.username, @config.password
+  req.body = body.join(clrf)
+  req["Content-Type"] = "multipart/form-data, boundary=#{boundary}"
+
+  res = Net::HTTP.start(url.host, url.port) do |http|
+    http.request req
+  end
+
+  case res
+  when Net::HTTPSuccess then res.body
+  when Net::HTTPRedirection then Net::HTTP.get_response(URI.parse(res['location'])).body
+  when Net::HTTPNotFound then nil
+  else res.error!
+  end
 end
 
 # returns an array of filesystem paths containing packages to submit
@@ -95,26 +126,25 @@ end
 # submits package at path
 def submit_package path
   zipfile = zip_package path
-  curl_output = submit_to_svc zipfile, path
+  response = submit_to_svc zipfile, path
   FileUtils.rm_rf zipfile
 
-  ieid = curl_output[/E[A-Z0-9]{8}_[A-Z0-9]{6}/]
+  ieid = response[/E[A-Z0-9]{8}_[A-Z0-9]{6}/]
 
   if ieid
-    pkg_page = `curl #{@config.url}/package/#{ieid} 2>&1` 
-    if pkg_page =~ /submit/
+    if response =~ /submit/
       puts Time.now.to_s + " -- " + File.basename(path) + " -- submitted successfully: " + ieid
       FileUtils.rm_rf path if @config.delete
-    elsif pkg_page =~ /reject/
+    elsif response =~ /reject/
       puts Time.now.to_s + " -- " + File.basename(path) + " -- rejected: " + ieid
     else
       puts Time.now.to_s + " -- " + File.basename(path) + " -- couldn't determine submission outcome: " + ieid
-      puts pkg_page
+      puts response
       puts "==============================================="
     end
   else
     puts Time.now.to_s + " -- " + File.basename(path) + " -- submission error"
-    puts curl_output
+    puts response
     puts "==============================================="
   end
 end
