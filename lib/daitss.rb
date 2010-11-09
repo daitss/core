@@ -11,3 +11,11 @@ require 'daitss/datetime'
 require 'daitss/db'
 require 'daitss/model'
 require 'daitss/proc'
+
+def DEPRECATED m
+  raise m
+end
+
+def TODO m
+  raise m
+end
