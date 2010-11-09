@@ -15,7 +15,7 @@ describe Wip do
     end
 
     it "should have an aip descriptor" do
-      @wip.should have_step('make-aip-descriptor')
+      @wip.journal['make-aip-descriptor'].should_not be_nil
     end
 
     describe "aip descriptor" do

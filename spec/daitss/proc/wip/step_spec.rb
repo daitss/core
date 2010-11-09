@@ -8,37 +8,25 @@ describe Wip do
 
     it "should make a step tag with the timestamp" do
       wip = submit 'mimi'
-      mark = wip.step('add'){ 2 + 3 }
-      mark.duration.should > 0
-      mark.start_time.should < mark.finish_time
-      mark.finish_time.should < Time.now
+      s = wip.step('add') { 2 + 3 }
+      s[:time].should be_kind_of(Time)
+      s[:duration].should be_kind_of(Float)
+      s[:duration].should > 0
+      s[:time].should < Time.now
     end
 
     it "should not perform an operation if the step has been performed" do
       wip = submit 'mimi'
-      m1 = wip.step('add'){ 2 + 3 }
+      m1 = wip.step('add') { 2 + 3 }
       sleep 1.5
-      m2 = wip.step('add'){ 2 + 3 }
+      m2 = wip.step('add') { 2 + 3 }
       m1.should == m2
     end
 
     it "should know if it has taken a step" do
       wip = submit 'mimi'
-      wip.step('add'){ 2 + 3 }
-      wip.should have_step('add')
-    end
-
-  end
-
-  describe "taking hard steps" do
-
-    it "should perform an operation even if the step has been performed" do
-      wip = submit 'mimi'
-      m1 = wip.step('add'){ 2 + 3 }
-      sleep 1.5
-      m2 = wip.step!('add'){ 2 + 3 }
-      m1.start_time.should < m2.start_time
-      m1.finish_time.should < m2.finish_time
+      wip.step('add') { 2 + 3 }
+      wip.journal['add'].should_not be_nil
     end
 
   end

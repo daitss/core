@@ -7,7 +7,7 @@ shared_examples_for "all preservations" do
   it "should have every datafile described" do
 
     @wip.all_datafiles.each do |df|
-      @wip.tags.should have_key("step.describe-#{df.id}")
+      @wip.journal.should have_key("describe-#{df.id}")
       df.should have_key('describe-file-object')
       df.should have_key('describe-event')
       df.should have_key('describe-agent')

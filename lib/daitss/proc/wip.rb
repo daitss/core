@@ -5,12 +5,14 @@ require 'daitss/proc/fshash'
 require 'daitss/proc/datafile'
 require 'daitss/model/package'
 
+require 'daitss/proc/wip/step'
+
 module Daitss
 
   class Wip
     extend Forwardable
 
-    attr_reader :id, :path, :metadata, :tags
+    attr_reader :id, :path, :metadata, :tags, :journal
 
     METADATA_DIR = 'metadata'
     TAGS_DIR = 'tags'
@@ -31,6 +33,8 @@ module Daitss
       @metadata = FsHash.new File.join(@path, METADATA_DIR)
       @tags = FsHash.new File.join(@path, TAGS_DIR)
       @cached_max_id = {}
+
+      load_journal
     end
 
     def_delegators :@metadata, :[]=, :[], :has_key?, :delete
@@ -42,10 +46,10 @@ module Daitss
     end
     alias_method :eql?, :==
 
-      # return an array of the original datafiles
-      def original_datafiles
-        datafiles ORIGINAL_FILES
-      end
+    # return an array of the original datafiles
+    def original_datafiles
+      datafiles ORIGINAL_FILES
+    end
 
     # add a new original datafile
     def new_original_datafile id

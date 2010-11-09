@@ -4,35 +4,49 @@ module Daitss
 
   class Wip
 
-    def step name
-      key = step_key name
+    JOURNAL_FILE = 'journal.yml'
 
-      if tags.has_key? key
-        Mark.parse tags[key]
+    def journal_file
+      File.join @path, JOURNAL_FILE
+    end
+
+    def load_journal
+
+      unless File.exist? journal_file
+        @journal = {}
+        save_journal
       else
-        step!(name){ yield }
+        @journal = YAML.load_file journal_file
       end
 
     end
 
-    def step! name
-      key = step_key name
-      m = Mark.new
-      m.start
-      value = yield
-      m.finish
-      tags[key] = m.to_s
-      m
+    def save_journal
+      open(journal_file, 'w') { |io| io.write YAML.dump @journal }
     end
 
-    def has_step? name
-      tags.has_key? step_key(name)
+    def step name
+
+      if @journal[name]
+        @journal[name]
+      else
+        m = {}
+        m[:time] = Time.now
+        yield
+        m[:duration] = Time.now - m[:time]
+        @journal[name] = m
+        save_journal
+        m
+      end
+
     end
 
-    private
+    def steps_descending
 
-    def step_key name
-      "step.#{name}"
+      @journal.sort do |a,b|
+        a[1][:time] <=> b[1][:time]
+      end
+
     end
 
   end
