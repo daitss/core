@@ -4,30 +4,10 @@
     %tr
       %th step
       %th progress
-    %tr
-      %td virus check
-      %td= @wip.progress :virus_check
-    %tr
-      %td describe original files
-      %td= @wip.progress :describe_original
-    %tr
-      %td migrate original files
-      %td= @wip.progress :migrate_original
-    %tr
-      %td normalize original files
-      %td= @wip.progress :normalize_original
-    %tr
-      %td describe transformed files
-      %td= @wip.progress :describe_transformed
-    %tr
-      %td xml resolution
-      %td= @wip.progress :xmlres
-    %tr
-      %td assemble descriptor
-      %td= @wip.progress :descriptor
-    %tr
-      %td save aip
-      %td= @wip.progress :save
+    - @wip.steps_descending.each do |name,s|
+      %tr
+        %td= name
+        %td= s[:duration]
 
 - else
   %p unknown progress
