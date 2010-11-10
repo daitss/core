@@ -10,6 +10,10 @@ module Daitss
       File.join @path, JOURNAL_FILE
     end
 
+    def tmp_journal_file
+      journal_file + ".tmp"
+    end
+
     def load_journal
 
       unless File.exist? journal_file
@@ -22,7 +26,8 @@ module Daitss
     end
 
     def save_journal
-      open(journal_file, 'w') { |io| io.write YAML.dump @journal }
+      open(tmp_journal_file, 'w') { |io| io.write YAML.dump @journal }
+      FileUtils.mv tmp_journal_file, journal_file
     end
 
     def step name
