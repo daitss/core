@@ -1,5 +1,5 @@
 require 'daitss/proc/wip'
-require 'daitss/proc/wip/step'
+require 'daitss/proc/wip/journal'
 require 'daitss/proc/wip/xmlresolve'
 require 'daitss/proc/datafile/describe'
 require 'daitss/proc/datafile/obsolete'

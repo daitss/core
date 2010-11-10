@@ -5,7 +5,7 @@ require 'daitss/proc/fshash'
 require 'daitss/proc/datafile'
 require 'daitss/model/package'
 
-require 'daitss/proc/wip/step'
+require 'daitss/proc/wip/journal'
 
 module Daitss
 

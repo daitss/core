@@ -1,5 +1,5 @@
 require 'daitss/proc/wip'
-require 'daitss/proc/wip/step'
+require 'daitss/proc/wip/journal'
 require 'daitss/proc/wip/preserve'
 require 'daitss/proc/wip/from_aip'
 require 'daitss/model/aip'

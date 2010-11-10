@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'daitss/proc/wip/step'
+require 'daitss/proc/wip/journal'
 
 
 describe Wip do

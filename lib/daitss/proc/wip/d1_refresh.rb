@@ -1,5 +1,5 @@
 require 'daitss/proc/wip'
-require 'daitss/proc/wip/step'
+require 'daitss/proc/wip/journal'
 require 'daitss/proc/wip/preserve'
 require 'daitss/proc/wip/from_aip'
 require 'daitss/model/aip'
@@ -16,7 +16,7 @@ module Daitss
       raise "no aip for #{id}" unless package.aip
 
       #TODO handle withdrawn packages
-      
+
       step('load-aip') do
         load_from_d1_aip
       end
