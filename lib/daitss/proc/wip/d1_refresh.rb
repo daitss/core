@@ -1,7 +1,7 @@
 require 'daitss/proc/wip'
 require 'daitss/proc/wip/step'
 require 'daitss/proc/wip/preserve'
-require 'daitss/proc/wip/from_aip'
+require 'daitss/proc/wip/from_d1'
 require 'daitss/model/aip'
 require 'daitss/model/aip/from_wip'
 require 'daitss/proc/template/descriptor'
@@ -33,6 +33,10 @@ module Daitss
 
       step('make-aip-descriptor') do
         metadata['aip-descriptor'] = descriptor
+      end
+
+      step('make-tarball') do
+        make_tarball
       end
 
       step('update-aip') do

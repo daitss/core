@@ -38,13 +38,13 @@ module Daitss
 
       when :disseminate
         wip.tags["drop-path"] = "/tmp/disseminations"
-        wip.tags["dissemination-request"] = Time.now.to_s
+        wip.task = :disseminate
       when :withdraw
-        wip.tags["withdrawal-request"] = Time.now.to_s
+        wip.task = :withdraw
       when :peek
-        wip.tags["peek-request"] = Time.now.to_s
+        wip.task = :peek
       when :migration
-        wip.tags["migration-request"] = Time.now.to_s
+        wip.task = :migrate
       else
         raise "Unknown request type: #{type}"
       end

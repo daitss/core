@@ -5,6 +5,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'daitss/proc/wip/ingest'
 require 'daitss/proc/wip/disseminate'
 require 'daitss/proc/wip/task'
+require 'daitss/proc/wip/d1_refresh'
 require 'daitss/archive'
 
 include Daitss
@@ -19,13 +20,14 @@ begin
   case task.to_sym
   when Wip::TASK_INGEST then wip.ingest!
   when Wip::TASK_DISSEMINATE then wip.disseminate!
+  when :migrate then wip.d1_refresh!
   else raise "invalid task #{task.inspect}"
   end
 
   wip.package.log "#{task} finished"
   FileUtils.rm_r wip.path unless wip.snafu?
 rescue => e
-  wip.snafu = e
-  wip.package.log "#{task} snafu", :notes => e.message.split("\n\n")[0]
-  exit 1
+ wip.snafu = e
+ wip.package.log "#{task} snafu", :notes => e.message.split("\n\n")[0]
+ exit 1
 end

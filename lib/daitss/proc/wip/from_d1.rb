@@ -22,35 +22,35 @@ module Daitss
     # it wont change over time
     def load_d1_dmd
       
-      title = self.package.int_entity.title
+      title = self.package.intentity.title
       
       if title
         metadata['dmd-title'] = title
       end
 
       # volume
-      volume = self.pacakge.int_entity.volume
+      volume = self.package.intentity.volume
 
       if volume
         metadata['dmd-volume'] = volume
       end
 
       # issue
-      issue = self.pacakge.int_entity.issue
+      issue = self.package.intentity.issue
 
       if issue
         metadata['dmd-issue'] = issue
       end
 
       # issue
-      issue = self.pacakge.int_entity.issue
+      issue = self.package.intentity.issue
 
       if issue
         metadata['dmd-issue'] = issue
       end
 
       # entity-id
-      entity_id = self.pacakge.int_entity.entity_id
+      entity_id = self.package.intentity.entity_id
 
       if entity_id
         metadata['dmd-entity-id'] = entity_id
@@ -76,7 +76,7 @@ module Daitss
         raise "could not extract tarball: #{$?}" unless $?.exitstatus == 0
       end
       
-      df_paths = self.package.int_entity.datafiles.map do |dbdf|
+      df_paths = self.package.intentity.datafiles.map do |dbdf|
         df_id = dbdf.id        
         df = new_original_datafile df_id
         
@@ -100,8 +100,8 @@ module Daitss
         # TODO sha1 is not migrated so we cant check. pass this by lydia
         lydia_says_so = false
 
-        unless lydia_says_so
-          expected_sha1 = dbdf.message_digests.find :code => 'SHA1'
+        if lydia_says_so
+          expected_sha1 = dbdf.message_digest.first(:code => 'SHA1').value
           actual_sha1 = df.open { |io| Digest::SHA1.hexdigest io.read }
 
           unless expected_sha1 == actual_sha1
@@ -128,11 +128,11 @@ module Daitss
     end
 
     # transfer package wide events and agents
-    def load_old_package_digiprov
-      es = PremisEvent.find(:related_object_id => self.package.id)
+    def load_d1_package_digiprov
+      es = PremisEvent.all(:relatedObjectId => self.package.id)
       metadata['old-digiprov-events'] = es.map { |e| e.to_premis_xml.to_s }.join "\n"
 
-      as = es.map { |e| e.agent }
+      as = es.map { |e| e.premis_agent }
       metadata['old-digiprov-agents'] = as.flatten.map { |a| a.to_premis_xml.to_s }.join "\n"
     end
 

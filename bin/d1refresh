@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+require 'bundler/setup'
+require 'ruby-debug'
+
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+
+require "daitss"
+require 'daitss/proc/wip/d1_refresh'
+
+include Daitss
+
+archive
+        
+  # wip
+id = ARGV.shift or raise "package id required"
+
+# make the request
+package = Package.get(id)
+agent = Agent.get('root')
+request = Request.new(:type => :migration, :is_authorized => true, :agent => agent, :package => package)
+
+request.save or raise 'oops'
+sleep 0.5 until package.wip
+wip = package.wip
+wip.start
+sleep 0.5 while wip.running?

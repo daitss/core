@@ -48,6 +48,9 @@ module Daitss
                   when :disseminate
                     [DBIN_PATH, "disseminate", self.id]
 
+                  when :migrate
+                    [DBIN_PATH, "migrate", self.id]
+
                   when :sleep
                     %w(sleep 1000)
 

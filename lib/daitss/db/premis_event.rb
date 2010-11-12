@@ -65,6 +65,10 @@ module Daitss
       attribute_set(:outcome, premis.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NAMESPACES).content)
     end
 
+    def to_premis_xml
+       event :id => self.id, :type => self.e_type, :time => self.datetime, :outcome => self.outcome, :linking_agents => [self.premis_agent.id], :linking_objects => [self.relatedObjectId]
+     end
+
     before :save do
       puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
       puts "#{self.premis_agent.errors.to_a} error encountered while saving #{self.premis_agent.inspect} " unless self.premis_agent.valid?
@@ -131,10 +135,6 @@ module Daitss
 
     before :save do
       #TODO implement validation of objectID, making sure the objectID is a valid datafile
-    end
-    
-    def to_premis_xml
-      event :id => self.id, :type => self.e_type, :time => self.datetime, :outcome => self.outcome, :linking_agents => [self.premis_agent.id], :linking_objects => [self.related_object_id]
     end
     
   end
