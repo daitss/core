@@ -29,12 +29,6 @@ def submit name
   a.workspace[package.id]
 end
 
-def blank_wip id
-  ws = Daitss.archive.workspace
-  path = File.join ws.path, id
-  Wip.new path
-end
-
 def pull_aip id
   aip = Package.get(id).aip or raise "cannot get aip for #{id}"
   path = File.join $sandbox, aip.id

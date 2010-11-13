@@ -14,7 +14,7 @@ describe Wip do
     p.project = pr
     p.sip = Sip.new :name => "foo"
     p.save or raise "cant save package"
-    blank_wip p.id
+    wip = Wip.make p.id, :disseminate
   end
 
   it "should let addition of new files" do

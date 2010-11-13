@@ -51,7 +51,7 @@ describe Aip do
 
       FileUtils.rm_r path
 
-      wip = blank_wip id
+      wip = Wip.make id, :disseminate
       wip.load_from_aip
 
       wip.preserve!
@@ -105,7 +105,7 @@ describe Aip do
 
     FileUtils.rm_r path
 
-    wip = blank_wip id
+    wip = Wip.make id, :disseminate
     wip.load_from_aip
 
     sig = wip.all_datafiles.inject({}) do |acc,f|
