@@ -7,6 +7,7 @@ require "help/test_package"
 require "help/sandbox"
 require "help/profile"
 require "help/agreement"
+require "help/fs"
 
 SPEC_ROOT = File.dirname __FILE__
 

@@ -1,5 +1,5 @@
 require 'daitss/proc/wip'
-require 'daitss/proc/wip/step'
+require 'daitss/proc/wip/journal'
 require 'daitss/proc/wip/xmlresolve'
 require 'daitss/proc/datafile/describe'
 require 'daitss/proc/datafile/obsolete'
@@ -9,7 +9,7 @@ module Daitss
 
   class Wip
 
-    def preserve!
+    def preserve
 
       # describe and preserve original_files
       original_datafiles.each do |df|

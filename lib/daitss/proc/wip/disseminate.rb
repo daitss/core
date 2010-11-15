@@ -1,5 +1,5 @@
 require 'daitss/proc/wip'
-require 'daitss/proc/wip/step'
+require 'daitss/proc/wip/journal'
 require 'daitss/proc/wip/preserve'
 require 'daitss/proc/wip/from_aip'
 require 'daitss/model/aip'
@@ -12,32 +12,32 @@ module Daitss
 
   class Wip
 
-    def disseminate!
+    def disseminate
       raise "no aip for #{id}" unless package.aip
 
-      step('load-aip') do
+      step 'load-aip'  do
         load_from_aip
       end
 
-      preserve!
+      preserve
 
-      step('write-disseminate-event') do
+      step 'write-disseminate-event'  do
         metadata['disseminate-event'] = disseminate_event package, next_event_index('disseminate')
       end
 
-      step('write-disseminate-agent') do
+      step 'write-disseminate-agent'  do
         metadata['disseminate-agent'] = system_agent
       end
 
-      step('make-aip-descriptor') do
+      step 'make-aip-descriptor'  do
         metadata['aip-descriptor'] = descriptor
       end
 
-      step('make-tarball') do
+      step 'make-tarball'  do
         make_tarball
       end
 
-      step('update-aip') do
+      step 'update-aip'  do
 
         Aip.transaction do
           aip = Aip.update_from_wip self
@@ -48,26 +48,33 @@ module Daitss
 
       end
 
-      step('deliver-dip') do
-        raise "no drop path specified" unless tags.has_key? 'drop-path'
-        aip = Package.get(id).aip or raise "package #{id} not found"
-        url = URI.parse aip.copy.url.to_s
-
-        res = Net::HTTP.start(url.host, url.port) do |http|
-          http.read_timeout = Archive.instance.http_timeout
-          http.get url.path
-        end
-
-        res.error! unless Net::HTTPSuccess === res
-        open(tags['drop-path'], 'w') { |io| io.write res.body }
-        sha1 = open(tags['drop-path']) { |io| Digest::SHA1.hexdigest io.read }
-
-        unless sha1 == aip.copy.sha1
-          raise "#{aip.copy.url} sha1 is wrong: expected #{aip.copy.sha1}, actual #{sha1}"
-        end
-
+      step 'deliver-dip'  do
+        set_drop_path
+        FileUtils.cp tarball_file, drop_path
       end
 
+    end
+
+    def drop_path
+      @info['drop-path']
+    end
+
+    def set_drop_path
+      @info['drop-path'] = next_drop_path
+      save_info
+    end
+
+    def next_drop_path
+      pattern = File.join archive.disseminate_path, "#{id}-*.tar"
+      dips = Dir[pattern]
+
+      n = if dips.empty?
+            0
+          else
+            dips.map { |f| File.basename(f)[%r{#{id}-(\d+).tar}, 1].to_i }.max + 1
+          end
+
+      File.join archive.disseminate_path, "#{id}-#{n}.tar"
     end
 
   end

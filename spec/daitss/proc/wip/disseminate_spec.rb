@@ -10,7 +10,7 @@ describe Wip do
 
     it "should raise error if an aip does not exist for the wip" do
       wip = submit 'mimi'
-      lambda { wip.disseminate! }.should raise_error("no aip for #{wip.id}")
+      lambda { wip.disseminate }.should raise_error("no aip for #{wip.id}")
     end
 
   end
@@ -19,14 +19,15 @@ describe Wip do
 
     before :all do
       proto_wip = submit 'mimi'
-      proto_wip.ingest!
+      proto_wip.ingest
       Package.get(proto_wip.id).aip.should_not be_nil
 
       id = proto_wip.id
-      FileUtils::rm_r proto_wip.path
-      @wip = blank_wip id
-      @wip.tags['drop-path'] = "/tmp/#{id}.tar"
-      @wip.disseminate!
+      path = proto_wip.path
+      FileUtils.rm_r proto_wip.path
+
+      @wip = Wip.make path, :disseminate
+      @wip.disseminate
     end
 
     it "should have an disseminate event" do
@@ -40,8 +41,7 @@ describe Wip do
     end
 
     it "should produce a dip in a disseminate area" do
-      path = @wip.tags['drop-path']
-      File.exist?(path).should be_true
+      @wip.drop_path.should exist_on_fs
     end
 
     it "should have an IntEntity in the db" do
@@ -60,20 +60,20 @@ describe Wip do
 
       # ingest it
       proto_wip = submit 'wave'
-      proto_wip.ingest!
+      proto_wip.ingest
       Package.get(proto_wip.id).aip.should_not be_nil
       @id = proto_wip.id
-      FileUtils::rm_r proto_wip.path
+      path = proto_wip.path
+      FileUtils.rm_r proto_wip.path
 
       # disseminate it twice
       @dips = []
+
       2.times.each do |n|
-        wip = blank_wip @id
-        dip_path = "/tmp/#{@id}-#{n}.tar"
-        @dips << dip_path
-        wip.tags['drop-path'] = dip_path
-        wip.disseminate!
-        FileUtils::rm_r wip.path
+        wip = Wip.make path, :disseminate
+        wip.disseminate
+        @dips << wip.drop_path
+        FileUtils.rm_r wip.path
       end
 
     end

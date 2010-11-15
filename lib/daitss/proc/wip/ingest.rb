@@ -8,20 +8,20 @@ require 'daitss/proc/template/descriptor'
 require 'daitss/proc/template/premis'
 require 'daitss/proc/wip'
 require 'daitss/proc/wip/preserve'
-require 'daitss/proc/wip/step'
+require 'daitss/proc/wip/journal'
 require 'daitss/proc/wip/tarball'
 
 module Daitss
 
   class Wip
 
-    def ingest!
+    def ingest
 
       original_datafiles.each do |df|
         step("virus-check-#{df.id}") { df.virus_check! }
       end
 
-      preserve!
+      preserve
 
       step('write-ingest-event') do
         metadata['ingest-event'] = ingest_event package

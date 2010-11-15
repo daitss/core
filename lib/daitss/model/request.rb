@@ -32,26 +32,9 @@ module Daitss
     def dispatch
       ws_path = archive.workspace.path
       path = File.join(ws_path, self.package.id)
-      wip = Wip.new path
-
-      case type
-
-      when :disseminate
-        wip.tags["drop-path"] = "/tmp/disseminations"
-        wip.task = :disseminate
-      when :withdraw
-        wip.task = :withdraw
-      when :peek
-        wip.task = :peek
-      when :migration
-        wip.task = :migrate
-      else
-        raise "Unknown request type: #{type}"
-      end
-
+      wip = Wip.make path, type
       self.status = :released_to_workspace
       self.save
-
       return path
     end
   end

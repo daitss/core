@@ -20,17 +20,17 @@ describe Aip do
 
     subject do
       proto_wip = submit 'mimi'
-      proto_wip.ingest!
+      proto_wip.ingest
       path = proto_wip.path
 
       id = proto_wip.id
 
       FileUtils.rm_r path
 
-      wip = blank_wip id
+      wip = Wip.make path, :disseminate
       wip.load_from_aip
 
-      wip.preserve!
+      wip.preserve
 
       spec = {
         :id => "#{wip.uri}/event/FOO",

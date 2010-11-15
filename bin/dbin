@@ -10,24 +10,16 @@ require 'daitss/archive'
 
 include Daitss
 
-task = ARGV.shift or raise "no task given"
 id = ARGV.shift or raise "no wip given"
 wip = archive.workspace[id] or raise "wip not in workspace"
 
 begin
-  wip.package.log "#{task} started"
-
-  case task.to_sym
-  when Wip::TASK_INGEST then wip.ingest!
-  when Wip::TASK_DISSEMINATE then wip.disseminate!
-  when :migrate then wip.d1_refresh!
-  else raise "invalid task #{task.inspect}"
-  end
-
-  wip.package.log "#{task} finished"
+  wip.package.log "#{wip.task} started"
+  wip.start
+  wip.package.log "#{wip.task} finished"
   FileUtils.rm_r wip.path unless wip.snafu?
 rescue => e
- wip.snafu = e
- wip.package.log "#{task} snafu", :notes => e.message.split("\n\n")[0]
- exit 1
+  wip.snafu = e
+  wip.package.log "#{wip.task} snafu", :notes => e.message.split("\n\n")[0]
+  exit 1
 end

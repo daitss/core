@@ -9,13 +9,13 @@ describe Wip do
 
     before :all do
       proto_wip = submit 'wave'
-      proto_wip.ingest!
+      proto_wip.ingest
 
       path = proto_wip.path
       id = proto_wip.id
       FileUtils.rm_r path
 
-      @wip = blank_wip id
+      @wip = Wip.make id, :disseminate
       @wip.load_from_aip
     end
 

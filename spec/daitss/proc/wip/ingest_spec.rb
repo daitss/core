@@ -11,7 +11,7 @@ describe Wip do
 
     before :all do
       @wip = submit 'mimi'
-      @wip.ingest!
+      @wip.ingest
     end
 
     it "should have an aip descriptor" do

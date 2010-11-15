@@ -18,6 +18,13 @@ module Daitss
     METADATA_DIR = 'metadata'
     DATA_FILE = 'data'
 
+    def DataFile.make wip, container, id
+      dir = File.join wip.path, container, id
+      FileUtils.mkdir_p dir
+      FileUtils.mkdir_p File.join dir, METADATA_DIR
+      DataFile.new wip, container, id
+    end
+
     def initialize wip, container, id
       @id = id
       @wip = wip
@@ -25,7 +32,7 @@ module Daitss
       @dir = File.join @wip.path, container, @id
       @metadata = FsHash.new File.join(@dir, METADATA_DIR)
       @datapath = File.join @dir, DATA_FILE
-      FileUtils::touch @datapath
+      FileUtils.touch @datapath
       @is_sip_descriptor = metadata['sip-path'] == @wip.package.sip.name + '.xml'
     end
 

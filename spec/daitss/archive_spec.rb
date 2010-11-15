@@ -44,7 +44,7 @@ describe Daitss::Archive do
         subject { Daitss.archive.workspace[@package.id] }
 
         it "should have sip descriptor as metadata" do
-          sd_df = subject.original_datafiles.find { |df| df['sip-path'] == "#{subject['sip-name']}.xml" }
+          sd_df = subject.original_datafiles.find { |df| df['sip-path'] == "#{subject.package.sip.name}.xml" }
           subject['sip-descriptor'].should == sd_df.open.read
         end
 
@@ -52,8 +52,8 @@ describe Daitss::Archive do
           subject.original_datafiles.should have_exactly(2).items
         end
 
-        it "should have sip-name in it" do
-          subject['sip-name'].should == 'haskell-nums-pdf'
+        it "should have sip name in it" do
+          subject.package.sip.name.should == 'haskell-nums-pdf'
         end
 
         it "all files should have a sip path" do
