@@ -5,8 +5,10 @@ module Daitss
 
   class Wip
 
+    TARBALL_FILE = "tarball"
+
     def tarball_file
-      File.join @path, "#{id}.tar"
+      File.join @path, TARBALL_FILE
     end
 
     def tarball_sha1
