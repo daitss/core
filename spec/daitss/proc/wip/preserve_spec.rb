@@ -29,7 +29,7 @@ describe Wip do
 
     before :all do
       @wip = submit 'lorem'
-      @wip.preserve!
+      @wip.preserve
 
       @files = {
         :xml => @wip.original_datafiles.find { |df| df['sip-path'] == 'lorem.xml' },
@@ -49,7 +49,7 @@ describe Wip do
 
     before :all do
       @wip = submit 'wave'
-      @wip.preserve!
+      @wip.preserve
     end
 
     it "should have an original representation with only an xml and a pdf" do

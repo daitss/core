@@ -12,7 +12,7 @@ module Daitss
 
   class Wip
 
-    def disseminate!
+    def disseminate
       raise "no aip for #{id}" unless package.aip
 
       step('load-aip') do

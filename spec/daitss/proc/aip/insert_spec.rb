@@ -7,7 +7,7 @@ describe Aip do
 
   it "should create a new instance based on a WIP" do
     wip = submit 'mimi'
-    wip.preserve!
+    wip.preserve
     wip['aip-descriptor'] = wip.descriptor
 
     spec = {

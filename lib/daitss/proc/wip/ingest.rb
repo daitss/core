@@ -15,13 +15,13 @@ module Daitss
 
   class Wip
 
-    def ingest!
+    def ingest
 
       original_datafiles.each do |df|
         step("virus-check-#{df.id}") { df.virus_check! }
       end
 
-      preserve!
+      preserve
 
       step('write-ingest-event') do
         metadata['ingest-event'] = ingest_event package

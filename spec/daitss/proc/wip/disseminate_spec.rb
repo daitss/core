@@ -10,7 +10,7 @@ describe Wip do
 
     it "should raise error if an aip does not exist for the wip" do
       wip = submit 'mimi'
-      lambda { wip.disseminate! }.should raise_error("no aip for #{wip.id}")
+      lambda { wip.disseminate }.should raise_error("no aip for #{wip.id}")
     end
 
   end
@@ -19,14 +19,15 @@ describe Wip do
 
     before :all do
       proto_wip = submit 'mimi'
-      proto_wip.ingest!
+      proto_wip.ingest
       Package.get(proto_wip.id).aip.should_not be_nil
 
       id = proto_wip.id
+      path = proto_wip.path
       FileUtils.rm_r proto_wip.path
 
-      @wip = Wip.make id, :disseminate
-      @wip.disseminate!
+      @wip = Wip.make path, :disseminate
+      @wip.disseminate
     end
 
     it "should have an disseminate event" do
@@ -59,7 +60,7 @@ describe Wip do
 
       # ingest it
       proto_wip = submit 'wave'
-      proto_wip.ingest!
+      proto_wip.ingest
       Package.get(proto_wip.id).aip.should_not be_nil
       @id = proto_wip.id
       path = proto_wip.path
@@ -70,7 +71,7 @@ describe Wip do
 
       2.times.each do |n|
         wip = Wip.make path, :disseminate
-        wip.disseminate!
+        wip.disseminate
         @dips << wip.drop_path
         FileUtils.rm_r wip.path
       end

@@ -9,7 +9,7 @@ module Daitss
 
   class Wip
 
-    def preserve!
+    def preserve
 
       # describe and preserve original_files
       original_datafiles.each do |df|
