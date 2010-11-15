@@ -1,5 +1,4 @@
 require 'daitss/proc/wip'
-require 'daitss/proc/wip/task'
 
 module Daitss
 

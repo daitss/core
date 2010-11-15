@@ -10,9 +10,5 @@ require 'daitss/proc/template'
 
 require 'daitss/proc/wip'
 require 'daitss/proc/wip/process'
-require 'daitss/proc/wip/progress'
-require 'daitss/proc/wip/snafu'
-require 'daitss/proc/wip/state'
-require 'daitss/proc/wip/task'
 
 require 'daitss/proc/workspace'
