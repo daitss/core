@@ -15,6 +15,9 @@ module Daitss
     # name of the directory for submissions
     SUBMIT_DIR = 'submit'
 
+    # name of the directory for dips
+    DISSEMINATE_DIR = 'disseminate'
+
     # id of system account
     SYSTEM_ACCOUNT_ID = 'SYSTEM'
 
@@ -42,7 +45,7 @@ module Daitss
     XMLRESOLUTION_URL = 'xmlresolution-url'
 
     attr_reader :db_url, :uri_prefix, :http_timeout
-    attr_reader :data_dir, :work_path, :stash_path, :submit_path
+    attr_reader :data_dir, :work_path, :stash_path, :submit_path, :disseminate_path
     attr_reader :actionplan_url, :describe_url, :storage_url, :viruscheck_url, :transform_url, :xmlresolution_url
 
     # load the settings from the file specified
@@ -63,6 +66,7 @@ module Daitss
       @work_path = File.join @data_dir, WORK_DIR
       @stash_path = File.join @data_dir, STASH_DIR
       @submit_path = File.join @data_dir, SUBMIT_DIR
+      @disseminate_path = File.join @data_dir, DISSEMINATE_DIR
 
       # uri prefix
       @uri_prefix = yaml[URI_PREFIX]
@@ -85,6 +89,7 @@ module Daitss
       DataMapper::Logger.new $stdout if options[:log]
       adapter = DataMapper.setup :default, @db_url
       adapter.resource_naming_convention = DataMapper::NamingConventions::Resource::UnderscoredAndPluralizedWithoutModule
+      DataMapper.finalize
       adapter
     end
 
@@ -98,7 +103,8 @@ module Daitss
 
       [ @work_path,
         @stash_path,
-        @submit_path
+        @submit_path,
+        @disseminate_path
       ].each do |p|
         FileUtils.mkdir p unless File.directory? p
       end

@@ -6,45 +6,141 @@ require 'daitss/proc/datafile'
 require 'daitss/model/package'
 
 require 'daitss/proc/wip/journal'
+require 'daitss/proc/wip/process'
 
 module Daitss
 
   class Wip
     extend Forwardable
 
-    attr_reader :id, :path, :metadata, :tags, :journal
-
     METADATA_DIR = 'metadata'
-    TAGS_DIR = 'tags'
-
     FILES_DIR = 'files'
     ORIGINAL_FILES = File.join FILES_DIR, 'original'
     NORMALIZED_FILES = File.join FILES_DIR, 'normalized'
     MIGRATED_FILES = File.join FILES_DIR, 'migrated'
     OLD_XML_RES_DIR = 'xmlresolutions'
 
+    # state var
+    class << self
 
-    # make a new proto-aip at a path
+      def state_var sym, options={}
+
+        # make it readable
+        attr_reader sym
+
+        # the file that will maintain state
+        filename = sym.to_s
+        i_sym = "@#{sym}".to_sym
+
+        # make the load function
+        define_method :"load_#{sym}".to_sym do
+          file = File.join @path, filename
+
+          if File.exist? file
+            data = YAML.load_file file
+            instance_variable_set i_sym, data
+          else
+            send :"reset_#{sym}".to_sym
+          end
+
+        end
+
+        # make the save function
+        define_method :"save_#{sym}".to_sym do
+          file = File.join @path, filename
+          tmp_file = "#{file}.tmp"
+          data = instance_variable_get i_sym
+          yaml = YAML.dump data
+          open(tmp_file, 'w') { |io| io.write yaml }
+          FileUtils.mv tmp_file, file
+        end
+
+        # make the reset function
+        define_method :"reset_#{sym}".to_sym do
+          file = File.join @path, filename
+
+          default = if options[:default]
+                      options[:default].dup
+                    end
+
+          instance_variable_set i_sym, default
+          send :"save_#{sym}".to_sym
+        end
+
+      end
+
+    end
+
+    attr_reader :id, :path, :metadata
+    def_delegators :@metadata, :[]=, :[], :has_key?, :delete
+    state_var :info, :default => {}
+    state_var :journal, :default => {}
+    state_var :process
+
+    VALID_TASKS = [
+      :sleep,
+      :ingest,
+      :disseminate,
+      :withdraw,
+      :peek,
+      :migration
+    ]
+
+    # make a new wip on the filesystem
+    def Wip.make path, task
+
+      unless VALID_TASKS.include? task
+        raise "Unknown task: #{task}"
+      end
+
+      FileUtils.mkdir path
+
+      Dir.chdir path do
+
+        [ METADATA_DIR,
+          FILES_DIR,
+          ORIGINAL_FILES,
+          NORMALIZED_FILES,
+          MIGRATED_FILES,
+          OLD_XML_RES_DIR
+        ].each do |f|
+          FileUtils.mkdir f
+        end
+
+      end
+
+      w = Wip.new path
+
+      w.instance_eval do
+        @info[:task] = task
+        save_info
+      end
+
+      w
+    end
+
+    # initialize a wip object from a filesystem wip
     def initialize path
       @path = File.expand_path path
       @id = File.basename @path
-      FileUtils::mkdir_p @path unless File.exist? @path
 
       @metadata = FsHash.new File.join(@path, METADATA_DIR)
-      @tags = FsHash.new File.join(@path, TAGS_DIR)
       @cached_max_id = {}
 
+      load_info
       load_journal
+      load_process
     end
-
-    def_delegators :@metadata, :[]=, :[], :has_key?, :delete
-
-    alias_method :to_s, :id
+    alias_method(:to_s, :id)
 
     def == other
       id == other.id and path == other.path
     end
-    alias_method :eql?, :==
+    alias_method(:eql?, :==)
+
+    def task
+      @info[:task]
+    end
 
     # return an array of the original datafiles
     def original_datafiles

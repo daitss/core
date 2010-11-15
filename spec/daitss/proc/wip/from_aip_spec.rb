@@ -9,7 +9,7 @@ describe Wip do
 
     before :all do
       proto_wip = submit 'wave'
-      proto_wip.ingest!
+      proto_wip.ingest
 
       path = proto_wip.path
       id = proto_wip.id
