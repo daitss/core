@@ -14,7 +14,8 @@ describe Wip do
     p.project = pr
     p.sip = Sip.new :name => "foo"
     p.save or raise "cant save package"
-    wip = Wip.make p.id, :disseminate
+    path = File.join archive.workspace.path, p.id
+    Wip.make path, :disseminate
   end
 
   it "should let addition of new files" do
@@ -25,18 +26,13 @@ describe Wip do
 
   it "should not let the addition of existing datafiles" do
     subject.new_original_datafile 0
-    lambda { subject.new_original_datafile 0 }.should raise_error /datafile 0 already exists/
+    lambda { subject.new_original_datafile 0 }.should raise_error(/datafile 0 already exists/)
   end
 
   it "should let addition of new metadata" do
     subject['submit-event'] = "submitted at #{Time.now}"
     wip_prime = Daitss.archive.workspace[subject.id]
     subject['submit-event'].should == wip_prime['submit-event']
-  end
-
-  it "should let new tags be set" do
-    subject.tags['FOO'] = '100'
-    subject.tags['FOO'].should == '100'
   end
 
   it "should equal a wip with the same path" do
@@ -47,7 +43,7 @@ describe Wip do
   it "should not equal a wip with a different path" do
     uuid = UUID.generate :compact
     path = File.join $sandbox, uuid
-    wip = Wip.new path
+    wip = Wip.make path, :disseminate
     subject.should_not == wip
   end
 

@@ -218,7 +218,7 @@ module Daitss
         raise "datafile #{id} already exists in #{container}"
       end
 
-      DataFile.new self, container, id.to_s
+      DataFile.make self, container, id.to_s
     end
 
   end

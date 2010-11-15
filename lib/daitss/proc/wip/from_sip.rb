@@ -20,9 +20,7 @@ module Daitss
 
       begin
         path = File.join archive.submit_path, package.id
-        wip = Wip.new path
-        wip['sip-name'] = sip_archive.name
-        wip.task = :ingest
+        wip = Wip.make path, :ingest
 
         sip_archive.files.each_with_index do |f, index|
           next unless File.exists? File.join(sip_archive.path, f)

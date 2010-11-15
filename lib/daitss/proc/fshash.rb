@@ -8,7 +8,6 @@ module Daitss
 
     def initialize dir
       @path = dir
-      FileUtils::mkdir_p @path unless File.exist? @path
     end
 
     def []= key, data
@@ -32,7 +31,7 @@ module Daitss
     end
 
     def delete key
-      FileUtils::rm key_path(key)
+      FileUtils.rm key_path(key)
     end
 
     def each

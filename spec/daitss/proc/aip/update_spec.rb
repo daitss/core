@@ -27,7 +27,7 @@ describe Aip do
 
       FileUtils.rm_r path
 
-      wip = Wip.make id, :disseminate
+      wip = Wip.make path, :disseminate
       wip.load_from_aip
 
       wip.preserve
