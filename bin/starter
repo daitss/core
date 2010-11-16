@@ -4,16 +4,21 @@ require 'daitss'
 
 include Daitss
 
+INTERVAL = 1
+
+def make_wips
+  ready = Request.all :is_authorized => true, :status => :enqueued, :order => [ :timestamp.asc ]
+  ready.reject! { |r| r.package.wip }
+  ready.each &:dispatch
+end
+
+def start_wips
+  startable = archive.workspace.reject { |w| w.running? or w.snafu? or w.stopped? }
+  startable.each &:spawn
+end
+
 loop do
-
-  startable = archive.workspace.reject do |w|
-    w.running? or w.snafu? or w.stopped?
-  end
-
-  startable.each do |wip|
-    puts 'starting:' + wip.id
-    wip.start
-  end
-
-  sleep 1
+  make_wips
+  start_wips
+  sleep INTERVAL
 end
