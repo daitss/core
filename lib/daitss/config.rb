@@ -15,6 +15,9 @@ module Daitss
     # name of the directory for submissions
     SUBMIT_DIR = 'submit'
 
+    # name of the directory for submissions
+    DISPATCH_DIR = 'dispatch'
+
     # name of the directory for dips
     DISSEMINATE_DIR = 'disseminate'
 
@@ -45,7 +48,7 @@ module Daitss
     XMLRESOLUTION_URL = 'xmlresolution-url'
 
     attr_reader :db_url, :uri_prefix, :http_timeout
-    attr_reader :data_dir, :work_path, :stash_path, :submit_path, :disseminate_path
+    attr_reader :data_dir, :work_path, :stash_path, :submit_path, :disseminate_path, :dispatch_path
     attr_reader :actionplan_url, :describe_url, :storage_url, :viruscheck_url, :transform_url, :xmlresolution_url
 
     # load the settings from the file specified
@@ -67,6 +70,7 @@ module Daitss
       @stash_path = File.join @data_dir, STASH_DIR
       @submit_path = File.join @data_dir, SUBMIT_DIR
       @disseminate_path = File.join @data_dir, DISSEMINATE_DIR
+      @dispatch_path = File.join @data_dir, DISPATCH_DIR
 
       # uri prefix
       @uri_prefix = yaml[URI_PREFIX]
@@ -104,7 +108,8 @@ module Daitss
       [ @work_path,
         @stash_path,
         @submit_path,
-        @disseminate_path
+        @disseminate_path,
+        @dispatch_path
       ].each do |p|
         FileUtils.mkdir p unless File.directory? p
       end

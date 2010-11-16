@@ -17,7 +17,7 @@ describe Request do
 
   after(:each) { FileUtils.rm_r package.wip.path }
 
-  Wip::VALID_TASKS.each do |t|
+  (Wip::VALID_TASKS - [:ingest, :sleep]).each do |t|
 
     it "should create a wip for #{t}" do
       request = Request.new :package => package, :agent => agent, :type => t
@@ -26,6 +26,7 @@ describe Request do
       package.wip.path.should exist_on_fs
       package.wip.task.should == t
       request.status.should == :released_to_workspace
+      request.package.events.last.name.should == "#{t} released"
     end
 
   end

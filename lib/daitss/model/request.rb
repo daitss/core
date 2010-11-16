@@ -1,9 +1,7 @@
 require 'data_mapper'
-require 'dm-is-list'
 
 require 'daitss/model/agent'
 require 'daitss/model/package'
-
 require 'daitss/proc/wip'
 require 'daitss/archive'
 
@@ -19,23 +17,46 @@ module Daitss
     property :status, Enum[:enqueued, :released_to_workspace, :cancelled], :default => :enqueued
     property :type, Enum[:disseminate, :withdraw, :peek, :migration]
 
+    # TODO investigate Wip::VALID_TASKS - [:sleep, :ingeset] to have one place for it all
+
     belongs_to :agent
     belongs_to :package
-
-    is :list, :scope => [:package_id]
 
     def cancel
       self.status = :cancelled
       self.save
     end
 
+    # create a wip from this request
     def dispatch
-      path = File.join archive.workspace.path, package.id
-      wip = Wip.make path, type
-      self.status = :released_to_workspace
-      self.save
-      return path
+
+      begin
+
+        # make a wip
+        dp_path = File.join archive.dispatch_path, package.id
+        ws_path = File.join archive.workspace.path, package.id
+        Wip.make dp_path, type
+        FileUtils.mv dp_path, ws_path
+
+        # save and log
+        Request.transaction do
+          self.status = :released_to_workspace
+          self.save or raise "cannot save request"
+          package.log "#{type} released", :notes => "request_id: #{id}"
+        end
+
+      rescue
+
+        # cleanup wip on fs
+        FileUtils.rm_r dp_path if File.exist? dp_path
+        FileUtils.rm_r ws_path if File.exist? ws_path
+
+        # re-raise
+        raise
+      end
+
     end
+
   end
 
 
