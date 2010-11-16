@@ -30,8 +30,7 @@ module Daitss
     end
 
     def dispatch
-      ws_path = archive.workspace.path
-      path = File.join(ws_path, self.package.id)
+      path = File.join archive.workspace.path, package.id
       wip = Wip.make path, type
       self.status = :released_to_workspace
       self.save
