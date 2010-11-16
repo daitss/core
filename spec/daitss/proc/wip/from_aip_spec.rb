@@ -15,7 +15,7 @@ describe Wip do
       id = proto_wip.id
       FileUtils.rm_r path
 
-      @wip = Wip.make id, :disseminate
+      @wip = Wip.make path, :disseminate
       @wip.load_from_aip
     end
 
