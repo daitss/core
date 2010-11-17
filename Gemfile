@@ -3,7 +3,6 @@ source "http://rubygems.org"
 gem 'data_mapper'
 gem 'dm-is-list'
 gem 'haml'
-gem 'jxmlvalidator'
 gem 'libxml-ruby'
 gem 'nokogiri'
 gem 'rake'
@@ -12,6 +11,7 @@ gem 'semver'
 gem 'sinatra'
 gem 'thor'
 gem 'uuid'
+gem 'rjb'
 
 # this gem is WONK
 case `uname`.chomp

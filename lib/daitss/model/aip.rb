@@ -2,9 +2,8 @@ require "data_mapper"
 
 require 'libxml'
 require 'schematron'
-require 'jxml/validator'
 require 'net/http'
-
+require 'daitss/proc/xmlvalidation'
 require 'daitss/archive'
 require 'daitss/model/copy'
 
@@ -15,7 +14,7 @@ stron_file = File.join File.dirname(__FILE__), 'aip', 'aip.stron'
 stron_doc = open(stron_file) { |io| XML::Document.io io }
 AIP_DESCRIPTOR_SCHEMATRON = Schematron::Schema.new stron_doc
 
-XML_SCHEMA_VALIDATOR = JXML::Validator.new
+#XML_SCHEMA_VALIDATOR = JXML::Validator.new
 
 XML_SIZE = 2**32-1
 
@@ -33,22 +32,28 @@ module Daitss
     has 0..1, :copy # 0 if package has been withdrawn, otherwise, 1
 
     # skip validation for daitss 1 package not yet migrated
-    validates_with_method :xml, :validate_against_xmlschema, :if => lambda { |t| t.datafile_count}
+    validates_with_method :xml, :validate_against_xmlschema, :if => lambda { |t| t.datafile_count }
     # validates_with_method :xml, :validate_against_schematron
 
     def validate_against_xmlschema
-      doc = XML::Document.string xml
+      #doc = XML::Document.string xml
       # skip validation is this is a daitss1 package not yet migrated to daitss2
 	  # return true if doc.root.name == 'daitss1'
-	
-      results = XML_SCHEMA_VALIDATOR.validate doc
-      combined_results = results[:fatals] + results[:errors]
-      combined_results.reject! { |r| r[:message] =~ /(tcf|aes)\:/ }
-      combined_results.reject! { |r| r[:message] =~ /agentNote/ }
 
-      unless combined_results.empty?
-        combined_results.each { |r| puts r[:line].to_s + ' ' + r[:message] }
-        [false, "descriptor fails daitss aip xml validation (#{combined_results.size} errors)"]
+      #results = XML_SCHEMA_VALIDATOR.validate doc
+      #combined_results = results[:fatals] + results[:errors]
+
+      tf = Tempfile.new 'xmlvalidation'
+      tf.write xml
+      tf.flush
+      rs = validate_xml tf.path
+      tf.close!
+      rs.reject! { |r| r[:message] =~ /(tcf|aes)\:/ }
+      rs.reject! { |r| r[:message] =~ /agentNote/ }
+
+      unless rs.empty?
+        rs.each { |r| puts r[:line].to_s + ' ' + r[:message] }
+        [false, "descriptor fails daitss aip xml validation (#{rs.size} errors)"]
       else
         true
       end

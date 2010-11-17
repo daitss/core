@@ -1,5 +1,6 @@
 require 'libxml'
 require 'daitss/xmlns'
+require 'daitss/proc/xmlvalidation'
 
 module Daitss
 
@@ -57,10 +58,7 @@ module Daitss
 
       # check for valid descriptor
       if es[:descriptor_presence].empty?
-        xml = File.read descriptor_file
-        val = JXML::Validator.new
-        results = val.validate xml
-        validation_errors = results[:errors] + results[:fatals]
+        validation_errors = validate_xml descriptor_file
 
         unless validation_errors.empty?
           es[:descriptor_valid] << "invalid descriptor"

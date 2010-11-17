@@ -87,8 +87,6 @@ GEM
     haml (3.0.22)
     json (1.4.6)
     json_pure (1.4.6)
-    jxmlvalidator (0.1.2)
-      rjb (~> 1.2)
     libxml-ruby (1.1.4)
     libxslt-ruby (0.9.7)
       libxml-ruby (>= 0.9.4)
@@ -151,11 +149,11 @@ DEPENDENCIES
   dm-postgres-adapter
   dm-sqlite-adapter
   haml
-  jxmlvalidator
   libxml-ruby
   nokogiri
   rack-test
   rake
+  rjb
   rspec
   ruby-debug
   ruby-prof
