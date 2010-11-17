@@ -14,6 +14,14 @@ module Daitss
     OUT_LOG = 'out.log'
     ERR_LOG = 'err.log'
 
+    def out_path
+      File.join @path, OUT_LOG
+    end
+
+    def err_path
+      File.join @path, ERR_LOG
+    end
+
     def need_state s
       raise "#{s} state is required, not #{state}" unless s == state
     end
@@ -25,15 +33,16 @@ module Daitss
       pid = fork do
         $0 = "#{id}.#{task}"
         Signal.trap('INT', 'DEFAULT')
-        $stdout.reopen File.join(self.path, OUT_LOG), 'w'
-        $stderr.reopen File.join(self.path, ERR_LOG), 'w'
+        $stdout.reopen out_path, 'w'
+        $stderr.reopen err_path, 'w'
         #archive.setup_db
+        #DataObjects::Pooling.pools.each &:dispose
 
         begin
           package.log "#{task} started"
           send task
           package.log "#{task} finished"
-          FileUtils.rm_r path unless snafu? or dead?
+          FileUtils.rm_r @path
         rescue => e
           self.snafu = e
           package.log "#{task} snafu", :notes => e.message.split("\n\n")[0]
@@ -50,6 +59,10 @@ module Daitss
       save_process
       Process.detach pid
       sleep 0.5
+    end
+
+    def done?
+      not File.exist? @path
     end
 
     # Kills the process operating on a wip. +signal+ by default is +INT+. any
@@ -71,6 +84,7 @@ module Daitss
 
     # return true if the wip is running
     def running?
+      return false if done?
       load_process
 
       if @process and @process[:id].kind_of? Fixnum
@@ -86,6 +100,7 @@ module Daitss
 
     # return true if the process is dead
     def dead?
+      return false if done?
       !running? and @process and @process[:id].kind_of?(Fixnum)
     end
 
@@ -99,6 +114,7 @@ module Daitss
 
     # return true of a process is stopped
     def stopped?
+      return false if done?
       load_process
       !@process.nil? and @process[:id] == :stop
     end
@@ -124,6 +140,7 @@ module Daitss
 
     # returns true if this wip is snafu
     def snafu?
+      return false if done?
       load_process
       @process and @process[:id] == :snafu
     end
@@ -137,7 +154,8 @@ module Daitss
     # returns a symbol denoting the state of a wip
     def state
 
-      if running? then :running
+      if done? then :done
+      elsif running? then :running
       elsif dead? then :dead
       elsif @process.nil? then :idle
       else @process[:id]
