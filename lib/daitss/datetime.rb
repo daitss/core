@@ -22,3 +22,20 @@ class DateTime
   end
 
 end
+
+class Time
+
+  def pragma
+    now = Time.now
+
+    if now.year == self.year and now.yday == self.yday
+      self.strftime('%I:%M %p').downcase
+    elsif now.year == self.year
+      self.strftime '%b %d'
+    else
+     self.strftime '%D'
+    end
+
+  end
+
+end

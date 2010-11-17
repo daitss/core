@@ -175,7 +175,7 @@ post '/package/:pid/request/:rid' do |pid, rid|
 
   req.cancel or error "cannot cancel request: #{req.errors.inspect}"
   @package.log "#{req.type} request cancelled", :notes => "cancelled by: #{@user.id}"
-  
+
   redirect "/package/#{pid}"
 end
 
@@ -194,16 +194,16 @@ post '/workspace' do
   case params['task']
   when 'start'
     startable = ws.reject { |w| w.running? or w.snafu? }
-    startable.each { |wip| wip.start }
+    startable.each &:spawn
 
   when 'stop'
     stoppable = ws.select { |w| w.running? }
-    stoppable.each { |wip| wip.stop }
+    stoppable.each &:stop
     stoppable.each { |wip| Package.get(wip.id).log "ingest stopped" }
 
   when 'unsnafu'
-    unsnafuable = ws.select { |w| w.snafu? }
-    unsnafuable.each { |wip| wip.unsnafu! }
+    unsnafuable = ws.select &:snafu?
+    unsnafuable.each &:unsnafu
 
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']
@@ -248,7 +248,7 @@ post '/workspace/:id' do |id|
   when 'start'
     error 400, 'cannot start a running wip' if wip.running?
     error 400, 'cannot start a snafu wip' if wip.snafu?
-    wip.start
+    wip.spawn
 
   when 'stop'
     error 400, 'cannot stop an idle wip' unless wip.running?
@@ -257,7 +257,7 @@ post '/workspace/:id' do |id|
 
   when 'unsnafu'
     error 400, 'can only unsnafu a snafu wip' unless wip.snafu?
-    wip.unsnafu!
+    wip.unsnafu
 
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']

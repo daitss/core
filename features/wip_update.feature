@@ -12,7 +12,7 @@ Feature: update the processing of a wip
       | idle       | start   | OK          | running     |
       | running    | start   | NG          | don't know  |
       | idle       | stop    | NG          | don't know  |
-      | running    | stop    | OK          | stopped     |
+      | running    | stop    | OK          | stop        |
       | idle       | unsnafu | NG          | don't know  |
       | running    | unsnafu | NG          | don't know  |
       | snafu      | unsnafu | OK          | idle        |

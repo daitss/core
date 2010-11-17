@@ -1,16 +1,15 @@
 #snafu
-  - time, message, trace = @wip.snafu.split "\n\n"
   %h2
     snafu
 
   %table
     %tr
       %th time
-      %td= DateTime.parse(time).pragma
+      %td= @wip.process[:time].pragma
     %tr
       %th message
-      %td#snafu-message= message
+      %td#snafu-message= @wip.process[:message]
     %tr
-      %th stacktrace
+      %th trace
       %td
-        %pre= trace
+        %pre= @wip.process[:backtrace]

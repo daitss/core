@@ -2,7 +2,7 @@ Given /^I goto its wip page$/ do
   Given %Q(I goto "/workspace/#{last_package_id}")
 end
 
-Then /^the package should be (don't know|running|stopped|idle)$/ do |status|
+Then /^the package should be (don't know|running|stop|idle)$/ do |status|
 
   unless status == "don't know"
     last_response.should have_selector("h1:contains('#{status}')")

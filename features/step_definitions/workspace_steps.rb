@@ -5,10 +5,12 @@ end
 Given /^an? ([^"]*) wip$/ do |state|
   Given "I submit a package"
   last_response.should be_ok
+
   # TODO implement all of this 'over-the-hood'
   #When %Q(I click on "ingesting")
   #When %Q(I choose "start")
   #When %Q(I press "Update")
+
   wip = Daitss.archive.workspace[last_package_id]
   raise "no wip: #{last_package_id}" unless wip
 
@@ -22,16 +24,17 @@ Given /^an? ([^"]*) wip$/ do |state|
       wip.snafu = e
     end
 
-  when 'stopped'
-    wip.start
+  when 'stop'
+    wip.spawn
     wip.stop
 
   when 'running'
-    wip.start
+    wip.spawn
 
   when 'archived'
-    wip.start
-    sleep 0.5 while wip.running?
+    wip.spawn
+    sleep 0.5 until wip.done?
+    wip.should_not be_dead
     wip.should_not be_snafu
 
   else raise "unknown state: #{state}"
@@ -39,7 +42,7 @@ Given /^an? ([^"]*) wip$/ do |state|
 
 end
 
-Given /^(\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
+Given /^(\d+) (running|idle|snafu|stop|) ?wips?$/ do |count, state|
   count.to_i.times { Given "a #{state} wip" }
 end
 
@@ -67,6 +70,11 @@ When /^all running wips have finished$/ do
 end
 
 Then /^there should be (\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
+
+  if state == 'stopped'
+    state = 'stop'
+  end
+
   last_response.should be_ok
   doc = Nokogiri::HTML last_response.body
 
