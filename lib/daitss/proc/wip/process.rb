@@ -30,13 +30,14 @@ module Daitss
     def spawn
       need_state :idle
 
+      # if this isn't here the fork can break do
+      DataObjects::Pooling.pools.each &:dispose
+
       pid = fork do
         $0 = "#{id}.#{task}"
         Signal.trap('INT', 'DEFAULT')
         $stdout.reopen out_path, 'w'
         $stderr.reopen err_path, 'w'
-        #archive.setup_db
-        #DataObjects::Pooling.pools.each &:dispose
 
         begin
           package.log "#{task} started"
