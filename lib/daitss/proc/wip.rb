@@ -5,13 +5,18 @@ require 'daitss/proc/fshash'
 require 'daitss/proc/datafile'
 require 'daitss/model/package'
 
+require 'daitss/proc/statevar'
 require 'daitss/proc/wip/journal'
 require 'daitss/proc/wip/process'
+
+require 'daitss/proc/wip/ingest'
+require 'daitss/proc/wip/disseminate'
 
 module Daitss
 
   class Wip
     extend Forwardable
+    extend StateVar
 
     METADATA_DIR = 'metadata'
     FILES_DIR = 'files'
@@ -20,59 +25,10 @@ module Daitss
     MIGRATED_FILES = File.join FILES_DIR, 'migrated'
     OLD_XML_RES_DIR = 'xmlresolutions'
 
-    # state var
-    class << self
-
-      def state_var sym, options={}
-
-        # make it readable
-        attr_reader sym
-
-        # the file that will maintain state
-        filename = sym.to_s
-        i_sym = "@#{sym}".to_sym
-
-        # make the load function
-        define_method :"load_#{sym}".to_sym do
-          file = File.join @path, filename
-
-          if File.exist? file
-            data = YAML.load_file file
-            instance_variable_set i_sym, data
-          else
-            send :"reset_#{sym}".to_sym
-          end
-
-        end
-
-        # make the save function
-        define_method :"save_#{sym}".to_sym do
-          file = File.join @path, filename
-          tmp_file = "#{file}.tmp"
-          data = instance_variable_get i_sym
-          yaml = YAML.dump data
-          open(tmp_file, 'w') { |io| io.write yaml }
-          FileUtils.mv tmp_file, file
-        end
-
-        # make the reset function
-        define_method :"reset_#{sym}".to_sym do
-          file = File.join @path, filename
-
-          default = if options[:default]
-                      options[:default].dup
-                    end
-
-          instance_variable_set i_sym, default
-          send :"save_#{sym}".to_sym
-        end
-
-      end
-
-    end
-
     attr_reader :id, :path, :metadata
+
     def_delegators :@metadata, :[]=, :[], :has_key?, :delete
+
     state_var :info, :default => {}
     state_var :journal, :default => {}
     state_var :process
