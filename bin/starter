@@ -3,6 +3,7 @@
 require 'daitss'
 
 include Daitss
+archive
 
 INTERVAL = 1
 
