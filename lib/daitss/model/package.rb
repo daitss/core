@@ -36,6 +36,7 @@ module Daitss
       e = Event.new :name => name, :package => self
       e.agent = options[:agent] || Program.get("SYSTEM")
       e.notes = options[:notes]
+      e.timestamp = options[:timestamp] if options[:timestamp]
 
       unless e.save
         raise "cannot save op event: #{name} (#{e.errors.size}):\n#{e.errors.map.join "\n"}"
@@ -65,6 +66,10 @@ module Daitss
 
     def rejected?
       events.first :name => 'reject'
+    end
+
+    def migrated_from_pt?
+      events.first :name => "migrated from package tracker"
     end
 
     def status
