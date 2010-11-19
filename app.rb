@@ -153,7 +153,6 @@ post '/package/:id/request' do |id|
   r = Request.new
 
   r.type = type
-  r.is_authorized = true unless type == "withdraw"
   r.note = note
 
   @user.requests << r
