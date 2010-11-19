@@ -102,6 +102,7 @@ def submit_to_svc path_to_zip, path
   req["Content-Type"] = "multipart/form-data, boundary=#{boundary}"
 
   res = Net::HTTP.start(url.host, url.port) do |http|
+    http.read_timeout = 500
     http.request req
   end
 
