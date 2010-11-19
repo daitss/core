@@ -6,6 +6,9 @@
   - if @package.rejected?
     rejected
 
+  - elsif @package.migrated_from_pt?
+    rejected
+
   - elsif @package.wip
 
     - if @package.wip.stashed?

@@ -18,7 +18,7 @@ Feature: package requests
     Examples:
       | type        | note      | authorized |
       | disseminate | nice job! | yes        |
-      | withdraw    | good bye  | no         |
+      | withdraw    | good bye  | yes        |
       | peek        | oh hai    | yes        |
 
   Scenario Outline: requests can be canceled

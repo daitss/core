@@ -67,12 +67,8 @@ module Daitss
       end
 
       w = Wip.new path
-
-      w.instance_eval do
-        @info[:task] = task
-        save_info
-      end
-
+      w.info[:task] = task
+      w.save_info
       w
     end
 
@@ -145,6 +141,7 @@ module Daitss
       bins.find { |b| b.path == dir }
     end
 
+    # return true if it is stashed
     def stashed?
       not bin.nil?
     end

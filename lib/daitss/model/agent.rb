@@ -27,7 +27,7 @@ module Daitss
     property :last_name, String
     property :email, String
     property :phone, String
-    property :address, String
+    property :address, Text
     property :is_admin_contact, Boolean, :default => false
     property :is_tech_contact, Boolean, :default => false
   end
