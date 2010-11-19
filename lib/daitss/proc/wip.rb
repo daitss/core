@@ -11,6 +11,7 @@ require 'daitss/proc/wip/process'
 
 require 'daitss/proc/wip/ingest'
 require 'daitss/proc/wip/disseminate'
+require 'daitss/proc/wip/d1_refresh'
 
 module Daitss
 
@@ -39,7 +40,7 @@ module Daitss
       :disseminate,
       :withdraw,
       :peek,
-      :migration
+      :d1refresh
     ]
 
     # make a new wip on the filesystem
