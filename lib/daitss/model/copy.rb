@@ -77,8 +77,8 @@ module Daitss
 
     def put_to_silo wip
       self.size = wip.tarball_size
-      self.md5 = wip.tarball_md5
-      self.sha1 = wip.tarball_sha1
+      self.md5 = wip.tarball_md5.hexdigest
+      self.sha1 = wip.tarball_sha1.hexdigest
       self.url = make_url
 
       req = Net::HTTP::Put.new self.url.path

@@ -14,6 +14,7 @@ module Daitss
 
       # get the copy ready
       copy = Copy.new :aip => aip
+      copy.url = RandyStore.new_url_for wip.id
       copy.put_to_silo wip
       aip.copy = copy
 

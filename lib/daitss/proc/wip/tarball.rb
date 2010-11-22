@@ -12,11 +12,12 @@ module Daitss
     end
 
     def tarball_sha1
-      Digest::SHA1.file(tarball_file).hexdigest
+      Digest::SHA1.file tarball_file
     end
 
+    # Generates an MD5 for the tarball
     def tarball_md5
-      Digest::MD5.file(tarball_file).hexdigest
+      Digest::MD5.file tarball_file
     end
 
     def tarball_size
