@@ -27,10 +27,7 @@ module Daitss
     #
     # @param [String] package_id
     def RandyStore.reserve package_id
-
-      # TODO externalize the storage server url
-      server = "http://storemaster.sake.fcla.edu"
-      res = Typhoeus::Request.post "#{server}/reserve", :params => { :ieid => package_id }
+      res = Typhoeus::Request.post "#{archive.storage_url}/reserve", :params => { :ieid => package_id }
       xml = Nokogiri.XML(res.body) or res.error!("cannot parse response as XML")
 
       # check the response
@@ -85,6 +82,15 @@ module Daitss
       res.error! "bad location" unless xml.root['location'] == @url
       res.error! "bad sha1" unless xml.root['sha1'] == sha1.hexdigest
       res.error! "bad md5" unless xml.root['md5'] == md5.hexdigest
+      res.error! "bad size" unless xml.root['size'].to_i == data.size
+
+      # return some info about the put
+      {
+        :size => xml.root['size'].to_i,
+        :sha1 => xml.root['sha1'],
+        :md5 => xml.root['md5'],
+        :url => @url
+      }
     end
 
     # delete the data from this resource

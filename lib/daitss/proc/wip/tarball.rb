@@ -11,6 +11,10 @@ module Daitss
       File.join @path, TARBALL_FILE
     end
 
+    def tarball_data
+      File.read tarball_file
+    end
+
     def tarball_sha1
       Digest::SHA1.file tarball_file
     end

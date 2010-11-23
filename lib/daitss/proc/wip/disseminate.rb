@@ -33,20 +33,8 @@ module Daitss
         metadata['aip-descriptor'] = descriptor
       end
 
-      step 'make-tarball'  do
-        make_tarball
-      end
-
-      step 'update-aip'  do
-
-        Aip.transaction do
-          aip = Aip.update_from_wip self
-          doc = XML::Document.string(aip.xml)
-          aipInPremis = AIPInPremis.new
-          aipInPremis.process aip.package, doc
-        end
-
-      end
+      step('make-tarball') { make_tarball }
+      step('make-aip') { update_aip }
 
       step 'deliver-dip'  do
         set_drop_path

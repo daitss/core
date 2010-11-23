@@ -170,4 +170,46 @@ describe Wip do
 
   end
 
+  describe 'multiple datafiles referencing 1 content file' do
+
+    it "should load two datafiles from 1 content file" do
+      proto_wip = submit '2content1data'
+
+      proto_sig = proto_wip.all_datafiles.inject({}) do |acc,f|
+
+        acc[f.uri] = {
+          :sha => Digest::SHA1.file(f.datapath).hexdigest,
+          :path => f['aip-path']
+        }
+
+        acc
+      end
+
+      proto_wip.ingest
+
+      path = proto_wip.path
+
+      id = proto_wip.id
+      uri = proto_wip.uri
+
+      FileUtils.rm_r path
+
+      wip = Wip.make path, :disseminate
+      wip.load_from_aip
+
+      sig = wip.all_datafiles.inject({}) do |acc,f|
+
+        acc[f.uri] = {
+          :sha => Digest::SHA1.file(f.datapath).hexdigest,
+          :path => f['aip-path']
+        }
+
+        acc
+      end
+
+      proto_sig.should == sig
+    end
+
+  end
+
 end

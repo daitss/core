@@ -38,7 +38,6 @@ describe Wip do
 
     end
 
-
     it "should have an IntEntity in the db" do
       ie = Intentity.get(@wip.uri)
       ie.should_not be_nil
@@ -56,12 +55,10 @@ describe Wip do
       end
 
       it "should put the xmlres tarball in the aip tarball" do
-        url = @aip.copy.url
-        req = Net::HTTP::Get.new url.path
-        res = Net::HTTP.start(url.host, url.port) { |http| http.request req }
+        rs = RandyStore.new @aip.package.id, @aip.copy.url.to_s
 
         Tempfile.open 'spec' do |t|
-          t.write res.body
+          t.write rs.get
           t.flush
           tarfile = File.join @wip.id, "#{Wip::XML_RES_TARBALL_BASENAME}-0.tar"
           tardata = %x{tar xOf #{t.path} #{tarfile}}

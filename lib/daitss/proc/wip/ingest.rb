@@ -6,10 +6,10 @@ require 'daitss/model/aip/from_wip'
 require 'daitss/proc/datafile/virus'
 require 'daitss/proc/template/descriptor'
 require 'daitss/proc/template/premis'
-require 'daitss/proc/wip'
+
 require 'daitss/proc/wip/preserve'
-require 'daitss/proc/wip/journal'
 require 'daitss/proc/wip/tarball'
+require 'daitss/proc/wip/to_aip'
 
 module Daitss
 
@@ -35,21 +35,8 @@ module Daitss
         metadata['aip-descriptor'] = descriptor
       end
 
-      step('make-tarball') do
-        make_tarball
-      end
-
-      step('make-aip') do
-
-        Aip.transaction do
-          aip = Aip.new_from_wip self
-          doc = XML::Document.string(aip.xml)
-          aipInPremis = AIPInPremis.new
-          aipInPremis.process aip.package, doc
-        end
-
-      end
-
+      step('make-tarball') { make_tarball }
+      step('make-aip') { save_aip }
     end
 
   end
