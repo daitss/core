@@ -10,7 +10,9 @@ module Daitss
     'beta' => 'info:lc/xmlns/premis-v2-beta',
     'mods' => 'http://www.loc.gov/mods/v3',
     'daitss' => 'http://www.fcla.edu/dls/md/daitss/',
-    'aes' => 'http://www.aes.org/audioObject'
+    'aes' => 'http://www.aes.org/audioObject',
+    'marc' => 'http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd',
+    'dc' => 'http://purl.org/dc/elements/1.1/'
   }
 
   NAMESPACES = {
@@ -24,7 +26,9 @@ module Daitss
     'doc' => 'http://www.fcla.edu/dls/md/docmd',
     'p2' => 'info:lc/xmlns/premis-v2-beta',
     'mods' => 'http://www.loc.gov/mods/v3',
-    'daitss' => 'http://www.fcla.edu/dls/md/daitss/'
+    'daitss' => 'http://www.fcla.edu/dls/md/daitss/',
+    'marc' => 'http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd',
+    'dc' => 'http://purl.org/dc/elements/1.1/'
   }
 
 end
