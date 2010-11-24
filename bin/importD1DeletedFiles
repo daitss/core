@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+require 'bundler/setup'
+require 'ruby-debug'
+
+require "daitss"
+
+include Daitss
+
+archive
+
+# d1 dedup report
+report = ARGV.shift or raise "d1_dedup_report required"
+
+# process each line, each line is in the format of IEID/source => duplicate duplicate ...
+IO.foreach(report) do |line| 
+  # puts line.inspect
+  line.chomp!
+  if line.eql?("Summary")
+    break
+  else
+    # retrieve ieid 
+    ieid = line.slice!(0..line.index('/')).chomp("/")
+    # retrieve source
+    source = line.slice!(0..line.index(">")).chomp("=>").strip
+    # retrieve duplicates, separated by spaces
+    line.strip!
+    print "IEID: #{ieid} Source: #{source} Duplicates:"
+    line.each(' ') do |duplicate| 
+      print duplicate
+      deleted_file = D1DeletedFile.new
+      deleted_file.attributes = { :ieid => ieid,:source => source, :duplicate => duplicate}
+      deleted_file.save
+    end
+    print("\n")
+  end
+end

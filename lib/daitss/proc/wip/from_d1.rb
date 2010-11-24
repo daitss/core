@@ -16,11 +16,16 @@ module Daitss
       load_d1_dmd
       load_sip_descriptor
       load_d1_package_digiprov
+      
+      # restore duplicates deleted by d1
+      restore_deleted_duplicates
     end
 
     # SMELL this can go into a deterministic dmd section in the aip descriptor and be recycled
     # it wont change over time
     def load_d1_dmd
+      metadata["dmd-account"] = self.package.project.account.id
+      metadata["dmd-project"] = self.package.project.id
       
       title = self.package.intentity.title
       
@@ -61,8 +66,7 @@ module Daitss
     # transfer datafiles into the wip
     def load_d1_datafiles
       doc = XML::Document.string self.package.aip.xml
-
-
+      
       # unpack the tarball into a temp directory
       tdir = Dir.mktmpdir
       aip_dir = self.id
@@ -109,6 +113,7 @@ module Daitss
           end
         end
         
+        df['sip-path'] = dbdf.original_path
         df['aip-path'] = aip_path
 
       end
@@ -136,6 +141,20 @@ module Daitss
       metadata['old-digiprov-agents'] = as.flatten.map { |a| a.to_premis_xml.to_s }.join "\n"
     end
 
+     # restore duplicates deleted by d1
+    def restore_deleted_duplicates
+      # retrieve the list of deleted duplicates if there is any
+      deleted_duplicates = D1DeletedFile.all(:ieid => self.package.id)
+      # restore the duplicates in the package
+      deleted_duplicates.each_with_index do |dup, ix|
+        source_df = original_datafiles.find { |df| df['sip-path'] == dup.source }
+        dup_df = new_original_datafile ix
+        FileUtils::cp source_df.datapath, dup_df.datapath
+        dup_df['sip-path'] = dup.duplicate
+        dup_df['aip-path'] = File.join AipArchive::SIP_FILES_DIR, dup.duplicate
+      end
+     
+    end
   end
 
 end

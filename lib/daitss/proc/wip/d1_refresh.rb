@@ -12,7 +12,7 @@ module Daitss
 
   class Wip
 
-    def d1_refresh!
+    def d1refresh
       raise "no aip for #{id}" unless package.aip
 
       #TODO handle withdrawn packages
@@ -21,7 +21,7 @@ module Daitss
         load_from_d1_aip
       end
 
-      preserve!
+      preserve
 
       step('write-d1migrate-event') do
         metadata['d1migrate-event'] = d1migrate_event package, next_event_index('d1migrate')

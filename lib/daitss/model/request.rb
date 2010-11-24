@@ -15,7 +15,7 @@ module Daitss
     property :timestamp, DateTime, :required => true, :default => proc { DateTime.now }
     property :is_authorized, Boolean, :required => true, :default => true
     property :status, Enum[:enqueued, :released_to_workspace, :cancelled], :default => :enqueued
-    property :type, Enum[:disseminate, :withdraw, :peek, :migration]
+    property :type, Enum[:disseminate, :withdraw, :peek, :d1refresh]
 
     # TODO investigate Wip::VALID_TASKS - [:sleep, :ingeset] to have one place for it all
 

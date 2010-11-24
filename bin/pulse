@@ -5,6 +5,7 @@ require 'daitss'
 include Daitss
 archive
 
+archive
 INTERVAL = 1
 
 def make_wips
