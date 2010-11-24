@@ -12,6 +12,7 @@ module Daitss
 
       unless aip.save_and_populate
         rs.delete
+        raise 'could not save aip'
       end
 
       aip
@@ -28,6 +29,7 @@ module Daitss
         old_rs.delete
       else
         rs.delete
+        raise 'could not save aip'
       end
 
       aip
