@@ -31,6 +31,10 @@ module Daitss
         raise "#{url} sha1 is wrong: expected #{self.sha1}, actual #{sha1}"
       end
 
+      unless Digest::MD5.hexdigest(data) == md5
+        raise "#{url} md5 is wrong: expected #{self.md5}, actual #{md5}"
+      end
+
       data
     end
 
