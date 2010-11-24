@@ -1,5 +1,4 @@
 require 'daitss/proc/wip'
-require 'daitss/proc/aip_archive'
 require 'daitss/proc/datafile/obsolete'
 require 'digest/sha1'
 
@@ -21,9 +20,9 @@ module Daitss
     # SMELL this can go into a deterministic dmd section in the aip descriptor and be recycled
     # it wont change over time
     def load_d1_dmd
-      
+
       title = self.package.intentity.title
-      
+
       if title
         metadata['dmd-title'] = title
       end
@@ -75,19 +74,19 @@ module Daitss
         %x{tar xf #{tarball_file}}
         raise "could not extract tarball: #{$?}" unless $?.exitstatus == 0
       end
-      
+
       df_paths = self.package.intentity.datafiles.map do |dbdf|
-        df_id = dbdf.id        
+        df_id = dbdf.id
         df = new_original_datafile df_id
-        
+
         # copy over the datafile
         aip_path = dbdf.original_path
         tar_file = File.join tdir, aip_dir, aip_path
         FileUtils::cp tar_file, df.datapath
-        
+
         # use d2 style aip-path
         aip_path = File.join AipArchive::SIP_FILES_DIR, dbdf.original_path
-        
+
         # check the size
         expected_size = dbdf.size
         actual_size = df.size
@@ -95,7 +94,7 @@ module Daitss
         unless df.size == expected_size
           raise "datafile #{df.id} size is wrong: expected #{expected_size}, actual #{actual_size}"
         end
-        
+
         # check the sha1
         # TODO sha1 is not migrated so we cant check. pass this by lydia
         lydia_says_so = false
@@ -108,7 +107,7 @@ module Daitss
             raise "datafile #{df.id} sha1 is wrong: expected #{expected_sha1}, actual #{actual_sha1}"
           end
         end
-        
+
         df['aip-path'] = aip_path
 
       end

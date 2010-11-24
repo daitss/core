@@ -1,5 +1,4 @@
 require 'daitss/proc/wip'
-require 'daitss/proc/aip_archive'
 require 'daitss/proc/datafile/obsolete'
 require 'digest/sha1'
 
