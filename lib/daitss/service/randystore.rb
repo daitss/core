@@ -55,7 +55,7 @@ module Daitss
     # @return [String] tarball data
     def get
       res = Typhoeus::Request.get @url, :follow_location => true
-      res.erorr! unless 200 == res.code
+      res.error! unless 200 == res.code
       res.body
     end
 
