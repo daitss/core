@@ -1,42 +1,30 @@
-require 'daitss/proc/wip'
-require 'daitss/proc/wip/journal'
-require 'daitss/proc/wip/preserve'
-require 'daitss/proc/wip/from_aip'
-require 'daitss/model/aip'
-require 'daitss/model/aip/from_wip'
 require 'daitss/proc/template/descriptor'
 require 'daitss/proc/template/premis'
-require 'daitss/proc/metadata'
+require 'daitss/proc/wip/from_aip'
+require 'daitss/proc/wip/preserve'
+require 'daitss/proc/wip/tarball'
+require 'daitss/proc/wip/to_aip'
+require 'daitss/proc/xmlvalidation'
 
 module Daitss
 
   class Wip
 
     def disseminate
-      raise "no aip for #{id}" unless package.aip
-
-      step 'load-aip'  do
-        load_from_aip
-      end
-
+      step('load from aip') { load_from_aip }
       preserve
 
-      step 'write-disseminate-event'  do
+      step 'disseminate digiprov'  do
         metadata['disseminate-event'] = disseminate_event package, next_event_index('disseminate')
-      end
-
-      step 'write-disseminate-agent'  do
         metadata['disseminate-agent'] = system_agent
       end
 
-      step 'make-aip-descriptor'  do
-        metadata['aip-descriptor'] = descriptor
-      end
+      step('make aip descriptor') { make_aip_descriptor }
+      step('validate aip descriptor') { validate_aip_descriptor }
+      step('make tarball') { make_tarball }
+      step('make aip') { update_aip }
 
-      step('make-tarball') { make_tarball }
-      step('make-aip') { update_aip }
-
-      step 'deliver-dip'  do
+      step 'deliver dip' do
         set_drop_path
         FileUtils.cp tarball_file, drop_path
       end

@@ -37,7 +37,7 @@ module Daitss
 
     def aip_attrs
       {
-        :xml => metadata['aip-descriptor'],
+        :xml => load_aip_descriptor,
         :datafile_count => represented_datafiles.size
       }
     end
