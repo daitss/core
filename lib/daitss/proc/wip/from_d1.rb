@@ -1,4 +1,5 @@
 require 'daitss/proc/wip'
+require 'daitss/proc/wip/tarball'
 require 'daitss/proc/datafile/obsolete'
 require 'digest/sha1'
 
@@ -88,7 +89,7 @@ module Daitss
         FileUtils::cp tar_file, df.datapath
 
         # use d2 style aip-path
-        aip_path = File.join AipArchive::SIP_FILES_DIR, dbdf.original_path
+        aip_path = File.join Wip::SIP_FILES_DIR, dbdf.original_path
 
         # check the size
         expected_size = dbdf.size
@@ -149,7 +150,7 @@ module Daitss
         dup_df = new_original_datafile ix
         FileUtils::cp source_df.datapath, dup_df.datapath
         dup_df['sip-path'] = dup.duplicate
-        dup_df['aip-path'] = File.join AipArchive::SIP_FILES_DIR, dup.duplicate
+        dup_df['aip-path'] = File.join Wip::SIP_FILES_DIR, dup.duplicate
       end
 
     end

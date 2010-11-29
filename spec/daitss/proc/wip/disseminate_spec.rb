@@ -21,7 +21,7 @@ describe Wip do
       @wip.disseminate
     end
 
-    let(:doc) { XML::Document.string @wip.aip_descriptor }
+    let(:doc) { XML::Document.string @wip.load_aip_descriptor }
 
     it "should have an disseminate event" do
       doc.find("//P:event/P:eventType = 'disseminate'", NS_PREFIX).should be_true

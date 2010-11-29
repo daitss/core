@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'daitss/proc/wip/tarball'
 require 'daitss/archive'
 
 describe Daitss::Archive do
@@ -62,8 +63,8 @@ describe Daitss::Archive do
         end
 
         it "all files should have a aip path" do
-          subject.original_datafiles[0]['aip-path'].should == File.join(AipArchive::SIP_FILES_DIR, 'haskell-nums-pdf.xml')
-          subject.original_datafiles[1]['aip-path'].should == File.join(AipArchive::SIP_FILES_DIR, 'Haskell98numbers.pdf')
+          subject.original_datafiles[0]['aip-path'].should == File.join(Wip::SIP_FILES_DIR, 'haskell-nums-pdf.xml')
+          subject.original_datafiles[1]['aip-path'].should == File.join(Wip::SIP_FILES_DIR, 'Haskell98numbers.pdf')
         end
 
         it "should extract FDA account from the descriptor" do

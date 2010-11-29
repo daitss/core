@@ -1,6 +1,6 @@
 require 'spec_helper'
+require 'daitss/proc/wip/tarball'
 require 'daitss/proc/wip/preserve'
-require 'daitss/proc/aip_archive'
 
 shared_examples_for "all preservations" do
 
@@ -56,24 +56,24 @@ describe Wip do
       o_rep = @wip.original_representation
       o_rep.should have_exactly(2).items
       aip_paths = o_rep.map { |f| f['aip-path'] }
-      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'obj1.wav'))
-      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'wave.xml'))
+      aip_paths.should include(File.join(Wip::SIP_FILES_DIR, 'obj1.wav'))
+      aip_paths.should include(File.join(Wip::SIP_FILES_DIR, 'wave.xml'))
     end
 
     it "should have a current representation just with only an xml and a wav" do
       c_rep = @wip.current_representation
       c_rep.should have_exactly(2).items
       aip_paths = c_rep.map { |f| f['aip-path'] }
-      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'obj1.wav'))
-      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'wave.xml'))
+      aip_paths.should include(File.join(Wip::SIP_FILES_DIR, 'obj1.wav'))
+      aip_paths.should include(File.join(Wip::SIP_FILES_DIR, 'wave.xml'))
     end
 
     it "should have a normalized representation just with only an xml and a wavn" do
       n_rep = @wip.normalized_representation
       n_rep.should have_exactly(2).items
       aip_paths = n_rep.map { |f| f['aip-path'] }
-      aip_paths.should include(File.join(AipArchive::AIP_FILES_DIR, '1-norm-0.wav'))
-      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'wave.xml'))
+      aip_paths.should include(File.join(Wip::AIP_FILES_DIR, '1-norm-0.wav'))
+      aip_paths.should include(File.join(Wip::SIP_FILES_DIR, 'wave.xml'))
     end
 
   end

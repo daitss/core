@@ -1,4 +1,5 @@
 require 'daitss/proc/wip'
+require 'daitss/proc/wip/tarball'
 require 'daitss/proc/datafile/obsolete'
 require 'digest/sha1'
 
@@ -157,7 +158,7 @@ module Daitss
 
     # transfer sip descriptor
     def load_sip_descriptor
-      name = File.join AipArchive::SIP_FILES_DIR, "#{self.package.sip.name}.xml"
+      name = File.join Wip::SIP_FILES_DIR, "#{self.package.sip.name}.xml"
       sd_df = original_datafiles.find { |df| name == df['aip-path'] }
       metadata['sip-descriptor'] = File.read sd_df.datapath
     end
