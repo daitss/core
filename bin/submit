@@ -160,7 +160,11 @@ if @config.path
   STDERR.puts "No packages found in #{@config.path}" unless list.length > 0
 
   list.each do |pkg_path|
-    submit_package pkg_path
+    begin 
+      submit_package pkg_path
+    rescue => e
+      STDERR.puts "Error submitting #{pkg_path}: #{e.message}"
+    end
   end
 elsif @config.package
   submit_package @config.package
