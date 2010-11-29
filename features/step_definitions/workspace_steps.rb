@@ -42,7 +42,12 @@ Given /^an? ([^"]*) wip$/ do |state|
 
 end
 
-Given /^(\d+) (running|idle|snafu|stop|) ?wips?$/ do |count, state|
+Given /^(\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
+
+  if state == 'stopped'
+    state = 'stop'
+  end
+
   count.to_i.times { Given "a #{state} wip" }
 end
 

@@ -12,6 +12,7 @@ gem 'sinatra'
 gem 'thor'
 gem 'uuid'
 gem 'rjb'
+gem 'typhoeus'
 
 # this gem is WONK
 case `uname`.chomp
@@ -30,6 +31,7 @@ group :test do
   gem "cucumber"
   gem "rack-test"
   gem "rspec"
+  gem "fuubar"
   gem "webrat"
   gem 'ruby-debug'
   gem 'ruby-prof'

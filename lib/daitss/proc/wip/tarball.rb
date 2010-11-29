@@ -4,19 +4,27 @@ require 'digest/md5'
 module Daitss
 
   class Wip
-
     TARBALL_FILE = "tarball"
+
+    DESCRIPTOR_FILE = "descriptor.xml"
+    SIP_FILES_DIR = 'sip-files'
+    AIP_FILES_DIR = 'aip-files'
 
     def tarball_file
       File.join @path, TARBALL_FILE
     end
 
-    def tarball_sha1
-      Digest::SHA1.file(tarball_file).hexdigest
+    def tarball_data
+      File.read tarball_file
     end
 
+    def tarball_sha1
+      Digest::SHA1.file tarball_file
+    end
+
+    # Generates an MD5 for the tarball
     def tarball_md5
-      Digest::MD5.file(tarball_file).hexdigest
+      Digest::MD5.file tarball_file
     end
 
     def tarball_size
@@ -54,9 +62,9 @@ module Daitss
         xmlres_path = File.join(aip_dir, "#{Wip::XML_RES_TARBALL_BASENAME}-#{n}.tar")
         Kernel.open(xmlres_path, 'w') { |io| io.write metadata['xml-resolution-tarball'] }
 
-        # copy in xml descriptor
-        descriptor_path = File.join(aip_dir, 'descriptor.xml')
-        Kernel.open(descriptor_path, 'w') { |io| io.write metadata['aip-descriptor'] }
+        # link in xml descriptor
+        descriptor_path = File.join(aip_dir, DESCRIPTOR_FILE)
+        FileUtils.ln_s aip_descriptor_file, descriptor_path
 
         # tar up the aip
         %x{tar --dereference --create --file #{tarball_file} #{aip_dir}}

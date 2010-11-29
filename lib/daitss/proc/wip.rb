@@ -5,6 +5,7 @@ require 'daitss/proc/fshash'
 require 'daitss/proc/datafile'
 require 'daitss/model/package'
 
+require 'daitss/proc/mdattr'
 require 'daitss/proc/statevar'
 require 'daitss/proc/wip/journal'
 require 'daitss/proc/wip/process'
@@ -18,6 +19,7 @@ module Daitss
   class Wip
     extend Forwardable
     extend StateVar
+    extend MDAttr
 
     METADATA_DIR = 'metadata'
     FILES_DIR = 'files'
@@ -33,6 +35,8 @@ module Daitss
     state_var :info, :default => {}
     state_var :journal, :default => {}
     state_var :process
+
+    md_attr :aip_descriptor
 
     VALID_TASKS = [
       :sleep,
@@ -95,61 +99,75 @@ module Daitss
       @info[:task]
     end
 
-    # return an array of the original datafiles
+    # @return [String] the path of the metadata directory
+    def metadata_path
+      File.join @path, METADATA_DIR
+    end
+
+    # @return [Array] the original datafiles
     def original_datafiles
       datafiles ORIGINAL_FILES
     end
 
     # add a new original datafile
+    #
+    # @param [String] id of the new datafile
     def new_original_datafile id
       new_datafile ORIGINAL_FILES, id
     end
 
-    # return an array of the migrated datafiles
+    # @return [Array] the migrated datafiles
     def migrated_datafiles
       datafiles MIGRATED_FILES
     end
 
     # add a new migrated datafile
+    #
+    # @param [String] id of the new datafile
     def new_migrated_datafile id
       new_datafile MIGRATED_FILES, id
     end
 
-    # return an array of the normalized datafiles
+    # @return [Array] the normalized datafiles
     def normalized_datafiles
       datafiles NORMALIZED_FILES
     end
 
     # add a new normalized datafile
+    #
+    # @param [String] id of the new datafile
     def new_normalized_datafile id
       new_datafile NORMALIZED_FILES, id
     end
 
+    # @return [Array] all datafiles
     def all_datafiles
       original_datafiles + normalized_datafiles + migrated_datafiles
     end
 
-    # return the sip this wip belongs to
+    # @return [Package] the package this wip is operating on
     def package
       Package.get id
     end
 
-    # return the stashbin if in one
+    # @return [StashBin] the stashbin containing this wip if stashed
     def bin
       dir = File.dirname path
-      bins = Daitss.archive.stashspace
+      bins = archive.stashspace
       bins.find { |b| b.path == dir }
     end
 
-    # return true if it is stashed
+    # @return [Boolean] true if it is stashed
     def stashed?
       not bin.nil?
     end
 
+    # @return [String] the direcetory containing any old xml resolution tarballs
     def old_xml_res_tarball_dir
-      File.join(path, OLD_XML_RES_DIR)
+      File.join @path, OLD_XML_RES_DIR
     end
 
+    # @return [Array] any old xml resolution tarballs
     def old_xml_res_tarballs
       pattern = File.join old_xml_res_tarball_dir, '*'
       Dir[pattern]

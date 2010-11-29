@@ -6,15 +6,6 @@ require 'data_mapper'
 
 describe Wip do
 
-  describe "that cannot disseminate" do
-
-    it "should raise error if an aip does not exist for the wip" do
-      wip = submit 'mimi'
-      lambda { wip.disseminate }.should raise_error("no aip for #{wip.id}")
-    end
-
-  end
-
   describe "post disseminate" do
 
     before :all do
@@ -30,13 +21,13 @@ describe Wip do
       @wip.disseminate
     end
 
+    let(:doc) { XML::Document.string @wip.aip_descriptor }
+
     it "should have an disseminate event" do
-      doc = XML::Document.string @wip['aip-descriptor']
       doc.find("//P:event/P:eventType = 'disseminate'", NS_PREFIX).should be_true
     end
 
     it "should have an disseminate agent" do
-      doc = XML::Document.string @wip['aip-descriptor']
       doc.find("//P:agent/P:agentName = '#{system_agent_spec[:name]}'", NS_PREFIX).should be_true
     end
 

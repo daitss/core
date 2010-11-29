@@ -1,6 +1,5 @@
 require 'daitss/proc/template'
 require 'daitss/proc/datafile'
-require 'daitss/proc/aip_archive'
 require 'net/http'
 require 'cgi'
 
