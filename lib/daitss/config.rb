@@ -50,22 +50,23 @@ module Daitss
     attr_reader :db_url, :uri_prefix, :http_timeout
     attr_reader :data_dir, :work_path, :stash_path, :submit_path, :disseminate_path, :dispatch_path
     attr_reader :actionplan_url, :describe_url, :storage_url, :viruscheck_url, :transform_url, :xmlresolution_url
-
+    attr_reader :yaml
+    
     # load the settings from the file specified
     # by the environment variable CONFIG_ENV_VAR
     def load_configuration
       file = ENV[CONFIG_ENV_VAR] or raise "#{CONFIG_ENV_VAR} environment variable must be set"
-      yaml = YAML.load_file file
+      @yaml = YAML.load_file file
 
-      def yaml.[] key
+      def @yaml.[] key
         super or raise "missing configuration: #{key}"
       end
 
       # database
-      @db_url = yaml[DB_URL]
-
+      @db_url = @yaml[DB_URL]
+ 
       # data directories
-      @data_dir = yaml[DATA_DIR]
+      @data_dir = @yaml[DATA_DIR]
       @work_path = File.join @data_dir, WORK_DIR
       @stash_path = File.join @data_dir, STASH_DIR
       @submit_path = File.join @data_dir, SUBMIT_DIR
@@ -73,19 +74,19 @@ module Daitss
       @dispatch_path = File.join @data_dir, DISPATCH_DIR
 
       # uri prefix
-      @uri_prefix = yaml[URI_PREFIX]
+      @uri_prefix = @yaml[URI_PREFIX]
 
       # http timeout value in seconds
-      @http_timeout = yaml[HTTP_TIMEOUT]
+      @http_timeout = @yaml[HTTP_TIMEOUT]
 
       # services
-      @actionplan_url = yaml[ACTIONPLAN_URL]
-      @describe_url = yaml[DESCRIBE_URL]
-      @storage_url = yaml[STORAGE_URL]
-      @statusecho_url = yaml[STATUSECHO_URL]
-      @viruscheck_url = yaml[VIRUSCHECK_URL]
-      @transform_url = yaml[TRANSFORM_URL]
-      @xmlresolution_url = yaml[XMLRESOLUTION_URL]
+      @actionplan_url = @yaml[ACTIONPLAN_URL]
+      @describe_url = @yaml[DESCRIBE_URL]
+      @storage_url = @yaml[STORAGE_URL]
+      @statusecho_url = @yaml[STATUSECHO_URL]
+      @viruscheck_url = @yaml[VIRUSCHECK_URL]
+      @transform_url = @yaml[TRANSFORM_URL]
+      @xmlresolution_url = @yaml[XMLRESOLUTION_URL]
     end
 
     # sets up the database adapter
