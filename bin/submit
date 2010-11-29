@@ -64,7 +64,9 @@ def zip_package path_to_package
   zip_path = File.join("/tmp", File.basename(path_to_package) + ".zip")
   FileUtils.rm_rf zip_path if File.exists? zip_path
 
-  output = `cd #{File.dirname(path_to_package)}; zip -r #{zip_path} #{File.basename(path_to_package)} 2>&1; cd $PWD`
+  IO.popen "cd #{File.dirname(path_to_package)}; zip -r #{zip_path} #{File.basename(path_to_package)} 2>&1; cd $PWD" do |pipe|
+    output = pipe.read
+  end
 
   raise "zip returned non-zero exit status: #{output}" if $?.exitstatus != 0
   raise "Error creating zip file" unless File.exists? zip_path
