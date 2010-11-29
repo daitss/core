@@ -182,22 +182,124 @@ MSG
     end
 
     def title
-      xpath = "//M:dmdSec/M:mdWrap/M:xmlData/mods:mods/mods:titleInfo/mods:title"
-      node = descriptor_doc.find_first xpath, NS_PREFIX
-      node.content rescue nil
+      issue_vol_title["title"]
     end
 
     def issue
-      xpath = "//M:dmdSec/M:mdWrap/M:xmlData/mods:mods/mods:part/mods:detail[@type='issue']/mods:number"
-      node = descriptor_doc.find_first xpath, NS_PREFIX
-      node.content rescue nil
+      issue_vol_title["issue"]
     end
 
     def volume
-      xpath = "//M:dmdSec/M:mdWrap/M:xmlData/mods:mods/mods:part/mods:detail[@type='volume']/mods:number"
-      node = descriptor_doc.find_first xpath, NS_PREFIX
-      node.content rescue nil
+      issue_vol_title["volume"]
     end
+
+    # returns a hash containing issue, volume, and title extracted from sip descriptor
+    def issue_vol_title
+      return @ivt if @ivt
+
+      @ivt = {}
+
+      #xpath declarations
+
+      dc_title_xpath = "//M:dmdSec//dc:title"
+      marc_title_b_xpath = "//M:dmdSec//marc:datafield[@tag='245']/marc:subfield[@code='b']"
+      marc_title_a_xpath = "//M:dmdSec//marc:datafield[@tag='245']/marc:subfield[@code='a']"
+      mods_title_xpath = "//M:dmdSec//mods:title"
+      mods_issue_xpath = "//mods:part/mods:detail[@type='issue']/mods:number"
+      mods_volume_xpath = "//mods:part/mods:detail[@type='volume']/mods:number"
+      #mods_issue_xpath = "//M:dmdSec//mods:part/mods:detail[@type=issue]/mods:number"
+      #mods_volume_xpath = "//M:dmdSec//mods:part/mods:detail[@type=volume]/mods:number"
+      structmap_orderlabel_volume_xpath = "//M:structMap//M:div[@TYPE='volume']"
+      structmap_orderlabel_issue_xpath = "//M:structMap//M:div[@TYPE='issue']"
+      ojs_volume_xpath = "//M:dmdSec[starts-with(@ID, 'I')]/M:mdWrap/M:xmlData/mods:mods/mods:relatedItem/mods:part/mods:detail[@type='volume']/mods:number"
+      ojs_issue_xpath = "//M:dmdSec[starts-with(@ID, 'I')]/M:mdWrap/M:xmlData/mods:mods/mods:relatedItem/mods:part/mods:detail[@type='issue']/mods:number"
+      is_ojs_xpath = "//M:dmdSec[starts-with(@ID, 'J')]"
+
+      # check if OJS
+      
+      if descriptor_doc.find_first(is_ojs_xpath, NS_PREFIX)
+        # get title from mods in dmdSec
+        title_node = descriptor_doc.find_first mods_title_xpath, NS_PREFIX
+        @ivt["title"] = title_node ? title_node.content : nil
+
+        # get OJS volume
+        volume_node = descriptor_doc.find_first(ojs_volume_xpath, NS_PREFIX)
+        issue_node = descriptor_doc.find_first(ojs_issue_xpath, NS_PREFIX)
+
+        @ivt["volume"] = volume_node ? volume_node.content : nil
+        @ivt["issue"] = issue_node ? issue_node.content : nil
+        return @ivt
+      end
+
+      # check if vol/issue are in structMap
+      struct_vol_node = descriptor_doc.find_first(structmap_orderlabel_volume_xpath, NS_PREFIX)
+      struct_issue_node = descriptor_doc.find_first(structmap_orderlabel_issue_xpath, NS_PREFIX)
+
+      struct_volume = struct_vol_node["ORDERLABEL"] ? struct_vol_node["ORDERLABEL"] : struct_vol_node["LABEL"] if struct_vol_node
+      struct_issue = struct_issue_node["ORDERLABEL"] ? struct_issue_node["ORDERLABEL"] : struct_issue_node["LABEL"] if struct_issue_node
+
+      @ivt["volume"] = struct_volume ? struct_volume : nil
+      @ivt["issue"] = struct_issue ? struct_issue : nil
+
+      # look in dmd for title. Also, issue/vol if not found above in structMap
+
+      # mods first
+      mods_title_node = descriptor_doc.find_first mods_title_xpath, NS_PREFIX
+      @ivt["title"] = mods_title_node ? mods_title_node.content : nil
+
+      unless @ivt["volume"] or @ivt["issue"]
+        mods_volume_node = descriptor_doc.find_first mods_volume_xpath, NS_PREFIX
+        @ivt["volume"] = mods_volume_node ? mods_volume_node.content : nil
+
+        mods_issue_node = descriptor_doc.find_first mods_issue_xpath, NS_PREFIX
+        @ivt["issue"] = mods_issue_node ? mods_issue_node.content : nil
+      end
+
+      # try MARC next
+      unless @ivt["title"]
+        marc_title_a = descriptor_doc.find_first(marc_title_a_xpath, NS_PREFIX)
+        marc_title_b = descriptor_doc.find_first(marc_title_b_xpath, NS_PREFIX)
+
+        marc_title = marc_title_a.content if marc_title_a
+        marc_title += marc_title_b.content if marc_title_b
+
+        @ivt["title"] = marc_title ? marc_title : nil
+
+        #TODO: MARC issue/volume
+      end
+
+      # finally, try dublin core
+      unless @ivt["title"]
+        dc_title_node = descriptor_doc.find_first dc_title_xpath, NS_PREFIX
+
+        if dc_title_node
+          dc_title = dc_title_node.content
+          dc_volume = nil
+          dc_issue = nil
+
+          unless @ivt["volume"] or @ivt["issue"]
+            [/Volume\s*\d+/, /vol\.*\s*\d+/, /v\.*\s*\d+/].each do |r|
+              if dc_title[r]
+                dc_volume = dc_title[r][/\d+/] 
+                break
+              end
+            end
+
+            [/Issue\s*\d+/, /no\.*\s*\d+/, /v\.*\s*\d+/].each do |r|
+              if dc_title[r]
+                dc_issue = dc_title[r][/\d+/] 
+              end
+            end # of each
+          end # of if
+        end # of unless
+
+        @ivt["title"] = dc_title ? dc_title : nil
+        @ivt["volume"] = dc_volume ? dc_volume : nil
+        @ivt["issue"] = dc_issue ? dc_issue : nil
+      end
+
+      return @ivt
+    end # of method issue_volume_title
 
     def entity_id
       descriptor_doc.root['OBJID']
