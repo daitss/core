@@ -1,4 +1,7 @@
 database-url: sqlite:/var/daitss/database.sqlite
+d1-database-url: mysql://root@localhost/daitss
+d1-ops-database-url: mysql://root:@localhost/pt
+
 data-dir: /var/daitss
 
 uri-prefix: daitss-test
