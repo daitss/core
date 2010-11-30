@@ -1,0 +1,7 @@
+%form{:action => '/batches', :method => 'post'}
+  %input{:name => 'name'}
+  %textarea{:name => 'packages'}
+  %input{:type => 'submit', :value => 'Submit'}
+
+- @batches.each do |b|
+  %a{:href => "/batches/#{b.id}"}= b.id

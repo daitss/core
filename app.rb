@@ -465,3 +465,17 @@ post '/admin' do
 
   redirect '/admin'
 end
+
+get "/batches" do
+  @batches = Batch.all
+  haml :batches
+end
+
+post "/batches" do
+  name = require_param 'name'
+  raw = require_param 'packages'
+  ps = raw.split %r{\s+}
+  ps.map! { |id| Package.get id or raise "#{id} not found" }
+  Batch.create :id => name, :packages => ps
+  redirect "/batches"
+end

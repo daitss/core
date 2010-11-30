@@ -41,6 +41,10 @@ Given /^I fill in "([^\"]*)" with "([^\"]*)"$/ do |field, value|
   fill_in field, :with => value
 end
 
+Given /^I fill in "([^"]*)" with:$/ do |field, table|
+  fill_in field, :with => table.raw.flatten.join(' ')
+end
+
 Then /^I cannot press "([^\"]*)"$/ do |name|
   lambda { click_button name }.should raise_error(Webrat::NotFoundError, %Q(Could not find button "#{name}"))
 end
