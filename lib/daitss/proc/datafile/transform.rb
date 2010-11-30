@@ -95,7 +95,7 @@ module Daitss
       # ask for the main doc with the link, event, agent
       url = URI.parse archive.transform_url + '/transform/' + xform_id
       req = Net::HTTP::Get.new url.path
-      req.form_data = { 'location' => "file:#{File.expand_path datapath}" }
+      req.form_data = { 'location' => "file:#{File.expand_path data_file}" }
 
       res = Net::HTTP.start(url.host, url.port) do |http|
         http.read_timeout = Archive.instance.http_timeout

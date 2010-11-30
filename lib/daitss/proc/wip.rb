@@ -5,7 +5,7 @@ require 'daitss/proc/fshash'
 require 'daitss/proc/datafile'
 require 'daitss/model/package'
 
-require 'daitss/proc/mdattr'
+require 'daitss/proc/fileattr'
 require 'daitss/proc/statevar'
 require 'daitss/proc/wip/journal'
 require 'daitss/proc/wip/process'
@@ -19,7 +19,7 @@ module Daitss
   class Wip
     extend Forwardable
     extend StateVar
-    extend MDAttr
+    extend FileAttr
 
     METADATA_DIR = 'metadata'
     FILES_DIR = 'files'
@@ -29,6 +29,7 @@ module Daitss
     OLD_XML_RES_DIR = 'xmlresolutions'
 
     attr_reader :id, :path, :metadata
+    attr_reader :id, :path, :metadata
 
     def_delegators :@metadata, :[]=, :[], :has_key?, :delete
 
@@ -36,7 +37,8 @@ module Daitss
     state_var :journal, :default => {}
     state_var :process
 
-    md_attr :aip_descriptor
+    file_attr :tarball
+    md_file_attr :aip_descriptor
 
     VALID_TASKS = [
       :sleep,
@@ -80,6 +82,7 @@ module Daitss
     def initialize path
       @path = File.expand_path path
       @id = File.basename @path
+      @metadata_path = File.join @path, METADATA_DIR
 
       @metadata = FsHash.new File.join(@path, METADATA_DIR)
       @cached_max_id = {}
@@ -97,11 +100,6 @@ module Daitss
 
     def task
       @info[:task]
-    end
-
-    # @return [String] the path of the metadata directory
-    def metadata_path
-      File.join @path, METADATA_DIR
     end
 
     # @return [Array] the original datafiles
@@ -147,7 +145,7 @@ module Daitss
 
     # @return [Package] the package this wip is operating on
     def package
-      Package.get id
+      @package ||= Package.get id
     end
 
     # @return [StashBin] the stashbin containing this wip if stashed

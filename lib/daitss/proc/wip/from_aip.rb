@@ -95,7 +95,7 @@ module Daitss
           # copy over the file
           aip_path = file_node.find_first('M:FLocat/@xlink:href', NS_PREFIX).value
           tar_file = File.join tdir, aip_dir, aip_path
-          FileUtils::cp tar_file, df.datapath
+          FileUtils::cp tar_file, df.data_file
 
           # check the size
           expected_size = file_node['SIZE'].to_i
@@ -160,7 +160,7 @@ module Daitss
     def load_sip_descriptor
       name = File.join Wip::SIP_FILES_DIR, "#{self.package.sip.name}.xml"
       sd_df = original_datafiles.find { |df| name == df['aip-path'] }
-      metadata['sip-descriptor'] = File.read sd_df.datapath
+      metadata['sip-descriptor'] = File.read sd_df.data_file
     end
 
     # transfer source uris to transformation products from the events

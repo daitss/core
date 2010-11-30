@@ -86,7 +86,7 @@ module Daitss
         # copy over the datafile
         aip_path = dbdf.original_path
         tar_file = File.join tdir, aip_dir, aip_path
-        FileUtils::cp tar_file, df.datapath
+        FileUtils::cp tar_file, df.data_file
 
         # use d2 style aip-path
         aip_path = File.join Wip::SIP_FILES_DIR, dbdf.original_path
@@ -148,7 +148,7 @@ module Daitss
       deleted_duplicates.each_with_index do |dup, ix|
         source_df = original_datafiles.find { |df| df['sip-path'] == dup.source }
         dup_df = new_original_datafile ix
-        FileUtils::cp source_df.datapath, dup_df.datapath
+        FileUtils::cp source_df.data_file, dup_df.data_file
         dup_df['sip-path'] = dup.duplicate
         dup_df['aip-path'] = File.join Wip::SIP_FILES_DIR, dup.duplicate
       end

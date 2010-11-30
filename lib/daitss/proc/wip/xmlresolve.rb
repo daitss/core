@@ -33,7 +33,7 @@ module Daitss
       dfs = all_datafiles.select { |df| df.xmlresolution }
 
       docs = dfs.each do |df|
-        o = %x{curl -s -F xmlfile=@#{df.datapath} #{url}}
+        o = %x{curl -s -F xmlfile=@#{df.data_file} #{url}}
         doc = XML::Document.string o
         doc.find_first("//P:eventIdentifierValue", NS_PREFIX).content = "#{df.uri}/event/xmlresolution"
         doc.find_first("//P:linkingObjectIdentifierValue", NS_PREFIX).content = df.uri

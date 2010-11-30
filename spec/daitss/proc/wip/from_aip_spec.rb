@@ -179,7 +179,7 @@ describe Wip do
       proto_sig = proto_wip.all_datafiles.inject({}) do |acc,f|
 
         acc[f.uri] = {
-          :sha => Digest::SHA1.file(f.datapath).hexdigest,
+          :sha => Digest::SHA1.file(f.data_file).hexdigest,
           :path => f['aip-path']
         }
 
@@ -201,7 +201,7 @@ describe Wip do
       sig = wip.all_datafiles.inject({}) do |acc,f|
 
         acc[f.uri] = {
-          :sha => Digest::SHA1.file(f.datapath).hexdigest,
+          :sha => Digest::SHA1.file(f.data_file).hexdigest,
           :path => f['aip-path']
         }
 

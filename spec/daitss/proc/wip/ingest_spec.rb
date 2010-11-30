@@ -73,7 +73,7 @@ describe 'Wip' do
 
       wip.all_datafiles.each do |df|
         file = File.join wip.id, df['aip-path']
-        tar_sha1s[file].should == Digest::SHA1.file(df.datapath)
+        tar_sha1s[file].should == Digest::SHA1.file(df.data_file)
       end
 
     end

@@ -1,35 +1,9 @@
-require 'digest/sha1'
-require 'digest/md5'
-
 module Daitss
 
   class Wip
-    TARBALL_FILE = "tarball"
-
     DESCRIPTOR_FILE = "descriptor.xml"
     SIP_FILES_DIR = 'sip-files'
     AIP_FILES_DIR = 'aip-files'
-
-    def tarball_file
-      File.join @path, TARBALL_FILE
-    end
-
-    def tarball_data
-      File.read tarball_file
-    end
-
-    def tarball_sha1
-      Digest::SHA1.file tarball_file
-    end
-
-    # Generates an MD5 for the tarball
-    def tarball_md5
-      Digest::MD5.file tarball_file
-    end
-
-    def tarball_size
-      File.size tarball_file
-    end
 
     def make_tarball
 
@@ -45,9 +19,9 @@ module Daitss
         represented_datafiles.each do |f|
           aip_path = File.join aip_dir, f['aip-path']
 
-          unless File.exist?(aip_path) and Digest::MD5.file(aip_path).hexdigest == Digest::MD5.file(f.datapath).hexdigest
+          unless File.exist?(aip_path) and Digest::MD5.file(aip_path).hexdigest == Digest::MD5.file(f.data_file).hexdigest
             FileUtils.mkdir_p File.dirname(aip_path) unless File.exist? File.dirname(aip_path)
-            FileUtils.ln_s f.datapath, aip_path
+            FileUtils.ln_s f.data_file, aip_path
           end
 
         end
