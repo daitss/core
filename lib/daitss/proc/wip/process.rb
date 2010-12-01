@@ -36,8 +36,8 @@ module Daitss
       pid = fork do
         $0 = "#{id}.#{task}"
         Signal.trap('INT', 'DEFAULT')
-        $stdout.reopen out_path, 'w'
-        $stderr.reopen err_path, 'w'
+        #$stdout.reopen out_path, 'w'
+        #$stderr.reopen err_path, 'w'
 
         begin
           package.log "#{task} started"

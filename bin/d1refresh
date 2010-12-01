@@ -11,7 +11,7 @@ include Daitss
 
 archive#.init_seed
         
-  # wip
+# wip
 id = ARGV.shift or raise "package id required"
 
 # make the request

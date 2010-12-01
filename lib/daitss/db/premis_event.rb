@@ -3,7 +3,7 @@ require 'daitss/proc/template/premis'
 module Daitss
 
   # all possible event types
-  Event_Type = ["ingest", "submit", "validate", "virus check", "disseminate",
+  Event_Type = ["ingest", "submit", "validate", "virus check", "disseminate", "d1refresh", "redup",
     "withdraw", "fixitycheck", "describe", "normalize", "migrate", "xml resolution", "deletion"]
 
   Event_Map = {
@@ -12,6 +12,8 @@ module Daitss
     "comprehensive validation" => "validate",
     "virus check" => "virus check",
     "disseminate" => "disseminate",
+    "d1refresh" => "d1refresh",
+    "redup" => "redup",
     "withdraw" => "withdraw",
     "fixity Check" => "fixitycheck",
     "format description" => "describe",

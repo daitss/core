@@ -134,7 +134,7 @@ module Daitss
 
     # transfer package wide events and agents
     def load_d1_package_digiprov
-      es = PremisEvent.all(:relatedObjectId => self.package.id)
+      es = PremisEvent.all(:relatedObjectId => self.package.uri)
       metadata['old-digiprov-events'] = es.map { |e| e.to_premis_xml.to_s }.join "\n"
 
       as = es.map { |e| e.premis_agent }
@@ -152,6 +152,10 @@ module Daitss
         FileUtils::cp source_df.datapath, dup_df.datapath
         dup_df['sip-path'] = dup.duplicate
         dup_df['aip-path'] = File.join AipArchive::SIP_FILES_DIR, dup.duplicate
+        
+        # add a 'redup' event for restoring d1 deleted duplicated files.
+        dup_df['redup-event'] = redup_event dup_df, "restore from #{dup.source}"
+        dup_df['redup-agent'] = system_agent
       end
      
     end

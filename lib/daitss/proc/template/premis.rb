@@ -65,11 +65,26 @@ module Daitss
   def d1migrate_event package, index
 
     spec = {
-      :id => "#{package.uri}/event/d1migrate/#{index}",
-      :type => 'd1migrate',
+      :id => "#{package.uri}/event/d1refresh/#{index}",
+      :type => 'd1refresh',
         :outcome => 'success',
         :linking_objects => [ package.uri ],
         :linking_agents => [ system_agent_spec[:id] ]
+    }
+
+    event spec
+  end
+
+  # event for datafile
+  def redup_event df, detail
+
+    spec = {
+      :id => "#{df.uri}/event/redup",
+      :type => 'redup',
+      :outcome => 'success',
+      :detail => detail,
+      :linking_objects => [ df.uri ],
+      :linking_agents => [ system_agent_spec[:id] ]
     }
 
     event spec
