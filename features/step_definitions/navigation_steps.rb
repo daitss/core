@@ -37,6 +37,10 @@ Then /^the response contains "([^\"]*)"$/ do |blurb|
   last_response.should contain(blurb)
 end
 
+Then /^the response does not contain "([^\"]*)"$/ do |blurb|
+  last_response.should_not contain(blurb)
+end
+
 Given /^I fill in "([^\"]*)" with "([^\"]*)"$/ do |field, value|
   fill_in field, :with => value
 end

@@ -13,43 +13,28 @@ Then /^I should have a batch containig those IEIDs$/ do
 end
 
 Given /^batch "([^"]*)" with the following packages:$/ do |name, table|
-  debugger
-
-  # b = Batch.new :name => name
+   b = Batch.new :id => name
 
   table.raw.each do |r|
-    wip = submit 'haskell-nums-pdf'
-    p = wip.package
-    p.update :ieid => r[package]
-    #b.packages << p
+    raise "Package #{r} not found" unless p = Package.get(r)
+    b.packages << p
   end
 
-  # b.save
-
-
-
-end
-
-When /^I fill in the form with packages:$/ do |table|
-  # table is a Cucumber::Ast::Table
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^I should have a batch containing:$/ do |table|
-  # table is a Cucumber::Ast::Table
-  pending # express the regexp above with the code you wish you had
+  b.save
 end
 
 Then /^I should not have batch "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
-end
-
-Given /^I fill in the form with the packages:$/ do |table|
-  # table is a Cucumber::Ast::Table
-  pending # express the regexp above with the code you wish you had
+    Then "the response does not contain \"#{arg1}\""
 end
 
 Then /^I should have a batch containing$/ do |table|
-  # table is a Cucumber::Ast::Table
-  pending # express the regexp above with the code you wish you had
+  table.raw.each do |r|
+    Then "the response contains \"#{r}\""
+  end
+end
+
+Then /^I should have a batch not containing$/ do |table|
+  table.raw.each do |r|
+    Then "the response does not contain \"#{r}\""
+  end
 end

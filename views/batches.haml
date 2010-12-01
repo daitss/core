@@ -1,7 +1,29 @@
+%h1 batches
+
+%hr/
+
+%h2 create new batch
+
 %form{:action => '/batches', :method => 'post'}
-  %input{:name => 'name'}
-  %textarea{:name => 'packages'}
+  %input{:name => 'name', :value => "batch name"}
+  %textarea{:name => 'packages'} insert whitespace separated list of IEIDs here
   %input{:type => 'submit', :value => 'Submit'}
 
-- @batches.each do |b|
-  %a{:href => "/batches/#{b.id}"}= b.id
+%hr/
+
+%h2 existing batches
+
+- if @batches.any?
+  %table
+    %tr
+      %th batch name
+      %th delete
+
+      - @batches.each do |b|
+        %tr
+          %td
+            %a{:href => "/batches/#{b.id}"}= b.id
+          %td
+            %form{:action => "/batches/#{b.id}", :method => 'post'}
+              %input{:type => 'hidden', :name => 'task', :value => 'delete-batch'}
+              %input{:type => 'submit', :value => "Delete"}

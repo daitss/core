@@ -479,3 +479,35 @@ post "/batches" do
   Batch.create :id => name, :packages => ps
   redirect "/batches"
 end
+
+get "/batches/:batch_id" do |batch_id|
+  @batch = Batch.get(batch_id)
+  
+  halt 404 unless @batch
+  haml :batch
+end
+
+post "/batches/:batch_id" do |batch_id|
+  task = require_param 'task'
+
+  @batch = Batch.get(batch_id)
+  halt 404 unless @batch
+
+  case task
+  when "delete-batch"
+    @batch.packages = []
+    @batch.save
+    @batch.destroy
+    redirect "/batches"
+
+  when "modify-batch"
+    raw = require_param 'packages'
+    ps = raw.split %r{\s+}
+    ps.map! { |id| Package.get id or raise "#{id} not found" }
+
+    @batch.packages = ps
+    @batch.save
+
+    redirect "/batches/#{batch_id}"
+  end
+end

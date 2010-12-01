@@ -20,6 +20,11 @@ Feature: CRUD for batches
       |E00000000_000003|
 
   Scenario: add to an existing batch
+    Given the following packages:
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+      |E00000000_000004|
     Given batch "foo" with the following packages:
       |E00000000_000001|
       |E00000000_000002|
@@ -32,19 +37,24 @@ Feature: CRUD for batches
       |E00000000_000004|
     When I press "Submit"
     Then I should be redirected
-    And I should have a batch containing:
+    And I should have a batch containing
       |E00000000_000001|
       |E00000000_000003|
       |E00000000_000004|
+    And I should have a batch not containing
+      |E00000000_000002|
 
   Scenario: delete a batch
+    Given the following packages:
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
     Given batch "foo" with the following packages:
       |E00000000_000001|
       |E00000000_000002|
       |E00000000_000003|
     And I goto "/batches"
-    And I click on "foo"
-    And I click on "delete batch"
+    And I press "Delete"
     Then I should be redirected
     And I should not have batch "foo"
 
