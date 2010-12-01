@@ -7,23 +7,25 @@
     %link{:href => "http://fonts.googleapis.com/css?family=Droid+Serif:regular,bold,italic,bolditalic",
           :rel => "stylesheet", :type => "text/css"}
     %link{:rel => "stylesheet", :href => "/stylesheet.css", :type =>"text/css", :media =>"screen, projection"}
+    %script{:type => 'application/javascript', :src => 'https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js'}
+    %script{:type => 'application/javascript', :src => '/local.js'}
 
     %title
       daitss
       = Daitss::VERSION
   %body
     %nav
-      = navlink 'dashboard', '/'
+      %a{ :href => '/' } dashboard
       = ":"
-      = navlink 'packages', '/packages'
+      %a{ :href => '/packages' } packages
       = ":"
-      = navlink 'workspace', '/workspace'
+      %a{ :href => '/workspace' } workspace
       = ":"
-      = navlink 'stashspace', '/stashspace'
+      %a{ :href => '/stashspace' } stashspace
       = ":"
-      = navlink 'log', '/log'
+      %a{ :href => '/log' } log
       = ":"
-      = navlink 'admin', '/admin'
+      %a{ :href => '/admin' } admin
 
       %span#logo (logo)
 

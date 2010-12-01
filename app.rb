@@ -29,32 +29,21 @@ helpers do
     haml template, options.merge!(:layout => false)
   end
 
-  def navlink name, href='#'
-    partial :navlink, :locals => { :name => name, :href => href }
-  end
-
 end
 
 configure do
   enable :method_override
-
-  Daitss.archive
+  enable :session
 end
 
 before do
-  #authenticate
-  @user = Operator.get('root') or raise "cannot get root op"
-  @archive = Daitss.archive
 
-  @active_nav = case ENV['PATH_INFO']
-                when '/' then 'dashboard'
-                when %r{^/log} then 'log'
-                when %r{^/package} then 'packages'
-                when %r{^/workspace} then 'workspace'
-                when %r{^/stashspace} then 'stashspace'
-                when %r{^/admin} then 'admin'
-                else
-                end
+  #unless session['user_name']
+    #halt "Access denied, please <a href='/login'>login</a>."
+  #else
+    @user = Operator.get('root') or raise "cannot get root op"
+    @archive = Daitss.archive
+  #end
 
 end
 
