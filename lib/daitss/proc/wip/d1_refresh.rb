@@ -1,12 +1,10 @@
-require 'daitss/proc/wip'
-require 'daitss/proc/wip/journal'
-require 'daitss/proc/wip/preserve'
-require 'daitss/proc/wip/from_d1'
-require 'daitss/model/aip'
-require 'daitss/model/aip/from_wip'
 require 'daitss/proc/template/descriptor'
 require 'daitss/proc/template/premis'
-require 'daitss/proc/metadata'
+require 'daitss/proc/wip'
+require 'daitss/proc/wip/from_d1'
+require 'daitss/proc/wip/journal'
+require 'daitss/proc/wip/preserve'
+require 'daitss/proc/wip/to_aip'
 
 module Daitss
 

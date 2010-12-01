@@ -1,5 +1,5 @@
 require 'daitss/proc/wip'
-require 'daitss/proc/aip_archive'
+require 'daitss/proc/wip/tarball'
 require 'daitss/proc/datafile/obsolete'
 require 'digest/sha1'
 
@@ -71,7 +71,7 @@ module Daitss
       tarball_file = "#{aip_dir}.tar"
 
       Dir.chdir tdir do
-        data = self.package.aip.copy.get_from_silo
+        data = package.aip.copy.get_from_silo
         open(tarball_file, 'w') { |io| io.write data }
         %x{tar xf #{tarball_file}}
         raise "could not extract tarball: #{$?}" unless $?.exitstatus == 0
@@ -86,6 +86,7 @@ module Daitss
              when /^\d+$/ then new_original_datafile df_id
              when /^\d+-mig-\d+$/ then new_migrated_datafile df_id
              when /^\d+-norm-\d+$/ then new_normalized_datafile df_id
+             else raise "unknown df id format #{dfid}"
              end
 
         # extract the data
@@ -94,7 +95,7 @@ module Daitss
           # copy over the file
           aip_path = file_node.find_first('M:FLocat/@xlink:href', NS_PREFIX).value
           tar_file = File.join tdir, aip_dir, aip_path
-          FileUtils::cp tar_file, df.datapath
+          FileUtils::cp tar_file, df.data_file
 
           # check the size
           expected_size = file_node['SIZE'].to_i
@@ -157,9 +158,9 @@ module Daitss
 
     # transfer sip descriptor
     def load_sip_descriptor
-      name = File.join AipArchive::SIP_FILES_DIR, "#{self.package.sip.name}.xml"
+      name = File.join Wip::SIP_FILES_DIR, "#{self.package.sip.name}.xml"
       sd_df = original_datafiles.find { |df| name == df['aip-path'] }
-      metadata['sip-descriptor'] = File.read sd_df.datapath
+      metadata['sip-descriptor'] = File.read sd_df.data_file
     end
 
     # transfer source uris to transformation products from the events

@@ -8,12 +8,28 @@ module Daitss
   # Helpers for generating the aip descriptor
   class Wip
 
-    def descriptor
+    def make_aip_descriptor
       @id_map = Hash.new { |hash, key| hash[key] = "0" }
       @admid_map = Hash.new { |hash, key| hash[key] = [] }
-
       XML.default_keep_blanks = false
-      XML::Document.string template_by_name('aip/descriptor').result(binding)
+      descriptor = XML::Document.string template_by_name('aip/descriptor').result(binding)
+      save_aip_descriptor descriptor.to_s
+    end
+
+    def validate_aip_descriptor
+      rs = validate_xml aip_descriptor_file
+
+      rs.reject! { |r|
+        r[:level] == :warning ||
+          r[:message] =~ %r{(tcf|aes)\:} ||
+          r[:message] =~ %r{agentNote}
+      }
+
+      unless rs.empty?
+        es = rs.map { |r| r[:line].to_s + ' ' + r[:message] }.join "\n"
+        raise "descriptor fails daitss aip xml validation (#{rs.size} errors)\n#{es}"
+      end
+
     end
 
     def uri

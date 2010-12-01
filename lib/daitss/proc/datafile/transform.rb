@@ -1,6 +1,6 @@
 require 'daitss/proc/template'
+require 'daitss/proc/wip/tarball'
 require 'daitss/proc/datafile'
-require 'daitss/proc/aip_archive'
 require 'net/http'
 require 'cgi'
 
@@ -73,7 +73,7 @@ module Daitss
 
           # fill in destination datafile
           dest.open('w') { |io| io.write data }
-          dest['aip-path'] = File.join AipArchive::AIP_FILES_DIR, "#{dest.id}#{ext}"
+          dest['aip-path'] = File.join Wip::AIP_FILES_DIR, "#{dest.id}#{ext}"
           dest[agent_key] = fix_transformation_agent agent
           dest[event_key] = fix_transformation_event event, source, dest, strategy, ap_data
           dest["transformation-source"] = source.uri
@@ -95,7 +95,7 @@ module Daitss
       # ask for the main doc with the link, event, agent
       url = URI.parse archive.transform_url + '/transform/' + xform_id
       req = Net::HTTP::Get.new url.path
-      req.form_data = { 'location' => "file:#{File.expand_path datapath}" }
+      req.form_data = { 'location' => "file:#{File.expand_path data_file}" }
 
       res = Net::HTTP.start(url.host, url.port) do |http|
         http.read_timeout = Archive.instance.http_timeout

@@ -16,4 +16,4 @@ Feature: show information about the wip
   Scenario: redirect to the package page when a wip is complete
     Given an archived package
     When I goto its wip page
-    Then I should be at the pacakge page
+    Then I should be at the package page

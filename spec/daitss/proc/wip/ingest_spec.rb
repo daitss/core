@@ -5,73 +5,89 @@ require 'daitss/proc/wip/ingest'
 
 require 'daitss/db/int_entity'
 
-describe Wip do
+describe 'Wip' do
 
-  describe "that is ingested" do
+  let(:wip) do
+    w = submit 'mimi'
+    w.ingest
+    w
+  end
 
-    before :all do
-      @wip = submit 'mimi'
-      @wip.ingest
+  let(:intentity) { wip.package.intentity }
+
+  it "should have an IntEntity in the db" do
+    intentity.should_not be_nil
+    intentity.should have(wip.all_datafiles.size).datafiles
+  end
+
+  let(:aip) { wip.package.aip }
+
+  it "should have made an aip" do
+    aip.should_not be_nil
+  end
+
+  context "the descriptor" do
+
+    let(:descriptor) { XML::Document.string wip.load_aip_descriptor }
+
+    it "should have an ingest event" do
+      descriptor.find("//P:event/P:eventType = 'ingest'", NS_PREFIX).should be_true
     end
 
-    it "should have an aip descriptor" do
-      @wip.journal['make-aip-descriptor'].should_not be_nil
+    it "should have an ingest agent" do
+      descriptor.find("//P:agent/P:agentName = '#{system_agent_spec[:name]}'", NS_PREFIX).should be_true
     end
 
-    describe "aip descriptor" do
-
-      subject do
-        XML::Document.string @wip['aip-descriptor']
-      end
-
-      it "should have an ingest event" do
-        subject.find("//P:event/P:eventType = 'ingest'", NS_PREFIX).should be_true
-      end
-
-      it "should have an ingest agent" do
-        subject.find("//P:agent/P:agentName = '#{system_agent_spec[:name]}'", NS_PREFIX).should be_true
-      end
-
-      it "should have a sip descriptor denoted" do
-        subject.find("//M:file/@USE='sip descriptor'", NS_PREFIX).should be_true
-      end
-
+    it "should have a sip descriptor denoted" do
+      descriptor.find("//M:file/@USE='sip descriptor'", NS_PREFIX).should be_true
     end
 
+  end
 
-    it "should have an IntEntity in the db" do
-      ie = Intentity.get(@wip.uri)
-      ie.should_not be_nil
-      ie.should have(@wip.all_datafiles.size).datafiles
-    end
+  context "the tarball" do
 
-    describe "the resulting aip" do
+    let :tar_sha1s do
+      tdir = Dir.mktmpdir
+      `tar xf #{wip.tarball_file} -C #{tdir}`
+      $?.exitstatus.should == 0
 
-      before :all do
-        @aip = @wip.package.aip
-      end
+      Dir.chdir tdir do
+        p = File.join *%W(#{wip.id} ** *)
+        fs = Dir[p].select { |f| File.file? f }
 
-      it "should have made an aip" do
-        @aip.should_not be_nil
-      end
-
-      it "should put the xmlres tarball in the aip tarball" do
-        url = @aip.copy.url
-        req = Net::HTTP::Get.new url.path
-        res = Net::HTTP.start(url.host, url.port) { |http| http.request req }
-
-        Tempfile.open 'spec' do |t|
-          t.write res.body
-          t.flush
-          tarfile = File.join @wip.id, "#{Wip::XML_RES_TARBALL_BASENAME}-0.tar"
-          tardata = %x{tar xOf #{t.path} #{tarfile}}
-          $?.exitstatus.should == 0
-          tardata.should_not be_nil
-          tardata.should == @wip['xml-resolution-tarball']
+        fs.inject({}) do |acc, f|
+          acc[f] = Digest::SHA1.file(f)
+          acc
         end
 
       end
 
+    end
+
+    it "should have the descriptor" do
+      file = File.join wip.id, Wip::DESCRIPTOR_FILE
+      tar_sha1s[file].should == Digest::SHA1.file(wip.aip_descriptor_file)
+    end
+
+    it "should have all the datafiles" do
+
+      wip.all_datafiles.each do |df|
+        file = File.join wip.id, df['aip-path']
+        tar_sha1s[file].should == Digest::SHA1.file(df.data_file)
+      end
+
+    end
+
+    it "should have the xmlres tarball in the tarball" do
+      file = File.join wip.id, "#{Wip::XML_RES_TARBALL_BASENAME}-0.tar"
+      tar_sha1s[file].hexdigest.should == Digest::SHA1.hexdigest(wip['xml-resolution-tarball'])
+    end
+
+    it "should have uploaded the tarball" do
+      lambda { aip.copy.get_from_silo }.should_not raise_error
+      aip.copy.size.should == File.size(wip.tarball_file)
+      aip.copy.sha1.should == Digest::SHA1.file(wip.tarball_file).hexdigest
+      aip.copy.md5.should == Digest::MD5.file(wip.tarball_file).hexdigest
     end
 
   end

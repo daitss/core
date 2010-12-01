@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'daitss/proc/wip/tarball'
 require 'daitss/proc/wip/ingest'
 require 'daitss/proc/wip/dmd'
 require 'daitss/proc/wip/from_aip'
@@ -39,24 +40,24 @@ describe Wip do
       o_rep = @wip.original_representation
       o_rep.should have_exactly(2).items
       aip_paths = o_rep.map { |f| f['aip-path'] }
-      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'wave.xml'))
-      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'obj1.wav'))
+      aip_paths.should include(File.join(Wip::SIP_FILES_DIR, 'wave.xml'))
+      aip_paths.should include(File.join(Wip::SIP_FILES_DIR, 'obj1.wav'))
     end
 
     it 'should pull the current representation' do
       c_rep = @wip.current_representation
       c_rep.should have_exactly(2).items
       aip_paths = c_rep.map { |f| f['aip-path'] }
-      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'wave.xml'))
-      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'obj1.wav'))
+      aip_paths.should include(File.join(Wip::SIP_FILES_DIR, 'wave.xml'))
+      aip_paths.should include(File.join(Wip::SIP_FILES_DIR, 'obj1.wav'))
     end
 
     it 'should pull the normalized representation' do
       n_rep = @wip.normalized_representation
       n_rep.should have_exactly(2).items
       aip_paths = n_rep.map { |f| f['aip-path'] }
-      aip_paths.should include(File.join(AipArchive::SIP_FILES_DIR, 'wave.xml'))
-      aip_paths.should include(File.join(AipArchive::AIP_FILES_DIR, '1-norm-0.wav'))
+      aip_paths.should include(File.join(Wip::SIP_FILES_DIR, 'wave.xml'))
+      aip_paths.should include(File.join(Wip::AIP_FILES_DIR, '1-norm-0.wav'))
     end
 
     describe "package level provenance (events)" do
@@ -114,7 +115,7 @@ describe Wip do
     describe 'datafile level provenance (events)' do
 
       before :all do
-        df = @wip.all_datafiles.find { |df| df['aip-path'] == File.join(AipArchive::AIP_FILES_DIR, '1-norm-0.wav')}
+        df = @wip.all_datafiles.find { |df| df['aip-path'] == File.join(Wip::AIP_FILES_DIR, '1-norm-0.wav')}
         @events = df['old-digiprov-events'].split %r{\n(?=<event)}
       end
 
@@ -143,7 +144,7 @@ describe Wip do
     describe "datafile level provenance (agents)" do
 
       before :all do
-        df = @wip.all_datafiles.find { |df| df['aip-path'] == File.join(AipArchive::AIP_FILES_DIR, '1-norm-0.wav')}
+        df = @wip.all_datafiles.find { |df| df['aip-path'] == File.join(Wip::AIP_FILES_DIR, '1-norm-0.wav')}
         @agents = df['old-digiprov-agents'].split %r{\n(?=<agent)}
       end
 
@@ -166,6 +167,48 @@ describe Wip do
         normalize_agent.should_not be_nil
       end
 
+    end
+
+  end
+
+  describe 'multiple datafiles referencing 1 content file' do
+
+    it "should load two datafiles from 1 content file" do
+      proto_wip = submit '2content1data'
+
+      proto_sig = proto_wip.all_datafiles.inject({}) do |acc,f|
+
+        acc[f.uri] = {
+          :sha => Digest::SHA1.file(f.data_file).hexdigest,
+          :path => f['aip-path']
+        }
+
+        acc
+      end
+
+      proto_wip.ingest
+
+      path = proto_wip.path
+
+      id = proto_wip.id
+      uri = proto_wip.uri
+
+      FileUtils.rm_r path
+
+      wip = Wip.make path, :disseminate
+      wip.load_from_aip
+
+      sig = wip.all_datafiles.inject({}) do |acc,f|
+
+        acc[f.uri] = {
+          :sha => Digest::SHA1.file(f.data_file).hexdigest,
+          :path => f['aip-path']
+        }
+
+        acc
+      end
+
+      proto_sig.should == sig
     end
 
   end

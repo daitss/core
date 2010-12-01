@@ -10,7 +10,7 @@ module Daitss
   class DataFile
 
     def describe!
-      doc = ask_description_service(:location => "file:#{File.expand_path datapath }",
+      doc = ask_description_service(:location => "file:#{File.expand_path data_file }",
                                     :uri => uri,
                                       :originalName => metadata['aip-path'])
                                     augment_fixity doc

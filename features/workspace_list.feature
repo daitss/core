@@ -8,14 +8,14 @@ Feature: list wips
       |     1 |    idle |
       |     1 | running |
       |     1 |   snafu |
-      |     1 |    stop |
+      |     1 | stopped |
     When I goto "/workspace"
     Then there should be the following wips:
       | count |   state |
       |     1 |    idle |
       |     1 | running |
       |     1 |   snafu |
-      |     1 |    stop |
+      |     1 | stopped |
 
   Scenario Outline: listing
     Given <quantity> wips

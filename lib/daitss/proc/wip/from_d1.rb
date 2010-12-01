@@ -1,5 +1,5 @@
 require 'daitss/proc/wip'
-require 'daitss/proc/aip_archive'
+require 'daitss/proc/wip/tarball'
 require 'daitss/proc/datafile/obsolete'
 require 'digest/sha1'
 
@@ -16,7 +16,7 @@ module Daitss
       load_d1_dmd
       load_sip_descriptor
       load_d1_package_digiprov
-      
+
       # restore duplicates deleted by d1
       restore_deleted_duplicates
     end
@@ -26,9 +26,8 @@ module Daitss
     def load_d1_dmd
       metadata["dmd-account"] = self.package.project.account.id
       metadata["dmd-project"] = self.package.project.id
-      
       title = self.package.intentity.title
-      
+
       if title
         metadata['dmd-title'] = title
       end
@@ -66,7 +65,7 @@ module Daitss
     # transfer datafiles into the wip
     def load_d1_datafiles
       doc = XML::Document.string self.package.aip.xml
-      
+
       # unpack the tarball into a temp directory
       tdir = Dir.mktmpdir
       aip_dir = self.id
@@ -79,19 +78,19 @@ module Daitss
         %x{tar xf #{tarball_file}}
         raise "could not extract tarball: #{$?}" unless $?.exitstatus == 0
       end
-      
+
       df_paths = self.package.intentity.datafiles.map do |dbdf|
-        df_id = dbdf.id        
+        df_id = dbdf.id
         df = new_original_datafile df_id
-        
+
         # copy over the datafile
         aip_path = dbdf.original_path
         tar_file = File.join tdir, aip_dir, aip_path
-        FileUtils::cp tar_file, df.datapath
-        
+        FileUtils::cp tar_file, df.data_file
+
         # use d2 style aip-path
-        aip_path = File.join AipArchive::SIP_FILES_DIR, dbdf.original_path
-        
+        aip_path = File.join Wip::SIP_FILES_DIR, dbdf.original_path
+
         # check the size
         expected_size = dbdf.size
         actual_size = df.size
@@ -99,7 +98,7 @@ module Daitss
         unless df.size == expected_size
           raise "datafile #{df.id} size is wrong: expected #{expected_size}, actual #{actual_size}"
         end
-        
+
         # check the sha1
         # TODO sha1 is not migrated so we cant check. pass this by lydia
         lydia_says_so = false
@@ -112,7 +111,7 @@ module Daitss
             raise "datafile #{df.id} sha1 is wrong: expected #{expected_sha1}, actual #{actual_sha1}"
           end
         end
-        
+
         df['sip-path'] = dbdf.original_path
         df['aip-path'] = aip_path
 
@@ -149,16 +148,18 @@ module Daitss
       deleted_duplicates.each_with_index do |dup, ix|
         source_df = original_datafiles.find { |df| df['sip-path'] == dup.source }
         dup_df = new_original_datafile ix
-        FileUtils::cp source_df.datapath, dup_df.datapath
+        FileUtils::cp source_df.data_file, dup_df.data_file
         dup_df['sip-path'] = dup.duplicate
         dup_df['aip-path'] = File.join AipArchive::SIP_FILES_DIR, dup.duplicate
         
         # add a 'redup' event for restoring d1 deleted duplicated files.
         dup_df['redup-event'] = redup_event dup_df, "restore from #{dup.source}"
         dup_df['redup-agent'] = system_agent
+
       end
-     
+
     end
+
   end
 
 end

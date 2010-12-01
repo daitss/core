@@ -3,6 +3,7 @@ require 'fileutils'
 
 require 'daitss/proc/fshash'
 require 'daitss/proc/wip'
+require 'daitss/proc/fileattr'
 require 'daitss/proc/datafile/obsolete'
 
 module Daitss
@@ -10,29 +11,31 @@ module Daitss
   class DataFile
 
     extend Forwardable
+    extend FileAttr
 
-    attr_reader :id, :uri, :wip, :metadata, :datapath
+    attr_reader :id, :uri, :wip, :metadata
     alias_method :to_s, :uri
     alias_method :inspect, :uri
 
     METADATA_DIR = 'metadata'
-    DATA_FILE = 'data'
+    file_attr :data
 
     def DataFile.make wip, container, id
-      dir = File.join wip.path, container, id
-      FileUtils.mkdir_p dir
-      FileUtils.mkdir_p File.join dir, METADATA_DIR
-      DataFile.new wip, container, id
+      path = File.join wip.path, container, id
+      FileUtils.mkdir_p path
+      FileUtils.mkdir_p File.join path, METADATA_DIR
+      df = DataFile.new wip, container, id
+      FileUtils.touch df.data_file
+      df
     end
 
     def initialize wip, container, id
       @id = id
       @wip = wip
       @uri = @wip.package.uri + '/file/' + @id
-      @dir = File.join @wip.path, container, @id
-      @metadata = FsHash.new File.join(@dir, METADATA_DIR)
-      @datapath = File.join @dir, DATA_FILE
-      FileUtils.touch @datapath
+      @path = File.join @wip.path, container, @id
+      @metadata_path = File.join @path, METADATA_DIR
+      @metadata = FsHash.new @metadata_path
       @is_sip_descriptor = metadata['sip-path'] == @wip.package.sip.name + '.xml'
     end
 
@@ -42,9 +45,9 @@ module Daitss
     def open mode="r"
 
       if block_given?
-        Kernel::open(@datapath, mode) { |io| yield io }
+        Kernel::open(data_file, mode) { |io| yield io }
       else
-        Kernel::open @datapath, mode
+        Kernel::open data_file, mode
       end
 
     end
@@ -62,7 +65,7 @@ module Daitss
 
     # the size in bytes of the datafile
     def size
-      File.size @datapath
+      File.size data_file
     end
 
     # a datafile that is a migrated version of this

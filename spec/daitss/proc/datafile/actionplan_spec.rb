@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'daitss/proc/wip/tarball'
 require 'daitss/xmlns'
 require 'daitss/proc/datafile/describe'
 require 'daitss/proc/datafile/actionplan'
@@ -13,7 +14,7 @@ describe DataFile do
 
     before :all do
       wip = submit 'mimi'
-      @pdf = wip.original_datafiles.find { |df| df['aip-path'] == File.join(AipArchive::SIP_FILES_DIR, 'mimi.pdf') }
+      @pdf = wip.original_datafiles.find { |df| df['aip-path'] == File.join(Wip::SIP_FILES_DIR, 'mimi.pdf') }
       @pdf.describe!
     end
 
@@ -39,7 +40,7 @@ describe DataFile do
 
     before :all do
       wip = submit 'wave'
-      @wave = wip.original_datafiles.find { |df| df['aip-path'] == File.join(AipArchive::SIP_FILES_DIR, 'obj1.wav') }
+      @wave = wip.original_datafiles.find { |df| df['aip-path'] == File.join(Wip::SIP_FILES_DIR, 'obj1.wav') }
       @wave.describe!
       @norm = @wave.normalization
     end
@@ -70,7 +71,7 @@ describe DataFile do
 
     before :all do
       wip = submit 'wave'
-      @xml = wip.original_datafiles.find { |df| df['aip-path'] == File.join(AipArchive::SIP_FILES_DIR, 'wave.xml') }
+      @xml = wip.original_datafiles.find { |df| df['aip-path'] == File.join(Wip::SIP_FILES_DIR, 'wave.xml') }
       @xml.describe!
     end
 

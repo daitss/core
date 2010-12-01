@@ -2,7 +2,6 @@ require 'libxml'
 
 require 'daitss/model/aip'
 require 'daitss/proc/sip_archive'
-require 'daitss/proc/aip_archive'
 require 'daitss/proc/template/premis'
 require 'daitss/proc/wip'
 require 'daitss/xmlns'
@@ -34,7 +33,7 @@ module Daitss
           end
 
           df['sip-path'] = f
-          df['aip-path'] = File.join AipArchive::SIP_FILES_DIR, f
+          df['aip-path'] = File.join SIP_FILES_DIR, f
         end
 
         # put metadata from SIP in WIP
