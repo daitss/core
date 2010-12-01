@@ -38,3 +38,15 @@ Then /^I should have a batch not containing$/ do |table|
     Then "the response does not contain \"#{r}\""
   end
 end
+
+Then /^I should have a (disseminate|withdraw|peek) request for the following packages:$/ do |type, table|
+  table.raw.each do |r|
+    p = Package.get(r)
+    raise "package not found" unless p
+    raise "no #{type} request found for #{r}" unless p.requests.first(:type => type, :status => :enqueued)
+  end
+end
+
+When /^I select type "([^\"]*)"$/ do |type|
+  select type, :from => 'type'
+end

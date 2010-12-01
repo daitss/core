@@ -8,6 +8,21 @@
   %textarea{:name => 'packages'} #{@batch.packages.inject(''){|str, p| str + " " + p.id}}
   %input{:type => 'submit', :value => 'Submit'}
 
+%hr/
+
+%h2 submit request
+
+%form{:action => "/batches/#{@batch.id}", :method => 'post'}
+  %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}
+  %input{:name => 'notes', :value => 'request note'}
+  %select{:name => 'type'}
+    %option disseminate
+    %option withdraw
+    %option peek
+  %input{:type => 'submit', :value => 'Submit Request'}
+
+%hr/
+
 %h2 package list
 
 %table

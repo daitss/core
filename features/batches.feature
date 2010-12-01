@@ -58,6 +58,51 @@ Feature: CRUD for batches
     Then I should be redirected
     And I should not have batch "foo"
 
+  Scenario Outline: create requests for batch from batches page 
+    Given the following packages:
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+    Given batch "foo" with the following packages:
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+    And I goto "/batches"
+    And I press "<button name>"
+    Then I should be redirected
+    And I should have a <request_type> request for the following packages:
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+      Examples:
+        |request_type|button name|
+        |disseminate|Disseminate|
+        |withdraw|Withdraw|
+        |peek|Peek|
+
+  Scenario Outline: create requests for batch from single batch page
+    Given the following packages:
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+    Given batch "foo" with the following packages:
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+    And I goto "/batches/foo"
+    And I fill in "notes" with "my request note"
+    And I select type "<request_type>"
+    And I press "Submit Request"
+    Then I should be redirected
+    And I should have a <request_type> request for the following packages:
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+      Examples:
+        |request_type|
+        |disseminate|
+        |withdraw|
+        |peek|
 
 
 

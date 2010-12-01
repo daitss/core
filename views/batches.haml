@@ -17,12 +17,30 @@
   %table
     %tr
       %th batch name
+      %th disseminate
+      %th withdraw
+      %th peek
       %th delete
 
       - @batches.each do |b|
         %tr
           %td
             %a{:href => "/batches/#{b.id}"}= b.id
+          %td
+            %form{:action => "/batches/#{b.id}", :method => 'post'}
+              %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}
+              %input{:type => 'hidden', :name => 'type', :value => 'disseminate'}
+              %input{:type => 'submit', :value => "Disseminate"}
+          %td
+            %form{:action => "/batches/#{b.id}", :method => 'post'}
+              %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}
+              %input{:type => 'hidden', :name => 'type', :value => 'withdraw'}
+              %input{:type => 'submit', :value => "Withdraw"}
+          %td
+            %form{:action => "/batches/#{b.id}", :method => 'post'}
+              %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}
+              %input{:type => 'hidden', :name => 'type', :value => 'peek'}
+              %input{:type => 'submit', :value => "Peek"}
           %td
             %form{:action => "/batches/#{b.id}", :method => 'post'}
               %input{:type => 'hidden', :name => 'task', :value => 'delete-batch'}

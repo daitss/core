@@ -509,5 +509,24 @@ post "/batches/:batch_id" do |batch_id|
     @batch.save
 
     redirect "/batches/#{batch_id}"
+
+  when 'request-batch'
+    @batch.packages.each do |package|
+      type = require_param 'type'
+
+      r = Request.new
+
+      r.type = type
+      r.note = note if params['note']
+
+      @user.requests << r
+      r.agent = @user
+      package.requests << r
+      r.package = package
+
+      r.save or error "cannot save request: #{r.errors.inspect}"
+    end
+
+    redirect "/batches"
   end
 end
