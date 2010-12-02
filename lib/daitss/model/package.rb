@@ -24,6 +24,7 @@ module Daitss
     has 0..1, :intentity
 
     belongs_to :project
+    belongs_to :batch, :required => false
 
     # add an operations event for abort
     def abort user

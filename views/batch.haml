@@ -1,0 +1,40 @@
+%h1 #{@batch.id}
+
+%hr/
+
+%h2 modify batch
+%form{:action => "/batches/#{@batch.id}", :method => 'post'}
+  %input{:type => 'hidden', :name => 'task', :value => 'modify-batch'}
+  %textarea{:name => 'packages'} #{@batch.packages.inject(''){|str, p| str + " " + p.id}}
+  %input{:type => 'submit', :value => 'Submit'}
+
+%hr/
+
+%h2 submit request
+
+%form{:action => "/batches/#{@batch.id}", :method => 'post'}
+  %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}
+  %input{:name => 'notes', :value => 'request note'}
+  %select{:name => 'type'}
+    %option disseminate
+    %option withdraw
+    %option peek
+  %input{:type => 'submit', :value => 'Submit Request'}
+
+%hr/
+
+%h2 package list
+
+%table
+  %tr
+    %th IEID
+    %th name
+    %th size
+    %th # of files
+
+  - @batch.packages.each do |p|
+    %tr
+      %td= p.id
+      %td= p.sip.name
+      %td= sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000)
+      %td= p.sip.number_of_datafiles
