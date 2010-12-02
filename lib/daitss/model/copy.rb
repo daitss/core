@@ -23,17 +23,20 @@ module Daitss
       rs = RandyStore.new id, url.to_s
       data = rs.get
 
+      if size
       unless data.size == size
         raise "#{url} size is wrong: expected #{size}, actual #{data.size}"
       end
-
+      
       unless Digest::SHA1.hexdigest(data) == sha1
         raise "#{url} sha1 is wrong: expected #{self.sha1}, actual #{sha1}"
+      end
       end
 
       unless Digest::MD5.hexdigest(data) == md5
         raise "#{url} md5 is wrong: expected #{self.md5}, actual #{md5}"
       end
+
 
       data
     end

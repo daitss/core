@@ -29,24 +29,10 @@ module Daitss
         metadata['d1migrate-agent'] = system_agent
       end
 
-      step('make-aip-descriptor') do
-        metadata['aip-descriptor'] = descriptor
-      end
-
-      step('make-tarball') do
-        make_tarball
-      end
-
-      step('update-aip') do
-
-        Aip.transaction do
-          aip = Aip.update_from_wip self
-          doc = XML::Document.string(aip.xml)
-          aipInPremis = AIPInPremis.new
-          aipInPremis.process aip.package, doc
-        end
-
-      end
+      step('make aip descriptor') { make_aip_descriptor }
+      step('validate aip descriptor') { validate_aip_descriptor }
+      step('make tarball') { make_tarball }
+      step('make aip') { update_aip }
 
     end
 
