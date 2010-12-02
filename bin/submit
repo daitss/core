@@ -29,6 +29,7 @@ def get_options(args)
       opt.on("--username USERNAME", String, "Operations agent username, required") { |username| config.username = username }
       opt.on("--password PASSWORD", String, "Operations agent password, required") { |password| config.password = password }
       opt.on("--note NOTE", String, "Submission event note (should be in quotes)") { |note| config.note = note }
+      opt.on("--batch BATCH", String, "Batch to submit package under") { |batch| config.batch = batch }
       opt.on("--delete-orig", "-d") { |delete| config.delete = delete }
     end
 
@@ -85,11 +86,17 @@ def submit_to_svc path_to_zip, path
 
   n = "sip path: #{path}"
   n += ", submission note: #{@config.note}" if @config.note
+  b = @config.batch ? @config.batch : "batch name"
 
   body << "--#{boundary}"
   body << 'Content-Disposition: form-data; name="note"'
   body << ''
   body << n
+  body << ''
+  body << "--#{boundary}"
+  body << 'Content-Disposition: form-data; name="batch_id"'
+  body << ''
+  body << b
   body << ''
   body << "--#{boundary}"
   body << "Content-Disposition: form-data; name=\"sip\"; filename=\"#{File.basename(path_to_zip)}\""
