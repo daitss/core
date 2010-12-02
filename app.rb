@@ -473,7 +473,7 @@ end
 
 post "/batches" do
   name = require_param 'name'
-  raw = require_param 'packages'
+  raw = require_param('packages').strip
   ps = raw.split %r{\s+}
   ps.map! { |id| Package.get id or raise "#{id} not found" }
   Batch.create :id => name, :packages => ps
@@ -501,7 +501,7 @@ post "/batches/:batch_id" do |batch_id|
     redirect "/batches"
 
   when "modify-batch"
-    raw = require_param 'packages'
+    raw = require_param('packages').strip
     ps = raw.split %r{\s+}
     ps.map! { |id| Package.get id or raise "#{id} not found" }
 

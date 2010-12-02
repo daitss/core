@@ -50,3 +50,8 @@ end
 When /^I select type "([^\"]*)"$/ do |type|
   select type, :from => 'type'
 end
+
+Then /^the batch should contain the last package ingested$/ do
+  Then "the response contains \"#{last_package_id}\""
+end
+
