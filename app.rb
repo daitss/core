@@ -84,12 +84,22 @@ post '/packages?/?' do
   sip = begin
           filename = params['sip'][:filename]
           data = params['sip'][:tempfile].read
+          batch_id = params["batch_id"].strip == "batch name" ? nil : params["batch_id"].strip
+          note = params["note"] == "note" ? nil : params["note"].strip
 
           dir = Dir.mktmpdir
           path = File.join dir, filename
           open(path, 'w') { |io| io.write data }
 
-          @archive.submit path, @user, params['note']
+          sip = @archive.submit path, @user, note
+
+          if batch_id
+            b = Batch.first_or_create(:id => batch_id)
+            b.packages << sip
+            b.save
+          end
+
+          sip
         ensure
           FileUtils.rm_r dir
         end
@@ -99,6 +109,7 @@ end
 
 get '/packages?/?' do
   @query = params['search']
+  @batches = Batch.all
 
   @packages = if @query
                 ids = @query.strip.split

@@ -3,6 +3,8 @@
 
   %form{:action => '/package', :method => 'POST', :enctype => 'multipart/form-data'}
     %input{:type => 'file', :name => 'sip'}
+    %input{:name => 'note', :value => 'note'}
+    %input{:name => 'batch_id', :value => 'batch name'}
     %input{:type => 'submit', :value => 'Submit'}
   %p
     packages must be in

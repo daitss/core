@@ -29,6 +29,14 @@ Then /^in the events I should see a "([^\"]*)" event with "([^"]*)" in the notes
   last_response.should have_selector("td:contains('#{notes}')")
 end
 
+Then /^in the events I should not see a "([^\"]*)" event with "([^"]*)" in the notes$/ do |event, notes|
+  pending notes if notes =~ %r{\?$}
+  last_response.should have_selector("td:contains('#{event}')")
+  last_response.should_not have_selector("td:contains('#{notes}')")
+end
+
+
+
 Then /^in the aip section I should see (copy url|copy size|copy sha1|number of datafiles)$/ do |field|
   last_response.should have_selector("th:contains('#{field}') + td")
 end
