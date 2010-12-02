@@ -2,10 +2,15 @@
 
 require 'rubygems'
 require 'bundler/setup'
-require 'daitss/archive'
+require 'daitss'
 
-a = Daitss::Archive.instance
-a.init_data_dir
-a.setup_db :log => true
-a.init_db
-a.init_seed
+include Daitss
+
+archive
+archive.init_seed
+
+# a = Daitss::Archive.instance
+# a.init_data_dir
+# a.setup_db :log => true
+# a.init_db
+# a.init_seed
