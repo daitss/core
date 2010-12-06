@@ -51,7 +51,7 @@ module Daitss
     attr_reader :data_dir, :work_path, :stash_path, :submit_path, :disseminate_path, :dispatch_path
     attr_reader :actionplan_url, :describe_url, :storage_url, :viruscheck_url, :transform_url, :xmlresolution_url
     attr_reader :yaml
-    
+
     # load the settings from the file specified
     # by the environment variable CONFIG_ENV_VAR
     def load_configuration
@@ -64,7 +64,7 @@ module Daitss
 
       # database
       @db_url = @yaml[DB_URL]
- 
+
       # data directories
       @data_dir = @yaml[DATA_DIR]
       @work_path = File.join @data_dir, WORK_DIR

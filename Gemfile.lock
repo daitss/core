@@ -98,6 +98,7 @@ GEM
     macaddr (1.0.0)
     nokogiri (1.4.3.1)
     rack (1.2.1)
+    rack-ssl-enforcer (0.2.0)
     rack-test (0.5.6)
       rack (>= 1.0)
     rake (0.8.7)
@@ -158,6 +159,7 @@ DEPENDENCIES
   haml
   libxml-ruby
   nokogiri
+  rack-ssl-enforcer
   rack-test
   rake
   rjb

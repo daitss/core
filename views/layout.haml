@@ -15,19 +15,29 @@
       = Daitss::VERSION
   %body
     %nav
-      %a{ :href => '/' } dashboard
-      = ":"
-      %a{ :href => '/packages' } packages
-      = ":"
-      %a{ :href => '/workspace' } workspace
-      = ":"
-      %a{ :href => '/stashspace' } stashspace
-      = ":"
-      %a{ :href => '/log' } log
-      = ":"
-      %a{ :href => '/admin' } admin
+      - if @user
+        %a{ :href => '/' } dashboard
+        = ":"
+        %a{ :href => '/packages' } packages
+        -if @user.kind_of? Operator
+          = ":"
+          %a{ :href => '/workspace' } workspace
+          = ":"
+          %a{ :href => '/stashspace' } stashspace
+          = ":"
+          %a{ :href => '/log' } log
+          = ":"
+          %a{ :href => '/admin' } admin
 
-      %span#logo (logo)
+        %span#logo
+          = @user.id
+          (logo)
+
+      - else
+        %a.active{ :href => '#' } login
+
+        %span#logo
+          (logo)
 
 
     #content
