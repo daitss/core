@@ -4,22 +4,59 @@ require 'bundler/setup'
 require 'haml'
 require 'sass'
 require 'sinatra'
+require 'rack/ssl-enforcer'
 require 'daitss'
+require 'ruby-debug'
 
 require 'daitss/archive/report'
 
 include Daitss
+load_archive
+
+# if there is an ssl server running uncomment this
+#use Rack::SslEnforcer, :only => "/login"
+
+class Login < Sinatra::Base
+  enable :sessions
+
+  get('/login') do
+    haml :login
+  end
+
+  post('/login') do
+
+    name = params[:name]
+    password = params[:password]
+    user = User.get name
+    error 403 unless user
+
+    if user.authenticate password
+      session['user_name'] = user.id
+      redirect '/'
+    else
+      session['user_name'] = nil
+      error 403
+    end
+
+
+  end
+
+  post('/logout') do
+
+    if session['user_name']
+      session.clear
+      redirect '/login'
+    else
+      error 403
+    end
+
+  end
+
+end
+
+use Login
 
 helpers do
-
-  def authenticate
-    @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-    error 401 unless @auth.provided? && @auth.basic? && @auth.credentials
-    login, passwd = @auth.credentials
-    @user ||= User.first :identifier => login
-    error 401 unless @user
-    error 401 unless user.auth_key == Digest::SHA1.hexdigest(passwd)
-  end
 
   def require_param name
     params[name.to_s] or error 400, "parameter #{name} required"
@@ -29,32 +66,19 @@ helpers do
     haml template, options.merge!(:layout => false)
   end
 
-  def navlink name, href='#'
-    partial :navlink, :locals => { :name => name, :href => href }
-  end
-
 end
 
 configure do
   enable :method_override
-
-  Daitss.archive
+  enable :sessions
 end
 
 before do
-  #authenticate
-  @user = Operator.get('root') or raise "cannot get root op"
-  @archive = Daitss.archive
 
-  @active_nav = case ENV['PATH_INFO']
-                when '/' then 'dashboard'
-                when %r{^/log} then 'log'
-                when %r{^/package} then 'packages'
-                when %r{^/workspace} then 'workspace'
-                when %r{^/stashspace} then 'stashspace'
-                when %r{^/admin} then 'admin'
-                else
-                end
+  unless %w(/stylesheet.css /favicon.ico).include? request.path
+    @user = User.get session['user_name']
+    redirect '/login' unless @user
+  end
 
 end
 
@@ -67,6 +91,11 @@ get '/' do
   haml :index
 end
 
+# log
+before '/log' do
+  error 403 unless @user.kind_of? Operator
+end
+
 get '/log' do
   @entries = Entry.all
   haml :log
@@ -74,7 +103,7 @@ end
 
 post '/log' do
   m = require_param 'message'
-  @archive.log m
+  archive.log m
   redirect '/log'
 end
 
@@ -113,7 +142,7 @@ get '/packages?/?' do
 
   @packages = if @query
                 ids = @query.strip.split
-                Sip.all(:name => ids).packages | Package.all(:id => ids)
+                @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
               else
                 t0 = Date.today - 7
                 es = Event.all :timestamp.gt => t0
@@ -130,9 +159,9 @@ get '/packages?/?' do
 end
 
 get '/package/:id' do |id|
-  @package = Package.get(id) or not_found
-  @bins = @archive.stashspace
-  @bin = @archive.stashspace.find { |b| File.exist? File.join(b.path, id) }
+  @package = @user.packages.first(id) or not_found
+  @bins = archive.stashspace
+  @bin = archive.stashspace.find { |b| File.exist? File.join(b.path, id) }
 
   if @package.status == 'archived'
     @ingest_time = @package.elapsed_time.to_s + " sec"
@@ -142,20 +171,22 @@ get '/package/:id' do |id|
 end
 
 get '/package/:id/descriptor' do |id|
-  @aip = Aip.first :id => id
+  @package = @user.packages.first(id) or not_found
+  @aip = @package.aip or not_found
   not_found unless @aip
   content_type = 'application/xml'
   @aip.xml
 end
 
 get '/package/:id/ingest_report' do |id|
-  halt 404 unless Package.get(id).status == "archived"
-  Archive.instance.ingest_report id
+  @package = @user.packages.first(id) or not_found
+  not_found unless @package.status == "archived"
+  archive.ingest_report id
 end
 
 # enqueue a new request
 post '/package/:id/request' do |id|
-  @package = Package.get(id) or not_found
+  @package = @user.packages.first(id) or not_found
   type = require_param 'type'
   note = require_param 'note'
 
@@ -177,7 +208,7 @@ end
 
 # modify a request
 post '/package/:pid/request/:rid' do |pid, rid|
-  @package = Package.get(pid) or not_found
+  @package = @user.packages.get(pid) or not_found
   req = @package.requests.first(:id => rid) or not_found
 
   task = require_param 'task'
@@ -189,17 +220,19 @@ post '/package/:pid/request/:rid' do |pid, rid|
   redirect "/package/#{pid}"
 end
 
+before '/workspace' do
+  error 403 unless @user.kind_of? Operator
+end
+
 get '/workspace' do
-  @bins = @archive.stashspace
-  @ws = @archive.workspace
+  @bins = archive.stashspace
+  @ws = archive.workspace
   haml :workspace
 end
 
 # workspace & wips in the workspace
-
-# TODO deprecate the multiple interface with js hitting each one
 post '/workspace' do
-  ws = @archive.workspace
+  ws = archive.workspace
 
   case params['task']
   when 'start'
@@ -217,7 +250,7 @@ post '/workspace' do
 
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']
-    bin = @archive.stashspace.find { |b| b.name == params['stash-bin'] }
+    bin = archive.stashspace.find { |b| b.name == params['stash-bin'] }
     error 400, "bin #{bin} does not exist" unless bin
     stashable = ws.reject { |w| w.running? }
     stashable.each { |w| ws.stash w.id, bin }
@@ -230,8 +263,8 @@ post '/workspace' do
 end
 
 get '/workspace/:id' do |id|
-  @bins = @archive.stashspace
-  @wip = @archive.workspace[id]
+  @bins = archive.stashspace
+  @wip = archive.workspace[id]
 
   if @wip
     haml :wip
@@ -244,14 +277,14 @@ get '/workspace/:id' do |id|
 end
 
 get '/workspace/:id/snafu' do |id|
-  wip = @archive.workspace[id] or not_found
+  wip = archive.workspace[id] or not_found
   not_found unless wip.snafu?
   content_type = 'text/plain'
   wip.snafu
 end
 
 post '/workspace/:id' do |id|
-  ws = @archive.workspace
+  ws = archive.workspace
   wip = ws[id] or not_found
 
   case params['task']
@@ -272,7 +305,7 @@ post '/workspace/:id' do |id|
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']
     error 400, 'can only stash a non-running wip' if wip.running?
-    bin = @archive.stashspace.find { |b| b.name == params['stash-bin'] }
+    bin = archive.stashspace.find { |b| b.name == params['stash-bin'] }
     error 400, "bin #{bin} does not exist" unless bin
     ws.stash wip.id, bin
     redirect "/stashspace/#{bin.id}/#{wip.id}"
@@ -285,39 +318,42 @@ post '/workspace/:id' do |id|
 end
 
 # stash bins & stashed wips
+before '/stashspace' do
+  error 403 unless @user.kind_of? Operator
+end
 
 get '/stashspace' do
-  @bins = @archive.stashspace
+  @bins = archive.stashspace
   haml :stashspace
 end
 
 post '/stashspace' do
   name = require_param 'name'
   bin = StashBin.make! name
-  @archive.log "new stash bin: #{bin}"
+  archive.log "new stash bin: #{bin}"
   redirect "/stashspace"
 end
 
 get '/stashspace/:id' do |id|
   id = URI.encode id # SMELL sinatra is decoding this
-  @bin = @archive.stashspace.find { |b| b.id == id }
+  @bin = archive.stashspace.find { |b| b.id == id }
   not_found unless @bin
   haml :stash_bin
 end
 
 delete '/stashspace/:id' do |id|
   id = URI.encode id # SMELL sinatra is decoding this
-  bin = @archive.stashspace.find { |b| b.id == id }
+  bin = archive.stashspace.find { |b| b.id == id }
   error 400, "cannot delete a non-empty stash bin" unless bin.empty?
   bin.delete or error "cannot not delete stash bin"
-  @archive.log "delete stash bin: #{bin}"
+  archive.log "delete stash bin: #{bin}"
   redirect "/stashspace"
 end
 
 get '/stashspace/:bin/:wip' do |b_id, w_id|
   b_id = URI.encode b_id # SMELL sinatra is decoding this
 
-  @bin = @archive.stashspace.find { |b| b.id == b_id }
+  @bin = archive.stashspace.find { |b| b.id == b_id }
   not_found unless @bin
 
   @wip = @bin.find { |w| w.id == w_id }
@@ -329,7 +365,7 @@ end
 delete '/stashspace/:bin/:wip' do |b_id, w_id|
   b_id = URI.encode b_id # SMELL sinatra is decoding this
 
-  @bin = @archive.stashspace.find { |b| b.id == b_id }
+  @bin = archive.stashspace.find { |b| b.id == b_id }
   not_found unless @bin
 
   @wip = @bin.find { |w| w.id == w_id }
@@ -361,6 +397,10 @@ delete '/stashspace/:bin/:wip' do |b_id, w_id|
 
 end
 
+before '/admin' do
+  error 403 unless @user.kind_of? Operator
+end
+
 get '/admin' do
   @accounts = Account.all :id.not => Daitss::Archive::SYSTEM_ACCOUNT_ID
   @users = User.all
@@ -381,7 +421,7 @@ post '/admin' do
     p = Project.new :id => Daitss::Archive::DEFAULT_PROJECT_ID, :description => 'default project'
     a.projects << p
     a.save or error "could not create new account"
-    @archive.log "new account: #{a.id}"
+    archive.log "new account: #{a.id}"
 
   when 'delete-account'
     id = require_param 'id'
@@ -393,7 +433,7 @@ post '/admin' do
       error 400, "cannot delete a non-empty account"
     end
 
-    @archive.log "delete account: #{a.id}"
+    archive.log "delete account: #{a.id}"
 
   when 'new-project'
     account_id = require_param 'account_id'
@@ -402,7 +442,7 @@ post '/admin' do
     description = require_param 'description'
     p = Project.new :id => id, :description => description
     p.account = a
-    @archive.log "new project: #{p.id}"
+    archive.log "new project: #{p.id}"
     p.save or error "could not save project bin\n\n#{e.message}\n#{e.backtrace}"
 
   when 'delete-project'
@@ -411,7 +451,7 @@ post '/admin' do
     p = Account.get(account_id).projects.first(:id => id) or not_found
     error 400, "cannot delete a non-empty project" unless p.packages.empty?
     p.destroy or error "could not delete project"
-    @archive.log "delete project: #{p.id}"
+    archive.log "delete project: #{p.id}"
 
   when 'new-user'
     type = require_param 'type'
@@ -432,42 +472,42 @@ post '/admin' do
     u.address = require_param 'address'
     u.description = ""
     u.save or error "could not save user, errors: #{u.errors}"
-    @archive.log "new user: #{u.id}"
+    archive.log "new user: #{u.id}"
 
   when 'delete-user'
     id = require_param 'id'
     u = User.get(id) or not_found
     error 400, "cannot delete a non-empty user" unless u.events.empty?
     u.destroy or error "could not delete user"
-    @archive.log "delete user: #{u.id}"
+    archive.log "delete user: #{u.id}"
 
   when 'make-admin-contact'
     id = require_param 'id'
     u = Contact.get(id) or not_found
     u.is_admin_contact = true
     u.save or error "could not save user, errors: #{u.errors}"
-    @archive.log "made admin contact: #{u.id}"
+    archive.log "made admin contact: #{u.id}"
 
   when 'make-tech-contact'
     id = require_param 'id'
     u = Contact.get(id) or not_found
     u.is_tech_contact = true
     u.save or error "could not save user, errors: #{u.errors}"
-    @archive.log "made tech contact: #{u.id}"
+    archive.log "made tech contact: #{u.id}"
 
   when 'unmake-admin-contact'
     id = require_param 'id'
     u = Contact.get(id) or not_found
     u.is_admin_contact = false
     u.save or error "could not save user, errors: #{u.errors}"
-    @archive.log "unmade admin contact: #{u.id}"
+    archive.log "unmade admin contact: #{u.id}"
 
   when 'unmake-tech-contact'
     id = require_param 'id'
     u = Contact.get(id) or not_found
     u.is_tech_contact = false
     u.save or error "could not save user, errors: #{u.errors}"
-    @archive.log "unmade tech contact: #{u.id}"
+    archive.log "unmade tech contact: #{u.id}"
 
 
 
@@ -493,7 +533,7 @@ end
 
 get "/batches/:batch_id" do |batch_id|
   @batch = Batch.get(batch_id)
-  
+
   halt 404 unless @batch
   haml :batch
 end

@@ -1,0 +1,12 @@
+%form{:action => '/login', :method => 'POST'}
+
+  %div
+    user:
+    %input{:name => 'name' }
+
+  %div
+    pass:
+    %input{:name => 'password', :type => 'password'}
+
+  %div
+    %input{:type => 'submit', :value => 'login'}

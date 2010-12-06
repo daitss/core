@@ -53,3 +53,9 @@ Feature: overview of a package
     Then in the aip section I should see copy size
     Then in the aip section I should see copy sha1
     Then in the aip section I should see number of datafiles
+
+  Scenario: access the descriptor
+    Given an archived package
+    And I goto its package page
+    When I click on "mets descriptor"
+    Then the body should be mets xml

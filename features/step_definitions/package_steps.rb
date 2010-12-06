@@ -145,3 +145,9 @@ Then /^the response should contain a valid ingest report$/ do
   ieid = File.basename last_package
   last_response.body.should =~ /#{ieid}/
 end
+
+Then /^the body should be mets xml$/ do
+  doc = Nokogiri::XML last_response.body
+  doc.root.name.should == 'mets'
+  doc.root.namespace.href.should == "http://www.loc.gov/METS/"
+end

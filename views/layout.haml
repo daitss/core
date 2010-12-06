@@ -7,28 +7,39 @@
     %link{:href => "http://fonts.googleapis.com/css?family=Droid+Serif:regular,bold,italic,bolditalic",
           :rel => "stylesheet", :type => "text/css"}
     %link{:rel => "stylesheet", :href => "/stylesheet.css", :type =>"text/css", :media =>"screen, projection"}
+    %script{:type => 'application/javascript', :src => 'https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js'}
+    %script{:type => 'application/javascript', :src => '/local.js'}
 
     %title
       daitss
       = Daitss::VERSION
   %body
     %nav
-      = navlink 'dashboard', '/'
-      = ":"
-      = navlink 'packages', '/packages'
-      = ":"
-      = navlink 'workspace', '/workspace'
-      = ":"
-      = navlink 'stashspace', '/stashspace'
-      = ":"
-      = navlink 'batches', '/batches'
-      = ":"
-      = navlink 'log', '/log'
-      = ":"
-      = navlink 'admin', '/admin'
+      - if @user
+        %a{ :href => '/' } dashboard
+        = ":"
+        %a{ :href => '/packages' } packages
+        -if @user.kind_of? Operator
+          = ":"
+          %a{ :href => '/workspace' } workspace
+          = ":"
+          %a{ :href => '/stashspace' } stashspace
+          = ":"
+          %a{ :href => '/batches' } batches
+          = ":"
+          %a{ :href => '/log' } log
+          = ":"
+          %a{ :href => '/admin' } admin
 
-      %span#logo (logo)
+        %span#logo
+          = @user.id
+          (logo)
 
+      - else
+        %a.active{ :href => '#' } login
+
+        %span#logo
+          (logo)
 
     #content
       = yield

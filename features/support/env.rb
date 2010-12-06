@@ -64,7 +64,9 @@ class MyWorld
 
 end
 
-World { MyWorld.new }
+World do
+  MyWorld.new
+end
 
 Before do
   archive = Daitss.archive
@@ -82,9 +84,28 @@ Before do
   a.save or 'cannot save ACT'
   pd.save or 'cannot save ACT/default'
   p.save or 'cannot save PRJ'
+
+  # affiliate
+  aff = User.new :id => 'affiliate', :account => a
+  aff.encrypt_auth('pass')
+  aff.save or raise 'cannot save aff'
+
+  # operator
+  op = Operator.new :id => 'operator', :account => a
+  op.encrypt_auth('pass')
+  op.save or raise 'cannot save aff'
+
+  visit '/login'
+  fill_in 'name', :with => 'operator'
+  fill_in 'password', :with => 'pass'
+  click_button 'login'
+  follow_redirect!
+  last_response.should be_ok
 end
 
 After do
+  visit '/'
+  click_button 'logout'
 
   Daitss.archive.workspace.each do |w|
     w.kill if w.running?

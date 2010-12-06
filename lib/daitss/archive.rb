@@ -40,4 +40,9 @@ module Daitss
   end
   module_function :archive
 
+  def load_archive
+    archive
+  end
+  module_function :load_archive
+
 end
