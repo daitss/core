@@ -6,11 +6,8 @@ require 'daitss'
 
 include Daitss
 
-archive
+load_archive
+archive.init_data_dir
+archive.setup_db :log => true
+archive.init_db
 archive.init_seed
-
-# a = Daitss::Archive.instance
-# a.init_data_dir
-# a.setup_db :log => true
-# a.init_db
-# a.init_seed

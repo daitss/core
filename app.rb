@@ -110,7 +110,7 @@ end
 post '/packages?/?' do
   require_param 'sip'
 
-  sip = begin
+  p = begin
           filename = params['sip'][:filename]
           data = params['sip'][:tempfile].read
           batch_id = params["batch_id"].strip == "batch name" ? nil : params["batch_id"].strip
@@ -120,7 +120,7 @@ post '/packages?/?' do
           path = File.join dir, filename
           open(path, 'w') { |io| io.write data }
 
-          sip = archive.submit path, @user, note
+          p = archive.submit path, @user, note
 
           if batch_id
             b = Batch.first_or_create(:id => batch_id)
@@ -128,12 +128,12 @@ post '/packages?/?' do
             b.save
           end
 
-          sip
+          p
         ensure
           FileUtils.rm_r dir
         end
 
-  redirect "/package/#{sip.id}"
+  redirect "/package/#{p.id}"
 end
 
 get '/packages?/?' do

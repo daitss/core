@@ -5,7 +5,9 @@ module Daitss
 
   class Archive
 
-    # submit a sip on behalf of an agent, return a package
+    # submit a sip on behalf of an agent
+    #
+    # @return [Package]
     def submit sip_path, agent, event_note = ""
       package = Package.new
 
@@ -75,4 +77,3 @@ module Daitss
   end
 
 end
-
