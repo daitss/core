@@ -9,6 +9,7 @@ Feature: modifying the status of a stashed wip
     And I press "Update"
     Then I should be redirected
     And I should be at the wip page
+    And it should have an "unstash" event
 
   Scenario: abort a wip
     Given a stash bin named "default bin" with 1 package
