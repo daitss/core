@@ -40,6 +40,7 @@ module Daitss
       src = File.join path, wip_id
       dst = File.join bin.path, wip_id
       FileUtils.mv src, dst
+      Package.get(wip_id).log "stash", :notes => "stashed to #{bin.name}"
     end
 
     def to_json *a

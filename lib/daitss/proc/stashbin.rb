@@ -58,6 +58,7 @@ module Daitss
       src = File.join path, wip_id
       dst = File.join Daitss.archive.workspace.path, wip_id
       FileUtils.mv src, dst
+      Package.get(wip_id).log "unstash"
     end
 
   end

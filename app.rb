@@ -120,7 +120,7 @@ post '/packages?/?' do
           path = File.join dir, filename
           open(path, 'w') { |io| io.write data }
 
-          sip = @archive.submit path, @user, note
+          sip = archive.submit path, @user, note
 
           if batch_id
             b = Batch.first_or_create(:id => batch_id)
@@ -237,16 +237,16 @@ post '/workspace' do
   case params['task']
   when 'start'
     startable = ws.reject { |w| w.running? or w.snafu? }
-    startable.each &:spawn
+    startable.each do |w|
+      w.unstop if w.stopped?
+      w.spawn
+    end
 
   when 'stop'
-    stoppable = ws.select { |w| w.running? }
-    stoppable.each &:stop
-    stoppable.each { |wip| Package.get(wip.id).log "ingest stopped" }
+    ws.select(&:running?).each(&:stop)
 
   when 'unsnafu'
-    unsnafuable = ws.select &:snafu?
-    unsnafuable.each &:unsnafu
+    ws.select(&:snafu?).each(&:unsnafu)
 
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']
@@ -296,7 +296,6 @@ post '/workspace/:id' do |id|
   when 'stop'
     error 400, 'cannot stop an idle wip' unless wip.running?
     wip.stop
-    Package.get(wip.id).log "ingest stopped"
 
   when 'unsnafu'
     error 400, 'can only unsnafu a snafu wip' unless wip.snafu?
@@ -379,15 +378,8 @@ delete '/stashspace/:bin/:wip' do |b_id, w_id|
     redirect "/workspace/#{w_id}"
 
   when 'abort'
-
-    # write ops event for abort
-    p = Package.get w_id
-    p.abort @user
-
-    # remove package
-    FileUtils.rm_rf @wip.path
-
-    # go home
+    Package.get(w_id).abort @user
+    @wip.retire
     redirect "/package/#{w_id}"
 
   else

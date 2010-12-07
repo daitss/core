@@ -118,6 +118,7 @@ module Daitss
       kill
       @process = { :id => :stop, :time => Time.now }
       save_process
+      package.log "#{task} stopped"
     end
 
     # return true of a process is stopped
@@ -144,6 +145,7 @@ module Daitss
       }
 
       save_process
+      package.log "#{task} snafu", :notes => e.message
     end
 
     # returns true if this wip is snafu
@@ -157,6 +159,7 @@ module Daitss
     def unsnafu
       need_state :snafu
       reset_process
+      package.log "#{task} unsnafu"
     end
 
     # returns a symbol denoting the state of a wip
