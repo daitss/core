@@ -21,6 +21,9 @@ module Daitss
     # name of the directory for dips
     DISSEMINATE_DIR = 'disseminate'
 
+    # name of the directory for nuking wips
+    NUKE_DIR = 'nuke'
+
     # id of system account
     SYSTEM_ACCOUNT_ID = 'SYSTEM'
 
@@ -48,7 +51,7 @@ module Daitss
     XMLRESOLUTION_URL = 'xmlresolution-url'
 
     attr_reader :db_url, :uri_prefix, :http_timeout
-    attr_reader :data_dir, :work_path, :stash_path, :submit_path, :disseminate_path, :dispatch_path
+    attr_reader :data_dir, :work_path, :stash_path, :submit_path, :disseminate_path, :dispatch_path, :nuke_path
     attr_reader :actionplan_url, :describe_url, :storage_url, :viruscheck_url, :transform_url, :xmlresolution_url
     attr_reader :yaml
 
@@ -72,6 +75,7 @@ module Daitss
       @submit_path = File.join @data_dir, SUBMIT_DIR
       @disseminate_path = File.join @data_dir, DISSEMINATE_DIR
       @dispatch_path = File.join @data_dir, DISPATCH_DIR
+      @nuke_path = File.join @data_dir, NUKE_DIR
 
       # uri prefix
       @uri_prefix = @yaml[URI_PREFIX]
@@ -110,7 +114,8 @@ module Daitss
         @stash_path,
         @submit_path,
         @disseminate_path,
-        @dispatch_path
+        @dispatch_path,
+        @nuke_path
       ].each do |p|
         FileUtils.mkdir p unless File.directory? p
       end

@@ -43,7 +43,7 @@ module Daitss
           package.log "#{task} started"
           send task
           package.log "#{task} finished"
-          FileUtils.rm_r @path
+          retire
         rescue => e
           self.snafu = e
           package.log "#{task} snafu", :notes => e.message.split("\n\n")[0]
@@ -60,6 +60,13 @@ module Daitss
       save_process
       Process.detach pid
       sleep 0.5
+    end
+
+    # atomically delete a wip from the workspace
+    def retire
+      die_path = File.join archive.nuke_path, id
+      FileUtils.mv @path, die_path
+      FileUtils.rm_r die_path
     end
 
     def done?
