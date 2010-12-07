@@ -40,7 +40,7 @@
   - @package.events.each do |e|
     %tr
       %td= e.name
-      %td= e.timestamp.pragma
+      %td= e.timestamp
       %td
         %pre= e.notes
       %td= e.agent.id
@@ -74,7 +74,7 @@
 
         - @package.requests.each do |r|
           %tr
-            %td= r.timestamp.pragma
+            %td= r.timestamp
             %td= r.type
             %td= r.note
             %td= r.is_authorized ? "yes" : "no"

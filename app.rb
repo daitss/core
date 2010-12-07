@@ -124,7 +124,7 @@ post '/packages?/?' do
 
           if batch_id
             b = Batch.first_or_create(:id => batch_id)
-            b.packages << sip
+            b.packages << p
             b.save
           end
 
