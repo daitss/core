@@ -148,9 +148,10 @@ module Daitss
       program.save or raise "cannot save system program"
 
       operator = Operator.new(:id => ROOT_OPERATOR_ID,
-                              :auth_key => Digest::SHA1.hexdigest(ROOT_OPERATOR_ID),
                               :description => "default operator account",
                               :account => a)
+
+      operator.encrypt_auth ROOT_OPERATOR_ID
 
       operator.save or raise "cannot save system operator"
     end
