@@ -159,7 +159,7 @@ get '/packages?/?' do
 end
 
 get '/package/:id' do |id|
-  @package = @user.packages.first(id) or not_found
+  @package = @user.packages.first(:id => id) or not_found
   @bins = archive.stashspace
   @bin = archive.stashspace.find { |b| File.exist? File.join(b.path, id) }
 
@@ -171,7 +171,7 @@ get '/package/:id' do |id|
 end
 
 get '/package/:id/descriptor' do |id|
-  @package = @user.packages.first(id) or not_found
+  @package = @user.packages.first(:id => id) or not_found
   @aip = @package.aip or not_found
   not_found unless @aip
   content_type = 'application/xml'
@@ -179,14 +179,14 @@ get '/package/:id/descriptor' do |id|
 end
 
 get '/package/:id/ingest_report' do |id|
-  @package = @user.packages.first(id) or not_found
+  @package = @user.packages.first(:id => id) or not_found
   not_found unless @package.status == "archived"
   archive.ingest_report id
 end
 
 # enqueue a new request
 post '/package/:id/request' do |id|
-  @package = @user.packages.first(id) or not_found
+  @package = @user.packages.first(:id => id) or not_found
   type = require_param 'type'
   note = require_param 'note'
 
