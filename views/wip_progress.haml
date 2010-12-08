@@ -3,10 +3,12 @@
   %table.progress
     %tr
       %th step
+      %th time
       %th seconds
     - @wip.steps_descending.each do |name,s|
       %tr
         %td= name
+        %td= s[:time]
         %td= s[:duration]
 
 - else
