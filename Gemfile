@@ -13,7 +13,7 @@ gem 'rack-ssl-enforcer'
 gem 'thor'
 gem 'uuid'
 gem 'rjb'
-gem 'typhoeus'
+gem 'typhoeus', "~>0.1.24"
 
 # this gem is WONK
 case `uname`.chomp
