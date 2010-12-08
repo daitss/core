@@ -6,24 +6,13 @@ module Daitss
     key true
     default proc { |res, prop| EggHeadKey.new_egg_head_key }
 
-    # here's how the base string for the ieid is generated:
-    # get a floating point representation of the current time
-    # convert that floating point number to a string
-    # remove the decimal point
-    # convert the now decimal point less string into an integer object
-    # use Integer's to_s method to get a base 36 representation
-    #
-    # TODO need something more entropic than time.
-    #      payout of improving this is a decent payoff
+    DIGITS = 36**14
+
+    # @return [String] raandomly matching /E[0-9A-Z]{8}_[0-9A-Z]{6}/
     def EggHeadKey.new_egg_head_key
-      string = ::Time.now.to_f.to_s.gsub(".", "").to_i.to_s(36).upcase
-
-      # pad with zeros to 14 characters
-      string = ("0" * (14 - string.length)) + string
-
-      # add underscore
-      string = string.insert(8, "_")
-      return "E" + string
+      s = rand(DIGITS).to_s(36).upcase
+      s.insert(8, "_")
+      'E' + s
     end
 
   end
