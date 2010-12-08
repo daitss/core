@@ -1,26 +1,49 @@
-#submit
-  %h1 submit
+#forms
+  #submit
+    %h1 submit
 
-  %form{:action => '/package', :method => 'POST', :enctype => 'multipart/form-data'}
-    %input{:type => 'file', :name => 'sip'}
-    %input{:name => 'note', :value => 'note'}
-    %input{:name => 'batch_id', :value => 'batch name'}
-    %input{:type => 'submit', :value => 'Submit'}
-  %p
-    packages must be in
-    %strong
-      %em tar
-    or
-    %strong
-      %em zip
-    format
+    %form{:action => '/package', :method => 'POST', :enctype => 'multipart/form-data'}
+      %table
+        %tr
+          %th File
+          %td
+            %input{:type => 'file', :name => 'sip'}
 
-#search
-  %h1 search
+        %tr
+          %th Batch
+          %td
+            %input{:name => 'batch_id'}
 
-  %form
-    %input#search{:type => 'text', :name => 'search', :value => @query}
-    %input{:type => 'submit', :value => "Search"}
+        %tr
+          %th Note
+          %td
+            %textarea{:name => 'note'}
+
+
+      %input{:type => 'submit', :value => 'Submit'}
+    %p
+      packages must be in
+      %strong
+        %em tar
+      or
+      %strong
+        %em zip
+      format
+
+  #search
+    %h1 search
+
+    %form
+      %table
+        %tr
+          %th package
+          %td
+            %input#search{:type => 'text', :name => 'search', :value => @query}
+        %tr
+          %th sip
+          %td
+            %input#search{:type => 'text', :name => 'search', :value => @query}
+      %input{:type => 'submit', :value => "Search"}
 
     %p
       %strong
@@ -32,22 +55,21 @@
 
 %hr/
 
-%h1
-  - if @query
-    results
-    (
-    = @packages.size
-    )
+#results
+  %h1
+    - if @query
+      results
+      (
+      = @packages.size
+      )
 
-  - else
-    latest activity
+    - else
+      latest activity
 
-- unless @packages.empty?
-  = partial :package_table, :locals => {:packages => @packages }
+  - unless @packages.empty?
+    = partial :package_table, :locals => {:packages => @packages }
 
-%h2 create a batch from this search
-
-%form{:action => '/batches', :method => 'post'}
-  %input{:name => 'name', :value => "batch name"}
-  %input{:type => 'hidden', :name => 'packages', :value => "#{@packages.inject(''){|str, p| str + " " + p.id}}"} 
-  %input{:type => 'submit', :value => 'Create Batch'}
+  %form{:action => '/batches', :method => 'post'}
+    %input{:name => 'name', :value => "batch name"}
+    %input{:type => 'hidden', :name => 'packages', :value => "#{@packages.inject(''){|str, p| str + " " + p.id}}"}
+    %input{:type => 'submit', :value => 'Save as Batch'}
