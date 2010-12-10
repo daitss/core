@@ -82,6 +82,7 @@ module Daitss
         # make  a new datafile
         df_id = file_node['ID'].slice /^file-(.+)$/, 1
 
+        # SMELL this needs to be revised to disseminate a d1 package with the stupid DFIDs
         df = case df_id
              when /^\d+$/ then new_original_datafile df_id
              when /^\d+-mig-\d+$/ then new_migrated_datafile df_id
