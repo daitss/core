@@ -1,0 +1,75 @@
+%h1
+  requests
+
+%h2 filter request scope
+
+%form{:action => "/requests", :method => "get"}
+  %table
+    %tr
+      %th batch
+      %th account
+      %th project
+      %th user
+      %th request type
+      %th request status
+      %th set scope
+    %tr
+      %td
+        %select{:name => 'batch-scope'}
+          %option all
+          - Batch.all.each do |b|
+            %option= b.id
+      %td
+        %select{:name => 'account-scope'}
+          %option all
+          - Account.all.each do |a|
+            %option= a.id
+      %td
+        %select{:name => 'project-scope'}
+          %option all
+          - Project.all.each do |p|
+            %option #{p.id}-#{p.account.id}
+      %td
+        %select{:name => 'user-scope'}
+          %option all
+          - User.all.each do |u|
+            %option #{u.id}
+      %td
+        %select{:name => 'type-scope'}
+          %option all
+          %option disseminate 
+          %option withdraw 
+          %option peek
+      %td
+        %select{:name => 'status-scope'}
+          %option all
+          %option enqueued
+          %option released 
+          %option cancelled
+      %td
+        %input{:type => 'submit', :value => 'Set Scope'}
+  
+#list
+  %h2 request list
+
+  %h3 batch - #{@batch_scope}  ::  account - #{@account_scope}  ::  project - #{@project_scope}  ::  user - #{@user_scope}  ::  type - #{@type_scope}  ::  status - #{@status_scope}
+  
+  - if @requests.any?
+    %table
+      %tr
+        %th IEID
+        %th name
+        %th project
+        %th request type
+        %th status
+        %th requesting user
+    
+      - @requests.each do |r|
+        %tr
+          %td 
+            %a{:href => "/package/#{r.package.id}"}= r.package.id
+          %td= r.package.sip.name
+          %td= r.package.project.id
+          %td= r.type
+          %td= r.status
+          %td= r.agent.id
