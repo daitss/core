@@ -4,6 +4,9 @@ module Daitss
 
   class D1DeletedFile
     include DataMapper::Resource
+
+    storage_names[:default] = 'd1deleted_files'
+
     property :id, Serial, :key => true
     property :ieid, String, :index => true, :length => 50 # daitss1 ieid
     property :source, String, :length => 100 #  the file which would be used to restore the duplicate.

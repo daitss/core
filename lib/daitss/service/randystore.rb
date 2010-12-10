@@ -2,9 +2,7 @@ require 'base64'
 require 'typhoeus'
 require 'nokogiri'
 
-module Typhoeus
-
-  class Response
+class Typhoeus::Response
 
     def error! message=nil
       req = self.request
@@ -13,6 +11,26 @@ module Typhoeus
       msg.puts "#{req.method.to_s.upcase} #{self.request.url} => #{self.code}"
       msg.puts body if body
       raise msg.string
+    end
+
+end
+
+# OSX SHA1 bug
+if PLATFORM =~ /darwin/
+
+  class Digest::SHA1
+
+    def update s
+      buf_size = (1024 ** 2) * 256
+
+      if s.size > buf_size
+        io = StringIO.new s
+        buf = String.new
+        super buf while io.read(buf_size, buf)
+      else
+        super s
+      end
+
     end
 
   end
@@ -65,7 +83,7 @@ module Daitss
     def put data
       md5 = Digest::MD5.new
       sha1 = Digest::SHA1.new
-      [md5, sha1].each { |md| md << data }
+      [md5, sha1].each { |md| md.update data }
 
       headers = {
         'Content-MD5' => Base64.encode64(md5.digest).strip,
@@ -80,6 +98,7 @@ module Daitss
       res.error! "unknown document type" unless xml.root.name == 'created'
       res.error! "bad package id" unless xml.root['ieid'] == @package_id
       res.error! "bad location" unless xml.root['location'] == @url
+
       res.error! "bad sha1" unless xml.root['sha1'] == sha1.hexdigest
       res.error! "bad md5" unless xml.root['md5'] == md5.hexdigest
       res.error! "bad size" unless xml.root['size'].to_i == data.size

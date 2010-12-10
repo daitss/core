@@ -14,10 +14,7 @@ module Daitss
       raise "no aip for #{id}" unless package.aip
 
       #TODO handle withdrawn packages
-
-      step('load-aip') do
-        load_from_d1_aip
-      end
+      step('load-aip') { load_from_d1_aip }
 
       preserve
 
@@ -33,7 +30,6 @@ module Daitss
       step('validate aip descriptor') { validate_aip_descriptor }
       step('make tarball') { make_tarball }
       step('make aip') { update_aip }
-
     end
 
   end
