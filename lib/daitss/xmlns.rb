@@ -11,7 +11,7 @@ module Daitss
     'mods' => 'http://www.loc.gov/mods/v3',
     'daitss' => 'http://www.fcla.edu/dls/md/daitss/',
     'aes' => 'http://www.aes.org/audioObject',
-    'marc' => 'http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd',
+    'marc' => 'http://www.loc.gov/MARC21/slim',
     'dc' => 'http://purl.org/dc/elements/1.1/'
   }
 
@@ -27,7 +27,7 @@ module Daitss
     'p2' => 'info:lc/xmlns/premis-v2-beta',
     'mods' => 'http://www.loc.gov/mods/v3',
     'daitss' => 'http://www.fcla.edu/dls/md/daitss/',
-    'marc' => 'http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd',
+    'marc' => 'http://www.loc.gov/MARC21/slim',
     'dc' => 'http://purl.org/dc/elements/1.1/'
   }
 

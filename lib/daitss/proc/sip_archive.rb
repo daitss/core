@@ -204,6 +204,7 @@ MSG
       dc_title_xpath = "//M:dmdSec//dc:title"
       marc_title_b_xpath = "//M:dmdSec//marc:datafield[@tag='245']/marc:subfield[@code='b']"
       marc_title_a_xpath = "//M:dmdSec//marc:datafield[@tag='245']/marc:subfield[@code='a']"
+      marc_issue_vol_xpath = "//M:dmdSec//marc:datafield[@tag='245']/marc:subfield[@code='n']"
       mods_title_xpath = "//M:dmdSec//mods:title"
       mods_issue_xpath = "//mods:part/mods:detail[@type='issue']/mods:number"
       mods_volume_xpath = "//mods:part/mods:detail[@type='volume']/mods:number"
@@ -261,11 +262,16 @@ MSG
         marc_title_b = descriptor_doc.find_first(marc_title_b_xpath, NS_PREFIX)
 
         marc_title = marc_title_a.content if marc_title_a
-        marc_title += marc_title_b.content if marc_title_b
+        marc_title += " " + marc_title_b.content if marc_title_b
 
         @ivt["title"] = marc_title ? marc_title : nil
 
-        #TODO: MARC issue/volume
+        marc_issue_vol = descriptor_doc.find_first(marc_issue_vol_xpath, NS_PREFIX)
+
+        if marc_issue_vol
+          @ivt["volume"] = marc_issue_vol.content[/\d+/]
+          @ivt["issue"] = marc_issue_vol.content.gsub(@ivt["volume"], "")[/\d+/]
+        end
       end
 
       # finally, try dublin core
