@@ -632,12 +632,7 @@ get '/requests' do
     @requests = @requests.find_all {|r| r.status == status }
   end
 
-  @batch_scope = params['batch-scope'] ? params['batch-scope'] : "all"
-  @account_scope = params['account-scope'] ? params['account-scope'] : "all"
-  @project_scope = params['project-scope'] ? params['project-scope'] : "all"
-  @user_scope = params['user-scope'] ? params['user-scope'] : "all"
-  @type_scope = params['type-scope'] ? params['type-scope'] : "all"
-  @status_scope = params['status-scope'] ? params['status-scope'] : "all"
+  @params = params
 
   haml :requests
 end

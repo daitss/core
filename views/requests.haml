@@ -18,41 +18,55 @@
         %select{:name => 'batch-scope'}
           %option all
           - Batch.all.each do |b|
-            %option= b.id
+            - if @params["batch-scope"] == b.id
+              %option{:selected => true}= b.id
+            - else
+              %option= b.id
       %td
         %select{:name => 'account-scope'}
           %option all
           - Account.all.each do |a|
-            %option= a.id
+            - if @params["account-scope"] == a.id
+              %option{:selected => true}= a.id
+            - else
+              %option= a.id
       %td
         %select{:name => 'project-scope'}
           %option all
           - Project.all.each do |p|
-            %option #{p.id}-#{p.account.id}
+            - if @params["project-scope"] == p.id + "-" + p.account.id
+              %option{:selected => true} #{p.id}-#{p.account.id}
+            - else
+              %option #{p.id}-#{p.account.id}
       %td
         %select{:name => 'user-scope'}
           %option all
           - User.all.each do |u|
-            %option #{u.id}
+            - if @params["user-scope"] == u.id
+              %option{:selected => true} #{u.id}
+            - else
+              %option #{u.id}
       %td
         %select{:name => 'type-scope'}
           %option all
           %option disseminate 
           %option withdraw 
           %option peek
+          - if @params["type-scope"]
+            %option{:selected => true}= @params['type-scope'] 
       %td
         %select{:name => 'status-scope'}
           %option all
           %option enqueued
           %option released 
           %option cancelled
+          - if @params["status-scope"]
+            %option{:selected => true}= @params['status-scope'] 
       %td
         %input{:type => 'submit', :value => 'Set Scope'}
   
 #list
   %h2 request list
-
-  %h3 batch - #{@batch_scope}  ::  account - #{@account_scope}  ::  project - #{@project_scope}  ::  user - #{@user_scope}  ::  type - #{@type_scope}  ::  status - #{@status_scope}
   
   - if @requests.any?
     %table
