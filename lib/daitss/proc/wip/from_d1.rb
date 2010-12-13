@@ -19,10 +19,11 @@ module Daitss
 
       # restore duplicates deleted by d1
       restore_deleted_duplicates
+
+      # bring in global tar into xmlres-0
+      compile_globals
     end
 
-    # SMELL this can go into a deterministic dmd section in the aip descriptor and be recycled
-    # it wont change over time
     def load_d1_dmd
       metadata["dmd-account"] = self.package.project.account.id
       metadata["dmd-project"] = self.package.project.id
@@ -151,13 +152,50 @@ module Daitss
         FileUtils::cp source_df.data_file, dup_df.data_file
         dup_df['sip-path'] = dup.duplicate
         dup_df['aip-path'] = File.join AipArchive::SIP_FILES_DIR, dup.duplicate
-        
+
         # add a 'redup' event for restoring d1 deleted duplicated files.
         dup_df['redup-event'] = redup_event dup_df, "restore from #{dup.source}"
         dup_df['redup-agent'] = system_agent
 
       end
 
+    end
+
+    def compile_globals
+      d1adapter = DataMapper.setup(:daitss1, archive.yaml["d1-database-url"])
+
+      sql_query = %Q{
+        select concat(IEID,'/',PACKAGE_PATH)
+        from (select DFID
+              from INT_ENTITY_GLOBAL_FILE
+              where IEID='#{id}') dfs, DATA_FILE
+        where DATA_FILE.DFID=dfs.DFID
+          and DATA_FILE.PACKAGE_PATH not like '%_LOC%'
+          and DATA_FILE.PACKAGE_PATH not like '%dls/md/daitss/daitss_%.xsd';
+      }
+
+      ps = d1adapter.select sql_query
+
+      tarball_file = File.expand_path(File.join(old_xml_res_tarball_dir, "#{Wip::XML_RES_TARBALL_BASENAME}-0.tar"))
+
+      tdir = Dir.mktmpdir
+
+      Dir.chdir tdir do
+        pdir = self.package.id
+        FileUtils.mkdir pdir
+
+        ps.each do |f|
+          gf_path = File.join archive.yaml["d1-globals-dir"], f
+          tb_path = File.join pdir, f
+          FileUtils.mkdir_p File.dirname(tb_path)
+          FileUtils.ln_s gf_path, tb_path
+        end
+
+        %x{tar --dereference --create --file #{tarball_file} #{pdir}}
+        raise "could not make tarball: #{$?}" unless $?.exitstatus == 0
+      end
+
+      FileUtils.rm_r tdir
     end
 
   end
