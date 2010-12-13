@@ -20,6 +20,12 @@ describe RandyStore do
     rs.put data
   end
 
+  it 'should put a new copy from a file' do
+    package_id = EggHeadKey.new_egg_head_key
+    rs = RandyStore.reserve package_id
+    rs.put_file file
+  end
+
   it 'should put an update to an existing copy' do
     package_id = EggHeadKey.new_egg_head_key
 
