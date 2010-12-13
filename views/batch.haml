@@ -31,10 +31,13 @@
     %th name
     %th size
     %th # of files
+    %th activity
 
   - @batch.packages.each do |p|
     %tr
-      %td= p.id
+      %td 
+        %a{:href => "/package/#{p.id}"}= p.id
       %td= p.sip.name
       %td= sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000)
       %td= p.sip.number_of_datafiles
+      %td= p.events.first(:order => [ :timestamp.desc ]).name if p.events.any?

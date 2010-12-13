@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><METS:mets xmlns:METS="http://www.loc.gov/METS/" xmlns:daitss="http://www.fcla.edu/dls/md/daitss/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:palmm="http://www.fcla.edu/dls/md/palmm/" xmlns:rightsmd="http://www.fcla.edu/dls/md/rightsmd/" xmlns:techmd="http://www.fcla.edu/dls/md/techmd/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LABEL="The Florida Historical Quarterly Volume 83 Issue 3" OBJID="DT_FCL01_2646777" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version17/mets.v1-7.xsd http://purl.org/dc/elements/1.1/ http://dublincore.org/schemas/xmls/simpledc20021212.xsd http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-0.xsd http://www.fcla.edu/dls/md/techmd/ http://www.fcla.edu/dls/md/techmd.xsd http://www.fcla.edu/dls/md/palmm/ http://www.fcla.edu/dls/md/palmm.xsd http://www.fcla.edu/dls/md/rightsmd/ http://www.fcla.edu/dls/md/rightsmd.xsd http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss.xsd">
+  <METS:metsHdr CREATEDATE="2010-11-19T16:58:28Z" ID="DT_FCL01_2646777" LASTMODDATE="2010-11-19T16:58:28Z" RECORDSTATUS="NEW">
+    <METS:agent OTHERTYPE="SOFTWARE" ROLE="CREATOR" TYPE="OTHER">
+      <METS:name>FCLA DigiTool-to-FDA Processing</METS:name>
+    </METS:agent>
+   <METS:agent ROLE="CREATOR" TYPE="ORGANIZATION">
+      <METS:name>FCLA</METS:name>
+    </METS:agent>
+  </METS:metsHdr>
+  <METS:dmdSec ID="DMD1">
+    <METS:mdWrap MDTYPE="DC" MIMETYPE="text/xml">
+      <METS:xmlData>        
+      
+
+		<dc:title>The Florida Historical Quarterly Volume 83 Issue 3</dc:title> 
+		<dcterms:alternative>The Florida Historical Society Quarterly</dcterms:alternative>
+		<dcterms:alternative/> 
+		<dcterms:alternative/>  
+		<dc:creator>Florida Historical Society</dc:creator> 
+		<dc:creator/> 
+		<dc:creator/> 
+		<dc:creator/> 
+		<dc:creator/>   
+		<dc:subject>History.</dc:subject> 
+		<dc:subject>Florida--History--Periodicals.</dc:subject> 
+		<dc:subject/> 
+		<dc:subject/> 
+		<dc:subject/> 
+		<dc:subject/> 
+		<dc:subject/> 
+		<dc:description>v. in ill., maps. 24 cm.</dc:description>
+		<dc:description>Electronic version created 2010, University of Central Florida Libraries, State University System of Florida.</dc:description>  
+		<dcterms:tableOfContents>Did Slaves Have Free Will? Luke, a Slave, v. Florida and Crime at the Command of the Master by Craig Buettinger -- Voice of the Exploited Majority: Claude Kirk and the 1970 Manatee County Forced Busing Incident by Benjamin Houston -- Historic Notes and Documents: Philadelphia Foundations of the Wm. G. Porter Company of Apalachicola by Judith Y. Robertson -- Book Reviews -- Book Notes -- History News</dcterms:tableOfContents> 
+		<dc:publisher>St. Augustine, Florida: Florida Historical Society</dc:publisher> 
+		<dc:contributor/>
+		<dc:contributor/> 
+		<dc:contributor/> 
+		<dc:contributor/>
+		<dc:contributor/>  
+		<dc:date>Winter 2005</dc:date> 
+		<dc:type>Book</dc:type> 
+		<dc:identifier/> 
+		<dc:source/> 
+		<dc:language>English</dc:language> 
+		<dc:language/> 
+		<dc:rights>All rights to images are held by the respective holding institution. This image is posted publicly for non-profit educational uses, excluding printed publication. Additional information available at http://palmm.fcla.edu/fhq/copy.shtml</dc:rights> 
+		<dcterms:physicalLocation/> 
+		<dcterms:filename>n3.pdf</dcterms:filename>
+		<dcterms:filename>DocumentIconFHQ.gif</dcterms:filename>
+	</METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  
+  
+  
+  
+  <METS:amdSec>
+    <METS:digiprovMD ID="DPMD1">
+      <METS:mdWrap MDTYPE="OTHER" OTHERMDTYPE="DAITSS">
+        <METS:xmlData>
+          <daitss:daitss>
+            <daitss:AGREEMENT_INFO ACCOUNT="" PROJECT=""/>
+          </daitss:daitss>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:digiprovMD>
+  </METS:amdSec> 
+<METS:fileSec>
+    <METS:fileGrp USE="THUMBNAIL">
+              <METS:file CHECKSUM="af2a34e46e03a0845318753d97e3fb13" CHECKSUMTYPE="MD5" ID="FID2646777" MIMETYPE="image/gif">
+              <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="2646777_DocumentIconFHQ.gif"/>
+        	</METS:file>
+    </METS:fileGrp>
+  </METS:fileSec>
+
+  <METS:structMap>
+    <METS:div DMDID="DMD1" LABEL="The Florida Historical Quarterly Volume 83 Issue 3">
+                <METS:fptr FILEID="FID2646777"/> 
+         </METS:div>
+  </METS:structMap>
+
+</METS:mets>

@@ -115,4 +115,138 @@ describe SipArchive do
 
   end
 
+  describe 'issue volume title' do
+
+    it "should correctly process OJS descriptor 1" do
+      path = new_sip_archive 'haskell-nums-pdf.zip'
+      s = SipArchive.new path
+
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "OJStest6.xml")))
+
+      ivt = s.issue_vol_title
+
+      ivt["title"].should == "IEICE Transactions on Fundamentals of Electronics, Communications and Computer Sciences"
+      ivt["volume"].should == "91"
+      ivt["issue"].should == "11"
+    end
+
+    it "should correctly process OJS descriptor 2" do
+      path = new_sip_archive 'haskell-nums-pdf.zip'
+      s = SipArchive.new path
+
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "OJStest3.xml")))
+
+      ivt = s.issue_vol_title
+
+      ivt["title"].should == "IEICE Transactions on Fundamentals of Electronics, Communications and Computer Sciences"
+      ivt["volume"].should == "88"
+      ivt["issue"].should == "3"
+    end
+
+    it "should correctly process vol/issue in structMap 1 " do
+      path = new_sip_archive 'haskell-nums-pdf.zip'
+      s = SipArchive.new path
+
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "FI04122903.xml")))
+
+      ivt = s.issue_vol_title
+
+      ivt["title"].should == "Everglades Natural History"
+      ivt["volume"].should == "1"
+      ivt["issue"].should == "3"
+    end
+
+    it "should correctly process vol/issue in structMap 2" do
+      path = new_sip_archive 'haskell-nums-pdf.zip'
+      s = SipArchive.new path
+
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "WF00000013.xml")))
+
+      ivt = s.issue_vol_title
+
+      ivt["title"].should == "Florida Chautauqua"
+      ivt["volume"].should == "1897"
+      ivt["issue"].should == nil 
+    end
+
+    it "should correctly process MARC dmd 1" do
+      path = new_sip_archive 'haskell-nums-pdf.zip'
+      s = SipArchive.new path
+
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "MARC_examples_00001.xml")))
+
+      ivt = s.issue_vol_title
+
+      ivt["title"].should == "0 Vol issue test 1 subtitle"
+      ivt["volume"].should == "5"
+      ivt["issue"].should == nil 
+    end
+
+    it "should correctly process MARC dmd 2" do
+      path = new_sip_archive 'haskell-nums-pdf.zip'
+      s = SipArchive.new path
+
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "MARC_examples2.xml")))
+
+      ivt = s.issue_vol_title
+
+      ivt["title"].should == "0 Vol issue test 1 subtitle"
+      ivt["volume"].should == "6"
+      ivt["issue"].should == "10"
+    end
+
+    it "should correctly process MODS dmd 1" do
+      path = new_sip_archive 'haskell-nums-pdf.zip'
+      s = SipArchive.new path
+
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "UF00078627_00013.xml")))
+
+      ivt = s.issue_vol_title
+
+      ivt["title"].should == "Fun. Volume XIII. New Series Volume VI."
+      ivt["volume"].should == "n.s. 6"
+      ivt["issue"].should == nil
+    end
+
+    it "should correctly process MODS dmd 2" do
+      path = new_sip_archive 'haskell-nums-pdf.zip'
+      s = SipArchive.new path
+
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "UF00078185_00029.xml")))
+
+      ivt = s.issue_vol_title
+
+      ivt["title"].should == "McTrans newsletter. Vol. 37"
+      ivt["volume"].should == "37"
+      ivt["issue"].should == nil
+    end
+
+    it "should correctly process DC dmd 1" do
+      path = new_sip_archive 'haskell-nums-pdf.zip'
+      s = SipArchive.new path
+
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "2708219.xml")))
+
+      ivt = s.issue_vol_title
+
+      ivt["title"].should == "The Florida Historical Quarterly Volume 84 Issue 4"
+      ivt["volume"].should == "84"
+      ivt["issue"].should == "4"
+    end
+
+    it "should correctly process DC dmd 2" do
+      path = new_sip_archive 'haskell-nums-pdf.zip'
+      s = SipArchive.new path
+
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "2646777.xml")))
+
+      ivt = s.issue_vol_title
+
+      ivt["title"].should == "The Florida Historical Quarterly Volume 83 Issue 3"
+      ivt["volume"].should == "83"
+      ivt["issue"].should == "3"
+    end
+
+  end
+
 end
