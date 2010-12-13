@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<METS:mets LABEL="Florida Chautauqua" OBJID="SN00000005" TYPE="serial" xmlns:METS="http://www.loc.gov/METS/" xmlns:daitss="http://www.fcla.edu/dls/md/daitss/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:palmm="http://www.fcla.edu/dls/md/palmm/" xmlns:rightsmd="http://www.fcla.edu/dls/md/rightsmd/" xmlns:techmd="http://www.fcla.edu/dls/md/techmd/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/version14/mets.xsd http://purl.org/dc/elements/1.1/ http://dublincore.org/schemas/xmls/simpledc20021212.xsd http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-0.xsd http://www.fcla.edu/dls/md/techmd/ http://www.fcla.edu/dls/md/techmd.xsd http://www.fcla.edu/dls/md/palmm/ http://www.fcla.edu/dls/md/palmm.xsd http://www.fcla.edu/dls/md/rightsmd/ http://www.fcla.edu/dls/md/rightsmd.xsd http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss.xsd">
+  <METS:metsHdr CREATEDATE="2005-10-12T21:53:40Z" ID="WF00000013" LASTMODDATE="2005-10-12T21:53:40Z" RECORDSTATUS="NEW">
+    <METS:agent ROLE="CREATOR" TYPE="ORGANIZATION">
+      <METS:name>Florida Center for Library Automation</METS:name>
+    </METS:agent>
+    <METS:agent OTHERTYPE="SOFTWARE" ROLE="CREATOR" TYPE="OTHER">
+      <METS:name>MXF2METS</METS:name>
+    </METS:agent>
+    <METS:agent OTHERROLE="MXF CREATOR" ROLE="OTHER" TYPE="ORGANIZATION">
+      <METS:name>UWF</METS:name>
+      <METS:note>directory=O:\ScanQC\Activities\Files needing QC\WF00000013\</METS:note>
+      <METS:note>derivatives=pdf/chapter</METS:note>
+      <METS:note>server=DL</METS:note>
+      <METS:note>formats=image/tiff 6.0, image/jpeg</METS:note>
+      <METS:note>projects=FHP</METS:note>
+    </METS:agent>
+    <METS:agent OTHERROLE="MXF CREATOR" OTHERTYPE="SOFTWARE" ROLE="OTHER" TYPE="OTHER">
+      <METS:name>MXFClient</METS:name>
+    </METS:agent>
+    <METS:agent OTHERROLE="MXF CREATOR" ROLE="OTHER" TYPE="INDIVIDUAL">
+      <METS:name>Haas, Stephanie</METS:name>
+    </METS:agent>
+  </METS:metsHdr>
+  <METS:dmdSec ID="DMD1">
+    <METS:mdRef ID="AAA0779" LOCTYPE="OTHER" MDTYPE="MARC" OTHERLOCTYPE="FCLANOTIS:QF"/>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD2">
+    <METS:mdWrap MDTYPE="MODS" MIMETYPE="text/xml" xmlns:METS="http://www.loc.gov/METS/">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:titleInfo>
+            <mods:title>Florida Chautauqua</mods:title>
+          </mods:titleInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:amdSec>
+    <METS:techMD ID="TMD1">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD2">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD3">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1131" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD4">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1131" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD5">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1145" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD6">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1159" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD7">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1159" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD8">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1166" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD9">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1152" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD10">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1113" Y="2683"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD11">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD12">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD13">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD14">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD15">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD16">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD17">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD18">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD19">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD20">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD21">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD22">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD23">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD24">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD25">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1193" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD26">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1110" Y="2731"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD27">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1103" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD28">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="308" Y="308"/>
+            <techmd:colorSpace>BlackIsZero</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1124" Y="2739"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:rightsMD ID="RMD1">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="RIGHTSMD">
+        <METS:xmlData>
+          <rightsmd:versionStatement>Electronic version created 2001, State University Sytem of Florida.</rightsmd:versionStatement>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:rightsMD>
+    <METS:sourceMD ID="SMD1">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="PALMM">
+        <METS:xmlData>
+          <palmm:entityDesc SOURCE="UF"/>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:sourceMD>
+  </METS:amdSec>
+  <METS:amdSec>
+    <METS:digiprovMD ID="DPMD1">
+      <METS:mdWrap MDTYPE="OTHER" OTHERMDTYPE="DAITSS">
+        <METS:xmlData>
+          <daitss:daitss>
+            <daitss:AGREEMENT_INFO ACCOUNT="UWF" PROJECT="FHP"/>
+          </daitss:daitss>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:digiprovMD>
+  </METS:amdSec>
+  <METS:fileSec>
+    <METS:fileGrp>
+      <METS:fileGrp>
+        <METS:file CHECKSUM="4b0dd372242daf099bd6c04f7d6136f9" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:40Z" GROUPID="GID1" ID="FID1" MIMETYPE="image/jpeg" SIZE="315172">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="1.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="2c20dda8938f11aef049d72fd6e02138" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID2" ID="FID3" MIMETYPE="image/jpeg" SIZE="301779">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="2.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="911a284402e76ddc634ac9e3464416e4" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID3" ID="FID5" MIMETYPE="image/jpeg" SIZE="356292">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="3.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="0c6fbf12ead4424475ba04d282ee677c" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID4" ID="FID7" MIMETYPE="image/jpeg" SIZE="352300">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="4.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="a2a35648beafb0b6e99eb245920b42f9" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID5" ID="FID9" MIMETYPE="image/jpeg" SIZE="355259">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="5.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="a149effb51c4a3e3efd45eb365d32093" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID6" ID="FID11" MIMETYPE="image/jpeg" SIZE="317095">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="6.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="289b06b09ddf841af7558d556c42571a" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID7" ID="FID13" MIMETYPE="image/jpeg" SIZE="325015">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="7.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="d4f2c45a15a79967cd640318d1fd4e1f" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID8" ID="FID15" MIMETYPE="image/jpeg" SIZE="309352">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="8.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="cdabdec72424cc520bd2dfe4b6e863f9" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID9" ID="FID17" MIMETYPE="image/jpeg" SIZE="318681">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="9.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="12dccfd39e35ffac94e6f8ec1548b302" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID10" ID="FID19" MIMETYPE="image/jpeg" SIZE="351147">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="10.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="e28aa793884a80e9f1c7e3ff6689ce92" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID11" ID="FID21" MIMETYPE="image/jpeg" SIZE="264260">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="11.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="aa1e78439e1ebea9e533f244f01c6767" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID12" ID="FID23" MIMETYPE="image/jpeg" SIZE="258046">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="12.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="ab85fec027b147d526936d51b109c4b4" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID13" ID="FID25" MIMETYPE="image/jpeg" SIZE="268876">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="13.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="7bdba0445d0d9cc98228c4ff01279cd6" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID14" ID="FID27" MIMETYPE="image/jpeg" SIZE="277742">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="14.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="15e7a7c01fbb41a5db67fe61adc1e0a6" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID15" ID="FID29" MIMETYPE="image/jpeg" SIZE="160188">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="15.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="c2eeb031eaf5941347293a46ceb6c6c9" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID16" ID="FID31" MIMETYPE="image/jpeg" SIZE="257581">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="16.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="3f81a0a31f22a7d99b82d2985c7ca1b2" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID17" ID="FID33" MIMETYPE="image/jpeg" SIZE="210449">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="17.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="8fb3d096e1919cc7af704654639e947a" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID18" ID="FID35" MIMETYPE="image/jpeg" SIZE="275138">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="18.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="ddf8e1eff78afd40cc7e149f1c632388" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID19" ID="FID37" MIMETYPE="image/jpeg" SIZE="226511">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="19.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="225b7e1ba321662101b5d8f361344881" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID20" ID="FID39" MIMETYPE="image/jpeg" SIZE="255056">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="20.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="0d0c345400ce75b085efeb1774ee236f" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID21" ID="FID41" MIMETYPE="image/jpeg" SIZE="235591">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="21.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="0d0db2f44b222b8e1cdd90c042ec5649" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID22" ID="FID43" MIMETYPE="image/jpeg" SIZE="275797">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="22.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="5d99dc8df30bb8595ac9e760de88cf9f" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID23" ID="FID45" MIMETYPE="image/jpeg" SIZE="192396">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="23.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="bb2e4e3c2715e03656d531d1b2bb8c7e" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID24" ID="FID47" MIMETYPE="image/jpeg" SIZE="319201">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="24.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="162c7f4ecf95c64db42466ea56049937" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID25" ID="FID49" MIMETYPE="image/jpeg" SIZE="208533">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="25.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="b4e271e2225b66bde511a36327e0d64a" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID26" ID="FID51" MIMETYPE="image/jpeg" SIZE="245856">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="26.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="51bbe4adc2af6e7a1b3161efbc4dab88" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID27" ID="FID53" MIMETYPE="image/jpeg" SIZE="394835">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="27.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="0bca97f54a96bd2bf171d9deb96b2146" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID28" ID="FID55" MIMETYPE="image/jpeg" SIZE="329109">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="28.jpg"/>
+        </METS:file>
+      </METS:fileGrp>
+      <METS:fileGrp>
+        <METS:file ADMID="TMD1" CHECKSUM="4b5ea7f0075a49a3f30e7499e3392d9b" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID1" ID="FID2" MIMETYPE="image/tiff 6.0" SIZE="3271107">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="1.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD2" CHECKSUM="41c492a21b56be891f78449d76141d75" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID2" ID="FID4" MIMETYPE="image/tiff 6.0" SIZE="3270973">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="2.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD3" CHECKSUM="642c47b61d8f53ff646d65cea6ca8c25" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID3" ID="FID6" MIMETYPE="image/tiff 6.0" SIZE="3100696">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="3.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD4" CHECKSUM="8f53b40cfed865eaa774e71e8909118c" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID4" ID="FID8" MIMETYPE="image/tiff 6.0" SIZE="3100578">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="4.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD5" CHECKSUM="ad7c457ff07475e861fb581d75cb9740" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID5" ID="FID10" MIMETYPE="image/tiff 6.0" SIZE="3139103">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="5.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD6" CHECKSUM="5a4157bd37d2899d4751f7a76565f035" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID6" ID="FID12" MIMETYPE="image/tiff 6.0" SIZE="3177459">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="6.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD7" CHECKSUM="e1327bebc3a442b1e92cc21df70c2bb4" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID7" ID="FID14" MIMETYPE="image/tiff 6.0" SIZE="3177695">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="7.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD8" CHECKSUM="b8c96e5635f468708cdda36343306a90" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID8" ID="FID16" MIMETYPE="image/tiff 6.0" SIZE="3196804">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="8.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD9" CHECKSUM="2457cdabc6e214800d01bc33a966ca9f" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID9" ID="FID18" MIMETYPE="image/tiff 6.0" SIZE="3158274">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="9.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD10" CHECKSUM="8f8d0d134490cec16e2d0dca84cfb462" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID10" ID="FID20" MIMETYPE="image/tiff 6.0" SIZE="2989266">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="10.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD11" CHECKSUM="17579dd3a24d3933c55dbb68749eeee1" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID11" ID="FID22" MIMETYPE="image/tiff 6.0" SIZE="3270617">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="11.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD12" CHECKSUM="14f1d2838a2dede6a476f93c1a75d00f" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID12" ID="FID24" MIMETYPE="image/tiff 6.0" SIZE="3270617">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="12.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD13" CHECKSUM="010a7ef66d7217d56909b586eff0550c" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID13" ID="FID26" MIMETYPE="image/tiff 6.0" SIZE="3270351">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="13.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD14" CHECKSUM="3ebe9e0ee14d8f990a8a8fe7a23fe134" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID14" ID="FID28" MIMETYPE="image/tiff 6.0" SIZE="3270565">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="14.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD15" CHECKSUM="c859e9ebb0aacb8d9542b6bd7f9c4d32" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID15" ID="FID30" MIMETYPE="image/tiff 6.0" SIZE="3270731">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="15.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD16" CHECKSUM="389c27f06451df9e8800a899386c96a6" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID16" ID="FID32" MIMETYPE="image/tiff 6.0" SIZE="3270495">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="16.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD17" CHECKSUM="98fd8b79f023b9dc7379c920aaa78d07" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID17" ID="FID34" MIMETYPE="image/tiff 6.0" SIZE="3271037">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="17.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD18" CHECKSUM="ac6726ea2592397dcccfaa61c1725c6a" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID18" ID="FID36" MIMETYPE="image/tiff 6.0" SIZE="3270517">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="18.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD19" CHECKSUM="82b858c9da152f7767ffccde6a2c509c" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID19" ID="FID38" MIMETYPE="image/tiff 6.0" SIZE="3270991">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="19.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD20" CHECKSUM="250c111cbc57f197bc54be2a13bb0bdf" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID20" ID="FID40" MIMETYPE="image/tiff 6.0" SIZE="3270471">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="20.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD21" CHECKSUM="f60d0d59f4c791ce27794fbb93fe34ef" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID21" ID="FID42" MIMETYPE="image/tiff 6.0" SIZE="3271009">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="21.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD22" CHECKSUM="00f758f28edb2f737bcebc0ebf4c4c3e" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID22" ID="FID44" MIMETYPE="image/tiff 6.0" SIZE="3270439">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="22.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD23" CHECKSUM="c072c57c57a3633b3073bc16fa563a80" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID23" ID="FID46" MIMETYPE="image/tiff 6.0" SIZE="3271051">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="23.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD24" CHECKSUM="4a2f0f018ef94cd79ccddc67f459e943" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID24" ID="FID48" MIMETYPE="image/tiff 6.0" SIZE="3270901">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="24.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD25" CHECKSUM="8a69209a403ef8bf7bd5dcd8e2f3aeb1" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID25" ID="FID50" MIMETYPE="image/tiff 6.0" SIZE="3270995">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="25.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD26" CHECKSUM="ae04c48a6085aa1e4c440998e0c59dbd" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID26" ID="FID52" MIMETYPE="image/tiff 6.0" SIZE="3034586">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="26.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD27" CHECKSUM="05c042f90c3b109bec043a1ec5ab86db" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID27" ID="FID54" MIMETYPE="image/tiff 6.0" SIZE="3024377">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="27.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD28" CHECKSUM="04876410b59b96fb6f9e3b1f404dcd88" CHECKSUMTYPE="MD5" CREATED="2005-10-12T21:53:41Z" GROUPID="GID28" ID="FID56" MIMETYPE="image/tiff 6.0" SIZE="3081960">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="28.tif"/>
+        </METS:file>
+      </METS:fileGrp>
+    </METS:fileGrp>
+  </METS:fileSec>
+  <METS:structMap>
+    <METS:div ADMID="RMD1" DMDID="DMD1 DMD2" LABEL="Florida Chautauqua" TYPE="serial">
+      <METS:div LABEL="1897" ORDERLABEL="1897" TYPE="volume">
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID1"/>
+          <METS:fptr FILEID="FID2"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID3"/>
+          <METS:fptr FILEID="FID4"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID5"/>
+          <METS:fptr FILEID="FID6"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID7"/>
+          <METS:fptr FILEID="FID8"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID9"/>
+          <METS:fptr FILEID="FID10"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID11"/>
+          <METS:fptr FILEID="FID12"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID13"/>
+          <METS:fptr FILEID="FID14"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID15"/>
+          <METS:fptr FILEID="FID16"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID17"/>
+          <METS:fptr FILEID="FID18"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID19"/>
+          <METS:fptr FILEID="FID20"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID21"/>
+          <METS:fptr FILEID="FID22"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID23"/>
+          <METS:fptr FILEID="FID24"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID25"/>
+          <METS:fptr FILEID="FID26"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID27"/>
+          <METS:fptr FILEID="FID28"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID29"/>
+          <METS:fptr FILEID="FID30"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID31"/>
+          <METS:fptr FILEID="FID32"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID33"/>
+          <METS:fptr FILEID="FID34"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID35"/>
+          <METS:fptr FILEID="FID36"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID37"/>
+          <METS:fptr FILEID="FID38"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID39"/>
+          <METS:fptr FILEID="FID40"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID41"/>
+          <METS:fptr FILEID="FID42"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID43"/>
+          <METS:fptr FILEID="FID44"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID45"/>
+          <METS:fptr FILEID="FID46"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID47"/>
+          <METS:fptr FILEID="FID48"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID49"/>
+          <METS:fptr FILEID="FID50"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID51"/>
+          <METS:fptr FILEID="FID52"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID53"/>
+          <METS:fptr FILEID="FID54"/>
+        </METS:div>
+        <METS:div TYPE="page">
+          <METS:fptr FILEID="FID55"/>
+          <METS:fptr FILEID="FID56"/>
+        </METS:div>
+      </METS:div>
+    </METS:div>
+  </METS:structMap>
+</METS:mets>
