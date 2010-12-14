@@ -73,9 +73,7 @@ module Daitss
       tarball_file = "#{aip_dir}.tar"
 
       Dir.chdir tdir do
-        # TODO get the url from randy's thing and put in data
-        data = self.package.aip.copy.get_from_silo
-        open(tarball_file, 'w') { |io| io.write data }
+        package.aip.copy.download tarball_file
         %x{tar xf #{tarball_file}}
         raise "could not extract tarball: #{$?}" unless $?.exitstatus == 0
       end

@@ -66,8 +66,21 @@ module Daitss
       c = Curl::Easy.new @url
       c.follow_location = true
       c.http_get
-      error!  unless c.response_code == 200
+      raise "bad status" unless c.response_code == 200
       c.body_str
+    end
+
+    # get the data from this resource into a file
+    #
+    # @param [String] f file to download to
+    # @return [String] tarball data
+    def download f
+
+      c = Curl::Easy.download(@url, f) do |c|
+        c.follow_location = true
+      end
+
+      raise "bad status" unless c.response_code == 200
     end
 
     # put the data to this resource

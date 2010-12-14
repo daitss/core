@@ -46,6 +46,17 @@ describe RandyStore do
     rs.get.should == data
   end
 
+  it 'should download' do
+    package_id = EggHeadKey.new_egg_head_key
+    rs = RandyStore.reserve package_id
+    rs.put data
+    f = File.join ENV['TMPDIR'], "download-#{rand(10000).to_s(36)}"
+    File.exist?(f).should_not be_true
+    rs.download f
+    Digest::SHA1.file(f).should == Digest::SHA1.file(file)
+    FileUtils.rm f
+  end
+
   it 'should delete' do
     package_id = EggHeadKey.new_egg_head_key
     rs = RandyStore.reserve package_id
