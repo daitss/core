@@ -8,7 +8,7 @@ Feature: Request Dashboard
     And I should be redirected
     And I goto "/requests"
     Then I should see a disseminate request for the package
-    
+
   Scenario: should filter by type
     Given an archived package
     When I goto its package page
@@ -39,7 +39,7 @@ Feature: Request Dashboard
     And I should be redirected
     And I goto "/packages"
     And I fill in "name" with "mybatch"
-    And I press "Create Batch"
+    And I press "Save as Batch"
     And I should be redirected
     And I goto "/requests"
     And I select "mybatch" from "batch-scope" filter
