@@ -14,7 +14,7 @@ include Daitss
 load_archive
 
 # if there is an ssl server running uncomment this
-#use Rack::SslEnforcer, :only => "/login"
+# use Rack::SslEnforcer, :only => "/login"
 
 class Login < Sinatra::Base
   enable :sessions
@@ -587,8 +587,8 @@ get '/requests' do
   if params['account-scope'] and params['account-scope'] != 'all'
     a = Account.get(params['account-scope'])
 
-    @requests = @requests.find_all do |r| 
-      in_project = a.projects.map do |p| 
+    @requests = @requests.find_all do |r|
+      in_project = a.projects.map do |p|
         p.packages.include?(r.package) ? true : false
       end
 
