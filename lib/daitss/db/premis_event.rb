@@ -2,24 +2,42 @@ require 'daitss/proc/template/premis'
 
 module Daitss
 
+  # constant for event types
+  INGEST = "ingest"
+  SUBMIT = "submit"
+  VALIDATE = "validate"
+  VIRUS_CHECK = "virus check"
+  DISSEMINATE = "disseminate"
+  D1REFRESH = "d1refresh"
+  REDUP = "redup"
+  WITHDRAW = "withdraw"
+  FIXITY_CHECK = "fixitycheck"  
+  DESCRIBE = "describe"
+  NORMALIZE = "normalize"  
+  MIGRATE = "migrate"
+  XML_RESOLUTION = "xml resolution"  
+  DELETION = "deletion"
+  BROKEN_LINKS = "broken links found"
+       
   # all possible event types
-  Event_Type = ["ingest", "submit", "validate", "virus check", "disseminate", "d1refresh", "redup",
-    "withdraw", "fixitycheck", "describe", "normalize", "migrate", "xml resolution", "deletion"]
+  Event_Type = [INGEST, SUBMIT, VALIDATE, VIRUS_CHECK, DISSEMINATE, D1REFRESH, REDUP,
+    WITHDRAW, FIXITY_CHECK, DESCRIBE, NORMALIZE, MIGRATE, XML_RESOLUTION, DELETION, BROKEN_LINKS]
 
   Event_Map = {
-    "ingest" => "ingest",
-    "submit" => "submit",
-    "comprehensive validation" => "validate",
-    "virus check" => "virus check",
-    "disseminate" => "disseminate",
-    "d1refresh" => "d1refresh",
-    "redup" => "redup",
-    "withdraw" => "withdraw",
-    "fixity Check" => "fixitycheck",
-    "format description" => "describe",
-    "normalize" => "normalize",
-    "migration" => "migrate",
-    "xml resolution" => "xml resolution"
+    "ingest" => INGEST,
+    "submit" => SUBMIT,
+    "comprehensive validation" => VALIDATE,
+    "virus check" => VIRUS_CHECK,
+    "disseminate" => DISSEMINATE,
+    "d1refresh" => D1REFRESH,
+    "redup" => REDUP,
+    "withdraw" => WITHDRAW,
+    "fixity Check" => FIXITY_CHECK,
+    "describe" => DESCRIBE,
+    "normalize" => NORMALIZE,
+    "migration" => MIGRATE,
+    "xml resolution" => XML_RESOLUTION,
+    "broken links found" => BROKEN_LINKS,
   }
 
   class PremisEvent
