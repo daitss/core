@@ -1,19 +1,7 @@
 require 'base64'
-require 'typhoeus'
+require 'curb'
 require 'nokogiri'
-
-class Typhoeus::Response
-
-    def error! message=nil
-      req = self.request
-      msg = StringIO.new
-      msg.puts message if message
-      msg.puts "#{req.method.to_s.upcase} #{self.request.url} => #{self.code}"
-      msg.puts body if body
-      raise msg.string
-    end
-
-end
+require 'daitss/archive'
 
 # OSX SHA1 bug
 if PLATFORM =~ /darwin/
@@ -41,19 +29,22 @@ module Daitss
 
   class RandyStore
 
+    RESERVE_PATH = '/reserve'
+
+
     # reserve a new location
     #
     # @param [String] package_id
     def RandyStore.reserve package_id
-      res = Typhoeus::Request.post "#{archive.storage_url}/reserve", :params => { :ieid => package_id }
-      xml = Nokogiri.XML(res.body) or res.error!("cannot parse response as XML")
+      c = Curl::Easy.http_post(archive.storage_url + RESERVE_PATH, Curl::PostField.content('ieid', package_id))
+      xml = Nokogiri.XML(c.body_str) or raise("cannot parse response as XML")
 
       # check the response
-      res.error! "bad status" unless (201...300).include? res.code
-      res.error! "unknown document type" unless xml.root.name == 'reserved'
-      res.error! "bad package id" unless xml.root['ieid'] == package_id
-      res.error! "missing location" unless xml.root['location']
-      res.error! "empty location" unless not xml.root['location'].empty?
+      raise "bad status" unless (201...300).include? c.response_code
+      raise "unknown document type" unless xml.root.name == 'reserved'
+      raise "bad package id" unless xml.root['ieid'] == package_id
+      raise "missing location" unless xml.root['location']
+      raise "empty location" unless not xml.root['location'].empty?
 
       # return a new resource object
       RandyStore.new package_id, xml.root['location']
@@ -72,9 +63,24 @@ module Daitss
     #
     # @return [String] tarball data
     def get
-      res = Typhoeus::Request.get @url, :follow_location => true
-      res.error! unless 200 == res.code
-      res.body
+      c = Curl::Easy.new @url
+      c.follow_location = true
+      c.http_get
+      raise "bad status" unless c.response_code == 200
+      c.body_str
+    end
+
+    # get the data from this resource into a file
+    #
+    # @param [String] f file to download to
+    # @return [String] tarball data
+    def download f
+
+      c = Curl::Easy.download(@url, f) do |c|
+        c.follow_location = true
+      end
+
+      raise "bad status" unless c.response_code == 200
     end
 
     # put the data to this resource
@@ -90,18 +96,55 @@ module Daitss
         'Content-Type' => 'application/x-tar',
       }
 
-      res = Typhoeus::Request.put @url, :headers => headers, :body => data
-      xml = Nokogiri.XML(res.body) or res.error!("cannot parse response as XML")
+      c = Curl::Easy.new @url
+      c.headers['Content-MD5'] = Base64.encode64(md5.digest).strip
+      c.headers['Content-Type'] = 'application/x-tar'
+      c.http_put data
+      xml = Nokogiri.XML(c.body_str) or res.error!("cannot parse response as XML")
 
       # check the response
-      res.error! "bad status" unless (201...300).include? res.code
-      res.error! "unknown document type" unless xml.root.name == 'created'
-      res.error! "bad package id" unless xml.root['ieid'] == @package_id
-      res.error! "bad location" unless xml.root['location'] == @url
+      raise "bad status" unless (201...300).include? c.response_code
+      raise "unknown document type" unless xml.root.name == 'created'
+      raise "bad package id" unless xml.root['ieid'] == @package_id
+      raise "bad location" unless xml.root['location'] == @url
+      raise "bad sha1" unless xml.root['sha1'] == sha1.hexdigest
+      raise "bad md5" unless xml.root['md5'] == md5.hexdigest
+      raise "bad size" unless xml.root['size'].to_i == data.size
 
-      res.error! "bad sha1" unless xml.root['sha1'] == sha1.hexdigest
-      res.error! "bad md5" unless xml.root['md5'] == md5.hexdigest
-      res.error! "bad size" unless xml.root['size'].to_i == data.size
+      # return some info about the put
+      {
+        :size => xml.root['size'].to_i,
+        :sha1 => xml.root['sha1'],
+        :md5 => xml.root['md5'],
+        :url => @url
+      }
+    end
+
+    # put the data to this resource
+    #
+    # @param [String] path to file to send
+    def put_file path
+      md5, sha1 = calc_digests path, Digest::MD5, Digest::SHA1
+
+      headers = {
+        'Content-MD5' => Base64.encode64(md5.digest).strip,
+        'Content-Type' => 'application/x-tar',
+      }
+
+      c = Curl::Easy.new @url
+      c.headers['Content-MD5'] = Base64.encode64(md5.digest).strip
+      c.headers['Content-Type'] = 'application/x-tar'
+      c.http_put open(path)
+      xml = Nokogiri.XML(c.body_str) or raise("cannot parse response as XML")
+
+      # check the response
+      raise "bad status" unless (201...300).include? c.response_code
+      raise "unknown document type" unless xml.root.name == 'created'
+      raise "bad package id" unless xml.root['ieid'] == @package_id
+      raise "bad location" unless xml.root['location'] == @url
+      raise "bad sha1" unless xml.root['sha1'] == sha1.hexdigest
+      raise "bad md5" unless xml.root['md5'] == md5.hexdigest
+      raise "bad size" unless xml.root['size'].to_i == File.size(path)
 
       # return some info about the put
       {
@@ -114,13 +157,31 @@ module Daitss
 
     # delete the data from this resource
     def delete
-      res = Typhoeus::Request.delete @url
-      res.error! unless [200, 202, 204].include? res.code
+      c = Curl::Easy.http_delete @url
+      raise "bad status" unless [200, 202, 204].include? c.response_code
     end
 
     def head
-      res = Typhoeus::Request.head @url
-      res.error! unless [200, 202, 204].include? res.code
+      c = Curl::Easy.http_head @url
+      raise "bad status" unless [200, 202, 204].include? c.response_code
+    end
+
+    private
+
+    def calc_digests path, *klasses
+      buf_size = (1024 ** 2) * 8
+      buf = String.new
+      digests = klasses.map &:new
+
+      open(path) do |io|
+
+        while io.read(buf_size, buf)
+          digests.each { |d| d.update buf }
+        end
+
+      end
+
+      digests
     end
 
   end

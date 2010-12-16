@@ -8,7 +8,7 @@ module Daitss
       aip = Aip.new :package => package, :copy => Copy.new
       aip.attributes = aip_attrs
       rs = RandyStore.reserve id
-      aip.copy.attributes = rs.put load_tarball
+      aip.copy.attributes = rs.put_file tarball_file
 
       unless aip.save_and_populate
         rs.delete
@@ -23,7 +23,7 @@ module Daitss
       aip.attributes = aip_attrs
       rs = RandyStore.reserve id
       old_rs = RandyStore.new id, aip.copy.url.to_s
-      aip.copy.attributes = rs.put load_tarball
+      aip.copy.attributes = rs.put_file tarball_file
 
       if aip.save_and_populate
         old_rs.delete

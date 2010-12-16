@@ -84,7 +84,11 @@ describe 'Wip' do
     end
 
     it "should have uploaded the tarball" do
-      lambda { aip.copy.get_from_silo }.should_not raise_error
+
+      Tempfile.new 'upload' do |tf|
+        lambda { aip.copy.download tf.path }.should_not raise_error
+      end
+
       aip.copy.size.should == File.size(wip.tarball_file)
       aip.copy.sha1.should == Digest::SHA1.file(wip.tarball_file).hexdigest
       aip.copy.md5.should == Digest::MD5.file(wip.tarball_file).hexdigest

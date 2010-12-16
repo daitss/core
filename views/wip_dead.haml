@@ -1,0 +1,21 @@
+#dead
+  %h2
+    dead process
+
+  - out, err = @wip.std_data
+
+  %table
+    %tr
+      %th out
+      %td
+        - if out
+          %pre= out
+        - else
+          %em no output data
+    %tr
+      %th err
+      %td
+        - if err
+          %pre= err
+        - else
+          %em no error data

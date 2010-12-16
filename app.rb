@@ -14,7 +14,7 @@ include Daitss
 load_archive
 
 # if there is an ssl server running uncomment this
-#use Rack::SslEnforcer, :only => "/login"
+# use Rack::SslEnforcer, :only => "/login"
 
 class Login < Sinatra::Base
   enable :sessions
@@ -572,4 +572,67 @@ post "/batches/:batch_id" do |batch_id|
 
     redirect "/batches"
   end
+end
+
+get '/requests' do
+  @requests = Request.all
+
+  # filter based on parameters passed in
+
+  if params['batch-scope'] and params['batch-scope'] != 'all'
+    b = Batch.get(params['batch-scope'])
+    @requests = @requests.find_all {|r| b.packages.include? r.package }
+  end
+
+  if params['account-scope'] and params['account-scope'] != 'all'
+    a = Account.get(params['account-scope'])
+
+    @requests = @requests.find_all do |r|
+      in_project = a.projects.map do |p|
+        p.packages.include?(r.package) ? true : false
+      end
+
+      in_project.include? true
+    end
+  end
+
+  if params['project-scope'] and params['project-scope'] != 'all'
+    p = Project.first(:id => params['project-scope'].split("-")[0], :account_id => params['project-scope'].split("-")[1])
+    @requests = @requests.find_all {|r| p.packages.include? r.package }
+  end
+
+  if params['user-scope'] and params['user-scope'] != 'all'
+    u = User.get(params['user-scope'])
+    @requests = @requests.find_all {|r| r.agent == u }
+  end
+
+  if params['type-scope'] and params['type-scope'] != 'all'
+    case params['type-scope']
+    when 'disseminate'
+      scope = :disseminate
+    when 'withdraw'
+      scope = :withdraw
+    when 'peek'
+      scope = :peek
+    end
+
+    @requests = @requests.find_all {|r| r.type == scope }
+  end
+
+  if params['status-scope'] and params['status-scope'] != 'all'
+    case params['status-scope']
+    when 'enqueued'
+      status = :enqueued
+    when 'released'
+      status = :released_to_workspace
+    when 'cancelled'
+      status = :cancelled
+    end
+
+    @requests = @requests.find_all {|r| r.status == status }
+  end
+
+  @params = params
+
+  haml :requests
 end

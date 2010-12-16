@@ -1,0 +1,1908 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<METS:mets xmlns:METS="http://www.loc.gov/METS/" xmlns:daitss="http://www.fcla.edu/dls/md/daitss/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:palmm="http://www.fcla.edu/dls/md/palmm/" xmlns:rightsmd="http://www.fcla.edu/dls/md/rightsmd/" xmlns:techmd="http://www.fcla.edu/dls/md/techmd/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LABEL="Everglades Natural History" OBJID="SN04238648" TYPE="serial" xsi:schemaLocation="http://www.loc.gov/METS/ http://www.loc.gov/standards/mets/mets.xsd http://purl.org/dc/elements/1.1/ http://dublincore.org/schemas/xmls/simpledc20021212.xsd http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-0.xsd http://www.fcla.edu/dls/md/techmd/ http://www.fcla.edu/dls/md/techmd.xsd http://www.fcla.edu/dls/md/palmm/ http://www.fcla.edu/dls/md/palmm.xsd http://www.fcla.edu/dls/md/rightsmd/ http://www.fcla.edu/dls/md/rightsmd.xsd http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss.xsd">
+  <METS:metsHdr CREATEDATE="2005-03-08T20:45:53Z" ID="FI04122903" LASTMODDATE="2009-05-26T21:01:45Z" RECORDSTATUS="NEW">
+    <METS:agent OTHERROLE="MXF CREATOR" ROLE="OTHER" TYPE="ORGANIZATION">
+      <METS:name>FIU</METS:name>
+      <METS:note>directory=C:\FI04122903\SN04238648\1_3\</METS:note>
+      <METS:note>derivatives=pdf/chapter</METS:note>
+      <METS:note>server=TC</METS:note>
+      <METS:note>formats=image/jpeg, image/tiff 6.0</METS:note>
+      <METS:note>projects=FEOL</METS:note>
+    </METS:agent>
+    <METS:agent OTHERROLE="MXF CREATOR" OTHERTYPE="SOFTWARE" ROLE="OTHER" TYPE="OTHER">
+      <METS:name>MXFClient 2.8.4</METS:name>
+    </METS:agent>
+    <METS:agent OTHERROLE="MXF CREATOR" ROLE="OTHER" TYPE="INDIVIDUAL">
+      <METS:name>SO</METS:name>
+    </METS:agent>
+  </METS:metsHdr>
+  <METS:dmdSec ID="DMD1">
+    <METS:mdRef ID="AAB7123" LOCTYPE="OTHER" MDTYPE="MARC" OTHERLOCTYPE="FCLANOTIS:QF"/>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD2">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:titleInfo>
+            <mods:title>Everglades Natural History</mods:title>
+          </mods:titleInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD3">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD4">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD5">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD6">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD7">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD8">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD9">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:titleInfo>
+            <mods:title>Expedition Egg-drop, by William Bridges</mods:title>
+          </mods:titleInfo>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD10">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:titleInfo>
+            <mods:title>South to See Key Deer, by Martha and Paul Connor</mods:title>
+          </mods:titleInfo>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD11">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:titleInfo>
+            <mods:title>Crocodile Nest at Trout Creek, by Norton M. Bean</mods:title>
+          </mods:titleInfo>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD12">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:titleInfo>
+            <mods:title>The Rim of the Everglades, by Frank N. Young</mods:title>
+          </mods:titleInfo>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD13">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:titleInfo>
+            <mods:title>You and Your Camera in the Everglades, by Willard E. Dilley</mods:title>
+          </mods:titleInfo>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD14">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:titleInfo>
+            <mods:title>Raccoon Parade, by Joseph Curtis Moore</mods:title>
+          </mods:titleInfo>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD15">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:titleInfo>
+            <mods:title>Natural History Notes</mods:title>
+          </mods:titleInfo>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD16">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:titleInfo>
+            <mods:title>Book Reviews</mods:title>
+          </mods:titleInfo>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD17">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:titleInfo>
+            <mods:title>Junior Natural History Department</mods:title>
+          </mods:titleInfo>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD18">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:titleInfo>
+            <mods:title>Bird Notes, by Betsy Alexander</mods:title>
+          </mods:titleInfo>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD19">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:titleInfo>
+            <mods:title>Alligator Lore for Johnnie, by Joseph Curtis Moore</mods:title>
+          </mods:titleInfo>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD20">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:titleInfo>
+            <mods:title>Background Notes on Authors</mods:title>
+          </mods:titleInfo>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD21">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD22">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:dmdSec ID="DMD23">
+    <METS:mdWrap xmlns:METS="http://www.loc.gov/METS/" MDTYPE="MODS" MIMETYPE="text/xml">
+      <METS:xmlData>
+        <mods:mods xmlns:mods="http://www.loc.gov/mods/v3">
+          <mods:typeOfResource>text</mods:typeOfResource>
+          <mods:originInfo>
+            <mods:dateIssued>September, 1953</mods:dateIssued>
+          </mods:originInfo>
+        </mods:mods>
+      </METS:xmlData>
+    </METS:mdWrap>
+  </METS:dmdSec>
+  <METS:amdSec>
+    <METS:techMD ID="TMD1">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2506"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD2">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2495"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD3">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2495"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD4">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2496"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD5">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2496"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD6">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2499"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD7">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2499"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD8">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2492"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD9">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2492"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD10">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2492"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD11">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2492"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD12">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2499"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD13">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2499"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD14">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD15">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD16">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD17">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD18">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2502"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD19">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2502"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD20">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2502"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD21">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2502"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD22">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD23">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD24">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD25">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD26">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2502"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD27">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2502"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD28">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2503"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD29">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2503"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD30">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2502"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD31">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2502"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD32">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2503"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD33">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2503"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD34">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2503"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD35">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2503"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD36">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD37">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD38">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2500"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD39">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2500"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD40">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD41">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD42">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD43">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD44">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD45">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2501"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD46">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2497"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD47">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2497"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD48">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1640" Y="2509"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD49">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1640" Y="2509"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD50">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1640" Y="2509"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD51">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1640" Y="2509"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD52">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2508"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD53">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2508"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD54">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2507"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD55">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2507"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD56">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2528"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD57">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2528"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD58">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2528"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD59">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1630" Y="2528"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:techMD ID="TMD60">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="TECHMD">
+        <METS:xmlData>
+          <techmd:creationMethod SOFTWARE=" [global] dpi = 300 debug_log=/opt/s2n/bin/scanimg.log scanmode=direct colormode=truecolor docmode=0 light=on serial=BE2-SCL-N2-0030056031be FirmwareVersion=3.50  [autofocus] focus_x = -1000 focus_y = 500 focus_w = 2500   [scan] autofocus=on descreening=0 cms=off speed=1 bright=127 contr=127 gamma=15 aexp_black=10 aexp =off docsize=auto splitting=auto user_x=0 user_w=350 user_y= 0 user_h= 318 user_unit=mil starttimeout=1   [preview] preview_scale=4 preview_jpeg_quality=40  [image] jpeg_quality=75 fileformat=tiff mirror=0 deskew=0 rotation=0 despeckle=0 tiff_compr=g4 dyn_bright=on invert=off profile=off  [autoborder] // 1/300 inch  steps autoformat_extra = 0 autoformat_density = 70  [bfc] bfc_cornerarea = 1000 bfc_bcorr = 0 bfc_threshold = 47 bfc_topmargin = 0 bfc_bottommargin = 0 bfc_leftmargin = 0 bfc_rightmargin = 0 bfc_leftcenter = 0 bfc_rightcenter = 0  [gain] red=0 green=0 blue=0  [test] image_x = 3394 image_y = 0 image_w = 6788  image_h = 4800   [Settings] Button1=0 Button2=0 Button3=0 Button4=0 LeftPedal=0 RightPedal=0   [unused] dyn_contr=0   "/>
+          <techmd:compression NAME="Uncompressed"/>
+          <techmd:image>
+            <techmd:bitDepth>8,8,8</techmd:bitDepth>
+            <techmd:storage PLANARCONFIGURATION="UNKNOWN" SEGMENT="STRIP"/>
+            <techmd:samplingFrequency UNIT="INCH" X="300" Y="300"/>
+            <techmd:colorSpace>RGB</techmd:colorSpace>
+            <techmd:dimensions UNIT="PIXEL" X="1620" Y="2506"/>
+          </techmd:image>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:techMD>
+    <METS:rightsMD ID="RMD1">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="RIGHTSMD">
+        <METS:xmlData>
+          <rightsmd:versionStatement>Electronic version created 2005, State University System of Florida.</rightsmd:versionStatement>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:rightsMD>
+    <METS:sourceMD ID="SMD1">
+      <METS:mdWrap MDTYPE="OTHER" MIMETYPE="text/xml" OTHERMDTYPE="PALMM">
+        <METS:xmlData>
+          <palmm:entityDesc SOURCE="FIU"/>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:sourceMD>
+  </METS:amdSec>
+  <METS:amdSec>
+    <METS:digiprovMD ID="DPMD1">
+      <METS:mdWrap MDTYPE="OTHER" OTHERMDTYPE="DAITSS">
+        <METS:xmlData>
+          <daitss:daitss>
+            <daitss:AGREEMENT_INFO ACCOUNT="FIU" PROJECT="FEOL"/>
+          </daitss:daitss>
+        </METS:xmlData>
+      </METS:mdWrap>
+    </METS:digiprovMD>
+  </METS:amdSec>
+  <METS:fileSec>
+    <METS:fileGrp>
+      <METS:fileGrp>
+        <METS:file CHECKSUM="0aef599b2c25b7e6cac54e560cac411e" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:43:58Z" GROUPID="GID1" ID="FID1" MIMETYPE="image/jpeg" SIZE="203915">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="cover1.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="d9032dc7a563917f08d9daac5171e7ea" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:43:57Z" GROUPID="GID2" ID="FID3" MIMETYPE="image/jpeg" SIZE="225314">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="cover2.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="8e1bedade2ddc8584a5c6412e7f6bd5a" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:38:45Z" GROUPID="GID3" ID="FID5" MIMETYPE="image/jpeg" SIZE="125529">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="087.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="0b1df3bd3d28052b4e4dd48cac96094b" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:38:44Z" GROUPID="GID4" ID="FID7" MIMETYPE="image/jpeg" SIZE="184265">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="088.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="1eaddd37b0459d773afb4095c39befa0" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:38:46Z" GROUPID="GID5" ID="FID9" MIMETYPE="image/jpeg" SIZE="198788">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="089.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="716c2f2a2d7b64e08066e1c7fdc484b3" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:40:33Z" GROUPID="GID6" ID="FID11" MIMETYPE="image/jpeg" SIZE="202767">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="090.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="87d839dd1a009e9d1e6b481e7edf0d0a" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:40:32Z" GROUPID="GID7" ID="FID13" MIMETYPE="image/jpeg" SIZE="195500">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="091.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="9bd7f1184fd88b92a4d81f7a4c003114" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:40:31Z" GROUPID="GID8" ID="FID15" MIMETYPE="image/jpeg" SIZE="177339">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="092.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="8b581fdc0d8ef9c4824860bc46419054" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:40:30Z" GROUPID="GID9" ID="FID17" MIMETYPE="image/jpeg" SIZE="207927">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="093.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="f6269475349cf1bbc2cb0ce03a14ed80" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:40:29Z" GROUPID="GID10" ID="FID19" MIMETYPE="image/jpeg" SIZE="195972">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="094.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="03df3809e39bf21cc32a100338e07531" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:40:28Z" GROUPID="GID11" ID="FID21" MIMETYPE="image/jpeg" SIZE="169963">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="095.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="3ef41dcb7ffa965f45132d1bfa328920" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:40:27Z" GROUPID="GID12" ID="FID23" MIMETYPE="image/jpeg" SIZE="176034">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="096.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="661115f0f28483f0fbe240a1e812307b" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:40:26Z" GROUPID="GID13" ID="FID25" MIMETYPE="image/jpeg" SIZE="212279">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="097.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="d5c7d98c867ee888e380c6d8358512c3" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:40:25Z" GROUPID="GID14" ID="FID27" MIMETYPE="image/jpeg" SIZE="194557">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="098.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="2aee4b699fdb8cfc4d6ccd3c1967d90c" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:40:34Z" GROUPID="GID15" ID="FID29" MIMETYPE="image/jpeg" SIZE="157462">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="099.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="cb3f636cdc741adeb1c4141dba93b28e" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:13Z" GROUPID="GID16" ID="FID31" MIMETYPE="image/jpeg" SIZE="174136">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="100.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="6e168c2f838a9177909599dbabe2bf6b" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:12Z" GROUPID="GID17" ID="FID33" MIMETYPE="image/jpeg" SIZE="217679">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="101.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="a017c224cfb206301dbb1d0323c39bc3" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:11Z" GROUPID="GID18" ID="FID35" MIMETYPE="image/jpeg" SIZE="174705">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="102.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="f7194d03d0f5c3fe0757d4466607deca" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:10Z" GROUPID="GID19" ID="FID37" MIMETYPE="image/jpeg" SIZE="179227">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="103.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="5c0a51ec401193213fbb6c15e86ef077" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:09Z" GROUPID="GID20" ID="FID39" MIMETYPE="image/jpeg" SIZE="207057">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="104.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="04ed198635e5f35cb0a123fb074ff72a" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:08Z" GROUPID="GID21" ID="FID41" MIMETYPE="image/jpeg" SIZE="163459">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="105.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="e8bb28994d22de28b016a90841a87c73" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:07Z" GROUPID="GID22" ID="FID43" MIMETYPE="image/jpeg" SIZE="205595">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="106.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="074c8a495d2820e7dd1b2ee4a8610796" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:06Z" GROUPID="GID23" ID="FID45" MIMETYPE="image/jpeg" SIZE="211337">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="107.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="26c53a8d910786ac9d44a235a091850b" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:05Z" GROUPID="GID24" ID="FID47" MIMETYPE="image/jpeg" SIZE="213306">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="108.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="4a06f9fd43f9d382e79555ce930b1995" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:14Z" GROUPID="GID25" ID="FID49" MIMETYPE="image/jpeg" SIZE="212857">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="109.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="3b9ed4e98dc28946e7470cfd57f91782" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:51Z" GROUPID="GID26" ID="FID51" MIMETYPE="image/jpeg" SIZE="208832">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="110.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="a59240c008b9af1fa79e273d8cc16360" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:50Z" GROUPID="GID27" ID="FID53" MIMETYPE="image/jpeg" SIZE="214915">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="111.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="a743b4ec0c4090268473fa91bdfbeabd" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:49Z" GROUPID="GID28" ID="FID55" MIMETYPE="image/jpeg" SIZE="213038">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="112.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="56829871951b3e99a021ee2b645d2fe5" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:48Z" GROUPID="GID29" ID="FID57" MIMETYPE="image/jpeg" SIZE="185484">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="113.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="b61738f41c3cb7ded04f4f5775779ef1" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:47Z" GROUPID="GID30" ID="FID59" MIMETYPE="image/jpeg" SIZE="203321">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="114.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="82c677ce5f408029b37b5925decb53ed" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:46Z" GROUPID="GID31" ID="FID61" MIMETYPE="image/jpeg" SIZE="169660">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="115.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="6ad4ea390180c7a472c354484b053685" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:45Z" GROUPID="GID32" ID="FID63" MIMETYPE="image/jpeg" SIZE="174585">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="116.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="f26696e096c8dbfc53613a9576891b15" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:44Z" GROUPID="GID33" ID="FID65" MIMETYPE="image/jpeg" SIZE="146210">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="117.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="b64a3c304f2455383e5e8b38df9ebb12" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:43Z" GROUPID="GID34" ID="FID67" MIMETYPE="image/jpeg" SIZE="168197">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="118.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="8ed52b80cd356b161c8bce7214ebc7dd" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:41:43Z" GROUPID="GID35" ID="FID69" MIMETYPE="image/jpeg" SIZE="183896">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="119.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="e25e7809eb8d0a3fab0446cb9e4512d4" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:42:47Z" GROUPID="GID36" ID="FID71" MIMETYPE="image/jpeg" SIZE="212940">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="120.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="4701f9998f8dabc504f914d7bd4fa0a7" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:42:46Z" GROUPID="GID37" ID="FID73" MIMETYPE="image/jpeg" SIZE="218063">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="121.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="d318ebc3e5126ad2fca1739d9c0ca455" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:42:57Z" GROUPID="GID38" ID="FID75" MIMETYPE="image/jpeg" SIZE="196340">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="122.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="5fcd2ee7b132c2a8c1dd9017b6e24022" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:42:55Z" GROUPID="GID39" ID="FID77" MIMETYPE="image/jpeg" SIZE="204560">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="123.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="644b7d360a844268612b065e70261faa" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:42:54Z" GROUPID="GID40" ID="FID79" MIMETYPE="image/jpeg" SIZE="207777">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="124.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="d5b852213d0727505722230484794e3b" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:42:53Z" GROUPID="GID41" ID="FID81" MIMETYPE="image/jpeg" SIZE="221159">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="125.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="f5c58623a1561a3c7785ff915d0cd3a7" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:42:52Z" GROUPID="GID42" ID="FID83" MIMETYPE="image/jpeg" SIZE="171745">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="126.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="98379f574c10fe1097d339f1a660f1f9" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:42:51Z" GROUPID="GID43" ID="FID85" MIMETYPE="image/jpeg" SIZE="189999">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="127.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="13267f9467e158e200dbfa7f9ea91a2b" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:42:50Z" GROUPID="GID44" ID="FID87" MIMETYPE="image/jpeg" SIZE="212424">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="128.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="adee751c7bbdcd975c207f0d7bace286" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:42:49Z" GROUPID="GID45" ID="FID89" MIMETYPE="image/jpeg" SIZE="216154">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="129.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="d59f613697d6ec2c544befbbfb035611" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:44:13Z" GROUPID="GID46" ID="FID91" MIMETYPE="image/jpeg" SIZE="110535">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="130.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="898627cf6689e5d232b3a624dc18deb3" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:44:12Z" GROUPID="GID47" ID="FID93" MIMETYPE="image/jpeg" SIZE="238610">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="131.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="21ec0b0bd5acf8fab10040f81361b61f" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:44:11Z" GROUPID="GID48" ID="FID95" MIMETYPE="image/jpeg" SIZE="227051">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="132.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="dd41436ccaf6637b1f1e2e1f2f9f5392" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:44:10Z" GROUPID="GID49" ID="FID97" MIMETYPE="image/jpeg" SIZE="192861">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="133.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="b3d501edc35ac219f6ccba89c67c4f62" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:44:09Z" GROUPID="GID50" ID="FID99" MIMETYPE="image/jpeg" SIZE="88619">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="134.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="77929cc4735ab5bb70117ca509b892ef" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:44:08Z" GROUPID="GID51" ID="FID101" MIMETYPE="image/jpeg" SIZE="204712">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="135.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="5c64a1073e72729474a56b0aa412aa7d" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:44:07Z" GROUPID="GID52" ID="FID103" MIMETYPE="image/jpeg" SIZE="141598">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="136.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="b1b6ab374c62cf0949885d18e9b18e6f" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:44:06Z" GROUPID="GID53" ID="FID105" MIMETYPE="image/jpeg" SIZE="166535">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="137.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="ab4b4a8737d88ed379462c6e80453196" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:44:05Z" GROUPID="GID54" ID="FID107" MIMETYPE="image/jpeg" SIZE="162549">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="138.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="a3b3c85484abac26104deb5919919ae6" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:44:04Z" GROUPID="GID55" ID="FID109" MIMETYPE="image/jpeg" SIZE="202710">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="139.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="f11d161286b2fb75ddf5c0f8e2396a90" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:44:03Z" GROUPID="GID56" ID="FID111" MIMETYPE="image/jpeg" SIZE="209658">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="140.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="70f50101d0cd9fcbf09497100374134a" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:44:02Z" GROUPID="GID57" ID="FID113" MIMETYPE="image/jpeg" SIZE="218149">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="141.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="2a79a0e3741e4503f55355d12f82e367" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:44:01Z" GROUPID="GID58" ID="FID115" MIMETYPE="image/jpeg" SIZE="217598">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="142.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="e0e815f636fa4ab6991bbc4dfc185df9" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:43:55Z" GROUPID="GID59" ID="FID117" MIMETYPE="image/jpeg" SIZE="200238">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="cover3.jpg"/>
+        </METS:file>
+        <METS:file CHECKSUM="2d0ecb43fef0ffa66ff643faf6debba6" CHECKSUMTYPE="MD5" CREATED="2005-01-12T17:44:15Z" GROUPID="GID60" ID="FID119" MIMETYPE="image/jpeg" SIZE="155413">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="cover4.jpg"/>
+        </METS:file>
+      </METS:fileGrp>
+      <METS:fileGrp>
+        <METS:file ADMID="TMD1" CHECKSUM="a9e8b435bbfb658d6fb9511e951f2d86" CHECKSUMTYPE="MD5" GROUPID="GID1" ID="FID2" MIMETYPE="image/tiff" SIZE="12180662">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="cover1.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD2" CHECKSUM="5f15a2e1f4aa4a52e52eba0b54668b62" CHECKSUMTYPE="MD5" GROUPID="GID2" ID="FID4" MIMETYPE="image/tiff" SIZE="12127202">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="cover2.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD3" CHECKSUM="b49985525717eded0447116a48c79a28" CHECKSUMTYPE="MD5" GROUPID="GID3" ID="FID6" MIMETYPE="image/tiff" SIZE="12127202">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="087.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD4" CHECKSUM="961f7e29664347669703c49bfbca8b72" CHECKSUMTYPE="MD5" GROUPID="GID4" ID="FID8" MIMETYPE="image/tiff" SIZE="12132062">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="088.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD5" CHECKSUM="a2ada27fbb6fba4d210dc97a5e4e0686" CHECKSUMTYPE="MD5" GROUPID="GID5" ID="FID10" MIMETYPE="image/tiff" SIZE="12132062">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="089.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD6" CHECKSUM="99647f6e74fea162e1c121a0fd85ca5d" CHECKSUMTYPE="MD5" GROUPID="GID6" ID="FID12" MIMETYPE="image/tiff" SIZE="12146642">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="090.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD7" CHECKSUM="1a8cfa8068016e1814a9909e540802c0" CHECKSUMTYPE="MD5" GROUPID="GID7" ID="FID14" MIMETYPE="image/tiff" SIZE="12146642">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="091.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD8" CHECKSUM="d4dbf6dc3a12db7867d6c6df20de70ad" CHECKSUMTYPE="MD5" GROUPID="GID8" ID="FID16" MIMETYPE="image/tiff" SIZE="12187382">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="092.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD9" CHECKSUM="9feb8f7bd0c89c6ba7588914d5b995d5" CHECKSUMTYPE="MD5" GROUPID="GID9" ID="FID18" MIMETYPE="image/tiff" SIZE="12187382">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="093.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD10" CHECKSUM="687ffb79f603af2f692fe41fb6d9ed6b" CHECKSUMTYPE="MD5" GROUPID="GID10" ID="FID20" MIMETYPE="image/tiff" SIZE="12187382">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="094.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD11" CHECKSUM="53f54cf1485658323fe96bdd29ce8cb0" CHECKSUMTYPE="MD5" GROUPID="GID11" ID="FID22" MIMETYPE="image/tiff" SIZE="12187382">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="095.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD12" CHECKSUM="b059dbcd23d4ae15abb274df6548ec2a" CHECKSUMTYPE="MD5" GROUPID="GID12" ID="FID24" MIMETYPE="image/tiff" SIZE="12146642">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="096.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD13" CHECKSUM="61cc3a589ab11ca5e7f4b09d08f29c9f" CHECKSUMTYPE="MD5" GROUPID="GID13" ID="FID26" MIMETYPE="image/tiff" SIZE="12146642">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="097.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD14" CHECKSUM="79c14baff97172b09076afc6668d6453" CHECKSUMTYPE="MD5" GROUPID="GID14" ID="FID28" MIMETYPE="image/tiff" SIZE="12156362">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="098.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD15" CHECKSUM="6fc05bacfefa58c5a25267fec9b19794" CHECKSUMTYPE="MD5" GROUPID="GID15" ID="FID30" MIMETYPE="image/tiff" SIZE="12156362">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="099.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD16" CHECKSUM="b88d5dc8bd19ef4054f8f7e36f739abd" CHECKSUMTYPE="MD5" GROUPID="GID16" ID="FID32" MIMETYPE="image/tiff" SIZE="12156362">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="100.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD17" CHECKSUM="7dc6884826ed958aa411774d75118a32" CHECKSUMTYPE="MD5" GROUPID="GID17" ID="FID34" MIMETYPE="image/tiff" SIZE="12156362">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="101.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD18" CHECKSUM="69a94a9c32f22a97e2e0d4771e4a1237" CHECKSUMTYPE="MD5" GROUPID="GID18" ID="FID36" MIMETYPE="image/tiff" SIZE="12161222">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="102.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD19" CHECKSUM="0b62f1233e2fb262d71432cf1b9d6153" CHECKSUMTYPE="MD5" GROUPID="GID19" ID="FID38" MIMETYPE="image/tiff" SIZE="12161222">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="103.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD20" CHECKSUM="6d400ea7772437fcd65745688f9b29cd" CHECKSUMTYPE="MD5" GROUPID="GID20" ID="FID40" MIMETYPE="image/tiff" SIZE="12161222">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="104.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD21" CHECKSUM="5b43a917f630e64914b67692c23aec23" CHECKSUMTYPE="MD5" GROUPID="GID21" ID="FID42" MIMETYPE="image/tiff" SIZE="12161222">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="105.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD22" CHECKSUM="b501ebe020903adf0a561fe4536282ce" CHECKSUMTYPE="MD5" GROUPID="GID22" ID="FID44" MIMETYPE="image/tiff" SIZE="12231392">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="106.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD23" CHECKSUM="1d21eea8aa359e28cdc02d7f7322c7f0" CHECKSUMTYPE="MD5" GROUPID="GID23" ID="FID46" MIMETYPE="image/tiff" SIZE="12231392">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="107.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD24" CHECKSUM="ea2e946930d1499fb3638a767fcdf591" CHECKSUMTYPE="MD5" GROUPID="GID24" ID="FID48" MIMETYPE="image/tiff" SIZE="12231392">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="108.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD25" CHECKSUM="01c4906e269dd44bf3056d0e1a459ba4" CHECKSUMTYPE="MD5" GROUPID="GID25" ID="FID50" MIMETYPE="image/tiff" SIZE="12231392">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="109.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD26" CHECKSUM="810e3d67e0ae61025394101855f9d324" CHECKSUMTYPE="MD5" GROUPID="GID26" ID="FID52" MIMETYPE="image/tiff" SIZE="12236282">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="110.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD27" CHECKSUM="275be47818f0a847e0de991710f7a1e2" CHECKSUMTYPE="MD5" GROUPID="GID27" ID="FID54" MIMETYPE="image/tiff" SIZE="12236282">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="111.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD28" CHECKSUM="38c080d60cfde4e2fe98351a509658a2" CHECKSUMTYPE="MD5" GROUPID="GID28" ID="FID56" MIMETYPE="image/tiff" SIZE="12241172">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="112.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD29" CHECKSUM="feebca68dca9e398c80382623c378689" CHECKSUMTYPE="MD5" GROUPID="GID29" ID="FID58" MIMETYPE="image/tiff" SIZE="12241172">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="113.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD30" CHECKSUM="73401b9f4dace56d15816d316ffcbfc7" CHECKSUMTYPE="MD5" GROUPID="GID30" ID="FID60" MIMETYPE="image/tiff" SIZE="12236282">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="114.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD31" CHECKSUM="fb0ff5e1ae7013bd4d211ba065bc5ba9" CHECKSUMTYPE="MD5" GROUPID="GID31" ID="FID62" MIMETYPE="image/tiff" SIZE="12236282">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="115.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD32" CHECKSUM="677d903b237f049aaec76ea945c878fc" CHECKSUMTYPE="MD5" GROUPID="GID32" ID="FID64" MIMETYPE="image/tiff" SIZE="12241172">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="116.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD33" CHECKSUM="bee013b8d5762f53723c45970da537ad" CHECKSUMTYPE="MD5" GROUPID="GID33" ID="FID66" MIMETYPE="image/tiff" SIZE="12241172">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="117.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD34" CHECKSUM="aaeaca648b101c6fce9ac1e86f6e2790" CHECKSUMTYPE="MD5" GROUPID="GID34" ID="FID68" MIMETYPE="image/tiff" SIZE="12241172">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="118.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD35" CHECKSUM="9bbfd6c299e804e566f184557add90e1" CHECKSUMTYPE="MD5" GROUPID="GID35" ID="FID70" MIMETYPE="image/tiff" SIZE="12241172">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="119.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD36" CHECKSUM="5ec0d08418ab48176e56975b62d35cd3" CHECKSUMTYPE="MD5" GROUPID="GID36" ID="FID72" MIMETYPE="image/tiff" SIZE="12231392">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="120.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD37" CHECKSUM="91f7449f3fb32fa740939e3f1051cbc6" CHECKSUMTYPE="MD5" GROUPID="GID37" ID="FID74" MIMETYPE="image/tiff" SIZE="12231392">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="121.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD38" CHECKSUM="f8230afa5ba168f68ae71c7385d0b2a4" CHECKSUMTYPE="MD5" GROUPID="GID38" ID="FID76" MIMETYPE="image/tiff" SIZE="12226502">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="122.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD39" CHECKSUM="6ff00c8e5fd2fae9d2cfe3da53966be5" CHECKSUMTYPE="MD5" GROUPID="GID39" ID="FID78" MIMETYPE="image/tiff" SIZE="12226502">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="123.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD40" CHECKSUM="ed637c9187d80ec564065f9d35803c54" CHECKSUMTYPE="MD5" GROUPID="GID40" ID="FID80" MIMETYPE="image/tiff" SIZE="12231392">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="124.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD41" CHECKSUM="52dcd98de7852c3aaf74ccf85a6bb3c4" CHECKSUMTYPE="MD5" GROUPID="GID41" ID="FID82" MIMETYPE="image/tiff" SIZE="12231392">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="125.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD42" CHECKSUM="cf6a9b4908deb85a6792f62e5fd2e630" CHECKSUMTYPE="MD5" GROUPID="GID42" ID="FID84" MIMETYPE="image/tiff" SIZE="12231392">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="126.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD43" CHECKSUM="b05361db819b45bc4dbe7cec46532b67" CHECKSUMTYPE="MD5" GROUPID="GID43" ID="FID86" MIMETYPE="image/tiff" SIZE="12231392">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="127.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD44" CHECKSUM="9eafc0006e02090c667b18173234b167" CHECKSUMTYPE="MD5" GROUPID="GID44" ID="FID88" MIMETYPE="image/tiff" SIZE="12231392">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="128.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD45" CHECKSUM="7954958bbc3b36be337c39e3170ed209" CHECKSUMTYPE="MD5" GROUPID="GID45" ID="FID90" MIMETYPE="image/tiff" SIZE="12231392">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="129.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD46" CHECKSUM="6dc0584f6bc21b53e9dc431ee5efb4b1" CHECKSUMTYPE="MD5" GROUPID="GID46" ID="FID92" MIMETYPE="image/tiff" SIZE="12211832">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="130.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD47" CHECKSUM="80c95ab055bfbebc8e2a257e47b7730d" CHECKSUMTYPE="MD5" GROUPID="GID47" ID="FID94" MIMETYPE="image/tiff" SIZE="12211832">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="131.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD48" CHECKSUM="e437addf9719120e7ce9a329942c5498" CHECKSUMTYPE="MD5" GROUPID="GID48" ID="FID96" MIMETYPE="image/tiff" SIZE="12345782">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="132.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD49" CHECKSUM="de17e106cd3f1478cda75a0fa53e8059" CHECKSUMTYPE="MD5" GROUPID="GID49" ID="FID98" MIMETYPE="image/tiff" SIZE="12345782">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="133.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD50" CHECKSUM="0538bfef51419307ced8bdf38fe54ddb" CHECKSUMTYPE="MD5" GROUPID="GID50" ID="FID100" MIMETYPE="image/tiff" SIZE="12345782">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="134.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD51" CHECKSUM="0ece9cb15688181b5669d9207e5bd980" CHECKSUMTYPE="MD5" GROUPID="GID51" ID="FID102" MIMETYPE="image/tiff" SIZE="12345782">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="135.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD52" CHECKSUM="7d90a890ae559eb7735aef43ac86ed44" CHECKSUMTYPE="MD5" GROUPID="GID52" ID="FID104" MIMETYPE="image/tiff" SIZE="12265622">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="136.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD53" CHECKSUM="d4d5f6bcd8af4af69ca0d34a18f7d6c7" CHECKSUMTYPE="MD5" GROUPID="GID53" ID="FID106" MIMETYPE="image/tiff" SIZE="12265622">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="137.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD54" CHECKSUM="3b57f7b237946840c7d9b34950e22653" CHECKSUMTYPE="MD5" GROUPID="GID54" ID="FID108" MIMETYPE="image/tiff" SIZE="12260732">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="138.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD55" CHECKSUM="b545929bc7cb1925ae189209e715a903" CHECKSUMTYPE="MD5" GROUPID="GID55" ID="FID110" MIMETYPE="image/tiff" SIZE="12260732">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="139.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD56" CHECKSUM="24d368db433867600aab8cbfb3e67b5f" CHECKSUMTYPE="MD5" GROUPID="GID56" ID="FID112" MIMETYPE="image/tiff" SIZE="12363422">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="140.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD57" CHECKSUM="c0905e611d640c1276c873cbb96c4d74" CHECKSUMTYPE="MD5" GROUPID="GID57" ID="FID114" MIMETYPE="image/tiff" SIZE="12363422">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="141.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD58" CHECKSUM="72d7cc4befbae0a524422b1d772c6cf5" CHECKSUMTYPE="MD5" GROUPID="GID58" ID="FID116" MIMETYPE="image/tiff" SIZE="12363422">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="142.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD59" CHECKSUM="0d58972c9b5d8252d7c832467553247e" CHECKSUMTYPE="MD5" GROUPID="GID59" ID="FID118" MIMETYPE="image/tiff" SIZE="12363422">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="cover3.tif"/>
+        </METS:file>
+        <METS:file ADMID="TMD60" CHECKSUM="5eb762f11f633be54df95bac4131fa95" CHECKSUMTYPE="MD5" GROUPID="GID60" ID="FID120" MIMETYPE="image/tiff" SIZE="12180662">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="cover4.tif"/>
+        </METS:file>
+      </METS:fileGrp>
+      <METS:fileGrp>
+        <METS:file ID="MXF">
+          <METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="FI04122903.xml.mxf"/>
+        </METS:file>
+      </METS:fileGrp>
+    </METS:fileGrp>
+  </METS:fileSec>
+  <METS:structMap>
+    <METS:div ADMID="RMD1" DMDID="DMD1 DMD2" LABEL="Everglades Natural History" TYPE="serial">
+      <METS:div DMDID="DMD3" LABEL="1" ORDERLABEL="1" TYPE="volume">
+        <METS:div DMDID="DMD4" LABEL="3" ORDERLABEL="3" TYPE="issue">
+          <METS:div DMDID="DMD5" LABEL="Front Cover" ORDERLABEL="Front Cover" TYPE="cover">
+            <METS:div DMDID="DMD6" LABEL="Recto" ORDERLABEL="Front Cover - Recto" TYPE="cover">
+              <METS:div TYPE="page">
+                <METS:fptr FILEID="FID1"/>
+                <METS:fptr FILEID="FID2"/>
+              </METS:div>
+            </METS:div>
+            <METS:div DMDID="DMD7" LABEL="Verso" ORDERLABEL="Front Cover - Verso" TYPE="cover">
+              <METS:div TYPE="page">
+                <METS:fptr FILEID="FID3"/>
+                <METS:fptr FILEID="FID4"/>
+              </METS:div>
+            </METS:div>
+          </METS:div>
+          <METS:div DMDID="DMD8" LABEL="Contents" ORDERLABEL="Contents" TYPE="contents">
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID5"/>
+              <METS:fptr FILEID="FID6"/>
+            </METS:div>
+          </METS:div>
+          <METS:div DMDID="DMD9" LABEL="Expedition Egg-drop, by William Bridges" TYPE="article">
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID7"/>
+              <METS:fptr FILEID="FID8"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID9"/>
+              <METS:fptr FILEID="FID10"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID11"/>
+              <METS:fptr FILEID="FID12"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID13"/>
+              <METS:fptr FILEID="FID14"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID15"/>
+              <METS:fptr FILEID="FID16"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID17"/>
+              <METS:fptr FILEID="FID18"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID19"/>
+              <METS:fptr FILEID="FID20"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID21"/>
+              <METS:fptr FILEID="FID22"/>
+            </METS:div>
+          </METS:div>
+          <METS:div DMDID="DMD10" LABEL="South to See Key Deer, by Martha and Paul Connor" TYPE="article">
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID23"/>
+              <METS:fptr FILEID="FID24"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID25"/>
+              <METS:fptr FILEID="FID26"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID27"/>
+              <METS:fptr FILEID="FID28"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID29"/>
+              <METS:fptr FILEID="FID30"/>
+            </METS:div>
+          </METS:div>
+          <METS:div DMDID="DMD11" LABEL="Crocodile Nest at Trout Creek, by Norton M. Bean" TYPE="article">
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID31"/>
+              <METS:fptr FILEID="FID32"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID33"/>
+              <METS:fptr FILEID="FID34"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID35"/>
+              <METS:fptr FILEID="FID36"/>
+            </METS:div>
+          </METS:div>
+          <METS:div DMDID="DMD12" LABEL="The Rim of the Everglades, by Frank N. Young" TYPE="article">
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID37"/>
+              <METS:fptr FILEID="FID38"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID39"/>
+              <METS:fptr FILEID="FID40"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID41"/>
+              <METS:fptr FILEID="FID42"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID43"/>
+              <METS:fptr FILEID="FID44"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID45"/>
+              <METS:fptr FILEID="FID46"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID47"/>
+              <METS:fptr FILEID="FID48"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID49"/>
+              <METS:fptr FILEID="FID50"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID51"/>
+              <METS:fptr FILEID="FID52"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID53"/>
+              <METS:fptr FILEID="FID54"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID55"/>
+              <METS:fptr FILEID="FID56"/>
+            </METS:div>
+          </METS:div>
+          <METS:div DMDID="DMD13" LABEL="You and Your Camera in the Everglades, by Willard E. Dilley" TYPE="article">
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID57"/>
+              <METS:fptr FILEID="FID58"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID59"/>
+              <METS:fptr FILEID="FID60"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID61"/>
+              <METS:fptr FILEID="FID62"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID63"/>
+              <METS:fptr FILEID="FID64"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID65"/>
+              <METS:fptr FILEID="FID66"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID67"/>
+              <METS:fptr FILEID="FID68"/>
+            </METS:div>
+          </METS:div>
+          <METS:div DMDID="DMD14" LABEL="Raccoon Parade, by Joseph Curtis Moore" TYPE="article">
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID69"/>
+              <METS:fptr FILEID="FID70"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID71"/>
+              <METS:fptr FILEID="FID72"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID73"/>
+              <METS:fptr FILEID="FID74"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID75"/>
+              <METS:fptr FILEID="FID76"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID77"/>
+              <METS:fptr FILEID="FID78"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID79"/>
+              <METS:fptr FILEID="FID80"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID81"/>
+              <METS:fptr FILEID="FID82"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID83"/>
+              <METS:fptr FILEID="FID84"/>
+            </METS:div>
+          </METS:div>
+          <METS:div DMDID="DMD15" LABEL="Natural History Notes" TYPE="article">
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID85"/>
+              <METS:fptr FILEID="FID86"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID87"/>
+              <METS:fptr FILEID="FID88"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID89"/>
+              <METS:fptr FILEID="FID90"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID91"/>
+              <METS:fptr FILEID="FID92"/>
+            </METS:div>
+          </METS:div>
+          <METS:div DMDID="DMD16" LABEL="Book Reviews" TYPE="article">
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID93"/>
+              <METS:fptr FILEID="FID94"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID95"/>
+              <METS:fptr FILEID="FID96"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID97"/>
+              <METS:fptr FILEID="FID98"/>
+            </METS:div>
+          </METS:div>
+          <METS:div DMDID="DMD17" LABEL="Junior Natural History Department" TYPE="article">
+            <METS:div DMDID="DMD18" LABEL="Bird Notes, by Betsy Alexander" TYPE="section">
+              <METS:div TYPE="page">
+                <METS:fptr FILEID="FID99"/>
+                <METS:fptr FILEID="FID100"/>
+              </METS:div>
+              <METS:div TYPE="page">
+                <METS:fptr FILEID="FID101"/>
+                <METS:fptr FILEID="FID102"/>
+              </METS:div>
+              <METS:div TYPE="page">
+                <METS:fptr FILEID="FID103"/>
+                <METS:fptr FILEID="FID104"/>
+              </METS:div>
+            </METS:div>
+            <METS:div DMDID="DMD19" LABEL="Alligator Lore for Johnnie, by Joseph Curtis Moore" TYPE="section">
+              <METS:div TYPE="page">
+                <METS:fptr FILEID="FID105"/>
+                <METS:fptr FILEID="FID106"/>
+              </METS:div>
+              <METS:div TYPE="page">
+                <METS:fptr FILEID="FID107"/>
+                <METS:fptr FILEID="FID108"/>
+              </METS:div>
+            </METS:div>
+          </METS:div>
+          <METS:div DMDID="DMD20" LABEL="Background Notes on Authors" TYPE="article">
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID109"/>
+              <METS:fptr FILEID="FID110"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID111"/>
+              <METS:fptr FILEID="FID112"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID113"/>
+              <METS:fptr FILEID="FID114"/>
+            </METS:div>
+            <METS:div TYPE="page">
+              <METS:fptr FILEID="FID115"/>
+              <METS:fptr FILEID="FID116"/>
+            </METS:div>
+          </METS:div>
+          <METS:div DMDID="DMD21" LABEL="Back Cover" ORDERLABEL="Back Cover" TYPE="cover">
+            <METS:div DMDID="DMD22" LABEL="Recto" ORDERLABEL="Back Cover - Recto" TYPE="cover">
+              <METS:div TYPE="page">
+                <METS:fptr FILEID="FID117"/>
+                <METS:fptr FILEID="FID118"/>
+              </METS:div>
+            </METS:div>
+            <METS:div DMDID="DMD23" LABEL="Verso" ORDERLABEL="Back Cover - Verso" TYPE="chapter">
+              <METS:div TYPE="page">
+                <METS:fptr FILEID="FID119"/>
+                <METS:fptr FILEID="FID120"/>
+              </METS:div>
+            </METS:div>
+          </METS:div>
+        </METS:div>
+      </METS:div>
+    </METS:div>
+  </METS:structMap>
+</METS:mets>

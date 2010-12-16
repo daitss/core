@@ -19,26 +19,29 @@ module Daitss
 
     belongs_to :aip
 
-    def get_from_silo
+    def download f
       rs = RandyStore.new id, url.to_s
-      data = rs.get
+      rs.download f
 
       if size
-      unless data.size == size
-        raise "#{url} size is wrong: expected #{size}, actual #{data.size}"
-      end
-      
-      unless Digest::SHA1.hexdigest(data) == sha1
-        raise "#{url} sha1 is wrong: expected #{self.sha1}, actual #{sha1}"
-      end
+
+        unless File.size(f) == self.size
+          raise "#{url} size is wrong: expected #{size}, actual #{File.size(f)}"
+        end
+
+        actual_sha = Digest::SHA1.file(f).hexdigest
+        unless actual_sha == self.sha1
+          raise "#{url} sha1 is wrong: expected #{self.sha1}, actual #{actual_sha1}"
+        end
+
       end
 
-      unless Digest::MD5.hexdigest(data) == md5
-        raise "#{url} md5 is wrong: expected #{self.md5}, actual #{md5}"
+      actual_md5 = Digest::MD5.file(f).hexdigest
+      unless actual_md5 == self.md5
+        raise "#{url} md5 is wrong: expected #{self.md5}, actual #{actual_md5}"
       end
 
-
-      data
+      f
     end
 
   end

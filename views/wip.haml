@@ -11,6 +11,9 @@
   - if @wip.snafu?
     = partial :wip_snafu
 
+  - elsif @wip.dead?
+    = partial :wip_dead
+
   #update-form
     %form{:action => "/workspace/#{@wip.id}", :method => 'post'}
 

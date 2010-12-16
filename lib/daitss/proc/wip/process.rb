@@ -22,6 +22,12 @@ module Daitss
       File.join @path, ERR_LOG
     end
 
+    def std_data
+      out = File.read out_path if File.exist? out_path
+      err = File.read err_path if File.exist? err_path
+      [out, err]
+    end
+
     def need_state s
       raise "#{s} state is required, not #{state}" unless s == state
     end
