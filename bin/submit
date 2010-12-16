@@ -5,7 +5,7 @@ require 'uri'
 require 'ostruct'
 require 'digest/md5'
 require 'fileutils'
-require 'net/http'
+require 'curb'
 
 # a commandline DAITSS 2 submission client
 # takes a specified package on a filesystem, zips it up, and POSTs it to the submission at the specified url as the specified
@@ -64,13 +64,12 @@ end
 def zip_package path_to_package
   zip_path = File.join("/tmp", File.basename(path_to_package) + ".zip")
   FileUtils.rm_rf zip_path if File.exists? zip_path
+  
+  exec("cd #{File.dirname(path_to_package)}; zip -r #{zip_path} #{File.basename(path_to_package)} 2>&1; cd $PWD") if fork.nil?
+  Process.wait
 
-  IO.popen "cd #{File.dirname(path_to_package)}; zip -r #{zip_path} #{File.basename(path_to_package)} 2>&1; cd $PWD" do |pipe|
-    output = pipe.read
-  end
-
-  raise "zip returned non-zero exit status: #{output}" if $?.exitstatus != 0
-  raise "Error creating zip file" unless File.exists? zip_path
+  raise "zip returned non-zero exit status" if $?.exitstatus != 0
+  raise "zip file not found where expected" unless File.exists? zip_path
 
   return zip_path
 end
@@ -78,71 +77,38 @@ end
 # POSTs authentication credentials, gets cookie
 def authenticate
   url = URI.parse(@config.url + "/login")
-  req = Net::HTTP::Post.new url.path
-  req.set_form_data({'name' => @config.username, 'password' => @config.password})
 
-  res = Net::HTTP.start(url.host, url.port) do |http|
-    http.request req
+  c = Curl::Easy.new(url.to_s) 
+
+  c.http_post(Curl::PostField.content('name', @config.username), Curl::PostField.content('password', @config.password))
+  cookie_headers = c.header_str.split("\r\n").select{|n| n=~ /^Set-Cookie:/}
+
+  if cookie_headers.length > 0 
+    @cookie = cookie_headers.pop.gsub("Set-Cookie: ", "")
+  else
+    raise "Authentication failure"
   end
-
-  res = Net::HTTPRedirection ? @cookie = res['set-cookie'] : res.error!
 end
 
-# POSTs to URL
 def submit_to_svc path_to_zip, path
   url = URI.parse(@config.url + "/packages")
-  req = Net::HTTP::Post.new url.path
-
-  boundary = "deadBEEFEEBdaeddeadBEEFEEBdaeddeadBEEFEEBdaeddeadBEEFEEBdaeddeadBEEFEEBdaeddeadBEEFEEBdaeddeadBEEFEEBdaed"
-  clrf = "\r\n"
-  body = []
 
   n = "sip path: #{path}"
   n += ", submission note: #{@config.note}" if @config.note
   b = @config.batch ? @config.batch : "batch name"
 
-  body << "--#{boundary}"
-  body << 'Content-Disposition: form-data; name="note"'
-  body << ''
-  body << n
-  body << ''
-  body << "--#{boundary}"
-  body << 'Content-Disposition: form-data; name="batch_id"'
-  body << ''
-  body << b
-  body << ''
-  body << "--#{boundary}"
-  body << "Content-Disposition: form-data; name=\"sip\"; filename=\"#{File.basename(path_to_zip)}\""
-  body << 'Content-Type: application/zip'
-  body << ''
-  body << File.read(path_to_zip)
-  body << "--#{boundary}--"
-  body << ''
-
-  req.body = body.join(clrf)
-  req["Content-Type"] = "multipart/form-data, boundary=#{boundary}"
-  req["Cookie"] = @cookie
-
-  res = Net::HTTP.start(url.host, url.port) do |http|
-    http.read_timeout = 500
-    http.request req
+  c = Curl::Easy.new(url.to_s) do |curb| 
+    curb.headers["Cookie"] = @cookie 
+    curb.multipart_form_post = true
+    curb.follow_location = true
   end
 
-  res = Net::HTTPRedirection ? follow_redirect(res['location']) : res.error!
-end
+  note = Curl::PostField.content('note', n)
+  batch_id = Curl::PostField.content('batch_id', b)
+  sip = Curl::PostField.file('sip', path_to_zip)
 
-# follows redirect to package resource post submission
-
-def follow_redirect location
-  url = URI.parse location
-  req = Net::HTTP::Get.new url.path
-  req["Cookie"] = @cookie
-
-  res = Net::HTTP.start(url.host, url.port) do |http|
-    http.request req
-  end
-
-  res = Net::HTTPSuccess ? res.body : res.error!
+  c.http_post(note, batch_id, sip)
+  c.body_str
 end
 
 # returns an array of filesystem paths containing packages to submit
