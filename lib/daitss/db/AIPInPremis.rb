@@ -210,7 +210,8 @@ module Daitss
     def toDB
       # start database traction for saving the associated record for the aip.  If there is any failure during database save,
       # datamapper automatically rollback the change.
-      # RubyProf.start
+      require 'ruby-debug'
+      debugger
       raise "cannot save aip" unless @int_entity.save
 
       @package.save
@@ -218,9 +219,6 @@ module Daitss
       @datafiles.each {|dfid, df| raise "error saving datafile records #{df.inspect}" unless  df.save }
       @events.each {|id, e| raise "error saving event records #{e.inspect}" unless e.save }
       @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
-      # r = RubyProf.stop
-      # printer = RubyProf::GraphHtmlPrinter.new r
-      # open('/Users/Carol/Workspace/database/profile.html', 'w') { |io| printer.print io, :min_percent=> 0 }
     end
 
   end
