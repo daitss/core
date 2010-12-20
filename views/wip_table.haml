@@ -11,7 +11,7 @@
       %td
         %a{:href => "/#{space}/#{w.id}"}= w.id
 
-      %td= w['sip-name']
+      %td= w.package.sip.name
       %td= w.task
       %td= w.state
       %td= w.package.events.last.timestamp
