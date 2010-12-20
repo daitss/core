@@ -210,8 +210,6 @@ module Daitss
     def toDB
       # start database traction for saving the associated record for the aip.  If there is any failure during database save,
       # datamapper automatically rollback the change.
-      require 'ruby-debug'
-      debugger
       raise "cannot save aip" unless @int_entity.save
 
       @package.save
