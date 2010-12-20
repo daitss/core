@@ -11,7 +11,7 @@ module Daitss
     property :id, Serial, :key => true
     property :name, String, :required => true
     property :timestamp, DateTime, :required => true, :default => proc { DateTime.now }
-    property :notes, Text
+    property :notes, Text, :length => 2**32-1
 
     belongs_to :agent
     belongs_to :package

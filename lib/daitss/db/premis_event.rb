@@ -49,7 +49,7 @@ module Daitss
     property :datetime, DateTime
     property :event_detail, String, :length => 255 # event detail
     property :outcome, String, :length => 255   # ex. sucess, failed.  TODO:change to Enum.
-    property :outcome_details, Text # additional information about the event outcome.
+    property :outcome_details, Text, :length => 2**32-1 # additional information about the event outcome.
     property :relatedObjectId, String , :length => 100 # the identifier of the related object.
     # if object A migrated to object B, the object B will be associated with a migrated_from event
     property :class, Discriminator
