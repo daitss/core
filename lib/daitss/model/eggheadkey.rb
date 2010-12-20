@@ -11,7 +11,7 @@ module Daitss
     # @return [String] raandomly matching /E[0-9A-Z]{8}_[0-9A-Z]{6}/
     def EggHeadKey.new_egg_head_key
       s = rand(DIGITS).to_s(36).upcase
-      s = s.length == 14 ? s : s + "0"
+      s = s.length == 13 ? s + "0" : s
       s.insert(8, "_")
       'E' + s
     end
