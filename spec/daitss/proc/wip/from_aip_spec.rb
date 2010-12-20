@@ -123,7 +123,7 @@ describe Wip do
 
         description_event = @events.find do |e|
           doc = XML::Document.string e
-          doc.find_first "/P:event[P:eventType = 'format description']", NS_PREFIX
+          doc.find_first "/P:event[P:eventType = 'describe']", NS_PREFIX
         end
 
         description_event.should_not be_nil
