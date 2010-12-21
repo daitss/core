@@ -145,7 +145,7 @@ get '/packages?/?' do
                 @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
               else
                 t0 = Date.today - 7
-                es = Event.all(:timestamp.gt => t0, :limit => 50)
+                es = Event.all(:timestamp.gt => t0, :limit => 50, :order => [ :timestamp.desc ])
                 es.map { |e| e.package }.uniq
               end
 
