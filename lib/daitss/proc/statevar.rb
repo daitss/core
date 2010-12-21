@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'yaml'
+require 'mixin/file'
 
 module StateVar
 
@@ -17,7 +18,7 @@ module StateVar
       file = File.join @path, filename
 
       if File.exist? file
-        data = YAML.load_file file
+        data = File.lock(file, :shared => true) { YAML.load_file file }
         instance_variable_set i_sym, data
       else
         send :"reset_#{sym}".to_sym
@@ -28,11 +29,13 @@ module StateVar
     # make the save function
     define_method :"save_#{sym}".to_sym do
       file = File.join @path, filename
-      tmp_file = "#{file}.tmp"
+      tmp_file = "#{file}-#{$$}.tmp"
       data = instance_variable_get i_sym
       yaml = YAML.dump data
       open(tmp_file, 'w') { |io| io.write yaml }
-      FileUtils.mv tmp_file, file
+
+      FileUtils.touch(file)
+      File.lock(file) { File.rename tmp_file, file }
     end
 
     # make the reset function
