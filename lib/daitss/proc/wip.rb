@@ -1,6 +1,8 @@
 require 'forwardable'
 require 'fileutils'
 
+require 'mixin/file'
+
 require 'daitss/proc/fshash'
 require 'daitss/proc/datafile'
 require 'daitss/model/package'
@@ -87,10 +89,14 @@ module Daitss
       @metadata = FsHash.new File.join(@path, METADATA_DIR)
       @cached_max_id = {}
 
-      load_info
-      load_journal
-      load_process
+      File.lock @path, :shared => true do
+        load_info
+        load_journal
+        load_process
+      end
+
     end
+
     alias_method(:to_s, :id)
 
     def == other
