@@ -113,7 +113,7 @@
     %tr
       %th copy url
       %td
-        %a{ :href => aip.copy.url }
+        %a{ :href => (aip.copy ? aip.copy.url : "#") }
           = @package.id + ".tar"
     %tr
       %th ingest report
