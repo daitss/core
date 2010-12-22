@@ -123,13 +123,13 @@
 
     %tr
       %th copy size
-      %td= aip.copy.size
+      %td= aip.copy ? aip.copy.size : "N/A"
     %tr
       %th copy sha1
-      %td= aip.copy.sha1
+      %td= aip.copy ? aip.copy.sha1 : "N/A"
     %tr
       %th copy md5
-      %td= aip.copy.md5
+      %td= aip.copy ? aip.copy.md5 : "N/A"
     %tr
       %th number of datafiles
       %td= aip.datafile_count
