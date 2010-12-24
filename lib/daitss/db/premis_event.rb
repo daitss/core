@@ -11,14 +11,14 @@ module Daitss
   D1REFRESH = "d1refresh"
   REDUP = "redup"
   WITHDRAW = "withdraw"
-  FIXITY_CHECK = "fixitycheck"  
+  FIXITY_CHECK = "fixitycheck"
   DESCRIBE = "describe"
-  NORMALIZE = "normalize"  
+  NORMALIZE = "normalize"
   MIGRATE = "migrate"
-  XML_RESOLUTION = "xml resolution"  
+  XML_RESOLUTION = "xml resolution"
   DELETION = "deletion"
   BROKEN_LINKS = "broken links found"
-       
+
   # all possible event types
   Event_Type = [INGEST, SUBMIT, VALIDATE, VIRUS_CHECK, DISSEMINATE, D1REFRESH, REDUP,
     WITHDRAW, FIXITY_CHECK, DESCRIBE, NORMALIZE, MIGRATE, XML_RESOLUTION, DELETION, BROKEN_LINKS]
@@ -156,7 +156,7 @@ module Daitss
     before :save do
       #TODO implement validation of objectID, making sure the objectID is a valid datafile
     end
-    
+
   end
 
 end
