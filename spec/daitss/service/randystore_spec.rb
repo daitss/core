@@ -1,4 +1,4 @@
-require 'help/test_package'
+require 'spec_helper'
 
 require 'daitss/service/randystore'
 require 'daitss/model'
