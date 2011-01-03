@@ -239,6 +239,7 @@ post '/workspace' do
     startable = ws.reject { |w| w.running? or w.snafu? }
     startable.each do |w|
       w.unstop if w.stopped?
+      w.reset_process if w.dead?
       w.spawn
     end
 
@@ -289,6 +290,8 @@ post '/workspace/:id' do |id|
 
   case params['task']
   when 'start'
+    wip.unstop if wip.stopped?
+    wip.reset_process if wip.dead?
     error 400, 'cannot start a running wip' if wip.running?
     error 400, 'cannot start a snafu wip' if wip.snafu?
     wip.spawn
