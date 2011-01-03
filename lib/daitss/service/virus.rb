@@ -1,4 +1,5 @@
 require 'daitss/archive'
+require 'daitss/service'
 
 module Daitss
 
@@ -17,7 +18,7 @@ module Daitss
       c.multipart_form_post = true
       data = Curl::PostField.file 'data', @file
       c.http_post data
-      c.response_code == 200 or raise "bad status"
+      c.response_code == 200 or raise ServiceError, "bad status", :verb => 'GET'
       @doc = Nokogiri::XML c.body_str
     end
 
