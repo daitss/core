@@ -97,7 +97,7 @@ describe 'Wip' do
 
     it "should have the xmlres tarball in the tarball" do
       file = File.join wip.id, "#{Wip::XML_RES_TARBALL_BASENAME}-0.tar"
-      tar_sha1s[file].hexdigest.should == Digest::SHA1.hexdigest(wip['xml-resolution-tarball'])
+      tar_sha1s[file].hexdigest.should == Digest::SHA1.file(wip.xmlres_file).hexdigest
     end
 
     it "should have uploaded the tarball" do

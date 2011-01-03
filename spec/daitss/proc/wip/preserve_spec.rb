@@ -16,8 +16,8 @@ shared_examples_for "all preservations" do
   end
 
   it 'should have the xmlresolution tarball' do
-    @wip.metadata['xml-resolution-tarball'].should_not be_nil
-    @wip.metadata['xml-resolution-tarball'].should_not be_empty
+    File.exist?(@wip.xmlres_file).should be_true
+    File.size(@wip.xmlres_file).should > 0
   end
 
 end

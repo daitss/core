@@ -1,6 +1,6 @@
 require 'daitss/proc/wip'
 require 'daitss/proc/wip/journal'
-require 'daitss/proc/wip/xmlresolve'
+require 'daitss/service/xmlres'
 require 'daitss/proc/datafile/describe'
 require 'daitss/proc/datafile/obsolete'
 require 'daitss/proc/datafile/transform'
@@ -23,7 +23,19 @@ module Daitss
       tfs.each { |df| step("describe-#{df.id}") { df.describe! } }
 
       # xmlresolve this wip
-      step('xml-resolution') { xmlresolve! }
+      step('xml-resolution') do
+        xmlres = XmlRes.new
+        xmlres.put_collection id
+
+        all_datafiles.select(&:xmlresolution).each do |df|
+          event, agent = xmlres.resolve_file(df.data_file, df.uri)
+          df['xml-resolution-event'] = event
+          df['xml-resolution-agent'] = agent
+        end
+
+        xmlres.save_tarball xmlres_file
+      end
+
     end
 
     def original_representation

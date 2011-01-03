@@ -40,6 +40,8 @@ module Daitss
     state_var :process
 
     file_attr :tarball
+    file_attr :xmlres
+
     md_file_attr :aip_descriptor
 
     VALID_TASKS = [
