@@ -460,6 +460,7 @@ post '/admin' do
         end
 
     u.id = require_param 'id'
+    u.encrypt_auth require_param('password')
     u.first_name = require_param 'first_name'
     u.last_name = require_param 'last_name'
     u.email = require_param 'email'

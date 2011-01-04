@@ -18,5 +18,9 @@
       %td= sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000)
       %td= p.sip.number_of_datafiles
       - latest_event = p.events.last
-      %td= latest_event.name
-      %td= latest_event.timestamp
+      - if latest_event
+        %td= latest_event.name
+        %td= latest_event.timestamp
+      - else
+        %td N/A
+        %td N/A

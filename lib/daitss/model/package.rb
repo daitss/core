@@ -95,7 +95,7 @@ module Daitss
 
       event_list = self.events.all(:name => "ingest started") + self.events.all(:name => "ingest snafu") + self.events.all(:name => "ingest stopped") + self.events.first(:name => "ingest finished")
 
-      event_list.sort {|a, b| a.timestamp <=> b.timestamp} 
+      event_list.sort {|a, b| a.timestamp <=> b.timestamp}
 
       elapsed = 0
       while event_list.length >= 2
@@ -104,5 +104,15 @@ module Daitss
 
       return elapsed
     end
+
+    def d1?
+
+      if aip.xml
+        doc = Nokogiri::XML aip.xml
+        doc.root.name == 'daitss1'
+      end
+
+    end
+
   end
 end

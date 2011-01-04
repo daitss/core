@@ -18,6 +18,8 @@
 
   - elsif @package.aip
     archived
+    - if @package.d1?
+      (legacy)
 
   - else
     busted
@@ -40,6 +42,7 @@
     %th time
     %th notes
     %th agent
+
   - @package.events.each do |e|
     %tr
       %td= e.name
@@ -59,77 +62,133 @@
       %td elapsed time
       %td= @ingest_time
 
-- if @package.aip
-
-  #request
-    %h2 requests
-
-    - if @package.requests.any?
-      %table
-        %tr
-          %th time
-          %th type
-          %th note
-          %th authorized
-          %th request submitter
-          %th status
-          %th &nbsp;
-
-        - @package.requests.each do |r|
-          %tr
-            %td= r.timestamp
-            %td= r.type
-            %td= r.note
-            %td= r.is_authorized ? "yes" : "no"
-            %td= r.agent.id
-            %td= r.status
-            - if r.status == :enqueued
-              %td
-                %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
-                  %input{:type => 'hidden', :name => 'task', :value => 'delete'}
-                  %input{:type => 'submit', :value => 'Cancel'}
-            - else
-              %td &nbsp;
-
-    %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
-      %select{:name=>'type'}
-        %option= 'disseminate'
-        %option= 'withdraw'
-        %option= 'peek'
-      %input{:name => 'note'}
-      %input{:type => 'submit', :value => 'Request'}
 
 
   - aip = @package.aip
 
-  %h2 aip
+  - if @package.d1?
 
-  %table
-    %tr
-      %th descriptor
-      %td
-        %a{:href=>"/package/#{@package.id}/descriptor"} mets descriptor
+    %h2 legacy aip
 
-    %tr
-      %th copy url
-      %td
-        %a{ :href => (aip.copy ? aip.copy.url : "#") }
-          = @package.id + ".tar"
-    %tr
-      %th ingest report
-      %td
-        %a{:href=>"/package/#{@package.id}/ingest_report"}
-          = "ingest report download"
+    %table
 
-    %tr
-      %th copy size
-      %td= aip.copy ? aip.copy.size : "N/A"
-    %tr
-      %th copy sha1
-      %td= aip.copy ? aip.copy.sha1 : "N/A"
-    %tr
-      %th copy md5
-      %td= aip.copy ? aip.copy.md5 : "N/A"
-    %tr
-      %th number of datafiles
-      %td= aip.datafile_count
+      %tr
+        %th copy url
+        %td
+          %a{ :href => (aip.copy ? aip.copy.url : "#") }
+            = @package.id + ".tar"
+
+      %tr
+        %th copy md5
+        %td= aip.copy.md5
+
+    %h2 legacy refresh
+
+    %table
+      %tr
+        %th time
+        %th type
+        %th note
+        %th authorized
+        %th submitter
+        %th status
+        %th &nbsp;
+      - @package.requests.each do |r|
+        %tr
+          %td= r.timestamp
+          %td= r.type
+          %td= r.note
+          %td= r.is_authorized ? "yes" : "no"
+          %td= r.agent.id
+          %td= r.status
+          - if r.status == :enqueued
+            %td
+              %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
+                %input{:type => 'hidden', :name => 'task', :value => 'delete'}
+                %input{:type => 'submit', :value => 'Cancel'}
+          - else
+            %td &nbsp;
+    - unless @package.requests.all( :status.not => :cancelled ).any?
+      %h2 request refresth
+      %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
+        %input{:type => 'hidden', :name => 'type', :value => 'd1refresh'}
+        %table
+          %tr
+            %th note
+            %td
+              %textarea{:name => 'note'}
+        %input{:type => 'submit', :value => 'Request'}
+
+
+  - else
+    - if @package.aip
+
+      #request
+        %h2 requests
+
+        - if @package.requests.any?
+          %table
+            %tr
+              %th time
+              %th type
+              %th note
+              %th authorized
+              %th request submitter
+              %th status
+              %th &nbsp;
+
+            - @package.requests.each do |r|
+              %tr
+                %td= r.timestamp
+                %td= r.type
+                %td= r.note
+                %td= r.is_authorized ? "yes" : "no"
+                %td= r.agent.id
+                %td= r.status
+                - if r.status == :enqueued
+                  %td
+                    %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
+                      %input{:type => 'hidden', :name => 'task', :value => 'delete'}
+                      %input{:type => 'submit', :value => 'Cancel'}
+                - else
+                  %td &nbsp;
+
+        %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
+          %select{:name=>'type'}
+            %option= 'disseminate'
+            %option= 'withdraw'
+            %option= 'peek'
+          %input{:name => 'note'}
+          %input{:type => 'submit', :value => 'Request'}
+
+    %h2 aip
+
+    %table
+      %tr
+        %th descriptor
+        %td
+          %a{:href=>"/package/#{@package.id}/descriptor"} mets descriptor
+
+      %tr
+        %th copy url
+        %td
+          %a{ :href => (aip.copy ? aip.copy.url : "#") }
+            = @package.id + ".tar"
+      %tr
+        %th ingest report
+        %td
+          %a{:href=>"/package/#{@package.id}/ingest_report"}
+            = "ingest report download"
+
+      %tr
+        %th copy size
+        %td= aip.copy ? aip.copy.size : "N/A"
+      %tr
+        %th copy sha1
+        %td= aip.copy ? aip.copy.sha1 : "N/A"
+      %tr
+        %th copy md5
+        %td= aip.copy ? aip.copy.md5 : "N/A"
+      %tr
+        %th number of datafiles
+        %td= aip.datafile_count
