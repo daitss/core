@@ -28,7 +28,7 @@ module Daitss
       event.at("//P:linkingObjectIdentifierValue", NS_PREFIX).content = @uri
       event.at("//P:eventIdentifierValue", NS_PREFIX).content = "#{@uri}/event/virus-check"
       doc = Nokogiri::XML(nil)
-      doc << event
+      doc << event.dup
       doc.root.serialize
     end
 
@@ -36,7 +36,7 @@ module Daitss
       agent = @doc.at "//P:agent", NS_PREFIX
       agent or raise "no agent found"
       doc = Nokogiri::XML(nil)
-      doc << agent
+      doc << agent.dup
       doc.root.serialize
     end
 
