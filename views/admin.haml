@@ -137,7 +137,7 @@
 
     - @users.each do |u|
       %tr
-        %td= u.type
+        %td= u.type.name[ /^Daitss::(\w+)$/, 1].downcase rescue u.type.name
         %td= u.account.id
         %td= u.id
         %td= u.last_name
