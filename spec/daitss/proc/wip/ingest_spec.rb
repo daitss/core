@@ -59,6 +59,14 @@ describe 'Wip' do
 
     end
 
+    context "dmd" do
+
+      it 'should have mods dmd in a dmdSec with MDTYPE = MODS' do
+        descriptor.find("//M:dmdSec/M:mdWrap[M:xmlData/mods:*]/@MDTYPE = 'MODS'", NS_PREFIX).should be_true
+      end
+
+    end
+
   end
 
   context "the tarball" do

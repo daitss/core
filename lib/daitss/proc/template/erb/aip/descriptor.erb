@@ -11,7 +11,7 @@
 
 <!-- DMD -->
 <% if has_dmd? %>
-  <%= md_section dmd, :type => 'dmdSec', :id => next_id(:dmd, id) %>
+  <%= md_section dmd, :type => 'dmdSec', :id => next_id(:dmd, id), :md_type => 'MODS' %>
 <% end %>
 
 <%= agreement_info %>
