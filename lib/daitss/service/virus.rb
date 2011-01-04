@@ -40,6 +40,14 @@ module Daitss
       doc.root.serialize
     end
 
+    def failed?
+      @doc.search '//P:eventOutcome = "failed"', NS_PREFIX
+    end
+
+    def note
+      @doc.at '//P:eventOutcomeDetailNote', NS_PREFIX
+    end
+
   end
 
 end

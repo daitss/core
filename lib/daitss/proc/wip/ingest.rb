@@ -21,6 +21,7 @@ module Daitss
           vc.post
           df.metadata['virus-check-event'] = vc.event
           df.metadata['virus-check-agent'] = vc.agent
+          raise "virus detected\n#{vc.note}" if vc.failed?
         end
 
       end
