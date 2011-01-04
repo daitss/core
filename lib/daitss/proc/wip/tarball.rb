@@ -4,6 +4,7 @@ module Daitss
     DESCRIPTOR_FILE = "descriptor.xml"
     SIP_FILES_DIR = 'sip-files'
     AIP_FILES_DIR = 'aip-files'
+    XML_RES_TARBALL_BASENAME = 'xmlres'
 
     def make_tarball
 
@@ -31,10 +32,10 @@ module Daitss
           FileUtils.ln_s f, File.join(aip_dir, File.basename(f))
         end
 
-        # copy in current xmlres tarball
+        # link in current xmlres tarball
         n = next_xml_res_tarball_index
         xmlres_path = File.join(aip_dir, "#{Wip::XML_RES_TARBALL_BASENAME}-#{n}.tar")
-        Kernel.open(xmlres_path, 'w') { |io| io.write metadata['xml-resolution-tarball'] }
+        FileUtils.ln_s xmlres_file, xmlres_path
 
         # link in xml descriptor
         descriptor_path = File.join(aip_dir, DESCRIPTOR_FILE)

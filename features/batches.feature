@@ -108,7 +108,7 @@ Feature: CRUD for batches
     Given an archived package
     When I goto "/packages"
     And I fill in "name" with "mybatch"
-    And I press "Create Batch"
+    And I press "Save as Batch"
     And I should be redirected
     And I click on "mybatch"
     Then the batch should contain the last package ingested

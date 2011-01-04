@@ -30,16 +30,33 @@ describe 'Wip' do
 
     let(:descriptor) { XML::Document.string wip.load_aip_descriptor }
 
-    it "should have an ingest event" do
-      descriptor.find("//P:event/P:eventType = 'ingest'", NS_PREFIX).should be_true
+    context "ingest digiprov" do
+
+      it "should have an ingest event" do
+        descriptor.find("//P:event/P:eventType = 'ingest'", NS_PREFIX).should be_true
+      end
+
+      it "should have an ingest agent" do
+        descriptor.find("//P:agent/P:agentName = '#{system_agent_spec[:name]}'", NS_PREFIX).should be_true
+      end
+
+      it "should have a sip descriptor denoted" do
+        descriptor.find("//M:file/@USE='sip descriptor'", NS_PREFIX).should be_true
+      end
+
     end
 
-    it "should have an ingest agent" do
-      descriptor.find("//P:agent/P:agentName = '#{system_agent_spec[:name]}'", NS_PREFIX).should be_true
-    end
+    context "virus check digiprov" do
 
-    it "should have a sip descriptor denoted" do
-      descriptor.find("//M:file/@USE='sip descriptor'", NS_PREFIX).should be_true
+      it 'should return a premis event' do
+        descriptor.find("//P:event/P:eventType = 'virus check'", NS_PREFIX).should be_true
+      end
+
+      it 'should return a premis agent' do
+        agent_id = descriptor.find_first("//P:event[P:eventType = 'virus check']/P:linkingAgentIdentifier/P:linkingAgentIdentifierValue", NS_PREFIX).content
+        descriptor.find("//P:agent/P:agentIdentifier/P:agentIdentifierValue = '#{agent_id}'", NS_PREFIX).should be_true
+      end
+
     end
 
   end
@@ -80,7 +97,7 @@ describe 'Wip' do
 
     it "should have the xmlres tarball in the tarball" do
       file = File.join wip.id, "#{Wip::XML_RES_TARBALL_BASENAME}-0.tar"
-      tar_sha1s[file].hexdigest.should == Digest::SHA1.hexdigest(wip['xml-resolution-tarball'])
+      tar_sha1s[file].hexdigest.should == Digest::SHA1.file(wip.xmlres_file).hexdigest
     end
 
     it "should have uploaded the tarball" do

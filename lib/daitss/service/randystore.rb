@@ -2,28 +2,7 @@ require 'base64'
 require 'curb'
 require 'nokogiri'
 require 'daitss/archive'
-
-# OSX SHA1 bug
-if PLATFORM =~ /darwin/
-
-  class Digest::SHA1
-
-    def update s
-      buf_size = (1024 ** 2) * 256
-
-      if s.size > buf_size
-        io = StringIO.new s
-        buf = String.new
-        super buf while io.read(buf_size, buf)
-      else
-        super s
-      end
-
-    end
-
-  end
-
-end
+require 'mixin/digest'
 
 module Daitss
 
@@ -31,20 +10,19 @@ module Daitss
 
     RESERVE_PATH = '/reserve'
 
-
     # reserve a new location
     #
     # @param [String] package_id
     def RandyStore.reserve package_id
       c = Curl::Easy.http_post(archive.storage_url + RESERVE_PATH, Curl::PostField.content('ieid', package_id))
-      xml = Nokogiri.XML(c.body_str) or raise("cannot parse response as XML")
+      (200..201).include? c.response_code or raise ServiceError, "bad status"
 
       # check the response
-      raise "bad status" unless (201...300).include? c.response_code
-      raise "unknown document type" unless xml.root.name == 'reserved'
-      raise "bad package id" unless xml.root['ieid'] == package_id
-      raise "missing location" unless xml.root['location']
-      raise "empty location" unless not xml.root['location'].empty?
+      xml = Nokogiri.XML(c.body_str) or raise ServiceError "cannot parse response as XML", c
+      xml.root.name == 'reserved' or raise ServiceError "unknown document type", c
+      xml.root['ieid'] == package_id or raise ServiceError "bad package id", c
+      xml.root['location'] or raise ServiceError "missing location", c
+      not xml.root['location'].empty? or  raise ServiceError "empty location", c
 
       # return a new resource object
       RandyStore.new package_id, xml.root['location']
@@ -66,7 +44,7 @@ module Daitss
       c = Curl::Easy.new @url
       c.follow_location = true
       c.http_get
-      raise "bad status" unless c.response_code == 200
+      raise ServiceError, "bad status", c unless c.response_code == 200
       c.body_str
     end
 
@@ -80,7 +58,7 @@ module Daitss
         c.follow_location = true
       end
 
-      raise "bad status" unless c.response_code == 200
+      raise ServiceError, "bad status", c unless c.response_code == 200
     end
 
     # put the data to this resource
@@ -103,13 +81,13 @@ module Daitss
       xml = Nokogiri.XML(c.body_str) or res.error!("cannot parse response as XML")
 
       # check the response
-      raise "bad status" unless (201...300).include? c.response_code
-      raise "unknown document type" unless xml.root.name == 'created'
-      raise "bad package id" unless xml.root['ieid'] == @package_id
-      raise "bad location" unless xml.root['location'] == @url
-      raise "bad sha1" unless xml.root['sha1'] == sha1.hexdigest
-      raise "bad md5" unless xml.root['md5'] == md5.hexdigest
-      raise "bad size" unless xml.root['size'].to_i == data.size
+      (201...300).include? c.response_code or raise ServiceError, "bad status", c
+      xml.root.name == 'created' or raise ServiceError, "unknown document type", c
+      xml.root['ieid'] == @package_id or raise ServiceError, "bad package id", c
+      xml.root['location'] == @url or raise ServiceError, "bad location", c
+      xml.root['sha1'] == sha1.hexdigest or raise ServiceError, "bad sha1", c
+      xml.root['md5'] == md5.hexdigest or raise ServiceError, "bad md5", c
+      xml.root['size'].to_i == data.size or raise ServiceError, "bad size", c
 
       # return some info about the put
       {
@@ -138,13 +116,13 @@ module Daitss
       xml = Nokogiri.XML(c.body_str) or raise("cannot parse response as XML")
 
       # check the response
-      raise "bad status" unless (201...300).include? c.response_code
-      raise "unknown document type" unless xml.root.name == 'created'
-      raise "bad package id" unless xml.root['ieid'] == @package_id
-      raise "bad location" unless xml.root['location'] == @url
-      raise "bad sha1" unless xml.root['sha1'] == sha1.hexdigest
-      raise "bad md5" unless xml.root['md5'] == md5.hexdigest
-      raise "bad size" unless xml.root['size'].to_i == File.size(path)
+      (201...300).include? c.response_code or raise "bad status", c
+      xml.root.name == 'created' or raise "unknown document type", c
+      xml.root['ieid'] == @package_id or raise "bad package id", c
+      xml.root['location'] == @url or raise "bad location", c
+      xml.root['sha1'] == sha1.hexdigest or raise "bad sha1", c
+      xml.root['md5'] == md5.hexdigest or raise "bad md5", c
+      xml.root['size'].to_i == File.size(path) or raise "bad size", c
 
       # return some info about the put
       {
@@ -158,12 +136,12 @@ module Daitss
     # delete the data from this resource
     def delete
       c = Curl::Easy.http_delete @url
-      raise "bad status" unless [200, 202, 204].include? c.response_code
+      raise ServiceError, "bad status", c unless [200, 202, 204].include? c.response_code
     end
 
     def head
       c = Curl::Easy.http_head @url
-      raise "bad status" unless [200, 202, 204].include? c.response_code
+      raise ServiceError, "bad status", c unless c.response_code == 200
     end
 
     private

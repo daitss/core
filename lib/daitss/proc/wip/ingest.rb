@@ -1,6 +1,6 @@
 require 'dm-transactions'
 
-require 'daitss/proc/datafile/virus'
+require 'daitss/service/virus'
 require 'daitss/proc/template/descriptor'
 require 'daitss/proc/template/premis'
 require 'daitss/proc/wip/preserve'
@@ -15,7 +15,14 @@ module Daitss
     def ingest
 
       original_datafiles.each do |df|
-        step("virus check #{df.id}") { df.virus_check! }
+
+        step("virus check #{df.id}") do
+          vc = Virus.new df.data_file, df.uri
+          vc.post
+          df.metadata['virus-check-event'] = vc.event
+          df.metadata['virus-check-agent'] = vc.agent
+        end
+
       end
 
       preserve

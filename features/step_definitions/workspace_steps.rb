@@ -24,12 +24,22 @@ Given /^an? ([^"]*) wip$/ do |state|
       wip.snafu = e
     end
 
+    wip.should be_snafu
+
   when 'stop'
     wip.spawn
     wip.stop
+    wip.should be_stopped
 
   when 'running'
     wip.spawn
+    wip.should be_running
+
+  when 'dead'
+    wip.spawn
+    Process.kill 'KILL', wip.process[:id]
+    sleep 0.5
+    wip.should be_dead
 
   when 'archived'
     wip.spawn

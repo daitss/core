@@ -37,7 +37,7 @@ module Daitss
 
         Aip.transaction do
           self.save
-          AIPInPremis.new.process self.package, XML::Document.string(self.xml) rescue debugger
+          AIPInPremis.new.process self.package, XML::Document.string(self.xml)
         end
 
         true

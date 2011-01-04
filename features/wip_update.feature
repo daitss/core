@@ -16,3 +16,5 @@ Feature: update the processing of a wip
       | idle       | unsnafu | NG          | don't know  |
       | running    | unsnafu | NG          | don't know  |
       | snafu      | unsnafu | OK          | idle        |
+      | stop       | start   | OK          | running     |
+      | dead       | start   | OK          | running     |

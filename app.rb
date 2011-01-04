@@ -145,7 +145,7 @@ get '/packages?/?' do
                 @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
               else
                 t0 = Date.today - 7
-                es = Event.all :timestamp.gt => t0
+                es = Event.all(:timestamp.gt => t0, :limit => 50, :order => [ :timestamp.desc ])
                 es.map { |e| e.package }.uniq
               end
 
@@ -239,6 +239,7 @@ post '/workspace' do
     startable = ws.reject { |w| w.running? or w.snafu? }
     startable.each do |w|
       w.unstop if w.stopped?
+      w.reset_process if w.dead?
       w.spawn
     end
 
@@ -289,6 +290,8 @@ post '/workspace/:id' do |id|
 
   case params['task']
   when 'start'
+    wip.unstop if wip.stopped?
+    wip.reset_process if wip.dead?
     error 400, 'cannot start a running wip' if wip.running?
     error 400, 'cannot start a snafu wip' if wip.snafu?
     wip.spawn

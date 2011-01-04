@@ -91,6 +91,7 @@ module Daitss
 
     def elapsed_time
       raise "package not yet ingested" unless status == 'archived'
+      return 0 if self.id =~ /^E20(05|06|07|08|09|10|11)/ #return 0 for D1 pacakges
 
       event_list = self.events.all(:name => "ingest started") + self.events.all(:name => "ingest snafu") + self.events.all(:name => "ingest stopped") + self.events.first(:name => "ingest finished")
 

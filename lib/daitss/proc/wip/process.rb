@@ -1,3 +1,5 @@
+require 'mixin/file'
+
 platform = `uname`.chomp
 
 case platform
@@ -71,7 +73,7 @@ module Daitss
     # atomically delete a wip from the workspace
     def retire
       die_path = File.join archive.nuke_path, id
-      FileUtils.mv @path, die_path
+      File.lock(@path) { FileUtils.mv @path, die_path }
       FileUtils.rm_r die_path
     end
 
