@@ -70,19 +70,56 @@
 
 %form#create-user{:action => '/admin', :method => 'POST'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-user'}
-  %select{:name=>'type'}
-    %option= 'operator'
-    %option= 'affiliate'
 
-  %select{:name=>'account_id'}
-    - @accounts.each do |p|
-      %option= p.id
-  %input{:name => 'id', :value => "id"}
-  %input{:name => 'first_name', :value => "first name"}
-  %input{:name => 'last_name', :value => "last name"}
-  %input{:name => 'email', :value => "email address"}
-  %input{:name => 'phone', :value => "phone number"}
-  %input{:name => 'address', :value => "mailing address"}
+  %table
+    %tr
+      %th type
+      %td
+        %select{:name=>'type'}
+          %option= 'operator'
+          %option= 'affiliate'
+
+    %tr
+      %th account
+      %td
+        %select{:name=>'account_id'}
+          - @accounts.each do |p|
+            %option= p.id
+    %tr
+      %th id
+      %td
+        %input{:name => 'id'}
+
+    %tr
+      %th password
+      %td
+        %input{:name => 'password'}
+
+    %tr
+      %th first
+      %td
+        %input{:name => 'first_name'}
+
+    %tr
+      %th last
+      %td
+        %input{:name => 'last_name'}
+
+    %tr
+      %th email
+      %td
+        %input{:name => 'email'}
+
+    %tr
+      %th phone
+      %td
+        %input{:name => 'phone'}
+
+    %tr
+      %th address
+      %td
+        %textarea{:name => 'address'}
+
   %input{:type => 'submit', :value => 'Create User'}
 
 - if @users.any?
@@ -96,12 +133,12 @@
       %th email
       %th phone
       %th address
-      %th account flags
+      %th{:colspan => 4} actions
 
     - @users.each do |u|
       %tr
         %td= u.type
-        %td= u.account.description
+        %td= u.account.id
         %td= u.id
         %td= u.last_name
         %td= u.first_name
