@@ -22,7 +22,8 @@ module Daitss
 
     def fromPremis(premis)
       attribute_set(:name, premis.find_first("premis:inhibitorType", NAMESPACES).content)
-      attribute_set(:target, premis.find_first("premis:inhibitorTarget", NAMESPACES).content)
+      node = premis.find_first("premis:inhibitorTarget", NAMESPACES)
+      attribute_set(:target, node.content) unless node.nil?
       node = premis.find_first("premis:inhibitorKey", NAMESPACES)
       attribute_set(:ikey, node.content) unless node.nil?
     end

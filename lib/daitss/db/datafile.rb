@@ -88,7 +88,7 @@ module Daitss
         inhibitor = Inhibitor.new
         inhibitor.fromPremis(node)
         # use the existing inhibitor record in the database if we have seen this inhibitor before
-        existingInhibitor = Inhibitor.first(:name => inhibitor.name)
+        existingInhibitor = Inhibitor.first(:name => inhibitor.name, :target => inhibitor.target)
 
         dfse = DatafileSevereElement.new
         self.datafile_severe_element << dfse
