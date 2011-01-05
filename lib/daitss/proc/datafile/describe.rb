@@ -2,6 +2,7 @@ require 'daitss/proc/datafile'
 require 'daitss/proc/template/premis'
 require 'net/http'
 require 'cgi'
+require 'uri'
 require 'daitss/proc/metadata'
 require 'daitss/xmlns'
 
@@ -48,7 +49,8 @@ module Daitss
 
     def augment_fixity doc
       sip_descriptor_doc = XML::Document.string @wip['sip-descriptor']
-      file_node = sip_descriptor_doc.find_first "//M:file[M:FLocat/@xlink:href = '#{ metadata['sip-path'] }']", NS_PREFIX
+      href = metadata['sip-path'] ? URI.escape(metadata['sip-path']) : nil
+      file_node = sip_descriptor_doc.find_first "//M:file[M:FLocat/@xlink:href = '#{href}']", NS_PREFIX
 
       # XXX sip checksums could be done better in submit
       if file_node and file_node['CHECKSUM'] and file_node['CHECKSUMTYPE'] and %w(SHA-1 MD5).include?(file_node['CHECKSUMTYPE'])

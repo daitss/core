@@ -148,7 +148,10 @@ describe Daitss::Archive do
     context 'sip descriptor href' do
 
       it 'should accept URI escaped bytes' do
-        lambda { submit 'uri-escaped-href' }.should_not raise_error
+        wip = submit 'uri-escaped-href'
+        wip.original_datafiles.size.should == 2
+        ps = wip.original_datafiles.map { |df| df['aip-path'] }
+        ps.should include('sip-files/haskell 98 numbers.pdf')
       end
 
     end

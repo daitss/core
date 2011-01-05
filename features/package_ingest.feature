@@ -1,7 +1,7 @@
 Feature: ingest a package
 
-  Scenario: ingest a package. After complete, look for aip record, storage record, and events
-    Given I submit "haskell-nums-pdf"
+  Scenario Outline: ingest a package successfully
+    Given I submit "<sip>"
     When I click on "ingesting"
     And I choose "start"
     And I press "Update"
@@ -12,6 +12,10 @@ Feature: ingest a package
     And there should be an "ingest started" event
     And there should not be an "ingest snafu" event
     And there should be an "ingest finished" event
+    Examples:
+      | sip              |
+      | uri-escaped-href |
+      | haskell-nums-pdf |
 
   Scenario: ingest a virus infected package. Package should snafu
     Given I submit "virus"

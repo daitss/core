@@ -19,9 +19,9 @@ module Daitss
       path = File.expand_path path
 
       filename = File.basename path
-      raise "invalid characters in sip name" if filename =~ /^\..*['" ]/
+      raise "invalid characters in sip name" if filename =~ %r{^\..*['" ]}
 
-        ext = File.extname path
+      ext = File.extname path
       name = File.basename path, ext
 
       Dir.chdir File.dirname(path) do
@@ -89,8 +89,7 @@ module Daitss
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty?
         es[:content_file_presence] << "missing content files" if content_files.empty?
 
-        content_files.each do |f_uri|
-          f = URI.unescape f_uri
+        content_files.each do |f|
 
           unless Dir.chdir(path) { File.exist? f }
             es[:content_file_presence] << "missing content file: #{f}"
@@ -154,7 +153,8 @@ MSG
     def extract_owner_ids
 
       @descriptor_doc.find("/M:mets/M:fileSec//M:file[M:FLocat/@xlink:href]", NS_PREFIX).each do |node|
-        f = node.find_first('M:FLocat', NS_PREFIX)['href']
+        href = node.find_first('M:FLocat', NS_PREFIX)['href']
+        f = URI.unescape href
         @owner_ids[f] = node['OWNERID'] if node['OWNERID']
       end
 
@@ -329,7 +329,8 @@ MSG
       ns = descriptor_doc.find "//M:file", NS_PREFIX
 
       ns.map do |n|
-        path = n.find_first("M:FLocat/@xlink:href", NS_PREFIX).value
+        href = n.find_first("M:FLocat/@xlink:href", NS_PREFIX).value
+        path = URI.unescape href
         cs = n['CHECKSUM']
         cst = n['CHECKSUMTYPE']
         [path, cs, cst]
@@ -339,7 +340,7 @@ MSG
 
     def content_files
       ns = descriptor_doc.find "//M:file/M:FLocat/@xlink:href", NS_PREFIX
-      ns.map { |n| n.value }
+      ns.map { |n| URI.unescape n.value }
     end
 
     def files

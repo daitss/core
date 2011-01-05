@@ -2,6 +2,7 @@ require 'daitss/proc/wip'
 require 'daitss/proc/wip/tarball'
 require 'daitss/proc/datafile/obsolete'
 require 'digest/sha1'
+require 'uri'
 
 module Daitss
 
@@ -93,7 +94,8 @@ module Daitss
         if file_node.children.any? { |n| n.element? and n.name == 'FLocat' }
 
           # copy over the file
-          aip_path = file_node.find_first('M:FLocat/@xlink:href', NS_PREFIX).value
+          aip_path_href = file_node.find_first('M:FLocat/@xlink:href', NS_PREFIX).value
+          aip_path = URI.unescape aip_path_href
           tar_file = File.join tdir, aip_dir, aip_path
           FileUtils::cp tar_file, df.data_file
 
