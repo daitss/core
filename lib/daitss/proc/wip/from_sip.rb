@@ -23,15 +23,9 @@ module Daitss
 
         sip_archive.files.each_with_index do |f, index|
           next unless File.exists? File.join(sip_archive.path, f)
-
           df = wip.new_original_datafile index
-
-          df.open('w') do |o|
-            sip_file_path = File.join sip_archive.path, f
-            sip_file_data = File.read sip_file_path
-            o.write sip_file_data
-          end
-
+          sip_file_path = File.join sip_archive.path, f
+          FileUtils.cp sip_file_path, df.data_file
           df['sip-path'] = f
           df['aip-path'] = File.join SIP_FILES_DIR, f
         end
