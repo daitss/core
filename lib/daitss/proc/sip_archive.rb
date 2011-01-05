@@ -89,7 +89,8 @@ module Daitss
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty?
         es[:content_file_presence] << "missing content files" if content_files.empty?
 
-        content_files.each do |f|
+        content_files.each do |f_uri|
+          f = URI.unescape f_uri
 
           unless Dir.chdir(path) { File.exist? f }
             es[:content_file_presence] << "missing content file: #{f}"
@@ -112,7 +113,8 @@ module Daitss
 
         Dir.chdir @path do
 
-          content_files_with_checksums.each do |f, expected, expected_type|
+          content_files_with_checksums.each do |f_uri, expected, expected_type|
+            f = URI.unescape f_uri
 
             # try to infer expected type if not provided
             if expected_type.nil? or expected_type.empty?
@@ -217,7 +219,7 @@ MSG
       is_ojs_xpath = "//M:dmdSec[starts-with(@ID, 'J')]"
 
       # check if OJS
-      
+
       if descriptor_doc.find_first(is_ojs_xpath, NS_PREFIX)
         # get title from mods in dmdSec
         title_node = descriptor_doc.find_first mods_title_xpath, NS_PREFIX
@@ -286,14 +288,14 @@ MSG
           unless @ivt["volume"] or @ivt["issue"]
             [/Volume\s*\d+/, /vol\.*\s*\d+/, /v\.*\s*\d+/].each do |r|
               if dc_title[r]
-                dc_volume = dc_title[r][/\d+/] 
+                dc_volume = dc_title[r][/\d+/]
                 break
               end
             end
 
             [/Issue\s*\d+/, /no\.*\s*\d+/, /v\.*\s*\d+/].each do |r|
               if dc_title[r]
-                dc_issue = dc_title[r][/\d+/] 
+                dc_issue = dc_title[r][/\d+/]
               end
             end # of each
           end # of if

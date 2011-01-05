@@ -145,6 +145,14 @@ describe Daitss::Archive do
 
     end
 
+    context 'sip descriptor href' do
+
+      it 'should accept URI escaped bytes' do
+        lambda { submit 'uri-escaped-href' }.should_not raise_error
+      end
+
+    end
+
   end
 
 end
