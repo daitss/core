@@ -178,6 +178,13 @@ get '/package/:id/descriptor' do |id|
   @aip.xml
 end
 
+get '/package/:p_id/dip/:d_id' do |p_id, d_id|
+  @package = @user.packages.get(p_id) or not_found
+  dip_path = File.join archive.disseminate_path, d_id
+  File.exist?(dip_path) or not_found
+  send_file dip_path
+end
+
 get '/package/:id/ingest_report' do |id|
   @package = @user.packages.get(id) or not_found
   not_found unless @package.status == "archived"

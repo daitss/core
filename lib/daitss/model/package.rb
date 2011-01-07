@@ -114,5 +114,14 @@ module Daitss
 
     end
 
+    def dips
+
+      Dir.chdir archive.disseminate_path do
+        Dir['*'].select { |dip| dip =~ /^#{id}-\d+.tar$/ }
+      end
+
+    end
+
   end
+
 end
