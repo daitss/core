@@ -27,5 +27,5 @@ end
 
 Then /^I should be at a package page$/ do
   follow_redirect! if last_response.status == 302
-  last_request.env['PATH_INFO'] =~ %r{^/package/\w+}
+  last_request.env['PATH_INFO'].should =~ %r{^/package/\w+}
 end

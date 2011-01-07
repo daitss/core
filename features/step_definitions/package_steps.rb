@@ -1,12 +1,3 @@
-#Given /^an archived package$/ do
-  #Given %q(I submit a package)
-  #And %q(I click on "ingesting")
-  #And %q(I choose "start")
-  #And %q(I press "Update")
-  #And %q(I wait for it to finish)
-  #Then %q(I should be at the package page)
-#end
-
 When /^I goto its package page$/ do
   visit last_package
 end
@@ -34,8 +25,6 @@ Then /^in the events I should not see a "([^\"]*)" event with "([^"]*)" in the n
   last_response.should have_selector("td:contains('#{event}')")
   last_response.should_not have_selector("td:contains('#{notes}')")
 end
-
-
 
 Then /^in the aip section I should see (copy url|copy size|copy sha1|number of datafiles)$/ do |field|
   last_response.should have_selector("th:contains('#{field}') + td")
@@ -150,4 +139,8 @@ Then /^the body should be mets xml$/ do
   doc = Nokogiri::XML last_response.body
   doc.root.name.should == 'mets'
   doc.root.namespace.href.should == "http://www.loc.gov/METS/"
+end
+
+Then /^there should be link to a dip$/ do
+  last_response.should have_selector("a[href='/package/#{last_package_id}/dip/#{last_package_id}-0.tar']")
 end
