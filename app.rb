@@ -140,12 +140,13 @@ get '/packages?/?' do
   @query = params['search']
   @batches = Batch.all
 
-  @packages = if @query
+  @packages = if @query and @query.length > 0
                 ids = @query.strip.split
                 @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
               else
                 t0 = Date.today - 7
-                es = @user.packages.events.all(:timestamp.gt => t0, :limit => 50, :order => [ :timestamp.desc ])
+                es = Event.all(:timestamp.gt => t0, :limit => 50, :order => [ :timestamp.desc ])
+                es = es.find_all { |e| @user.account.projects.include?(e.package.project) } unless @user.type == Operator
                 es.map { |e| e.package }.uniq
               end
 
