@@ -144,3 +144,8 @@ end
 Then /^there should be link to a dip$/ do
   last_response.should have_selector("a[href='/package/#{last_package_id}/dip/#{last_package_id}-0.tar']")
 end
+
+Then /^clicking the dip link downloads the tarball$/ do
+  click_link "#{last_package_id}-0.tar"
+  last_response.should be_ok
+end
