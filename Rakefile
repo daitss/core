@@ -14,6 +14,10 @@ include Daitss
 
 namespace :db do
 
+  task :setup do
+    Archive.instance.setup_db :log => true
+  end
+  
   desc 'migrate the database'
   task :migrate => [:setup] do
     archive.setup_db :log => true

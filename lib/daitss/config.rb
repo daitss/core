@@ -29,7 +29,8 @@ module Daitss
 
     # id of system program
     SYSTEM_PROGRAM_ID = 'SYSTEM'
-
+    D1_PROGRAM_ID = 'DAITSS1'
+    
     # id of default operator
     ROOT_OPERATOR_ID = 'root'
 
@@ -147,6 +148,12 @@ module Daitss
 
       program.save or raise "cannot save system program"
 
+      program = Program.new(:id => D1_PROGRAM_ID,
+                            :description => "daitss 1 software agent",
+                            :account => a)
+
+      program.save or raise "cannot save daitss 1 program"
+      
       operator = Operator.new(:id => ROOT_OPERATOR_ID,
                               :description => "default operator account",
                               :account => a)
