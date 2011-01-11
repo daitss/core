@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'daitss/proc/sip_archive'
 
 describe SipArchive do
@@ -166,7 +165,7 @@ describe SipArchive do
 
       ivt["title"].should == "Florida Chautauqua"
       ivt["volume"].should == "1897"
-      ivt["issue"].should == nil 
+      ivt["issue"].should == nil
     end
 
     it "should correctly process MARC dmd 1" do
@@ -179,7 +178,7 @@ describe SipArchive do
 
       ivt["title"].should == "0 Vol issue test 1 subtitle"
       ivt["volume"].should == "5"
-      ivt["issue"].should == nil 
+      ivt["issue"].should == nil
     end
 
     it "should correctly process MARC dmd 2" do

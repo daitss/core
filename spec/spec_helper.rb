@@ -9,8 +9,6 @@ require "help/profile"
 require "help/agreement"
 require "help/fs"
 
-SPEC_ROOT = File.dirname __FILE__
-
 include Daitss
 
 RSpec.configure do |config|

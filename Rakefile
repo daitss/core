@@ -2,10 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'rake'
-require 'rake/rdoctask'
-require 'ruby-debug'
 require 'semver'
-require 'rspec'
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'lib')
 
@@ -15,29 +12,23 @@ require 'daitss/model/aip'
 
 include Daitss
 
-desc 'generate tags file'
-task :ctags do
-  system "ctags -R --exclude=.git lib spec features views bin app.rb"
-end
-
 namespace :db do
-
-  task :setup do
-    Archive.instance.setup_db :log => true
-  end
 
   desc 'migrate the database'
   task :migrate => [:setup] do
+    archive.setup_db :log => true
     DataMapper.auto_migrate!
   end
 
   desc 'upgrade the database'
   task :upgrade => [:setup] do
+    archive.setup_db :log => true
     DataMapper.auto_upgrade!
   end
 
   desc 'insert initial data into database'
   task :initial_data => [:setup] do
+    archive.setup_db :log => true
     Archive.create_initial_data
 
     a = Account.new :id => 'ACT', :description => 'the description'
@@ -46,4 +37,17 @@ namespace :db do
     p.save or 'cannot save PRJ'
   end
 
+end
+
+require 'rspec/core/rake_task'
+
+RSpec::Core::RakeTask.new do |t|
+  t.rspec_opts = ["-c", "-f Fuubar", "--fail-fast", "-r ./spec/spec_helper.rb"]
+  t.pattern = 'spec/**/*_spec.rb'
+end
+
+require 'cucumber/rake/task'
+
+Cucumber::Rake::Task.new(:features) do |t|
+  t.cucumber_opts = "features --format progress"
 end

@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'daitss/proc/wip'
 require 'daitss/model/aip'
 require 'daitss/proc/wip/ingest'

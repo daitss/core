@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'daitss/proc/wip/dmd'
 
 describe Wip, "with respect to dmd" do

@@ -1,5 +1,4 @@
 require 'daitss/proc/datafile/obsolete'
-require 'spec_helper'
 
 describe DataFile do
 

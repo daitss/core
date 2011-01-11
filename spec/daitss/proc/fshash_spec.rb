@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'daitss/proc/fshash'
 
 describe FsHash do
@@ -17,7 +16,7 @@ describe FsHash do
     subject['foo'] = 'bar'
     other['foo'].should == 'bar'
     subject.should have_key('foo')
-    
+
     # overwrite
     subject['foo'] = 'baz'
     other['foo'].should == 'baz'

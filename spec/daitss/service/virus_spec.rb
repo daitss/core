@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'daitss/service/virus'
 
 include Daitss

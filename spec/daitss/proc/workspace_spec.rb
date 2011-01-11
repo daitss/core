@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'daitss/proc/workspace'
 require 'daitss/proc/stashbin'
 

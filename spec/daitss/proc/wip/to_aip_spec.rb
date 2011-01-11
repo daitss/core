@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'daitss/proc/wip'
 
 describe Daitss::Wip do

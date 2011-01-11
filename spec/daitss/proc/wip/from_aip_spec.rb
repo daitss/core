@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'daitss/proc/wip/tarball'
 require 'daitss/proc/wip/ingest'
 require 'daitss/proc/wip/dmd'

@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'daitss/proc/datafile'
 
 # Proto AIP: Work In Progress

@@ -1,4 +1,3 @@
-require 'spec_helper'
 
 require 'daitss/model/request'
 require 'daitss/proc/wip'
