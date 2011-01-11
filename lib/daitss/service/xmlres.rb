@@ -9,7 +9,7 @@ module Daitss
       url = "#{archive.xmlresolution_url}/ieids/#{id}"
       c = Curl::Easy.new url
       c.http_put ""
-      (200..201).include? c.response_code or raise ServiceError, "bad status"
+      (200..201).include? c.response_code or c.error("bad status")
       @url = url + '/'
     end
 
@@ -17,7 +17,7 @@ module Daitss
       c = Curl::Easy.new @url
       c.multipart_form_post = true
       c.http_post Curl::PostField.file('xmlfile', f)
-      (200..201).include? c.response_code or raise ServiceError, "bad status"
+      (200..201).include? c.response_code or c.error("bad status")
 
       doc = Nokogiri::XML c.body_str
 
@@ -42,7 +42,7 @@ module Daitss
 
     def save_tarball f
       c = Curl::Easy.download(@url, f) { |c| c.follow_location = true }
-      c.response_code == 200 or raise ServiceError "bad status", c
+      c.response_code == 200 or c.error("bad status")
     end
 
   end
