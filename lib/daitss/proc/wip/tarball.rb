@@ -46,6 +46,7 @@ module Daitss
         raise "could not make tarball: #{$?}" unless $?.exitstatus == 0
       end
 
+      FileUtils.rm_r temp_dir
     end
 
     def next_xml_res_tarball_index
