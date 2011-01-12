@@ -13,9 +13,13 @@ module Daitss
 
       # describe and preserve original_files
       original_datafiles.each do |df|
-        step("describe-#{df.id}") { df.describe! }
-        step("migrate-#{df.id}") { df.migrate! }
-        step("normalize-#{df.id}") { df.normalize! }
+
+        step("describe-migrate-normalize-#{df.id}") do
+          df.describe!
+          df.migrate!
+          df.normalize!
+        end
+
       end
 
       # describe transformed files
