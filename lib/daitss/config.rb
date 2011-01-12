@@ -106,6 +106,12 @@ module Daitss
     # initializes the database
     def init_db
       DataMapper.auto_migrate!
+      # turn on postgres timezone support
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE premis_events ALTER datetime TYPE timestamp with time zone")
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE datafiles ALTER create_date TYPE timestamp with time zone")
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE events ALTER timestamp TYPE timestamp with time zone")
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE requests ALTER timestamp TYPE timestamp with time zone")
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE entries ALTER timestamp TYPE timestamp with time zone")
     end
 
     # create the stash and work directories in the data dir

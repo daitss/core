@@ -39,7 +39,7 @@ module Daitss
     "xml resolution" => XML_RESOLUTION,
     "broken links found" => BROKEN_LINKS,
   }
-
+  
   class PremisEvent
     include DataMapper::Resource
     property :id, String, :key => true, :length => 100

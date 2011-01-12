@@ -42,6 +42,9 @@ module Daitss
 
         true
       rescue
+        require 'pp'
+        puts $!
+        puts $!.backtrace
         false
       end
 
