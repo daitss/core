@@ -162,6 +162,21 @@ module Daitss
     def load_sip_descriptor
       name = File.join Wip::SIP_FILES_DIR, "#{self.package.sip.name}.xml"
       sd_df = original_datafiles.find { |df| name == df['aip-path'] }
+
+      if sd_df.nil? and task == :d1refresh
+
+        sd_df = original_datafiles.find do |df|
+          parts = df['aip-path'].split File::SEPARATOR
+
+          parts.size == 3 and
+          parts[0] = Wip::SIP_FILES_DIR and
+          parts[1] =~ %r(^SN\d+) and
+          parts[2] = self.package.sip.name
+        end
+
+      end
+
+      raise "sip descriptor missing: #{name}" unless sd_df
       metadata['sip-descriptor'] = File.read sd_df.data_file
     end
 
