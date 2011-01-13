@@ -1,4 +1,5 @@
 require 'mixin/file'
+require 'daitss/profile'
 
 platform = `uname`.chomp
 
@@ -34,6 +35,12 @@ module Daitss
       raise "#{s} state is required, not #{state}" unless s == state
     end
 
+    def stash_journal
+      jf = File.join @path, 'journal'
+      pf = profile_file('journal')
+      FileUtils.cp jf, pf
+    end
+
     # start a wip's task in a new process
     def spawn
       need_state :idle
@@ -47,17 +54,21 @@ module Daitss
         $stdout.reopen out_path, 'w'
         $stderr.reopen err_path, 'w'
 
+        profile_start
+
         begin
           package.log "#{task} started"
           send task
           package.log "#{task} finished"
+          stash_journal
           retire
         rescue => e
           self.snafu = e
           package.log "#{task} snafu", :notes => e.message.split("\n\n")[0]
-          exit 1
+          stash_journal
         end
 
+        profile_stop
       end
 
       @process = {

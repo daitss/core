@@ -1,0 +1,14 @@
+%table.progress
+  %tr
+    %th step
+    %th time
+    %th seconds
+  - @steps.each do |name,s|
+    %tr
+      %td.step= name
+      %td= s[:time].iso8601#strftime('%F %T')
+      %td= "%06.2f" % s[:duration]
+  %tr
+    %th total duration
+    %th= "%06.2f" % @elapsed_time
+    %th= "%06.2f" % @duration
