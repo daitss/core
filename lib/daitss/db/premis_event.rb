@@ -39,7 +39,7 @@ module Daitss
     "xml resolution" => XML_RESOLUTION,
     "broken links found" => BROKEN_LINKS,
   }
-
+  
   class PremisEvent
     include DataMapper::Resource
     property :id, String, :key => true, :length => 100
@@ -50,7 +50,7 @@ module Daitss
     property :event_detail, String, :length => 255 # event detail
     property :outcome, String, :length => 255   # ex. sucess, failed.  TODO:change to Enum.
     property :outcome_details, Text, :length => 2**32-1 # additional information about the event outcome.
-    property :relatedObjectId, String , :length => 100 # the identifier of the related object.
+    property :relatedObjectId, String , :length => 100, :index => true # the identifier of the related object.
     # if object A migrated to object B, the object B will be associated with a migrated_from event
     property :class, Discriminator
     belongs_to :premis_agent
