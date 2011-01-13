@@ -1,0 +1,16 @@
+*.gem
+*.log
+*.swo
+*.swp
+*.tmproj
+*~
+.DS_Store
+.bundle
+.test-stack
+config.yml
+coverage
+data
+pkg
+tags
+var
+vendor
