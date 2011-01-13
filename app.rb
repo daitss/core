@@ -15,7 +15,6 @@ load_archive
 
 # if there is an ssl server running uncomment this
 # use Rack::SslEnforcer, :only => "/login"
-
 class Login < Sinatra::Base
   enable :sessions
 
@@ -80,6 +79,27 @@ before do
     redirect '/login' unless @user
   end
 
+end
+
+get '/profile' do
+  js = Dir.chdir(archive.profile_path) { Dir['*.journal'] }
+  @profs = js.map { |f| f.split('.') + ['profile'] }
+  haml :profile
+end
+
+get '/profile/:package/:task/:pid/journal' do |package, task, pid|
+  f = File.join archive.profile_path, "#{package}.#{task}.#{pid}.journal"
+  yml = YAML.load_file f
+  @steps = yml.sort { |a,b| a[1][:time] <=> b[1][:time] }
+  @elapsed_time = @steps[-1][1][:time] - @steps[0][1][:time]
+  @duration = yml.inject(0) { |acc,(n,s)| acc += s[:duration] }
+  @elapsed_time += @steps[-1][1][:duration]
+  haml :prof_journal
+end
+
+get '/profile/:package/:task/:pid/profile' do |package, task, pid|
+  f = File.join archive.profile_path, "#{package}.#{task}.#{pid}.prof.html"
+  send_file f
 end
 
 get '/stylesheet.css' do

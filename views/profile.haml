@@ -1,0 +1,20 @@
+%h1 profiles
+
+%table
+  %tr
+    %th package
+    %th task
+    %th pid
+    %th journal
+    %th profile
+
+  - @profs.each do |package, task, pid, journal, profile|
+    %tr
+      %td
+        %a{:href => "/package/#{package}"}= package
+      %td= task
+      %td= pid
+      %td
+        %a{:href => "/profile/#{package}/#{task}/#{pid}/journal"}= journal
+      %td
+        %a{:href => "/profile/#{package}/#{task}/#{pid}/profile"}= profile

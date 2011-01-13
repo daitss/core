@@ -120,7 +120,7 @@ describe SipArchive do
       path = new_sip_archive 'haskell-nums-pdf.zip'
       s = SipArchive.new path
 
-      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "OJStest6.xml")))
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(DESCRIPTOR_DIR, "OJStest6.xml")))
 
       ivt = s.issue_vol_title
 
@@ -133,7 +133,7 @@ describe SipArchive do
       path = new_sip_archive 'haskell-nums-pdf.zip'
       s = SipArchive.new path
 
-      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "OJStest3.xml")))
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(DESCRIPTOR_DIR, "OJStest3.xml")))
 
       ivt = s.issue_vol_title
 
@@ -146,7 +146,7 @@ describe SipArchive do
       path = new_sip_archive 'haskell-nums-pdf.zip'
       s = SipArchive.new path
 
-      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "FI04122903.xml")))
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(DESCRIPTOR_DIR, "FI04122903.xml")))
 
       ivt = s.issue_vol_title
 
@@ -159,7 +159,7 @@ describe SipArchive do
       path = new_sip_archive 'haskell-nums-pdf.zip'
       s = SipArchive.new path
 
-      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "WF00000013.xml")))
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(DESCRIPTOR_DIR, "WF00000013.xml")))
 
       ivt = s.issue_vol_title
 
@@ -172,7 +172,7 @@ describe SipArchive do
       path = new_sip_archive 'haskell-nums-pdf.zip'
       s = SipArchive.new path
 
-      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "MARC_examples_00001.xml")))
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(DESCRIPTOR_DIR, "MARC_examples_00001.xml")))
 
       ivt = s.issue_vol_title
 
@@ -185,7 +185,7 @@ describe SipArchive do
       path = new_sip_archive 'haskell-nums-pdf.zip'
       s = SipArchive.new path
 
-      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "MARC_examples2.xml")))
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(DESCRIPTOR_DIR, "MARC_examples2.xml")))
 
       ivt = s.issue_vol_title
 
@@ -198,7 +198,7 @@ describe SipArchive do
       path = new_sip_archive 'haskell-nums-pdf.zip'
       s = SipArchive.new path
 
-      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "UF00078627_00013.xml")))
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(DESCRIPTOR_DIR, "UF00078627_00013.xml")))
 
       ivt = s.issue_vol_title
 
@@ -211,7 +211,7 @@ describe SipArchive do
       path = new_sip_archive 'haskell-nums-pdf.zip'
       s = SipArchive.new path
 
-      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "UF00078185_00029.xml")))
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(DESCRIPTOR_DIR, "UF00078185_00029.xml")))
 
       ivt = s.issue_vol_title
 
@@ -224,7 +224,7 @@ describe SipArchive do
       path = new_sip_archive 'haskell-nums-pdf.zip'
       s = SipArchive.new path
 
-      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "2708219.xml")))
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(DESCRIPTOR_DIR, "2708219.xml")))
 
       ivt = s.issue_vol_title
 
@@ -237,7 +237,7 @@ describe SipArchive do
       path = new_sip_archive 'haskell-nums-pdf.zip'
       s = SipArchive.new path
 
-      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(SPEC_ROOT, "descriptors", "2646777.xml")))
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(DESCRIPTOR_DIR, "2646777.xml")))
 
       ivt = s.issue_vol_title
 
