@@ -10,18 +10,20 @@ module Daitss
     def load_from_d1_aip
 
       # need tb
-      load_d1_datafiles
+      step('load legacy package') { load_d1_datafiles }
 
       # need descriptor
-      load_d1_dmd
-      load_sip_descriptor
-      load_d1_package_digiprov
+      step('extract legacy metadata') do
+        load_d1_dmd
+        load_sip_descriptor
+        load_d1_package_digiprov
+      end
 
       # restore duplicates deleted by d1
-      restore_deleted_duplicates
+      step('restore dedupep files') { restore_deleted_duplicates }
 
       # bring in global tar into xmlres-0
-      compile_globals
+      step('compile legacy globals to xmlres') { compile_globals }
     end
 
     def load_d1_dmd
@@ -116,7 +118,6 @@ module Daitss
 
       end
 
-      # TODO create xml res tarballs
       unless File.directory? old_xml_res_tarball_dir
         FileUtils.mkdir old_xml_res_tarball_dir
       end
@@ -127,6 +128,7 @@ module Daitss
         FileUtils.cp f, File.join(old_xml_res_tarball_dir, File.basename(f))
       end
 
+    ensure
       FileUtils.rm_r tdir
     end
 
@@ -139,7 +141,7 @@ module Daitss
       metadata['old-digiprov-agents'] = as.flatten.map { |a| a.to_premis_xml.to_s }.join "\n"
     end
 
-     # restore duplicates deleted by d1
+    # restore duplicates deleted by d1
     def restore_deleted_duplicates
       # retrieve the list of deleted duplicates if there is any
       deleted_duplicates = D1DeletedFile.all(:ieid => self.package.id)
