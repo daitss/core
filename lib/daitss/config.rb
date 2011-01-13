@@ -6,31 +6,15 @@ module Daitss
 
   module Config
 
-    # name of directory for workspace
-    WORK_DIR = "work"
-
-    # name of directory for stashspace
-    STASH_DIR = "stash"
-
-    # name of the directory for submissions
-    SUBMIT_DIR = 'submit'
-
-    # name of the directory for submissions
-    DISPATCH_DIR = 'dispatch'
-
-    # name of the directory for dips
-    DISSEMINATE_DIR = 'disseminate'
-
-    # name of the directory for nuking wips
-    NUKE_DIR = 'nuke'
-
     # id of system account
     SYSTEM_ACCOUNT_ID = 'SYSTEM'
 
     # id of system program
     SYSTEM_PROGRAM_ID = 'SYSTEM'
+
+    # daitss1 id
     D1_PROGRAM_ID = 'DAITSS1'
-    
+
     # id of default operator
     ROOT_OPERATOR_ID = 'root'
 
@@ -51,8 +35,20 @@ module Daitss
     TRANSFORM_URL = 'transform-url'
     XMLRESOLUTION_URL = 'xmlresolution-url'
 
-    attr_reader :db_url, :uri_prefix, :http_timeout
-    attr_reader :data_dir, :work_path, :stash_path, :submit_path, :disseminate_path, :dispatch_path, :nuke_path
+    attr_reader :db_url, :uri_prefix, :http_timeout, :data_dir
+
+    DATA_PATHS = [
+      :work,
+      :stash,
+      :submit,
+      :disseminate,
+      :dispatch,
+      :profile,
+      :nuke
+    ]
+
+    attr_reader *DATA_PATHS.map { |s| "#{s}_path".to_sym }
+
     attr_reader :actionplan_url, :describe_url, :storage_url, :viruscheck_url, :transform_url, :xmlresolution_url
     attr_reader :yaml
 
@@ -71,12 +67,11 @@ module Daitss
 
       # data directories
       @data_dir = @yaml[DATA_DIR]
-      @work_path = File.join @data_dir, WORK_DIR
-      @stash_path = File.join @data_dir, STASH_DIR
-      @submit_path = File.join @data_dir, SUBMIT_DIR
-      @disseminate_path = File.join @data_dir, DISSEMINATE_DIR
-      @dispatch_path = File.join @data_dir, DISPATCH_DIR
-      @nuke_path = File.join @data_dir, NUKE_DIR
+      DATA_PATHS.each do |sym|
+        i_sym = "@#{sym}_path".to_sym
+        path = File.join @data_dir, sym.to_s
+        instance_variable_set i_sym, path
+      end
 
       # uri prefix
       @uri_prefix = @yaml[URI_PREFIX]
@@ -117,13 +112,9 @@ module Daitss
     # create the stash and work directories in the data dir
     def init_data_dir
 
-      [ @work_path,
-        @stash_path,
-        @submit_path,
-        @disseminate_path,
-        @dispatch_path,
-        @nuke_path
-      ].each do |p|
+      DATA_PATHS.each do |sym|
+        i_sym = "@#{sym}_path".to_sym
+        p = instance_variable_get i_sym
         FileUtils.mkdir p unless File.directory? p
       end
 
@@ -159,7 +150,7 @@ module Daitss
                             :account => a)
 
       program.save or raise "cannot save daitss 1 program"
-      
+
       operator = Operator.new(:id => ROOT_OPERATOR_ID,
                               :description => "default operator account",
                               :account => a)
