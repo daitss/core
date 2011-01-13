@@ -6,6 +6,7 @@ require "daitss/proc/wip/from_sip"
 require "daitss/proc/template/premis"
 
 SIPS_DIR = File.join File.dirname(__FILE__), '..', 'sips'
+DESCRIPTOR_DIR = File.join File.dirname(__FILE__), '..', 'descriptors'
 
 def submit name
   file_name = "#{name}.zip"
