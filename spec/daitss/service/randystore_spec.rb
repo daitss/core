@@ -64,7 +64,6 @@ describe RandyStore do
   end
 
   it 'should head' do
-    pending 'seems to not be implemented'
     package_id = EggHeadKey.new_egg_head_key
     rs = RandyStore.reserve package_id
     rs.head
