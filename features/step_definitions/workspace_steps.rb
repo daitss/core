@@ -21,7 +21,7 @@ Given /^an? ([^"]*) wip$/ do |state|
     begin
       raise "oops this is not a real error!"
     rescue => e
-      wip.snafu = e
+      wip.make_snafu e
     end
 
     wip.should be_snafu

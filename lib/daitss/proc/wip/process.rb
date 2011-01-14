@@ -63,7 +63,7 @@ module Daitss
           stash_journal
           retire
         rescue => e
-          self.snafu = e
+          make_snafu e
           package.log "#{task} snafu", :notes => e.message.split("\n\n")[0]
           stash_journal
         end
@@ -154,7 +154,7 @@ module Daitss
     end
 
     # snafu a running process
-    def snafu= e
+    def make_snafu e
 
       @process = {
         :id => :snafu,
