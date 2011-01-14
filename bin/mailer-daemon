@@ -3,6 +3,7 @@
 require 'daitss/archive'
 require 'daitss/model'
 require 'daitss/archive/email'
+require 'fileutils'
 
 include Daitss
 
@@ -10,13 +11,30 @@ archive
 
 # find all ingested packages. If it doesn't have an ingest report ops event, mail the report to the account address, and add an event for the report being mailed
 STDERR.puts "Starting report daemon..."
+
 while true
   ReportDelivery.all.each do |r|
+    p = r.package
     if r.mechanism == :email
-      Archive.instance.email_report r.package
-      r.package.log "ingest report mailed"
-      r.destroy
+      STDERR.puts "emailing report for #{p.id}"
+
+      Archive.instance.email_report p
+      p.log "ingest report mailed"
+    else
+      STDERR.puts "writing out report for #{p.id}"
+
+      rep = Archive.instance.ingest_report p.id
+      report_file = File.join archive.reports_path, p.project.account.id, (p.id + ".xml")
+      FileUtils.mkdir_p File.dirname report_file
+ 
+      File.open(report_file, "w+") do |f|
+        f.puts rep
+      end
+
+      p.log "ingest report written out for ftp"
     end
+
+    r.destroy
   end
 
   sleep 60

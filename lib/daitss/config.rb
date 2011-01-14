@@ -44,7 +44,8 @@ module Daitss
       :disseminate,
       :dispatch,
       :profile,
-      :nuke
+      :nuke,
+      :reports
     ]
 
     attr_reader *DATA_PATHS.map { |s| "#{s}_path".to_sym }
