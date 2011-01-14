@@ -12,6 +12,7 @@ Feature: ingest a package
     And there should be an "ingest started" event
     And there should not be an "ingest snafu" event
     And there should be an "ingest finished" event
+    And there should be a report delivery record
     Examples:
       | sip              |
       | uri-escaped-href |
