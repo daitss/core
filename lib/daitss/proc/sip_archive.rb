@@ -27,8 +27,8 @@ module Daitss
       Dir.chdir File.dirname(path) do
 
         output = case ext
-                 when '.zip' then `unzip -o #{filename} 2>&1`
-                 when '.tar' then `tar -xf #{filename} 2>&1`
+                 when '.zip' then `unzip -o "#{filename}" 2>&1`
+                 when '.tar' then `tar -xf "#{filename}" 2>&1`
                  else raise "unknown archive extension: #{ext}"
                  end
 

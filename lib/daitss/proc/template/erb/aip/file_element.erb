@@ -8,6 +8,6 @@
       <% end %>
       CHECKSUM='<%= df.open { |io| Digest::SHA1.hexdigest io.read } %>'>
   <% unless df.obsolete? %>
-    <FLocat LOCTYPE='URL' xlink:href='<%= URI.escape df['aip-path'] %>'/>
+    <FLocat LOCTYPE='URL' xlink:href="<%= URI.escape df['aip-path'] %>"/>
   <% end %>
 </file>

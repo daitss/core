@@ -50,7 +50,7 @@ module Daitss
     def augment_fixity doc
       sip_descriptor_doc = XML::Document.string @wip['sip-descriptor']
       href = metadata['sip-path'] ? URI.escape(metadata['sip-path']) : nil
-      file_node = sip_descriptor_doc.find_first "//M:file[M:FLocat/@xlink:href = '#{href}']", NS_PREFIX
+      file_node = sip_descriptor_doc.find_first %Q{//M:file[M:FLocat/@xlink:href = "#{href}"]}, NS_PREFIX
 
       # XXX sip checksums could be done better in submit
       if file_node and file_node['CHECKSUM'] and file_node['CHECKSUMTYPE'] and %w(SHA-1 MD5).include?(file_node['CHECKSUMTYPE'])

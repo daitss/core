@@ -17,6 +17,7 @@ Feature: ingest a package
       | sip              |
       | uri-escaped-href |
       | haskell-nums-pdf |
+      | haskell'nums'pdf |
 
   Scenario: ingest a virus infected package. Package should snafu
     Given I submit "virus"

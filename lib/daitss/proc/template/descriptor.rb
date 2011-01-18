@@ -12,7 +12,10 @@ module Daitss
       @id_map = Hash.new { |hash, key| hash[key] = "0" }
       @admid_map = Hash.new { |hash, key| hash[key] = [] }
       XML.default_keep_blanks = false
-      descriptor = XML::Document.string template_by_name('aip/descriptor').result(binding)
+
+      s = template_by_name('aip/descriptor').result(binding)
+      puts s
+      descriptor = XML::Document.string s
       save_aip_descriptor descriptor.to_s
     end
 
