@@ -8,7 +8,8 @@
       %td= @wip.process[:time]
     %tr
       %th message
-      %td#snafu-message= @wip.process[:message]
+      %td#snafu-message
+        %pre= @wip.process[:message]
     %tr
       %th trace
       %td

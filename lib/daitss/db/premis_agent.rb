@@ -38,7 +38,7 @@ module Daitss
       note = premis.find_first("*[local-name()='agentNote']", NAMESPACES)
       attribute_set(:note, note.content) if note
     end
-    
+
     def to_premis_xml
       # TODO agent note?
       agent :id => self.id, :name => self.name, :type => self.type
