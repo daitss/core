@@ -348,6 +348,16 @@ MSG
       [ File.basename(descriptor_file) ] + content_files
     end
 
+    def undescribed_files
+
+      Dir.chdir @path do
+        pattern = File.join *%w(** *)
+        all_files = Dir[pattern]
+        all_files - content_files - [descriptor_file]
+      end
+
+    end
+
   end
 
 end

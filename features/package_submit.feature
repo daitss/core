@@ -11,6 +11,7 @@ Feature: interactive submission
       | haskell-nums-pdf                  | submit | |
       | mixed-case-checksums              | submit | |
       | virus                             | submit | |
+      | undescribed                       | submit | undescribed file: file.txt |
       | checksum-mismatch                 | reject | MD5 for ateam.tiff |
       | missing-descriptor                | reject | missing descriptor |
       | missing-content-file              | reject | missing content file: ateam.tiff |

@@ -57,6 +57,8 @@ module Daitss
           end
 
           if sa.valid? and agreement_errors.empty?
+            event_note += "\n\n"
+            event_note += sa.undescribed_files.map { |f| "undescribed file: #{f}" }.join("\n")
             wip = Wip.from_sip_archive workspace, package, sa
             package.log 'submit', :agent => agent, :notes => event_note
           else
