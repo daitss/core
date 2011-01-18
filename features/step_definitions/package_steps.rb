@@ -149,3 +149,7 @@ Then /^clicking the dip link downloads the tarball$/ do
   click_link "#{last_package_id}-0.tar"
   last_response.should be_ok
 end
+
+Then /^there should be a report delivery record$/ do
+  ReportDelivery.first(:package_id => File.basename(last_package)).should_not be_nil
+end

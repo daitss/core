@@ -22,6 +22,7 @@ module Daitss
     has 1, :sip
     has 0..1, :aip
     has 0..1, :intentity
+    has 0..1, :report_delivery
 
     belongs_to :project
     belongs_to :batch, :required => false

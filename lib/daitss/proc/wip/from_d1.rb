@@ -151,7 +151,7 @@ module Daitss
         dup_df = new_original_datafile ix
         FileUtils::cp source_df.data_file, dup_df.data_file
         dup_df['sip-path'] = dup.duplicate
-        dup_df['aip-path'] = File.join AipArchive::SIP_FILES_DIR, dup.duplicate
+        dup_df['aip-path'] = File.join Wip::SIP_FILES_DIR, dup.duplicate
 
         # add a 'redup' event for restoring d1 deleted duplicated files.
         dup_df['redup-event'] = redup_event dup_df, "restore from #{dup.source}"
