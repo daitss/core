@@ -18,6 +18,7 @@ Feature: ingest a package
       | uri-escaped-href |
       | haskell-nums-pdf |
       | haskell'nums'pdf |
+      | special-characters |
 
   Scenario: ingest a virus infected package. Package should snafu
     Given I submit "virus"

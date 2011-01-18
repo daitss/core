@@ -22,10 +22,9 @@ Feature: interactive submission
       | multiple-agreements               | reject | multiple agreement info |
       | invalid-descriptor                | reject | invalid descriptor |
       | name-too-long-xxxxxxxxxxxxxxxxxxx | reject | package name contains too many characters (33) max is 32 |
-      | described-hidden-file             | reject | per installation? |
-      | undescribed-hidden-file           | reject | per installation? |
-      | special-characters                | reject | per installation? |
-      | lower-level-special-characters    | reject | per installation? |
+      | described-hidden-file             | reject | invalid characters in file name: .hidden.txt |
+      | special-characters                | reject | invalid characters in file name: 00039'.txt |
+      | lower-level-special-characters    | reject | invalid characters in file name: Content/UF00001074'.pdf |
 
   Scenario: submission notes
     Given I goto "/packages"
@@ -43,9 +42,9 @@ Feature: interactive submission
     And I should be redirected
     And I goto "/batches"
     And I click on "mybatch"
-    Then I should have a batch containing 
+    Then I should have a batch containing
       |haskell-nums-pdf|
-    
+
   Scenario: ignore note if not filled in
     Given I goto "/packages"
     When I select "haskell-nums-pdf" to upload

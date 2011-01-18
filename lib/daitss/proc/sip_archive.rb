@@ -102,7 +102,8 @@ module Daitss
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty? and es[:content_file_presence].empty?
 
         content_files.each do |f|
-          es[:content_file_name_validity] << "invalid characters in file name: #{f}" if f =~ /^\..*['" ]/
+          es[:content_file_name_validity] << "invalid characters in file name: #{f}" if f =~ /^\./
+          es[:content_file_name_validity] << "invalid characters in file name: #{f}" if f =~ /['" ]/
         end
 
       end
