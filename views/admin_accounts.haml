@@ -1,5 +1,5 @@
 %a{:name => 'accounts'}
-  %h2 accounts
+  %h2 create new account
 
 %form#create-account{:action => '/admin', :method => 'post'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-account'}
@@ -8,12 +8,15 @@
   %input{:name => 'report-email', :value =>"report e-mail address"}
   %input{:type => 'submit', :value => "Create Account"}
 
+%h2 existing accounts
+
 - if @accounts.any?
   %table
     %tr
       %th id
       %th description
       %th report e-mail address
+      %th modify
       %th delete
 
     - @accounts.each do |a|
@@ -21,6 +24,9 @@
         %td= a.id
         %td= a.description
         %td= a.report_email
+        %td 
+          %a{:href => "/admin/accounts/#{a.id}"}
+            modify account
         %td
           - unless a.id == Daitss::Archive::SYSTEM_ACCOUNT_ID
             %form{:action => "/admin", :method => 'post'}

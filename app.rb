@@ -468,6 +468,13 @@ get '/admin/:sub' do |sub|
   haml :admin
 end
 
+get '/admin/accounts/:aid' do |account_id|
+  @account = Account.get(account_id)
+  error 404 unless @account
+
+  haml :admin_account
+end
+
 post '/admin' do
 
   case params['task']
@@ -494,6 +501,16 @@ post '/admin' do
     end
 
     archive.log "delete account: #{a.id}"
+    redirect '/admin/accounts'
+
+  when 'modify-account'
+    id = require_param 'id'
+    a = Account.get(id) or not_found
+
+    a.description = require_param 'description'
+    a.report_email = require_param 'report-email'
+    a.save or error "could not update account"
+    archive.log "updated account: #{a.id}"
     redirect '/admin/accounts'
 
   when 'new-project'

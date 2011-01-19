@@ -14,6 +14,24 @@ Given /^I fill in the account form with:$/ do |table|
 
 end
 
+Given /^I fill in the account update form with:$/ do |table|
+
+  within "form#modify-account" do
+
+    table.hashes.each do |row|
+
+      row.each do |field, value|
+        fill_in field, :with => value
+      end
+
+    end
+
+  end
+
+end
+
+
+
 Then /^there should be an account with:$/ do |table|
 
   table.hashes.each do |row|
