@@ -1,8 +1,18 @@
 %h1 admin
 
+%ul
+  %li
+    %a{:href => "#accounts"} accounts
+  %li
+    %a{:href => "#projects"} projects
+  %li
+    %a{:href => "#users"} users
+
+
 %hr/
 
-%h2 accounts
+%a{:name => 'accounts'}
+  %h2 accounts
 
 %form#create-account{:action => '/admin', :method => 'post'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-account'}
@@ -33,7 +43,9 @@
 
 %hr/
 
-%h2 projects
+%a{:name => 'projects'}
+  %h2
+    projects
 
 %form#create-project{:action => '/admin', :method => 'POST'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-project'}
@@ -66,7 +78,8 @@
 
 %hr/
 
-%h2 users
+%a{:name => 'users'}
+  %h2 users
 
 %form#create-user{:action => '/admin', :method => 'POST'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-user'}
