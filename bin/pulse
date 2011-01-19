@@ -27,8 +27,10 @@ end
 
 def start_wips
   startable = archive.workspace.reject { |w| w.running? or w.snafu? or w.stopped? }
+  running = archive.workspace.select { |w| w.running? }
+  n = archive.throttle - running.size
 
-  startable.each do |w|
+  startable.take(n > 0 ? n : 0).each do |w|
     w.spawn
     LOG.info "#{w.id}.#{w.task} spawned"
   end
@@ -36,6 +38,7 @@ def start_wips
 end
 
 LOG.info "daitss pulse started"
+
 loop do
   make_wips
   start_wips

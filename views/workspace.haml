@@ -25,11 +25,15 @@
 
 %hr/
 
-%h1
-  current jobs
-  (
+%h2
+  jobs:
   = @ws.to_a.size
-  )
+  &nbsp;
+  running:
+  = archive.workspace.select(&:running?).size
+  &nbsp;
+  throttle:
+  = archive.throttle
 
 - unless @ws.to_a.empty?
   = partial :wip_table, :locals => { :wips => @ws.to_a }

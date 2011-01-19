@@ -23,6 +23,7 @@ module Daitss
 
     # configuration tokens
     CONFIG_ENV_VAR = 'CONFIG'
+    THROTTLE = 'throttle'
     DB_URL = 'database-url'
     DATA_DIR = 'data-dir'
     URI_PREFIX = 'uri-prefix'
@@ -50,6 +51,7 @@ module Daitss
 
     attr_reader *DATA_PATHS.map { |s| "#{s}_path".to_sym }
 
+    attr_reader :throttle
     attr_reader :actionplan_url, :describe_url, :storage_url, :viruscheck_url, :transform_url, :xmlresolution_url
     attr_reader :yaml
 
@@ -79,6 +81,9 @@ module Daitss
 
       # http timeout value in seconds
       @http_timeout = @yaml[HTTP_TIMEOUT]
+
+      # throttle in number of wips
+      @throttle = @yaml[THROTTLE]
 
       # services
       @actionplan_url = @yaml[ACTIONPLAN_URL]
