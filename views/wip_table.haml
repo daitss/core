@@ -9,7 +9,8 @@
   - wips.each do |w|
     %tr
       %td
-        %a{:href => "/#{space}/#{w.id}"}= w.id
+        %code
+          %a{:href => "/#{space}/#{w.id}"}= w.id
 
       %td= w.package.sip.name
       %td= w.task

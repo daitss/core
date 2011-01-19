@@ -4,6 +4,7 @@ d1-ops-database-url: mysql://root:@localhost/pt
 
 data-dir: /var/daitss
 
+throttle: 10
 uri-prefix: daitss-test
 http-timeout: 600
 
