@@ -6,7 +6,6 @@ gem 'haml'
 gem 'libxml-ruby'
 gem 'nokogiri'
 gem 'rake'
-gem 'schematron'
 gem 'semver'
 gem 'sinatra'
 gem 'rack-ssl-enforcer'
@@ -14,6 +13,7 @@ gem 'thor'
 gem 'uuid'
 gem 'rjb'
 gem 'curb'
+gem "dm-postgres-adapter"
 
 # this gem is WONK
 case `uname`.chomp
@@ -36,20 +36,4 @@ group :test do
   gem "webrat"
   gem 'ruby-debug'
   gem 'ruby-prof'
-end
-
-group :sqlite do
-  gem "dm-sqlite-adapter"
-end
-
-group :postgres do
-  gem "dm-postgres-adapter"
-end
-
-group :mysql do
-  gem "dm-mysql-adapter"
-end
-
-group :thin do
-  gem 'thin'
 end
