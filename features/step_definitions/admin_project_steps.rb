@@ -21,6 +21,26 @@ Given /^I fill in the project form with:$/ do |table|
 
 end
 
+Given /^I fill in the project update form with:$/ do |table|
+
+  within "form#modify-project" do
+
+    table.hashes.each do |row|
+
+      row.each do |field, value|
+
+        fill_in field, :with => value
+
+      end
+
+    end
+
+  end
+
+end
+
+
+
 Then /^there should be an project with:$/ do |table|
 
   table.hashes.each do |row|

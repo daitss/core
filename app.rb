@@ -475,6 +475,13 @@ get '/admin/accounts/:aid' do |account_id|
   haml :admin_account
 end
 
+get '/admin/projects/:aid/:pid' do |account_id, project_id|
+  @project = Project.get(project_id, account_id)
+  error 404 unless @project
+
+  haml :admin_project
+end
+
 post '/admin' do
 
   case params['task']
@@ -522,6 +529,15 @@ post '/admin' do
     p.account = a
     archive.log "new project: #{p.id}"
     p.save or error "could not save project bin\n\n#{e.message}\n#{e.backtrace}"
+    redirect '/admin/projects'
+
+  when 'modify-project'
+    account_id = require_param 'account_id'
+    id = require_param 'id'
+    p = Project.get(id, account_id) or not_found
+    p.description = require_param 'description'
+    p.save or error "could not update project"
+    archive.log "updated project: #{p.id} (#{p.account.id})"
     redirect '/admin/projects'
 
   when 'delete-project'

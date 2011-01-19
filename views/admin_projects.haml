@@ -1,6 +1,6 @@
 %a{:name => 'projects'}
   %h2
-    projects
+    create new project
 
 %form#create-project{:action => '/admin', :method => 'POST'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-project'}
@@ -11,12 +11,15 @@
   %input{:name => 'description', :value=>"project description"}
   %input{:type => 'submit', :value => 'Create project'}
 
+%h2 existing projects
+
 - if @projects.any?
   %table
     %tr
       %th id
       %th description
       %th account
+      %th modify
       %th delete
 
     - @projects.each do |p|
@@ -24,6 +27,9 @@
         %td= p.id
         %td= p.description
         %td= p.account.id
+        %td
+          %a{:href => "/admin/projects/#{p.account.id}/#{p.id}"}
+            modify project
         %td
           %form{:action => "/admin", :method => 'post'}
             %input{:type => 'hidden', :name => 'task', :value => 'delete-project'}
