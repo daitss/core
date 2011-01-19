@@ -1,0 +1,6 @@
+#results
+  %h1
+    snafued packages (last 30 days)
+
+  - unless @packages.empty?
+    = partial :package_table, :locals => {:packages => @packages }

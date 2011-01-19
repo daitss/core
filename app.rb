@@ -165,9 +165,20 @@ get '/packages?/?' do
                 @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
               else
                 t0 = Date.today - 7
-                es = Event.all(:timestamp.gt => t0, :limit => 50, :order => [ :timestamp.desc ])
-                es = es.find_all { |e| @user.account.projects.include?(e.package.project) } unless @user.type == Operator
-                es.map { |e| e.package }.uniq
+                es = Event.all(:timestamp.gt => t0, :limit => 150, :order => [ :timestamp.desc ])
+                es = es.map { |e| e.package }.uniq
+
+                # reject from list if latest event is a snafu, or there is a reject event
+                es = es.reject do |e| 
+                  e.events.all(:name => "reject").any? or e.events.first(:order => [:timestamp.desc]).name =~ /snafu/
+                end 
+
+                # unless operator, trim list to those where user's project include the package
+                if @user.type == Operator 
+                  es
+                else
+                  es.find_all { |e| @user.account.projects.include?(e.project) }
+                end
               end
 
   @packages.sort! do |a,b|
@@ -177,6 +188,26 @@ get '/packages?/?' do
   end
 
   haml :packages
+end
+
+get '/rejects' do
+  e = Event.all(:order => [ :timestamp.desc ], :name => "reject")
+  @packages = e.map { |e| e.package }.uniq 
+
+  haml :rejects
+end
+
+get '/snafus' do
+  t0 = Date.today - 30
+
+  es = Event.all(:timestamp.gt => t0, :order => [ :timestamp.desc ], :name => "ingest snafu") + Event.all(:timestamp.gt => t0, :order => [ :timestamp.desc ], :name => "disseminate snafu")
+  es = es.map { |e| e.package }.uniq
+
+  @packages = es.find_all do |e| 
+    e.events.first(:order => [:timestamp.desc]).name =~ /snafu/
+  end 
+
+  haml :snafus
 end
 
 get '/package/:id' do |id|
