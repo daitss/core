@@ -24,8 +24,7 @@ module Daitss
 
       rs.reject! { |r|
         r[:level] == :warning ||
-          r[:message] =~ %r{(tcf|aes)\:} ||
-          r[:message] =~ %r{agentNote}
+          r[:message] =~ %r{(tcf|aes)\:}
       }
 
       unless rs.empty?
