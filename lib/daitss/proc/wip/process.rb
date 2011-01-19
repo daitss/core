@@ -164,7 +164,6 @@ module Daitss
       }
 
       save_process
-      package.log "#{task} snafu", :notes => e.message
     end
 
     # returns true if this wip is snafu

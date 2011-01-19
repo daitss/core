@@ -103,7 +103,7 @@ module Daitss
 
         content_files.each do |f|
           es[:content_file_name_validity] << "invalid characters in file name: #{f}" if f =~ /^\./
-          es[:content_file_name_validity] << "invalid characters in file name: #{f}" if f =~ /['" ]/
+          es[:content_file_name_validity] << "invalid characters in file name: #{f}" if f =~ /['"]/
         end
 
       end
@@ -353,7 +353,7 @@ MSG
       Dir.chdir @path do
         pattern = File.join *%w(** *)
         all_files = Dir[pattern]
-        all_files - content_files - [descriptor_file]
+        all_files - content_files - [ "#{name}.xml" ]
       end
 
     end

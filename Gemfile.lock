@@ -7,16 +7,15 @@ GEM
   remote: http://rubygems.org/
   specs:
     addressable (2.2.2)
-    builder (2.1.2)
+    builder (3.0.0)
     columnize (0.3.2)
-    cucumber (0.9.4)
-      builder (~> 2.1.2)
+    cucumber (0.10.0)
+      builder (>= 2.1.2)
       diff-lcs (~> 1.1.2)
-      gherkin (~> 2.2.9)
+      gherkin (~> 2.3.2)
       json (~> 1.4.6)
       term-ansicolor (~> 1.0.5)
     curb (0.7.9)
-    daemons (1.1.0)
     data_mapper (1.0.2)
       dm-aggregates (= 1.0.2)
       dm-constraints (= 1.0.2)
@@ -48,9 +47,6 @@ GEM
       dm-core (~> 1.0.2)
     dm-migrations (1.0.2)
       dm-core (~> 1.0.2)
-    dm-mysql-adapter (1.0.2)
-      dm-do-adapter (~> 1.0.2)
-      do_mysql (~> 0.10.2)
     dm-postgres-adapter (1.0.2)
       dm-do-adapter (~> 1.0.2)
       do_postgres (~> 0.10.2)
@@ -58,9 +54,6 @@ GEM
       dm-core (~> 1.0.2)
       fastercsv (~> 1.5.3)
       json_pure (~> 1.4)
-    dm-sqlite-adapter (1.0.2)
-      dm-do-adapter (~> 1.0.2)
-      do_sqlite3 (~> 0.10.2)
     dm-timestamps (1.0.2)
       dm-core (~> 1.0.2)
     dm-transactions (1.0.2)
@@ -73,34 +66,26 @@ GEM
       uuidtools (~> 2.1.1)
     dm-validations (1.0.2)
       dm-core (~> 1.0.2)
-    do_mysql (0.10.2)
-      data_objects (= 0.10.2)
     do_postgres (0.10.2)
       data_objects (= 0.10.2)
-    do_sqlite3 (0.10.2)
-      data_objects (= 0.10.2)
-    eventmachine (0.12.10)
     extlib (0.9.15)
-    fastercsv (1.5.3)
-    fuubar (0.0.2)
+    fastercsv (1.5.4)
+    fuubar (0.0.3)
       rspec (~> 2.0)
       rspec-instafail (~> 0.1.4)
       ruby-progressbar (~> 0.0.9)
-    gherkin (2.2.9)
+    gherkin (2.3.3)
       json (~> 1.4.6)
-      term-ansicolor (~> 1.0.5)
-    haml (3.0.24)
+    haml (3.0.25)
     json (1.4.6)
     json_pure (1.4.6)
     libxml-ruby (1.1.4)
-    libxslt-ruby (0.9.7)
-      libxml-ruby (>= 0.9.4)
     linecache (0.43)
     macaddr (1.0.0)
     nokogiri (1.4.4)
     rack (1.2.1)
     rack-ssl-enforcer (0.2.0)
-    rack-test (0.5.6)
+    rack-test (0.5.7)
       rack (>= 1.0)
     rake (0.8.7)
     rjb (1.3.4)
@@ -120,26 +105,18 @@ GEM
       linecache (>= 0.3)
     ruby-prof (0.9.2)
     ruby-progressbar (0.0.9)
-    schematron (1.1.1)
-      libxml-ruby (~> 1.1.2)
-      libxslt-ruby (>= 0.9.1)
-      semver (~> 0.2.0)
     semver (0.2.2)
-    sinatra (1.1.0)
+    sinatra (1.1.2)
       rack (~> 1.1)
-      tilt (~> 1.1)
+      tilt (~> 1.2)
     stringex (1.1.0)
     term-ansicolor (1.0.5)
-    thin (1.2.7)
-      daemons (>= 1.0.9)
-      eventmachine (>= 0.12.6)
-      rack (>= 1.0.0)
     thor (0.14.6)
-    tilt (1.1)
+    tilt (1.2.2)
     uuid (2.3.1)
       macaddr (~> 1.0)
     uuidtools (2.1.1)
-    webrat (0.7.2)
+    webrat (0.7.3)
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
       rack-test (>= 0.5.3)
@@ -152,9 +129,7 @@ DEPENDENCIES
   curb
   data_mapper
   dm-is-list
-  dm-mysql-adapter
   dm-postgres-adapter
-  dm-sqlite-adapter
   fuubar
   haml
   libxml-ruby
@@ -166,11 +141,9 @@ DEPENDENCIES
   rspec
   ruby-debug
   ruby-prof
-  schematron
   semver
   sinatra
   sys-proctable!
-  thin
   thor
   uuid
   webrat

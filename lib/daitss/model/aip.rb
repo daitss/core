@@ -1,7 +1,6 @@
 require "data_mapper"
 
 require 'libxml'
-require 'schematron'
 require 'net/http'
 require 'daitss/proc/xmlvalidation'
 require 'daitss/archive'
@@ -10,10 +9,6 @@ require 'daitss/db/AIPInPremis'
 
 include LibXML
 XML.default_line_numbers = true
-
-stron_file = File.join File.dirname(__FILE__), 'aip', 'aip.stron'
-stron_doc = open(stron_file) { |io| XML::Document.io io }
-AIP_DESCRIPTOR_SCHEMATRON = Schematron::Schema.new stron_doc
 
 module Daitss
 
@@ -42,28 +37,9 @@ module Daitss
 
         true
       rescue
-        require 'pp'
         puts $!
         puts $!.backtrace
         false
-      end
-
-    end
-
-    # validates_with_method :xml, :validate_against_schematron
-
-
-    # SMELL ditch this
-    def validate_against_schematron
-      doc = XML::Document.string xml
-      results = AIP_DESCRIPTOR_SCHEMATRON.validate doc
-      errors = results.reject { |e| e[:rule_type] == 'report' }
-
-      unless errors.empty?
-        errors.each { |r| puts r[:line].to_s + ' ' + r[:message] }
-        [false, "descriptor fails daitss aip schematron validation (#{errors.size} errors)"]
-      else
-        true
       end
 
     end
