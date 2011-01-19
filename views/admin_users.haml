@@ -1,0 +1,115 @@
+%a{:name => 'users'}
+  %h2 users
+
+%form#create-user{:action => '/admin', :method => 'POST'}
+  %input{:type => 'hidden', :name => 'task', :value => 'new-user'}
+
+  %table
+    %tr
+      %th type
+      %td
+        %select{:name=>'type'}
+          %option= 'operator'
+          %option= 'affiliate'
+
+    %tr
+      %th account
+      %td
+        %select{:name=>'account_id'}
+          - @accounts.each do |p|
+            %option= p.id
+    %tr
+      %th id
+      %td
+        %input{:name => 'id'}
+
+    %tr
+      %th password
+      %td
+        %input{:name => 'password'}
+
+    %tr
+      %th first
+      %td
+        %input{:name => 'first_name'}
+
+    %tr
+      %th last
+      %td
+        %input{:name => 'last_name'}
+
+    %tr
+      %th email
+      %td
+        %input{:name => 'email'}
+
+    %tr
+      %th phone
+      %td
+        %input{:name => 'phone'}
+
+    %tr
+      %th address
+      %td
+        %textarea{:name => 'address'}
+
+  %input{:type => 'submit', :value => 'Create User'}
+
+- if @users.any?
+  %table
+    %tr
+      %th type
+      %th account
+      %th username
+      %th last name
+      %th first name
+      %th email
+      %th phone
+      %th address
+      %th{:colspan => 4} actions
+
+    - @users.each do |u|
+      %tr
+        %td= u.type.name[ /^Daitss::(\w+)$/, 1].downcase rescue u.type.name
+        %td= u.account.id
+        %td= u.id
+        %td= u.last_name
+        %td= u.first_name
+        %td= u.email
+        %td= u.phone
+        %td= u.address
+        %td= (u.is_tech_contact ? "Technical Contact\n" : "") + (u.is_admin_contact ? "Admin Contact" : "")
+        %td
+          %form{:action => '/admin', :method => 'POST'}
+            %input{:type => 'hidden', :name => 'task', :value => 'delete-user'}
+            %input{:type => 'hidden', :name => 'id', :value => u.id }
+            %input{:type => 'submit', :value => "Delete"}
+        - if u.type == Contact
+          - unless u.is_admin_contact
+            %td
+              %form{:action => '/admin', :method => 'POST'}
+                %input{:type => 'hidden', :name => 'task', :value => 'make-admin-contact'}
+                %input{:type => 'hidden', :name => 'id', :value => u.id }
+                %input{:type => 'submit', :value => "Make admin contact"}
+          - else
+            %td
+              %form{:action => '/admin', :method => 'POST'}
+                %input{:type => 'hidden', :name => 'task', :value => 'unmake-admin-contact'}
+                %input{:type => 'hidden', :name => 'id', :value => u.id }
+                %input{:type => 'submit', :value => "Unmake admin contact"}
+          - unless u.is_tech_contact
+            %td
+              %form{:action => '/admin', :method => 'POST'}
+                %input{:type => 'hidden', :name => 'task', :value => 'make-tech-contact'}
+                %input{:type => 'hidden', :name => 'id', :value => u.id }
+                %input{:type => 'submit', :value => "Make technical contact"}
+          - else
+            %td
+              %form{:action => '/admin', :method => 'POST'}
+                %input{:type => 'hidden', :name => 'task', :value => 'unmake-tech-contact'}
+                %input{:type => 'hidden', :name => 'id', :value => u.id }
+                %input{:type => 'submit', :value => "Unmake technical contact"}
+        - else
+          %td &nbsp;
+          %td &nbsp;
+

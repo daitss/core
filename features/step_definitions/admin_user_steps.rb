@@ -1,4 +1,5 @@
 Given /^I fill in the user form with:$/ do |table|
+  Given 'I goto "/admin/users"'
 
   within "form#create-user" do
 
@@ -32,7 +33,7 @@ Then /^there should not be a user with:$/ do |table|
 end
 
 Given /^a user "([^"]*)"$/ do |id|
-  Given 'I goto "/admin"'
+  Given 'I goto "/admin/users"'
 
   within "form#create-user" do
     fill_in 'id', :with => id
@@ -51,7 +52,7 @@ Given /^a user "([^"]*)"$/ do |id|
 end
 
 Given /^a contact "([^"]*)"$/ do |id|
-  Given 'I goto "/admin"'
+  Given 'I goto "/admin/users"'
 
   within "form#create-user" do
     select "affiliate", :from => "type"

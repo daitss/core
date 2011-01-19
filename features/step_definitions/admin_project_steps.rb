@@ -1,4 +1,5 @@
 Given /^I fill in the project form with:$/ do |table|
+  Given 'I goto "/admin/projects"'
 
   within "form#create-project" do
 
@@ -31,8 +32,9 @@ end
 
 Given /^a project "([^"]*)"$/ do |id|
   account_id = 'ACTPRJ'
-  Given 'I goto "/admin"'
+  Given 'I goto "/admin/accounts"'
   And "a account \"#{account_id}\""
+  Given 'I goto "/admin/projects"'
 
   within "form#create-project" do
     fill_in "id", :with => id
@@ -41,7 +43,7 @@ Given /^a project "([^"]*)"$/ do |id|
   end
 
   When 'I press "Create Project"'
-  Then 'I should be redirected to "/admin"'
+  Then 'I should be redirected to "/admin/projects"'
   last_response.should be_ok
   @the_project = Account.get(account_id).projects.first :id => id
   @the_project.should_not be_nil

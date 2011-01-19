@@ -1,0 +1,33 @@
+%a{:name => 'projects'}
+  %h2
+    projects
+
+%form#create-project{:action => '/admin', :method => 'POST'}
+  %input{:type => 'hidden', :name => 'task', :value => 'new-project'}
+  %select{:name=>'account_id'}
+    - @accounts.each do |a|
+      %option= a.id
+  %input{:name => 'id', :value=>"project id"}
+  %input{:name => 'description', :value=>"project description"}
+  %input{:type => 'submit', :value => 'Create project'}
+
+- if @projects.any?
+  %table
+    %tr
+      %th id
+      %th description
+      %th account
+      %th delete
+
+    - @projects.each do |p|
+      %tr
+        %td= p.id
+        %td= p.description
+        %td= p.account.id
+        %td
+          %form{:action => "/admin", :method => 'post'}
+            %input{:type => 'hidden', :name => 'task', :value => 'delete-project'}
+            %input{:type => 'hidden', :name => 'id', :value => p.id }
+            %input{:type => 'hidden', :name => 'account_id', :value => p.account.id }
+            %input{:type => 'submit', :value => "Delete"}
+

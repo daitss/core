@@ -456,9 +456,14 @@ before '/admin' do
 end
 
 get '/admin' do
+  redirect '/admin/accounts'
+end
+
+get '/admin/:sub' do |sub|
   @accounts = Account.all :id.not => Daitss::Archive::SYSTEM_ACCOUNT_ID
   @users = User.all
   @projects = Project.all :id.not => 'default'
+  @sub = sub
 
   haml :admin
 end
@@ -476,6 +481,7 @@ post '/admin' do
     a.projects << p
     a.save or error "could not create new account"
     archive.log "new account: #{a.id}"
+    redirect '/admin/accounts'
 
   when 'delete-account'
     id = require_param 'id'
@@ -488,6 +494,7 @@ post '/admin' do
     end
 
     archive.log "delete account: #{a.id}"
+    redirect '/admin/accounts'
 
   when 'new-project'
     account_id = require_param 'account_id'
@@ -498,6 +505,7 @@ post '/admin' do
     p.account = a
     archive.log "new project: #{p.id}"
     p.save or error "could not save project bin\n\n#{e.message}\n#{e.backtrace}"
+    redirect '/admin/projects'
 
   when 'delete-project'
     id = require_param 'id'
@@ -506,6 +514,7 @@ post '/admin' do
     error 400, "cannot delete a non-empty project" unless p.packages.empty?
     p.destroy or error "could not delete project"
     archive.log "delete project: #{p.id}"
+    redirect '/admin/projects'
 
   when 'new-user'
     type = require_param 'type'
@@ -528,6 +537,7 @@ post '/admin' do
     u.description = ""
     u.save or error "could not save user, errors: #{u.errors}"
     archive.log "new user: #{u.id}"
+    redirect '/admin/users'
 
   when 'delete-user'
     id = require_param 'id'
@@ -535,6 +545,7 @@ post '/admin' do
     error 400, "cannot delete a non-empty user" unless u.events.empty?
     u.destroy or error "could not delete user"
     archive.log "delete user: #{u.id}"
+    redirect '/admin/users'
 
   when 'make-admin-contact'
     id = require_param 'id'
@@ -542,6 +553,7 @@ post '/admin' do
     u.is_admin_contact = true
     u.save or error "could not save user, errors: #{u.errors}"
     archive.log "made admin contact: #{u.id}"
+    redirect '/admin/users'
 
   when 'make-tech-contact'
     id = require_param 'id'
@@ -549,6 +561,7 @@ post '/admin' do
     u.is_tech_contact = true
     u.save or error "could not save user, errors: #{u.errors}"
     archive.log "made tech contact: #{u.id}"
+    redirect '/admin/users'
 
   when 'unmake-admin-contact'
     id = require_param 'id'
@@ -556,6 +569,7 @@ post '/admin' do
     u.is_admin_contact = false
     u.save or error "could not save user, errors: #{u.errors}"
     archive.log "unmade admin contact: #{u.id}"
+    redirect '/admin/users'
 
   when 'unmake-tech-contact'
     id = require_param 'id'
@@ -563,13 +577,11 @@ post '/admin' do
     u.is_tech_contact = false
     u.save or error "could not save user, errors: #{u.errors}"
     archive.log "unmade tech contact: #{u.id}"
-
-
+    redirect '/admin/users'
 
   else raise "unknown task: #{params['task']}"
   end
 
-  redirect '/admin'
 end
 
 get "/batches" do
