@@ -1,0 +1,15 @@
+%h2 
+  modify project #{@project.id} (#{@project.account.id})
+
+%form#modify-project{:action => '/admin', :method => 'post'}
+  %input{:type => 'hidden', :name => 'task', :value => 'modify-project'}
+  %input{:type => 'hidden', :name => 'account_id', :value => @project.account.id}
+  %input{:type => 'hidden', :name => 'id', :value => @project.id}
+  %input{:name => 'description', :value => @project.description}
+  %input{:type => 'submit', :value => "modify project"}
+
+%br
+
+%a{:href => "/admin/projects"}
+  back to projects
+

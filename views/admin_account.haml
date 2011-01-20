@@ -1,0 +1,15 @@
+%h2 
+  modify account #{@account.id}
+
+%form#modify-account{:action => '/admin', :method => 'post'}
+  %input{:type => 'hidden', :name => 'task', :value => 'modify-account'}
+  %input{:type => 'hidden', :name => 'id', :value => @account.id}
+  %input{:name => 'description', :value => @account.description}
+  %input{:name => 'report-email', :value => @account.report_email}
+  %input{:type => 'submit', :value => "modify account"}
+
+%br
+
+%a{:href => "/admin/accounts"}
+  back to accounts
+

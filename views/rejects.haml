@@ -1,0 +1,6 @@
+#results
+  %h1
+    rejected packages
+
+  - unless @packages.empty?
+    = partial :package_table, :locals => {:packages => @packages }

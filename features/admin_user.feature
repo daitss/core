@@ -2,7 +2,7 @@ Feature: admin of users
   To be able to add & remove users
 
   Scenario: add a new user
-    Given I goto "/admin"
+    Given I goto "/admin/users"
     And I fill in the user form with:
       | id    | first_name | last_name | email             | phone    | address  |
       | snake | S.D.       | Plissken  | snake@example.com | 555-1212 | New York |
@@ -18,7 +18,7 @@ Feature: admin of users
   Scenario: remove an empty user
     Given a user "usermagee"
     And that user is empty
-    And I goto "/admin"
+    And I goto "/admin/users"
     When I press "Delete" for the user
     Then I should be redirected
     And there should not be a user "usermagee"
@@ -29,14 +29,14 @@ Feature: admin of users
   Scenario: remove a non-empty user
     Given a user "usermagee"
     And that user is not empty
-    And I goto "/admin"
+    And I goto "/admin/users"
     When I press "Delete" for the user
     Then the response should be NG
     Then the response contains "cannot delete a non-empty user"
 
   Scenario: Make admin contact
     Given a contact "admin"
-    And I goto "/admin"
+    And I goto "/admin/users"
     When I press "Make admin contact" for the user
     Then I should be redirected
     Then there should be a user with:
@@ -48,7 +48,7 @@ Feature: admin of users
 
   Scenario: Make tech contact
     Given a contact "admin"
-    And I goto "/admin"
+    And I goto "/admin/users"
     When I press "Make technical contact" for the user
     Then I should be redirected
     Then there should be a user with:
@@ -60,10 +60,10 @@ Feature: admin of users
 
   Scenario: Unmake admin contact
     Given a contact "admin"
-    And I goto "/admin"
+    And I goto "/admin/users"
     When I press "Make admin contact" for the user
     Then I should be redirected
-    And I goto "/admin"
+    And I goto "/admin/users"
     When I press "Unmake admin contact" for the user
     Then I should be redirected
     Then there should not be a user with:
@@ -75,10 +75,10 @@ Feature: admin of users
 
   Scenario: Unmake tech contact
     Given a contact "admin"
-    And I goto "/admin"
+    And I goto "/admin/users"
     When I press "Make technical contact" for the user
     Then I should be redirected
-    And I goto "/admin"
+    And I goto "/admin/users"
     When I press "Unmake technical contact" for the user
     Then I should be redirected
     Then there should not be a user with:

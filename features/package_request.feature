@@ -18,8 +18,8 @@ Feature: package requests
     Examples:
       | type        | note      | authorized |
       | disseminate | nice job! | yes        |
-      | withdraw    | good bye  | yes        |
-      | peek        | oh hai    | yes        |
+      #      | withdraw    | good bye  | yes        |
+      #| peek        | oh hai    | yes        |
 
   Scenario Outline: requests can be canceled
     Given an archived package
@@ -31,8 +31,8 @@ Feature: package requests
     Examples:
       | type        |
       | disseminate |
-      | withdraw    |
-      | peek        |
+      #| withdraw    |
+      #| peek        |
 
   Scenario: duplicate requests result in 400 returned
     Given an archived package
