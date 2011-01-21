@@ -14,6 +14,24 @@ Given /^I fill in the account form with:$/ do |table|
 
 end
 
+Given /^I fill in the account update form with:$/ do |table|
+
+  within "form#modify-account" do
+
+    table.hashes.each do |row|
+
+      row.each do |field, value|
+        fill_in field, :with => value
+      end
+
+    end
+
+  end
+
+end
+
+
+
 Then /^there should be an account with:$/ do |table|
 
   table.hashes.each do |row|
@@ -24,7 +42,7 @@ Then /^there should be an account with:$/ do |table|
 end
 
 Given /^a account "([^"]*)"$/ do |name|
-  Given 'I goto "/admin"'
+  Given 'I goto "/admin/accounts"'
   id = name.upcase.tr(' ', '')
 
   within "form#create-account" do
@@ -33,7 +51,7 @@ Given /^a account "([^"]*)"$/ do |name|
   end
 
   When 'I press "Create Account"'
-  Then 'I should be redirected to "/admin"'
+  Then 'I should be redirected to "/admin/accounts"'
   last_response.should be_ok
   @the_account = Account.get id
   @the_account.should_not be_nil

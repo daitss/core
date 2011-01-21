@@ -21,7 +21,7 @@ namespace :db do
   desc 'migrate the database'
   task :migrate => [:setup] do
     archive.setup_db :log => true
-    DataMapper.auto_migrate!
+    archive.init_db
   end
 
   desc 'upgrade the database'

@@ -27,7 +27,7 @@ module Daitss
     property :original_path, String, :length => (0..255), :required => true
     # map from package_path + file_title + file_ext
     property :creating_application, String, :length => (0..255)
-    property :is_sip_descriptor, Boolean
+    property :is_sip_descriptor, Boolean, :default => false
 
     property :r0, Boolean, :default  => false
     #true if this datafile is part of the original representation
@@ -51,7 +51,8 @@ module Daitss
     before :destroy, :deleteChildren
 
     def fromPremis(premis, formats)
-      attribute_set(:id, premis.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content)
+      id = premis.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
+      attribute_set(:id, id)
       attribute_set(:size, premis.find_first("premis:objectCharacteristics/premis:size", NAMESPACES).content)
 
       # creating app. info
@@ -63,7 +64,9 @@ module Daitss
 
       node = premis.find_first("premis:originalName", NAMESPACES)
       attribute_set(:original_path, node.content) if node
-
+      is_sip_descriptor = premis.find("//M:file[@OWNERID='#{id}']/@USE='sip descriptor'", NS_PREFIX)
+      attribute_set(:is_sip_descriptor, true) if is_sip_descriptor
+        
       # process format information
       processFormats(self, premis, formats)
 

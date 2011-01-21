@@ -38,6 +38,16 @@ Then /^I should see the packages? in the results$/ do
 
 end
 
+Then /^I should see that package in the results$/ do
+  id = last_package ? last_package_id : Package.first.id
+  last_response.should have_selector("td a[href='/package/#{id}']", :content => id)
+end
+
+Then /^I should not see the package in the results$/ do
+  id = last_package ? last_package_id : Package.first.id
+  last_response.should_not have_selector("td a[href='/package/#{id}']", :content => id)
+end
+
 Then /^I should see a "([^"]*)" heading$/ do |heading|
   doc = Nokogiri::HTML last_response.body
   rules = (1..3).map { |n| "h#{n}:contains('#{heading}')"}

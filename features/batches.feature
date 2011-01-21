@@ -77,8 +77,8 @@ Feature: CRUD for batches
       Examples:
         |request_type|button name|
         |disseminate|Disseminate|
-        |withdraw|Withdraw|
-        |peek|Peek|
+        #|withdraw|Withdraw|
+        #|peek|Peek|
 
   Scenario Outline: create requests for batch from single batch page
     Given the following packages:
@@ -101,8 +101,8 @@ Feature: CRUD for batches
       Examples:
         |request_type|
         |disseminate|
-        |withdraw|
-        |peek|
+        #        |withdraw|
+        #|peek|
 
   Scenario: create batch from packages page
     Given an archived package

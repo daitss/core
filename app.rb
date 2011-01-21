@@ -165,9 +165,20 @@ get '/packages?/?' do
                 @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
               else
                 t0 = Date.today - 7
-                es = Event.all(:timestamp.gt => t0, :limit => 50, :order => [ :timestamp.desc ])
-                es = es.find_all { |e| @user.account.projects.include?(e.package.project) } unless @user.type == Operator
-                es.map { |e| e.package }.uniq
+                es = Event.all(:timestamp.gt => t0, :limit => 150, :order => [ :timestamp.desc ])
+                es = es.map { |e| e.package }.uniq
+
+                # reject from list if latest event is a snafu, or there is a reject event
+                es = es.reject do |e| 
+                  e.events.all(:name => "reject").any? or e.events.first(:order => [:timestamp.desc]).name =~ /snafu/
+                end 
+
+                # unless operator, trim list to those where user's project include the package
+                if @user.type == Operator 
+                  es
+                else
+                  es.find_all { |e| @user.account.projects.include?(e.project) }
+                end
               end
 
   @packages.sort! do |a,b|
@@ -177,6 +188,26 @@ get '/packages?/?' do
   end
 
   haml :packages
+end
+
+get '/rejects' do
+  e = Event.all(:order => [ :timestamp.desc ], :name => "reject")
+  @packages = e.map { |e| e.package }.uniq 
+
+  haml :rejects
+end
+
+get '/snafus' do
+  t0 = Date.today - 30
+
+  es = Event.all(:timestamp.gt => t0, :order => [ :timestamp.desc ], :name => "ingest snafu") + Event.all(:timestamp.gt => t0, :order => [ :timestamp.desc ], :name => "disseminate snafu")
+  es = es.map { |e| e.package }.uniq
+
+  @packages = es.find_all do |e| 
+    e.events.first(:order => [:timestamp.desc]).name =~ /snafu/
+  end 
+
+  haml :snafus
 end
 
 get '/package/:id' do |id|
@@ -425,11 +456,30 @@ before '/admin' do
 end
 
 get '/admin' do
+  redirect '/admin/accounts'
+end
+
+get '/admin/:sub' do |sub|
   @accounts = Account.all :id.not => Daitss::Archive::SYSTEM_ACCOUNT_ID
   @users = User.all
   @projects = Project.all :id.not => 'default'
+  @sub = sub
 
   haml :admin
+end
+
+get '/admin/accounts/:aid' do |account_id|
+  @account = Account.get(account_id)
+  error 404 unless @account
+
+  haml :admin_account
+end
+
+get '/admin/projects/:aid/:pid' do |account_id, project_id|
+  @project = Project.get(project_id, account_id)
+  error 404 unless @project
+
+  haml :admin_project
 end
 
 post '/admin' do
@@ -445,6 +495,7 @@ post '/admin' do
     a.projects << p
     a.save or error "could not create new account"
     archive.log "new account: #{a.id}"
+    redirect '/admin/accounts'
 
   when 'delete-account'
     id = require_param 'id'
@@ -457,6 +508,17 @@ post '/admin' do
     end
 
     archive.log "delete account: #{a.id}"
+    redirect '/admin/accounts'
+
+  when 'modify-account'
+    id = require_param 'id'
+    a = Account.get(id) or not_found
+
+    a.description = require_param 'description'
+    a.report_email = require_param 'report-email'
+    a.save or error "could not update account"
+    archive.log "updated account: #{a.id}"
+    redirect '/admin/accounts'
 
   when 'new-project'
     account_id = require_param 'account_id'
@@ -467,6 +529,16 @@ post '/admin' do
     p.account = a
     archive.log "new project: #{p.id}"
     p.save or error "could not save project bin\n\n#{e.message}\n#{e.backtrace}"
+    redirect '/admin/projects'
+
+  when 'modify-project'
+    account_id = require_param 'account_id'
+    id = require_param 'id'
+    p = Project.get(id, account_id) or not_found
+    p.description = require_param 'description'
+    p.save or error "could not update project"
+    archive.log "updated project: #{p.id} (#{p.account.id})"
+    redirect '/admin/projects'
 
   when 'delete-project'
     id = require_param 'id'
@@ -475,6 +547,7 @@ post '/admin' do
     error 400, "cannot delete a non-empty project" unless p.packages.empty?
     p.destroy or error "could not delete project"
     archive.log "delete project: #{p.id}"
+    redirect '/admin/projects'
 
   when 'new-user'
     type = require_param 'type'
@@ -497,6 +570,7 @@ post '/admin' do
     u.description = ""
     u.save or error "could not save user, errors: #{u.errors}"
     archive.log "new user: #{u.id}"
+    redirect '/admin/users'
 
   when 'delete-user'
     id = require_param 'id'
@@ -504,6 +578,7 @@ post '/admin' do
     error 400, "cannot delete a non-empty user" unless u.events.empty?
     u.destroy or error "could not delete user"
     archive.log "delete user: #{u.id}"
+    redirect '/admin/users'
 
   when 'make-admin-contact'
     id = require_param 'id'
@@ -511,6 +586,7 @@ post '/admin' do
     u.is_admin_contact = true
     u.save or error "could not save user, errors: #{u.errors}"
     archive.log "made admin contact: #{u.id}"
+    redirect '/admin/users'
 
   when 'make-tech-contact'
     id = require_param 'id'
@@ -518,6 +594,7 @@ post '/admin' do
     u.is_tech_contact = true
     u.save or error "could not save user, errors: #{u.errors}"
     archive.log "made tech contact: #{u.id}"
+    redirect '/admin/users'
 
   when 'unmake-admin-contact'
     id = require_param 'id'
@@ -525,6 +602,7 @@ post '/admin' do
     u.is_admin_contact = false
     u.save or error "could not save user, errors: #{u.errors}"
     archive.log "unmade admin contact: #{u.id}"
+    redirect '/admin/users'
 
   when 'unmake-tech-contact'
     id = require_param 'id'
@@ -532,13 +610,11 @@ post '/admin' do
     u.is_tech_contact = false
     u.save or error "could not save user, errors: #{u.errors}"
     archive.log "unmade tech contact: #{u.id}"
-
-
+    redirect '/admin/users'
 
   else raise "unknown task: #{params['task']}"
   end
 
-  redirect '/admin'
 end
 
 get "/batches" do
