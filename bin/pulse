@@ -14,7 +14,9 @@ INTERVAL = 1
 LOG = Logger.new $stdout
 
 def make_wips
-  ready = Request.all :is_authorized => true, :status => :enqueued, :order => [ :timestamp.asc ]
+  ready = Request.all(:is_authorized => true,
+                      :status => :enqueued,
+                      :order => [ :timestamp.asc ])
   ready.reject! { |r| r.package.wip }
 
   ready.each do |r|
@@ -26,7 +28,11 @@ def make_wips
 end
 
 def start_wips
-  startable = archive.workspace.reject { |w| w.running? or w.snafu? or w.stopped? }
+
+  startable = archive.workspace.reject do |w|
+    w.done? or w.running? or w.snafu? or w.stopped?
+  end
+
   running = archive.workspace.select { |w| w.running? }
   n = archive.throttle - running.size
 

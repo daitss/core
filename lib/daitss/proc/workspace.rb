@@ -19,8 +19,14 @@ module Daitss
     def each
 
       Dir[ File.join(@path, "*") ].each do |path|
-        wip = Wip.new path
-        yield wip
+
+        begin
+          wip = Wip.new path
+          yield wip
+        rescue Errno::ENOENT => e
+          next
+        end
+
       end
 
     end
