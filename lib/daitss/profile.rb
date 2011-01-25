@@ -1,9 +1,10 @@
 require 'ruby-prof'
+require 'daitss/proc/wip/process'
 
 module Daitss
 
   def profile_file suffix
-    f = "#{$0}.#{$$}.#{suffix}"
+    f = "#{procname}.#{$$}.#{suffix}"
     File.join archive.profile_path, f
   end
 

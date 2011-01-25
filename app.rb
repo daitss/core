@@ -90,11 +90,17 @@ end
 get '/profile/:package/:task/:pid/journal' do |package, task, pid|
   f = File.join archive.profile_path, "#{package}.#{task}.#{pid}.journal"
   yml = YAML.load_file f
-  @steps = yml.sort { |a,b| a[1][:time] <=> b[1][:time] }
-  @elapsed_time = @steps[-1][1][:time] - @steps[0][1][:time]
-  @duration = yml.inject(0) { |acc,(n,s)| acc += s[:duration] }
-  @elapsed_time += @steps[-1][1][:duration]
-  haml :prof_journal
+
+  unless yml.empty?
+    @steps = yml.sort { |a,b| a[1][:time] <=> b[1][:time] }
+    @elapsed_time = @steps[-1][1][:time] - @steps[0][1][:time]
+    @duration = yml.inject(0) { |acc,(n,s)| acc += s[:duration] }
+    @elapsed_time += @steps[-1][1][:duration]
+    haml :prof_journal
+  else
+    'no journal data'
+  end
+
 end
 
 get '/profile/:package/:task/:pid/profile' do |package, task, pid|
@@ -169,12 +175,12 @@ get '/packages?/?' do
                 es = es.map { |e| e.package }.uniq
 
                 # reject from list if latest event is a snafu, or there is a reject event
-                es = es.reject do |e| 
+                es = es.reject do |e|
                   e.events.all(:name => "reject").any? or e.events.first(:order => [:timestamp.desc]).name =~ /snafu/
-                end 
+                end
 
                 # unless operator, trim list to those where user's project include the package
-                if @user.type == Operator 
+                if @user.type == Operator
                   es
                 else
                   es.find_all { |e| @user.account.projects.include?(e.project) }
@@ -192,7 +198,7 @@ end
 
 get '/rejects' do
   e = Event.all(:order => [ :timestamp.desc ], :name => "reject")
-  @packages = e.map { |e| e.package }.uniq 
+  @packages = e.map { |e| e.package }.uniq
 
   haml :rejects
 end
@@ -203,9 +209,9 @@ get '/snafus' do
   es = Event.all(:timestamp.gt => t0, :order => [ :timestamp.desc ], :name => "ingest snafu") + Event.all(:timestamp.gt => t0, :order => [ :timestamp.desc ], :name => "disseminate snafu")
   es = es.map { |e| e.package }.uniq
 
-  @packages = es.find_all do |e| 
+  @packages = es.find_all do |e|
     e.events.first(:order => [:timestamp.desc]).name =~ /snafu/
-  end 
+  end
 
   haml :snafus
 end
