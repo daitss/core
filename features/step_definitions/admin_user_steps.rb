@@ -8,12 +8,34 @@ Given /^I fill in the user form with:$/ do |table|
       row.each do |field, value|
         fill_in field, :with => value
       end
-
     end
-
   end
-
 end
+
+Given /^I fill in the user update form with:$/ do |table|
+  within "form#modify-user" do
+
+    table.hashes.each do |row|
+
+      row.each do |field, value|
+        fill_in field, :with => value
+      end
+    end
+  end
+end
+
+Given /^I fill in the user password form with:$/ do |table|
+  within "form#change-user-password" do
+
+    table.hashes.each do |row|
+
+      row.each do |field, value|
+        fill_in field, :with => value
+      end
+    end
+  end
+end
+
 
 When /^I select user type "([^\"]*)"$/ do |type|
   select type, :from => 'type'
@@ -108,3 +130,10 @@ end
 Then /^there should not be a user "([^"]*)"$/ do |id|
   last_response.should_not have_selector("td:contains('#{id}')")
 end
+
+Then /^user "([^"]*)" should authenticate with password "([^"]*)"$/ do |user, pass|
+  u = User.get(user)
+  raise "user #{user} not found" unless u
+  raise "user #{user} did not authenticate with password #{pass}" unless u.authenticate(pass)
+end
+

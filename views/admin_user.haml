@@ -1,5 +1,5 @@
 %h2 
-  modify user #{@user.id} (#{@user.class})
+  modify user #{@the_user.id} (#{@the_user.class})
 
 %h3
   user details
@@ -11,43 +11,43 @@
     %tr
       %th permissions
       %td
-        - if @user.class == Contact
-          %input{:name => 'disseminate_perm', :type => 'checkbox', :checked => @user.permissions.include?(:disseminate)} disseminate
-          %input{:name => 'withdraw_perm', :type => 'checkbox', :checked => @user.permissions.include?(:withdraw)} withdraw
-          %input{:name => 'peek_perm', :type => 'checkbox', :checked => @user.permissions.include?(:peek)} peek
-          %input{:name => 'submit_perm', :type => 'checkbox', :checked => @user.permissions.include?(:submit)} submit
-          %input{:name => 'report_perm', :type => 'checkbox', :checked => @user.permissions.include?(:report)} report
+        - if @the_user.class == Contact
+          %input{:name => 'disseminate_perm', :type => 'checkbox', :checked => @the_user.permissions.include?(:disseminate)} disseminate
+          %input{:name => 'withdraw_perm', :type => 'checkbox', :checked => @the_user.permissions.include?(:withdraw)} withdraw
+          %input{:name => 'peek_perm', :type => 'checkbox', :checked => @the_user.permissions.include?(:peek)} peek
+          %input{:name => 'submit_perm', :type => 'checkbox', :checked => @the_user.permissions.include?(:submit)} submit
+          %input{:name => 'report_perm', :type => 'checkbox', :checked => @the_user.permissions.include?(:report)} report
         - else
           N/A
 
     %tr
       %th first
       %td
-        %input{:name => 'first_name', :value => @user.first_name}
+        %input{:name => 'first_name', :value => @the_user.first_name}
 
     %tr
       %th last
       %td
-        %input{:name => 'last_name', :value => @user.last_name}
+        %input{:name => 'last_name', :value => @the_user.last_name}
 
     %tr
       %th email
       %td
-        %input{:name => 'email', :value => @user.email }
+        %input{:name => 'email', :value => @the_user.email }
 
     %tr
       %th phone
       %td
-        %input{:name => 'phone', :value => @user.phone }
+        %input{:name => 'phone', :value => @the_user.phone }
 
     %tr
       %th address
       %td
         %textarea{:name => 'address'}
-          #{@user.address}
+          #{@the_user.address}
 
-  %input{:type => 'hidden', :name => 'id', :value => @user.id}
-  %input{:type => 'hidden', :name => 'type', :value => @user.class == Operator ? "operator" : "contact" }
+  %input{:type => 'hidden', :name => 'id', :value => @the_user.id}
+  %input{:type => 'hidden', :name => 'type', :value => @the_user.class == Operator ? "operator" : "contact" }
   %input{:type => 'submit', :value => 'modify user'}
 
 
@@ -75,7 +75,7 @@
       %td
         %input{:name => 'new_password_confirm'}
   
-  %input{:type => 'hidden', :name => 'id', :value => @user.id}
+  %input{:type => 'hidden', :name => 'id', :value => @the_user.id}
   %input{:type => 'hidden', :name => 'task', :value => 'change-user-password'}
   %input{:type => 'submit', :value => 'change password'}
 

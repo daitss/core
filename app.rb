@@ -492,8 +492,8 @@ get '/admin/projects/:aid/:pid' do |account_id, project_id|
 end
 
 get '/admin/users/:uid' do |user_id|
-  @user = User.get(user_id)
-  error 404 unless @user
+  @the_user = User.get(user_id)
+  error 404 unless @the_user
 
   haml :admin_user
 end
