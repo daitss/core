@@ -15,6 +15,10 @@ Given /^I fill in the user form with:$/ do |table|
 
 end
 
+When /^I select user type "([^\"]*)"$/ do |type|
+  select type, :from => 'type'
+end
+
 Then /^there should be a user with:$/ do |table|
 
   table.hashes.each do |row|
@@ -102,6 +106,5 @@ When /^I press "([^"]*)" for the user$/ do |button|
 end
 
 Then /^there should not be a user "([^"]*)"$/ do |id|
-  pending 'User.all is returning deleted records (paranoia gotcha)'
   last_response.should_not have_selector("td:contains('#{id}')")
 end

@@ -1,16 +1,37 @@
 Feature: admin of users
   To be able to add & remove users
 
-  Scenario: add a new user
+  Scenario: add a new operator
     Given I goto "/admin/users"
     And I fill in the user form with:
       | id    | first_name | last_name | email             | phone    | address  |
       | snake | S.D.       | Plissken  | snake@example.com | 555-1212 | New York |
+    And I uncheck "disseminate_perm"
     When I press "Create User"
     Then I should be redirected
-    And there should be a user with:
+    And there should be a user with: 
+      | id    | first_name | last_name | email             | phone    | address  | permissions |
+      | snake | S.D.       | Plissken  | snake@example.com | 555-1212 | New York | N/A         |
+    And there should be an admin log entry:
+      | user | message         |
+      | foo  | new user: snake |
+
+  Scenario: add a new contact
+    Given I goto "/admin/users"
+    And I fill in the user form with:
       | id    | first_name | last_name | email             | phone    | address  |
       | snake | S.D.       | Plissken  | snake@example.com | 555-1212 | New York |
+    And I check "disseminate_perm"
+    And I check "withdraw_perm"
+    And I check "peek_perm"
+    And I check "submit_perm"
+    And I check "report_perm"
+    And I select user type "affiliate"
+    When I press "Create User"
+    Then I should be redirected
+    And there should be a user with: 
+      | id    | first_name | last_name | email             | phone    | address  | permissions |
+      | snake | S.D.       | Plissken  | snake@example.com | 555-1212 | New York | disseminate withdraw peek submit report |
     And there should be an admin log entry:
       | user | message         |
       | foo  | new user: snake |
@@ -87,3 +108,13 @@ Feature: admin of users
     Then there should be an admin log entry:
       | user | message               |
       | foo  | unmade tech contact: admin |
+
+  Scenario: Update user should display correct info
+
+  Scenario: Update user should work
+  
+  Scenario: Change user password should work
+
+  Scenario: Wrong old password should result in 400
+
+  Scenario: Mismatched new password should result in 400

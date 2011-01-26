@@ -461,9 +461,12 @@ end
 
 get '/admin/:sub' do |sub|
   @accounts = Account.all :id.not => Daitss::Archive::SYSTEM_ACCOUNT_ID
-  @users = User.all
   @projects = Project.all :id.not => 'default'
   @sub = sub
+  @users = []
+
+  Operator.all.each {|o| @users.push o }
+  Contact.all.each {|c| @users.push c }
 
   haml :admin
 end
@@ -480,6 +483,13 @@ get '/admin/projects/:aid/:pid' do |account_id, project_id|
   error 404 unless @project
 
   haml :admin_project
+end
+
+get '/admin/users/:uid' do |user_id|
+  @user = User.get(user_id)
+  error 404 unless @user
+
+  haml :admin_user
 end
 
 post '/admin' do
@@ -550,6 +560,8 @@ post '/admin' do
     redirect '/admin/projects'
 
   when 'new-user'
+    error 400 if User.get(require_param('id'))
+
     type = require_param 'type'
 
     u = if type == "operator"
@@ -557,7 +569,15 @@ post '/admin' do
         else
           account_id = require_param 'account_id'
           a = Account.get account_id
-          Contact.new :account => a, :permissions => [:disseminate, :withdraw, :peek, :submit]
+
+          perms = []
+          perms.push :disseminate if params['disseminate_perm'] == "on"
+          perms.push :withdraw if params['withdraw_perm'] == "on"
+          perms.push :peek if params['peek_perm'] == "on"
+          perms.push :submit if params['submit_perm'] == "on"
+          perms.push :report if params['report_perm'] == "on"
+
+          Contact.new :account => a, :permissions => perms
         end
 
     u.id = require_param 'id'
@@ -570,6 +590,44 @@ post '/admin' do
     u.description = ""
     u.save or error "could not save user, errors: #{u.errors}"
     archive.log "new user: #{u.id}"
+    redirect '/admin/users'
+
+  when 'modify-user'
+    type = require_param 'type'
+
+    if type == "operator"
+      u = Operator.get require_param 'id'
+    else
+      u = Contact.get require_param 'id'
+
+      perms = []
+      perms.push :disseminate if params['disseminate_perm'] == "on"
+      perms.push :withdraw if params['withdraw_perm'] == "on"
+      perms.push :peek if params['peek_perm'] == "on"
+      perms.push :submit if params['submit_perm'] == "on"
+      perms.push :report if params['report_perm'] == "on"
+
+      u.permissions = perms
+    end
+
+    u.first_name = require_param 'first_name'
+    u.last_name = require_param 'last_name'
+    u.email = require_param 'email'
+    u.phone = require_param 'phone'
+    u.address = require_param 'address'
+    u.save or error "could not update user, errors: #{u.errors}"
+    archive.log "updated user: #{u.id}"
+    redirect '/admin/users'
+
+  when 'change-user-password'
+    u = User.get require_param "id"
+
+    error 400 unless u.authenticate require_param("old_password")
+    error 400 unless require_param("new_password") == require_param("new_password_confirm")
+
+    u.encrypt_auth require_param("new_password")
+    u.save or error "could not update user, errors: #{u.errors}"
+    archive.log "changed password for user: #{u.id}"
     redirect '/admin/users'
 
   when 'delete-user'

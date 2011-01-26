@@ -1,5 +1,4 @@
-%a{:name => 'users'}
-  %h2 users
+%h2 create new user
 
 %form#create-user{:action => '/admin', :method => 'POST'}
   %input{:type => 'hidden', :name => 'task', :value => 'new-user'}
@@ -18,6 +17,16 @@
         %select{:name=>'account_id'}
           - @accounts.each do |p|
             %option= p.id
+
+    %tr
+      %th permissions
+      %td
+        %input{:name => 'disseminate_perm', :type => 'checkbox', :checked => 'true'} disseminate
+        %input{:name => 'withdraw_perm', :type => 'checkbox', :checked => 'true'} withdraw
+        %input{:name => 'peek_perm', :type => 'checkbox', :checked => 'true'} peek
+        %input{:name => 'submit_perm', :type => 'checkbox', :checked => 'true'} submit
+        %input{:name => 'report_perm', :type => 'checkbox', :checked => 'true'} report
+
     %tr
       %th id
       %td
@@ -55,6 +64,9 @@
 
   %input{:type => 'submit', :value => 'Create User'}
 
+%h2
+  existing users
+
 - if @users.any?
   %table
     %tr
@@ -63,22 +75,29 @@
       %th username
       %th last name
       %th first name
+      %th permissions
       %th email
       %th phone
       %th address
+      %th designations
       %th{:colspan => 4} actions
 
     - @users.each do |u|
+      - next if u.deleted_at
       %tr
         %td= u.type.name[ /^Daitss::(\w+)$/, 1].downcase rescue u.type.name
         %td= u.account.id
         %td= u.id
         %td= u.last_name
         %td= u.first_name
+        %td= u.type == Contact ? u.permissions.join(" ") : "N/A"
         %td= u.email
         %td= u.phone
         %td= u.address
         %td= (u.is_tech_contact ? "Technical Contact\n" : "") + (u.is_admin_contact ? "Admin Contact" : "")
+        %td
+          %a{:href => "/admin/users/#{u.id}"}
+            modify
         %td
           %form{:action => '/admin', :method => 'POST'}
             %input{:type => 'hidden', :name => 'task', :value => 'delete-user'}

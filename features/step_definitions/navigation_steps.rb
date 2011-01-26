@@ -14,6 +14,14 @@ When /^I click on "([^\"]*)"$/ do |link|
   click_link link
 end
 
+When /^I check "([^\"]*)"$/ do |name|
+  check name
+end
+
+When /^I uncheck "([^\"]*)"$/ do |name|
+  uncheck name
+end
+
 Then /^the response should be (NG|OK)$/ do |condition|
 
   case condition

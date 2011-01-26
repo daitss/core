@@ -1,0 +1,86 @@
+%h2 
+  modify user #{@user.id} (#{@user.class})
+
+%h3
+  user details
+
+%form#modify-user{:action => '/admin', :method => 'POST'}
+  %input{:type => 'hidden', :name => 'task', :value => 'modify-user'}
+
+  %table
+    %tr
+      %th permissions
+      %td
+        - if @user.class == Contact
+          %input{:name => 'disseminate_perm', :type => 'checkbox', :checked => @user.permissions.include?(:disseminate)} disseminate
+          %input{:name => 'withdraw_perm', :type => 'checkbox', :checked => @user.permissions.include?(:withdraw)} withdraw
+          %input{:name => 'peek_perm', :type => 'checkbox', :checked => @user.permissions.include?(:peek)} peek
+          %input{:name => 'submit_perm', :type => 'checkbox', :checked => @user.permissions.include?(:submit)} submit
+          %input{:name => 'report_perm', :type => 'checkbox', :checked => @user.permissions.include?(:report)} report
+        - else
+          N/A
+
+    %tr
+      %th first
+      %td
+        %input{:name => 'first_name', :value => @user.first_name}
+
+    %tr
+      %th last
+      %td
+        %input{:name => 'last_name', :value => @user.last_name}
+
+    %tr
+      %th email
+      %td
+        %input{:name => 'email', :value => @user.email }
+
+    %tr
+      %th phone
+      %td
+        %input{:name => 'phone', :value => @user.phone }
+
+    %tr
+      %th address
+      %td
+        %textarea{:name => 'address'}
+          #{@user.address}
+
+  %input{:type => 'hidden', :name => 'id', :value => @user.id}
+  %input{:type => 'hidden', :name => 'type', :value => @user.class == Operator ? "operator" : "contact" }
+  %input{:type => 'submit', :value => 'modify user'}
+
+
+%h3
+  change password
+
+%form#change-user-password{:action => '/admin', :method => 'POST'}
+  %table
+    %tr
+      %th
+        old password
+
+      %th
+        new password
+
+      %th
+        confirm new password
+  
+  
+    %tr
+      %td
+        %input{:name => 'old_password'}
+      %td
+        %input{:name => 'new_password'}
+      %td
+        %input{:name => 'new_password_confirm'}
+  
+  %input{:type => 'hidden', :name => 'id', :value => @user.id}
+  %input{:type => 'hidden', :name => 'task', :value => 'change-user-password'}
+  %input{:type => 'submit', :value => 'change password'}
+
+%br
+
+%a{:href => "/admin/users"}
+  back to users
+
