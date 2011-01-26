@@ -16,6 +16,7 @@ module Daitss
     property :sha1, String, :length => 40, :format => %r([a-f0-9]{40}) # uncomment after all d1 packages are migrated, :required => true
     property :md5, String, :length => 40, :format => %r([a-f0-9]{32}), :required => true
     property :size, Integer, :min => 1, :max => MAX_SIZE # uncomment after all d1 packages are migrated,:required => true
+    property :timestamp, Time
 
     belongs_to :aip
 

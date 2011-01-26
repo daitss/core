@@ -130,7 +130,8 @@ module Daitss
         :size => xml.root['size'].to_i,
         :sha1 => xml.root['sha1'],
         :md5 => xml.root['md5'],
-        :url => @url
+        :url => @url,
+        :timestamp => Time.now
       }
     end
 
