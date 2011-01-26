@@ -77,6 +77,8 @@
         %th request type
         %th status
         %th requesting user
+        %th request timestamp
+        %th package activity
     
       - @requests.each do |r|
         %tr
@@ -87,3 +89,5 @@
           %td= r.type
           %td= r.status
           %td= r.agent.id
+          %td= r.timestamp
+          %td= r.package.events.first(:order => [:timestamp.desc]).name
