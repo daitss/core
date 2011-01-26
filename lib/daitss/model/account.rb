@@ -19,7 +19,14 @@ module Daitss
     has n, :agents
 
     def default_project
-      self.projects.first :id => Daitss::Archive::DEFAULT_PROJECT_ID
+      p = self.projects.first :id => Daitss::Archive::DEFAULT_PROJECT_ID
+
+      unless p
+        p = Project.new :id => Daitss::Archive::DEFAULT_PROJECT_ID, :account => self
+        p.save
+      end
+
+      return p
     end
 
   end
