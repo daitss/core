@@ -14,7 +14,7 @@
     - if @package.wip.stashed?
       %a{:href=>"/stashspace/#{@package.wip.bin.id}/#{@package.wip.id}"} stashed
     - else
-      %a{:href=>"/workspace/#{@package.wip.id}"} ingesting
+      %a{:href=>"/workspace/#{@package.wip.id}"} ingesting (#{@package.wip.state})
 
   - elsif @package.aip
     archived
