@@ -30,7 +30,7 @@
             %form{:action => "/batches/#{b.id}", :method => 'post'}
               %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}
               %input{:type => 'hidden', :name => 'type', :value => 'disseminate'}
-              %input{:type => 'submit', :value => "Disseminate"}
+              %input{:type => 'submit', :value => "Disseminate", :onClick => "return confirmClick();"}
           %td
             %form{:action => "/batches/#{b.id}", :method => 'post'}
               %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}
@@ -46,4 +46,4 @@
           %td
             %form{:action => "/batches/#{b.id}", :method => 'post'}
               %input{:type => 'hidden', :name => 'task', :value => 'delete-batch'}
-              %input{:type => 'submit', :value => "Delete"}
+              %input{:type => 'submit', :value => "Delete", :onClick => "return confirmClick();"}

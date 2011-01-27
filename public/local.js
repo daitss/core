@@ -8,3 +8,9 @@ $(document).ready(function(){
   }
 
 });
+
+function confirmClick() {
+  return confirm("Are you sure?");
+};
+
+
