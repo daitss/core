@@ -113,6 +113,7 @@ module Daitss
       DataMapper.repository(:default).adapter.execute("ALTER TABLE events ALTER timestamp TYPE timestamp with time zone")
       DataMapper.repository(:default).adapter.execute("ALTER TABLE requests ALTER timestamp TYPE timestamp with time zone")
       DataMapper.repository(:default).adapter.execute("ALTER TABLE entries ALTER timestamp TYPE timestamp with time zone")
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE copies ALTER timestamp TYPE timestamp with time zone")
       # create funcitonal index with ieid value on premis_events to speed up query.
       DataMapper.repository(:default).adapter.execute("create index index_ieid on premis_events(substring(premis_events.related_object_id from'................$'))")
     end
