@@ -17,6 +17,7 @@
   %table
     %tr
       %th batch name
+      %th # of packages
       %th disseminate
       %th withdraw
       %th peek
@@ -26,6 +27,7 @@
         %tr
           %td
             %a{:href => "/batches/#{b.id}"}= b.id
+          %td= b.packages.length
           %td
             %form{:action => "/batches/#{b.id}", :method => 'post'}
               %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}
