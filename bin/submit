@@ -65,7 +65,7 @@ def zip_package path_to_package
   zip_path = File.join("/tmp", File.basename(path_to_package) + ".zip")
   FileUtils.rm_rf zip_path if File.exists? zip_path
   
-  exec("cd #{File.dirname(path_to_package)}; zip -r #{zip_path} #{File.basename(path_to_package)} 2>&1; cd $PWD") if fork.nil?
+  exec("cd #{File.dirname(path_to_package)}; zip -r -0 #{zip_path} #{File.basename(path_to_package)} 2>&1; cd $PWD") if fork.nil?
   Process.wait
 
   raise "zip returned non-zero exit status" if $?.exitstatus != 0
