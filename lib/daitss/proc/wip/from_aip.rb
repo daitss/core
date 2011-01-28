@@ -155,6 +155,7 @@ module Daitss
         FileUtils.cp f, File.join(old_xml_res_tarball_dir, File.basename(f))
       end
 
+    ensure
       FileUtils.rm_r tdir
     end
 

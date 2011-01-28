@@ -46,6 +46,7 @@ module Daitss
         raise "could not make tarball: #{$?}" unless $?.exitstatus == 0
       end
 
+    ensure
       FileUtils.rm_r temp_dir
     end
 
