@@ -6,12 +6,22 @@ require 'daitss/config'
 module Daitss
 
   class Archive
+
+    @@dont_configure = false
+    def Archive.dont_configure!
+      @@dont_configure = true
+    end
+
     include Config
     include Singleton
 
     def initialize
-      load_configuration
-      setup_db
+
+      unless @@dont_configure
+        load_configuration
+        setup_db
+      end
+
     end
 
     # add an entry into the archive log
@@ -38,11 +48,9 @@ module Daitss
   def archive
     Archive.instance
   end
-  module_function :archive
 
-  def load_archive
-    archive
-  end
+  alias_method :load_archive, :archive
+  module_function :archive
   module_function :load_archive
 
 end
