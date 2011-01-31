@@ -82,7 +82,7 @@ module Daitss
           # make the old one obsolete
           old.obsolete! if old
         rescue
-          dest.nuke!
+          dest.nuke! if dest
           raise
         end
 
