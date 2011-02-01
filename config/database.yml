@@ -1,18 +1,16 @@
 defaults: &defaults
+  username: franco
+  host:     localhost
   adapter: postgres
 
 development:
-  database: db/daitss_development.db
-  username: franco
-  host:     localhost
+  database: daitss_development
   <<: *defaults
 
 test:
-  database: db/daitss_test.db
-  username: franco
-  host:     localhost
+  database: daitss_test
   <<: *defaults
 
 production:
-  database: db/daitss_production.db
+  database: daitss_production
   <<: *defaults

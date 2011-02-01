@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+gem 'libxml-ruby'
+
 RAILS_VERSION = '~> 3.0.1'
 DM_VERSION    = '~> 1.0.2'
 

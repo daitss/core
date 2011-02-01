@@ -1,13 +1,8 @@
-require 'data_mapper'
-require 'daitss/model/package'
+class ReportDelivery
+  include DataMapper::Resource
 
-module Daitss
-  class ReportDelivery
-    include DataMapper::Resource
+  property :id, Serial, :key => true
+  property :mechanism, Enum[:email, :ftp], :default => :email
 
-    property :id, Serial, :key => true
-    property :mechanism, Enum[:email, :ftp], :default => :email
-
-    belongs_to :package
-  end
+  belongs_to :package
 end
