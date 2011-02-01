@@ -1,0 +1,24 @@
+defaults: &defaults
+  adapter: sqlite
+
+development:
+  database: db/daitss_development.db
+  <<: *defaults
+
+  # Add more repositories
+  # repositories:
+  #   repo1:
+  #     adapter:  postgres
+  #     database: sample_development
+  #     username: the_user
+  #     password: secrets
+  #     host:     localhost
+  #   repo2:
+  #     ...
+
+test:
+  database: db/daitss_test.db
+  <<: *defaults
+production:
+  database: db/daitss_production.db
+  <<: *defaults
