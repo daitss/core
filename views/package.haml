@@ -170,6 +170,11 @@
           %a{:href=>"/package/#{@package.id}/descriptor"} mets descriptor
 
       %tr
+        %th descriptor errata
+        %td
+          %pre= aip.xml_errata || 'N/A'
+
+      %tr
         %th copy url
         %td
           %a{ :href => (aip.copy ? aip.copy.url : "#") }

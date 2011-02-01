@@ -19,17 +19,35 @@ module Daitss
       save_aip_descriptor descriptor.to_s
     end
 
+    VALIDATION_EXCEPTIONS = [
+      %r{(tcf|aes)\:},
+      %r{mix:dateTimeCreated}
+    ]
+
     def validate_aip_descriptor
-      rs = validate_xml aip_descriptor_file
+      results = validate_xml aip_descriptor_file
+      warnings, errors = results.partition { |r| r[:level] == :warning }
+      ignored, vitals = errors.partition { |r| VALIDATION_EXCEPTIONS.any? { |p| r[:message] =~ p } }
 
-      rs.reject! { |r|
-        r[:level] == :warning ||
-          r[:message] =~ %r{(tcf|aes)\:}
-      }
+      errata_buffer = StringIO.new
 
-      unless rs.empty?
-        es = rs.map { |r| r[:line].to_s + ' ' + r[:message] }.join "\n"
-        raise "descriptor fails daitss aip xml validation (#{rs.size} errors)\n#{es}"
+      unless warnings.empty?
+        errata_buffer.puts "warnings: #{warnings.size}"
+        warnings.map { |e| errata_buffer.puts "#{e[:line]},#{e[:column]}: #{e[:message]}" }
+      end
+
+      errata_buffer.puts unless warnings.empty? or ignored.empty?
+
+      unless ignored.empty?
+        errata_buffer.puts "ignored: #{ignored.size}"
+        ignored.map { |e| errata_buffer.puts "#{e[:line]},#{e[:column]}: #{e[:message]}" }
+      end
+
+      save_aip_descriptor_errata errata_buffer.string
+
+      unless vitals.empty?
+        es = vitals.map { |e| "#{e[:line]},#{e[:column]}: #{e[:message]}" }.join "\n"
+        raise "descriptor fails daitss aip xml validation (#{vitals.size} errors)\n#{es}"
       end
 
     end

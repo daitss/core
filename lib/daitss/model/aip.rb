@@ -19,6 +19,7 @@ module Daitss
 
     property :id, Serial
     property :xml, Text, :required => true, :length => XML_SIZE
+    property :xml_errata, Text, :required => false
     property :datafile_count, Integer, :min => 1 # uncomment after all d1 packages are migrated, :required => true
 
     belongs_to :package
@@ -28,18 +29,9 @@ module Daitss
     def save_and_populate
       self.raise_on_save_failure = true
 
-      begin
-
-        Aip.transaction do
-          self.save
-          AIPInPremis.new.process self.package, XML::Document.string(self.xml)
-        end
-
-        true
-      rescue
-        puts $!
-        puts $!.backtrace
-        false
+      Aip.transaction do
+        self.save
+        AIPInPremis.new.process self.package, XML::Document.string(self.xml)
       end
 
     end

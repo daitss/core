@@ -45,6 +45,7 @@ module Daitss
     file_attr :xmlres
 
     md_file_attr :aip_descriptor
+    md_file_attr :aip_descriptor_errata
 
     VALID_TASKS = [
       :sleep,
