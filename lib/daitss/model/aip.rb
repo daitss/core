@@ -29,18 +29,9 @@ module Daitss
     def save_and_populate
       self.raise_on_save_failure = true
 
-      begin
-
-        Aip.transaction do
-          self.save
-          AIPInPremis.new.process self.package, XML::Document.string(self.xml)
-        end
-
-        true
-      rescue
-        puts $!
-        puts $!.backtrace
-        false
+      Aip.transaction do
+        self.save
+        AIPInPremis.new.process self.package, XML::Document.string(self.xml)
       end
 
     end
