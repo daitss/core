@@ -34,3 +34,6 @@ IO.foreach(report) do |line|
     print("\n")
   end
 end
+
+# post processing, remove all the MXF.dtd global files.
+DataMapper.repository(:default).adapter.execute("delete from d1deleted_files where source like '../%MXF.dtd'")
