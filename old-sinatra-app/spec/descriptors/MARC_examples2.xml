@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?fcla fda="yes"?>
+<?fcla dl="no"?>
+<!--  Vol issue test 1 ( Book ) -->
+<METS:mets OBJID="MARC_examples_00001"
+  xmlns:METS="http://www.loc.gov/METS/"
+  xmlns:mods="http://www.loc.gov/mods/v3"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:daitss="http://www.fcla.edu/dls/md/daitss/"
+  xsi:schemaLocation="http://www.loc.gov/METS/
+    http://www.loc.gov/standards/mets/mets.xsd 
+    http://www.loc.gov/mods/v3
+    http://www.loc.gov/mods/v3/mods-3-3.xsd
+    http://www.fcla.edu/dls/md/daitss/
+    http://www.fcla.edu/dls/md/daitss/daitss.xsd
+">
+<METS:metsHdr CREATEDATE="2010-12-03T13:48:15Z" ID="MARC_examples_00001" LASTMODDATE="2010-12-03T13:48:15Z" RECORDSTATUS="NEW">
+<METS:agent ROLE="CREATOR" TYPE="ORGANIZATION"> 
+<METS:name>FCLA</METS:name>
+</METS:agent>
+<METS:agent OTHERTYPE="SOFTWARE" ROLE="CREATOR" TYPE="OTHER"> 
+<METS:name>SobekCM Metadata Template</METS:name>
+</METS:agent>
+<METS:agent ROLE="CREATOR" TYPE="INDIVIDUAL"> 
+<METS:name>LYDIAM\fclauser</METS:name>
+</METS:agent>
+</METS:metsHdr>
+<METS:dmdSec ID="DMD1">
+<METS:mdWrap MDTYPE="MARC" MIMETYPE="text/xml" LABEL="MarcXML Metadata">
+<METS:xmlData>
+<record xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+<leader>00260nam  22000973a 4500</leader>
+<controlfield tag="001">MARC_examples_00001</controlfield>
+<controlfield tag="005">20101203134815.0</controlfield>
+<controlfield tag="008">101203n        xx |||| s     ||| u eng d</controlfield>
+<datafield tag="040" ind1=" " ind2=" ">
+<subfield code="a">FUG</subfield>
+<subfield code="c">FUG</subfield>
+</datafield>
+<datafield tag="245" ind1="0" ind2="2">
+<subfield code="a">0 Vol issue test 1</subfield>
+<subfield code="b">subtitle</subfield>
+<subfield code="n">part 6, number 10</subfield>
+<subfield code="y">English.</subfield>
+</datafield>
+<datafield tag="856" ind1="4" ind2="0">
+<subfield code="u">http://www.uflib.ufl.edu/ufdc/?b=MARC_examples</subfield>
+<subfield code="y">Electronic Resource</subfield>
+</datafield>
+</record>
+</METS:xmlData>
+</METS:mdWrap>
+</METS:dmdSec>
+<METS:amdSec>
+    <METS:digiprovMD ID="AMD_DAITSS">
+        <METS:mdWrap MDTYPE="OTHER" OTHERMDTYPE="DAITSS">
+            <METS:xmlData>
+                <daitss:daitss>
+                    <daitss:AGREEMENT_INFO ACCOUNT="FDA" PROJECT="FDA"/>
+                </daitss:daitss>
+            </METS:xmlData>
+        </METS:mdWrap>
+    </METS:digiprovMD>
+</METS:amdSec>
+<METS:fileSec> 
+<METS:fileGrp USE="reference" > 
+<METS:file GROUPID="G1" ID="DOC1" MIMETYPE="application/msword" CHECKSUM="11742451fb0d2a8e8e9020e89ca77cc3" CHECKSUMTYPE="MD5" SIZE="36864"> 
+<METS:FLocat LOCTYPE="OTHER" OTHERLOCTYPE="SYSTEM" xlink:href="AIP_serials_processor_spec_rev2.doc" /> 
+</METS:file> 
+</METS:fileGrp> 
+</METS:fileSec> 
+<METS:structMap ID="STRUCT2" TYPE="other"> 
+<METS:div DMDID="DMD1" LABEL="Vol issue test 1" ORDER="0" TYPE="main"> 
+<METS:div ID="DDIV1" ORDER="1" TYPE="Main"> 
+<METS:div ID="FILES1" ORDER="1" TYPE="Page"> 
+<METS:fptr FILEID="DOC1" /> 
+</METS:div> 
+</METS:div> 
+</METS:div>
+</METS:structMap>
+</METS:mets>
