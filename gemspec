@@ -11,13 +11,6 @@ spec = Gem::Specification.new do |spec|
 
   spec.files = ["Rakefile"]
   spec.files += Dir["lib/**/*"]
-  # spec.files += Dir["spec/**/*"]
-  spec.files += Dir["templates/**/*"]
-  spec.files += Dir["stron/**/*"]
-  spec.files << "bin/daitss"
-  spec.files << "bin/dbin"
-
-  spec.executables = ['daitss', 'dbin', 'dbin']
 
   spec.add_bundler_dependencies
 end
