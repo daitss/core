@@ -1,5 +1,5 @@
 # represents an admin log entry
-class Entry
+class AdminLog
   include DataMapper::Resource
 
   property :id, Serial

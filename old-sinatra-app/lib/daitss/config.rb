@@ -134,6 +134,7 @@ module Daitss
     # - system program
     # - default operator
     def init_seed
+      raise 'use rake db:seed instead'
 
       # account
       a = Account.new(:id => SYSTEM_ACCOUNT_ID,

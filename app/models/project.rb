@@ -1,3 +1,5 @@
+DEFAULT_PROJECT_ID = 'default'
+
 class Project
   include DataMapper::Resource
 

@@ -43,6 +43,8 @@ class Contact < User
   property :permissions, Flag[:disseminate, :withdraw, :peek, :submit, :report]
 end
 
+ROOT_OPERATOR_ID = 'root'
+
 class Operator < User
 
   def packages
@@ -52,4 +54,8 @@ class Operator < User
 end
 
 class Service < Agent; end
+
+SYSTEM_PROGRAM_ID = 'SYSTEM'
+D1_PROGRAM_ID = 'DAITSS1'
+
 class Program < Agent; end

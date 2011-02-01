@@ -1,3 +1,5 @@
+SYSTEM_ACCOUNT_ID = 'SYSTEM'
+
 class Account
   include DataMapper::Resource
 
