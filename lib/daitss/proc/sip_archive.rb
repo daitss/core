@@ -203,6 +203,8 @@ MSG
       mods_title_xpath = "//M:dmdSec//mods:title"
       mods_issue_xpath = "//mods:part/mods:detail[@type='issue']/mods:number"
       mods_volume_xpath = "//mods:part/mods:detail[@type='volume']/mods:number"
+      mods_enum_issue_xpath = "//mods:part/mods:detail[@type='Enum1']/mods:caption"
+      mods_enum_volume_xpath = "//mods:part/mods:detail[@type='Enum2']/mods:caption"
       #mods_issue_xpath = "//M:dmdSec//mods:part/mods:detail[@type=issue]/mods:number"
       #mods_volume_xpath = "//M:dmdSec//mods:part/mods:detail[@type=volume]/mods:number"
       structmap_orderlabel_volume_xpath = "//M:structMap//M:div[@TYPE='volume']"
@@ -249,6 +251,17 @@ MSG
 
         mods_issue_node = descriptor_doc.find_first mods_issue_xpath, NS_PREFIX
         @ivt["issue"] = mods_issue_node ? mods_issue_node.content : nil
+
+        #try Enum1 and Enum2 if nothing found above
+        unless mods_volume_node
+          mods_enum_volume_node = descriptor_doc.find_first mods_enum_volume_xpath, NS_PREFIX
+          @ivt["volume"] = mods_enum_volume_node ? mods_enum_volume_node.content : nil
+        end
+
+        unless mods_issue_node
+          mods_enum_issue_node = descriptor_doc.find_first mods_enum_issue_xpath, NS_PREFIX
+          @ivt["issue"] = mods_enum_issue_node ? mods_enum_issue_node.content : nil
+        end
       end
 
       # try MARC next
