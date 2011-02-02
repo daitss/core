@@ -2,6 +2,8 @@ require 'daitss/proc/workspace'
 require 'daitss/model'
 require 'daitss/db'
 
+raise "deprecated: dont load me!"
+
 module Daitss
 
   module Config
