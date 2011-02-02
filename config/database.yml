@@ -7,10 +7,13 @@ development:
   database: daitss_development
   <<: *defaults
 
-test:
+test: &test
   database: daitss_test
   <<: *defaults
 
 production:
   database: daitss_production
   <<: *defaults
+
+cucumber:
+  <<: *test

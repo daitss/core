@@ -38,6 +38,9 @@ gem 'dm-timestamps',        DM_VERSION
 gem 'dm-observer',          DM_VERSION
 
 group(:development, :test) do
+  gem 'cucumber-rails'
+  gem 'capybara'
+  gem 'database_cleaner'
 
   # Uncomment this if you want to use rspec for testing your application
 
