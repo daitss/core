@@ -1,20 +1,20 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
-#   Mayor.create(:name => 'Daley', :city => cities.first)
 
+Setting.create :id => 'uri prefix', :value => 'daitss:'
+Setting.create :id => 'throttle', :value => '10'
+Setting.create :id => 'actionplan server', :value => 'http://localhost:7001'
+Setting.create :id => 'describe server', :value => 'http://localhost:7002'
+Setting.create :id => 'storage server', :value => 'http://storemaster.ripple.fcla.edu'
+Setting.create :id => 'viruscheck server', :value => 'http://localhost:7005'
+Setting.create :id => 'transform server', :value => 'http://localhost:7006'
+Setting.create :id => 'xmlresolution server', :value => 'http://xmlresolution.ripple.fcla.edu'
 
-system_account = Account.create :id => SYSTEM_ACCOUNT_ID, :description => 'account for system operations', :report_email => 'daitss@localhost'
-Project.create :id => DEFAULT_PROJECT_ID, :description => 'default project for system operations', :account => system_account
-
-Program.create :id => SYSTEM_PROGRAM_ID, :description => "daitss software agent", :account => system_account
-Program.create :id => D1_PROGRAM_ID, :description => "daitss 1 software agent", :account => system_account
-
-root = Operator.create(:id => ROOT_OPERATOR_ID, :description => "default operator account", :account => system_account)
+sys = Account.create :id => SYSTEM_ACCOUNT_ID, :description => 'system account'
+sys.projects.create :id => DEFAULT_PROJECT_ID, :description => 'default project'
+Program.create :id => SYSTEM_PROGRAM_ID, :description => "daitss software agent", :account => sys
+root = Operator.create :id => ROOT_OPERATOR_ID, :description => "root account", :account => sys
 root.encrypt_auth ROOT_OPERATOR_ID
-root.save or raise "cannot save system operator"
+root.save or raise "cannot save system operator password"
 
 AdminLog.create :message => 'archive seeded'
