@@ -69,20 +69,12 @@ module Daitss
 
       # check for a single agreement info
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty?
-        count = descriptor_doc.find "count(#{AGREEMENT_INFO_XPATH})", NS_PREFIX
+        ainfo = descriptor_doc.find_first AGREEMENT_INFO_XPATH, NS_PREFIX
 
-        if count == 0
-          es[:agreement_info] << "missing agreement info"
-        elsif count == 1
-          ainfo = descriptor_doc.find_first AGREEMENT_INFO_XPATH, NS_PREFIX
-          es[:agreement_info] << "missing account" if ainfo['ACCOUNT'].to_s.strip.empty?
-          es[:agreement_info] << "missing project" if ainfo['PROJECT'].to_s.strip.empty?
-        elsif count > 1
-          es[:agreement_info] << "multiple agreement info"
-        else
-          raise "invalid agreement info count #{count}"
-        end
-
+        es[:agreement_info] << "missing agreement info" unless ainfo
+        
+        es[:agreement_info] << "missing account" if ainfo['ACCOUNT'].to_s.strip.empty?
+        es[:agreement_info] << "missing project" if ainfo['PROJECT'].to_s.strip.empty?
       end
 
       # check for content files
