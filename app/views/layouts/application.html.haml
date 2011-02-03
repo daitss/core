@@ -2,9 +2,15 @@
 %head
   %title Daitss
   = stylesheet_link_tag :all
+  = stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Arimo:regular,italic,bold,bolditalic'
   = javascript_include_tag :defaults
   = csrf_meta_tag
 
 %body
+  - if flash[:notice]
+    .notice= flash.notice
+  - if flash[:alert]
+    .notice.alert = flash.alert
 
-= yield
+#content
+  = yield

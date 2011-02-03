@@ -1,4 +1,7 @@
 Daitss::Application.routes.draw do
+  get "settings" => 'settings#edit'
+  post "settings" => 'settings#update'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

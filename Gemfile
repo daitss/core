@@ -36,6 +36,9 @@ gem 'dm-transactions',      DM_VERSION
 gem 'dm-aggregates',        DM_VERSION
 gem 'dm-timestamps',        DM_VERSION
 gem 'dm-observer',          DM_VERSION
+gem 'dm-serializer',        DM_VERSION
+
+gem 'haml'
 
 group(:development, :test) do
   gem 'cucumber-rails'
@@ -43,8 +46,7 @@ group(:development, :test) do
   gem 'database_cleaner'
 
   # Uncomment this if you want to use rspec for testing your application
-
-  # gem 'rspec-rails', '~> 2.0.1'
+  gem 'rspec-rails', '~> 2.0.1'
 
   # To get a detailed overview about what queries get issued and how long they take
   # have a look at rails_metrics. Once you bundled it, you can run
