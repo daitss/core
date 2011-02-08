@@ -37,12 +37,12 @@ Feature: be able to locate any package
       | package | sip | size (MB) | # of datafiles | account | activity | time |
     And the package column should link to a package
      
-  Scenario: rejects should not display in packages list
+  Scenario: rejects should display in packages list
     Given I goto "/packages"
     When I select "bad-account" to upload
     And I press "Submit"
     And I should be redirected
-    Then I should not see the package in the results
+    Then I should see the package in the results
 
   Scenario: rejects should display in rejects list
     Given I goto "/packages"
@@ -52,7 +52,7 @@ Feature: be able to locate any package
     And I goto "/rejects"
     Then I should see that package in the results
 
-  Scenario: snafus should not display in packages list
+  Scenario: snafus should display in packages list
     Given I submit "virus"
     When I click on "ingesting"
     And I choose "start"
@@ -60,7 +60,7 @@ Feature: be able to locate any package
     And I should be redirected
     And I wait for it to finish
     And I goto "/packages"
-    Then I should not see the package in the results
+    Then I should see the package in the results
 
   Scenario: snafus should display in snafu list
     Given I submit "virus"
