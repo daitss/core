@@ -2,6 +2,10 @@ Daitss::Application.routes.draw do
   get "settings" => 'settings#edit'
   post "settings" => 'settings#update'
 
+  get 'login' => 'welcome#login'
+  post 'login' => 'welcome#do_login'
+  post 'logout' => 'welcome#logout'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -51,7 +55,7 @@ Daitss::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "welcome#index"
+  root :to => "welcome#index"
 
   # See how all your routes lay out with "rake routes"
 

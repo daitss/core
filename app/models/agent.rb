@@ -25,6 +25,12 @@ class Agent
 end
 
 class User < Agent
+
+  def User.authenticate name, pass
+    user = User.get name
+    user if user and user.authenticate pass
+  end
+
   property :first_name, String
   property :last_name, String
   property :email, String

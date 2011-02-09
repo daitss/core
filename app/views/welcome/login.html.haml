@@ -1,0 +1,14 @@
+.login
+  = form_for :login do |f|
+
+    .field
+      = f.label 'user'
+      = f.text_field 'user'
+
+    .field
+      = f.label 'password'
+      = f.password_field 'password'
+
+    .field
+      = f.label ''
+      = f.submit 'login'
