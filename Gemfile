@@ -39,6 +39,7 @@ gem 'dm-observer',          DM_VERSION
 gem 'dm-serializer',        DM_VERSION
 
 gem 'haml'
+gem 'semver'
 gem 'jquery-rails', '>= 0.2.6'
 
 group(:development, :test) do

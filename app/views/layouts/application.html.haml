@@ -1,16 +1,26 @@
 !!! 5
 %head
   %title Daitss
-  = stylesheet_link_tag :all
   = stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Arimo:regular,italic,bold,bolditalic'
+  //= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Puritan:regular,italic,bold,bolditalic'
+  //= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Kreon:regular,italic,bold,bolditalic'
+  //= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Josefin+Sans:regular,italic,bold,bolditalic'
+  //= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Josefin+Slab:regular,italic,bold,bolditalic'
+  = stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Cabin:bold'
+  //= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Nobile:regular,italic,bold,bolditalic'
+  = stylesheet_link_tag :all
   = javascript_include_tag :defaults
   = csrf_meta_tag
 
 %body
+
+  %nav
+    %span.breadcrumbs= breadcrumbs
+    %span.version= Daitss::VERSION
+
   - if flash[:notice]
     .notice= flash.notice
   - if flash[:alert]
-    .notice.alert = flash.alert
+    .notice.alert= flash.alert
 
-#content
-  = yield
+#content= yield
