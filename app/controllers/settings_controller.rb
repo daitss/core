@@ -15,7 +15,7 @@ class SettingsController < ApplicationController
       s.update :value => value unless s.value == value
     end
 
-    flash[:notice] = 'Settings Updated'
+    flash[:notice] = 'settings updated'
     redirect_to :action => :edit
   end
 

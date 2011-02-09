@@ -25,7 +25,7 @@ class WelcomeController < ApplicationController
 
   def logout
     session.clear
-    redirect_to '/login', :notice => "goodbye #{@user.id}"
+    redirect_to :login, :notice => "goodbye #{@user.id}"
   end
 
 end

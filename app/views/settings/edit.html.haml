@@ -1,12 +1,15 @@
-%h1 Settings
+.settings
 
-= form_for :settings do |f|
-  - @non_servers.each do |s|
-    .setting
-      = f.label s.id
-      = f.text_field s.id, :value => s.value
-  - @servers.each do |s|
-    .setting
-      = f.label s.id
-      = f.text_field s.id, :value => s.value
-  = f.submit
+  = form_for :settings do |f|
+    - @non_servers.each do |s|
+      .field
+        = f.label s.id
+        = f.text_field s.id, :value => s.value
+    - @servers.each do |s|
+      .field
+        = f.label s.id
+        = f.text_field s.id, :value => s.value
+
+    .field
+      = f.label ''
+      = f.submit

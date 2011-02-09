@@ -8,4 +8,4 @@ Feature: Manage settings
     When I fill in "Throttle" with "99"
     And I press "Save Settings"
     Then the "Throttle" field should contain "99"
-    And I should see "Settings Updated" within ".notice"
+    And I should see "settings updated" within ".notice"
