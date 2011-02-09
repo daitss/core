@@ -4,3 +4,4 @@ log/*.log
 tmp/**/*
 tags
 public/stylesheets/*
+!public/stylesheets/sass
