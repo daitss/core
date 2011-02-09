@@ -1,10 +1,10 @@
 Daitss::Application.routes.draw do
+  get 'login' => 'login#index'
+  post 'login' => 'login#login'
+  post 'logout' => 'login#logout'
+
   get "settings" => 'settings#edit'
   post "settings" => 'settings#update'
-
-  get 'login' => 'welcome#login'
-  post 'login' => 'welcome#do_login'
-  post 'logout' => 'welcome#logout'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

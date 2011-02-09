@@ -6,4 +6,4 @@
   %li= link_to 'users', '#'
   %li= link_to 'log', '#'
   %li= link_to 'settings', settings_path
-  %li.logout= link_to "logout #{@user.id}", {:controller => 'welcome', :action => 'logout'}, :method => :post
+  %li.logout= link_to "logout #{@user.id}", {:controller => :login, :action => :logout}, :method => :post
