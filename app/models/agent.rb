@@ -7,11 +7,11 @@ class Agent
   property :salt, String, :required => true, :default => proc { rand(0x100000).to_s 26  }
 
   property :type, Discriminator
-  property :deleted_at, ParanoidDateTime
+  property :active, Boolean, :default => true
 
-  has n, :events
-  has n, :requests
-  has n, :admin_logs
+  has 0..n, :events
+  has 0..n, :requests
+  has 0..n, :admin_logs
 
   belongs_to :account
 

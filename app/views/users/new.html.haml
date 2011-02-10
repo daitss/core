@@ -1,0 +1,46 @@
+.users
+  = form_for :user, :url => users_path do |f|
+
+    .field
+      = f.label 'account', :for => 'user_account_id'
+      = collection_select :user, :account_id, Account.all(:id.not => SYSTEM_ACCOUNT_ID), :id, :id
+
+    .field
+      = f.label 'id'
+      = f.text_field 'id'
+
+    .field
+      = f.label 'description'
+      = f.text_field 'description'
+
+    .field
+      = f.label 'first_name'
+      = f.text_field 'first_name'
+
+    .field
+      = f.label 'last_name'
+      = f.text_field 'last_name'
+
+    .field
+      = f.label 'email'
+      = f.text_field 'email'
+
+    .field
+      = f.label 'phone'
+      = f.telephone_field 'phone'
+
+    .field
+      = f.label 'address'
+      = f.text_field 'address'
+
+    .field
+      = f.label 'is_admin_contact'
+      = f.check_box 'is_admin_contact'
+
+    .field
+      = f.label 'is_tech_contact'
+      = f.check_box 'is_tech_contact'
+
+    .field
+      = f.label ' '
+      = f.submit
