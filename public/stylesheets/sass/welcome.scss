@@ -22,6 +22,10 @@ ul#welcome_menu {
     a:hover { color: $red * 1.2; }
     font-style: italic;
   }
+
+  li.disabled {
+    text-decoration: line-through;
+  }
 }
 
 h2.user {
