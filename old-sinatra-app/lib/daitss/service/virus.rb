@@ -40,7 +40,7 @@ module Daitss
     end
 
     def failed?
-      @doc.search '//P:eventOutcome = "failed"', NS_PREFIX
+      @doc.search '//P:eventOutcome = "failure"', NS_PREFIX
     end
 
     def note

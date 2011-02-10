@@ -63,7 +63,7 @@ module Daitss
             package.log 'submit', :agent => agent, :notes => event_note
           else
             combined_errors = (agreement_errors + sa.errors).join "\n"
-            package.log 'reject', :agent => agent, :notes => combined_errors
+            package.log 'reject', :agent => agent, :notes => event_note + '; ' + combined_errors
           end
 
         end

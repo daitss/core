@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<?xml-stylesheet type="text/xsl" href="daitss_report_xhtml.xsl"?>
+<?xml-stylesheet type="text/xsl" href="http://www.fcla.edu/dls/md/daitss/daitss_report_xhtml.xsl"?>
 <REPORT xsi:schemaLocation='http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss2Report.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.fcla.edu/dls/md/daitss/'>
   <INGEST IEID='<%= @package.id %>' PACKAGE='<%= @intentity_record.original_name %>' INGEST_TIME='<%= Time.parse(@package.events.first(:name => "submit").timestamp.to_s).iso8601 %>'>
   <AGREEMENT_INFO ACCOUNT='<%= @package.project.account.id %>' PROJECT='<%= @package.project.id %>'/>
@@ -8,6 +8,12 @@
       <FILE SIZE='<%= datafile.size %>' DFID='<%= datafile.id %>' ORIGIN='<%= datafile.origin %>' PATH='<%= datafile.original_path %>'> 
         <MESSAGE_DIGEST ALGORITHM='MD5'><%= datafile.message_digest.first(:code => "MD5").value %></MESSAGE_DIGEST>
         <MESSAGE_DIGEST ALGORITHM='SHA-1'><%= datafile.message_digest.first(:code => "SHA-1").value %></MESSAGE_DIGEST>
+        <% PremisEvent.all(:relatedObjectId => datafile.id, :class => DatafileEvent).each do |event| %>
+          <EVENT TIME='<%= Time.parse(event.datetime.to_s).iso8601 %>' OUTCOME='<%= event.outcome %>'>
+            <PROCEDURE><%= event.e_type %></PROCEDURE>
+            <NOTE><%= event.outcome_details %></NOTE>
+          </EVENT>
+        <% end %>
         <% if datafile.broken_links.any? %>
           <% datafile.broken_links.each do |broken_link| %>
             <BROKEN_LINK><%= broken_link.broken_links %></BROKEN_LINK>
@@ -17,12 +23,6 @@
           <% datafile.datafile_severe_element.each do |severe_element| %>
             <WARNING CODE='<%= severe_element.severe_element.class %>' ><%= severe_element.severe_element.name %></WARNING>
           <% end %>
-        <% end %>
-        <% PremisEvent.all(:relatedObjectId => datafile.id, :class => DatafileEvent).each do |event| %>
-          <EVENT TIME='<%= Time.parse(event.datetime.to_s).iso8601 %>' OUTCOME='<%= event.outcome %>'>
-            <PROCEDURE><%= event.e_type %></PROCEDURE>
-            <NOTE><%= event.outcome_details %></NOTE>
-          </EVENT>
         <% end %>
       </FILE>
     <% end %>
