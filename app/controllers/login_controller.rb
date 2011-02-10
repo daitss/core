@@ -20,7 +20,7 @@ class LoginController < ApplicationController
 
   def logout
     session.clear
-    redirect_to({:action => :index}, :notice => "goodbye #{@user.id}")
+    redirect_to({:action => :index}, :notice => "goodbye #{@current_user.id}")
   end
 
 end

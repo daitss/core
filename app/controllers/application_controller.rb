@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   def require_login
 
     if session['current_user_id']
-      @user = User.get session['current_user_id']
+      @current_user = User.get session['current_user_id']
     else
       redirect_to({:controller => :login, :action => :login}, :alert => 'please login')
     end

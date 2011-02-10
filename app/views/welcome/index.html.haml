@@ -6,4 +6,4 @@
   %li.disabled= link_to 'users', '#'
   %li= link_to 'admin logs', adminlogs_path
   %li= link_to 'settings', settings_path
-  %li.logout= link_to "logout #{@user.id}", {:controller => :login, :action => :logout}, :method => :post
+  %li.logout= link_to "logout #{@current_user.id}", {:controller => :login, :action => :logout}, :method => :post

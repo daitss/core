@@ -7,7 +7,7 @@ class AdminlogsController < ApplicationController
   verify(:params => ['adminlog'], :only => :create)
 
   def create
-    params['adminlog']['agent_id'] = @user.id
+    params['adminlog']['agent_id'] = @current_user.id
     AdminLog.raise_on_save_failure = true
     AdminLog.create params['adminlog']
     redirect_to adminlogs_path, :notice => 'admin log entry added'
