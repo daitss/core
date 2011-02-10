@@ -1,10 +1,16 @@
 Daitss::Application.routes.draw do
+
+  # login
   get 'login' => 'login#index'
   post 'login' => 'login#login'
   post 'logout' => 'login#logout'
 
+  # settings
   get "settings" => 'settings#edit'
   post "settings" => 'settings#update'
+
+  resources :adminlogs
+  resources :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

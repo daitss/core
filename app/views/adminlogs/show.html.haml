@@ -1,0 +1,12 @@
+.adminlogentry
+
+  .message
+    %pre= @entry.message
+
+  .caption
+    logged by
+    %span.agent= link_to @entry.agent.id, user_path(@entry.agent)
+
+  .caption
+    at
+    %span.time= @entry.timestamp

@@ -1,0 +1,20 @@
+.adminlog
+
+  = form_for :adminlog do |f|
+    .field= f.text_area :message
+    .field= f.submit :value => 'Save Entry'
+
+  %ul
+    -@adminlogs.each do |l|
+      %li
+        .message
+          = link_to truncate(l.message), adminlog_path(l)
+
+        .time
+          &mdash;
+          = time_ago_in_words l.timestamp
+          ago
+
+        .agent
+          by
+          = l.agent.id
