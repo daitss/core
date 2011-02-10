@@ -12,9 +12,9 @@ Setting.create :id => 'xmlresolution server', :value => 'http://xmlresolution.ri
 
 sys = Account.create :id => SYSTEM_ACCOUNT_ID, :description => 'system account'
 sys.projects.create :id => DEFAULT_PROJECT_ID, :description => 'default project'
-Program.create :id => SYSTEM_PROGRAM_ID, :description => "daitss software agent", :account => sys
+kernel = Program.create :id => SYSTEM_PROGRAM_ID, :description => "daitss software agent", :account => sys
 root = Operator.create :id => ROOT_OPERATOR_ID, :description => "root account", :account => sys
 root.encrypt_auth ROOT_OPERATOR_ID
 root.save or raise "cannot save system operator password"
 
-AdminLog.create :message => 'archive seeded'
+AdminLog.create :message => 'archive seeded', :agent => kernel
