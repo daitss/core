@@ -13,6 +13,8 @@ INTERVAL = 1
 
 LOG = Logger.new $stdout
 
+@lifo = true if ARGV.pop == "--newest"
+
 def make_wips
   ready = Request.all(:is_authorized => true,
                       :status => :enqueued,
@@ -35,6 +37,9 @@ def start_wips
 
   running = archive.workspace.select { |w| w.running? }
   n = archive.throttle - running.size
+
+  startable.sort! { |a, b| File.mtime(a.path) <=> File.mtime(b.path) }
+  startable.reverse! if @lifo
 
   startable.take(n > 0 ? n : 0).each do |w|
     w.spawn
