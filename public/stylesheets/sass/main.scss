@@ -63,15 +63,32 @@ input[type='submit'] {
   font-weight: bold;
   font-family: $sans;
   cursor: pointer;
-}
 
-input[type='submit']:hover { color: $blue * 1.2 }
+  &:hover { color: $blue * 1.2 }
 
-input[type='submit']:active {
+  &:active {
     color: $orange;
     border: thin $orange dashed;
   }
+}
+
+textarea {
+  font-family: $sans;
+  border: thin $blue dashed;
+}
 
 label {
   font-weight: bold;
+}
+
+a {
+  color: $blue;
+  text-decoration: none;
+  &:hover {
+    color: $blue * 1.2;
+  }
+  &:active {
+    color: $orange;
+  }
+
 }
