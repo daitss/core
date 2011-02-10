@@ -25,5 +25,5 @@ Feature: admin log
     When I follow "oh no, better check this out"
     Then I should see "oh no, better check this out" within ".message pre"
     And I should see "root" within ".agent a"
-    #And I should see "at" within ".time"
-    #TODO somehow check the time exists
+    And I should see "T" within ".time"
+    # TODO the time checking could be better
