@@ -11,6 +11,7 @@ class Agent
 
   has n, :events
   has n, :requests
+  has n, :admin_logs
 
   belongs_to :account
 
