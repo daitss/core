@@ -12,3 +12,19 @@ end
 Then /^I should see the following users:$/ do |expected_users_table|
   expected_users_table.diff!(tableish('table tr', 'td,th'))
 end
+
+Given /^(\d+) arbitrary users$/ do |count|
+  count.to_i.times { User.make }
+  @arbitrary_users = Array.new count.to_i, User.make
+end
+
+Then /^I should see all the arbitrary users$/ do
+
+  @arbitrary_users.each do |u|
+    Then %Q{I should see "#{u.id}"}
+    Then %Q{I should see "#{u.first_name}"}
+    Then %Q{I should see "#{u.last_name}"}
+    Then %Q{I should see "#{u.account.id}"}
+  end
+
+end

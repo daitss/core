@@ -110,6 +110,8 @@ GEM
     erubis (2.6.6)
       abstract (>= 1.0.0)
     extlib (0.9.15)
+    faker (0.9.5)
+      i18n (~> 0.4)
     fastercsv (1.5.4)
     ffi (0.6.3)
       rake (>= 0.8.7)
@@ -124,6 +126,7 @@ GEM
     json_pure (1.5.1)
     libxml-ruby (1.1.4)
     linecache (0.43)
+    machinist (1.0.6)
     mail (2.2.15)
       activesupport (>= 2.3.6)
       i18n (>= 0.4.0)
@@ -207,9 +210,11 @@ DEPENDENCIES
   dm-transactions (~> 1.0.2)
   dm-types (~> 1.0.2)
   dm-validations (~> 1.0.2)
+  faker
   haml
   jquery-rails (>= 0.2.6)
   libxml-ruby
+  machinist
   railties (~> 3.0.1)
   rspec-rails (~> 2.0.1)
   ruby-debug

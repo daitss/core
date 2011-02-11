@@ -3,7 +3,7 @@
   %li.disabled= link_to 'packages', '#'
   %li.disabled= link_to 'accounts', '#'
   %li.disabled= link_to 'projects', '#'
-  %li.disabled= link_to 'users', '#'
+  %li= link_to 'users', users_path
   %li= link_to 'admin logs', adminlogs_path
   %li= link_to 'settings', settings_path
   %li.logout= link_to "logout #{@current_user.id}", {:controller => :login, :action => :logout}, :method => :post

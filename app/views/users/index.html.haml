@@ -1,0 +1,11 @@
+%ul.users
+
+  - @users.each do |u|
+
+    %li.user
+      = link_to u.id, user_path(u.id)
+      = u.first_name
+      = u.last_name
+      = link_to u.account.id, '#' #account_path(u.account.id)
+      = 'admin' if u.is_admin_contact
+      = 'tech' if u.is_tech_contact

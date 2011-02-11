@@ -18,7 +18,12 @@ Feature: Manage users
     And I press "Save User"
     Then I should be on hermes's user page
 
-    #Scenario: Delete user
+  Scenario: List users
+    Given 15 arbitrary users
+    When I am on the users page
+    Then I should see all the arbitrary users
+
+  #Scenario: Delete user
     #Given the following users:
     #|id|first_name|last_name|
     #||
@@ -31,6 +36,6 @@ Feature: Manage users
     #||
     #||
     #||
-    #
+
     #Scenario: deactivate a user
     #Scenario: activate a user

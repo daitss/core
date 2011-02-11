@@ -40,6 +40,8 @@ gem 'dm-serializer',        DM_VERSION
 
 gem 'haml'
 gem 'semver'
+gem 'machinist'
+gem 'faker'
 gem 'jquery-rails', '>= 0.2.6'
 
 group(:development, :test) do
