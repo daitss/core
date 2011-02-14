@@ -1,0 +1,14 @@
+require 'features/support/blueprints.rb'
+
+15.times do
+  a = Account.make_unsaved
+  a.projects.make_unsaved :id => 'defualt'
+
+  a.agents = (2..(3 + rand(5))).map do
+    u = User.make_unsaved
+    u.encrypt_auth 'pw'
+    u
+  end
+
+  a.save
+end
