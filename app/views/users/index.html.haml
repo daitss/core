@@ -3,6 +3,7 @@
   - @users.each do |u|
 
     %li
+      .icon= gravatar u, :size => 40
       .id= link_to u.id, user_path(u.id)
       .name
         = "#{u.last_name}, #{u.first_name}"

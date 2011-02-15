@@ -28,3 +28,7 @@ Then /^I should see all the arbitrary users$/ do
   end
 
 end
+
+Given /^a user "([^"]*)"$/ do |id|
+  User.make :id => id
+end

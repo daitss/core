@@ -23,6 +23,11 @@ Feature: Manage users
     When I am on the users page
     Then I should see all the arbitrary users
 
+  Scenario: View a user
+    Given a user "hermes"
+    When I go to hermes's user page
+    Then I should see "hermes"
+
   #Scenario: Delete user
     #Given the following users:
     #|id|first_name|last_name|

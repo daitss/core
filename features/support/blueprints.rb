@@ -1,14 +1,35 @@
 require 'machinist/data_mapper'
 require 'sham'
 
-Before { Sham.reset }
+#Before { Sham.reset }
 
 Sham.define do
   email { Faker::Internet.free_email }
   boolean(:unique => false) { rand(2) == 0 }
   cap_id { Faker::Company.name.gsub /[^A-Z]/, '' }
   user_id { Faker::Internet.user_name.gsub '.', '' }
-  description { Faker::Company.catch_phrase }
+
+  description {
+    place = String.new
+    place += Faker::Address.city_prefix + ' ' if rand(2) == 0
+    place += Faker::Address.state
+
+    if rand(2) == 0
+      "University of #{place}"
+    else
+      "#{place} University"
+    end
+  }
+
+
+  address {
+<<ADDY
+#{Faker::Address.street_address(true)}
+#{Faker::Address.city}, #{Faker::Address.state_abbr}
+#{Faker::Address.zip_code}
+ADDY
+  }
+
 end
 
 Account.blueprint do
@@ -28,7 +49,7 @@ User.blueprint do
   last_name { Faker::Name.last_name }
   email
   phone { Faker::PhoneNumber.phone_number }
-  address { Faker::Address.street_address }
+  address
   is_admin_contact { Sham.boolean }
   is_tech_contact { Sham.boolean }
   account_id { 'OPERATIONS' }

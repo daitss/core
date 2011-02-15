@@ -1,5 +1,32 @@
 @import 'theme'
 
+.user
+  .icon
+    display: inline-block
+  .profile
+    display: inline-block
+
+    .account
+      font-weight: bold
+      font-size: 16pt
+  .label, .field
+    display: inline-block
+    padding: 1ex
+
+  .label
+    font-weight: bold
+    width: 8ex
+    text-align: right
+    vertical-align: top
+
+  .info
+    margin-top: 2ex
+    margin-bottom: 2ex
+
+  .actions
+    background-color: $light_gray
+    padding: 2ex
+
 .users
   font-size: 12pt
 
@@ -20,5 +47,10 @@ ul.users
 
   li
     div
+      vertical-align: middle
       display: inline-block
       width: 20ex
+
+    .icon
+      width: 40px
+
