@@ -1,5 +1,9 @@
 source 'http://rubygems.org'
 
+# tz bug in do/pg
+gem 'data_objects', :git => "http://github.com/datamapper/do.git"
+gem 'do_postgres',  :git => "http://github.com/datamapper/do.git"
+
 gem 'libxml-ruby'
 
 RAILS_VERSION = '~> 3.0.1'
@@ -21,7 +25,6 @@ gem 'dm-sqlite-adapter', DM_VERSION
 #  http://wiki.github.com/datamapper/dm-core/community-plugins
 #
 # for a rather complete list of available datamapper adapters and plugins
-
 # gem 'dm-sqlite-adapter',    DM_VERSION
 # gem 'dm-mysql-adapter',     DM_VERSION
 gem 'dm-postgres-adapter',  DM_VERSION
