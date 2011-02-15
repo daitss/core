@@ -9,5 +9,4 @@ spec = Gem::Specification.new do |spec|
   spec.has_rdoc = true
   spec.files = ["Rakefile"]
   spec.files += Dir["lib/**/*"]
-  spec.add_bundler_dependencies
 end
