@@ -14,3 +14,5 @@ pkg
 tags
 var
 vendor
+public/stylesheets
+tmp/sass-cache
