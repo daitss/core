@@ -20,8 +20,8 @@ Feature: admin log
     And I should see "admin log entry added" within ".notice"
 
   Scenario: view an admin log entry
-    Given I am on the adminlogs page
-    And an admin log entry "oh no, better check this out"
+    Given an admin log entry "oh no, better check this out"
+    And I am on the adminlogs page
     When I follow "oh no, better check this out"
     Then I should see "oh no, better check this out" within ".message pre"
     And I should see "root" within ".agent a"
