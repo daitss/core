@@ -14,7 +14,6 @@ module Daitss
       XML.default_keep_blanks = false
 
       s = template_by_name('aip/descriptor').result(binding)
-      puts s
       descriptor = XML::Document.string s
       save_aip_descriptor descriptor.to_s
     end
@@ -134,7 +133,6 @@ module Daitss
 
         df.digiprov_agents.map(&:strip).each do |agent|
           h[agent] << df
-          h[agent].uniq!
         end
 
       end
