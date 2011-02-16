@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   def index
-    @users = User.all :order => [:account_id.desc]
+    @users = User.all :order => [:account_id.desc], :active => true
   end
 
   def new

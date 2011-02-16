@@ -13,7 +13,7 @@ class LoginController < ApplicationController
       session['current_user_id'] = user_id
       redirect_to root_path, :notice => "welcome #{user_id}"
     else
-      redirect_to :index, :alert => "invalid username or password"
+      redirect_to({:action => :index}, :alert => "invalid credentials")
     end
 
   end

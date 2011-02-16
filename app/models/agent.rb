@@ -29,7 +29,7 @@ class User < Agent
 
   def User.authenticate name, pass
     user = User.get name
-    user if user and user.authenticate pass
+    user if user and user.active and user.authenticate pass
   end
 
   property :first_name, String
