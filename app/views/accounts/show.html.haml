@@ -5,9 +5,11 @@
 
 %ul.index
   - @account.projects.each do |p|
-    %li= link_to p.id, '#'
+    %li= link_to p.id, account_project_path(@account.id, p.id)
 
-= form_for :project, :url => '#' do |f|
+= form_for :project, :url => account_projects_path(@account) do |f|
+
+  = f.hidden_field 'account_id', :value => @account.id
 
   .field
     = f.label 'id'
@@ -19,7 +21,7 @@
 
   .field
     = f.label ' '
-    = f.submit 'add project'
+    = f.submit 'Add Project'
 
 .actions
 

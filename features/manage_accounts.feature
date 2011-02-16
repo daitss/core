@@ -16,7 +16,9 @@ Feature: Manage accounts
     And I fill in "Description" with "Planet Express"
     And I press "Save Account"
     Then I should be on the PE account page
+    Then I should see "account PE created" within ".notice"
     And I should see "Planet Express"
+    And I should see "default project"
 
   Scenario: view an account
     Given an account "PE"

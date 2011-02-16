@@ -14,7 +14,7 @@ class AccountsController < ApplicationController
     @account = Account.create params[:account]
 
     if @account.saved?
-      redirect_to account_path(@account), :alert => "account #{@account.id} created"
+      redirect_to account_path(@account), :notice => "account #{@account.id} created"
     else
       debugger
     end
@@ -26,7 +26,7 @@ class AccountsController < ApplicationController
     @account.attributes = params[:account]
 
     if @account.save
-      redirect_to account_path(@account), :alert => "account #{@account.id} updated"
+      redirect_to account_path(@account), :notice => "account #{@account.id} updated"
     else
       debugger
     end
