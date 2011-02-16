@@ -3,6 +3,15 @@
     add user
     &rarr;
 
+  - if @active
+    =link_to :action => :index, :inactive => true do
+      inactive users
+      &rarr;
+  - else
+    =link_to :action => :index do
+      active users
+      &rarr;
+
 %ul.users
 
   - @users.each do |u|

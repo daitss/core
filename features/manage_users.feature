@@ -30,6 +30,21 @@ Feature: Manage users
     When I am on the users page
     Then I should see all the arbitrary users
 
+  Scenario: List inactive users
+    Given a user "hermes"
+    And user "hermes" is inactive
+    When I am on the users page
+    And I follow "inactive users"
+    Then I should see "hermes"
+
+  Scenario: List active users
+    Given a user "hermes"
+    And user "hermes" is inactive
+    When I am on the users page
+    And I follow "inactive users"
+    And I follow "active users"
+    Then I should not see "hermes"
+
   Scenario: View a user
     Given a user "hermes"
     And I am on the users page

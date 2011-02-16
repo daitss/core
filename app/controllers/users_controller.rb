@@ -1,7 +1,14 @@
 class UsersController < ApplicationController
 
   def index
-    @users = User.all :order => [:account_id.desc], :active => true
+    @active = ! (params[:inactive] == 'true')
+
+    @users = if @active
+               User.all :order => [:account_id.desc], :active => true
+             else
+               User.all :order => [:account_id.desc], :active => false
+             end
+
   end
 
   def new
