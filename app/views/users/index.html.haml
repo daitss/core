@@ -12,13 +12,13 @@
     add user
     &rarr;
 
-%ul.users
+%ul.index
 
   - @users.each do |u|
 
     %li
-      .icon= gravatar u, :size => 40
-      .id= link_to u.id, user_path(u.id)
-      .name
+      .user_icon= gravatar u, :size => 40
+      .user_id= link_to u.id, user_path(u.id)
+      .user_name
         = "#{u.last_name}, #{u.first_name}"
       .x= link_to u.account.id, '#' #account_path(u.account.id)
