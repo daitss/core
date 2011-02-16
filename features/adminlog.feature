@@ -3,6 +3,11 @@ Feature: admin log
   operators
   want an interface to view the admin log data
 
+  Scenario: navigate to the admin log page
+    Given I am on the home page
+    When I follow "admin logs"
+    Then I should be on the adminlogs page
+
   Scenario: view the log page
     Given an admin log entry "something happened"
     When I go to the adminlogs page
@@ -25,5 +30,5 @@ Feature: admin log
     When I follow "oh no, better check this out"
     Then I should see "oh no, better check this out" within ".message pre"
     And I should see "root" within ".agent a"
-    And I should see "T" within ".time"
+    And I should see /\d{2}:\d{2}:\d{2}/ within ".time"
     # TODO the time checking could be better
