@@ -25,6 +25,7 @@ Feature: Manage users
     And I check "Is tech contact"
     And I press "Save User"
     Then I should be on hermes's user page
+    And I should see "user hermes created" within ".notice"
     And I should see "hermes" within ".breadcrumbs"
 
   Scenario: List users
