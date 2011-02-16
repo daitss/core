@@ -7,6 +7,7 @@ Feature: Manage users
     Given I am on the home page
     When I follow "users"
     Then I should be on the users page
+    And I should see "users" within ".breadcrumbs"
 
   Scenario: Register new user
     Given I am on the users page
@@ -24,6 +25,7 @@ Feature: Manage users
     And I check "Is tech contact"
     And I press "Save User"
     Then I should be on hermes's user page
+    And I should see "hermes" within ".breadcrumbs"
 
   Scenario: List users
     Given 15 arbitrary users

@@ -7,6 +7,7 @@ Feature: Manage settings
     Given I am on the home page
     When I follow "settings"
     Then I should be on the settings page
+    And I should see "settings" within ".breadcrumbs"
 
   Scenario: Modify settings
     Given I am on the settings page

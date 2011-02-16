@@ -7,6 +7,7 @@ Feature: admin log
     Given I am on the home page
     When I follow "admin logs"
     Then I should be on the adminlogs page
+    And I should see "admin logs" within ".breadcrumbs"
 
   Scenario: view the log page
     Given an admin log entry "something happened"
