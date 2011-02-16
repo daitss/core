@@ -1,8 +1,4 @@
 .actions
-  =link_to :action => :new do
-    add user
-    &rarr;
-
   - if @active
     =link_to :action => :index, :inactive => true do
       inactive users
@@ -11,6 +7,10 @@
     =link_to :action => :index do
       active users
       &rarr;
+
+  =link_to :action => :new do
+    add user
+    &rarr;
 
 %ul.users
 
