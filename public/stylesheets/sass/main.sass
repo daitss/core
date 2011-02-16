@@ -1,0 +1,81 @@
+@import theme
+
+body
+  font-family: $sans, sans-serif
+  margin: 0px
+
+nav
+  font-family: Cabin
+  background-color: $dark_gray
+  color: white
+  font-size: 22pt
+  font-weight: bold
+  padding: 5px
+  margin: 0
+  a
+    color: $orange
+    text-decoration: none
+  a.active
+    color: $blue3
+  .version
+    font-weight: bold
+    float: right
+
+#content
+  color: black
+  background-color: white
+  margin: 0px
+  padding: 10px
+  min-height: 40em
+
+.notice
+  padding: 1ex
+  font-size: 14pt
+  background-color: $light_gray
+  color: $dark_gray
+  font-weight: bold
+
+.notice.alert
+  background-color: $light_gray
+  font-weight: bold
+  color: $red
+
+// forms
+input
+  font-family: $sans
+  border: none
+  border-bottom: thin $blue dashed
+  color: $blue
+
+input[type='submit']
+  background-color: inherit
+  border: thin $blue dashed
+  font-weight: bold
+  font-family: $sans
+  cursor: pointer
+  &:hover
+    color: $blue * 1.2
+  &:active
+    color: $orange
+    border: thin $orange dashed
+
+textarea
+  font-family: $sans
+  border: thin $blue dashed
+  color: $blue
+
+label
+  font-weight: bold
+
+a
+  color: $blue
+  text-decoration: none
+  &:hover
+    color: $blue * 1.2
+  &:active
+    color: $orange
+
+.actions
+  background-color: $light_gray
+  padding: 2ex
+  font-weight: bold
