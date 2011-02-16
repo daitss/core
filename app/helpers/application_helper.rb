@@ -15,10 +15,13 @@ module ApplicationHelper
     when 'users'
       html << link_to('users', users_path)
 
+    when 'accounts'
+      html << link_to('accounts', accounts_path)
+
     end
 
-    if controller.action_name == 'show'
-      html << link_to(params['id'], '#')
+    if params['id'] and %(show edit).include? controller.action_name
+      html << link_to(params['id'], :action => :show, :id => params['id'])
     end
 
     html.join(' &raquo; ').html_safe

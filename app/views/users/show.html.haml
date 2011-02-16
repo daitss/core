@@ -5,7 +5,7 @@
       %h1.name
         = @user.first_name
         = @user.last_name
-      %h2.account= link_to @user.account.description, '#'
+      %h2.account= link_to @user.account.description, account_path(@user.account)
 
   %p.description
     %em
@@ -14,21 +14,23 @@
       - else
         no description available
 
-  .info
-    %div
-      .label role:
-      .field= roles @user
-    %div
-      .label email:
-      .field= mail_to @user.email
-    %div
-      .label address:
-      .field
-        - @user.address.split("\n").each do |line|
-          %div=line
-    %div
-      .label phone:
-      .field= link_to @user.phone, "tel:#{@user.phone}"
+  .properties
+
+    .property
+      .name role:
+      .value= roles @user
+
+    .property
+      .name email:
+      .value= mail_to @user.email
+
+    .property
+      .name address:
+      .value= @user.address
+
+    .property
+      .name phone:
+      .value= link_to @user.phone, "tel:#{@user.phone}"
 
 .actions
 

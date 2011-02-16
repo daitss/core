@@ -1,0 +1,28 @@
+%h1= @account.id
+%em= @account.description
+
+%h2 projects
+
+%ul.index
+  - @account.projects.each do |p|
+    %li= link_to p.id, '#'
+
+= form_for :project, :url => '#' do |f|
+
+  .field
+    = f.label 'id'
+    = f.text_field 'id'
+
+  .field
+    = f.label 'description'
+    = f.text_field 'description'
+
+  .field
+    = f.label ' '
+    = f.submit 'add project'
+
+.actions
+
+  =link_to :action => :edit do
+    edit account
+    &rarr;

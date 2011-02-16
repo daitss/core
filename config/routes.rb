@@ -12,6 +12,10 @@ Daitss::Application.routes.draw do
   resources :adminlogs
   resources :users
 
+  resources :accounts do
+    resources :projects
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

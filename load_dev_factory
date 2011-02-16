@@ -4,6 +4,8 @@ require 'features/support/blueprints.rb'
   a = Account.make_unsaved
   a.projects.make_unsaved :id => 'defualt'
 
+  3.times { a.projects.make_unsaved }
+
   a.agents = (2..(3 + rand(5))).map do
     u = User.make_unsaved
     u.encrypt_auth 'pw'

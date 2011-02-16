@@ -1,7 +1,7 @@
 %ul#welcome_menu
   %li.disabled= link_to 'activity', '#'
   %li.disabled= link_to 'packages', '#'
-  %li.disabled= link_to 'accounts', '#'
+  %li= link_to 'accounts', accounts_path
   %li.disabled= link_to 'projects', '#'
   %li= link_to 'users', users_path
   %li= link_to 'admin logs', adminlogs_path

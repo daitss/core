@@ -20,6 +20,9 @@ module NavigationHelpers
     #   when /^(.*)'s profile page$/i
     #     user_profile_path(User.find_by_login($1))
 
+    when /^the (.*) account page$/i
+      account_path($1)
+
     when /^(.*)'s user page$/i
       user_path($1)
 

@@ -21,4 +21,4 @@
       .user_id= link_to u.id, user_path(u.id)
       .user_name
         = "#{u.last_name}, #{u.first_name}"
-      .x= link_to u.account.id, '#' #account_path(u.account.id)
+      .user_account= link_to u.account.id, account_path(u.account)
