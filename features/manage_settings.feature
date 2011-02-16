@@ -3,6 +3,11 @@ Feature: Manage settings
   operator
   wants an interface to modify settings
 
+  Scenario: navigate to the settings page
+    Given I am on the home page
+    When I follow "settings"
+    Then I should be on the settings page
+
   Scenario: Modify settings
     Given I am on the settings page
     When I fill in "Throttle" with "99"
