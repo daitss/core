@@ -1,0 +1,47 @@
+.field
+  = form.label 'id'
+  = form.text_field 'id'
+
+.field
+  = form.label 'active'
+  = form.check_box 'active'
+
+.field
+  = form.label 'account', :for => 'user_account_id'
+  = collection_select :user, :account_id, Account.all(:id.not => SYSTEM_ACCOUNT_ID), :id, :id
+
+.field
+  = form.label 'description'
+  = form.text_field 'description'
+
+.field
+  = form.label 'first_name'
+  = form.text_field 'first_name'
+
+.field
+  = form.label 'last_name'
+  = form.text_field 'last_name'
+
+.field
+  = form.label 'email'
+  = form.text_field 'email'
+
+.field
+  = form.label 'phone'
+  = form.telephone_field 'phone'
+
+.field
+  = form.label 'address', :class => 'address'
+  = form.text_area 'address'
+
+.field
+  = form.label 'is_admin_contact'
+  = form.check_box 'is_admin_contact'
+
+.field
+  = form.label 'is_tech_contact'
+  = form.check_box 'is_tech_contact'
+
+.field
+  = form.label ' '
+  = form.submit
