@@ -75,6 +75,7 @@ input[type='submit'] {
 textarea {
   font-family: $sans;
   border: thin $blue dashed;
+  color: $blue;
 }
 
 label {
@@ -92,3 +93,9 @@ a {
   }
 
 }
+.actions {
+  background-color: $light_gray;
+  padding: 2ex;
+  font-weight: bold;
+}
+

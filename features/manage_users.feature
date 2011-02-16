@@ -3,8 +3,15 @@ Feature: Manage users
   an operator
   wants to register, and modify users
 
+  Scenario: navigate to the users page
+    Given I am on the home page
+    When I follow "users"
+    Then I should be on the users page
+
   Scenario: Register new user
-    Given I am on the new user page
+    Given I am on the users page
+    And I follow "add user"
+    And I am on the new user page
     When I select "OPERATIONS" from "Account"
     And I fill in "Id" with "hermes"
     And I fill in "Description" with "a bureaucrat"
@@ -25,22 +32,39 @@ Feature: Manage users
 
   Scenario: View a user
     Given a user "hermes"
-    When I go to hermes's user page
-    Then I should see "hermes"
+    And I am on the users page
+    When I follow "hermes"
+    Then I should be on hermes's user page
+    And I should see "hermes"
 
-  #Scenario: Delete user
-    #Given the following users:
-    #|id|first_name|last_name|
-    #||
-    #||
-    #||
-    #||
-    #When I delete the 3rd user
-    #Then I should see the following users:
-    #||
-    #||
-    #||
-    #||
+  Scenario: Modify a user
+    Given a user "hermes"
+    And I am on hermes's user page
+    And I follow "edit profile"
+    When I fill in "Email" with "hcon@planetexpress.com"
+    And I press "Update User"
+    Then I should be on hermes's user page
+    And I should see "user hermes updated" within ".notice"
+    And I should see "hcon@planetexpress.com"
 
-    #Scenario: deactivate a user
-    #Scenario: activate a user
+  Scenario: Deactivate user
+    Given a user "hermes"
+    And I am on hermes's user page
+    When I follow "edit profile"
+    And I uncheck "Active"
+    And I press "Update User"
+    Then I should see "user hermes updated" within ".notice"
+    And I am on the users page
+    And I should not see "hermes"
+
+  Scenario: Deactivate user
+    Given a user "hermes"
+    And user "hermes" is inactive
+    And I am on hermes's user page
+    When I follow "edit profile"
+    And I check "Active"
+    And I press "Update User"
+    Then I should see "user hermes updated" within ".notice"
+    And I am on the users page
+    And I should see "hermes"
+

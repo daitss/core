@@ -8,10 +8,11 @@
       %h2.account= link_to @user.account.description, '#'
 
   %p.description
-    - if @user.description
-      = @user.description
-    - else
-      %em no description available
+    %em
+      - if @user.description
+        = @user.description
+      - else
+        no description available
 
   .info
     %div
@@ -29,7 +30,8 @@
       .label phone:
       .field= link_to @user.phone, "tel:#{@user.phone}"
 
-  .actions
-    =link_to '#' do
-      edit profile
-      &rarr;
+.actions
+
+  =link_to :action => :edit do
+    edit profile
+    &rarr;

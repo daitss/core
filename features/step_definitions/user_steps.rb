@@ -32,3 +32,9 @@ end
 Given /^a user "([^"]*)"$/ do |id|
   User.make :id => id
 end
+
+Given /^user "([^"]*)" is inactive$/ do |id|
+  u = User.get(id)
+  u.active = false
+  u.save
+end

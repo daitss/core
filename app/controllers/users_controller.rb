@@ -8,7 +8,8 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  verify(:params => :user, :only => :create)
+  verify(:params => :user, :only => [:create, :update])
+
   def create
     @user = User.create params[:user]
 
@@ -20,8 +21,25 @@ class UsersController < ApplicationController
 
   end
 
-  verify(:params => :id, :only => :show)
+  def update
+    @user = User.get(params[:user][:id])
+    @user.attributes = params[:user]
+
+    if @user.save
+      redirect_to user_path(@user), :alert => "user #{@user.id} updated"
+    else
+      debugger
+    end
+
+  end
+
+  verify(:params => :id, :only => [:edit, :show])
+
   def show
+    @user = User.get params[:id]
+  end
+
+  def edit
     @user = User.get params[:id]
   end
 
