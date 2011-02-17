@@ -9,7 +9,6 @@
   background-color: lime
   border: $dark_gray solid thin
 
-
 body
   font-family: $sans, sans-serif
   margin: 0px
@@ -51,35 +50,6 @@ nav
   color: $red
 
 // forms
-input
-  font-family: $sans
-  border: none
-  background-color: $light_gray
-  border-radius: 3px
-  color: $blue
-
-input[type='submit']
-  background-color: $blue
-  color: white
-  border: none
-  font-weight: bold
-  font-family: $sans
-  cursor: pointer
-  border-radius: 3px
-  &:hover
-    background-color: $blue * 1.2
-  &:active
-    background-color: $orange
-
-textarea
-  font-family: $sans
-  background-color: $light_gray
-  border: none
-  border-radius: 3px
-  color: $blue
-
-label
-  font-weight: bold
 
 a
   color: $blue
@@ -120,7 +90,7 @@ ul.index
       display: inline-block
 
 form
-  font-size: 12pt
+  font-size: 13pt
 
   .field
     padding: 1ex
@@ -130,29 +100,41 @@ form
       text-align: right
       width: 15ex
       vertical-align: middle
+      font-weight: bold
 
     label.address
       vertical-align: top
 
+    textarea
+      font-family: $sans
+      background-color: $light_gray
+      border: none
+      border-radius: 3px
+      color: $blue
+      font-size: inherit
+
     input
       padding: 0.5ex
       font-size: inherit
+      font-family: $sans
+      border: none
+      background-color: $light_gray
+      border-radius: 3px
+      color: $blue
 
-    textarea
-      font-size: 12pt
+    input[type='submit']
+      background-color: $blue
+      color: white
+      border: none
+      font-weight: bold
+      font-family: $sans
+      cursor: pointer
+      border-radius: 3px
 
-  .inline_field
-    display: inline-block
-
-    label
-      display: block
-      font-weight: normal
-      font-size: 10pt
-
-    input
-      display: block
-      font-size: 14pt
-
+      &:hover
+        background-color: $blue * 1.2
+      &:active
+        background-color: $orange
 
 .properties
   padding: 1em
