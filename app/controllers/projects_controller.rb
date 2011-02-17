@@ -1,10 +1,7 @@
 class ProjectsController < ApplicationController
 
-  def index
-    @projects = Project.all
-  end
-
   def new
+    @account = Account.get! params[:account_id]
     @project = Project.new
   end
 
@@ -15,22 +12,20 @@ class ProjectsController < ApplicationController
 
     if @project.saved?
       redirect_to(account_project_path(@project.account.id, @project.id),
-                  :notice => "project #{@project.id} created for #{@project.account.id}")
+                  :notice => "project #{@project.id} created")
     else
       debugger
-      true
     end
 
   end
 
   def update
-    #@project = Account.get(params[:project][:account_id]).projects.first(:id => params[:project][:id])
-    @project = Project.first(params[:project][:id], params[:project][:account_id])
+    @project = Project.get!(params[:project][:id], params[:project][:account_id])
     @project.attributes = params[:project]
 
     if @project.save
       redirect_to(account_project_path(@project.account.id, @project.id),
-                  :notice => "project #{@project.id} updated for #{@project.account.id}")
+                  :notice => "project #{@project.id} updated")
     else
       debugger
     end
@@ -40,11 +35,11 @@ class ProjectsController < ApplicationController
   verify(:params => [:account_id, :id], :only => [:edit, :show])
 
   def show
-    @project = Account.get(params[:account_id]).projects.first(:id => params[:id])
+    @project = Project.get!(params[:id], params[:account_id])
   end
 
   def edit
-    @project = Account.get(params[:account_id]).projects.first(:id => params[:id])
+    @project = Project.get!(params[:id], params[:account_id])
   end
 
 end

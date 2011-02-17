@@ -1,6 +1,9 @@
-%h1= @project.id
+%h1= @project.description
+
+.TODO some stats about the project
+.TODO link to a package listing for this project
 
 .actions
   =link_to :action => :edit do
-    modify project
+    edit project
     &rarr;

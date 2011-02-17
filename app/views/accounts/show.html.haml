@@ -1,31 +1,20 @@
-%h1= @account.id
-%em= @account.description
-
-%h2 projects:
-
-%ul.index
-  - @account.projects.each do |p|
-    %li
-      .id= link_to p.id, account_project_path(@account.id, p.id)
-      .description= p.description
-
-= form_for :project, :url => account_projects_path(@account) do |f|
-
-  = f.hidden_field 'account_id', :value => @account.id
-
-  .field
-    = f.label 'id'
-    = f.text_field 'id'
-
-  .field
-    = f.label 'description'
-    = f.text_field 'description'
-
-  .field
-    = f.label ' '
-    = f.submit 'Add Project'
+%h1
+  = @account.description
 
 .actions
   =link_to :action => :edit do
     edit account
     &rarr;
+
+  =link_to new_account_project_path(@account.id)  do
+    add project
+    &rarr;
+
+.projects
+
+  %ul.index
+    - @account.projects.each do |p|
+      %li
+        .id= link_to p.id, account_project_path(@account.id, p.id)
+        .description= p.description
+

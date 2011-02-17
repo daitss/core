@@ -28,7 +28,7 @@ class AccountsController < ApplicationController
   end
 
   def update
-    @account = Account.get(params[:account][:id])
+    @account = Account.get!(params[:account][:id])
     @account.attributes = params[:account]
 
     if @account.save
@@ -42,11 +42,11 @@ class AccountsController < ApplicationController
   verify(:params => :id, :only => [:edit, :show])
 
   def show
-    @account = Account.get params[:id]
+    @account = Account.get! params[:id]
   end
 
   def edit
-    @account = Account.get params[:id]
+    @account = Account.get! params[:id]
   end
 
 end

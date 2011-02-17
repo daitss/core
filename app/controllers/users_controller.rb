@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.get(params[:user][:id])
+    @user = User.get!(params[:user][:id])
     @user.attributes = params[:user]
 
     if @user.save
@@ -43,11 +43,12 @@ class UsersController < ApplicationController
   verify(:params => :id, :only => [:edit, :show])
 
   def show
-    @user = User.get params[:id]
+    @user = User.get! params[:id]
+    #render 'public/404', :layout => false, :status => 404 unless @user
   end
 
   def edit
-    @user = User.get params[:id]
+    @user = User.get! params[:id]
   end
 
 end

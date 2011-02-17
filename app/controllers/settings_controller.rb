@@ -11,7 +11,7 @@ class SettingsController < ApplicationController
   def update
 
     params[:settings].each do |id, value|
-      s = Setting.get(id)
+      s = Setting.get!(id)
       s.update :value => value unless s.value == value
     end
 

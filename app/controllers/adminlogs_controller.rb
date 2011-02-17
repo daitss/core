@@ -16,7 +16,7 @@ class AdminlogsController < ApplicationController
   verify(:params => ['id'], :only => :show)
 
   def show
-    @entry = AdminLog.get(params['id'])
+    @entry = AdminLog.get!(params['id'])
   end
 
 end

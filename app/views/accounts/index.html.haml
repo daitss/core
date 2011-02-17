@@ -7,5 +7,5 @@
 %ul.index
   - @accounts.each do |a|
     %li
-      .account_id= link_to a.id, account_path(a)
-      .account_description= a.description
+      .id= link_to a.id, account_path(a)
+      .description= a.description
