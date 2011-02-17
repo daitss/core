@@ -24,11 +24,13 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    @project = Project.get(params[:project][:id])
+    #@project = Account.get(params[:project][:account_id]).projects.first(:id => params[:project][:id])
+    @project = Project.first(params[:project][:id], params[:project][:account_id])
     @project.attributes = params[:project]
 
     if @project.save
-      redirect_to project_path(@project), :notice => "project #{@project.id} updated"
+      redirect_to(account_project_path(@project.account.id, @project.id),
+                  :notice => "project #{@project.id} updated for #{@project.account.id}")
     else
       debugger
     end
@@ -42,7 +44,7 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    @project = Project.get params[:id]
+    @project = Account.get(params[:account_id]).projects.first(:id => params[:id])
   end
 
 end

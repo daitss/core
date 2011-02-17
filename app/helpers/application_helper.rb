@@ -19,6 +19,7 @@ module ApplicationHelper
       html << link_to('accounts', accounts_path)
 
     when 'projects'
+      html << link_to('accounts', accounts_path)
       account_id = params['account_id']
       html << link_to(account_id, account_path(account_id))
 

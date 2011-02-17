@@ -1,0 +1,14 @@
+= form_for @project, :url => account_project_path(@project.account.id, @project.id) do |f|
+  = f.hidden_field 'account_id', :value => @project.account.id
+
+  .field
+    = f.label 'id'
+    = f.text_field 'id'
+
+  .field
+    = f.label 'description'
+    = f.text_field 'description'
+
+  .field
+    = f.label ' '
+    = f.submit
