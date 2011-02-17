@@ -1,6 +1,5 @@
 SYSTEM_ACCOUNT_ID = 'SYSTEM'
 OPERATIONS_ACCOUNT_ID = 'OPERATIONS'
-DEFAULT_PROJECT_ID = 'DEFAULT'
 
 class Account
   include DataMapper::Resource
