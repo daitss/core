@@ -16,6 +16,8 @@ Daitss::Application.routes.draw do
     resources :projects
   end
 
+  resources :packages
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
