@@ -1,11 +1,13 @@
 %h1= @account.id
 %em= @account.description
 
-%h2 projects
+%h2 projects:
 
 %ul.index
   - @account.projects.each do |p|
-    %li= link_to p.id, account_project_path(@account.id, p.id)
+    %li
+      .id= link_to p.id, account_project_path(@account.id, p.id)
+      .description= p.description
 
 = form_for :project, :url => account_projects_path(@account) do |f|
 

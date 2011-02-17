@@ -48,16 +48,17 @@ input
   color: $blue
 
 input[type='submit']
-  background-color: inherit
-  border: thin $blue dashed
+  background-color: $blue
+  color: white
+  border: none
   font-weight: bold
   font-family: $sans
   cursor: pointer
+  border-radius: 3px
   &:hover
-    color: $blue * 1.2
+    background-color: $blue * 1.2
   &:active
-    color: $orange
-    border: thin $orange dashed
+    background-color: $orange
 
 textarea
   font-family: $sans
@@ -78,6 +79,7 @@ a
 .actions
   background-color: $light_gray
   padding: 2ex
+  margin: 1ex
   font-weight: bold
   a
     display: inline-block
