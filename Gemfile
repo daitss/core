@@ -4,7 +4,6 @@ source 'http://rubygems.org'
 gem 'data_objects', :git => "http://github.com/datamapper/do.git"
 gem 'do_postgres',  :git => "http://github.com/datamapper/do.git"
 
-gem 'libxml-ruby'
 
 RAILS_VERSION = '~> 3.0.1'
 DM_VERSION    = '~> 1.0.2'
@@ -46,6 +45,9 @@ gem 'semver'
 gem 'machinist'
 gem 'faker'
 gem 'jquery-rails', '>= 0.2.6'
+gem 'thin'
+
+gem 'libxml-ruby'
 
 group(:development, :test) do
   gem 'cucumber-rails'
