@@ -1,0 +1,47 @@
+- unless @packages
+  .holdings
+
+    .packages
+      .figure= number_in_si @stats[:packages]
+      .label packages
+
+    .files
+      .figure= number_in_si @stats[:files]
+      .label files
+
+    .bytes
+      .figure= number_to_human_size @stats[:storage]
+      .label storage
+
+.search
+
+  = form_tag packages_path, :method => :get do
+
+    %div
+      = text_field_tag 'q', "", :placeholder => 'package or sip', :size => '30'
+      = submit_tag 'Search'
+
+    .field
+      = label_tag 'start'
+      = select_date Date.today.years_ago(10), :prefix => :start_date
+
+    .field
+      = label_tag 'end'
+      = select_date Date.today, :prefix => :end_date
+
+    .field
+      = label_tag 'project'
+      = select_tag "project", option_groups_from_collection_for_select(@accounts, :projects, :id, :composite_key, :id)
+      = hidden_field_tag "account" # use js to populate from selected project
+
+
+- if @packages
+
+  %h1
+    = @packages.size
+    results for
+    %em= @query
+
+  %ul.index
+    - @packages.each do |p|
+      = link_to p.id, package_path(p.id)

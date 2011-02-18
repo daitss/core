@@ -1,7 +1,7 @@
 require 'machinist/data_mapper'
 require 'sham'
 
-#Before { Sham.reset }
+Before { Sham.reset }
 
 Sham.define do
   email { Faker::Internet.free_email }
@@ -30,6 +30,8 @@ Sham.define do
 ADDY
   }
 
+  sip_name { |n| "SIP#{n}" }
+
 end
 
 Account.blueprint do
@@ -53,4 +55,14 @@ User.blueprint do
   is_admin_contact { Sham.boolean }
   is_tech_contact { Sham.boolean }
   account_id { 'OPERATIONS' }
+end
+
+Sip.blueprint do
+  name { Sham.sip_name }
+  size_in_bytes { rand 2**63-1 }
+  number_of_datafiles { rand 2**63-1 }
+end
+
+Package.blueprint do
+  uri { Setting.get('uri prefix').value +  rand(1024 ** 2).to_s(36) }
 end

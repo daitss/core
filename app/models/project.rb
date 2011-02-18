@@ -11,4 +11,9 @@ class Project
   has 0..n, :packages
 
   belongs_to :account, :key => true
+
+  def composite_key
+    "#{account_id}/#{id}"
+  end
+
 end

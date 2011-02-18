@@ -23,6 +23,10 @@ module ApplicationHelper
       account_id = params['account_id']
       html << link_to(account_id, account_path(account_id))
 
+    when 'packages'
+      html << link_to('packages', packages_path)
+
+
     end
 
     if params['id'] and %(show edit).include? controller.action_name
