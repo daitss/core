@@ -26,7 +26,7 @@
     %div
       %div
         = label_tag 'start'
-        = select_date Date.today.years_ago(10), :prefix => :start_date
+        = select_date Date.today.years_ago(1), :prefix => :start_date
 
       %div
         = label_tag 'end'
@@ -38,8 +38,10 @@
         = select_tag "project", option_groups_from_collection_for_select(@accounts, :projects, :id, :composite_key, :id)
 
       %div
-        = label_tag 'status:'
-        = select_tag "status", options_for_select(%w(archived rejected withdrawn processing aborted))
+        = label_tag 'status'
+        = select_tag "status", options_for_select(%w(any archived rejected withdrawn processing aborted))
+
+    %br
 
     %div
       %div
