@@ -7,9 +7,7 @@ class PackagesController < ApplicationController
     if params[:q]
       @query = params[:q]
       ids = @query.split
-      account_id, project_id = params[:project].split '/'
-      @project = Project.get project_id, account_id
-      @packages = @project.packages.all(:id => ids) | @project.packages.sips.all(:name => ids).packages
+      @packages = Package.all(:id => ids) | Sip.all(:name => ids).packages
     else
       @stats = {
         :packages => Package.count,
@@ -18,6 +16,12 @@ class PackagesController < ApplicationController
       }
     end
 
+  end
+
+  def search
+  end
+
+  def filter
   end
 
   def show

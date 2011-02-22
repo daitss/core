@@ -17,22 +17,33 @@
 
   = form_tag packages_path, :method => :get do
 
+    = text_field_tag 'q', "", :placeholder => 'package or sip', :size => '30'
+    = submit_tag 'Search'
+
+.filter
+  = form_tag packages_path, :method => :get do
+
     %div
-      = text_field_tag 'q', "", :placeholder => 'package or sip', :size => '30'
-      = submit_tag 'Search'
+      %div
+        = label_tag 'start'
+        = select_date Date.today.years_ago(10), :prefix => :start_date
 
-    .field
-      = label_tag 'start'
-      = select_date Date.today.years_ago(10), :prefix => :start_date
+      %div
+        = label_tag 'end'
+        = select_date Date.today, :prefix => :end_date
 
-    .field
-      = label_tag 'end'
-      = select_date Date.today, :prefix => :end_date
+    %div
+      %div
+        = label_tag 'project'
+        = select_tag "project", option_groups_from_collection_for_select(@accounts, :projects, :id, :composite_key, :id)
 
-    .field
-      = label_tag 'project'
-      = select_tag "project", option_groups_from_collection_for_select(@accounts, :projects, :id, :composite_key, :id)
-      = hidden_field_tag "account" # use js to populate from selected project
+      %div
+        = label_tag 'status:'
+        = select_tag "status", options_for_select(%w(archived rejected withdrawn processing aborted))
+
+    %div
+      %div
+        = submit_tag 'Filter'
 
 
 - if @packages

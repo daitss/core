@@ -6,6 +6,7 @@ Feature: admin log
   Background:
     Given an account "PE"
     Given account "PE" has a project "SNUX2"
+    Given project "PE/SNUX2" has 100 arbitrary packages
 
   Scenario: navigate to packages index
     Given I am on the home page
@@ -23,7 +24,6 @@ Feature: admin log
     Given a package "E0TESTING_KWH6T8" in "PE/SNUX2"
     And I am on the packages page
     When I fill in "q" with "E0TESTING_KWH6T8"
-    And I select "SNUX2" from "Project"
     And I press "Search"
     Then I should see "E0TESTING_KWH6T8"
 

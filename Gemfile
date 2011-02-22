@@ -55,9 +55,9 @@ group(:development, :test) do
   gem 'database_cleaner'
 
   if RUBY_VERSION =~ /^1\.9\..+/
-    gem 'ruby-debug19'
+    gem 'ruby-debug19', :require => 'ruby-debug'
   else
-    gem 'ruby-debug'
+    gem 'ruby-debug', :require => 'ruby-debug'
   end
 
   # Uncomment this if you want to use rspec for testing your application
