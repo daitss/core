@@ -53,7 +53,12 @@ group(:development, :test) do
   gem 'cucumber-rails'
   gem 'capybara'
   gem 'database_cleaner'
-  gem 'ruby-debug'
+
+  if RUBY_VERSION =~ /^1\.9\..+/
+    gem 'ruby-debug19'
+  else
+    gem 'ruby-debug'
+  end
 
   # Uncomment this if you want to use rspec for testing your application
   gem 'rspec-rails', '~> 2.0.1'
