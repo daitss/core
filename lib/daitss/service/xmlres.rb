@@ -13,10 +13,10 @@ module Daitss
       @url = url + '/'
     end
 
-    def resolve_file f, base_uri
+    def resolve_file f, base_uri, filename
       c = Curl::Easy.new @url
       c.multipart_form_post = true
-      c.http_post Curl::PostField.file('xmlfile', f)
+      c.http_post Curl::PostField.file('xmlfile', f, filename)
       (200..201).include? c.response_code or c.error("bad status")
 
       doc = Nokogiri::XML c.body_str
