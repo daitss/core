@@ -14,9 +14,11 @@ module Daitss
     end
 
     def resolve_file df
+      filepath = df.metadata["sip-path"] ? df.metadata["sip-path"] : df.metadata["aip-path"]
+
       c = Curl::Easy.new @url
       c.multipart_form_post = true
-      c.http_post Curl::PostField.file('xmlfile', df.data_file, File.basename(df.metadata["sip-path"]))
+      c.http_post Curl::PostField.file('xmlfile', df.data_file, File.basename(filepath))
       (200..201).include? c.response_code or c.error("bad status")
 
       doc = Nokogiri::XML c.body_str
