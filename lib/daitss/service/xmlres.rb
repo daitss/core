@@ -13,10 +13,10 @@ module Daitss
       @url = url + '/'
     end
 
-    def resolve_file f, base_uri, filename
+    def resolve_file df
       c = Curl::Easy.new @url
       c.multipart_form_post = true
-      c.http_post Curl::PostField.file('xmlfile', f, filename)
+      c.http_post Curl::PostField.file('xmlfile', df.data_file, File.basename(df.metadata["sip-path"]))
       (200..201).include? c.response_code or c.error("bad status")
 
       doc = Nokogiri::XML c.body_str
@@ -24,8 +24,8 @@ module Daitss
       # event
       event = doc.at "//P:event", NS_PREFIX
       event or raise "no event found"
-      event.at("//P:eventIdentifierValue", NS_PREFIX).content = "#{base_uri}/event/xmlresolution"
-      event.at("//P:linkingObjectIdentifierValue", NS_PREFIX).content = base_uri
+      event.at("//P:eventIdentifierValue", NS_PREFIX).content = "#{df.uri}/event/xmlresolution"
+      event.at("//P:linkingObjectIdentifierValue", NS_PREFIX).content = df.uri
       event_doc = Nokogiri::XML(nil)
       event_doc << event
       event_xml = event_doc.root.serialize
