@@ -19,7 +19,7 @@ module Daitss
       c = Curl::Easy.new @url
       c.multipart_form_post = true
       c.http_post Curl::PostField.file('xmlfile', df.data_file, File.basename(filepath))
-      (200..201).include? c.response_code or c.error("bad status")
+      (200..201).include? c.response_code or c.error("bad status: #{c.response_code} -- #{c.body_str}")
 
       doc = Nokogiri::XML c.body_str
 
