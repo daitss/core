@@ -8,11 +8,13 @@ class Package
   has n, :requests
   has 1, :sip
   has 0..1, :aip
-#  has 0..1, :intentity
+  #has 0..1, :intentity
   has 0..1, :report_delivery
 
   belongs_to :project
-  belongs_to :batch, :required => false
+
+  has n, :listings
+  has n, :lists, :through => :listings
 
   # add an operations event for abort
   def abort user
@@ -110,4 +112,19 @@ class Package
 
   end
 
+end
+
+# a list of packages
+class List
+  include DataMapper::Resource
+  property :id, String, :key => true
+  has n, :listings
+  has n, :packages, :through => :listings
+end
+
+# association between a package and list
+class Listing
+  include DataMapper::Resource
+  belongs_to :list, :key => true
+  belongs_to :package, :key => true
 end
