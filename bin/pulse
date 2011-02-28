@@ -38,7 +38,7 @@ def start_wips
   running = archive.workspace.select { |w| w.running? }
   n = archive.throttle - running.size
 
-  startable.sort! { |a, b| File.atime(a.path) <=> File.atime(b.path) }
+  startable.sort! { |a, b| File.ctime(a.path) <=> File.ctime(b.path) }
   startable.reverse! if @lifo
 
   startable.take(n > 0 ? n : 0).each do |w|
