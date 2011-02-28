@@ -13,8 +13,8 @@ class Package
 
   belongs_to :project
 
-  has n, :listings
-  has n, :lists, :through => :listings
+  has 0..n, :listings
+  has 0..n, :lists, :through => :listings
 
   # add an operations event for abort
   def abort user
@@ -118,8 +118,8 @@ end
 class List
   include DataMapper::Resource
   property :id, String, :key => true
-  has n, :listings
-  has n, :packages, :through => :listings
+  has 0..n, :listings
+  has 0..n, :packages, :through => :listings
 end
 
 # association between a package and list

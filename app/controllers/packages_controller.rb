@@ -22,8 +22,11 @@ class PackagesController < ApplicationController
   verify(:params => :sip, :only => [:create])
 
   def create
-    sf = SubmissionFile.new params['sip'], @current_user.account
+    upload = params[:sip]
     note = params[:note] || ""
+    list_id = params[:list]
+
+    sf = SubmissionFile.new upload, @current_user.account
 
     begin
       sf.extract
@@ -34,6 +37,7 @@ class PackagesController < ApplicationController
     # make a package
     @package = Package.new
     @package.sip = Sip.new :name => sf.name
+    @package.lists << List.first_or_create(:id => list_id) if list_id && !list_id.empty?
 
     if sf.valid?
 

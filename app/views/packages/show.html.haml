@@ -16,3 +16,9 @@
         %th= link_to e.agent.id, user_path(e.agent.id)
       - else
         %th= e.agent.id
+
+%h1 lists
+
+%ul
+  - @package.lists.each do |l|
+    %li= link_to l.id, '#'

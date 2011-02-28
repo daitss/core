@@ -16,6 +16,8 @@
   .submit
     = form_tag packages_path, :method => :post, :multipart => true do
       = file_field_tag 'sip'
+      = text_area_tag 'note'
+      = text_field_tag 'list'
       = submit_tag 'Submit'
 
 .search

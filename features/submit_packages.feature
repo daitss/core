@@ -8,7 +8,7 @@ Feature: interactive submission
     Given I go to the packages page
     When I attach the sip "<package>" to "sip"
     And I press "Submit"
-    #Then I should see "<action>" within ".notice"
+    Then I should see "<action>" within ".notice"
     And I should see "<note>"
     Examples:
       | package                           | action | note                                                     |
@@ -30,35 +30,27 @@ Feature: interactive submission
       | lower-level-special-characters    | reject | invalid characters in file name: Content/UF00001074'.pdf |
 
   Scenario: submission notes
-    Given I goto "/packages"
-    When I select "haskell-nums-pdf" to upload
+    Given I go to the packages page
+    When I attach the sip "haskell-nums-pdf" to "sip"
     And I fill in "note" with "a note"
     And I press "Submit"
-    Then I should be at a package page
-    And in the events I should see a "submit" event with "a note" in the notes
-
-  Scenario: submission to batch
-    Given I goto "/packages"
-    When I select "haskell-nums-pdf" to upload
-    And I fill in "batch_id" with "mybatch"
-    And I press "Submit"
-    And I should be redirected
-    And I goto "/batches"
-    And I click on "mybatch"
-    Then I should have a batch containing
-      |haskell-nums-pdf|
+    Then I should see "a note"
 
   Scenario: ignore note if not filled in
-    Given I goto "/packages"
-    When I select "haskell-nums-pdf" to upload
+    Given I go to the packages page
+    When I attach the sip "haskell-nums-pdf" to "sip"
     And I press "Submit"
-    Then I should be at a package page
-    And in the events I should not see a "submit" event with "note" in the notes
+    Then I should not see "a note"
+
+  Scenario: submission to list
+    Given I go to the packages page
+    When I attach the sip "haskell-nums-pdf" to "sip"
+    And I fill in "list" with "mylist"
+    When I press "Submit"
+    Then I should see "mylist"
 
   Scenario: ignore batch if not filled in
-    Given I goto "/packages"
-    When I select "haskell-nums-pdf" to upload
-    And I press "Submit"
-    And I should be redirected
-    And I goto "/batches"
-    Then I should not have batch "batch name"
+    Given I go to the packages page
+    When I attach the sip "haskell-nums-pdf" to "sip"
+    When I press "Submit"
+    Then I should not see "mylist"
