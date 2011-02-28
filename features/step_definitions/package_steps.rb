@@ -31,3 +31,8 @@ Given /^the packages in "([^"]*)":$/ do |act_prj, table|
   end
 
 end
+
+When /^I attach the sip "([^"]*)" to "([^"]*)"$/ do |sip, field|
+  When %Q{I attach the file "#{sip_fixture sip}" to "#{field}"}
+end
+

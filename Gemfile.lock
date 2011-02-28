@@ -65,6 +65,7 @@ GEM
     cucumber-rails (0.3.2)
       cucumber (>= 0.8.0)
     culerity (0.2.15)
+    curb (0.7.12)
     daemons (1.1.0)
     database_cleaner (0.6.3)
     diff-lcs (1.1.2)
@@ -215,6 +216,7 @@ DEPENDENCIES
   activesupport (~> 3.0.1)
   capybara
   cucumber-rails
+  curb
   data_objects!
   database_cleaner
   dm-aggregates (~> 1.0.2)

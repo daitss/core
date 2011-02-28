@@ -1,1 +1,18 @@
-= debug @package
+%h1 events
+
+%table
+  %tr
+    %th type
+    %th time
+    %th notes
+    %th agent
+
+  - @package.events.each do |e|
+    %tr
+      %th= e.name
+      %th= e.timestamp
+      %th= e.notes
+      - if User === e.agent
+        %th= link_to e.agent.id, user_path(e.agent.id)
+      - else
+        %th= e.agent.id

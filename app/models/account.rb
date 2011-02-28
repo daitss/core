@@ -10,4 +10,9 @@ class Account
 
   has 1..n, :projects, :constraint => :destroy
   has n, :agents
+
+  def default_project
+    projects.first :id => DEFAULT_PROJECT_ID or raise "default project missing for #{id}"
+  end
+
 end

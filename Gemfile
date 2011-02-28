@@ -4,7 +4,6 @@ source 'http://rubygems.org'
 gem 'data_objects', :git => "http://github.com/datamapper/do.git"
 gem 'do_postgres',  :git => "http://github.com/datamapper/do.git"
 
-
 RAILS_VERSION = '~> 3.0.1'
 DM_VERSION    = '~> 1.0.2'
 
@@ -40,14 +39,14 @@ gem 'dm-timestamps',        DM_VERSION
 gem 'dm-observer',          DM_VERSION
 gem 'dm-serializer',        DM_VERSION
 
-gem 'haml'
-gem 'semver'
-gem 'machinist'
+gem 'curb'
 gem 'faker'
+gem 'haml'
 gem 'jquery-rails', '>= 0.2.6'
-gem 'thin'
-
 gem 'libxml-ruby'
+gem 'machinist'
+gem 'semver'
+gem 'thin'
 
 group(:development, :test) do
   gem 'cucumber-rails'

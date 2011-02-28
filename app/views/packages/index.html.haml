@@ -13,6 +13,11 @@
       .figure= number_to_human_size @stats[:storage]
       .label storage
 
+  .submit
+    = form_tag packages_path, :method => :post, :multipart => true do
+      = file_field_tag 'sip'
+      = submit_tag 'Submit'
+
 .search
 
   = form_tag packages_path, :method => :get do
