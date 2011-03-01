@@ -19,8 +19,9 @@ class UsersController < ApplicationController
 
   def create
     @user = User.create params[:user]
+    @user.encrypt_auth params[:password] if params[:password]
 
-    if @user.saved?
+    if @user.save
       redirect_to user_path(@user), :alert => "user #{@user.id} created"
     else
       debugger
@@ -31,6 +32,7 @@ class UsersController < ApplicationController
   def update
     @user = User.get!(params[:user][:id])
     @user.attributes = params[:user]
+    @user.encrypt_auth params[:password]
 
     if @user.save
       redirect_to user_path(@user), :alert => "user #{@user.id} updated"
