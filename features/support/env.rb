@@ -67,3 +67,18 @@ end
 After('~@loggedout') do
   Given 'I am not logged in'
 end
+
+#class Exception
+
+  #alias_method :original_backtrace, :backtrace
+  #def backtrace
+    #gh = ENV['GEM_HOME']
+
+    #debugger
+    #original_backtrace.map do |line|
+      #line.gsub /^#{gh}(.+)$/, "GEM_HOME#{$1}"
+    #end
+
+  #end
+
+#end

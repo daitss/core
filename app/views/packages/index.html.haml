@@ -13,13 +13,6 @@
       .figure= number_to_human_size @stats[:storage]
       .label storage
 
-  .submit
-    = form_tag packages_path, :method => :post, :multipart => true do
-      = file_field_tag 'sip'
-      = text_area_tag 'note'
-      = text_field_tag 'list'
-      = submit_tag 'Submit'
-
 .search
 
   = form_tag packages_path, :method => :get do
@@ -48,9 +41,6 @@
         = label_tag 'status'
         = select_tag "status", options_for_select(%w(any archived rejected withdrawn processing aborted))
 
-    %br
-
-    %div
       %div
         = submit_tag 'Filter'
 
@@ -65,3 +55,20 @@
   %ul.index
     - @packages.each do |p|
       = link_to p.id, package_path(p.id)
+
+- unless @packages
+  .submit
+    = form_tag packages_path, :method => :post, :multipart => true do
+
+      %div
+        %div
+          = label_tag 'sip'
+          = file_field_tag 'sip'
+        %div
+          = label_tag 'list'
+          = text_field_tag 'list'
+        %div
+          = label_tag 'note'
+          = text_area_tag 'note'
+        %div
+          = submit_tag 'Submit'

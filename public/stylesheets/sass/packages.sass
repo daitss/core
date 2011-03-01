@@ -1,5 +1,9 @@
 @import theme
 
+.search, .submit, .filter
+  input[type='submit']
+    font-size: 24pt
+
 .holdings, .search, .filter, .submit
   width: 100%
   margin: 0 auto
@@ -27,15 +31,16 @@
       font-weight: medium
       text-align: center
 
-.search, .submit
+.search
   text-align: center
 
   input
     font-size: 24pt
 
-.filter
+.filter, .submit
+
   div
-    display: inline-block
+    display: block
     width: auto
     margin: 5px
 
@@ -44,5 +49,3 @@
 
       label
         width: 7ex
-      input[type='submit']
-        font-size: 24pt
