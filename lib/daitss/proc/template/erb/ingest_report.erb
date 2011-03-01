@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<?xml-stylesheet type="text/xsl" href="http://www.fcla.edu/dls/md/daitss/daitss_report_xhtml.xsl"?>
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="daitss_report_xhtml.xsl"?>
 <REPORT xsi:schemaLocation='http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss2Report.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.fcla.edu/dls/md/daitss/'>
   <INGEST IEID='<%= @package.id %>' PACKAGE='<%= @intentity_record.original_name %>' INGEST_TIME='<%= Time.parse(@package.events.first(:name => "submit").timestamp.to_s).iso8601 %>'>
   <AGREEMENT_INFO ACCOUNT='<%= @package.project.account.id %>' PROJECT='<%= @package.project.id %>'/>
