@@ -1,5 +1,7 @@
 class PackagesController < ApplicationController
 
+  include DataDir
+
   def index
     @accounts = Account.all
 
@@ -52,7 +54,7 @@ class PackagesController < ApplicationController
       @package.events << Event.new(:name => 'submit', :agent => @current_user, :notes => note)
 
       # mv sip to submissions dir
-      d = File.join DATA_DIR ,'submit', @package.id
+      d = File.join submit_path, @package.id
       FileUtils.mkdir_p d
       FileUtils.mv sf.path, d
       flash[:notice] = "package #{@package.id} submitted"

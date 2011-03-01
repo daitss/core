@@ -4,7 +4,7 @@ require 'xmlns'
 class ExtractionError < StandardError; end
 
 # Provides access to an archive (zip, tar) sip
-class SubmissionFile
+class Submission
   extend ActiveSupport::Memoizable
 
   include ActiveModel::Validations
