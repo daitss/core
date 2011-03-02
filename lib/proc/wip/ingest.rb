@@ -6,7 +6,7 @@ require 'proc/template/premis'
 require 'proc/wip/preserve'
 require 'proc/wip/tarball'
 require 'proc/wip/to_aip'
-require 'xmlvalidation'
+require 'service/xml_val'
 
 class Wip
 

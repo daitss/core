@@ -1,5 +1,5 @@
 require 'proc/wip/journal'
-require 'service/xmlres'
+require 'service/xml_res'
 require 'proc/datafile/describe'
 require 'proc/datafile/obsolete'
 require 'proc/datafile/transform'

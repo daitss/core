@@ -7,6 +7,7 @@ module XmlVal
     c = Curl::Easy.new("http://localhost:9292" + "/")
     c.multipart_form_post = true
     c.http_post(Curl::PostField.file('xml', f))
+    c.response_code == 200 or raise "bad response from #{c.url}: #{c.response_code}"
     doc = Nokogiri::XML c.body_str
     warnings = scrape doc, '#warnings'
     errors = scrape doc, '#errors'
@@ -27,8 +28,8 @@ module XmlVal
       e = {}
       e[:public_id] = r.at('td.public_id').content
       e[:system_id] = r.at('td.system_id').content
-      e[:line] = r.at('td.line').content
-      e[:column] = r.at('td.column').content
+      e[:line] = r.at('td.line').content.to_i
+      e[:column] = r.at('td.column').content.to_i
       e[:message] = r.at('td.message').content
       es << e
     end

@@ -11,7 +11,7 @@ class Copy
   belongs_to :aip
 
   def download f
-    rs = RandyStore.new id, url.to_s
+    rs = Store.new id, url.to_s
     rs.download f
 
     if size

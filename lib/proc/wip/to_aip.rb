@@ -1,12 +1,9 @@
-require 'service/randystore'
-
-
 class Wip
 
   def save_aip
     aip = Aip.new :package => package, :copy => Copy.new
     aip.attributes = aip_attrs
-    rs = RandyStore.reserve id
+    rs = Store.reserve id
     aip.copy.attributes = rs.put_file tarball_file
 
     begin
@@ -22,8 +19,8 @@ class Wip
   def update_aip
     aip = package.aip
     aip.attributes = aip_attrs
-    rs = RandyStore.reserve id
-    old_rs = RandyStore.new id, aip.copy.url.to_s
+    rs = Store.reserve id
+    old_rs = Store.new id, aip.copy.url.to_s
     aip.copy.attributes = rs.put_file tarball_file
 
     begin

@@ -1,4 +1,4 @@
-require 'xmlvalidation'
+require 'service/xml_val'
 
 class SubmissionValidator < ActiveModel::Validator
 
