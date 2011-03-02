@@ -1,9 +1,11 @@
 require 'ruby-prof'
 
+module Profile
+  include DataDir
 
   def profile_file suffix
     f = "#{procname}.#{$$}.#{suffix}"
-    File.join archive.profile_path, f
+    File.join profile_path, f
   end
 
   def profile_start

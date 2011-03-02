@@ -37,16 +37,7 @@ class Package
 
   # return a wip if exists in workspace, otherwise nil
   def wip
-    ws_wip = Daitss.archive.workspace[id]
-
-    if ws_wip
-      ws_wip
-    else
-      bins = Daitss.archive.stashspace
-      bin = bins.find { |b| File.exist? File.join(b.path, id) }
-      bin.find { |w| w.id == id } if bin
-    end
-
+    ws_wip = Wip.get id
   end
 
   def stashed_wip

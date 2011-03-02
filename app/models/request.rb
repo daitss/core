@@ -18,14 +18,16 @@ class Request
     self.save
   end
 
+  include DataDir
+
   # create a wip from this request
   def dispatch
 
     begin
 
       # make a wip
-      dp_path = File.join archive.dispatch_path, package.id
-      ws_path = File.join archive.workspace.path, package.id
+      dp_path = File.join dispatch_path, package.id
+      ws_path = File.join work_path, package.id
       Wip.make dp_path, type
       FileUtils.mv dp_path, ws_path
 

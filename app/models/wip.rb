@@ -15,8 +15,28 @@ require 'proc/wip/d1_refresh'
 
 require 'proc/wip/queue_report.rb'
 
-
 class Wip
+
+  include DataDir
+  extend DataDir
+
+  def self.all
+    pattern = File.join work_path, '*'
+    Dir[pattern].map { |p| Wip.new p }
+  end
+
+  def self.get id
+    w_path = File.join work_path, id
+    s_path = File.join stash_path, id
+
+    if File.exist? w_path
+      Wip.new w_path
+    elsif File.exist? s_path
+      Wip.new s_path
+    end
+
+  end
+
   extend Forwardable
   extend StateVar
   extend FileAttr

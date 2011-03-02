@@ -2,8 +2,12 @@ require 'curb'
 
 class XmlRes
 
+  def base_url
+    Setting.get('xmlresolution server').value
+  end
+
   def put_collection id
-    url = "#{archive.xmlresolution_url}/ieids/#{id}"
+    url = "#{base_url}/ieids/#{id}"
     c = Curl::Easy.new url
     c.http_put ""
     (200..201).include? c.response_code or c.error("bad status")
