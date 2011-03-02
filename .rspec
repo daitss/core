@@ -1,1 +1,2 @@
 --colour
+-r spec_helper.rb
