@@ -1,14 +1,14 @@
 module DataDir
 
   PATHS = [
-    :work',
-    :stash',
-    :submit',
-    :disseminate',
-    :dispatch',
-    :profile',
-    :nuke',
-    :reports'
+    :work,
+    :stash,
+    :submit,
+    :disseminate,
+    :dispatch,
+    :profile,
+    :nuke,
+    :reports
   ]
 
   PATHS.each do |sym|
@@ -21,7 +21,7 @@ module DataDir
 
     Dir.chdir DATA_DIR do
 
-      DATA_PATHS.each do |p|
+      PATHS.each do |p|
         FileUtils.mkdir p.to_s
       end
 
