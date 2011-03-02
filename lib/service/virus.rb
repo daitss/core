@@ -4,10 +4,15 @@ class Virus
 
   PATH = '/'
 
+  def self.base_url
+    Setting.get('viruscheck server').value
+  end
+
+
   def initialize f, uri
     @file = f
     @uri = uri
-    @url = archive.viruscheck_url + PATH
+    @url = Virus.base_url + PATH
   end
 
   def post

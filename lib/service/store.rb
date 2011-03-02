@@ -4,15 +4,19 @@ require 'mixin/curb'
 require 'mixin/digest'
 require 'nokogiri'
 
-class RandyStore
+class Store
 
   RESERVE_PATH = '/reserve'
+
+  def self.base_url
+    Setting.get('storage server').value
+  end
 
   # reserve a new location
   #
   # @param [String] package_id
-  def RandyStore.reserve package_id
-    c = Curl::Easy.http_post(archive.storage_url + RESERVE_PATH, Curl::PostField.content('ieid', package_id))
+  def self.reserve package_id
+    c = Curl::Easy.http_post(base_url + RESERVE_PATH, Curl::PostField.content('ieid', package_id))
     (200..201).include? c.response_code or c.error("bad status")
 
     # check the response
@@ -23,7 +27,7 @@ class RandyStore
     not xml.root['location'].empty? or  c.error("empty location")
 
     # return a new resource object
-    RandyStore.new package_id, xml.root['location']
+    Store.new package_id, xml.root['location']
   end
 
   attr_reader :package_id, :url

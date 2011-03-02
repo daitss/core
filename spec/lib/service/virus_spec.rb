@@ -1,10 +1,7 @@
-require 'daitss/service/virus'
-
-include Daitss
-
 describe Virus do
-  let(:clean) { File.join SIPS_DIR, *%w(ateam-virus ateam.tiff) }
-  let(:infected) { File.join SIPS_DIR, *%w(ateam-virus eicar.com) }
+
+  let(:clean) { file_fixture_path 'ateam.tiff' }
+  let(:infected) { file_fixture_path 'eicar.com' }
   let(:uri) { 'a-fake-uri' }
 
   it 'should post to the service' do

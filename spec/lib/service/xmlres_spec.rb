@@ -1,10 +1,6 @@
-require 'daitss/service/xmlres'
-
-include Daitss
-
 describe XmlRes do
   let(:package_id) { EggHeadKey.new_egg_head_key }
-  let(:file) { File.join SIPS_DIR, *%w(ateam ateam.xml) }
+  let(:file) { file_fixture_path 'ateam.xml' }
   let(:uri) { 'a-fake-uri' }
 
   it 'should resolve a file' do
