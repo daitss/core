@@ -45,6 +45,7 @@ gem 'haml'
 gem 'jquery-rails', '>= 0.2.6'
 gem 'libxml-ruby'
 gem 'machinist'
+gem 'ruby-prof'
 gem 'semver'
 gem 'thin'
 
