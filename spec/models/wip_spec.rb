@@ -1,19 +1,15 @@
-require 'daitss/proc/wip'
-require 'uuid'
+require 'wip'
 
-# Proto AIP: Work In Progress
 describe Wip do
 
   subject do
-    id = UUID.generate :compact
     p = Package.new
-    p.uri = UUID.generate :urn
     ac = Account.get Daitss::Archive::SYSTEM_ACCOUNT_ID
     pr = ac.projects.first :id => Daitss::Archive::DEFAULT_PROJECT_ID
     p.project = pr
     p.sip = Sip.new :name => "foo"
     p.save or raise "cant save package"
-    path = File.join archive.workspace.path, p.id
+    path = File.join work_path, p.id
     Wip.make path, :disseminate
   end
 
