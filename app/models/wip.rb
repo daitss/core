@@ -73,7 +73,7 @@ class Wip
   ]
 
   # make a new wip on the filesystem
-  def Wip.make path, task
+  def self.create path, task
 
     unless VALID_TASKS.include? task
       raise "Unknown task: #{task}"

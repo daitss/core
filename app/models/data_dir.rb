@@ -12,9 +12,13 @@ module DataDir
   ]
 
   PATHS.each do |sym|
-    define_method :"#{sym}_path".to_sym do
+    m_sym = :"#{sym}_path".to_sym
+
+    define_method m_sym do
       File.join DATA_DIR, sym.to_s
     end
+
+    module_function m_sym
   end
 
   def make_all
