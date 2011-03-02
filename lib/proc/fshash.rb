@@ -1,49 +1,45 @@
-module Daitss
+class FsHash
 
-  class FsHash
+  include Enumerable
 
-    include Enumerable
+  attr_reader :path
 
-    attr_reader :path
+  def initialize dir
+    @path = dir
+  end
 
-    def initialize dir
-      @path = dir
-    end
+  def []= key, data
+    open(key_path(key), "w") { |io| io.write data }
+  end
 
-    def []= key, data
-      open(key_path(key), "w") { |io| io.write data }
-    end
+  def [] key
+    open(key_path(key)) { |io| io.read } if self.has_key? key
+  end
 
-    def [] key
-      open(key_path(key)) { |io| io.read } if self.has_key? key
-    end
+  def keys
+    Dir.chdir(@path) { Dir['*'] }
+  end
 
-    def keys
-      Dir.chdir(@path) { Dir['*'] }
-    end
+  def has_key? key
+    File.exist? key_path(key)
+  end
 
-    def has_key? key
-      File.exist? key_path(key)
-    end
+  def keys_like pattern
+    keys.select { |k| k =~ pattern }
+  end
 
-    def keys_like pattern
-      keys.select { |k| k =~ pattern }
-    end
+  def delete key
+    FileUtils.rm key_path(key)
+  end
 
-    def delete key
-      FileUtils.rm key_path(key)
-    end
+  def each
+    keys.each { |key| yield [key, self[key]] }
+  end
 
-    def each
-      keys.each { |key| yield [key, self[key]] }
-    end
+  private
 
-    private
-
-    def key_path key
-      File.join @path, key
-    end
-
+  def key_path key
+    File.join @path, key
   end
 
 end
