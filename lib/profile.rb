@@ -1,7 +1,5 @@
 require 'ruby-prof'
-require 'daitss/proc/wip/process'
 
-module Daitss
 
   def profile_file suffix
     f = "#{procname}.#{$$}.#{suffix}"

@@ -1,5 +1,3 @@
-require 'proc/wip'
-require 'proc/datafile'
 
 
 # Common metadata functionality between Wip and DataFile

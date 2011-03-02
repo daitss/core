@@ -2,7 +2,6 @@ require 'forwardable'
 require 'fileutils'
 
 require 'proc/fshash'
-require 'proc/wip'
 require 'proc/fileattr'
 require 'proc/datafile/obsolete'
 

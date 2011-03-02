@@ -3,7 +3,6 @@ require 'libxml'
 require 'model/aip'
 require 'proc/sip_archive'
 require 'proc/template/premis'
-require 'proc/wip'
 require 'xmlns'
 
 class Wip

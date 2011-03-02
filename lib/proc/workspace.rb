@@ -1,5 +1,3 @@
-require 'proc/wip'
-
 class Workspace
 
   attr_reader :path

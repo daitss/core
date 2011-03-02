@@ -1,4 +1,3 @@
-require 'proc/datafile'
 require 'proc/metadata'
 
 class DataFile

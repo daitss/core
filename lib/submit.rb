@@ -1,5 +1,5 @@
-require 'daitss/archive'
-require 'daitss/proc/wip/from_sip'
+#require 'daitss/archive'
+#require 'daitss/proc/wip/from_sip'
 
 module Daitss
 

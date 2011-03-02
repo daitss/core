@@ -1,5 +1,3 @@
-require 'proc/wip'
-
 class Wip
 
   def step name

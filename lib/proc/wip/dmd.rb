@@ -1,5 +1,4 @@
 require 'proc/template'
-require 'proc/wip'
 
 class Wip
 

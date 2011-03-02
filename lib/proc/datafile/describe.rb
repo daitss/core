@@ -1,4 +1,3 @@
-require 'proc/datafile'
 require 'proc/template/premis'
 require 'proc/metadata'
 

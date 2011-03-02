@@ -1,4 +1,6 @@
 # OSX SHA1 bug
+PLATFORM = %x[uname].chomp
+
 if PLATFORM =~ /darwin/
 
   class Digest::SHA1

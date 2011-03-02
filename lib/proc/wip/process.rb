@@ -1,16 +1,8 @@
 require 'mixin/file'
 require 'profile'
 
-platform = `uname`.chomp
-
-case platform
-when "Linux"
-  require 'linux/sys/proctable'
-when "Darwin"
-  require 'sys/proctable'
-end
-
 class Wip
+  include Profile
 
   OUT_LOG = 'out.log'
   ERR_LOG = 'err.log'
@@ -56,7 +48,7 @@ class Wip
       $stdout.reopen out_path, 'w'
       $stderr.reopen err_path, 'w'
 
-      profile_start
+      #profile_start
 
       begin
         package.log "#{task} started"
@@ -70,12 +62,12 @@ class Wip
         stash_journal
       end
 
-      profile_stop
+      #profile_stop
     end
 
     @process = {
       :id => pid.to_i,
-      :time => Sys::ProcTable.ps(pid.to_i).starttime
+      :time => Time.now
     }
 
     save_process
@@ -117,12 +109,11 @@ class Wip
     load_process
 
     if @process and @process[:id].kind_of? Fixnum
-      p = Sys::ProcTable.ps @process[:id]
-
-      if p
-        p.starttime.to_i == @process[:time].to_i
-      end
-
+      # TODO put some other token to identify a proc besides a pid
+      # like start time or something tied to the proc itself
+      ps_lines = %x[ps -p #{ @process[:id] }].split "\n"
+      ps_lines.shift
+      not ps_lines.empty?
     end
 
   end

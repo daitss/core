@@ -4,15 +4,14 @@ require 'fileutils'
 require 'mixin/file'
 
 require 'proc/fshash'
-require 'proc/datafile'
 require 'proc/fileattr'
 require 'proc/statevar'
 require 'proc/wip/journal'
 require 'proc/wip/process'
 
-require 'wip/ingest'
-require 'wip/disseminate'
-require 'wip/d1_refresh'
+require 'proc/wip/ingest'
+require 'proc/wip/disseminate'
+require 'proc/wip/d1_refresh'
 
 require 'proc/wip/queue_report.rb'
 

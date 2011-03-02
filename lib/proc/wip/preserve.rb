@@ -1,4 +1,3 @@
-require 'proc/wip'
 require 'proc/wip/journal'
 require 'service/xmlres'
 require 'proc/datafile/describe'

@@ -4,8 +4,7 @@ require 'proc/wip/from_aip'
 require 'proc/wip/preserve'
 require 'proc/wip/tarball'
 require 'proc/wip/to_aip'
-require 'proc/xmlvalidation'
-
+require 'xmlvalidation'
 
 class Wip
 

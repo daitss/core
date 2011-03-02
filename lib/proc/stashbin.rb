@@ -1,5 +1,4 @@
 require 'uri'
-require 'proc/wip'
 require 'enumerator'
 
 module Daitss

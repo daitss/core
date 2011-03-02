@@ -1,6 +1,5 @@
 require 'proc/template/descriptor'
 require 'proc/template/premis'
-require 'proc/wip'
 require 'proc/wip/from_d1'
 require 'proc/wip/journal'
 require 'proc/wip/preserve'

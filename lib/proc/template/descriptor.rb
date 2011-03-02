@@ -1,7 +1,7 @@
-require 'daitss/proc/datafile/obsolete'
-require 'daitss/proc/metadata'
-require 'daitss/proc/template'
-require 'daitss/proc/wip/dmd'
+#require 'daitss/proc/datafile/obsolete'
+#require 'daitss/proc/metadata'
+#require 'daitss/proc/template'
+#require 'daitss/proc/wip/dmd'
 
 # Helpers for generating the aip descriptor
 class Wip

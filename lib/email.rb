@@ -1,5 +1,5 @@
-require 'daitss/archive'
-require 'daitss/archive/report'
+#require 'daitss/archive'
+#require 'daitss/archive/report'
 require 'net/smtp'
 
 module Daitss
@@ -39,4 +39,4 @@ EOF
     end
   end
 end
- 
+

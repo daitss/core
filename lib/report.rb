@@ -1,11 +1,11 @@
-require 'daitss/archive'
-require 'daitss/proc/template'
+#require 'daitss/archive'
+#require 'daitss/proc/template'
 
 module Daitss
 
   class Archive
-    
-    # generates and returns an ingest report for the specified IEID 
+
+    # generates and returns an ingest report for the specified IEID
     def ingest_report id
       @intentity_record = Intentity.first(:id => uri_prefix + id)
       @package = Package.first(:id => id)

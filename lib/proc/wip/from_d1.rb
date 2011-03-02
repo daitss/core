@@ -1,4 +1,3 @@
-require 'proc/wip'
 require 'proc/wip/tarball'
 require 'proc/datafile/obsolete'
 require 'digest/sha1'
