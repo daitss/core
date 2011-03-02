@@ -12,6 +12,7 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
+    ZenTest (4.5.0)
     abstract (1.0.0)
     actionmailer (3.0.4)
       actionpack (= 3.0.4)
@@ -42,6 +43,10 @@ GEM
     addressable (2.2.4)
     archive-tar-minitar (0.5.2)
     arel (2.0.8)
+    autotest (4.4.6)
+      ZenTest (>= 4.4.1)
+    autotest-fsevent (0.2.5)
+      sys-uname
     builder (2.1.2)
     capybara (0.4.1.2)
       celerity (>= 0.7.9)
@@ -144,6 +149,7 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.16)
     nokogiri (1.4.4)
+    notifier (0.1.2)
     polyglot (0.3.1)
     rack (1.2.1)
     rack-mount (0.6.13)
@@ -195,7 +201,10 @@ GEM
       rubyzip
     semver (1.0.1)
     stringex (1.1.0)
+    sys-uname (0.8.5)
     term-ansicolor (1.0.5)
+    test_notifier (0.3.6)
+      notifier
     thin (1.2.7)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -215,6 +224,8 @@ DEPENDENCIES
   actionmailer (~> 3.0.1)
   actionpack (~> 3.0.1)
   activesupport (~> 3.0.1)
+  autotest
+  autotest-fsevent
   capybara
   cucumber-rails
   curb
@@ -243,4 +254,5 @@ DEPENDENCIES
   ruby-debug19
   ruby-prof
   semver
+  test_notifier
   thin

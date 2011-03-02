@@ -53,6 +53,9 @@ group(:development, :test) do
   gem 'cucumber-rails'
   gem 'capybara'
   gem 'database_cleaner'
+  gem 'autotest'
+  gem 'autotest-fsevent' # keeps a mac cool
+  gem 'test_notifier'
 
   if RUBY_VERSION =~ /^1\.9\..+/
     gem 'ruby-debug19', :require => 'ruby-debug'
