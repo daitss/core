@@ -10,7 +10,7 @@ module Daitss
     property :format_name, String, :length => 255 # common format name, ex:  "TIFF"
     property :format_version, String #format version,  ex: "5.0"
 
-    has 0..n, :object_format
+    has 0..n, :object_formats
 
     def fromPremis premis
       attribute_set(:format_name, premis.find_first("premis:formatDesignation/premis:formatName", NAMESPACES).content)

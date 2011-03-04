@@ -63,12 +63,11 @@ module Daitss
           objectformat.datafile_id = :null
         end
 
-        format.object_format << objectformat
+        format.object_formats << objectformat
         formats[format.format_name] = format
-        # objectformat.format_id << record
 
         # objectformat.inspect
-        p.object_format << objectformat
+        p.object_formats << objectformat
 
         # first format element is designated for the primary object (file/bitstream) format.
         # Subsequent format elements are used for format profiles
@@ -78,7 +77,7 @@ module Daitss
         else
           objectformat.setSecondary
         end
-        # objectformat.inspect
+        #objectformat.inspect
       end
     end
 

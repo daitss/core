@@ -19,6 +19,15 @@ module Daitss
 
     before :destroy, :deleteChildren
 
+    def check_errors
+      unless package.valid?
+        bigmessage = package.errors.full_messages.join "\n" 
+        raise bigmessage unless bigmessage.empty?
+      end
+          
+      datafiles.each {|df| df.check_errors }    
+    end
+    
     # construct an int entity with the information from the aip descriptor
     def fromAIP aip
       entity = aip.find_first('//p2:object[p2:objectCategory="intellectual entity"]', NAMESPACES)

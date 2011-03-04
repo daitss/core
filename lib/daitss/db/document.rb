@@ -56,6 +56,16 @@ module Daitss
       end
     end
 
+    def check_errors
+      fonts.each do |obj| 
+        unless (obj.valid?)
+        puts obj.inspect
+        puts obj.errors.to_a
+        end
+      end
+      raise obj.errors.full_messages.join "\n" unless valid?
+    end
+    
     before :save do
       # make sure either dfid or bsid is not null.
       if (:datafile_id.nil? && :bitstream_id.nil?)
