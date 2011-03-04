@@ -50,10 +50,7 @@ module Daitss
       fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
       fileObjects.each do |obj|
         dfid = obj.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
-        relationships = obj.find("premis:relationship", NAMESPACES)
-        relationships.each do |relationship|
-          processRelationship(dfid, relationship)
-        end
+        processRelationship(dfid, obj)
       end
 
       toDB
@@ -178,28 +175,23 @@ module Daitss
     end
 
     # extract and construct premis relationship among objects
-    def processRelationship(dfid, relationship_element)
-      # check if there is a valid datafile and there is a relationship associated with it
-      unless (@datafiles[dfid].nil? || relationship_element.nil?)
-        type = relationship_element.find_first("premis:relationshipType", NAMESPACES).content
-        subtype = relationship_element.find_first("premis:relationshipSubType", NAMESPACES).content
+    def processRelationship(dfid, file_obj)
+      unless (@datafiles[dfid].nil?)
+        d_relationships = file_obj.find("premis:relationship[premis:relationshipType = 'derivation' and premis:relationshipSubType = 'has source']", NAMESPACES)
+        s_relationships = file_obj.find("premis:relationship[premis:relationshipType = 'structural' and premis:relationshipSubType = 'includes']", NAMESPACES)
 
-        # check if this relationship link to an event
-        event_id = relationship_element.find_first("premis:relatedEventIdentification/premis:relatedEventIdentifierValue", NAMESPACES)
-
-        # find the event that ties to this relationship
-        event = @events[event_id.content] unless event_id.nil?
-        # only create relationship record if there is a valid linking event and it is
-        # for derived relationships such as normalization and migration.
-        if (type.eql?("derivation") && subtype.eql?("has source"))
+        d_relationships.each do |relationship|
+          event_id = relationship.find_first("premis:relatedEventIdentification/premis:relatedEventIdentifierValue", NAMESPACES)
+          event = @events[event_id.content] unless event_id.nil?
           unless (event.nil?)
-            relationship = Relationship.new
-            relationship.fromPremis(dfid, event.e_type, relationship_element)
-            @relationships << relationship
+            relationshipObj = Relationship.new
+            relationshipObj.fromPremis(dfid, event.e_type, relationship_element)
+            @relationships << relationshipObj
           end
-          # process whole-part relationship among datafile and bitstreams
-        elsif (type.eql?("structural") && subtype.eql?("includes"))
-          bsid = relationship_element.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
+        end
+
+        s_relationships.each do |relationship|
+          bsid = relationship.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
           @datafiles[dfid].bitstreams << @bitstreams[bsid] if @bitstreams[bsid]
         end
       end
@@ -208,9 +200,10 @@ module Daitss
     # save all extracted premis objects/events/agents to the fast access database in one transaction
     # SMELL can this all be replaced with @int_entity.save ?
     def toDB
-      # start database traction for saving the associated record for the aip.  If there is any failure during database save,
-      # datamapper automatically rollback the change.
-      raise "cannot save int entity" unless @int_entity.save
+      unless @int_entity.save
+        @int_entity.check_errors 
+        raise "cannot save int entity #{@int_entity.errors.to_s}" 
+      end
 
       @package.save
       # explicitly saving the dependencies.
