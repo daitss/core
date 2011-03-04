@@ -220,6 +220,19 @@ describe SipArchive do
       ivt["issue"].should == nil
     end
 
+    it "should correctly process MODS Enum" do
+      path = new_sip_archive 'haskell-nums-pdf.zip'
+      s = SipArchive.new path
+
+      s.stub!(:descriptor_doc).and_return(XML::Document.string File.read(File.join(DESCRIPTOR_DIR, "UF00027829_00118.xml")))
+
+      ivt = s.issue_vol_title
+
+      ivt["title"].should == "Florida anthropologist"
+      ivt["volume"].should == "2"
+      ivt["issue"].should == "8" 
+    end
+
     it "should correctly process DC dmd 1" do
       path = new_sip_archive 'haskell-nums-pdf.zip'
       s = SipArchive.new path

@@ -171,13 +171,8 @@ get '/packages?/?' do
                 @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
               else
                 t0 = Date.today - 7
-                es = Event.all(:timestamp.gt => t0, :limit => 150, :order => [ :timestamp.desc ])
+                es = Event.all(:timestamp.gt => t0, :limit => 100, :order => [ :timestamp.desc ])
                 es = es.map { |e| e.package }.uniq
-
-                # reject from list if latest event is a snafu, or there is a reject event
-                es = es.reject do |e|
-                  e.events.all(:name => "reject").any? or e.events.first(:order => [:timestamp.desc]).name =~ /snafu/
-                end
 
                 # unless operator, trim list to those where user's project include the package
                 if @user.type == Operator

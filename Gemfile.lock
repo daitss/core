@@ -3,6 +3,11 @@ PATH
   specs:
     sys-proctable (0.9.0)
 
+PATH
+  remote: .
+  specs:
+    daitss (0.15.4)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -127,6 +132,7 @@ PLATFORMS
 DEPENDENCIES
   cucumber
   curb
+  daitss!
   data_mapper
   dm-is-list
   dm-postgres-adapter

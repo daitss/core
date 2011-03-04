@@ -69,20 +69,12 @@ module Daitss
 
       # check for a single agreement info
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty?
-        count = descriptor_doc.find "count(#{AGREEMENT_INFO_XPATH})", NS_PREFIX
+        ainfo = descriptor_doc.find_first AGREEMENT_INFO_XPATH, NS_PREFIX
 
-        if count == 0
-          es[:agreement_info] << "missing agreement info"
-        elsif count == 1
-          ainfo = descriptor_doc.find_first AGREEMENT_INFO_XPATH, NS_PREFIX
-          es[:agreement_info] << "missing account" if ainfo['ACCOUNT'].to_s.strip.empty?
-          es[:agreement_info] << "missing project" if ainfo['PROJECT'].to_s.strip.empty?
-        elsif count > 1
-          es[:agreement_info] << "multiple agreement info"
-        else
-          raise "invalid agreement info count #{count}"
-        end
-
+        es[:agreement_info] << "missing agreement info" unless ainfo
+        
+        es[:agreement_info] << "missing account" if ainfo['ACCOUNT'].to_s.strip.empty?
+        es[:agreement_info] << "missing project" if ainfo['PROJECT'].to_s.strip.empty?
       end
 
       # check for content files
@@ -211,6 +203,8 @@ MSG
       mods_title_xpath = "//M:dmdSec//mods:title"
       mods_issue_xpath = "//mods:part/mods:detail[@type='issue']/mods:number"
       mods_volume_xpath = "//mods:part/mods:detail[@type='volume']/mods:number"
+      mods_enum_issue_xpath = "//mods:part/mods:detail[@type='Enum1']/mods:caption"
+      mods_enum_volume_xpath = "//mods:part/mods:detail[@type='Enum2']/mods:caption"
       #mods_issue_xpath = "//M:dmdSec//mods:part/mods:detail[@type=issue]/mods:number"
       #mods_volume_xpath = "//M:dmdSec//mods:part/mods:detail[@type=volume]/mods:number"
       structmap_orderlabel_volume_xpath = "//M:structMap//M:div[@TYPE='volume']"
@@ -257,6 +251,17 @@ MSG
 
         mods_issue_node = descriptor_doc.find_first mods_issue_xpath, NS_PREFIX
         @ivt["issue"] = mods_issue_node ? mods_issue_node.content : nil
+
+        #try Enum1 and Enum2 if nothing found above
+        unless mods_volume_node
+          mods_enum_volume_node = descriptor_doc.find_first mods_enum_volume_xpath, NS_PREFIX
+          @ivt["volume"] = mods_enum_volume_node ? mods_enum_volume_node.content : nil
+        end
+
+        unless mods_issue_node
+          mods_enum_issue_node = descriptor_doc.find_first mods_enum_issue_xpath, NS_PREFIX
+          @ivt["issue"] = mods_enum_issue_node ? mods_enum_issue_node.content : nil
+        end
       end
 
       # try MARC next

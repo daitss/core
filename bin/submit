@@ -8,11 +8,11 @@ require 'fileutils'
 require 'curb'
 
 # a commandline DAITSS 2 submission client
-# takes a specified package on a filesystem, zips it up, and POSTs it to the submission at the specified url as the specified
+# takes a specified package on a filesystem, tars it up, and POSTs it to the submission at the specified url as the specified
 # operations agent.
 
 # dependencies:
-# zip
+# tar
 
 def get_options(args)
   config = OpenStruct.new("url" => nil, "package" => nil, "package_name" => nil)
@@ -59,19 +59,19 @@ def get_options(args)
   return config
 end
 
-# zips directory to /tmp/DIRNAME.zip. Returns string with path to zip file
+# tars directory to /tmp/DIRNAME.tar. Returns string with path to tar file
 
-def zip_package path_to_package
-  zip_path = File.join("/tmp", File.basename(path_to_package) + ".zip")
-  FileUtils.rm_rf zip_path if File.exists? zip_path
+def tar_package path_to_package
+  tar_path = File.join("/tmp", File.basename(path_to_package) + ".tar")
+  FileUtils.rm_rf tar_path if File.exists? tar_path
   
-  exec("cd #{File.dirname(path_to_package)}; zip -r -0 #{zip_path} #{File.basename(path_to_package)} 2>&1; cd $PWD") if fork.nil?
+  exec("cd #{File.dirname(path_to_package)}; tar -cf #{tar_path} #{File.basename(path_to_package)} 2>&1; cd $PWD") if fork.nil?
   Process.wait
 
-  raise "zip returned non-zero exit status" if $?.exitstatus != 0
-  raise "zip file not found where expected" unless File.exists? zip_path
+  raise "tar returned non-zero exit status" if $?.exitstatus != 0
+  raise "tar file not found where expected" unless File.exists? tar_path
 
-  return zip_path
+  return tar_path
 end
 
 # POSTs authentication credentials, gets cookie
@@ -90,7 +90,7 @@ def authenticate
   end
 end
 
-def submit_to_svc path_to_zip, path
+def submit_to_svc path_to_tar, path
   url = URI.parse(@config.url + "/packages")
 
   n = "sip path: #{path}"
@@ -105,7 +105,7 @@ def submit_to_svc path_to_zip, path
 
   note = Curl::PostField.content('note', n)
   batch_id = Curl::PostField.content('batch_id', b)
-  sip = Curl::PostField.file('sip', path_to_zip)
+  sip = Curl::PostField.file('sip', path_to_tar)
 
   c.http_post(note, batch_id, sip)
   c.body_str
@@ -123,10 +123,10 @@ end
 
 # submits package at path
 def submit_package path
-  zipfile = zip_package path
+  tarfile = tar_package path
   authenticate unless @cookie
-  response = submit_to_svc zipfile, path
-  FileUtils.rm_rf zipfile
+  response = submit_to_svc tarfile, path
+  FileUtils.rm_rf tarfile
 
   ieid = response[/E[A-Z0-9]{8}_[A-Z0-9]{6}/]
 

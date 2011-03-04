@@ -37,3 +37,5 @@ group :test do
   gem 'ruby-debug'
   gem 'ruby-prof'
 end
+
+gemspec

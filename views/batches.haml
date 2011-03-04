@@ -1,3 +1,5 @@
+- require 'cgi'
+
 %h1 batches
 
 %hr/
@@ -26,7 +28,7 @@
       - @batches.each do |b|
         %tr
           %td
-            %a{:href => "/batches/#{b.id}"}= b.id
+            %a{:href => "/batches/#{CGI::escape(b.id)}"}= b.id
           %td= b.packages.length
           %td
             %form{:action => "/batches/#{b.id}", :method => 'post'}

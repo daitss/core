@@ -8,9 +8,13 @@ describe XmlRes do
   let(:uri) { 'a-fake-uri' }
 
   it 'should resolve a file' do
+    file.stub!(:metadata).and_return({"sip-path" => "ateam.xml"})
+    file.stub!(:data_file).and_return(file)
+    file.stub!(:uri).and_return(uri)
+
     xmlres = XmlRes.new
     xmlres.put_collection package_id
-    event, agent = xmlres.resolve_file file, uri
+    event, agent = xmlres.resolve_file file
 
     doc = Nokogiri::XML event
     doc.at('//P:linkingObjectIdentifierValue', NS_PREFIX).content.should == uri
