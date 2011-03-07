@@ -89,7 +89,7 @@ class Store
     xml.root['location'] == @url or c.error("bad location")
     xml.root['sha1'] == sha1.hexdigest or c.error("bad sha1")
     xml.root['md5'] == md5.hexdigest or c.error("bad md5")
-    xml.root['size'].to_i == data.size or c.error("bad size")
+    xml.root['size'].to_i == data.bytesize or c.error("bad size")
 
     # return some info about the put
     {

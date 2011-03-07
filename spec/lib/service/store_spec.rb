@@ -2,7 +2,7 @@ require 'service/store'
 
 describe Store do
 
-  let(:file) { sip_fixture_path 'simple.tar' }
+  let(:file) { sip_fixture_path 'haskell-nums-pdf.zip' }
   let(:data) { File.read file }
 
   it 'should register for a new package' do
@@ -39,7 +39,7 @@ describe Store do
     package_id = EggHeadKey.new_egg_head_key
     rs = Store.reserve package_id
     rs.put data
-    rs.get.should == data
+    rs.get.bytes.to_a.should == data.bytes.to_a
   end
 
   it 'should download' do
