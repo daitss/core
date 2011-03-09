@@ -30,7 +30,7 @@ module StateVar
       file = File.join @path, filename
       tmp_file = "#{file}-#{$$}.tmp"
       data = instance_variable_get i_sym
-      marh = Marshal.dump data
+      marsh = Marshal.dump data
       open(tmp_file, 'w') { |io| io.write marsh }
 
       FileUtils.touch(file)
