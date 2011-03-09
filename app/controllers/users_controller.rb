@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to user_path(@user), :alert => "user #{@user.id} created"
     else
-      debugger
+      raise "cannot save user"
     end
 
   end
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to user_path(@user), :alert => "user #{@user.id} updated"
     else
-      debugger
+      raise "cannot update user"
     end
 
   end

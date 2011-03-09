@@ -14,7 +14,7 @@ class ProjectsController < ApplicationController
       redirect_to(account_project_path(@project.account.id, @project.id),
                   :notice => "project #{@project.id} created")
     else
-      debugger
+      raise "cannot save project"
     end
 
   end
@@ -27,7 +27,7 @@ class ProjectsController < ApplicationController
       redirect_to(account_project_path(@project.account.id, @project.id),
                   :notice => "project #{@project.id} updated")
     else
-      debugger
+      raise "cannot update project"
     end
 
   end

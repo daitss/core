@@ -26,7 +26,6 @@ module ApplicationHelper
     when 'packages'
       html << link_to('packages', packages_path)
 
-
     end
 
     if params['id'] and %(show edit).include? controller.action_name

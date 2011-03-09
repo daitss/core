@@ -22,7 +22,7 @@ class AccountsController < ApplicationController
     if @account.saved?
       redirect_to account_path(@account), :notice => "account #{@account.id} created"
     else
-      debugger
+      raise "cannot save account"
     end
 
   end
@@ -34,7 +34,7 @@ class AccountsController < ApplicationController
     if @account.save
       redirect_to account_path(@account), :notice => "account #{@account.id} updated"
     else
-      debugger
+      raise "cannot update account"
     end
 
   end
