@@ -12,56 +12,53 @@ class Submission
 
   include LibXML
 
-  #attr_reader :errors
+  def self.extract compressed_path, options={}
+    filename = options[:filename] or raise ':filename is a required option'
+    package = options[:package] or raise ':package is a required option'
 
-  attr_reader :path, :owner_ids, :agent_account
+    ext = File.extname filename
+    name = File.basename filename, ext
 
-  AGREEMENT_INFO_XPATH =  "//M:amdSec/M:digiprovMD/M:mdWrap/M:xmlData/daitss:daitss/daitss:AGREEMENT_INFO"
-
-  def initialize upload, account
-    @ext = File.extname upload.original_filename
-    @name = File.basename upload.original_filename, @ext
-    @compressed_path = upload.path
-    @tdir = Dir.mktmpdir
-    @agent_account = account
-  end
-
-  def extract
-
-    command = case @ext
-              when '.zip' then unzip_command
-              when '.tar' then untar_command
-              else raise ExtractionError, "unknown sip extension: #{@ext}"
+    command = case ext
+              when '.zip' then %Q(unzip -o "#{compressed_path}")
+              when '.tar' then %Q(tar -xf "#{compressed_path}")
+              else raise ExtractionError, "unknown sip extension: #{ext}"
               end
 
+    pdir = File.join DataDir.submit_path, package.id
+    FileUtils.mkdir pdir
 
-    Dir.chdir @tdir do
+    Dir.chdir pdir do
       output = %x[#{command} 2>&1]
 
       unless $? == 0
-        raise ExtractionError, "error extracting #{name}#{@ext}\n\n#{output}"
-      end
-
-      @path = File.expand_path @name
-
-      unless File.directory? @path
-        raise ExtractionError, "#{@name}#{@ext} does not contain a sip"
+        raise ExtractionError, "error extracting #{filename}\n\n#{output}"
       end
 
     end
 
+    path = File.expand_path(File.join(pdir, name))
+
+    unless File.directory? path
+      raise ExtractionError, "#{filename} does not contain a sip"
+    end
+
+    Submission.new path
   end
 
-  def unzip_command
-    %Q(unzip -o "#{@compressed_path}")
-  end
+  attr_reader :path, :package
+  attr_reader :owner_ids, :agent_account
 
-  def untar_command
-    %Q(tar -xf "#{@compressed_path}")
-  end
+  AGREEMENT_INFO_XPATH =  "//M:amdSec/M:digiprovMD/M:mdWrap/M:xmlData/daitss:daitss/daitss:AGREEMENT_INFO"
 
-  def cleanup
-    FileUtils.rm_r @tdir
+  def initialize path
+    raise "no sip found at #{path}" unless File.directory? path
+    @path = path
+
+    @name = File.basename path
+
+    package_id = File.basename(File.dirname(@path))
+    @package = Package.get(package_id)
   end
 
   def extract_owner_ids
@@ -126,9 +123,7 @@ class Submission
 
   # returns a hash containing issue, volume, and title extracted from sip descriptor
   def issue_vol_title
-    return @ivt if @ivt
-
-    @ivt = {}
+    ivt = {}
 
     #xpath declarations
 
@@ -154,15 +149,15 @@ class Submission
     if descriptor_doc.find_first(is_ojs_xpath, NS_PREFIX)
       # get title from mods in dmdSec
       title_node = descriptor_doc.find_first mods_title_xpath, NS_PREFIX
-      @ivt["title"] = title_node ? title_node.content : nil
+      ivt["title"] = title_node ? title_node.content : nil
 
       # get OJS volume
       volume_node = descriptor_doc.find_first(ojs_volume_xpath, NS_PREFIX)
       issue_node = descriptor_doc.find_first(ojs_issue_xpath, NS_PREFIX)
 
-      @ivt["volume"] = volume_node ? volume_node.content : nil
-      @ivt["issue"] = issue_node ? issue_node.content : nil
-      return @ivt
+      ivt["volume"] = volume_node ? volume_node.content : nil
+      ivt["issue"] = issue_node ? issue_node.content : nil
+      return ivt
     end
 
     # check if vol/issue are in structMap
@@ -172,54 +167,54 @@ class Submission
     struct_volume = struct_vol_node["ORDERLABEL"] ? struct_vol_node["ORDERLABEL"] : struct_vol_node["LABEL"] if struct_vol_node
     struct_issue = struct_issue_node["ORDERLABEL"] ? struct_issue_node["ORDERLABEL"] : struct_issue_node["LABEL"] if struct_issue_node
 
-    @ivt["volume"] = struct_volume ? struct_volume : nil
-    @ivt["issue"] = struct_issue ? struct_issue : nil
+    ivt["volume"] = struct_volume ? struct_volume : nil
+    ivt["issue"] = struct_issue ? struct_issue : nil
 
     # look in dmd for title. Also, issue/vol if not found above in structMap
 
     # mods first
     mods_title_node = descriptor_doc.find_first mods_title_xpath, NS_PREFIX
-    @ivt["title"] = mods_title_node ? mods_title_node.content : nil
+    ivt["title"] = mods_title_node ? mods_title_node.content : nil
 
-    unless @ivt["volume"] or @ivt["issue"]
+    unless ivt["volume"] or ivt["issue"]
       mods_volume_node = descriptor_doc.find_first mods_volume_xpath, NS_PREFIX
-      @ivt["volume"] = mods_volume_node ? mods_volume_node.content : nil
+      ivt["volume"] = mods_volume_node ? mods_volume_node.content : nil
 
       mods_issue_node = descriptor_doc.find_first mods_issue_xpath, NS_PREFIX
-      @ivt["issue"] = mods_issue_node ? mods_issue_node.content : nil
+      ivt["issue"] = mods_issue_node ? mods_issue_node.content : nil
 
       #try Enum1 and Enum2 if nothing found above
       unless mods_volume_node
         mods_enum_volume_node = descriptor_doc.find_first mods_enum_volume_xpath, NS_PREFIX
-        @ivt["volume"] = mods_enum_volume_node ? mods_enum_volume_node.content : nil
+        ivt["volume"] = mods_enum_volume_node ? mods_enum_volume_node.content : nil
       end
 
       unless mods_issue_node
         mods_enum_issue_node = descriptor_doc.find_first mods_enum_issue_xpath, NS_PREFIX
-        @ivt["issue"] = mods_enum_issue_node ? mods_enum_issue_node.content : nil
+        ivt["issue"] = mods_enum_issue_node ? mods_enum_issue_node.content : nil
       end
     end
 
     # try MARC next
-    unless @ivt["title"]
+    unless ivt["title"]
       marc_title_a = descriptor_doc.find_first(marc_title_a_xpath, NS_PREFIX)
       marc_title_b = descriptor_doc.find_first(marc_title_b_xpath, NS_PREFIX)
 
       marc_title = marc_title_a.content if marc_title_a
       marc_title += " " + marc_title_b.content if marc_title_b
 
-      @ivt["title"] = marc_title ? marc_title : nil
+      ivt["title"] = marc_title ? marc_title : nil
 
       marc_issue_vol = descriptor_doc.find_first(marc_issue_vol_xpath, NS_PREFIX)
 
       if marc_issue_vol
-        @ivt["volume"] = marc_issue_vol.content[/\d+/]
-        @ivt["issue"] = marc_issue_vol.content.gsub(@ivt["volume"], "")[/\d+/]
+        ivt["volume"] = marc_issue_vol.content[/\d+/]
+        ivt["issue"] = marc_issue_vol.content.gsub(ivt["volume"], "")[/\d+/]
       end
     end
 
     # finally, try dublin core
-    unless @ivt["title"]
+    unless ivt["title"]
       dc_title_node = descriptor_doc.find_first dc_title_xpath, NS_PREFIX
 
       if dc_title_node
@@ -227,7 +222,7 @@ class Submission
         dc_volume = nil
         dc_issue = nil
 
-        unless @ivt["volume"] or @ivt["issue"]
+        unless ivt["volume"] or ivt["issue"]
           [/Volume\s*\d+/, /vol\.*\s*\d+/, /v\.*\s*\d+/].each do |r|
             if dc_title[r]
               dc_volume = dc_title[r][/\d+/]
@@ -243,13 +238,14 @@ class Submission
         end # of if
       end # of unless
 
-      @ivt["title"] = dc_title ? dc_title : nil
-      @ivt["volume"] = dc_volume ? dc_volume : nil
-      @ivt["issue"] = dc_issue ? dc_issue : nil
+      ivt["title"] = dc_title ? dc_title : nil
+      ivt["volume"] = dc_volume ? dc_volume : nil
+      ivt["issue"] = dc_issue ? dc_issue : nil
     end
 
-    return @ivt
-  end # of method issue_volume_title
+    return ivt
+  end
+  memoize :issue_vol_title
 
   def entity_id
     descriptor_doc.root['OBJID']
