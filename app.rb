@@ -89,12 +89,12 @@ end
 
 get '/profile/:package/:task/:pid/journal' do |package, task, pid|
   f = File.join archive.profile_path, "#{package}.#{task}.#{pid}.journal"
-  yml = YAML.load_file f
+  marsh = open(f) { |io| Marshal.load io }
 
-  unless yml.empty?
-    @steps = yml.sort { |a,b| a[1][:time] <=> b[1][:time] }
+  unless marsh.empty?
+    @steps = marsh.sort { |a,b| a[1][:time] <=> b[1][:time] }
     @elapsed_time = @steps[-1][1][:time] - @steps[0][1][:time]
-    @duration = yml.inject(0) { |acc,(n,s)| acc += s[:duration] }
+    @duration = marsh.inject(0) { |acc,(n,s)| acc += s[:duration] }
     @elapsed_time += @steps[-1][1][:duration]
     haml :prof_journal
   else
