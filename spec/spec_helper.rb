@@ -16,4 +16,8 @@ RSpec.configure do |config|
   DatabaseCleaner.logger = Rails.logger
   config.before(:each) { DatabaseCleaner.start }
   config.after(:each) { DatabaseCleaner.clean }
+
+  # machinist
+  config.before(:all) { Sham.reset(:before_all)  }
+  config.before(:each) { Sham.reset(:before_each) }
 end
