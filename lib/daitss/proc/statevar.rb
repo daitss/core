@@ -1,5 +1,4 @@
 require 'fileutils'
-require 'yaml'
 require 'mixin/file'
 
 module StateVar
@@ -18,7 +17,7 @@ module StateVar
       file = File.join @path, filename
 
       if File.exist? file
-        data = File.lock(file, :shared => true) { YAML.load_file file }
+        data = File.lock(file, :shared => true) { Marshal.load File.read(file) }
         instance_variable_set i_sym, data
       else
         send :"reset_#{sym}".to_sym
@@ -31,8 +30,8 @@ module StateVar
       file = File.join @path, filename
       tmp_file = "#{file}-#{$$}.tmp"
       data = instance_variable_get i_sym
-      yaml = YAML.dump data
-      open(tmp_file, 'w') { |io| io.write yaml }
+      marh = Marshal.dump data
+      open(tmp_file, 'w') { |io| io.write marsh }
 
       FileUtils.touch(file)
       File.lock(file) { File.rename tmp_file, file }
