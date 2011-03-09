@@ -28,42 +28,41 @@ class PackagesController < ApplicationController
     note = params[:note] || ""
     list_id = params[:list]
 
-    sf = SubmissionFile.new upload, @current_user.account
+    @package = Package.new
 
-    begin
-      sf.extract
-    rescue ExtractionError => e
-      render :text => e.message, :status => 400
-    end
+    sf = begin
+           Submission.extract(upload.path, :filename => upload.original_filename, :package => @package)
+         rescue ExtractionError => e
+           render :text => e.message, :status => 400 and return
+         end
 
     # make a package
-    @package = Package.new
     @package.sip = Sip.new :name => sf.name
     @package.lists << List.first_or_create(:id => list_id) if list_id && !list_id.empty?
 
     if sf.valid?
 
-      # make the package record
-      @package.project = sf.project
-      @package.sip.size_in_bytes = sf.size_in_bytes
-      @package.sip.number_of_datafiles = sf.files.size
-      @package.requests << Request.new(:type => :ingest, :agent => @current_user)
+      if sf.account_id != @current_user.account.id
+        handle_reject sf, (note + %Q[; has wrong account; expected "#{@current_user.account.id}"; actual: "#{sf.account_id}"])
+      elsif @current_user.account.projects.first(:id => sf.project_id).nil?
+        handle_reject sf, (note + %Q[; has wrong project; expected project in "#{@current_user.account.id}"; actual: "#{sf.project_id}"])
+      else
 
-      note += "\n\n"
-      note += sf.undescribed_files.map { |f| "undescribed file: #{f}" }.join("\n")
-      @package.events << Event.new(:name => 'submit', :agent => @current_user, :notes => note)
+        # make the package record
+        @package.project = sf.project
+        @package.sip.size_in_bytes = sf.size_in_bytes
+        @package.sip.number_of_datafiles = sf.files.size
+        @package.requests << Request.new(:type => :ingest, :agent => @current_user)
 
-      # mv sip to submissions dir
-      d = File.join submit_path, @package.id
-      FileUtils.mkdir_p d
-      FileUtils.mv sf.path, d
-      flash[:notice] = "package #{@package.id} submitted"
+        note += "\n\n"
+        note += sf.undescribed_files.map { |f| "undescribed file: #{f}" }.join("\n")
+        @package.events << Event.new(:name => 'submit', :agent => @current_user, :notes => note)
+
+        flash[:notice] = "package #{@package.id} submitted"
+      end
+
     else
-      @package.project = sf.project || @current_user.account.default_project
-
-      note += '; ' + sf.errors.full_messages.join("\n")
-      @package.events << Event.new(:name => 'reject', :agent => @current_user, :notes => note)
-      flash[:alert] = "package #{@package.id} rejected"
+      handle_reject sf, (note + '; ' + sf.errors.full_messages.join("\n"))
     end
 
     @package.save or raise "cannot save package: #{@package.errors.full_messages.join ';'}"
@@ -75,6 +74,13 @@ class PackagesController < ApplicationController
   end
 
   protected
+
+  def handle_reject sub, note
+    @package.project = sub.project || @current_user.account.default_project
+    note += '; ' + sub.errors.full_messages.join("\n")
+    @package.events << Event.new(:name => 'reject', :agent => @current_user, :notes => note)
+    flash[:alert] = "package #{@package.id} rejected"
+  end
 
   def search
     @query = params[:q]
