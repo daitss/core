@@ -6,7 +6,7 @@ class Request
   property :timestamp, DateTime, :required => true, :default => proc { DateTime.now }
   property :is_authorized, Boolean, :required => true, :default => true
   property :status, Enum[:enqueued, :released_to_workspace, :cancelled], :default => :enqueued
-  property :type, Enum[:ingest, :disseminate, :withdraw, :peek, :d1refresh]
+  property :type, Enum[:ingest, :disseminate, :withdraw, :peek, :d1refresh, :sleep]
 
   # TODO investigate Wip::VALID_TASKS - [:sleep, :ingeset] to have one place for it all
 
@@ -28,7 +28,7 @@ class Request
       # make a wip
       dp_path = File.join dispatch_path, package.id
       ws_path = File.join work_path, package.id
-      Wip.make dp_path, type
+      Wip.create dp_path, type
       FileUtils.mv dp_path, ws_path
 
       # save and log

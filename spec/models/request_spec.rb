@@ -1,10 +1,3 @@
-
-require 'daitss/model/request'
-require 'daitss/proc/wip'
-
-require 'fileutils'
-require 'time'
-
 describe Request do
 
   let :package do
@@ -16,7 +9,7 @@ describe Request do
 
   after(:each) { FileUtils.rm_r package.wip.path }
 
-  (Wip::VALID_TASKS - [:ingest, :sleep]).each do |t|
+  Wip::VALID_TASKS.each do |t|
 
     it "should create a wip for #{t}" do
       request = Request.new :package => package, :agent => agent, :type => t
