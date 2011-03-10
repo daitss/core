@@ -51,7 +51,10 @@ module Daitss
     before :destroy, :deleteChildren
     
     def check_errors
-      raise "cannot save datafile #{self.errors.to_s}" unless self.valid?
+      unless self.valid?
+        bigmessage = self.errors.full_messages.join "\n" 
+        raise bigmessage unless bigmessage.empty?
+      end
       
       bitstreams.each {|obj| obj.check_errors}    
       

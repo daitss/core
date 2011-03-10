@@ -19,8 +19,11 @@ module Daitss
     has 0..n, :object_formats, :constraint => :destroy # a bitstream may have 0-n formats
 
     def check_errors
-      raise "cannot save bitstream #{self.errors.to_s}" unless self.valid?
-          
+      unless self.valid?
+         bigmessage = self.errors.full_messages.join "\n" 
+         raise bigmessage unless bigmessage.empty?
+       end
+                 
       documents.each {|obj| obj.check_errors }       
        
       invalids = (texts).reject {|obj| obj.valid? }    

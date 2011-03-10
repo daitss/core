@@ -29,6 +29,9 @@ module Daitss
 
     def check_errors
       unless valid? 
+        bigmessage = self.errors.full_messages.join "\n" 
+        raise bigmessage unless bigmessage.empty?
+        
         raise "format should not be nil" if format.nil?
         raise "invalid format #{format}" unless format.valid?    
         raise "#{self.errors.to_a}, error encountered while saving #{@datafile_id}, #{@bitstream_id} " 
