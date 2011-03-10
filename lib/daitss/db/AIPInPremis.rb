@@ -200,14 +200,15 @@ module Daitss
     # save all extracted premis objects/events/agents to the fast access database in one transaction
     # SMELL can this all be replaced with @int_entity.save ?
     def toDB
+     # @datafiles.each {|dfid, df| df.check_errors unless  df.save }
       unless @int_entity.save
         @int_entity.check_errors 
-        raise "cannot save int entity #{@int_entity.errors.to_s}" 
+        raise "error in saving int entity, no validation error found"
       end
 
       @package.save
       # explicitly saving the dependencies.
-      @datafiles.each {|dfid, df| raise "error saving datafile records #{df.inspect}" unless  df.save }
+ 
       @events.each {|id, e| raise "error saving event records #{e.inspect}" unless e.save }
       @relationships.each {|rel|  raise 'error saving relationship records' unless rel.save }
     end

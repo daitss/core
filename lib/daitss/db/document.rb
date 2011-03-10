@@ -58,12 +58,9 @@ module Daitss
 
     def check_errors
       fonts.each do |obj| 
-        unless (obj.valid?)
-        puts obj.inspect
-        puts obj.errors.to_a
-        end
+        obj.errors.full_messages.join "\n" unless obj.valid?
       end
-      raise obj.errors.full_messages.join "\n" unless valid?
+      raise self.errors.full_messages.join "\n" unless valid?
     end
     
     before :save do

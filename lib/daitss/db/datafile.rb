@@ -51,6 +51,8 @@ module Daitss
     before :destroy, :deleteChildren
     
     def check_errors
+      raise "cannot save datafile #{self.errors.to_s}" unless self.valid?
+      
       bitstreams.each {|obj| obj.check_errors}    
       
       invalids = (datafile_severe_element ).reject {|obj| obj.valid? }    

@@ -20,6 +20,11 @@ module Daitss
     before :destroy, :deleteChildren
 
     def check_errors
+      unless self.valid?
+        bigmessage = self.errors.full_messages.join "\n" 
+        raise bigmessage unless bigmessage.empty?
+      end
+      
       unless package.valid?
         bigmessage = package.errors.full_messages.join "\n" 
         raise bigmessage unless bigmessage.empty?
