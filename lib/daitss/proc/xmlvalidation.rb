@@ -56,7 +56,7 @@ module Daitss
     rd, wr = IO.pipe
 
     pid = fork do
-      Rjb.load
+      Rjb.load nil, ENV['JAVA_OPTS'].split
 
       $stderr.reopen '/dev/null'
 
