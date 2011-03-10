@@ -1,11 +1,7 @@
 describe Wip do
 
   let :wip do
-    p = Package.new
-    ac = Account.get OPERATIONS_ACCOUNT_ID
-    p.project = ac.default_project
-    p.sip = Sip.new :name => "foo"
-    p.save or raise "cant save package"
+    p = make_new_package
     path = File.join DataDir.work_path, p.id
     Wip.create path, :disseminate
   end
