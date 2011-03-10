@@ -63,3 +63,18 @@ end
 Package.blueprint do
   uri { Setting.get('uri prefix').value +  rand(1024 ** 2).to_s(36) }
 end
+
+def make_new_package
+  p = Package.new
+  ac = Account.get OPERATIONS_ACCOUNT_ID
+  p.project = ac.default_project
+  p.sip = Sip.new :name => "SIP"
+  p.save or raise "cant save package"
+  p
+end
+
+def make_new_wip
+  p = make_new_package
+  path = File.join DataDir.work_path, p.id
+  Wip.create path, :disseminate
+end

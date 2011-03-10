@@ -1,14 +1,9 @@
-require 'daitss/proc/datafile'
-
-# Proto AIP: Work In Progress
 describe DataFile do
 
-  before :all do
-    @wip = submit 'haskell-nums-pdf'
-    @df = @wip.new_original_datafile 'test'
+  subject do
+    wip = make_new_wip
+    wip.new_original_datafile '0'
   end
-
-  subject { @df }
 
   it "should let one add new metadata" do
     subject['sip-path'] = 'foo/bar/baz'
@@ -34,6 +29,10 @@ describe DataFile do
   it "should know its size" do
       subject.open('w') { |io| io.write '123' }
       subject.size.should == 3
+  end
+
+  it "should give access to the underlying fs file" do
+    subject.data_file.should exist_on_fs
   end
 
 end
