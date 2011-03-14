@@ -10,8 +10,8 @@ module Daitss
     property :original_name, String, :length => 32, :required => true, :default => "UNKNOWN"
     # i.e. package_name
     property :entity_id, String, :length => 100
-    property :volume, String, :length => 32
-    property :issue, String, :length => 32
+    property :volume, String, :length => 64
+    property :issue, String, :length => 64
     property :title, Text
 
     belongs_to :package
