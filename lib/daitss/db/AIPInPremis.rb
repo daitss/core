@@ -185,7 +185,7 @@ module Daitss
           event = @events[event_id.content] unless event_id.nil?
           unless (event.nil?)
             relationshipObj = Relationship.new
-            relationshipObj.fromPremis(dfid, event.e_type, relationship_element)
+            relationshipObj.fromPremis(dfid, event.e_type, relationship)
             @relationships << relationshipObj
           end
         end
