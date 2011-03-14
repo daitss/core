@@ -16,4 +16,8 @@ class Project
     "#{account_id}/#{id}"
   end
 
+  def self.new_default_project
+    Project.new :id => DEFAULT_PROJECT_ID, :description => "default project"
+  end
+
 end

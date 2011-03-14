@@ -13,8 +13,7 @@ class AccountsController < ApplicationController
   def create
 
     params['account']['projects'] = [
-      Project.new(:id => DEFAULT_PROJECT_ID,
-                  :description => "default project")
+      Project.new_default_project
     ]
 
     @account = Account.create params[:account]

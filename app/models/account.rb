@@ -11,8 +11,18 @@ class Account
   has 1..n, :projects, :constraint => :destroy
   has n, :agents
 
+  validates_with_block :projects do
+
+    if default_project
+      true
+    else
+      [false, 'default project is missing']
+    end
+
+  end
+
   def default_project
-    projects.first :id => DEFAULT_PROJECT_ID or raise "default project missing for #{id}"
+    projects.first :id => DEFAULT_PROJECT_ID
   end
 
 end
