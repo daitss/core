@@ -18,27 +18,33 @@ module Daitss
     def initialize path
       path = File.expand_path path
 
+
       filename = File.basename path
       raise "invalid characters in sip name" if filename =~ %r{^\..*['" ]}
 
       ext = File.extname path
       name = File.basename path, ext
 
-      Dir.chdir File.dirname(path) do
+      if File.directory? path
+        @name = name
+        @path = path
+      else
+        Dir.chdir File.dirname(path) do
 
-        output = case ext
-                 when '.zip' then `unzip -o "#{filename}" 2>&1`
-                 when '.tar' then `tar -xf "#{filename}" 2>&1`
-                 else raise "unknown archive extension: #{ext}"
-                 end
+          output = case ext
+                   when '.zip' then `unzip -o "#{filename}" 2>&1`
+                   when '.tar' then `tar -xf "#{filename}" 2>&1`
+                   else raise "unknown archive extension: #{ext}"
+                   end
 
-        raise "error extracting #{filename}\n\n#{output}" unless $? == 0
+          raise "error extracting #{filename}\n\n#{output}" unless $? == 0
+        end
+
+        @name = name
+        @path = File.join File.dirname(path), name
+
+        raise "#{filename} is not a package" unless File.directory? @path
       end
-
-      @name = name
-      @path = File.join File.dirname(path), name
-
-      raise "#{filename} is not a package" unless File.directory? @path
     end
 
     def valid?
@@ -73,8 +79,8 @@ module Daitss
 
         es[:agreement_info] << "missing agreement info" unless ainfo
         
-        es[:agreement_info] << "missing account" if ainfo['ACCOUNT'].to_s.strip.empty?
-        es[:agreement_info] << "missing project" if ainfo['PROJECT'].to_s.strip.empty?
+        es[:agreement_info] << "missing account" if ainfo.nil? or ainfo['ACCOUNT'].to_s.strip.empty?
+        es[:agreement_info] << "missing project" if ainfo.nil? or ainfo['PROJECT'].to_s.strip.empty?
       end
 
       # check for content files
