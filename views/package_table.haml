@@ -17,7 +17,7 @@
       %td= p.project.id
       %td= sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000)
       %td= p.sip.number_of_datafiles
-      - latest_event = p.events.last
+      - latest_event = p.normal_events.last
       - if latest_event
         %td= latest_event.name
         %td= latest_event.timestamp
