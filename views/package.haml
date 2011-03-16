@@ -37,37 +37,23 @@
 
 %h2 events
 
-%table
-  %tr
-    %th type
-    %th time
-    %th notes
-    %th agent
-
-  - @package.normal_events.each do |e|
-    %tr
-      %td= e.name
-      %td= e.timestamp
-      %td
-        %pre= e.notes
-      %td= e.agent.id
+= partial :events_table, :locals => {:events => @package.normal_events }
 
 %h2 legacy events
 
-%table
-  %tr
-    %th type
-    %th time
-    %th notes
-    %th agent
+= partial :events_table, :locals => {:events => @package.legacy_events }
 
-  - @package.legacy_events.each do |e|
-    %tr
-      %td= e.name
-      %td= e.timestamp
-      %td
-        %pre= e.notes
-      %td= e.agent.id
+%br
+- unless @fixity_events
+  %a{:href => "/package/#{@package.id}?fixity_events=true"}
+    show fixity events
+- else
+  %a{:href => "/package/#{@package.id}"}
+    hide fixity events
+
+  %h2 fixity events
+
+  = partial :events_table, :locals => {:events => @package.fixity_events }
 
 - if @ingest_time
   %h2 ingest stats

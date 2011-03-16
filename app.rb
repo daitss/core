@@ -216,6 +216,8 @@ get '/package/:id' do |id|
   @bins = archive.stashspace
   @bin = archive.stashspace.find { |b| File.exist? File.join(b.path, id) }
 
+  @fixity_events = params["fixity_events"] == "true"
+
   if @package.status == 'archived'
     @ingest_time = @package.elapsed_time.to_s + " sec"
   end

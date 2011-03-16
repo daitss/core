@@ -4,6 +4,8 @@ describe Package do
 
   let :normal_event_names do
     [
+      'fixity failure',
+      'integrity failure',
       'ingest started',
       'ingest snafu',
       'ingest started',
@@ -26,7 +28,7 @@ describe Package do
   describe '#normal_events' do
 
     it 'should not include fixity or legacy events' do
-      package.events.map(&:name) == normal_event_names
+      package.normal_events.map(&:name).to_set.should == normal_event_names.to_set
     end
 
     it 'should be in chronological order' do
@@ -61,6 +63,7 @@ describe Package do
 
     it 'should not include normal events' do
       package.fixity_events.each do |e|
+        next if ["fixity failure", "integrity failure"].include? e.name
         normal_event_names.should_not include(e.name)
       end
     end

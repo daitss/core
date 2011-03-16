@@ -42,11 +42,15 @@ module Daitss
     ]
 
     def normal_events
-      events.all(:order => [:timestamp.asc]) - (fixity_events + legacy_events)
+      events.all(:order => [:timestamp.asc]) - (fixity_passed_events + legacy_events)
     end
 
     def fixity_events
       events.all :name => (FIXITY_PASSED_EVENTS + FIXITY_FAILED_EVENTS), :order => [:timestamp.asc]
+    end
+
+    def fixity_passed_events
+      events.all :name => FIXITY_PASSED_EVENTS, :order => [:timestamp.asc]
     end
 
     def legacy_events

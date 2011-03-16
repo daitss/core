@@ -1,0 +1,14 @@
+%table
+  %tr
+    %th type
+    %th time
+    %th notes
+    %th agent
+
+  - events.each do |e|
+    %tr
+      %td= e.name
+      %td= e.timestamp
+      %td
+        %pre= e.notes
+      %td= e.agent.id
