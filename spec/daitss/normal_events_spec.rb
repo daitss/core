@@ -1,3 +1,5 @@
+require 'daitss/model/package'
+
 describe Package, '#normal_events' do
 
   let :normal_event_names do
@@ -12,18 +14,20 @@ describe Package, '#normal_events' do
 
   let :package do
     p = Package.new
-    the_names = ABNORMAL_EVENTS + normal_event_names
-    p.events = the_names.map { |name| Event.new :name => name }
+    the_names = Package::ABNORMAL_EVENTS + normal_event_names
+    t = Time.now
+    p.events = the_names.map { |name| Event.new :name => name, :agent => Agent.first, :timestamp => t += 1 }
+    p.project = Project.first
     p.save or raise 'cannot save pacakge'
     p
   end
 
   it 'should not include abnormal events' do
-    p.events.map(&:name) == normal_event_names
+    package.events.map(&:name) == normal_event_names
   end
 
   it 'should be in chronological order' do
-    timestamps = p.events.map(&:timestamp)
+    timestamps = package.events.map(&:timestamp)
     timestamps.should == timestamps.sort
   end
 
