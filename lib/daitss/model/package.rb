@@ -29,13 +29,11 @@ module Daitss
 
     ABNORMAL_EVENTS = [
       'legacy operations data',
-      'fixity success',
-      'integrity failure',
-      'fixity failure'
+      'fixity success'
     ]
 
     def normal_events
-      events.all :name.not => abnormal_events, :order => [:timestamp.asc]
+      events.all :name.not => ABNORMAL_EVENTS, :order => [:timestamp.asc]
     end
 
     # add an operations event for abort
