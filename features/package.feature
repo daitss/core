@@ -34,6 +34,22 @@ Feature: overview of a package
     When I goto its package page
     Then in the events I should see a "submit" event with "" in the notes
 
+  Scenario: show the legacy events
+    Given I submit a package with some legacy events
+    When I goto its package page
+    Then in the events I should see a "legacy operations data" event with "" in the notes
+
+  Scenario: hide the fixity events by default
+    Given I submit a package with some fixity events
+    When I goto its package page
+    Then in the events I should not see a "fixity success" event with "" in the notes
+
+  Scenario: show the fixity events
+    Given I submit a package with some fixity events
+    When I goto its package page
+    And I click on "show fixity events"
+    Then in the events I should see a "fixity success" event with "" in the notes
+
   Scenario: download ingest report
     Given an archived package
     When I goto its package page
