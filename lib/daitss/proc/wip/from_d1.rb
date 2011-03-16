@@ -196,7 +196,7 @@ module Daitss
       end
 
     ensure
-      FileUtils.rm_r tdir
+      FileUtils.rm_r tdir if tdir and File.exist?(tdir)
     end
 
   end
