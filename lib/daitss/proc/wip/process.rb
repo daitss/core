@@ -38,7 +38,7 @@ module Daitss
     def stash_journal
       jf = File.join @path, 'journal'
       pf = profile_file('journal')
-      FileUtils.cp jf, pf
+      FileUtils.cp jf, pf if File.exist? jf
     end
 
     def procname

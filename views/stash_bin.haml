@@ -2,5 +2,10 @@
   stash bin:
   = @bin.name
 
+#update-form
+
+  %form{:action => "stashspace/#{@bin.id}", :method => 'post'}
+    %input{:type => 'submit', :value => "unstash all"}
+
 - unless @bin.empty?
   = partial :wip_table, :locals => { :space => "stashspace/#{@bin.id}", :wips => @bin }

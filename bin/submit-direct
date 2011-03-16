@@ -1,0 +1,125 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'uri'
+require 'ostruct'
+require 'digest/md5'
+require 'fileutils'
+require 'daitss'
+
+
+# a commandline DAITSS 2 submission client
+# takes a specified package on a filesystem, tars it up, and POSTs it to the submission at the specified url as the specified
+# operations agent.
+
+# dependencies:
+# tar
+
+
+def get_options(args)
+  config = OpenStruct.new("url" => nil, "package" => nil, "package_name" => nil)
+
+  begin
+    opts = OptionParser.new do |opt|
+
+      opt.banner << "\nSubmits a SIP DAITSS 2"
+      opt.on_tail("--help", "Show this message") { puts opts; exit }
+
+      opt.on("--path PATH", String, "Path on filesystem containing SIPs to submit, either --path or --package required") { |path| config.path = path }
+      opt.on("--package PATH", String, "Path on filesystem to a single sip, either --path or --package required") { |path| config.package = path }
+      opt.on("--username USERNAME", String, "Operations agent username, required") { |username| config.username = username }
+      opt.on("--password PASSWORD", String, "Operations agent password, required") { |password| config.password = password }
+      opt.on("--note NOTE", String, "Submission event note (should be in quotes)") { |note| config.note = note }
+      opt.on("--batch BATCH", String, "Batch to submit package under") { |batch| config.batch = batch }
+      opt.on("--delete-orig", "-d") { |delete| config.delete = delete }
+    end
+
+    opts.parse!(args)
+
+    raise StandardError, "Path not specified" unless config.path or config.package
+    raise StandardError, "Only --path or --package can be specified, but not both" if config.path and config.package
+    raise StandardError, "Username not specified" unless config.username
+    raise StandardError, "Password not specified" unless config.password
+
+    if config.path
+      raise StandardError, "Specified path is not a directory" unless File.directory? config.path
+    else
+      raise StandardError, "Specified path is not a directory" unless File.directory? config.package
+    end
+
+  rescue => e # catch the error from opts.parse! and display
+    STDERR.puts "Error parsing command line options:\n#{e.message}\n#{opts}"
+    exit 1
+  end
+
+  return config
+end
+
+# returns an array of filesystem paths containing packages to submit
+def find_packages
+  list = Dir.glob(@config.path + "/**/*")
+  list = list.select { |p| File.directory? p}
+  list_u = list.select { |p| File.exists? File.join(p, File.basename(p) + ".xml") }
+  list_l = list.select { |p| File.exists? File.join(p, File.basename(p) + ".XML") }
+
+  list_l | list_u
+end
+
+# submits package at path
+def submit_package path
+
+  n = "sip path: #{path}"
+  n += ", submission note: #{@config.note}" if @config.note
+
+  #make wip
+  p = archive.submit path, @user, n
+
+  if @config.batch
+    b = Batch.first_or_create(:id => @config.batch)
+    b.packages << p
+    b.save
+  end
+
+  if p.rejected?
+    puts Time.now.to_s + " -- " + File.basename(path) + " -- rejected: " + p.id
+  else 
+    puts Time.now.to_s + " -- " + File.basename(path) + " -- submitted successfully: " + p.id
+    #FileUtils.rm_rf path if @config.delete
+  end
+end
+
+include Daitss
+load_archive
+
+@config = get_options(ARGV) or exit
+
+# TODO: remove this once this program is vetted
+if @config.delete
+  STDERR.puts "--delete option is disabled for this version of submit-direct, please run without this flag"
+  exit 1
+end
+
+@user = Agent.get(@config.username)
+unless @user and @user.authenticate(@config.password)
+  STDERR.puts "Authentication failure" 
+  exit 1
+end
+
+if @config.path
+  list = find_packages
+
+  STDERR.puts "No packages found in #{@config.path}" unless list.length > 0
+
+  list.each do |pkg_path|
+    begin 
+      submit_package pkg_path
+    rescue => e
+      STDERR.puts "Error submitting #{pkg_path}: #{e.message}"
+    end
+  end
+elsif @config.package
+  submit_package @config.package
+else
+  exit 1
+end
+

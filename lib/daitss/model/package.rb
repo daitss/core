@@ -27,6 +27,17 @@ module Daitss
     belongs_to :project
     belongs_to :batch, :required => false
 
+    ABNORMAL_EVENTS = [
+      'legacy operations data',
+      'fixity success',
+      'integrity failure',
+      'fixity failure'
+    ]
+
+    def normal_events
+      events.all :name.not => abnormal_events, :order => [:timestamp.asc]
+    end
+
     # add an operations event for abort
     def abort user
       event = Event.new :name => 'abort', :package => self, :agent => user
@@ -94,7 +105,7 @@ module Daitss
       raise "package not yet ingested" unless status == 'archived'
       return 0 if self.id =~ /^E20(05|06|07|08|09|10|11)/ #return 0 for D1 pacakges
 
-      event_list = self.events.all(:name => "ingest started") + self.events.all(:name => "ingest snafu") + self.events.all(:name => "ingest stopped") + self.events.first(:name => "ingest finished")
+        event_list = self.events.all(:name => "ingest started") + self.events.all(:name => "ingest snafu") + self.events.all(:name => "ingest stopped") + self.events.first(:name => "ingest finished")
 
       event_list.sort {|a, b| a.timestamp <=> b.timestamp}
 

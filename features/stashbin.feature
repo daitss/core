@@ -26,3 +26,10 @@ Feature: stash bins
     And that stash bin is not empty
     When I goto "/stashspace"
     Then I cannot press "Delete"
+
+  Scenario: unstash all
+    Given a stash bin named "default bin"
+    And that stash bin is not empty
+    When I goto "/stashspace"
+    And I press "unstash all"
+    Then I should see no stashed packages
