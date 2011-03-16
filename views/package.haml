@@ -44,7 +44,24 @@
     %th notes
     %th agent
 
-  - @package.events.all(:order => [ :timestamp.asc ] ).each do |e|
+  - @package.normal_events.each do |e|
+    %tr
+      %td= e.name
+      %td= e.timestamp
+      %td
+        %pre= e.notes
+      %td= e.agent.id
+
+%h2 legacy events
+
+%table
+  %tr
+    %th type
+    %th time
+    %th notes
+    %th agent
+
+  - @package.legacy_events.each do |e|
     %tr
       %td= e.name
       %td= e.timestamp
