@@ -31,5 +31,7 @@ Feature: stash bins
     Given a stash bin named "default bin"
     And that stash bin is not empty
     When I goto "/stashspace"
+    And I click on "default bin"
     And I press "unstash all"
-    Then I should see no stashed packages
+    Then I should be redirected to "/stashspace/default%20bin"
+    And I should see no stashed packages
