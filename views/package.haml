@@ -187,7 +187,13 @@
         %th ingest report
         %td
           %a{:href=>"/package/#{@package.id}/ingest_report"}
-            = "ingest report download"
+            = "ingest report (to download, right click and select Save As...)"
+            
+      %tr
+        %th ingest report stylesheet
+        %td
+          %a{:href=>"/daitss_report_xhtml.xsl"}
+            = "ingest report stylesheet (to download, right click and select Save As...)"
 
       %tr
         %th copy size

@@ -162,6 +162,10 @@ post '/packages?/?' do
   redirect "/package/#{p.id}"
 end
 
+get '/daitss_report_xhtml.xsl' do
+  File.read("public/daitss_report_xhtml.xsl")
+end
+
 get '/packages?/?' do
   @query = params['search']
   @batches = Batch.all
