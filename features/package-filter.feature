@@ -1,6 +1,5 @@
 Feature: Filter recent activity
 
-  @nip
   Scenario Outline: Filter by date
     Given 4 packages ingested on "3/16/2011"
     Given 4 packages ingested on "2/16/2011"
@@ -22,7 +21,6 @@ Feature: Filter recent activity
       ||1/1/2011|0|
       ||1/16/2011|4|
 
-  @wip
   Scenario Outline: Filter by batch
     Given 4 packages under batch "foo"
     Given 4 packages under batch "bar"
@@ -37,12 +35,15 @@ Feature: Filter recent activity
       |bar|4|
       |nopackages|0|
 
+  @wip
   Scenario Outline: Filter by account
-    Given 1 package under account/project FDA-FDA
-    Given 1 package under account/project FDA-PRB
-    Given 1 package under account/project UF-UF
-    Given 1 package under account/project UF-FHP
-    When I choose account type "<account>"
+    Given 1 package under account/project "FDA-FDA"
+    Given 1 package under account/project "FDA-PRB"
+    Given 1 package under account/project "UF-UF"
+    Given 1 package under account/project "UF-FHP"
+    Given I goto "/packages"
+    When I select account "<account>"
+    And I press "Set Scope"
     Then I should have <count> package in the results
     Examples:
       |account|count|

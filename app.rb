@@ -184,6 +184,18 @@ get '/packages?/?' do
                   ps = ps.all :batch => batch
                 end
 
+                account = Account.get(params['account-scope'])
+
+                if account
+                  ps = ps.all & account.projects.packages 
+                end
+
+                #project = account.project.first :id => params['project-scope']
+#
+                #if project
+                  #ps = ps.all & project.packages 
+                #end
+
                 # date range
                 # TODO the db should be doing this, MVP, oh well
                 start_date = if params['start_date'] and !params['start_date'].strip.empty?

@@ -157,3 +157,22 @@ end
 Then /^there should be a report delivery record$/ do
   ReportDelivery.first(:package_id => File.basename(last_package)).should_not be_nil
 end
+
+Given /^(\d+) package under account\/project "([^"]*)"$/ do |number, account_project|
+  account, project = account_project.split("-")
+  a = Account.first_or_create(:id => account)
+  p = a.projects.first_or_create(:id => project)
+
+  p.saved? or raise "can't save project"
+
+  number.to_i.times do |i|
+    s = Sip.new :name => i
+    pa = Package.new 
+    pa.sip = s
+    pa.project = p
+    pa.save
+
+    pa.log "ingest started"
+  end
+end
+

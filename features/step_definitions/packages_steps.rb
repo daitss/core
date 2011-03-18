@@ -77,4 +77,10 @@ When /^I select batch "([^\"]*)"$/ do |batch|
   select batch, :from => 'batch-scope'
 end
 
+When /^I select account "([^\"]*)"$/ do |account|
+  select account, :from => 'account-scope'
+end
+
+
+
 
