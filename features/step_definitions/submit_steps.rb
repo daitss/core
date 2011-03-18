@@ -7,6 +7,34 @@ Given /^I submit "([^"]*)"$/ do |package|
   packages << last_request.env["PATH_INFO"]
 end
 
+Given /^(\d+) packages ingested on "([^"]*)"$/ do |count, date|
+  count.to_i.times do |t|
+    s = Sip.new :name => t
+    p = Package.new :project => Project.first, :sip => s
+    p.save or "can't save package"
+
+    t = Time.parse(date)
+    p.log("ingest finished", :timestamp => t)
+    
+  end
+end
+
+Given /^(\d+) packages under batch "([^"]*)"$/ do |count, batch|
+  b = Batch.new :id => batch
+  count.to_i.times do |t|
+    s = Sip.new :name => t
+    p = Package.new :project => Project.first, :sip => s
+
+    b.packages << p
+
+    p.save or "can't save package"
+    p.log "ingest finished"
+  end
+end
+
+
+
+
 Given /^I submit a package$/ do
   Given %q(I submit "haskell-nums-pdf")
 end

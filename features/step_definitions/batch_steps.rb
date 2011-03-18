@@ -55,3 +55,8 @@ Then /^the batch should contain the last package ingested$/ do
   Then "the response contains \"#{last_package_id}\""
 end
 
+Given /^a batch "([^"]*)"$/ do |name|
+  b = Batch.new :id => name
+  b.save
+end
+

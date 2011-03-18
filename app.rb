@@ -173,9 +173,41 @@ get '/packages?/?' do
   @packages = if @query and @query.length > 0
                 ids = @query.strip.split
                 @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
+              elsif params['filter'] == 'true'
+
+                ps = Package.all
+
+                # filter on batches
+                batch = Batch.get(params['batch-scope']) 
+
+                if batch
+                  ps = ps.all :batch => batch
+                end
+
+                # date range
+                # TODO the db should be doing this, MVP, oh well
+                start_date = if params['start_date'] and !params['start_date'].strip.empty?
+                                 Time.parse params['start_date']
+                               else
+                                 Time.at 0
+                               end
+
+                  end_date = if params['end_date'] and !params['end_date'].strip.empty?
+                               Time.parse params['end_date']
+                             else
+                               Time.now
+                             end
+
+                  end_date += 1
+                  range = (start_date..end_date)
+
+                  es = ps.events.all :timestamp => range
+                  ps = es.map { |e| e.package }.uniq
+                  ps.select { |p| range.include? p.normal_events.last.timestamp.to_time }
               else
                 t0 = Date.today - 7
                 es = Event.all(:timestamp.gt => t0, :limit => 100, :order => [ :timestamp.desc ])
+                # TODO es should be ps from here on
                 es = es.map { |e| e.package }.uniq
 
                 # unless operator, trim list to those where user's project include the package

@@ -66,3 +66,15 @@ end
 Then /^the package column should link to a package$/ do
   last_response.should have_selector("td a[href*='/package/']")
 end
+
+Then /^I should have (\d+) package in the results$/ do |count|
+  doc = Nokogiri::HTML last_response.body
+  trs = doc / '#results tr'
+  (trs.reject { |tr| tr % 'th'}).size.should == count.to_i
+end
+
+When /^I select batch "([^\"]*)"$/ do |batch|
+  select batch, :from => 'batch-scope'
+end
+
+
