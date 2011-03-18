@@ -63,6 +63,7 @@
     %tr
       %td
         %select{:name => 'batch-scope'}
+          %option 
           - Batch.all.each do |b|
             - if @params["batch-scope"] == b.id
               %option{:selected => true}= b.id
@@ -70,7 +71,7 @@
               %option= b.id
       %td
         %select{:name => 'account-scope'}
-          %option all
+          %option 
           - Account.all.each do |a|
             - if @params["account-scope"] == a.id
               %option{:selected => true}= a.id
@@ -78,7 +79,7 @@
               %option= a.id
       %td
         %select{:name => 'project-scope'}
-          %option all
+          %option 
           - Project.all.each do |p|
             - if @params["project-scope"] == p.id + "-" + p.account.id
               %option{:selected => true} #{p.id}-#{p.account.id}
@@ -92,7 +93,12 @@
 
       %td
         %select{:name => 'activity-scope'}
-          %option all
+          %option 
+          %option archived
+          %option reject
+          %option snafu
+          %option disseminated
+          %option withdrawn
           - if @params["activity-scope"]
             %option{:selected => true}= @params['activity-scope'] 
 

@@ -176,3 +176,59 @@ Given /^(\d+) package under account\/project "([^"]*)"$/ do |number, account_pro
   end
 end
 
+Given /^an account\/project "([^"]*)"$/ do |account_project|
+  account, project = account_project.split("-")
+  a = Account.first_or_create(:id => account)
+  p = a.projects.first_or_create(:id => project)
+
+  p.saved? or raise "can't save project"
+end
+
+Given /^(\d+) rejected package$/ do |count|
+  count.to_i.times do |i|
+    s = Sip.new :name => i
+    pa = Package.new 
+    pa.sip = s
+    pa.project = Project.first
+    pa.save
+
+    pa.log "reject"
+  end
+end
+
+Given /^(\d+) archived package$/ do |count|
+  count.to_i.times do |i|
+    s = Sip.new :name => i
+    pa = Package.new 
+    pa.sip = s
+    pa.project = Project.first
+    pa.save
+
+    pa.log "ingest finished"
+  end
+end
+
+Given /^(\d+) snafu package$/ do |count|
+  count.to_i.times do |i|
+    s = Sip.new :name => i
+    pa = Package.new 
+    pa.sip = s
+    pa.project = Project.first
+    pa.save
+
+    rand(10) % 2 == 1 ? pa.log("snafu") : pa.log("disseminate snafu")
+  end
+end
+
+Given /^(\d+) disseminated package$/ do |count|
+  count.to_i.times do |i|
+    s = Sip.new :name => i
+    pa = Package.new 
+    pa.sip = s
+    pa.project = Project.first
+    pa.save
+
+    pa.log "disseminate finished"
+  end
+end
+

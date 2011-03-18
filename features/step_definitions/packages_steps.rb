@@ -81,6 +81,13 @@ When /^I select account "([^\"]*)"$/ do |account|
   select account, :from => 'account-scope'
 end
 
+When /^I select project "([^\"]*)"$/ do |project|
+  select project, :from => 'project-scope'
+end
+
+When /^I select activity "([^"]*)"$/ do |activity|
+  select activity, :from => 'activity-scope'
+end
 
 
 
