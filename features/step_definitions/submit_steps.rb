@@ -11,6 +11,19 @@ Given /^I submit a package$/ do
   Given %q(I submit "haskell-nums-pdf")
 end
 
+Given /^I submit a package with some legacy events$/ do
+  Given %q(I submit "haskell-nums-pdf")
+  p = Package.get last_package_id
+  p.log 'legacy operations data'
+end
+
+Given /^I submit a package with some fixity events$/ do
+  Given %q(I submit "haskell-nums-pdf")
+  p = Package.get last_package_id
+  p.log 'fixity success'
+  p.log 'fixity failure'
+end
+
 Given /^I submit (\d+) packages$/ do |count|
   count.to_i.times { Given "I submit a package" }
 end

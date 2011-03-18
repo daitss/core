@@ -162,6 +162,10 @@ post '/packages?/?' do
   redirect "/package/#{p.id}"
 end
 
+get '/daitss_report_xhtml.xsl' do
+  File.read("public/daitss_report_xhtml.xsl")
+end
+
 get '/packages?/?' do
   @query = params['search']
   @batches = Batch.all
@@ -215,6 +219,8 @@ get '/package/:id' do |id|
   @package = @user.packages.get(id) or not_found
   @bins = archive.stashspace
   @bin = archive.stashspace.find { |b| File.exist? File.join(b.path, id) }
+
+  @fixity_events = params["fixity_events"] == "true"
 
   if @package.status == 'archived'
     @ingest_time = @package.elapsed_time.to_s + " sec"

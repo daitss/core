@@ -10,3 +10,7 @@ Given /^I stash it in "([^\"]*)"$/ do |bin_name|
   Then 'I should be redirected'
   last_response.should be_ok
 end
+
+Then /^I should see no stashed packages$/ do
+  last_response.should_not have_selector("tr:contains('package')")
+end

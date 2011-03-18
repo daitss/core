@@ -29,6 +29,7 @@
     %th sip name
     %th account
     %th project
+
   %tr
     %td
       %a{:href => "/packages?search=#{@package.sip.name}"} #{@package.sip.name}
@@ -37,20 +38,23 @@
 
 %h2 events
 
-%table
-  %tr
-    %th type
-    %th time
-    %th notes
-    %th agent
+= partial :events_table, :locals => {:events => @package.normal_events }
 
-  - @package.events.all(:order => [ :timestamp.asc ] ).each do |e|
-    %tr
-      %td= e.name
-      %td= e.timestamp
-      %td
-        %pre= e.notes
-      %td= e.agent.id
+%h2 legacy events
+
+= partial :events_table, :locals => {:events => @package.legacy_events }
+
+%br
+- unless @fixity_events
+  %a{:href => "/package/#{@package.id}?fixity_events=true"}
+    show fixity events
+- else
+  %a{:href => "/package/#{@package.id}"}
+    hide fixity events
+
+  %h2 fixity events
+
+  = partial :events_table, :locals => {:events => @package.fixity_events }
 
 - if @ingest_time
   %h2 ingest stats
@@ -166,6 +170,20 @@
 
     %table
       %tr
+        %th title
+        %td= @package.intentity.title 
+
+      - if @package.intentity.volume != ""
+        %tr
+          %th volume
+          %td= @package.intentity.volume
+
+      - if @package.intentity.issue != ""
+        %tr
+          %th issue
+          %td= @package.intentity.issue
+
+      %tr
         %th descriptor
         %td
           %a{:href=>"/package/#{@package.id}/descriptor"} mets descriptor
@@ -184,7 +202,13 @@
         %th ingest report
         %td
           %a{:href=>"/package/#{@package.id}/ingest_report"}
-            = "ingest report download"
+            = "ingest report (to download, right click and select Save As...)"
+            
+      %tr
+        %th ingest report stylesheet
+        %td
+          %a{:href=>"/daitss_report_xhtml.xsl"}
+            = "ingest report stylesheet (to download, right click and select Save As...)"
 
       %tr
         %th copy size
