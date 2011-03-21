@@ -84,10 +84,10 @@ module Daitss
 
         # SMELL this needs to be revised to disseminate a d1 package with the stupid DFIDs
         df = case df_id
-             when /^(E.*|\d+)$/ then new_original_datafile df_id
-             when /^(E.*|\d+)-mig-\d+$/ then new_migrated_datafile df_id
-             when /^(E.*|\d+)-norm-\d+$/ then new_normalized_datafile df_id
-             else raise "unknown df id format #{dfid}"
+             when /^(F.*|\d+)$/ then new_original_datafile df_id
+             when /^(F.*|\d+)-mig-\d+$/ then new_migrated_datafile df_id
+             when /^(F.*|\d+)-norm-\d+$/ then new_normalized_datafile df_id
+             else raise "unknown df id format #{df_id}"
              end
 
         # extract the data
