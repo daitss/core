@@ -63,7 +63,7 @@
     %tr
       %td
         %select{:name => 'batch-scope'}
-          %option 
+          %option
           - Batch.all.each do |b|
             - if @params["batch-scope"] == b.id
               %option{:selected => true}= b.id
@@ -71,7 +71,7 @@
               %option= b.id
       %td
         %select{:name => 'account-scope'}
-          %option 
+          %option
           - Account.all.each do |a|
             - if @params["account-scope"] == a.id
               %option{:selected => true}= a.id
@@ -79,7 +79,7 @@
               %option= a.id
       %td
         %select{:name => 'project-scope'}
-          %option 
+          %option
           - Project.all.each do |p|
             - if @params["project-scope"] == p.id + "-" + p.account.id
               %option{:selected => true} #{p.id}-#{p.account.id}
@@ -93,14 +93,14 @@
 
       %td
         %select{:name => 'activity-scope'}
-          %option 
+          %option
           %option archived
           %option reject
           %option snafu
           %option disseminated
           %option withdrawn
           - if @params["activity-scope"]
-            %option{:selected => true}= @params['activity-scope'] 
+            %option{:selected => true}= @params['activity-scope']
 
       %td
         %input{:type => 'submit', :value => 'Set Scope'}
@@ -108,7 +108,7 @@
 
 #results
   %h1
-    - if @query
+    - if @query or @filter
       results
       (
       = @packages.size

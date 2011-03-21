@@ -174,12 +174,13 @@ get '/packages?/?' do
                 ids = @query.strip.split
                 @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
               elsif params['filter'] == 'true'
+                @filter = true
 
 
                 ps = Package.all
 
                 # filter on batches
-                batch = Batch.get(params['batch-scope']) 
+                batch = Batch.get(params['batch-scope'])
 
                 if batch
                   ps = ps.all :batch => batch
@@ -189,18 +190,18 @@ get '/packages?/?' do
                 account = Account.get(params['account-scope'])
 
                 if account
-                  ps = ps.all & account.projects.packages 
+                  ps = ps.all & account.projects.packages
                 end
 
                 # filter on project
                 project_id, account_id = params['project-scope'].split("-")
                 act = Account.get(account_id)
                 project = act.projects.first(:id => project_id) if act
-                
+
                 if project
-                  ps = ps.all & project.packages 
+                  ps = ps.all & project.packages
                 end
-                
+
                 # filter on status
                 es = case params['activity-scope']
                 when 'reject'
