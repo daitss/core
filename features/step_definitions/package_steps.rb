@@ -232,3 +232,15 @@ Given /^(\d+) disseminated package$/ do |count|
   end
 end
 
+Given /^(\d+) submitted package$/ do |count|
+  count.to_i.times do |i|
+    s = Sip.new :name => i
+    pa = Package.new 
+    pa.sip = s
+    pa.project = Project.first
+    pa.save
+
+    pa.log "submit"
+  end
+end
+

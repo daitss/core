@@ -68,6 +68,7 @@ Feature: Filter recent activity
   Scenario Outline: Filter by activity
     Given 1 rejected package
     And 1 archived package
+    And 1 submitted package
     And 1 snafu package
     And 1 disseminated package
     And I goto "/packages"
@@ -77,6 +78,7 @@ Feature: Filter recent activity
     Examples:
       |activity|count|
       |reject|1|
+      |submit|1|
       |snafu|1|
       |archived|1|
       |disseminated|1|
