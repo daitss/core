@@ -235,7 +235,7 @@ get '/packages?/?' do
                 ps
 
               else
-                start_date = Time.now - (60 * 60 * 24 * 7)
+                start_date = Time.now - (60 * 60 * 24 * 4)
                 end_date = Time.now
                 range = (start_date..end_date)
                 names = ["submit", "reject", "ingest finished", "disseminate finished", "snafu", "disseminate snafu", "withdraw"]
