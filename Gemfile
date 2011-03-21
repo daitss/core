@@ -13,7 +13,8 @@ gem 'thor'
 gem 'uuid'
 gem 'rjb'
 gem 'curb'
-gem "dm-postgres-adapter"
+gem 'dm-postgres-adapter'
+gem 'dm-mysql-adapter'
 
 # this gem is WONK
 case `uname`.chomp

@@ -26,6 +26,10 @@ Then /^in the events I should not see a "([^\"]*)" event with "([^"]*)" in the n
   last_response.should_not have_selector("td:contains('#{notes}')")
 end
 
+Then /^in the events I should not see a "([^\"]*)" event$/ do |event|
+  last_response.should_not have_selector("td:contains('#{event}')")
+end
+
 Then /^in the aip section I should see (copy url|copy size|copy sha1|number of datafiles)$/ do |field|
   last_response.should have_selector("th:contains('#{field}') + td")
 end
@@ -153,3 +157,78 @@ end
 Then /^there should be a report delivery record$/ do
   ReportDelivery.first(:package_id => File.basename(last_package)).should_not be_nil
 end
+
+Given /^(\d+) package under account\/project "([^"]*)"$/ do |number, account_project|
+  account, project = account_project.split("-")
+  a = Account.first_or_create(:id => account)
+  p = a.projects.first_or_create(:id => project)
+
+  p.saved? or raise "can't save project"
+
+  number.to_i.times do |i|
+    s = Sip.new :name => i
+    pa = Package.new 
+    pa.sip = s
+    pa.project = p
+    pa.save
+
+    pa.log "ingest started"
+  end
+end
+
+Given /^an account\/project "([^"]*)"$/ do |account_project|
+  account, project = account_project.split("-")
+  a = Account.first_or_create(:id => account)
+  p = a.projects.first_or_create(:id => project)
+
+  p.saved? or raise "can't save project"
+end
+
+Given /^(\d+) rejected package$/ do |count|
+  count.to_i.times do |i|
+    s = Sip.new :name => i
+    pa = Package.new 
+    pa.sip = s
+    pa.project = Project.first
+    pa.save
+
+    pa.log "reject"
+  end
+end
+
+Given /^(\d+) archived package$/ do |count|
+  count.to_i.times do |i|
+    s = Sip.new :name => i
+    pa = Package.new 
+    pa.sip = s
+    pa.project = Project.first
+    pa.save
+
+    pa.log "ingest finished"
+  end
+end
+
+Given /^(\d+) snafu package$/ do |count|
+  count.to_i.times do |i|
+    s = Sip.new :name => i
+    pa = Package.new 
+    pa.sip = s
+    pa.project = Project.first
+    pa.save
+
+    rand(10) % 2 == 1 ? pa.log("snafu") : pa.log("disseminate snafu")
+  end
+end
+
+Given /^(\d+) disseminated package$/ do |count|
+  count.to_i.times do |i|
+    s = Sip.new :name => i
+    pa = Package.new 
+    pa.sip = s
+    pa.project = Project.first
+    pa.save
+
+    pa.log "disseminate finished"
+  end
+end
+

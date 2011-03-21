@@ -27,15 +27,34 @@ module Daitss
     belongs_to :project
     belongs_to :batch, :required => false
 
-    ABNORMAL_EVENTS = [
-      'legacy operations data',
+    LEGACY_EVENTS = [
+      'legacy operations data'
+    ]
+
+    FIXITY_PASSED_EVENTS = [
       'fixity success',
-      'integrity failure',
-      'fixity failure'
+      'integrity success'
+    ]
+
+    FIXITY_FAILED_EVENTS = [
+      'fixity failure',
+      'integrity failure'
     ]
 
     def normal_events
-      events.all :name.not => abnormal_events, :order => [:timestamp.asc]
+      events.all(:order => [:timestamp.asc]) - (fixity_passed_events + legacy_events)
+    end
+
+    def fixity_events
+      events.all :name => (FIXITY_PASSED_EVENTS + FIXITY_FAILED_EVENTS), :order => [:timestamp.asc]
+    end
+
+    def fixity_passed_events
+      events.all :name => FIXITY_PASSED_EVENTS, :order => [:timestamp.asc]
+    end
+
+    def legacy_events
+      events.all :name => LEGACY_EVENTS, :order => [:timestamp.asc]
     end
 
     # add an operations event for abort

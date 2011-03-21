@@ -162,6 +162,10 @@ post '/packages?/?' do
   redirect "/package/#{p.id}"
 end
 
+get '/daitss_report_xhtml.xsl' do
+  File.read("public/daitss_report_xhtml.xsl")
+end
+
 get '/packages?/?' do
   @query = params['search']
   @batches = Batch.all
@@ -169,9 +173,76 @@ get '/packages?/?' do
   @packages = if @query and @query.length > 0
                 ids = @query.strip.split
                 @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
+              elsif params['filter'] == 'true'
+
+                ps = Package.all
+
+                # filter on batches
+                batch = Batch.get(params['batch-scope']) 
+
+                if batch
+                  ps = ps.all :batch => batch
+                end
+
+                # filter on account
+                account = Account.get(params['account-scope'])
+
+                if account
+                  ps = ps.all & account.projects.packages 
+                end
+
+                # filter on project
+                project_id, account_id = params['project-scope'].split("-")
+                act = Account.get(account_id)
+                project = act.projects.first(:id => project_id) if act
+                
+                if project
+                  ps = ps.all & project.packages 
+                end
+                
+                # filter on status
+                case params['activity-scope']
+                when 'reject'
+                  es = ps.events.all :name => "reject"
+                  ps = ps.all & es.packages
+                when 'archived'
+                  es = ps.events.all :name => "ingest finished"
+                  ps = ps.all & es.packages
+                when 'disseminated'
+                  es = ps.events.all :name => "disseminate finished"
+                  ps = ps.all & es.packages
+                when 'snafu'
+                  es = ps.events.all(:name => "snafu") + ps.events.all(:name => "disseminate snafu")
+                  ps = ps.all & es.packages
+                when 'withdrawn'
+                  es = ps.events.all :name => "withdraw"
+                  ps = ps.all & es.packages
+                end
+
+                # filter on date range
+                # TODO the db should be doing this, MVP, oh well
+                start_date = if params['start_date'] and !params['start_date'].strip.empty?
+                                 Time.parse params['start_date']
+                               else
+                                 Time.at 0
+                               end
+
+                  end_date = if params['end_date'] and !params['end_date'].strip.empty?
+                               Time.parse params['end_date']
+                             else
+                               Time.now
+                             end
+
+                  end_date += 1
+                  range = (start_date..end_date)
+
+                  es = ps.events.all :timestamp => range
+                  ps = es.map { |e| e.package }.uniq
+                  ps.select { |p| range.include? p.normal_events.last.timestamp.to_time }
               else
                 t0 = Date.today - 7
                 es = Event.all(:timestamp.gt => t0, :limit => 100, :order => [ :timestamp.desc ])
+                # TODO es should be ps from here on
                 es = es.map { |e| e.package }.uniq
 
                 # unless operator, trim list to those where user's project include the package
@@ -215,6 +286,8 @@ get '/package/:id' do |id|
   @package = @user.packages.get(id) or not_found
   @bins = archive.stashspace
   @bin = archive.stashspace.find { |b| File.exist? File.join(b.path, id) }
+
+  @fixity_events = params["fixity_events"] == "true"
 
   if @package.status == 'archived'
     @ingest_time = @package.elapsed_time.to_s + " sec"
