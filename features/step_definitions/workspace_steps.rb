@@ -114,3 +114,40 @@ end
 When /^I select "([^\"]*)"$/ do |bin|
   select bin, :from => 'stash-bin'
 end
+
+Then /^I should have (\d+) wips in the results$/ do |count|
+  doc = Nokogiri::HTML last_response.body
+  trs = doc / '#results tr'
+  (trs.reject { |tr| tr % 'th'}).size.should == count.to_i
+end
+
+Given /^(\d+) stopped wips in batch "([^"]*)"$/ do |count, batch|
+  count.to_i.times do |i|
+    Given "a stop wip"
+
+    b = Batch.new :id => batch
+    p = Package.get(last_package_id)
+    b.packages << p
+    b.save
+  end
+end
+
+Given /^(\d+) stopped wips under account\/project "([^"]*)"$/ do |count, account_project|
+  account, project = account_project.split("-")
+  a = Account.first_or_create(:id => account)
+  p = a.projects.first_or_create(:id => project)
+
+  p.saved? or raise "can't save project"
+
+  count.to_i.times do |i|
+    Given "a stop wip"
+
+    pa = Package.get(last_package_id)
+    pa.project = p
+    pa.save
+  end
+end
+
+
+
+

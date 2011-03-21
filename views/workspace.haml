@@ -1,3 +1,65 @@
+%form{:action => "/workspace", :method => "get"}
+  %input{:type => 'hidden', :name => 'filter', :value => 'true'}
+  %table
+    %tr
+      %th batch
+      %th account
+      %th project
+      %th start date
+      %th end date
+      %th status 
+      %th set scope
+    %tr
+      %td
+        %select{:name => 'batch-scope'}
+          %option
+          - Batch.all.each do |b|
+            - if @params["batch-scope"] == b.id
+              %option{:selected => true}= b.id
+            - else
+              %option= b.id
+      %td
+        %select{:name => 'account-scope'}
+          %option
+          - Account.all.each do |a|
+            - if @params["account-scope"] == a.id
+              %option{:selected => true}= a.id
+            - else
+              %option= a.id
+      %td
+        %select{:name => 'project-scope'}
+          %option
+          - Project.all.each do |p|
+            - if @params["project-scope"] == p.id + "-" + p.account.id
+              %option{:selected => true} #{p.id}-#{p.account.id}
+            - else
+              %option #{p.id}-#{p.account.id}
+      %td
+        - if @params['start_date']
+          %input#start_date{:name => 'start_date', :value => @params['start_date']}
+        - else
+          %input#start_date{:name => 'start_date', :value => (Time.now - 60 * 60 * 24 * 4).strftime("%m/%d/%Y")}
+  
+      %td
+        - if @params['end_date']
+          %input{:name => 'end_date', :value => @params['end_date']}
+        - else
+          %input{:name => 'end_date', :value => (Time.now + 60 * 60 * 24).strftime("%m/%d/%Y") }
+  
+      %td
+        %select{:name => 'status-scope'}
+          %option
+          %option running
+          %option idle
+          %option snafu
+          %option stopped
+          - if @params["activity-scope"]
+            %option{:selected => true}= @params['activity-scope']
+  
+      %td
+        %input{:type => 'submit', :value => 'Set Scope'}
+%hr/
+
 %h1
   update jobs
 
@@ -25,15 +87,16 @@
 
 %hr/
 
-%h2
-  jobs:
-  = @ws.to_a.size
-  &nbsp;
-  running:
-  = archive.workspace.select(&:running?).size
-  &nbsp;
-  throttle:
-  = archive.throttle
-
-- unless @ws.to_a.empty?
-  = partial :wip_table, :locals => { :wips => @ws.to_a }
+#results
+  %h2
+    jobs:
+    = @wips.size
+    &nbsp;
+    running:
+    = archive.workspace.select(&:running?).size
+    &nbsp;
+    throttle:
+    = archive.throttle
+    
+    - unless @wips.empty?
+      = partial :wip_table, :locals => { :wips => @wips }

@@ -351,8 +351,65 @@ before '/workspace' do
 end
 
 get '/workspace' do
+  @wips = archive.workspace.to_a
   @bins = archive.stashspace
-  @ws = archive.workspace
+
+  if params['filter'] == 'true'
+
+    # filter wips by date range
+    start_date = if params['start_date'] and !params['start_date'].strip.empty?
+                   Time.parse params['start_date']
+                 else
+                   Time.at 0
+                 end
+
+    end_date = if params['end_date'] and !params['end_date'].strip.empty?
+                 Time.parse params['end_date']
+               else
+                 Time.now
+               end
+
+    end_date += 1
+    @wips = @wips.select {|w| File.ctime(w.path) >= start_date and File.ctime(w.path) <= end_date }
+
+    # filter wips by batch
+
+    batch = Batch.get(params['batch-scope'])
+
+    if batch
+      @wips = @wips.select {|w| batch.packages.include? w.package }
+    end
+
+    # filter wips by account
+    account = Account.get(params['account-scope'])
+
+    if account
+      @wips = @wips.select {|w| account.projects.packages.include? w.package }
+    end
+
+    # filter wips by project
+    project_id, account_id = params['project-scope'].split("-")
+    act = Account.get(account_id)
+    project = act.projects.first(:id => project_id) if act
+
+    if project
+      @wips = @wips.select {|w| project.packages.include? w.package }
+    end
+
+    # filter wips by status
+
+    case params["status-scope"]
+    when "running"
+      @wips = @wips.select {|w| w.running? == :running }
+    when "idle"
+      @wips = @wips.select {|w| w.state == :idle }
+    when "snafu"
+      @wips = @wips.select {|w| w.snafu? == true }
+    when "stopped"
+      @wips = @wips.select {|w| w.stopped? == true }
+    end
+  end
+
   haml :workspace
 end
 

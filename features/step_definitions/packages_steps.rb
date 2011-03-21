@@ -89,5 +89,11 @@ When /^I select activity "([^"]*)"$/ do |activity|
   select activity, :from => 'activity-scope'
 end
 
+When /^I select status "([^"]*)"$/ do |status|
+  select status, :from => 'status-scope'
+end
+
+
+
 
 
