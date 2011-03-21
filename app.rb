@@ -188,11 +188,11 @@ get '/packages?/?' do
                         when 'disseminated'
                           "disseminate finished"
                         when 'snafu'
-                          ["snafu", "disseminate snafu"]
+                          ["ingest snafu", "disseminate snafu"]
                         when 'withdrawn'
                           "withdraw"
                         else
-                          ['submit', "reject", "ingest finished", "disseminate finished", "snafu", "disseminate snafu", "withdraw"]
+                          ['submit', "reject", "ingest finished", "disseminate finished", "ingest snafu", "disseminate snafu", "withdraw"]
                         end
 
                 # filter on date range
