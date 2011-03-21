@@ -175,15 +175,46 @@ get '/packages?/?' do
                 @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
               elsif params['filter'] == 'true'
 
+                
+                # filter on status
+                names = case params['activity-scope']
+                        when 'submit'
+                          "submit"
+                        when 'reject'
+                          "reject"
+                        when 'archived'
+                          "ingest finished"
+                        when 'disseminated'
+                          "disseminate finished"
+                        when 'snafu'
+                          ["snafu", "disseminate snafu"]
+                        when 'withdrawn'
+                          "withdraw"
+                        else
+                          ['submit', "reject", "ingest finished", "disseminate finished", "snafu", "disseminate snafu", "withdraw"]
+                        end
 
-                ps = Package.all
+                # filter on date range
+                start_date = if params['start_date'] and !params['start_date'].strip.empty?
+                               Time.parse params['start_date']
+                             else
+                               Time.at 0
+                             end
+
+                end_date = if params['end_date'] and !params['end_date'].strip.empty?
+                             Time.parse params['end_date']
+                           else
+                             Time.now
+                           end
+
+                end_date += 1
+                range = (start_date..end_date)
+
+                ps = Event.all(:timestamp => range, :name => names).packages
 
                 # filter on batches
                 batch = Batch.get(params['batch-scope']) 
-
-                if batch
-                  ps = ps.all :batch => batch
-                end
+                ps = ps.all :batch => batch
 
                 # filter on account
                 account = Account.get(params['account-scope'])
@@ -196,60 +227,19 @@ get '/packages?/?' do
                 project_id, account_id = params['project-scope'].split("-")
                 act = Account.get(account_id)
                 project = act.projects.first(:id => project_id) if act
-                
+
                 if project
                   ps = ps.all & project.packages 
                 end
-                
-                # filter on status
-                es = case params['activity-scope']
-                when 'reject'
-                  ps.events.all :name => "reject"
-                when 'archived'
-                  ps.events.all :name => "ingest finished"
-                when 'disseminated'
-                  ps.events.all :name => "disseminate finished"
-                when 'snafu'
-                  ps.events.all(:name => ["snafu", "disseminate snafu"])
-                when 'withdrawn'
-                  ps.events.all :name => "withdraw"
-                else
-                  ps.events.all :name => ["reject", "ingest finished", "disseminate finished", "snafu", "disseminate snafu", "withdraw"]
-                end
 
-                ps = es.packages & ps
+                ps
 
-                # filter on date range
-                # TODO the db should be doing this, MVP, oh well
-                start_date = if params['start_date'] and !params['start_date'].strip.empty?
-                                 Time.parse params['start_date']
-                               else
-                                 Time.at 0
-                               end
-
-                  end_date = if params['end_date'] and !params['end_date'].strip.empty?
-                               Time.parse params['end_date']
-                             else
-                               Time.now
-                             end
-
-                  end_date += 1
-                  range = (start_date..end_date)
-
-                  es = ps.events.all :timestamp => range
-                  ps = es.map { |e| e.package }.uniq
               else
-                t0 = Date.today - 7
-                es = Event.all(:timestamp.gt => t0, :limit => 100, :order => [ :timestamp.desc ])
-                # TODO es should be ps from here on
-                es = es.map { |e| e.package }.uniq
-
-                # unless operator, trim list to those where user's project include the package
-                if @user.type == Operator
-                  es
-                else
-                  es.find_all { |e| @user.account.projects.include?(e.project) }
-                end
+                start_date = Time.now - (60 * 60 * 24 * 7)
+                end_date = Time.now
+                range = (start_date..end_date)
+                names = ["submit", "reject", "ingest finished", "disseminate finished", "snafu", "disseminate snafu", "withdraw"]
+                ps = Event.all(:timestamp => range, :name => names).packages
               end
 
   @packages.sort! do |a,b|
