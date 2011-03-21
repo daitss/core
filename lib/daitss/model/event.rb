@@ -9,7 +9,7 @@ module Daitss
     include DataMapper::Resource
 
     property :id, Serial, :key => true
-    property :name, String, :required => true
+    property :name, String, :required => true, :index => true
     property :timestamp, DateTime, :required => true, :default => proc { DateTime.now }
     property :notes, Text, :length => 2**32-1
     property :outcome, String, :default => "N/A"
