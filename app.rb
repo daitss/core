@@ -177,7 +177,41 @@ get '/packages?/?' do
                 @filter = true
 
 
-                ps = Package.all
+                # filter on status
+                names = case params['activity-scope']
+                        when 'submit'
+                          "submit"
+                        when 'reject'
+                          "reject"
+                        when 'archived'
+                          "ingest finished"
+                        when 'disseminated'
+                          "disseminate finished"
+                        when 'snafu'
+                          ["snafu", "disseminate snafu"]
+                        when 'withdrawn'
+                          "withdraw"
+                        else
+                          ['submit', "reject", "ingest finished", "disseminate finished", "snafu", "disseminate snafu", "withdraw"]
+                        end
+
+                # filter on date range
+                start_date = if params['start_date'] and !params['start_date'].strip.empty?
+                               Time.parse params['start_date']
+                             else
+                               Time.at 0
+                             end
+
+                end_date = if params['end_date'] and !params['end_date'].strip.empty?
+                             Time.parse params['end_date']
+                           else
+                             Time.now
+                           end
+
+                end_date += 1
+                range = (start_date..end_date)
+
+                ps = Event.all(:timestamp => range, :name => names).packages
 
                 # filter on batches
                 batch = Batch.get(params['batch-scope'])
@@ -234,23 +268,14 @@ get '/packages?/?' do
                                Time.now
                              end
 
-                  end_date += 1
-                  range = (start_date..end_date)
+                ps
 
-                  es = ps.events.all :timestamp => range
-                  ps = es.map { |e| e.package }.uniq
               else
-                t0 = Date.today - 7
-                es = Event.all(:timestamp.gt => t0, :limit => 100, :order => [ :timestamp.desc ])
-                # TODO es should be ps from here on
-                es = es.map { |e| e.package }.uniq
-
-                # unless operator, trim list to those where user's project include the package
-                if @user.type == Operator
-                  es
-                else
-                  es.find_all { |e| @user.account.projects.include?(e.project) }
-                end
+                start_date = Time.now - (60 * 60 * 24 * 7)
+                end_date = Time.now
+                range = (start_date..end_date)
+                names = ["submit", "reject", "ingest finished", "disseminate finished", "snafu", "disseminate snafu", "withdraw"]
+                ps = Event.all(:timestamp => range, :name => names).packages
               end
 
   @packages.sort! do |a,b|
