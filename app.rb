@@ -175,6 +175,7 @@ get '/packages?/?' do
                 @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
               elsif params['filter'] == 'true'
 
+
                 ps = Package.all
 
                 # filter on batches
@@ -201,23 +202,22 @@ get '/packages?/?' do
                 end
                 
                 # filter on status
-                case params['activity-scope']
+                es = case params['activity-scope']
                 when 'reject'
-                  es = ps.events.all :name => "reject"
-                  ps = ps.all & es.packages
+                  ps.events.all :name => "reject"
                 when 'archived'
-                  es = ps.events.all :name => "ingest finished"
-                  ps = ps.all & es.packages
+                  ps.events.all :name => "ingest finished"
                 when 'disseminated'
-                  es = ps.events.all :name => "disseminate finished"
-                  ps = ps.all & es.packages
+                  ps.events.all :name => "disseminate finished"
                 when 'snafu'
-                  es = ps.events.all(:name => "snafu") + ps.events.all(:name => "disseminate snafu")
-                  ps = ps.all & es.packages
+                  ps.events.all(:name => ["snafu", "disseminate snafu"])
                 when 'withdrawn'
-                  es = ps.events.all :name => "withdraw"
-                  ps = ps.all & es.packages
+                  ps.events.all :name => "withdraw"
+                else
+                  ps.events.all :name => ["reject", "ingest finished", "disseminate finished", "snafu", "disseminate snafu", "withdraw"]
                 end
+
+                ps = es.packages & ps
 
                 # filter on date range
                 # TODO the db should be doing this, MVP, oh well
@@ -238,7 +238,6 @@ get '/packages?/?' do
 
                   es = ps.events.all :timestamp => range
                   ps = es.map { |e| e.package }.uniq
-                  ps.select { |p| range.include? p.normal_events.last.timestamp.to_time }
               else
                 t0 = Date.today - 7
                 es = Event.all(:timestamp.gt => t0, :limit => 100, :order => [ :timestamp.desc ])

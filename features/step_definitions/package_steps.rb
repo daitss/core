@@ -172,7 +172,7 @@ Given /^(\d+) package under account\/project "([^"]*)"$/ do |number, account_pro
     pa.project = p
     pa.save
 
-    pa.log "ingest started"
+    pa.log "ingest finished"
   end
 end
 
