@@ -79,14 +79,14 @@ module Daitss
 
       df_paths = doc.find("//M:file", NS_PREFIX).map do |file_node|
 
-        # make  a new datafile
+        # make a new datafile
         df_id = file_node['ID'].slice /^file-(.+)$/, 1
 
         # SMELL this needs to be revised to disseminate a d1 package with the stupid DFIDs
         df = case df_id
-             when /^\d+$/ then new_original_datafile df_id
-             when /^\d+-mig-\d+$/ then new_migrated_datafile df_id
-             when /^\d+-norm-\d+$/ then new_normalized_datafile df_id
+             when /^(E.*|\d+)$/ then new_original_datafile df_id
+             when /^(E.*|\d+)-mig-\d+$/ then new_migrated_datafile df_id
+             when /^(E.*|\d+)-norm-\d+$/ then new_normalized_datafile df_id
              else raise "unknown df id format #{dfid}"
              end
 
