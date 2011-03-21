@@ -174,8 +174,9 @@ get '/packages?/?' do
                 ids = @query.strip.split
                 @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
               elsif params['filter'] == 'true'
+                @filter = true
 
-                
+
                 # filter on status
                 names = case params['activity-scope']
                         when 'submit'
@@ -213,14 +214,17 @@ get '/packages?/?' do
                 ps = Event.all(:timestamp => range, :name => names).packages
 
                 # filter on batches
-                batch = Batch.get(params['batch-scope']) 
-                ps = ps.all :batch => batch
+                batch = Batch.get(params['batch-scope'])
+
+                if batch
+                  ps = ps.all :batch => batch
+                end
 
                 # filter on account
                 account = Account.get(params['account-scope'])
 
                 if account
-                  ps = ps.all & account.projects.packages 
+                  ps = ps.all & account.projects.packages
                 end
 
                 # filter on project
@@ -229,8 +233,40 @@ get '/packages?/?' do
                 project = act.projects.first(:id => project_id) if act
 
                 if project
-                  ps = ps.all & project.packages 
+                  ps = ps.all & project.packages
                 end
+
+                # filter on status
+                es = case params['activity-scope']
+                when 'reject'
+                  ps.events.all :name => "reject"
+                when 'archived'
+                  ps.events.all :name => "ingest finished"
+                when 'disseminated'
+                  ps.events.all :name => "disseminate finished"
+                when 'snafu'
+                  ps.events.all(:name => ["snafu", "disseminate snafu"])
+                when 'withdrawn'
+                  ps.events.all :name => "withdraw"
+                else
+                  ps.events.all :name => ["reject", "ingest finished", "disseminate finished", "snafu", "disseminate snafu", "withdraw"]
+                end
+
+                ps = es.packages & ps
+
+                # filter on date range
+                # TODO the db should be doing this, MVP, oh well
+                start_date = if params['start_date'] and !params['start_date'].strip.empty?
+                                 Time.parse params['start_date']
+                               else
+                                 Time.at 0
+                               end
+
+                  end_date = if params['end_date'] and !params['end_date'].strip.empty?
+                               Time.parse params['end_date']
+                             else
+                               Time.now
+                             end
 
                 ps
 
