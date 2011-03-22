@@ -92,15 +92,15 @@ end
 # TODO
 
 # ops perms
-before '/log*' { require_ops }
-before '/profile*' { require_ops }
-before '/rejects*' { require_ops }
-before '/snafus*' { require_ops }
-before '/workspace*' { require_ops }
-before '/stashspace*' { require_ops }
-before '/admin*' { require_ops }
-before '/batches*' { require_ops }
-before '/requests*' { require_ops }
+before('/log*') { require_ops }
+before('/profile*') { require_ops }
+before('/rejects*') { require_ops }
+before('/snafus*') { require_ops }
+before('/workspace*') { require_ops }
+before('/stashspace*') { require_ops }
+before('/admin*') { require_ops }
+before('/batches*') { require_ops }
+before('/requests*') { require_ops }
 
 # TODO figure out perm semantics
 #  get '/'
