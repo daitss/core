@@ -256,7 +256,7 @@ get '/packages?/?' do
 end
 
 get '/rejects' do
-  e = Event.all(:order => [ :timestamp.desc ], :name => "reject")
+  e = Event.all(:order => [ :timestamp.desc ], :name => "reject", :limit => 150)
   @packages = e.map { |e| e.package }.uniq
 
   haml :rejects
