@@ -147,7 +147,7 @@ end
 
 get '/' do
 
-  if @user.kind_of Operator
+  if @user.kind_of? Operator
     haml :index
   else
     redirect '/packages'
