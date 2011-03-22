@@ -61,6 +61,14 @@ helpers do
     params[name.to_s] or error 400, "parameter #{name} required"
   end
 
+  def require_ops
+    error 403 unless @user.kind_of? Operator
+  end
+
+  def require_account act_id
+    error 403 unless @user.account.id == act_id
+  end
+
   def partial template, options={}
     haml template, options.merge!(:layout => false)
   end
@@ -80,6 +88,30 @@ before do
   end
 
 end
+
+# TODO
+
+# ops perms
+before '/log*' { require_ops }
+before '/profile*' { require_ops }
+before '/rejects*' { require_ops }
+before '/snafus*' { require_ops }
+before '/workspace*' { require_ops }
+before '/stashspace*' { require_ops }
+before '/admin*' { require_ops }
+before '/batches*' { require_ops }
+before '/requests*' { require_ops }
+
+# TODO figure out perm semantics
+#  get '/'
+# post '/packages?/?'
+#  get '/packages?/?'
+#  get '/package/:id'
+#  get '/package/:id/descriptor'
+#  get '/package/:p_id/dip/:d_id'
+#  get '/package/:id/ingest_report'
+# post '/package/:id/request'
+# post '/package/:pid/request/:rid'
 
 get '/profile' do
   js = Dir.chdir(archive.profile_path) { Dir['*.journal'] }
@@ -114,12 +146,13 @@ get '/stylesheet.css' do
 end
 
 get '/' do
-  haml :index
-end
 
-# log
-before '/log' do
-  error 403 unless @user.kind_of? Operator
+  if @user.kind_of Operator
+    haml :index
+  else
+    redirect '/packages'
+  end
+
 end
 
 get '/log' do
@@ -346,10 +379,6 @@ post '/package/:pid/request/:rid' do |pid, rid|
   redirect "/package/#{pid}"
 end
 
-before '/workspace' do
-  error 403 unless @user.kind_of? Operator
-end
-
 get '/workspace' do
   @wips = archive.workspace.to_a
   @bins = archive.stashspace
@@ -503,10 +532,6 @@ post '/workspace/:id' do |id|
 end
 
 # stash bins & stashed wips
-before '/stashspace' do
-  error 403 unless @user.kind_of? Operator
-end
-
 get '/stashspace' do
   @bins = archive.stashspace
   haml :stashspace
@@ -581,10 +606,6 @@ delete '/stashspace/:bin/:wip' do |b_id, w_id|
 
   end
 
-end
-
-before '/admin' do
-  error 403 unless @user.kind_of? Operator
 end
 
 get '/admin' do
