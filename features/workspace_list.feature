@@ -89,6 +89,7 @@ Feature: list wips
     Given a idle wip
     Given a stop wip
     Given a running wip
+    Given a dead wip
     And I goto "/workspace"
     When I select status "<activity>"
     And I press "Set Scope"
@@ -96,6 +97,7 @@ Feature: list wips
     Examples:
       |activity|count|
       |running|1|
+      |dead|1|
       |idle|1|
       |snafu|1|
       |stopped|1|
