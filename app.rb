@@ -23,7 +23,6 @@ class Login < Sinatra::Base
   end
 
   post('/login') do
-
     name = params[:name]
     password = params[:password]
     user = User.get name
@@ -103,6 +102,8 @@ before('/batches*') { require_ops }
 before('/requests*') { require_ops }
 
 # TODO figure out perm semantics
+#  limit to just account data, no wips, reqs, etc
+#
 #  get '/'
 # post '/packages?/?'
 #  get '/packages?/?'
@@ -146,13 +147,7 @@ get '/stylesheet.css' do
 end
 
 get '/' do
-
-  if @user.kind_of? Operator
-    haml :index
-  else
-    redirect '/packages'
-  end
-
+  haml :index
 end
 
 get '/log' do
