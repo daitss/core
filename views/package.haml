@@ -159,6 +159,7 @@
                   %td &nbsp;
 
         - if @is_op
+          %h2 submit request
           %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
             %select{:name=>'type'}
               %option= 'disseminate'
@@ -186,7 +187,7 @@
 
       - if @is_op
         %tr
-          %th descriptor
+          %th aip descriptor
           %td
             %a{:href=>"/package/#{@package.id}/descriptor"} mets descriptor
 

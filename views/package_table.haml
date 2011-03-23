@@ -6,13 +6,14 @@
     %th project
     %th size (MB)
     %th # of datafiles
-    %th activity
+    %th lastest activity
     %th time
   - packages.each do |p|
     %tr
       %td
         %a{:href => "/package/#{p.id}"}= p.id
-      %td= p.sip.name
+      %td
+        %a{:href => "/package?search=#{p.sip.name}"}= p.sip.name 
       %td= p.project.account.id
       %td= p.project.id
       %td= sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000)

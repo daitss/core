@@ -210,9 +210,9 @@ get '/packages?/?' do
 
                 # filter on status
                 names = case params['activity-scope']
-                        when 'submit'
+                        when 'submitted'
                           "submit"
-                        when 'reject'
+                        when 'rejected'
                           "reject"
                         when 'archived'
                           "ingest finished"

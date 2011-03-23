@@ -80,3 +80,7 @@ end
 Then /^I should see "([^"]*)"$/ do |thing|
   last_response.body.should contain(thing)
 end
+
+Then /^I should not see "([^"]*)"$/ do |thing|
+  last_response.body.should_not contain(thing)
+end

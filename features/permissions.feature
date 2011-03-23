@@ -25,3 +25,37 @@ Feature: permissions
       | affiliate | /admin          | 403      |
       | affiliate | /batches        | 403      |
       | affiliate | /requests       | 403      |
+
+  Scenario: affiliate should not have access to batch form
+    Given I am logged in as an "affiliate"
+    When I goto "/packages"
+    Then I should not see "Save as Batch"
+
+  Scenario: operator should have access to batch form
+    Given I am logged in as an "operator"
+    When I goto "/packages"
+    Then I should see "Save as Batch"
+
+  Scenario: affiliate should not have access to request form
+    Given I am logged in as an "affiliate"
+    Given an archived package
+    When I goto its package page
+    Then I should not see "submit request"
+
+  Scenario: operator should have access to request form
+    Given I am logged in as an "operator"
+    Given an archived package
+    When I goto its package page
+    Then I should see "submit request"
+
+  Scenario: Access to aip details
+    Given I am logged in as an "affiliate"
+    Given an archived package
+    When I goto its package page
+    Then I should not see "copy url"
+    Then I should not see "copy sha1"
+    Then I should not see "copy md5"
+    Then I should not see "aip descriptor"
+
+
+
