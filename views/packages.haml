@@ -114,12 +114,11 @@
 %hr/
 
 #results
-  %h1
-    - if @query or @filter
-      = partial :package_stats, :locals => {:packages => @packages }
+  - if @query or @filter
+    = partial :package_stats, :locals => {:packages => @packages }
 
-    - else
-      latest activity
+  - else
+    latest activity
 
   - unless @packages.empty?
     = partial :package_table, :locals => {:packages => @packages }
