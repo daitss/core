@@ -150,8 +150,8 @@ Feature: be able to locate any package
     Then I should have <count> package in the results
     Examples:
       | activity     | count |
-      | reject       | 1     |
-      | submit       | 1     |
+      | rejected     | 1     |
+      | submitted    | 1     |
       | error        | 1     |
       | archived     | 1     |
       | disseminated | 1     |
