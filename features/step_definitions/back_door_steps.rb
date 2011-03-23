@@ -22,3 +22,7 @@ When /^I wait for the "([^"]*)" to finish$/ do |task|
   wip.should_not be_dead
   wip.should_not be_snafu
 end
+
+When /^I wait for "([^"]*)" seconds$/ do |n|
+  sleep n.to_f
+end

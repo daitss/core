@@ -36,7 +36,7 @@ Feature: be able to locate any package
     And I should see the following columns:
       | package | sip | size (MB) | # of datafiles | account | activity | time |
     And the package column should link to a package
-     
+
   Scenario: rejects should display in packages list
     Given I goto "/packages"
     When I select "bad-account" to upload
@@ -146,13 +146,14 @@ Feature: be able to locate any package
     And I goto "/packages"
     When I select activity "<activity>"
     And I press "Set Scope"
+    And I wait for "0.5" seconds
     Then I should have <count> package in the results
     Examples:
-      |activity|count|
-      |reject|1|
-      |submit|1|
-      |snafu|1|
-      |archived|1|
-      |disseminated|1|
-      |withdrawn|0|
+      | activity     | count |
+      | reject       | 1     |
+      | submit       | 1     |
+      | error        | 1     |
+      | archived     | 1     |
+      | disseminated | 1     |
+      | withdrawn    | 0     |
 

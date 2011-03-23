@@ -18,4 +18,8 @@ module Daitss
     belongs_to :package
   end
 
+  def polite_name
+    name.gsub 'snafu', 'error'
+  end
+
 end

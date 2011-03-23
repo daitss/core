@@ -218,7 +218,7 @@ get '/packages?/?' do
                           "ingest finished"
                         when 'disseminated'
                           "disseminate finished"
-                        when 'snafu'
+                        when 'error'
                           ["ingest snafu", "disseminate snafu"]
                         when 'withdrawn'
                           "withdraw"
