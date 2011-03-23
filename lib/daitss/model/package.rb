@@ -28,7 +28,9 @@ module Daitss
     belongs_to :batch, :required => false
 
     LEGACY_EVENTS = [
-      'legacy operations data'
+      'legacy operations data',
+      'migrated from package tracker',
+      'migrated from rejects db'
     ]
 
     FIXITY_PASSED_EVENTS = [
