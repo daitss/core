@@ -158,13 +158,14 @@
                 - else
                   %td &nbsp;
 
-        %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
-          %select{:name=>'type'}
-            %option= 'disseminate'
-            -#%option= 'withdraw'
-            -#%option= 'peek'
-          %input{:name => 'note'}
-          %input{:type => 'submit', :value => 'Request'}
+        - if @is_op
+          %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
+            %select{:name=>'type'}
+              %option= 'disseminate'
+              -#%option= 'withdraw'
+              -#%option= 'peek'
+            %input{:name => 'note'}
+            %input{:type => 'submit', :value => 'Request'}
 
     %h2 aip
 
@@ -183,21 +184,23 @@
           %th issue
           %td= @package.intentity.issue
 
-      %tr
-        %th descriptor
-        %td
-          %a{:href=>"/package/#{@package.id}/descriptor"} mets descriptor
+      - if @is_op
+        %tr
+          %th descriptor
+          %td
+            %a{:href=>"/package/#{@package.id}/descriptor"} mets descriptor
 
       %tr
         %th descriptor errata
         %td
           %pre= aip.xml_errata || 'N/A'
 
-      %tr
-        %th copy url
-        %td
-          %a{ :href => (aip.copy ? aip.copy.url : "#") }
-            = @package.id + ".tar"
+      - if @is_op
+        %tr
+          %th copy url
+          %td
+            %a{ :href => (aip.copy ? aip.copy.url : "#") }
+              = @package.id + ".tar"
       %tr
         %th ingest report
         %td
@@ -211,14 +214,17 @@
             = "ingest report stylesheet (to download, right click and select Save As...)"
 
       %tr
-        %th copy size
+        %th aip size
         %td= aip.copy ? aip.copy.size : "N/A"
-      %tr
-        %th copy sha1
-        %td= aip.copy ? aip.copy.sha1 : "N/A"
-      %tr
-        %th copy md5
-        %td= aip.copy ? aip.copy.md5 : "N/A"
+
+      - if @is_op
+        %tr
+          %th copy sha1
+          %td= aip.copy ? aip.copy.sha1 : "N/A"
+        %tr
+          %th copy md5
+          %td= aip.copy ? aip.copy.md5 : "N/A"
+        
       %tr
         %th number of datafiles
         %td= aip.datafile_count

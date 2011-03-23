@@ -123,7 +123,8 @@
   - unless @packages.empty?
     = partial :package_table, :locals => {:packages => @packages }
 
-  %form{:action => '/batches', :method => 'post'}
-    %input{:name => 'name', :value => "batch name"}
-    %input{:type => 'hidden', :name => 'packages', :value => "#{@packages.inject(''){|str, p| str + " " + p.id}}"}
-    %input{:type => 'submit', :value => 'Save as Batch'}
+  - if @is_op
+    %form{:action => '/batches', :method => 'post'}
+      %input{:name => 'name', :value => "batch name"}
+      %input{:type => 'hidden', :name => 'packages', :value => "#{@packages.inject(''){|str, p| str + " " + p.id}}"}
+      %input{:type => 'submit', :value => 'Save as Batch'}
