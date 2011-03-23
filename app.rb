@@ -91,15 +91,9 @@ end
 # TODO
 
 # ops perms
-before('/log*') { require_ops }
-before('/profile*') { require_ops }
-before('/rejects*') { require_ops }
-before('/snafus*') { require_ops }
-before('/workspace*') { require_ops }
-before('/stashspace*') { require_ops }
-before('/admin*') { require_ops }
-before('/batches*') { require_ops }
-before('/requests*') { require_ops }
+[ '/log*', '/profile*', '/rejects*', '/snafus*', '/workspace*', '/stashspace*', '/admin*', '/batches*', '/requests*' ].each do |path|
+  before(path) { require_ops }
+end
 
 # TODO figure out perm semantics
 #  limit to just account data, no wips, reqs, etc
