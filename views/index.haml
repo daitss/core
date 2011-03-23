@@ -7,21 +7,6 @@
 
 %hr
 
-%h2 wip summary
-
-%table
-  %tr
-    %th count
-    %td= archive.workspace.to_a.size
-
-  %tr
-    %th running
-    %td= archive.workspace.select { |w| w.running? }.size
-  %tr
-    %th snafu
-    %td= archive.workspace.select { |w| w.snafu? }.size
-%hr
-
 %h2 sip summary
 
 %table
