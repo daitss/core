@@ -76,3 +76,7 @@ Then /^I should (be|not be) redirected$/ do |cond|
   end
 
 end
+
+Then /^I should see "([^"]*)"$/ do |thing|
+  last_response.body.should contain(thing)
+end

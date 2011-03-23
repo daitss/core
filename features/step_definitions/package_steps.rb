@@ -167,7 +167,7 @@ Given /^(\d+) package under account\/project "([^"]*)"$/ do |number, account_pro
 
   number.to_i.times do |i|
     s = Sip.new :name => i
-    pa = Package.new 
+    pa = Package.new
     pa.sip = s
     pa.project = p
     pa.save
@@ -187,7 +187,7 @@ end
 Given /^(\d+) rejected package$/ do |count|
   count.to_i.times do |i|
     s = Sip.new :name => i
-    pa = Package.new 
+    pa = Package.new
     pa.sip = s
     pa.project = Project.first
     pa.save
@@ -198,8 +198,8 @@ end
 
 Given /^(\d+) archived package$/ do |count|
   count.to_i.times do |i|
-    s = Sip.new :name => i
-    pa = Package.new 
+    s = Sip.new :name => i, :size_in_bytes => (1024 * 871), :number_of_datafiles => 3
+    pa = Package.new
     pa.sip = s
     pa.project = Project.first
     pa.save
@@ -211,7 +211,7 @@ end
 Given /^(\d+) snafu package$/ do |count|
   count.to_i.times do |i|
     s = Sip.new :name => i
-    pa = Package.new 
+    pa = Package.new
     pa.sip = s
     pa.project = Project.first
     pa.save
@@ -223,7 +223,7 @@ end
 Given /^(\d+) disseminated package$/ do |count|
   count.to_i.times do |i|
     s = Sip.new :name => i
-    pa = Package.new 
+    pa = Package.new
     pa.sip = s
     pa.project = Project.first
     pa.save
@@ -235,7 +235,7 @@ end
 Given /^(\d+) submitted package$/ do |count|
   count.to_i.times do |i|
     s = Sip.new :name => i
-    pa = Package.new 
+    pa = Package.new
     pa.sip = s
     pa.project = Project.first
     pa.save

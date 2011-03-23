@@ -116,10 +116,7 @@
 #results
   %h1
     - if @query or @filter
-      results
-      (
-      = @packages.size
-      )
+      = partial :package_stats, :locals => {:packages => @packages }
 
     - else
       latest activity

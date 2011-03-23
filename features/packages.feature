@@ -82,16 +82,16 @@ Feature: be able to locate any package
     And I press "Set Scope"
     Then I should have <count> package in the results
     Examples:
-      |start_date|end_date|count|
-      |3/15/2011|3/16/2011|4|
-      |2/15/2011|2/16/2011|4|
-      |3/15/2011||4|
-      |2/15/2011||8|
-      ||3/17/2011|12|
-      |||12|
-      |3/17/2011||0|
-      ||1/1/2011|0|
-      ||1/16/2011|4|
+      | start_date | end_date  | count |
+      | 3/15/2011  | 3/16/2011 | 4     |
+      | 2/15/2011  | 2/16/2011 | 4     |
+      | 3/15/2011  |           | 4     |
+      | 2/15/2011  |           | 8     |
+      |            | 3/17/2011 | 12    |
+      |            |           | 12    |
+      | 3/17/2011  |           | 0     |
+      |            | 1/1/2011  | 0     |
+      |            | 1/16/2011 | 4     |
 
   Scenario Outline: Filter by batch
     Given 4 packages under batch "foo"
@@ -102,10 +102,10 @@ Feature: be able to locate any package
     And I press "Set Scope"
     Then I should have <count> package in the results
     Examples:
-      |batch|count|
-      |foo|4|
-      |bar|4|
-      |nopackages|0|
+      | batch      | count |
+      | foo        | 4     |
+      | bar        | 4     |
+      | nopackages | 0     |
 
   Scenario Outline: Filter by account
     Given 1 package under account/project "FDA-FDA"
@@ -118,10 +118,10 @@ Feature: be able to locate any package
     And I press "Set Scope"
     Then I should have <count> package in the results
     Examples:
-      |account|count|
-      |FDA|2|
-      |UF|2|
-      |FOO|0|
+      | account | count |
+      | FDA     | 2     |
+      | UF      | 2     |
+      | FOO     | 0     |
 
   Scenario Outline: Filter by project
     Given 1 package under account/project "FDA-FDA"
@@ -132,10 +132,10 @@ Feature: be able to locate any package
     And I press "Set Scope"
     Then I should have <count> package in the results
     Examples:
-      |project|count|
-      |FDA-FDA|1|
-      |PRB-FDA|1|
-      |BAR-FOO|0|
+      | project | count |
+      | FDA-FDA | 1     |
+      | PRB-FDA | 1     |
+      | BAR-FOO | 0     |
 
   Scenario Outline: Filter by activity
     Given 1 rejected package
@@ -157,3 +157,10 @@ Feature: be able to locate any package
       | disseminated | 1     |
       | withdrawn    | 0     |
 
+  Scenario: Show aggregates for result set
+    Given 3 archived package
+    When I goto "/packages"
+    And I press "Set Scope"
+    Then I should see "3 packages"
+    And I should see "2.68 MB"
+    And I should see "9 files"
