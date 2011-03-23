@@ -72,6 +72,14 @@ helpers do
     haml template, options.merge!(:layout => false)
   end
 
+  def is_op
+    @user.kind_of? Operator
+  end
+
+  def is_affiliate
+    @user.kind_of? Contact 
+  end
+
 end
 
 configure do
@@ -191,6 +199,7 @@ end
 get '/packages?/?' do
   @query = params['search']
   @batches = Batch.all
+  @is_op = is_op
 
   @packages = if @query and @query.length > 0
                 ids = @query.strip.split
@@ -301,6 +310,7 @@ get '/package/:id' do |id|
   @package = @user.packages.get(id) or not_found
   @bins = archive.stashspace
   @bin = archive.stashspace.find { |b| File.exist? File.join(b.path, id) }
+  @is_op = is_op
 
   @fixity_events = params["fixity_events"] == "true"
 
