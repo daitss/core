@@ -73,3 +73,11 @@ Feature: permissions
     Then I should not see "batch"
     Then I should not see "Batch"
 
+  Scenario: affiliate should not see DIP links
+    Given "haskell-nums-pdf" is archived
+    When I choose request type "disseminate"
+    And I press "Request"
+    And I wait for the "disseminate" to finish
+    Given I am logged in as an "affiliate"
+    When I goto its package page
+    Then I should not see "dips"

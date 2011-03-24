@@ -230,13 +230,14 @@
         %th number of datafiles
         %td= aip.datafile_count
 
-- if @package.dips.any?
-  %h2 dips
-
-  %table
-    %tr
-
-    - @package.dips.each do |dip|
+- if @is_op
+  - if @package.dips.any?
+    %h2 dips
+  
+    %table
       %tr
-        %td
-          %a{:href=>"/package/#{@package.id}/dip/#{dip}"}= dip
+  
+      - @package.dips.each do |dip|
+        %tr
+          %td
+            %a{:href=>"/package/#{@package.id}/dip/#{dip}"}= dip
