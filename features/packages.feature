@@ -137,6 +137,17 @@ Feature: be able to locate any package
       | PRB-FDA | 1     |
       | BAR-FOO | 0     |
 
+  Scenario: If conflicting account/project specified, empty result set should be returned
+    Given 1 package under account/project "FDA-FDA"
+    Given 1 package under account/project "FDA-PRB"
+    Given 1 package under account/project "FOO-BAR"
+    Given an account/project "FOO-BAR"
+    Given I goto "/packages"
+    When I select project "BAR-FOO"
+    When I select account "FDA"
+    And I press "Set Scope"
+    Then I should have 0 package in the results
+
   Scenario Outline: Filter by activity
     Given 1 rejected package
     And 1 archived package

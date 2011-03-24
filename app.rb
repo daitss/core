@@ -242,7 +242,29 @@ get '/packages?/?' do
                 end_date += 1
                 range = (start_date..end_date)
 
-                ps = Event.all(:timestamp => range, :name => names).packages
+                # lookup account, project if passed in
+                account = Account.get(params['account-scope'])
+
+                project_id, account_id = params['project-scope'].split("-")
+                act = Account.get(account_id)
+                project = act.projects.first(:id => project_id) if act
+
+                # conflicting search, return empty set
+                if account and act and account.id != act.id 
+                  ps = Package.all(:limit => 0)
+
+                # account but not project specified
+                elsif account and !project
+                  ps = account.projects.packages.events.all(:timestamp => range, :name => names).packages
+
+                # project specified
+                elsif project
+                  ps = project.packages.events.all(:timestamp => range, :name => names).packages
+                
+                # neither account nor project specified
+                else
+                  ps = Event.all(:timestamp => range, :name => names).packages
+                end
 
                 # filter on batches
                 batch = Batch.get(params['batch-scope'])
@@ -251,30 +273,18 @@ get '/packages?/?' do
                   ps = ps.all :batch => batch
                 end
 
-                # filter on account
-                account = Account.get(params['account-scope'])
-
-                if account
-                  ps = ps.all & account.projects.packages
-                end
-
-                # filter on project
-                project_id, account_id = params['project-scope'].split("-")
-                act = Account.get(account_id)
-                project = act.projects.first(:id => project_id) if act
-
-                if project
-                  ps = ps.all & project.packages
-                end
-
                 ps
-
               else
                 start_date = Time.now - (60 * 60 * 24 * 4)
                 end_date = Time.now
                 range = (start_date..end_date)
                 names = ["submit", "reject", "ingest finished", "disseminate finished", "snafu", "disseminate snafu", "withdraw"]
-                ps = Event.all(:timestamp => range, :name => names).packages
+
+                if @is_op
+                  ps = Event.all(:timestamp => range, :name => names).packages
+                else
+                  ps = @user.account.projects.packages.events.all(:timestamp => range, :name => names).packages
+                end
               end
 
   @packages.sort! do |a,b|
