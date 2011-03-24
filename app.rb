@@ -219,7 +219,7 @@ get '/packages?/?' do
                         when 'disseminated'
                           "disseminate finished"
                         when 'error'
-                          ["ingest snafu", "disseminate snafu"]
+                          ["ingest snafu", "disseminate snafu", "d1refresh snafu"]
                         when 'withdrawn'
                           "withdraw"
                         else
