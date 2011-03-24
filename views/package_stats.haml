@@ -1,15 +1,15 @@
 .stats
 
-  %h1.stat
+  %h3.stat
     = packages.size
     packages
 
-  %h1.stat
+  %h3.stat
     - total = packages.inject(0.0) { |acc, p| acc + (p.sip and p.sip.size_in_bytes ? p.sip.size_in_bytes : 0 ) }
     = sprintf('%.2f', total / 1000000)
     MB
 
-  %h1.stat
+  %h3.stat
     = packages.inject(0) { |acc, p| acc + (p.sip and p.sip.number_of_datafiles ? p.sip.number_of_datafiles : 0 ) }
     files
 
