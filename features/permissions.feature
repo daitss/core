@@ -57,5 +57,19 @@ Feature: permissions
     Then I should not see "copy md5"
     Then I should not see "aip descriptor"
 
+  Scenario: filtering access
+    Given I am logged in as an "affiliate"
+    Given 1 package under account/project "ACT-FDA"
+    Given 1 package under account/project "ACT-PRB"
+    Given an account/project "FOO-BAR"
+    Given I goto "/packages"
+    When I press "Set Scope"
+    Then I should have 2 package in the results
 
+  Scenario: affiliate should not see anything batch related
+    Given I am logged in as an "affiliate"
+    Given an archived package
+    When I goto "/packages"
+    Then I should not see "batch"
+    Then I should not see "Batch"
 
