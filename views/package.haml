@@ -114,7 +114,7 @@
           - else
             %td &nbsp;
     - unless @package.requests.all( :status.not => :cancelled ).any?
-      %h2 request refresth
+      %h2 request refresh
       %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
         %input{:type => 'hidden', :name => 'type', :value => 'd1refresh'}
         %table
