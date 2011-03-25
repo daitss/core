@@ -281,9 +281,9 @@ get '/packages?/?' do
                 names = ["submit", "reject", "ingest finished", "disseminate finished", "snafu", "disseminate snafu", "withdraw"]
 
                 if @is_op
-                  ps = Event.all(:timestamp => range, :name => names).packages
+                  ps = Event.all(:timestamp => range, :name => names, :limit => 150).packages
                 else
-                  ps = @user.account.projects.packages.events.all(:timestamp => range, :name => names).packages
+                  ps = @user.account.projects.packages.events.all(:timestamp => range, :name => names, :limit => 150).packages
                 end
               end
 
