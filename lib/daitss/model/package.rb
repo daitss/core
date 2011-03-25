@@ -155,6 +155,15 @@ module Daitss
 
     end
 
+    def queue_reject_report
+      r = ReportDelivery.new :type => :reject
+      (self.project.account.report_email == nil or self.project.account.report_email.length == 0) ? r.mechanism = :ftp : r.mechanism = :email
+      r.package = self
+
+      r.save
+    end
+
+
   end
 
 end

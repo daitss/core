@@ -16,22 +16,36 @@ while true
   ReportDelivery.all.each do |r|
     p = r.package
     if r.mechanism == :email
-      STDERR.puts "emailing report for #{p.id}"
+      if r.type == :ingest
+        STDERR.puts "emailing ingest report for #{p.id}"
 
-      Archive.instance.email_report p
-      p.log "ingest report mailed"
+        Archive.instance.email_report p
+        p.log "ingest report mailed"
+      else
+        STDERR.puts "emailing reject report for #{p.id}"
+
+        Archive.instance.email_reject_report p
+        p.log "reject report mailed"
+      end
     else
-      STDERR.puts "writing out report for #{p.id}"
+      if r.type == :ingest
+        STDERR.puts "writing out ingest report for #{p.id}"
 
-      rep = Archive.instance.ingest_report p.id
+        rep = Archive.instance.ingest_report p.id
+        p.log "ingest report written out for ftp"
+      else
+        STDERR.puts "writing out reject report for #{p.id}"
+
+        rep = Archive.instance.reject_report p.id
+        p.log "reject report written out for ftp"
+      end
+
       report_file = File.join archive.reports_path, p.project.account.id, (p.id + ".xml")
       FileUtils.mkdir_p File.dirname report_file
- 
+
       File.open(report_file, "w+") do |f|
         f.puts rep
       end
-
-      p.log "ingest report written out for ftp"
     end
 
     r.destroy

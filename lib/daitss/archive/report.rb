@@ -16,6 +16,15 @@ module Daitss
 
       template_by_name("ingest_report").result binding
     end
+
+    # generates and retuns a reject report for the specified IEID
+    def reject_report id
+      @package = Package.first(:id => id)
+      @message = @package.events.first(:name => "reject").notes
+
+      template_by_name("reject_report").result binding
+    end
+
   end
 end
 

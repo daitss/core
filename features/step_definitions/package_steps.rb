@@ -158,6 +158,10 @@ Then /^there should be a report delivery record$/ do
   ReportDelivery.first(:package_id => File.basename(last_package)).should_not be_nil
 end
 
+Then /^there should be a reject report delivery record$/ do
+  ReportDelivery.first(:package => Package.first, :type => :reject).should_not be_nil
+end
+
 Given /^(\d+) package under account\/project "([^"]*)"$/ do |number, account_project|
   account, project = account_project.split("-")
   a = Account.first_or_create(:id => account)
