@@ -53,6 +53,8 @@ module Daitss
 
   class Operator < User
 
+    has n, :entries
+
     def packages
       Package.all
     end

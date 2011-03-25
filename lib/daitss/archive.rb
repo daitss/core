@@ -25,9 +25,10 @@ module Daitss
     end
 
     # add an entry into the archive log
-    def log message
+    def log message, operator
       e = Entry.new
       e.message = message
+      e.operator = operator
       e.save or error "could not save archive log entry"
     end
 

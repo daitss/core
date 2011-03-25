@@ -159,7 +159,7 @@ end
 
 post '/log' do
   m = require_param 'message'
-  archive.log m
+  archive.log m, @user
   redirect '/log'
 end
 
@@ -551,7 +551,7 @@ end
 post '/stashspace' do
   name = require_param 'name'
   bin = StashBin.make! name
-  archive.log "new stash bin: #{bin}"
+  archive.log "new stash bin: #{bin}", @user
   redirect "/stashspace"
 end
 
@@ -634,7 +634,7 @@ delete '/stashspace/:id' do |id|
   bin = archive.stashspace.find { |b| b.id == id }
   error 400, "cannot delete a non-empty stash bin" unless bin.empty?
   bin.delete or error "cannot not delete stash bin"
-  archive.log "delete stash bin: #{bin}"
+  archive.log "delete stash bin: #{bin}", @user
   redirect "/stashspace"
 end
 
@@ -727,7 +727,7 @@ post '/admin' do
     p = Project.new :id => Daitss::Archive::DEFAULT_PROJECT_ID, :description => 'default project'
     a.projects << p
     a.save or error "could not create new account"
-    archive.log "new account: #{a.id}"
+    archive.log "new account: #{a.id}", @user
     redirect '/admin/accounts'
 
   when 'delete-account'
@@ -740,7 +740,7 @@ post '/admin' do
       error 400, "cannot delete a non-empty account"
     end
 
-    archive.log "delete account: #{a.id}"
+    archive.log "delete account: #{a.id}", @user
     redirect '/admin/accounts'
 
   when 'modify-account'
@@ -750,7 +750,7 @@ post '/admin' do
     a.description = require_param 'description'
     a.report_email = require_param 'report-email'
     a.save or error "could not update account"
-    archive.log "updated account: #{a.id}"
+    archive.log "updated account: #{a.id}", @user
     redirect '/admin/accounts'
 
   when 'new-project'
@@ -760,7 +760,7 @@ post '/admin' do
     description = require_param 'description'
     p = Project.new :id => id, :description => description
     p.account = a
-    archive.log "new project: #{p.id}"
+    archive.log "new project: #{p.id}", @user
     p.save or error "could not save project bin\n\n#{e.message}\n#{e.backtrace}"
     redirect '/admin/projects'
 
@@ -770,7 +770,7 @@ post '/admin' do
     p = Project.get(id, account_id) or not_found
     p.description = require_param 'description'
     p.save or error "could not update project"
-    archive.log "updated project: #{p.id} (#{p.account.id})"
+    archive.log "updated project: #{p.id} (#{p.account.id})", @user
     redirect '/admin/projects'
 
   when 'delete-project'
@@ -779,7 +779,7 @@ post '/admin' do
     p = Account.get(account_id).projects.first(:id => id) or not_found
     error 400, "cannot delete a non-empty project" unless p.packages.empty?
     p.destroy or error "could not delete project"
-    archive.log "delete project: #{p.id}"
+    archive.log "delete project: #{p.id}", @user
     redirect '/admin/projects'
 
   when 'new-user'
@@ -812,7 +812,7 @@ post '/admin' do
     u.address = require_param 'address'
     u.description = ""
     u.save or error "could not save user, errors: #{u.errors}"
-    archive.log "new user: #{u.id}"
+    archive.log "new user: #{u.id}", @user
     redirect '/admin/users'
 
   when 'modify-user'
@@ -839,7 +839,7 @@ post '/admin' do
     u.phone = require_param 'phone'
     u.address = require_param 'address'
     u.save or error "could not update user, errors: #{u.errors}"
-    archive.log "updated user: #{u.id}"
+    archive.log "updated user: #{u.id}", @user
     redirect '/admin/users'
 
   when 'change-user-password'
@@ -850,7 +850,7 @@ post '/admin' do
 
     u.encrypt_auth require_param("new_password")
     u.save or error "could not update user, errors: #{u.errors}"
-    archive.log "changed password for user: #{u.id}"
+    archive.log "changed password for user: #{u.id}", @user
     redirect '/admin/users'
 
   when 'delete-user'
@@ -858,7 +858,7 @@ post '/admin' do
     u = User.get(id) or not_found
     error 400, "cannot delete a non-empty user" unless u.events.empty?
     u.destroy or error "could not delete user"
-    archive.log "delete user: #{u.id}"
+    archive.log "delete user: #{u.id}", @user
     redirect '/admin/users'
 
   when 'make-admin-contact'
@@ -866,7 +866,7 @@ post '/admin' do
     u = Contact.get(id) or not_found
     u.is_admin_contact = true
     u.save or error "could not save user, errors: #{u.errors}"
-    archive.log "made admin contact: #{u.id}"
+    archive.log "made admin contact: #{u.id}", @user
     redirect '/admin/users'
 
   when 'make-tech-contact'
@@ -874,7 +874,7 @@ post '/admin' do
     u = Contact.get(id) or not_found
     u.is_tech_contact = true
     u.save or error "could not save user, errors: #{u.errors}"
-    archive.log "made tech contact: #{u.id}"
+    archive.log "made tech contact: #{u.id}", @user
     redirect '/admin/users'
 
   when 'unmake-admin-contact'
@@ -882,7 +882,7 @@ post '/admin' do
     u = Contact.get(id) or not_found
     u.is_admin_contact = false
     u.save or error "could not save user, errors: #{u.errors}"
-    archive.log "unmade admin contact: #{u.id}"
+    archive.log "unmade admin contact: #{u.id}", @user
     redirect '/admin/users'
 
   when 'unmake-tech-contact'
@@ -890,7 +890,7 @@ post '/admin' do
     u = Contact.get(id) or not_found
     u.is_tech_contact = false
     u.save or error "could not save user, errors: #{u.errors}"
-    archive.log "unmade tech contact: #{u.id}"
+    archive.log "unmade tech contact: #{u.id}", @user
     redirect '/admin/users'
 
   else raise "unknown task: #{params['task']}"

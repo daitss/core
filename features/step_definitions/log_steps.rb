@@ -14,3 +14,8 @@ Then /^there should be an admin log entry:$/ do |table|
   end
 
 end
+
+Then /^I should see an operator "([^"]*)"$/ do |op|
+  last_response.should have_selector("td:contains('#{op}')")
+end
+
