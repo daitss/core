@@ -255,15 +255,15 @@ get '/packages?/?' do
 
                 # account but not project specified
                 elsif account and !project
-                  ps = account.projects.packages.events.all(:timestamp => range, :name => names).packages
+                  ps = account.projects.packages.events.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ] ).packages
 
                 # project specified
                 elsif project
-                  ps = project.packages.events.all(:timestamp => range, :name => names).packages
+                  ps = project.packages.events.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages
                 
                 # neither account nor project specified
                 else
-                  ps = Event.all(:timestamp => range, :name => names).packages
+                  ps = Event.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages
                 end
 
                 # filter on batches
@@ -281,9 +281,9 @@ get '/packages?/?' do
                 names = ["submit", "reject", "ingest finished", "disseminate finished", "snafu", "disseminate snafu", "withdraw"]
 
                 if @is_op
-                  ps = Event.all(:timestamp => range, :name => names, :limit => 150).packages
+                  ps = Event.all(:timestamp => range, :name => names, :limit => 150, :order => [ :timestamp.desc ]).packages
                 else
-                  ps = @user.account.projects.packages.events.all(:timestamp => range, :name => names, :limit => 150).packages
+                  ps = @user.account.projects.packages.events.all(:timestamp => range, :name => names, :limit => 150, :order => [ :timestamp.desc ]).packages
                 end
               end
 
