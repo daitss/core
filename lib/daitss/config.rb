@@ -137,8 +137,7 @@ module Daitss
 
       # account
       a = Account.new(:id => SYSTEM_ACCOUNT_ID,
-                      :description => 'account for system operations',
-                      :report_email => 'daitss@localhost')
+                      :description => 'account for system operations')
 
       p = Project.new(:id => DEFAULT_PROJECT_ID,
                       :description => 'default project for system operations',
