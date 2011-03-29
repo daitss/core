@@ -856,8 +856,8 @@ post '/admin' do
   when 'delete-user'
     id = require_param 'id'
     u = User.get(id) or not_found
-    error 400, "cannot delete a non-empty user" unless u.events.empty?
-    u.destroy or error "could not delete user"
+    u.deleted_at = Time.now
+    u.save or error "could not delete user"
     archive.log "delete user: #{u.id}", @user
     redirect '/admin/users'
 
