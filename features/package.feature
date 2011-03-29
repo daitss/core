@@ -54,7 +54,7 @@ Feature: overview of a package
   Scenario: download ingest report
     Given an archived package
     When I goto its package page
-    And I click on "ingest report download"
+    And I click on "ingest report"
     Then the response should contain a valid ingest report
 
   Scenario: download ingest report for not yet archived package

@@ -193,6 +193,7 @@ post '/packages?/?' do
 end
 
 get '/daitss_report_xhtml.xsl' do
+  headers 'Content-Disposition' => 'attachment; filename=daitss_report_xhtml.xsl'
   File.read("public/daitss_report_xhtml.xsl")
 end
 
@@ -349,6 +350,7 @@ end
 get '/package/:id/ingest_report' do |id|
   @package = @user.packages.get(id) or not_found
   not_found unless @package.status == "archived"
+  headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
   archive.ingest_report id
 end
 
