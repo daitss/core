@@ -222,9 +222,9 @@ get '/packages?/?' do
                         when 'error'
                           ["ingest snafu", "disseminate snafu", "d1refresh snafu"]
                         when 'withdrawn'
-                          "withdraw"
+                          "withdraw finished"
                         else
-                          ['submit', "reject", "ingest finished", "disseminate finished", "ingest snafu", "disseminate snafu", "withdraw"]
+                          ['submit', "reject", "ingest finished", "disseminate finished", "ingest snafu", "disseminate snafu", "withdraw finished"]
                         end
 
                 # filter on date range
