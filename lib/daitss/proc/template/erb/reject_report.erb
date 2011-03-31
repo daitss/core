@@ -3,6 +3,6 @@
 <REPORT xsi:schemaLocation='http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss2Report.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.fcla.edu/dls/md/daitss/'>
   <ERROR REJECT_TIME="<%= Time.now.to_s %>">
     <MESSAGE><%= ERB::Util::h(@message) %></MESSAGE>
-    <PACKAGE><%= @package.id %></PACKAGE>
+    <PACKAGE><%= @package.sip.name + " (" + @package.id + ")" %></PACKAGE>
   </ERROR>
 </REPORT>
