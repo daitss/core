@@ -22,6 +22,13 @@ describe Wip do
 
     let(:doc) { XML::Document.string @wip.load_aip_descriptor }
 
+    it "should have the agreement info" do
+      ai = doc.find_first("//daitss:AGREEMENT_INFO", NS_PREFIX)
+      ai.should_not be_nil
+      ai['ACCOUNT'].should == 'ACT'
+      ai['PROJECT'].should == 'PRJ'
+    end
+
     it "should have an disseminate event" do
       doc.find("//P:event/P:eventType = 'disseminate'", NS_PREFIX).should be_true
     end

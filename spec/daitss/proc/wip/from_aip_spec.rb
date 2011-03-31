@@ -27,6 +27,20 @@ describe Wip do
 
       it "should load the (#{key})" do
         @wip.metadata.should have_key( key )
+        v = @wip.metadata[key]
+        v.should_not be_nil
+        v.should_not be_empty
+      end
+
+    end
+
+    it "should load the agreement info" do
+
+      ['dmd-account', 'dmd-project'].each do
+        @wip.metadata.should have_key( key )
+        v = @wip.metadata[key]
+        v.should_not be_nil
+        v.should_not be_empty
       end
 
     end
