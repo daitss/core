@@ -24,6 +24,9 @@ module Daitss
     # SMELL this can go into a deterministic dmd section in the aip descriptor and be recycled
     # it wont change over time
     def load_dmd
+      metadata["dmd-account"] = self.package.project.account.id
+      metadata["dmd-project"] = self.package.project.id
+
       doc = XML::Document.string self.package.aip.xml
 
       # title
