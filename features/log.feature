@@ -6,3 +6,4 @@ Feature: keep provenance of archive-level changes
     And I press "Update"
     Then I should be redirected to "/log"
     And I should see a log message "foo bar baz"
+    And I should see an operator "operator"

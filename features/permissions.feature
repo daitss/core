@@ -57,5 +57,35 @@ Feature: permissions
     Then I should not see "copy md5"
     Then I should not see "aip descriptor"
 
+  Scenario: filtering access
+    Given I am logged in as an "affiliate"
+    Given 1 package under account/project "ACT-FDA"
+    Given 1 package under account/project "ACT-PRB"
+    Given 1 package under account/project "FOO-BAR"
+    Given I goto "/packages"
+    When I press "Set Scope"
+    Then I should have 2 package in the results
 
+  Scenario: affiliates should only see own packages in recent activity
+    Given I am logged in as an "affiliate"
+    Given 1 package under account/project "ACT-FDA"
+    Given 1 package under account/project "ACT-PRB"
+    Given 1 package under account/project "FOO-BAR"
+    Given I goto "/packages"
+    Then I should have 2 package in the results
 
+  Scenario: affiliate should not see anything batch related
+    Given I am logged in as an "affiliate"
+    Given an archived package
+    When I goto "/packages"
+    Then I should not see "batch"
+    Then I should not see "Batch"
+
+  Scenario: affiliate should not see DIP links
+    Given "haskell-nums-pdf" is archived
+    When I choose request type "disseminate"
+    And I press "Request"
+    And I wait for the "disseminate" to finish
+    Given I am logged in as an "affiliate"
+    When I goto its package page
+    Then I should not see "dips"

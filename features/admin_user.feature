@@ -52,8 +52,11 @@ Feature: admin of users
     And that user is not empty
     And I goto "/admin/users"
     When I press "Delete" for the user
-    Then the response should be NG
-    Then the response contains "cannot delete a non-empty user"
+    Then I should be redirected
+    And there should not be a user "usermagee"
+    And there should be an admin log entry:
+      | user | message               |
+      | foo  | delete user: usermagee |
 
   Scenario: Make admin contact
     Given a contact "admin"

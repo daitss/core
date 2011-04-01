@@ -9,19 +9,19 @@
         <MESSAGE_DIGEST ALGORITHM='MD5'><%= datafile.message_digest.first(:code => "MD5").value %></MESSAGE_DIGEST>
         <MESSAGE_DIGEST ALGORITHM='SHA-1'><%= datafile.message_digest.first(:code => "SHA-1").value %></MESSAGE_DIGEST>
         <% PremisEvent.all(:relatedObjectId => datafile.id, :class => DatafileEvent).each do |event| %>
-          <EVENT TIME='<%= Time.parse(event.datetime.to_s).iso8601 %>' OUTCOME='<%= event.outcome %>'>
-            <PROCEDURE><%= event.e_type %></PROCEDURE>
-            <NOTE><%= event.outcome_details %></NOTE>
+          <EVENT TIME='<%= Time.parse(event.datetime.to_s).iso8601 %>' OUTCOME='<%= ERB::Util::h(event.outcome) %>'>
+            <PROCEDURE><%= ERB::Util::h(event.e_type) %></PROCEDURE>
+            <NOTE><%= ERB::Util::h(event.outcome_details) %></NOTE>
           </EVENT>
         <% end %>
         <% if datafile.broken_links.any? %>
           <% datafile.broken_links.each do |broken_link| %>
-            <BROKEN_LINK><%= broken_link.broken_links %></BROKEN_LINK>
+            <BROKEN_LINK><%= ERB::Util::h(broken_link.broken_links) %></BROKEN_LINK>
           <% end %>
         <% end %>
         <% if datafile.datafile_severe_element.any? %>
           <% datafile.datafile_severe_element.each do |severe_element| %>
-            <WARNING CODE='<%= severe_element.severe_element.class %>' ><%= severe_element.severe_element.name %></WARNING>
+            <WARNING CODE='<%= ERB::Util::h(severe_element.severe_element.class) %>' ><%= ERB::Util::h(severe_element.severe_element.name) %></WARNING>
           <% end %>
         <% end %>
       </FILE>

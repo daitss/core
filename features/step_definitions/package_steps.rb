@@ -30,7 +30,7 @@ Then /^in the events I should not see a "([^\"]*)" event$/ do |event|
   last_response.should_not have_selector("td:contains('#{event}')")
 end
 
-Then /^in the aip section I should see (copy url|copy size|copy sha1|number of datafiles)$/ do |field|
+Then /^in the aip section I should see (copy url|aip size|copy sha1|number of datafiles)$/ do |field|
   last_response.should have_selector("th:contains('#{field}') + td")
 end
 
@@ -156,6 +156,10 @@ end
 
 Then /^there should be a report delivery record$/ do
   ReportDelivery.first(:package_id => File.basename(last_package)).should_not be_nil
+end
+
+Then /^there should be a reject report delivery record$/ do
+  ReportDelivery.first(:package => Package.first, :type => :reject).should_not be_nil
 end
 
 Given /^(\d+) package under account\/project "([^"]*)"$/ do |number, account_project|

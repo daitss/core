@@ -102,7 +102,7 @@
           %form{:action => '/admin', :method => 'POST'}
             %input{:type => 'hidden', :name => 'task', :value => 'delete-user'}
             %input{:type => 'hidden', :name => 'id', :value => u.id }
-            %input{:type => 'submit', :value => "Delete"}
+            %input{:type => 'submit', :value => "Delete", :onClick => "return confirmClick();" }
         - if u.type == Contact
           - unless u.is_admin_contact
             %td

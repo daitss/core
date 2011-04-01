@@ -18,7 +18,7 @@
     %td= Sip.sum :number_of_datafiles
   %tr
     %th total size
-    %td= Sip.sum :size_in_bytes
+    %td= sprintf('%.2f', Sip.sum(:size_in_bytes).to_i / 1000000) + " MB"
 
 %hr
 
@@ -33,5 +33,5 @@
     %td= Aip.sum :datafile_count
   %tr
     %th total size
-    %td= Copy.sum :size
+    %td= sprintf('%.2f', Copy.sum(:size).to_i / 1000000) + " MB"
 

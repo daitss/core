@@ -7,12 +7,15 @@
         %tr
           %th File
           %td
-            %input{:type => 'file', :name => 'sip'}
+            %input{:type => 'file', :name => 'sip', :size => 50}
 
-        %tr
-          %th Batch
-          %td
-            %input{:name => 'batch_id'}
+        - if @is_op
+          %tr
+            %th Batch
+            %td
+              %input{:name => 'batch_id'}
+        - else
+          %input{:type => "hidden", :name => 'batch_id'}
 
         %tr
           %th Note
@@ -49,76 +52,19 @@
         %em sip
       separated by spaces.
 
-%form{:action => "/packages", :method => "get"}
-  %input{:type => 'hidden', :name => 'filter', :value => 'true'}
-  %table
-    %tr
-      %th batch
-      %th account
-      %th project
-      %th start date
-      %th end date
-      %th activity
-      %th set scope
-    %tr
-      %td
-        %select{:name => 'batch-scope'}
-          %option
-          - Batch.all.each do |b|
-            - if @params["batch-scope"] == b.id
-              %option{:selected => true}= b.id
-            - else
-              %option= b.id
-      %td
-        %select{:name => 'account-scope'}
-          %option
-          - Account.all.each do |a|
-            - if @params["account-scope"] == a.id
-              %option{:selected => true}= a.id
-            - else
-              %option= a.id
-      %td
-        %select{:name => 'project-scope'}
-          %option
-          - Project.all.each do |p|
-            - if @params["project-scope"] == p.id + "-" + p.account.id
-              %option{:selected => true} #{p.id}-#{p.account.id}
-            - else
-              %option #{p.id}-#{p.account.id}
-      %td
-        - if @params['start_date']
-          %input#start_date{:name => 'start_date', :value => @params['start_date']}
-        - else
-          %input#start_date{:name => 'start_date', :value => (Time.now - 60 * 60 * 24 * 4).strftime("%m/%d/%Y")}
-
-      %td
-        - if @params['end_date']
-          %input{:name => 'end_date', :value => @params['end_date']}
-        - else
-          %input{:name => 'end_date', :value => (Time.now + 60 * 60 * 24).strftime("%m/%d/%Y") }
-
-      %td
-        %select{:name => 'activity-scope'}
-          %option
-          %option archived
-          %option submitted
-          %option rejected
-          %option error
-          %option disseminated
-          %option withdrawn
-          - if @params["activity-scope"]
-            %option{:selected => true}= @params['activity-scope']
-
-      %td
-        %input{:type => 'submit', :value => 'Set Scope'}
-%hr/
+- if @is_op
+  = partial :package_filter_table_op, :locals => {:params => @params }
+- else
+  = partial :package_filter_table_affilate, :locals => {:params => @params, :user => @user }
 
 #results
+
   - if @query or @filter
     = partial :package_stats, :locals => {:packages => @packages }
 
   - else
-    latest activity
+    %h2
+      latest activity
 
   - unless @packages.empty?
     = partial :package_table, :locals => {:packages => @packages }

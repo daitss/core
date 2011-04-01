@@ -1,6 +1,6 @@
 Feature: interactive submission
 
-  Scenario Outline: packages that should reject or submit
+  Scenario Outline: packages that should submit
     Given I goto "/packages"
     When I select "<package>" to upload
     And I press "Submit"
@@ -12,6 +12,16 @@ Feature: interactive submission
       | mixed-case-checksums              | submit | |
       | virus                             | submit | |
       | undescribed                       | submit | undescribed file: file.txt |
+
+  Scenario Outline: packages that should reject
+    Given I goto "/packages"
+    When I select "<package>" to upload
+    And I press "Submit"
+    Then I should be at a package page
+    And in the events I should see a "<event>" event with "<note>" in the notes
+    And there should be a reject report delivery record
+    Examples:
+      | package                           | event  | note |
       | checksum-mismatch                 | reject | MD5 for ateam.tiff |
       | missing-descriptor                | reject | missing descriptor |
       | missing-content-file              | reject | missing content file: ateam.tiff |

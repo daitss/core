@@ -64,6 +64,7 @@ module Daitss
           else
             combined_errors = (agreement_errors + sa.errors).join "\n"
             package.log 'reject', :agent => agent, :notes => event_note + '; ' + combined_errors
+            package.queue_reject_report
           end
 
         end

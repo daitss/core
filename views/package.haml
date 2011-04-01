@@ -85,7 +85,7 @@
 
       %tr
         %th copy md5
-        %td= aip.copy.md5
+        %td= aip.copy ? aip.copy.md5 : "N/A"
 
     %h2 legacy refresh
 
@@ -114,7 +114,7 @@
           - else
             %td &nbsp;
     - unless @package.requests.all( :status.not => :cancelled ).any?
-      %h2 request refresth
+      %h2 request refresh
       %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
         %input{:type => 'hidden', :name => 'type', :value => 'd1refresh'}
         %table
@@ -206,13 +206,13 @@
         %th ingest report
         %td
           %a{:href=>"/package/#{@package.id}/ingest_report"}
-            = "ingest report (to download, right click and select Save As...)"
+            = "ingest report"
             
       %tr
         %th ingest report stylesheet
         %td
           %a{:href=>"/daitss_report_xhtml.xsl"}
-            = "ingest report stylesheet (to download, right click and select Save As...)"
+            = "ingest report stylesheet"
 
       %tr
         %th aip size
@@ -230,13 +230,14 @@
         %th number of datafiles
         %td= aip.datafile_count
 
-- if @package.dips.any?
-  %h2 dips
-
-  %table
-    %tr
-
-    - @package.dips.each do |dip|
+- if @is_op
+  - if @package.dips.any?
+    %h2 dips
+  
+    %table
       %tr
-        %td
-          %a{:href=>"/package/#{@package.id}/dip/#{dip}"}= dip
+  
+      - @package.dips.each do |dip|
+        %tr
+          %td
+            %a{:href=>"/package/#{@package.id}/dip/#{dip}"}= dip

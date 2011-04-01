@@ -34,7 +34,7 @@ Feature: be able to locate any package
     Then I should see a "latest activity" heading
     And I should see the packages in the results
     And I should see the following columns:
-      | package | sip | size (MB) | # of datafiles | account | activity | time |
+      | internal entity id (ieid) | package | size (MB) | # of datafiles | account | activity | time |
     And the package column should link to a package
 
   Scenario: rejects should display in packages list
@@ -136,6 +136,17 @@ Feature: be able to locate any package
       | FDA-FDA | 1     |
       | PRB-FDA | 1     |
       | BAR-FOO | 0     |
+
+  Scenario: If conflicting account/project specified, empty result set should be returned
+    Given 1 package under account/project "FDA-FDA"
+    Given 1 package under account/project "FDA-PRB"
+    Given 1 package under account/project "FOO-BAR"
+    Given an account/project "FOO-BAR"
+    Given I goto "/packages"
+    When I select project "BAR-FOO"
+    When I select account "FDA"
+    And I press "Set Scope"
+    Then I should have 0 package in the results
 
   Scenario Outline: Filter by activity
     Given 1 rejected package

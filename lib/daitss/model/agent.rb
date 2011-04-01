@@ -27,7 +27,7 @@ module Daitss
     end
 
     def authenticate pass
-      self.auth_key == Digest::SHA1.hexdigest("#{self.salt}:#{pass}")
+      self.auth_key == Digest::SHA1.hexdigest("#{self.salt}:#{pass}") and self.deleted_at.nil?
     end
 
   end
@@ -52,6 +52,8 @@ module Daitss
   end
 
   class Operator < User
+
+    has n, :entries
 
     def packages
       Package.all
