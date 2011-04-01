@@ -36,7 +36,7 @@ describe Wip do
 
     it "should load the agreement info" do
 
-      ['dmd-account', 'dmd-project'].each do
+      ['dmd-account', 'dmd-project'].each do |key|
         @wip.metadata.should have_key( key )
         v = @wip.metadata[key]
         v.should_not be_nil
