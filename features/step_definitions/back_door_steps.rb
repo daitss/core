@@ -3,6 +3,11 @@ Then /^it should have an "([^"]*)" event$/ do |name|
   e.should_not be_nil
 end
 
+Then /^it should have an "([^"]*)" event with note "([^"]*)"$/ do |name, note|
+  e = Package.get(last_package_id).events.first :name => name, :notes => note
+  e.should_not be_nil
+end
+
 Given /^"([^"]*)" is archived$/ do |sip|
   wip = submit sip
   wip.spawn

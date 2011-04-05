@@ -2,12 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'daitss/archive'
 
-app_file = File.join File.dirname(__FILE__), *%w[.. .. app.rb]
-require app_file
-
-# Force the application name because polyglot breaks the auto-detection logic.
-Sinatra::Application.app_file = app_file
-Sinatra::Application.set :environment, :test
+require File.join(File.dirname(__FILE__), *%w[.. .. app.rb])
 
 require 'ruby-debug'
 require 'net/http'
@@ -31,9 +26,10 @@ class MyWorld
   Webrat::Methods.delegate_to_session :response_code, :response_body
 
   def app
+    Sinatra::Application.environment = :test
+    Sinatra::Application.disable :show_exceptions
     Sinatra::Application
   end
-
 
   def fixture name
     File.join File.dirname(__FILE__), '..', 'fixtures', name

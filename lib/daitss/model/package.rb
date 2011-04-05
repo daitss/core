@@ -60,8 +60,8 @@ module Daitss
     end
 
     # add an operations event for abort
-    def abort user
-      event = Event.new :name => 'abort', :package => self, :agent => user
+    def abort user, note
+      event = Event.new :name => 'abort', :package => self, :agent => user, :notes => note
       event.save or raise "cannot save abort event"
     end
 
