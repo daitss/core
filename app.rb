@@ -80,6 +80,15 @@ helpers do
     @user.kind_of? Contact
   end
 
+  def wip_sort_order w
+    if w.running? then 3
+    elsif w.state == :idle then 4
+    elsif w.snafu? then 1
+    elsif w.stopped? then 2
+    elsif w.dead? then 5
+    end
+  end
+
 end
 
 configure do
@@ -441,7 +450,9 @@ get '/workspace' do
 
     # filter wips by status
 
-    case params["status-scope"]
+    status = params["status-scope"]
+
+    case status
     when "running"
       @wips = @wips.select {|w| w.running? == true }
     when "idle"
@@ -453,11 +464,13 @@ get '/workspace' do
     when "dead"
       @wips = @wips.select {|w| w.dead? == true }
     end
+  end
 
+  @wips.sort! do |a,b| 
+    wip_sort_order(a) <=> wip_sort_order(b)
   end
 
   haml :workspace
-
 end
 
 # workspace & wips in the workspace
