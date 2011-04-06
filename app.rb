@@ -77,7 +77,7 @@ helpers do
   end
 
   def is_affiliate
-    @user.kind_of? Contact 
+    @user.kind_of? Contact
   end
 
 end
@@ -251,7 +251,7 @@ get '/packages?/?' do
                 project = act.projects.first(:id => project_id) if act
 
                 # conflicting search, return empty set
-                if account and act and account.id != act.id 
+                if account and act and account.id != act.id
                   ps = Package.all(:limit => 0)
 
                 # account but not project specified
@@ -261,7 +261,7 @@ get '/packages?/?' do
                 # project specified
                 elsif project
                   ps = project.packages.events.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages
-                
+
                 # neither account nor project specified
                 else
                   ps = Event.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages
@@ -673,11 +673,14 @@ delete '/stashspace/:bin/:wip' do |b_id, w_id|
 
   case task
   when 'unstash'
-    @bin.unstash w_id
+    note = require_param 'note'
+    @bin.unstash w_id, note
     redirect "/workspace/#{w_id}"
 
   when 'abort'
-    Package.get(w_id).abort @user
+    note = require_param 'note'
+    error 400, 'note required for abort' if note.empty?
+    Package.get(w_id).abort @user, note
     @wip.retire
     redirect "/package/#{w_id}"
 
