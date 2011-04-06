@@ -17,7 +17,7 @@ Subject: Florida Digital Archive Report
 Date: #{Time.now.to_s}
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-Content-Type: multipart/alternative; boundary=#{marker}
+Content-Type: multipart/alternative; boundary="#{marker}"
 
 --#{marker}
 Content-Type: text/plain
@@ -50,7 +50,7 @@ Subject: Florida Digital Archive Report
 Date: #{Time.now.to_s}
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-Content-Type: multipart/alternative; boundary=#{marker}
+Content-Type: multipart/alternative; boundary="#{marker}"
 
 --#{marker}
 Content-Type: text/plain
