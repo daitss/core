@@ -590,14 +590,16 @@ get '/stashspace/:id' do |id|
     batch = Batch.get(params['batch-scope'])
 
     if batch
-      @wips = @wips.select {|w| batch.packages.include? w.package }
+      package_ids = batch.packages.map(&:id).to_set
+      @wips = @wips.select {|w| package_ids.include? w.id }
     end
 
     # filter wips by account
     account = Account.get(params['account-scope'])
 
     if account
-      @wips = @wips.select {|w| account.projects.packages.include? w.package }
+      package_ids = account.projects.packages.map(&:id).to_set
+      @wips = @wips.select {|w| package_ids.include? w.id }
     end
 
     # filter wips by project
@@ -606,7 +608,8 @@ get '/stashspace/:id' do |id|
     project = act.projects.first(:id => project_id) if act
 
     if project
-      @wips = @wips.select {|w| project.packages.include? w.package }
+      package_ids = project.packages.map(&:id).to_set
+      @wips = @wips.select {|w| package_ids.include? w.id }
     end
 
     # filter wips by status
