@@ -648,7 +648,7 @@ post '/stashspace/:id' do |id|
   id = URI.encode id # SMELL sinatra is decoding this
   @bin = archive.stashspace.find { |b| b.id == id }
   not_found unless @bin
-  @bin.each { |wip| @bin.unstash wip.id }
+  @bin.each { |wip| @bin.unstash wip.id, "" }
   redirect "/stashspace/#{@bin.id}"
 end
 
