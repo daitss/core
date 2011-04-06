@@ -25,7 +25,7 @@ Content-Transfer-Encoding: 7bit
 
 Ingest of package #{package.sip.name}
 --#{marker}
-Content-Type: multipart/mixed; name="#{package.id}.ingest.xml"
+Content-Type: text/xml; name="#{package.id}.ingest.xml"
 Content-Transfer-Encoding: 7bit
 
 #{ingest_report package.id}
@@ -58,7 +58,7 @@ Content-Transfer-Encoding: 7bit
 
 #{package.events.first(:name => "reject").notes}
 --#{marker}
-Content-Type: multipart/mixed; name="#{package.id}.error.xml"
+Content-Type: text/xml; name="#{package.id}.error.xml"
 Content-Transfer-Encoding: 7bit
 
 #{reject_report package.id}
