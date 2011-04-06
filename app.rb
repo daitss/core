@@ -425,7 +425,7 @@ get '/workspace' do
     account = Account.get(params['account-scope'])
 
     if account
-      package_ids = account.projects.packages.all(:id => @wips.map(:&id)).map(:&id).to_set
+      package_ids = account.projects.packages.all(:id => @wips.map(&:id)).map(&:id).to_set
       @wips = @wips.select {|w| package_ids.include? w.id }
     end
 
@@ -435,7 +435,7 @@ get '/workspace' do
     project = act.projects.first(:id => project_id) if act
 
     if project
-      package_ids = project.packages.all(:id => @wips.map(:&id)).map(:&id).to_set
+      package_ids = project.packages.all(:id => @wips.map(&:id)).map(&:id).to_set
       @wips = @wips.select {|w| package_ids.include? w.id }
     end
 
@@ -598,7 +598,7 @@ get '/stashspace/:id' do |id|
     account = Account.get(params['account-scope'])
 
     if account
-      package_ids = account.projects.packages.all(:id => @wips.map(:&id)).map(:&id).to_set
+      package_ids = account.projects.packages.all(:id => @wips.map(&:id)).map(&:id).to_set
       @wips = @wips.select {|w| package_ids.include? w.id }
     end
 
@@ -608,7 +608,7 @@ get '/stashspace/:id' do |id|
     project = act.projects.first(:id => project_id) if act
 
     if project
-      package_ids = project.packages.all(:id => @wips.map(:&id)).map(:&id).to_set
+      package_ids = project.packages.all(:id => @wips.map(&:id)).map(&:id).to_set
       @wips = @wips.select {|w| package_ids.include? w.id }
     end
 
