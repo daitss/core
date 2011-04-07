@@ -476,10 +476,11 @@ post '/workspace' do
 
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']
+    note = require_param 'note'
     bin = archive.stashspace.find { |b| b.name == params['stash-bin'] }
     error 400, "bin #{bin} does not exist" unless bin
     stashable = ws.reject { |w| w.running? }
-    stashable.each { |w| ws.stash w.id, bin }
+    stashable.each { |w| ws.stash w.id, bin, note }
 
   when nil, '' then error 400, "parameter task is required"
   else error 400, "unknown command: #{params['task']}"
