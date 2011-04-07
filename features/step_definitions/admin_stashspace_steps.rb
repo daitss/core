@@ -47,3 +47,10 @@ Given /^that stash bin is (empty|not empty)$/ do |contents|
   end
 
 end
+
+Then /^the stashspace should have (\d+) wips$/ do |count|
+  doc = Nokogiri::HTML last_response.body
+  trs = doc / '#results tr'
+  (trs.reject { |tr| tr % 'th'}).size.should == count.to_i
+end
+

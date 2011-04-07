@@ -121,9 +121,10 @@ Then /^I should have (\d+) wips in the results$/ do |count|
   (trs.reject { |tr| tr % 'th'}).size.should == count.to_i
 end
 
-Given /^(\d+) stopped wips in batch "([^"]*)"$/ do |count, batch|
+Given /^(\d+) (stopped|snafu) wips in batch "([^"]*)"$/ do |count, state, batch|
   count.to_i.times do |i|
-    Given "a stop wip"
+    Given "a stop wip" if state == "stopped"
+    Given "a snafu wip" if state == "snafu"
 
     b = Batch.new :id => batch
     p = Package.get(last_package_id)

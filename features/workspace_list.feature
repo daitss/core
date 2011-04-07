@@ -102,9 +102,55 @@ Feature: list wips
       |snafu|1|
       |stopped|1|
 
+  Scenario: Workspace wide actions after scope should not affect entire workspace
+    Given a idle wip
+    Given a idle wip
+    Given a dead wip
+    And a stash bin named "default bin"
+    And I goto "/workspace"
+    When I select status "idle"
+    And I press "Set Scope"
+    And I choose "stash"
+    And I press "Update"
+    And I goto "/stashspace/default%20bin"
+    Then the stashspace should have 2 wips
 
+  Scenario: Workspace wide actions after scope should not affect entire workspace
+    Given a idle wip
+    Given a idle wip
+    Given a dead wip
+    And a stash bin named "default bin"
+    And I goto "/workspace"
+    When I select status "idle"
+    And I press "Set Scope"
+    And I choose "stash"
+    And I press "Update"
+    And I goto "/workspace"
+    Then I should have 1 wips in the results
 
+  Scenario: Workspace wide actions after scope should not affect entire workspace
+    Given 1 snafu wips in batch "foo"
+    Given a snafu wip
+    Given a snafu wip
+    And I goto "/workspace"
+    When I select batch "foo"
+    And I press "Set Scope"
+    And I choose "unsnafu"
+    And I press "Update"
+    And I goto "/workspace"
+    Then there should be 1 idle wip
+    And there should be 2 snafu wips
 
-
-
+  Scenario: Workspace wide actions after scope should not affect entire workspace
+    Given 1 stopped wips in batch "foo"
+    Given a stop wip
+    Given a stop wip
+    And I goto "/workspace"
+    When I select batch "foo"
+    And I press "Set Scope"
+    And I choose "start"
+    And I press "Update"
+    And I goto "/workspace"
+    Then there should be 1 running wip
+    And there should be 2 stopped wips
 
