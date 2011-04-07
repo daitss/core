@@ -184,10 +184,16 @@ module Daitss
     end
 
     # resets the state of a package if it is snafu
-    def unsnafu
+    def unsnafu note=nil
       need_state :snafu
       reset_process
-      package.log "#{task} unsnafu"
+
+      if note and !note.empty?
+        package.log "#{task} unsnafu\n#{note}"
+      else
+        package.log "#{task} unsnafu"
+      end
+
     end
 
     # returns a symbol denoting the state of a wip

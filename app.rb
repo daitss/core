@@ -473,7 +473,8 @@ post '/workspace' do
     ws.select(&:running?).each(&:stop)
 
   when 'unsnafu'
-    ws.select(&:snafu?).each(&:unsnafu)
+    note = require_param 'note'
+    ws.select(&:snafu?).each { |w| w.unsnafu note }
 
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']
