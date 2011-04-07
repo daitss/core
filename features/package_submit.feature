@@ -13,6 +13,13 @@ Feature: interactive submission
       | virus                             | submit | |
       | undescribed                       | submit | undescribed file: file.txt |
 
+  Scenario: total file count
+    Given I goto "/packages"
+    When I select "undescribed" to upload
+    And I press "Submit"
+    Then the submitted datafiles field should show 3 files
+    Then the described datafiles field should show 2 files
+
   Scenario Outline: packages that should reject
     Given I goto "/packages"
     When I select "<package>" to upload

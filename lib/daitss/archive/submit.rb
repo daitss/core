@@ -46,6 +46,14 @@ module Daitss
       package.sip = Sip.new :name => sa.name
       package.sip.number_of_datafiles = sa.files.size rescue nil
       package.sip.size_in_bytes = sa.size_in_bytes rescue nil
+      
+      #count files
+      files = []
+      Dir.glob("#{sa.path}/**") do |p|
+        files.push p if File.file? p
+      end
+
+      package.sip.submitted_datafiles = files.length
 
       # save the package and make a wip, or reject
       begin
