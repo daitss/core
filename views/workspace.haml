@@ -24,6 +24,9 @@
       - @bins.each do |bin|
         %option= bin.name
 
+    %textarea#note{:name => 'note'}
+    %label{:for => 'note'}
+
     %input{:type => 'submit', :value => "Update"}
 
 %hr/
@@ -38,6 +41,6 @@
     &nbsp;
     throttle:
     = archive.throttle
-    
+
     - unless @wips.empty?
       = partial :wip_table, :locals => { :wips => @wips }

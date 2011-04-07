@@ -11,6 +11,18 @@ Feature: stash
     Then I should be redirected
     And there should be 0 wips
 
+  Scenario: with a note
+    Given an idle wip
+    And a stash bin named "default bin"
+    And I goto "/workspace"
+    When I choose "stash"
+    And I fill in "note" with "lorem ipsum"
+    And I select "default bin"
+    And I press "Update"
+    Then I should be redirected
+    And there should be 0 wips
+    And it should have an "stash" event with note like "lorem ipsum"
+
   Scenario: one non-running sip should show up in the stash bin
     Given an idle wip
     And a stash bin named "default bin"

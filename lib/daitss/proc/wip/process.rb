@@ -46,7 +46,7 @@ module Daitss
     end
 
     # start a wip's task in a new process
-    def spawn
+    def spawn note=nil
       need_state :idle
 
       # if this isn't here the fork can break do
@@ -61,7 +61,13 @@ module Daitss
         profile_start
 
         begin
-          package.log "#{task} started"
+
+          if note and !note.empty?
+            package.log "#{task} started", :notes => note
+          else
+            package.log "#{task} started"
+          end
+
           send task
           package.log "#{task} finished"
           stash_journal
@@ -136,12 +142,18 @@ module Daitss
     end
 
     # stop a running process
-    def stop
+    def stop note=nil
       need_state :running
       kill
       @process = { :id => :stop, :time => Time.now }
       save_process
-      package.log "#{task} stopped"
+
+      if note and !note.empty?
+        package.log "#{task} stopped", :notes => note
+      else
+        package.log "#{task} stopped"
+      end
+
     end
 
     # return true of a process is stopped
@@ -178,10 +190,16 @@ module Daitss
     end
 
     # resets the state of a package if it is snafu
-    def unsnafu
+    def unsnafu note=nil
       need_state :snafu
       reset_process
-      package.log "#{task} unsnafu"
+
+      if note and !note.empty?
+        package.log "#{task} unsnafu\n#{note}"
+      else
+        package.log "#{task} unsnafu"
+      end
+
     end
 
     # returns a symbol denoting the state of a wip
