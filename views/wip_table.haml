@@ -15,4 +15,9 @@
       %td= w.package.sip.name
       %td= w.task
       %td= w.state
-      %td= w.package.events.last.timestamp
+      - if File.directory?(w.path)
+        %td= File.atime(w.path)
+      - else
+        %td
+          &nbsp;
+

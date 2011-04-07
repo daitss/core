@@ -80,6 +80,16 @@ helpers do
     @user.kind_of? Contact
   end
 
+  def wip_sort_order w
+    if w.running? then 3
+    elsif w.state == :idle then 4
+    elsif w.snafu? then 1
+    elsif w.stopped? then 2
+    elsif w.dead? then 5
+    else 0
+    end
+  end
+
 end
 
 configure do
@@ -417,14 +427,16 @@ get '/workspace' do
     batch = Batch.get(params['batch-scope'])
 
     if batch
-      @wips = @wips.select {|w| batch.packages.include? w.package }
+      package_ids = batch.packages.map(&:id).to_set
+      @wips = @wips.select {|w| package_ids.include? w.id }
     end
 
     # filter wips by account
     account = Account.get(params['account-scope'])
 
     if account
-      @wips = @wips.select {|w| account.projects.packages.include? w.package }
+      package_ids = account.projects.packages.all(:id => @wips.map(&:id)).map(&:id).to_set
+      @wips = @wips.select {|w| package_ids.include? w.id }
     end
 
     # filter wips by project
@@ -433,12 +445,15 @@ get '/workspace' do
     project = act.projects.first(:id => project_id) if act
 
     if project
-      @wips = @wips.select {|w| project.packages.include? w.package }
+      package_ids = project.packages.all(:id => @wips.map(&:id)).map(&:id).to_set
+      @wips = @wips.select {|w| package_ids.include? w.id }
     end
 
     # filter wips by status
 
-    case params["status-scope"]
+    status = params["status-scope"]
+
+    case status
     when "running"
       @wips = @wips.select {|w| w.running? == true }
     when "idle"
@@ -450,6 +465,10 @@ get '/workspace' do
     when "dead"
       @wips = @wips.select {|w| w.dead? == true }
     end
+  end
+
+  @wips.sort! do |a,b| 
+    wip_sort_order(a) <=> wip_sort_order(b)
   end
 
   haml :workspace
@@ -589,14 +608,16 @@ get '/stashspace/:id' do |id|
     batch = Batch.get(params['batch-scope'])
 
     if batch
-      @wips = @wips.select {|w| batch.packages.include? w.package }
+      package_ids = batch.packages.map(&:id).to_set
+      @wips = @wips.select {|w| package_ids.include? w.id }
     end
 
     # filter wips by account
     account = Account.get(params['account-scope'])
 
     if account
-      @wips = @wips.select {|w| account.projects.packages.include? w.package }
+      package_ids = account.projects.packages.all(:id => @wips.map(&:id)).map(&:id).to_set
+      @wips = @wips.select {|w| package_ids.include? w.id }
     end
 
     # filter wips by project
@@ -605,7 +626,8 @@ get '/stashspace/:id' do |id|
     project = act.projects.first(:id => project_id) if act
 
     if project
-      @wips = @wips.select {|w| project.packages.include? w.package }
+      package_ids = project.packages.all(:id => @wips.map(&:id)).map(&:id).to_set
+      @wips = @wips.select {|w| package_ids.include? w.id }
     end
 
     # filter wips by status
@@ -631,7 +653,7 @@ post '/stashspace/:id' do |id|
   id = URI.encode id # SMELL sinatra is decoding this
   @bin = archive.stashspace.find { |b| b.id == id }
   not_found unless @bin
-  @bin.each { |wip| @bin.unstash wip.id }
+  @bin.each { |wip| @bin.unstash wip.id, "" }
   redirect "/stashspace/#{@bin.id}"
 end
 
