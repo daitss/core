@@ -86,6 +86,7 @@ helpers do
     elsif w.snafu? then 1
     elsif w.stopped? then 2
     elsif w.dead? then 5
+    else 0
     end
   end
 
