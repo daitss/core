@@ -470,7 +470,8 @@ post '/workspace' do
     end
 
   when 'stop'
-    ws.select(&:running?).each(&:stop)
+    note = require_param 'note'
+    ws.select(&:running?).each { |w| w.stop note }
 
   when 'unsnafu'
     note = require_param 'note'

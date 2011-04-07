@@ -147,7 +147,13 @@ module Daitss
       kill
       @process = { :id => :stop, :time => Time.now }
       save_process
-      package.log "#{task} stopped", :notes => note
+
+      if note and !note.empty?
+        package.log "#{task} stopped", :notes => note
+      else
+        package.log "#{task} stopped"
+      end
+
     end
 
     # return true of a process is stopped
