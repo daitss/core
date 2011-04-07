@@ -461,11 +461,12 @@ post '/workspace' do
 
   case params['task']
   when 'start'
+    note = require_param 'note'
     startable = ws.reject { |w| w.running? or w.snafu? }
     startable.each do |w|
       w.unstop if w.stopped?
       w.reset_process if w.dead?
-      w.spawn
+      w.spawn note
     end
 
   when 'stop'

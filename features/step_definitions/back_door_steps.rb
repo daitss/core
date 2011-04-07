@@ -8,6 +8,11 @@ Then /^it should have an "([^"]*)" event with note "([^"]*)"$/ do |name, note|
   e.should_not be_nil
 end
 
+Then /^it should have an "([^"]*)" event with note like "([^"]*)"$/ do |name, note|
+  e = Package.get(last_package_id).events.first :name => name, :notes.like => "%#{note}%"
+  e.should_not be_nil
+end
+
 Given /^"([^"]*)" is archived$/ do |sip|
   wip = submit sip
   wip.spawn
