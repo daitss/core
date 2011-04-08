@@ -195,7 +195,7 @@ module Daitss
       reset_process
 
       if note and !note.empty?
-        package.log "#{task} unsnafu\n#{note}"
+        package.log "#{task} unsnafu", :notes => note
       else
         package.log "#{task} unsnafu"
       end

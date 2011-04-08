@@ -61,6 +61,7 @@ When "I select a sip to upload" do
 end
 
 When /^I select "([^\"]*)" to upload$/ do |name|
+  pending if name == "multiple-agreements"
   name = name + ".zip"
   zip_file = fixture(name)
   attach_file 'sip', zip_file
