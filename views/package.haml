@@ -230,6 +230,10 @@
         %th number of datafiles
         %td= aip.datafile_count
 
+      %tr
+        %th number of submitted datafiles
+        %td= @package.sip.submitted_datafiles
+
 - if @is_op
   - if @package.dips.any?
     %h2 dips
