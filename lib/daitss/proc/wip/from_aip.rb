@@ -11,14 +11,17 @@ module Daitss
     def load_from_aip
 
       # need tb
-      load_datafiles
+      step('load aip datafiles') { load_datafiles }
 
       # need descriptor
-      load_dmd
-      load_sip_descriptor
-      load_datafile_transformation_sources
-      load_old_package_digiprov
-      load_old_datafile_digiprov
+      step('load aip metadata') do
+        load_dmd
+        load_sip_descriptor
+        load_datafile_transformation_sources
+        load_old_package_digiprov
+        load_old_datafile_digiprov
+      end
+
     end
 
     # SMELL this can go into a deterministic dmd section in the aip descriptor and be recycled
