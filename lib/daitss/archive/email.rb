@@ -15,18 +15,14 @@ From: DAITSS <do_not_reply@fcla.edu>
 To: DAITSS Account #{account.id} <#{account.report_email}>
 Subject: Florida Digital Archive Report
 Date: #{Time.now.to_s}
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Content-Type: multipart/alternative; boundary="#{marker}"
+Content-Type: multipart/mixed; boundary="#{marker}"
 
 --#{marker}
 Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 
 Ingest of package #{package.sip.name}
 --#{marker}
 Content-Type: text/xml; name="#{package.id}.ingest.xml"
-Content-Transfer-Encoding: 7bit
 
 #{ingest_report package.id}
 
@@ -48,18 +44,14 @@ From: DAITSS <do_not_reply@fcla.edu>
 To: DAITSS Account #{account.id} <#{account.report_email}>
 Subject: Florida Digital Archive Report
 Date: #{Time.now.to_s}
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Content-Type: multipart/alternative; boundary="#{marker}"
+Content-Type: multipart/mixed; boundary="#{marker}"
 
 --#{marker}
 Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
 
 #{package.events.first(:name => "reject").notes}
 --#{marker}
 Content-Type: text/xml; name="#{package.id}.error.xml"
-Content-Transfer-Encoding: 7bit
 
 #{reject_report package.id}
 
