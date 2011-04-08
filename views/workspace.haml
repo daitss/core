@@ -7,7 +7,11 @@
 #update-form
 
   %form{:action => '/workspace', :method => 'post'}
-
+    - if @params['filter']
+      %input{:name => 'filter', :type => 'hidden', :value => 'true'}
+      - @wips.each do |w|
+        %input{:name => 'wips[]', :type => 'hidden', :value => w.id}
+        
     %input#state-start{:type => 'radio', :name => 'task', :value => 'start'}
     %label{:for => 'state-start'} start
 

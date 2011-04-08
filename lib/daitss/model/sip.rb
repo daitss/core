@@ -12,6 +12,7 @@ module Daitss
     property :name, String, :required => true
     property :size_in_bytes, Integer, :min => 0, :max => 2**63-1
     property :number_of_datafiles, Integer, :min => 0, :max => 2**63-1
+    property :submitted_datafiles, Integer, :min => 0, :max => 2**63-1
 
     belongs_to :package
   end

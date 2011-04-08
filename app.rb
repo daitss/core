@@ -481,7 +481,14 @@ post '/workspace' do
   case params['task']
   when 'start'
     note = require_param 'note'
-    startable = ws.reject { |w| w.running? or w.snafu? }
+
+    if @params['filter'] == 'true'
+      startable = @params['wips'].map {|w| Wip.new(File.join(ws.path, w))}
+      startable = startable.reject { |w| w.running? or w.snafu? }
+    else
+      startable = ws.reject { |w| w.running? or w.snafu? }
+    end
+
     startable.each do |w|
       w.unstop if w.stopped?
       w.reset_process if w.dead?
@@ -490,18 +497,37 @@ post '/workspace' do
 
   when 'stop'
     note = require_param 'note'
-    ws.select(&:running?).each { |w| w.stop note }
+
+    if @params['filter'] == 'true'
+      wip_list = @params['wips'].map {|w| Wip.new(File.join(ws.path, w))}
+      wip_list.select(&:running?).each { |w| w.stop note }
+    else
+      ws.select(&:running?).each { |w| w.stop note }
+    end
 
   when 'unsnafu'
     note = require_param 'note'
-    ws.select(&:snafu?).each { |w| w.unsnafu note }
+
+    if @params['filter'] == 'true'
+      wip_list = @params['wips'].map {|w| Wip.new(File.join(ws.path, w))}
+      wip_list.select(&:snafu?).each { |w| w.unsnafu note }
+    else
+      ws.select(&:snafu?).each { |w| w.unsnafu note }
+    end
 
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']
     note = require_param 'note'
     bin = archive.stashspace.find { |b| b.name == params['stash-bin'] }
     error 400, "bin #{bin} does not exist" unless bin
-    stashable = ws.reject { |w| w.running? }
+
+    if @params['filter'] == 'true'
+      stashable = @params['wips'].map {|w| Wip.new(File.join(ws.path, w))}
+      stashable = stashable.reject { |w| w.running? }
+    else
+      stashable = ws.reject { |w| w.running? }
+    end
+
     stashable.each { |w| ws.stash w.id, bin, note }
 
   when nil, '' then error 400, "parameter task is required"

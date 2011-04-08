@@ -70,3 +70,15 @@ Then /^I should be at a package page$/ do
   follow_redirect! if last_response.status == 302
   last_request.env['PATH_INFO'].should =~ %r{^/package/\w+}
 end
+
+Then /^the submitted datafiles field should show (\d+) files$/ do |count|
+  p = Package.first
+  p.sip.submitted_datafiles.should == count.to_i
+end
+
+Then /^the described datafiles field should show (\d+) files$/ do |count|
+  p = Package.first
+  p.sip.number_of_datafiles.should == count.to_i
+end
+
+
