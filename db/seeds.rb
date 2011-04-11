@@ -10,11 +10,14 @@ Setting.create :id => 'viruscheck server', :value => 'http://localhost:7005'
 Setting.create :id => 'transform server', :value => 'http://localhost:7006'
 Setting.create :id => 'xmlresolution server', :value => 'http://xmlresolution.ripple.fcla.edu'
 
-sys = Account.create :id => SYSTEM_ACCOUNT_ID, :description => 'system account'
-ops = Account.create :id => OPERATIONS_ACCOUNT_ID, :description => 'operations account'
+sys = Account.new :id => SYSTEM_ACCOUNT_ID, :description => 'system account'
+ops = Account.new :id => OPERATIONS_ACCOUNT_ID, :description => 'operations account'
 
-sys.projects.create :id => DEFAULT_PROJECT_ID, :description => 'default project'
-ops.projects.create :id => DEFAULT_PROJECT_ID, :description => 'default project'
+sys.projects.new :id => DEFAULT_PROJECT_ID, :description => 'default project'
+ops.projects.new :id => DEFAULT_PROJECT_ID, :description => 'default project'
+
+sys.save or raise 'cannot save system account'
+ops.save or raise 'cannot save operator account'
 
 kernel = Program.create :id => SYSTEM_PROGRAM_ID, :description => "daitss software agent", :account => sys
 

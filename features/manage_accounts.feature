@@ -20,6 +20,7 @@ Feature: Manage accounts
     And I should see "Planet Express"
     And I should see "default project"
 
+    @wip
   Scenario: view an account
     Given an account "PE"
     And account "PE" has a project "SNUX2"
