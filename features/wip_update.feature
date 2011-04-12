@@ -18,3 +18,13 @@ Feature: update the processing of a wip
       | snafu      | unsnafu | OK          | idle        |
       | stop       | start   | OK          | running     |
       | dead       | start   | OK          | running     |
+
+  Scenario: updates to a wip with a note
+    Given a snafu wip
+    And I goto its wip page
+    When I choose "unsnafu"
+    And I fill in "note" with "lorem ipsum"
+    And I press "Update"
+    Then the response should be OK
+    And the package should be idle
+    And it should have an "ingest unsnafu" event with note like "lorem ipsum"
