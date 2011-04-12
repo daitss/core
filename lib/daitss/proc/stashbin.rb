@@ -54,15 +54,15 @@ module Daitss
       to_a.size
     end
 
-    def unstash wip_id, note
+    def unstash wip_id, agent, note
       src = File.join path, wip_id
       dst = File.join Daitss.archive.workspace.path, wip_id
       FileUtils.mv src, dst
 
       if note and !note.empty?
-        Package.get(wip_id).log "unstash", :notes => note
+        Package.get(wip_id).log "unstash", :agent => agent, :notes => note
       else
-        Package.get(wip_id).log "unstash"
+        Package.get(wip_id).log "unstash", :agent => agent
       end
 
     end

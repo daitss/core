@@ -29,7 +29,7 @@ describe Workspace do
     wip_id = wip.id
     w.stash wip.id, bin
     w[wip_id].should be_nil
-    bin.unstash wip_id, ""
+    bin.unstash wip_id, nil, ""
     w[wip_id].should_not be_nil
   end
 

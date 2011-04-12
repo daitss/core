@@ -9,7 +9,7 @@ Feature: modifying the status of a stashed wip
     And I press "Update"
     Then I should be redirected
     And I should be at the wip page
-    And it should have an "unstash" event
+    And it should have an "unstash" event by agent "operator"
 
   Scenario: unstash a wip with a note
     Given a stash bin named "default bin" with 1 package

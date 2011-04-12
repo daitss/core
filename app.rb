@@ -467,7 +467,7 @@ get '/workspace' do
     end
   end
 
-  @wips.sort! do |a,b| 
+  @wips.sort! do |a,b|
     wip_sort_order(a) <=> wip_sort_order(b)
   end
 
@@ -562,28 +562,31 @@ post '/workspace/:id' do |id|
   ws = archive.workspace
   wip = ws[id] or not_found
 
+  note = require_param 'note'
+  note = nil if note.empty?
+
   case params['task']
   when 'start'
     wip.unstop if wip.stopped?
     wip.reset_process if wip.dead?
     error 400, 'cannot start a running wip' if wip.running?
     error 400, 'cannot start a snafu wip' if wip.snafu?
-    wip.spawn
+    wip.spawn note
 
   when 'stop'
     error 400, 'cannot stop an idle wip' unless wip.running?
-    wip.stop
+    wip.stop note
 
   when 'unsnafu'
     error 400, 'can only unsnafu a snafu wip' unless wip.snafu?
-    wip.unsnafu
+    wip.unsnafu note
 
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']
     error 400, 'can only stash a non-running wip' if wip.running?
     bin = archive.stashspace.find { |b| b.name == params['stash-bin'] }
     error 400, "bin #{bin} does not exist" unless bin
-    ws.stash wip.id, bin
+    ws.stash wip.id, bin, note
     redirect "/stashspace/#{bin.id}/#{wip.id}"
 
   when nil, '' then raise 400, 'parameter task is required'
@@ -679,7 +682,7 @@ post '/stashspace/:id' do |id|
   id = URI.encode id # SMELL sinatra is decoding this
   @bin = archive.stashspace.find { |b| b.id == id }
   not_found unless @bin
-  @bin.each { |wip| @bin.unstash wip.id, "" }
+  @bin.each { |wip| @bin.unstash wip.id, @user, "" }
   redirect "/stashspace/#{@bin.id}"
 end
 
@@ -718,7 +721,7 @@ delete '/stashspace/:bin/:wip' do |b_id, w_id|
   case task
   when 'unstash'
     note = require_param 'note'
-    @bin.unstash w_id, note
+    @bin.unstash w_id, @user, note
     redirect "/workspace/#{w_id}"
 
   when 'abort'

@@ -28,6 +28,8 @@
       %select{:name => 'stash-bin'}
         - @bins.each do |bin|
           %option= bin.name
+      %textarea#note{:name => 'note'}
+      %label{:for => 'note'}
       %input{:type => 'submit', :value => "Update"}
 
   %hr/
