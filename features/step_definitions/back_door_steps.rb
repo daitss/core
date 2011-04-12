@@ -3,6 +3,12 @@ Then /^it should have an "([^"]*)" event$/ do |name|
   e.should_not be_nil
 end
 
+Then /^it should have an "([^"]*)" event by agent "([^"]*)"$/ do |name, agent_id|
+  e = Package.get(last_package_id).events.first :name => name
+  e.agent.id.should == agent_id
+  e.should_not be_nil
+end
+
 Then /^it should have an "([^"]*)" event with note "([^"]*)"$/ do |name, note|
   e = Package.get(last_package_id).events.first :name => name, :notes => note
   e.should_not be_nil

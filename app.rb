@@ -467,7 +467,7 @@ get '/workspace' do
     end
   end
 
-  @wips.sort! do |a,b| 
+  @wips.sort! do |a,b|
     wip_sort_order(a) <=> wip_sort_order(b)
   end
 
@@ -679,7 +679,7 @@ post '/stashspace/:id' do |id|
   id = URI.encode id # SMELL sinatra is decoding this
   @bin = archive.stashspace.find { |b| b.id == id }
   not_found unless @bin
-  @bin.each { |wip| @bin.unstash wip.id, "" }
+  @bin.each { |wip| @bin.unstash wip.id, @user, "" }
   redirect "/stashspace/#{@bin.id}"
 end
 
@@ -718,7 +718,7 @@ delete '/stashspace/:bin/:wip' do |b_id, w_id|
   case task
   when 'unstash'
     note = require_param 'note'
-    @bin.unstash w_id, note
+    @bin.unstash w_id, @user, note
     redirect "/workspace/#{w_id}"
 
   when 'abort'
