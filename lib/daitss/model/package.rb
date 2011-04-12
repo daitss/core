@@ -99,7 +99,7 @@ module Daitss
     end
 
     def rejected?
-      events.first :name => 'reject'
+      events.first :name => 'reject' or events.first :name => 'daitss v.1 reject'
     end
 
     def migrated_from_pt?
