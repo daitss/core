@@ -103,7 +103,7 @@ module Daitss
     end
 
     def migrated_from_pt?
-      events.first :name => "migrated from package tracker"
+      events.first :name => "daitss v.1 provenance"
     end
 
     def status
