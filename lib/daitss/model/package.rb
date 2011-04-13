@@ -29,7 +29,7 @@ module Daitss
 
     LEGACY_EVENTS = [
       'legacy operations data',
-      'migrated from package tracker',
+      'daitss v.1 provenance',
       'migrated from rejects db'
     ]
 
