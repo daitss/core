@@ -29,7 +29,7 @@ module Daitss
 
     LEGACY_EVENTS = [
       'legacy operations data',
-      'migrated from package tracker',
+      'daitss v.1 provenance',
       'migrated from rejects db'
     ]
 
@@ -99,11 +99,11 @@ module Daitss
     end
 
     def rejected?
-      events.first :name => 'reject'
+      events.first :name => 'reject' or events.first :name => 'daitss v.1 reject'
     end
 
     def migrated_from_pt?
-      events.first :name => "migrated from package tracker"
+      events.first :name => "daitss v.1 provenance"
     end
 
     def status
