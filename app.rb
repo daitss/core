@@ -1023,6 +1023,10 @@ post "/batches/:batch_id" do |batch_id|
   end
 end
 
+get '/logo' do
+  File.read "public/FDA-colorLogo.png"
+end
+
 get '/requests' do
   @requests = Request.all
 

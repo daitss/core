@@ -39,7 +39,6 @@
 
         %span#logo
           = @user.id
-          (logo)
 
       - else
         %a.active{ :href => '#' } login
@@ -52,8 +51,9 @@
 
     %footer
       %span#daitss-branding
-        (daitss branding)
+        Florida Digital Archive
+        
 
       %span#daitss-version
         %a{ :href => 'http://github.com/daitss/core' }
-          = Daitss::VERSION
+          = "DAITSS " + Daitss::VERSION
