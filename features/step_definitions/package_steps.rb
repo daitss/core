@@ -212,6 +212,21 @@ Given /^(\d+) archived package$/ do |count|
   end
 end
 
+Given /^(\d+) legacy package$/ do |count|
+  count.to_i.times do |i|
+    s = Sip.new :name => i, :size_in_bytes => (1024 * 871), :number_of_datafiles => 3
+    pa = Package.new
+    pa.sip = s
+    pa.project = Project.first
+    pa.save
+
+    pa.log "daitss v.1 provenance"
+    pa.log "legacy operations data", :timestamp => Time.parse("2011-01-01 11:11:11")
+  end
+end
+
+
+
 Given /^(\d+) snafu package$/ do |count|
   count.to_i.times do |i|
     s = Sip.new :name => i

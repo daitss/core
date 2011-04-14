@@ -175,3 +175,12 @@ Feature: be able to locate any package
     Then I should see "3 packages"
     And I should see "2.68 MB"
     And I should see "9 files"
+
+  Scenario: legacy packages should show timestamp of last legacy op event
+    Given 1 legacy package
+    When I goto "/packages"
+    When I search for the package
+    And I press "Search"
+    Then I should see the package in the results
+    Then the latest activity should be "daitss v.1 provenance"
+    And the timestamp should be "2011-01-01T11:11:11-05:00"

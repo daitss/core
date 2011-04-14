@@ -93,7 +93,17 @@ When /^I select status "([^"]*)"$/ do |status|
   select status, :from => 'status-scope'
 end
 
+Then /^the latest activity should be "([^"]*)"$/ do |activity|
+  last_response.should have_selector("td:contains('#{activity}')")
+end
 
+Then /^the timestamp should be "([^"]*)"$/ do |timestamp|
+  last_response.should have_selector("td:contains('#{timestamp}')")
+end
+
+When /^I search for the package$/ do
+  fill_in "search", :with => Package.first.id
+end
 
 
 

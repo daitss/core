@@ -23,5 +23,7 @@
         %td= latest_event.polite_name
         %td= latest_event.timestamp
       - else
-        %td N/A
-        %td N/A
+        %td 
+          daitss v.1 provenance
+        - last_legacy_event = p.legacy_events.last(:name => "legacy operations data")
+        %td= last_legacy_event.timestamp
