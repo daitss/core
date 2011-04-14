@@ -69,11 +69,11 @@
   
     %tr
       %td
-        %input{:name => 'old_password'}
+        %input{:type => 'password', :name => 'old_password'}
       %td
-        %input{:name => 'new_password'}
+        %input{:type => 'password', :name => 'new_password'}
       %td
-        %input{:name => 'new_password_confirm'}
+        %input{:type => 'password', :name => 'new_password_confirm'}
   
   %input{:type => 'hidden', :name => 'id', :value => @the_user.id}
   %input{:type => 'hidden', :name => 'task', :value => 'change-user-password'}
