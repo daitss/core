@@ -20,8 +20,9 @@ namespace :db do
   
   desc 'migrate the database'
   task :migrate => [:setup] do
-    archive.setup_db :log => true
-    archive.init_db
+    STDERR.puts "db:migrate has been disabled"
+    #archive.setup_db :log => true
+    #archive.init_db
   end
 
   desc 'upgrade the database'
