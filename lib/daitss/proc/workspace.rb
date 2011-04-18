@@ -42,15 +42,17 @@ module Daitss
     alias_method :[], :wip_by_id
 
     # move the wip in the stash bin
-    def stash wip_id, bin, note=nil
+    def stash wip_id, bin, note=nil, agent=nil
       src = File.join path, wip_id
       dst = File.join bin.path, wip_id
       FileUtils.mv src, dst
 
+      agent = Program.get("SYSTEM") unless agent 
+
       if note and !note.empty?
-        Package.get(wip_id).log "stash", :notes => "stashed to #{bin.name}\n#{note}"
+        Package.get(wip_id).log "stash", :notes => "stashed to #{bin.name}\n#{note}", :agent => agent
       else
-        Package.get(wip_id).log "stash", :notes => "stashed to #{bin.name}"
+        Package.get(wip_id).log "stash", :notes => "stashed to #{bin.name}", :agent => agent
       end
 
     end

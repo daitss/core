@@ -395,7 +395,7 @@ post '/package/:pid/request/:rid' do |pid, rid|
   error "unknown task: #{task}" unless task == 'delete'
 
   req.cancel or error "cannot cancel request: #{req.errors.inspect}"
-  @package.log "#{req.type} request cancelled", :notes => "cancelled by: #{@user.id}"
+  @package.log "#{req.type} request cancelled", :notes => "cancelled by: #{@user.id}", :agent => @user
 
   redirect "/package/#{pid}"
 end
@@ -492,7 +492,7 @@ post '/workspace' do
     startable.each do |w|
       w.unstop if w.stopped?
       w.reset_process if w.dead?
-      w.spawn note
+      w.spawn note, @user
     end
 
   when 'stop'
@@ -502,7 +502,7 @@ post '/workspace' do
       wip_list = @params['wips'].map {|w| Wip.new(File.join(ws.path, w))}
       wip_list.select(&:running?).each { |w| w.stop note }
     else
-      ws.select(&:running?).each { |w| w.stop note }
+      ws.select(&:running?).each { |w| w.stop note, @user }
     end
 
   when 'unsnafu'
@@ -512,7 +512,7 @@ post '/workspace' do
       wip_list = @params['wips'].map {|w| Wip.new(File.join(ws.path, w))}
       wip_list.select(&:snafu?).each { |w| w.unsnafu note }
     else
-      ws.select(&:snafu?).each { |w| w.unsnafu note }
+      ws.select(&:snafu?).each { |w| w.unsnafu note, @user }
     end
 
   when 'stash'
@@ -528,7 +528,7 @@ post '/workspace' do
       stashable = ws.reject { |w| w.running? }
     end
 
-    stashable.each { |w| ws.stash w.id, bin, note }
+    stashable.each { |w| ws.stash w.id, bin, note, @user }
 
   when nil, '' then error 400, "parameter task is required"
   else error 400, "unknown command: #{params['task']}"
@@ -571,22 +571,22 @@ post '/workspace/:id' do |id|
     wip.reset_process if wip.dead?
     error 400, 'cannot start a running wip' if wip.running?
     error 400, 'cannot start a snafu wip' if wip.snafu?
-    wip.spawn note
+    wip.spawn note, @user
 
   when 'stop'
     error 400, 'cannot stop an idle wip' unless wip.running?
-    wip.stop note
+    wip.stop note, @user
 
   when 'unsnafu'
     error 400, 'can only unsnafu a snafu wip' unless wip.snafu?
-    wip.unsnafu note
+    wip.unsnafu note, @user
 
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']
     error 400, 'can only stash a non-running wip' if wip.running?
     bin = archive.stashspace.find { |b| b.name == params['stash-bin'] }
     error 400, "bin #{bin} does not exist" unless bin
-    ws.stash wip.id, bin, note
+    ws.stash wip.id, bin, note, @user
     redirect "/stashspace/#{bin.id}/#{wip.id}"
 
   when nil, '' then raise 400, 'parameter task is required'

@@ -27,3 +27,19 @@ Feature: unsnafu
     And there should be 0 snafu wips
     And it should have an "ingest unsnafu" event with note like "lorem ipsum"
 
+  Scenario: wip unsnafu should log the right user
+    Given a snafu wip
+    And I goto "/workspace"
+    When I choose "unsnafu"
+    And I press "Update"
+    And I goto its wip page
+    And it should have an "ingest unsnafu" event by agent "operator"
+
+  Scenario: wip unsnafu should log the right user
+    Given an snafu wip
+    And I goto its wip page
+    When I choose "unsnafu"
+    And I press "Update"
+    And I goto its wip page
+    And it should have an "ingest unsnafu" event by agent "operator"
+

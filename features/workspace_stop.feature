@@ -38,3 +38,20 @@ Feature: stop
     And I press "Update"
     And I goto its package page
     Then there should be an "ingest stopped" event
+
+  Scenario: wip stop should log the right user
+    Given a running wip
+    And I goto "/workspace"
+    When I choose "stop"
+    And I press "Update"
+    And I goto its wip page
+    And it should have an "ingest stopped" event by agent "operator"
+
+  Scenario: wip start should log the right user
+    Given an running wip
+    And I goto its wip page
+    When I choose "stop"
+    And I press "Update"
+    And I goto its wip page
+    And it should have an "ingest stopped" event by agent "operator"
+ 

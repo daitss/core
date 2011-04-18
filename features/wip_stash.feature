@@ -13,3 +13,24 @@ Feature: stashing a wip
       | pre status | redir              | page            |
       | idle       |  be redirected     | the stashed wip |
       | running    |  not be redirected | an error        |
+
+  Scenario: stash to a wip
+    Given a idle wip
+    And a stash bin named "default bin"
+    And I goto its wip page
+    When I choose "stash"
+    And I select "default bin"
+    And I press "Update"
+    And I goto its wip page
+    And it should have an "stash" event by agent "operator"
+ 
+  Scenario: stash to a wip
+    Given a idle wip
+    And a stash bin named "default bin"
+    And I goto "/workspace"
+    When I choose "stash"
+    And I select "default bin"
+    And I press "Update"
+    And I goto its wip page
+    And it should have an "stash" event by agent "operator"
+ 

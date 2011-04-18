@@ -46,8 +46,10 @@ module Daitss
     end
 
     # start a wip's task in a new process
-    def spawn note=nil
+    def spawn note=nil, agent = nil
       need_state :idle
+      
+      agent = Program.get("SYSTEM") unless agent
 
       # if this isn't here the fork can break do
       DataObjects::Pooling.pools.each &:dispose
@@ -63,9 +65,9 @@ module Daitss
         begin
 
           if note and !note.empty?
-            package.log "#{task} started", :notes => note
+            package.log "#{task} started", :notes => note, :agent => agent
           else
-            package.log "#{task} started"
+            package.log "#{task} started", :agent => agent
           end
 
           send task
@@ -142,16 +144,18 @@ module Daitss
     end
 
     # stop a running process
-    def stop note=nil
+    def stop note=nil, agent = nil
       need_state :running
       kill
       @process = { :id => :stop, :time => Time.now }
       save_process
 
+      agent = Program.get("SYSTEM") unless agent
+
       if note and !note.empty?
-        package.log "#{task} stopped", :notes => note
+        package.log "#{task} stopped", :notes => note, :agent => agent
       else
-        package.log "#{task} stopped"
+        package.log "#{task} stopped", :agent => agent
       end
 
     end
@@ -190,14 +194,16 @@ module Daitss
     end
 
     # resets the state of a package if it is snafu
-    def unsnafu note=nil
+    def unsnafu note=nil, agent = nil
       need_state :snafu
       reset_process
 
+      agent = Program.get("SYSTEM") unless agent
+
       if note and !note.empty?
-        package.log "#{task} unsnafu", :notes => note
+        package.log "#{task} unsnafu", :notes => note, :agent => agent
       else
-        package.log "#{task} unsnafu"
+        package.log "#{task} unsnafu", :agent => agent
       end
 
     end

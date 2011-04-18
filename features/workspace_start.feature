@@ -26,3 +26,20 @@ Feature: start
     And I press "Update"
     Then I should be redirected
     And there should be 2 running wips
+
+  Scenario: wip start should log the right user
+    Given an idle wip
+    And I goto "/workspace"
+    When I choose "start"
+    And I press "Update"
+    And I goto its wip page
+    And it should have an "ingest started" event by agent "operator"
+
+  Scenario: wip start should log the right user
+    Given an idle wip
+    And I goto its wip page
+    When I choose "start"
+    And I press "Update"
+    And I goto its wip page
+    And it should have an "ingest started" event by agent "operator"
+ 
