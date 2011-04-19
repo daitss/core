@@ -289,7 +289,7 @@ get '/packages?/?' do
                 start_date = Time.now - (60 * 60 * 24 * 4)
                 end_date = Time.now
                 range = (start_date..end_date)
-                names = ["submit", "reject", "ingest finished", "disseminate finished", "snafu", "disseminate snafu", "withdraw"]
+                names = ["submit", "reject", "ingest finished", "disseminate finished", "ingest snafu", "disseminate snafu", "withdraw", "abort"]
 
                 if @is_op
                   ps = Event.all(:timestamp => range, :name => names, :limit => 150, :order => [ :timestamp.desc ]).packages
