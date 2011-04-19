@@ -1,7 +1,5 @@
 require 'erb'
 
-module Daitss
-
   include ERB::Util
 
   TEMPLATE_DIR = File.expand_path File.join(File.dirname(__FILE__), 'template', 'erb')
@@ -12,4 +10,3 @@ module Daitss
     ERB.new raw
   end
 
-end

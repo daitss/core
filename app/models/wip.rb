@@ -14,12 +14,12 @@ require 'proc/wip/disseminate'
 require 'proc/wip/d1_refresh'
 
 require 'proc/wip/queue_report.rb'
+require 'proc/template'
 
 class Wip
-
   include DataDir
   extend DataDir
-
+  
   def self.all
     pattern = File.join work_path, '*'
     Dir[pattern].map { |p| Wip.new p }
@@ -34,7 +34,6 @@ class Wip
     elsif File.exist? s_path
       Wip.new s_path
     end
-
   end
 
   extend Forwardable
@@ -71,6 +70,8 @@ class Wip
     :peek,
     :d1refresh
   ]
+
+  DMD_KEYS = ['dmd-issue', 'dmd-volume', 'dmd-title', 'dmd-entity-id']
 
   # make a new wip on the filesystem
   def self.create path, task
@@ -196,6 +197,18 @@ class Wip
   def old_xml_res_tarballs
     pattern = File.join old_xml_res_tarball_dir, '*'
     Dir[pattern]
+  end
+
+  def has_dmd?
+
+    DMD_KEYS.any? do |dmd_key|
+      metadata.keys.include? dmd_key
+    end
+
+  end
+
+  def dmd
+    template_by_name('aip/dmd').result binding
   end
 
   private

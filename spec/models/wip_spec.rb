@@ -1,5 +1,4 @@
 describe Wip do
-
   let :wip do
     p = make_new_package
     path = File.join DataDir.work_path, p.id
@@ -40,6 +39,59 @@ describe Wip do
 
   it "should not equal a wip with a different path" do
     wip.should_not == other_wip
+  end
+
+  describe "dmd access" do
+
+    require 'libxml'
+
+    let(:wip) do
+      a = Account.make :id => 'ACT'
+      proj = Project.make :id => 'PRJ', :account => a
+      p = Package.make :project => proj
+      p.sip = Sip.new :name => "foo"
+      p.save or raise "Can't save package or sip"
+
+      f = 'haskell-nums-pdf.tar'
+      s = Submission.extract sip_fixture_path(f), :filename => f, :package => p
+
+      w = Wip.create File.join(DataDir.work_path, p.id), :ingest
+
+      s.files.each_with_index do |f, n|
+        df = w.new_original_datafile n
+
+        FileUtils.cp File.join(s.path, f), df.data_file
+      end
+
+      w['dmd-issue'] = s.issue
+      w['dmd-title'] = s.title
+      w['dmd-volume'] = s.volume
+      w['dmd-entity-id'] = s.entity_id
+
+      w
+    end
+
+    it "should know if dmd exists" do
+      Wip::DMD_KEYS.each do |key|
+        Wip::DMD_KEYS.each { |k| wip.delete k if wip.has_key? k }
+        wip.should_not have_dmd
+        wip[key] = "value for #{key}"
+        wip.should have_dmd
+      end
+    end
+
+    it "should make some xml for dmd if it exists" do
+      wip['dmd-issue'] = CGI.escape "l'issue"
+      wip['dmd-volume'] = 'le volume'
+      wip['dmd-title'] = 'le titre'
+      wip['dmd-entity-id'] = 'lentityid'
+      doc = LibXML::XML::Document.string wip.dmd
+      doc.find("/mods:mods/mods:titleInfo/mods:title = '#{ wip['dmd-title'] }'", NS_PREFIX).should be_true
+      doc.find("/mods:mods/mods:part/mods:detail[@type = 'volume']/mods:number = '#{ wip['dmd-volume'] }'", NS_PREFIX).should be_true
+      doc.find("/mods:mods/mods:part/mods:detail[@type = 'issue']/mods:number = '#{ wip['dmd-issue'] }'", NS_PREFIX).should be_true
+      doc.find("/mods:mods/mods:identifier[@type = 'entity id'] = '#{ wip['dmd-entity-id'] }'", NS_PREFIX).should be_true
+    end
+
   end
 
 end

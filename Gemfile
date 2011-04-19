@@ -20,7 +20,7 @@ gem 'dm-sqlite-adapter', DM_VERSION
 #
 # for a rather complete list of available datamapper adapters and plugins
 # gem 'dm-sqlite-adapter',    DM_VERSION
-# gem 'dm-mysql-adapter',     DM_VERSION
+gem 'dm-mysql-adapter',     DM_VERSION
 gem 'dm-postgres-adapter',  DM_VERSION
 # gem 'dm-oracle-adapter',    DM_VERSION
 # gem 'dm-sqlserver-adapter', DM_VERSION
