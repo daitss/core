@@ -1,5 +1,5 @@
 defaults: &defaults
-  username: franco
+  username: daitss
   host:     localhost
   adapter: postgres
 
