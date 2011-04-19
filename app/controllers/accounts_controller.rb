@@ -11,11 +11,6 @@ class AccountsController < ApplicationController
   verify(:params => :account, :only => [:create, :update])
 
   def create
-
-    params['account']['projects'] = [
-      Project.new_default_project
-    ]
-
     @account = Account.create params[:account]
 
     if @account.saved?

@@ -2,7 +2,6 @@ describe Submission do
 
   let(:package) do
     a = Account.make :id => 'ACT'
-    Project.make :id => DEFAULT_PROJECT_ID, :description => 'default project', :account => a
     proj = Project.make :id => 'PRJ', :account => a
     Package.make :project => proj
   end

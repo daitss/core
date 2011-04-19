@@ -11,8 +11,7 @@ Given /^I am logged in$/ do
 end
 
 Given /^I am logged in as an affiliate of "([^"]*)"$/ do |account_id|
-  p = Project.new :id => DEFAULT_PROJECT_ID, :description => 'default project'
-  a = Account.make :id => account_id, :projects => [p]
+  a = Account.make :id => account_id
 
   u = User.make :id => 'hermes', :account => a
   u.encrypt_auth 'pw'

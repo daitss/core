@@ -1,8 +1,6 @@
 require 'machinist/data_mapper'
 require 'sham'
 
-Before { Sham.reset }
-
 Sham.define do
   email { Faker::Internet.free_email }
   boolean(:unique => false) { rand(2) == 0 }

@@ -11,6 +11,14 @@ class Account
   has 1..n, :projects, :constraint => :destroy
   has n, :agents
 
+  before :valid? do
+
+    if new?
+      self.projects << Project.new_default_project
+    end
+
+  end
+
   validates_with_block :projects do
 
     if default_project
