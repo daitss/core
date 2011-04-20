@@ -41,6 +41,43 @@ describe Wip do
     wip.should_not == other_wip
   end
 
+  describe "create from request" do
+
+    let(:req) do
+      a = Account.make :id => 'ACT'
+      proj = Project.make :id => 'PRJ', :account => a
+      p = Package.make :project => proj
+      p.sip = Sip.new :name => "foo"
+      r = Request.new(:type => :ingest, :agent => Operator.first)
+      p.requests << r
+      p.save or raise "Can't save package or sip"
+      f = 'haskell-nums-pdf.tar'
+      s = Submission.extract sip_fixture_path(f), :filename => f, :package => p
+      r
+    end
+
+    let(:wip) do
+      Wip.create_from_request req
+    end
+
+    it 'should have the task' do
+      wip.task.should == :ingest
+    end
+
+    it 'should have all the datafiles' do
+      wip.original_datafiles.map { |df| df['sip-path'] }.should == req.submission.files
+    end
+
+    it 'should have the sip descriptor' do
+      wip['sip-descriptor'].should_not be_nil
+    end
+
+    it 'should have the issue'
+    it 'should have the volume'
+    it 'should have the title'
+    it 'should have the entity id'
+  end
+
   describe "dmd access" do
 
     require 'libxml'

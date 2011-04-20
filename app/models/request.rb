@@ -50,4 +50,13 @@ class Request
 
   end
 
+  def submission
+    raise "only ingest can have a submission" unless type == :ingest
+    pdir = File.join DataDir.submit_path, package.id
+    raise "an ingest should have a submission" unless File.directory? pdir
+    name = Dir.chdir(pdir) { Dir['*'].first }
+    path = File.expand_path(File.join(pdir, name))
+    Submission.new path
+  end
+
 end

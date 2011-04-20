@@ -19,7 +19,7 @@ require 'proc/template'
 class Wip
   include DataDir
   extend DataDir
-  
+
   def self.all
     pattern = File.join work_path, '*'
     Dir[pattern].map { |p| Wip.new p }
@@ -73,6 +73,8 @@ class Wip
 
   DMD_KEYS = ['dmd-issue', 'dmd-volume', 'dmd-title', 'dmd-entity-id']
 
+  SIP_FILES_DIR = 'sip-files'
+
   # make a new wip on the filesystem
   def self.create path, task
 
@@ -99,6 +101,23 @@ class Wip
     w = Wip.new path
     w.info[:task] = task
     w.save_info
+    w
+  end
+
+  def self.create_from_request req
+    p = req.package
+    s = req.submission
+    w = Wip.create File.join(DataDir.work_path, p.id), req.type
+
+    s.files.each_with_index do |f, n|
+      df = w.new_original_datafile n
+      FileUtils.cp File.join(s.path, f), df.data_file
+      df['sip-path'] = f
+      df['aip-path'] = File.join SIP_FILES_DIR, f
+    end
+
+    w['sip-descriptor'] = File.read s.descriptor_file
+
     w
   end
 
