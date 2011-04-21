@@ -184,6 +184,9 @@ module Daitss
       bps = Array.new
       bpsv_list.each {|value| bps << value.content}
       attribute_set(:bits_per_sample, bps.join(","))
+      bpsv_list = nil
+      bps.clear
+      bps = nil
       spp = premis.find_first("mix:ImageAssessmentMetadata/mix:ImageColorEncoding/mix:samplesPerPixel", NAMESPACES)
       attribute_set(:samples_per_pixel, spp.content) unless spp.nil?
       # TODO: attribute_set(:extra_samples, premis.find_first("mix:extraSamples", NAMESPACES).content)

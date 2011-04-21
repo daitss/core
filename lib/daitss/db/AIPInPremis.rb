@@ -1,6 +1,7 @@
 require 'xml'
 
 require 'daitss/db'
+require 'memory_debug'
 
 module Daitss
 
@@ -28,32 +29,40 @@ module Daitss
       @package = package
       @doc = aipxml
 
+      puts "processing int entity"
       # create an new intentities or locate the existing int entities for the int entity object in the aip descriptior.
       processIntEntity
 
+      puts "#{Time.now}, processing datafiles"
       # process all premis file objects
       processDatafiles
 
+      puts "#{Time.now}processing representations"
       # extract all premis representations
       processRepresentations
 
+      puts "#{Time.now}processing bitstreams"
       # process all premis bitstreams
       processBitstreams
 
+      puts "#{Time.now}processing agents"
       # process all premis agents
       processAgents
 
+      puts "#{Time.now}processing events"
       # process all premis events
       processEvents
 
+      puts "#{Time.now} process derived relationships"
       # process derived relationships associated with the files
       fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
       fileObjects.each do |obj|
         dfid = obj.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
         processRelationship(dfid, obj)
       end
-
+      puts "#{Time.now} storing to database"
       toDB
+      puts "#{Time.now} finish storing to database"     
     end
 
     def processIntEntity
@@ -104,17 +113,24 @@ module Daitss
 
     # extract all file objects from the premis document
     def processDatafiles
+      sip_descriptor_node = @doc.find_first("//M:file[@USE='sip descriptor']", NS_PREFIX)
+      sip_descriptor_ownerid = sip_descriptor_node['OWNERID']
       fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
-
-      fileObjects.each do |obj|
-
+      
+      obsolete_dfs = @doc.find("//mets:file[not(mets:FLocat)]", NAMESPACES).map { |n| n['OWNERID'] }.to_set
+      
+      fileObjects.each do |obj| 
         df = Datafile.new
-        df.fromPremis(obj, @formats)
-        if @doc.find("//mets:file[mets:FLocat]/@OWNERID = '#{df.id}'", NAMESPACES)
+        #GC.start
+        #delta_stats
+        #puts `ps aux | grep loadaip`
+        
+        df.fromPremis(obj, @formats, sip_descriptor_ownerid)
+        unless obsolete_dfs.include? df.id
           @datafiles[df.id] = df
           @int_entity.datafiles << df
         end
-
+        puts "finish #{Time.now}processing datafile #{df.id}"
       end
     end
 

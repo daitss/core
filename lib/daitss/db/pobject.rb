@@ -40,7 +40,6 @@ module Daitss
         # create a temporary format record with the info. from the premis
         newFormat = Format.new
         newFormat.fromPremis node
-        # newFormat.inspect
 
         # check if it was processed earlier.
         format = formats[newFormat.format_name]
@@ -66,7 +65,6 @@ module Daitss
         format.object_formats << objectformat
         formats[format.format_name] = format
 
-        # objectformat.inspect
         p.object_formats << objectformat
 
         # first format element is designated for the primary object (file/bitstream) format.
@@ -79,8 +77,8 @@ module Daitss
         end
         #objectformat.inspect
       end
+      list = nil
     end
-
   end
 
 end
