@@ -5,13 +5,19 @@ require 'net/smtp'
 module Daitss
 
   class Archive
+
+    FROM = 'daitss@darchive.fcla.edu'
+    REPLY_TO = 'lydiam@ufl.edu'
+
     def email_report package
       account = package.project.account
 
       marker = rand(1000000000000)
 
+
 msg = <<EOF
-From: DAITSS <do_not_reply@fcla.edu>
+From: DAITSS <#{FROM}>
+Reply-To: #{REPLY_TO}
 To: DAITSS Account #{account.id} <#{account.report_email}>
 Subject: Florida Digital Archive Report
 Date: #{Time.now.to_s}
@@ -30,7 +36,7 @@ Content-Type: text/xml; name="#{package.id}.ingest.xml"
 EOF
 
       Net::SMTP.start("localhost") do |smtp|
-        smtp.send_message msg, 'do_not_reply@fcla.edu', account.report_email
+        smtp.send_message msg, FROM, account.report_email
       end
     end
 
@@ -40,7 +46,8 @@ EOF
       marker = rand(1000000000000)
 
 msg = <<EOF
-From: DAITSS <do_not_reply@fcla.edu>
+From: DAITSS <#{FROM}>
+Reply-To: #{REPLY_TO}
 To: DAITSS Account #{account.id} <#{account.report_email}>
 Subject: Florida Digital Archive Report
 Date: #{Time.now.to_s}
@@ -59,7 +66,7 @@ Content-Type: text/xml; name="#{package.id}.error.xml"
 EOF
 
       Net::SMTP.start("localhost") do |smtp|
-        smtp.send_message msg, 'do_not_reply@fcla.edu', account.report_email
+        smtp.send_message msg, FROM, account.report_email
       end
     end
 
