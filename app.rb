@@ -13,11 +13,12 @@ require 'daitss/archive/report'
 include Daitss
 load_archive
 
+set :session_secret, Digest::SHA1.file(ENV['CONFIG']).hexdigest
+enable :sessions
+
 # if there is an ssl server running uncomment this
 # use Rack::SslEnforcer, :only => "/login"
 class Login < Sinatra::Base
-  set :session_secret, Digest::SHA1.file(ENV['CONFIG'] + 'salty').hexdigest
-  enable :sessions
 
   get('/login') do
     haml :login
@@ -36,8 +37,6 @@ class Login < Sinatra::Base
       session['user_name'] = nil
       error 403
     end
-
-
   end
 
   post('/logout') do
