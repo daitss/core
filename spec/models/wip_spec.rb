@@ -72,10 +72,23 @@ describe Wip do
       wip['sip-descriptor'].should_not be_nil
     end
 
-    it 'should have the issue'
-    it 'should have the volume'
-    it 'should have the title'
-    it 'should have the entity id'
+    it 'should have the issue' do
+      wip['dmd-issue'].should == ''
+    end
+
+    it 'should have the volume' do
+      s = req.submission
+      wip['dmd-volume'].should == ''
+    end
+
+    it 'should have the title' do
+      wip['dmd-title'].should == 'Haskell Numbers'
+    end
+
+    it 'should have the entity id' do
+      wip['dmd-entity-id'].should == 'haskell-nums-pdf'
+    end
+
   end
 
   describe "dmd access" do

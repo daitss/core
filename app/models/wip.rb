@@ -117,6 +117,10 @@ class Wip
     end
 
     w['sip-descriptor'] = File.read s.descriptor_file
+    w['dmd-issue'] = s.issue
+    w['dmd-title'] = s.title
+    w['dmd-volume'] = s.volume
+    w['dmd-entity-id'] = s.entity_id
 
     w
   end
