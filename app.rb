@@ -16,6 +16,7 @@ load_archive
 # if there is an ssl server running uncomment this
 # use Rack::SslEnforcer, :only => "/login"
 class Login < Sinatra::Base
+  set :session_secret, Digest::SHA1.file(ENV['CONFIG'] + 'salty').hexdigest
   enable :sessions
 
   get('/login') do
