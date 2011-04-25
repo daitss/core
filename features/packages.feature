@@ -183,4 +183,4 @@ Feature: be able to locate any package
     And I press "Search"
     Then I should see the package in the results
     Then the latest activity should be "daitss v.1 provenance"
-    And the timestamp should be "2011-01-01T11:11:11-05:00"
+    And the timestamp should be "Sat Jan 01 2011 11:11:11 AM"
