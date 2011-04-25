@@ -42,6 +42,11 @@ def start_wips
   startable.reverse! if @lifo
 
   startable.take(n > 0 ? n : 0).each do |w|
+    while not Package.get(w.id)
+      LOG.info "#{w.id} isn't in database, sleeping briefly to allow DB to catch up"
+      sleep 1
+    end
+
     w.spawn
     LOG.info "#{w.id}.#{w.task} spawned"
   end
