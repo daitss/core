@@ -8,7 +8,7 @@
   - events.each do |e|
     %tr
       %td= e.polite_name
-      %td= e.timestamp
+      %td= e.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
       %td
         %pre= e.notes
       %td= e.agent.id

@@ -21,9 +21,9 @@
       - latest_event = p.normal_events.last
       - if latest_event
         %td= latest_event.polite_name
-        %td= latest_event.timestamp
+        %td= latest_event.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
       - else
         %td 
           daitss v.1 provenance
         - last_legacy_event = p.legacy_events.last(:name => "legacy operations data")
-        %td= last_legacy_event.timestamp
+        %td= last_legacy_event.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
