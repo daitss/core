@@ -11,7 +11,7 @@
     %th time
     %th operator
     %th message
-  - @entries.each do |e|
+  - @entries.reverse.each do |e|
     %tr
       %td= e.timestamp
       %td= e.operator.id
