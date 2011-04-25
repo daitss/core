@@ -40,7 +40,7 @@ while true
         p.log "reject report written out for ftp"
       end
 
-      report_file = File.join archive.reports_path, p.project.account.id, (p.id + ".xml")
+      report_file = File.join archive.reports_path, p.project.account.id, Time.now.strftime("%Y%m%d"), (p.id + ".xml")
       FileUtils.mkdir_p File.dirname report_file
 
       File.open(report_file, "w+") do |f|
