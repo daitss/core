@@ -6,9 +6,17 @@
 
   %h3.stat
     - total = packages.inject(0.0) { |acc, p| acc + (p.sip and p.sip.size_in_bytes ? p.sip.size_in_bytes : 0 ) }
-    = sprintf('%.2f', total / 1000000)
-    MB
-
+    - if total > 1_000_000_000_000
+      = sprintf("%5.2f TB",  total / 1_000_000_000_000.0)
+    - elsif total > 1_000_000_000
+      = sprintf("%5.2f GB",  total / 1_000_000_000.0)
+    - elsif total > 1_000_000
+      = sprintf("%5.2f MB",  total / 1_000_000.0)
+    - elsif total > 1_000
+      = sprintf("%5.2f KB",  total / 1_000.0)
+    - else
+      = sprintf("%5.2f B",   total)     
+    
   %h3.stat
     = packages.inject(0) { |acc, p| acc + (p.sip and p.sip.number_of_datafiles ? p.sip.number_of_datafiles : 0 ) }
     files
