@@ -1,7 +1,7 @@
 %h1 add a log entry
 
 %form{:action => '/log', :method => 'POST'}
-  %textarea{:name => 'message'}
+  %textarea#logentry{:name => 'message'}
   %br
   %br
   %input{:type => 'submit', :value => 'Update'}
