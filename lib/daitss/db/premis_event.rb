@@ -45,7 +45,7 @@ module Daitss
     property :id, String, :key => true, :length => 100
     property :idType, String # identifier type
     property :e_type, String, :length => 20, :required => true
-    validates_with_method :e_type, :method => :validateEventType
+    #validates_with_method :e_type, :method => :validateEventType
     property :datetime, DateTime
     property :event_detail, String, :length => 255 # event detail
     property :outcome, String, :length => 255   # ex. sucess, failed.  TODO:change to Enum.
@@ -62,10 +62,8 @@ module Daitss
 
     # validate the event type value which is a daitss defined controlled vocabulary
     def validateEventType
-      if Event_Type.include?(@e_type)
-        return true
-      else
-        [ false, "value #{@e_type} is not a valid event type value" ]
+      unless Event_Type.include?(@e_type)
+        raise "value #{@e_type} is not a valid event type value"
       end
     end
 
@@ -79,6 +77,7 @@ module Daitss
       attribute_set(:idType, premis.find_first("premis:eventIdentifier/premis:eventIdentifierType", NAMESPACES).content)
       type = premis.find_first("premis:eventType", NAMESPACES).content
       attribute_set(:e_type, Event_Map[type.downcase])
+      validateEventType
       eventDetail = premis.find_first("premis:eventDetail", NAMESPACES)
       attribute_set(:event_detail, eventDetail.content) if eventDetail
       attribute_set(:datetime, premis.find_first("premis:eventDateTime", NAMESPACES).content)
@@ -151,10 +150,6 @@ module Daitss
           @anomalies[anomaly.name] = anomaly
         end
       end
-    end
-
-    before :save do
-      #TODO implement validation of objectID, making sure the objectID is a valid datafile
     end
 
   end

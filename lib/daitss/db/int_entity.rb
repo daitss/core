@@ -37,13 +37,12 @@ module Daitss
     def fromAIP aip
       entity = aip.find_first('//p2:object[p2:objectCategory="intellectual entity"]', NAMESPACES)
       raise "cannot find required intellectual entity object in the aip descriptor" if entity.nil?
-
       # extract and set int entity id
-      id = entity.find_first("//p2:objectIdentifierValue", NAMESPACES)
+      id = entity.find_first("p2:objectIdentifier/p2:objectIdentifierValue", NAMESPACES)
       raise "cannot find required objectIdentifierValue for the intellectual entity object in the aip descriptor" if id.nil?
       attribute_set(:id, id.content)
 
-      originalName = entity.find_first("//p2:originalName", NAMESPACES)
+      originalName = entity.find_first("p2:originalName", NAMESPACES)
       attribute_set(:original_name, originalName.content) if originalName
 
       # extract and set the rest of int entity metadata
@@ -80,9 +79,6 @@ module Daitss
       matched
     end
 
-    after :save do
-      puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
-    end
   end
 
 end

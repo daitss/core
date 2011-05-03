@@ -9,7 +9,7 @@ module Daitss
     include DataMapper::Resource
     property :id, Serial, :key => true
     property :byte_order, String, :length => 32, :required => true, :default => "Unknown"
-    validates_with_method :byte_order, :validateByteOrder
+    # validates_with_method :byte_order, :validateByteOrder
     # byte order
     property :encoding, String, :length => 255
     # the audio encoding scheme
@@ -29,10 +29,8 @@ module Daitss
 
     # validate the audio byte order value which is a daitss defined controlled vocabulary
     def validateByteOrder
-      if Audio_Byte_Order.include?(@byte_order)
-        return true
-      else
-        [ false, "value #{@byte_order} is not a valid byte_order value" ]
+      unless Audio_Byte_Order.include?(@byte_order)
+        raise "value #{@byte_order} is not a valid byte_order value"
       end
     end
 
@@ -46,7 +44,10 @@ module Daitss
 
     def fromPremis premis
       byte_order = premis.find_first("aes:byte_order", NAMESPACES)
-      attribute_set(:byte_order, byte_order.content) if byte_order
+      if byte_order
+        attribute_set(:byte_order, byte_order.content)
+        validateByteOrder
+      end
       attribute_set(:encoding, premis.find_first("aes:audioDataEncoding", NAMESPACES).content)
       attribute_set(:sampling_frequency, premis.find_first("aes:formatList/aes:formatRegion/aes:sampleRate", NAMESPACES).content)
       attribute_set(:bit_depth, premis.find_first("aes:formatList/aes:formatRegion/aes:bitDepth", NAMESPACES).content)

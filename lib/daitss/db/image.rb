@@ -58,16 +58,16 @@ module Daitss
     property :height, Integer, :min => 0
     # the height of the image, in pixels.
     property :compression_scheme, String, :length => 64, :required => true, :default => "Unknown"
-    validates_with_method :compression_scheme, :method => :validate_compression_scheme
+    # validates_with_method :compression_scheme, :method => :validate_compression_scheme
     # compression scheme used to store the image data
     property :color_space,  String, :length => 64, :required => true, :default => "Unknown"
-    validates_with_method :color_space, :method => :validate_color_space
+    # validates_with_method :color_space, :method => :validate_color_space
     # the color model of the decompressed image
     property :orientation, String, :length => 32, :required => true, :default => "Unknown"
-    validates_with_method :orientation, :method => :validate_orientation
+    # validates_with_method :orientation, :method => :validate_orientation
     # orientation of the image, with respect to the placement of its width and height.
     property :sample_frequency_unit, String, :length => 64, :required => true, :default => "no absolute unit of measurement"
-    validates_with_method :sample_frequency_unit, :method => :validate_sample_frequency_unit
+    # validates_with_method :sample_frequency_unit, :method => :validate_sample_frequency_unit
     # the unit of measurement for x and y sampling frequency
     property :x_sampling_frequency, Float
     # the number of pixels per sampling frequency unit in the image width
@@ -84,34 +84,26 @@ module Daitss
     property :bitstream_id, String, :length => 100
 
     def validate_compression_scheme
-      if Compression_Scheme.include?(@compression_scheme)
-        return true
-      else
-        [ false, "value #{@compression_scheme} is not a valid image compression scheme" ]
+      unless Compression_Scheme.include?(@compression_scheme)
+        raise "value #{@compression_scheme} is not a valid image compression scheme"
       end
     end
 
     def validate_color_space
-      if Color_Space.include?(@color_space)
-        return true
-      else
-        [ false, "value #{@color_space} is not a valid image color space" ]
+      unless Color_Space.include?(@color_space)
+        raise "value #{@color_space} is not a valid image color space"
       end
     end
 
     def validate_orientation
-      if Orientation.include?(@orientation)
-        return true
-      else
-        [ false, "value #{@orientation} is not a valid image orientation" ]
+      unless Orientation.include?(@orientation)
+        raise "value #{@orientation} is not a valid image orientation"
       end
     end
 
     def validate_sample_frequency_unit
-      if Sample_Frequency_Unit.include?(@sample_frequency_unit)
-        return true
-      else
-        [ false, "value #{@sample_frequency_unit} is not a valid image sampling frequency unit" ]
+      unless Sample_Frequency_Unit.include?(@sample_frequency_unit)
+        raise "value #{@sample_frequency_unit} is not a valid image sampling frequency unit" 
       end
     end
 
@@ -137,9 +129,10 @@ module Daitss
         else
           raise "unrecognized compression scheme #{compressionScheme.content}"
         end
+        validate_compression_scheme
       end
+      
       colorspace = premis.find_first("mix:BasicImageInformation/mix:BasicImageCharacteristics/mix:PhotometricInterpretation/mix:colorSpace", NAMESPACES)
-
       if colorspace
         if Color_Space.include?(colorspace.content)
           attribute_set(:color_space, colorspace.content)
@@ -148,8 +141,11 @@ module Daitss
         else
           raise "unrecognized color space #{colorspace.content}"
         end
+        validate_color_space
       end
+     
       # TODO: attribute_set(:orientation, premis.find_first("mix:orientation", NAMESPACES).content)
+      # validate_orientation
       sfu = premis.find_first("mix:ImageAssessmentMetadata/mix:SpatialMetrics/mix:samplingFrequencyUnit", NAMESPACES)
       if sfu
         if Sample_Frequency_Unit.include?(sfu.content)
@@ -159,8 +155,10 @@ module Daitss
         else
           raise "unrecognized sampling frequency unit #{sfu.content}"
         end
+        validate_sample_frequency_unit
       end
 
+     
       xsf = premis.find_first("mix:ImageAssessmentMetadata/mix:SpatialMetrics/mix:xSamplingFrequency", NAMESPACES)
       unless xsf.nil?
         if xsf.find_first("mix:denominator", NAMESPACES)

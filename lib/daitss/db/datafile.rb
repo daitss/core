@@ -21,8 +21,8 @@ module Daitss
     property :size, Integer, :min => 0, :max => 2**63-1, :required => true
     property :create_date, DateTime
     property :origin, String, :length => 10, :required => true # :default => ORIGIN_UNKNOWN,
-    # the value of the origin is validated by the check_origin method
-    validates_with_method :origin, :validateOrigin
+    # the value of the origin is validated by the validateOrigin method
+    #validates_with_method :origin, :validateOrigin
 
     property :original_path, String, :length => (0..255), :required => true
     # map from package_path + file_title + file_ext
@@ -150,10 +150,8 @@ module Daitss
 
     # validate the datafile Origin value which is a daitss defined controlled vocabulary
     def validateOrigin
-      if Origin.include?(@origin)
-        return true
-      else
-        [ false, "value #{@origin} is not a valid origin value" ]
+      unless Origin.include?(@origin)
+        raise "value #{@origin} is not a valid origin value" 
       end
     end
 
@@ -165,6 +163,7 @@ module Daitss
       else
         attribute_set(:origin, ORIGIN_DEPOSITOR)
       end
+      validateOrigin
     end
 
     # set the representation (r0, rn, rc) which contains this datafile
