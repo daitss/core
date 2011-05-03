@@ -1,7 +1,7 @@
 require 'xml'
 
 require 'daitss/db'
-require 'memory_debug'
+#require 'memory_debug'
 
 module Daitss
 
