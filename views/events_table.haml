@@ -2,13 +2,22 @@
   %tr
     %th type
     %th time
-    %th notes
     %th agent
+    %th view comments
+    %th new comment
+    %th notes
 
   - events.each do |e|
     %tr
       %td= e.polite_name
       %td= e.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
+      %td= e.agent.id
+      %td 
+        %a{:href => "/events/#{e.id}"}= e.comments.length.to_s + " comment(s)"
+      %td
+        %form{:action => "/events/#{e.id}", :method => "post"}
+          %input{:type => "text", :name => "comment_text"}
+          %input{:type => "submit", :value => "Submit"}
       %td
         %pre= e.notes
-      %td= e.agent.id
+          

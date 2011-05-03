@@ -19,6 +19,7 @@ module Daitss
 
     has n, :events
     has n, :requests
+    has n, :comments
 
     belongs_to :account
 

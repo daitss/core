@@ -76,3 +76,12 @@ Feature: overview of a package
     And I goto its package page
     When I click on "mets descriptor"
     Then the body should be mets xml
+
+  Scenario: comment on an event
+    Given an archived package
+    When I goto its package page
+    When I fill in "note" with "foo"
+    And I press "Submit"
+    And I should be redirected
+    And I click on "1 comment"
+    Then I should see a comment with "foo"

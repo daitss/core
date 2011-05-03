@@ -1089,3 +1089,19 @@ get '/requests' do
 
   haml :requests
 end
+
+# op event comments
+get '/events/:id' do |id|
+  @e = Event.get(id)
+
+  haml :event
+end
+
+post '/events/:id' do |id|
+  require_param 'comment_text'
+  
+  e = Event.get(id)
+  c = Comment.create :event => e, :agent => @user, :text => params['comment_text']
+  
+  redirect "/events/#{e.id}"
+end

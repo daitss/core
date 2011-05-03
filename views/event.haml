@@ -1,0 +1,43 @@
+%h2= @e.name  + " for " + @e.package_id + " on " + @e.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
+%hr
+
+%h2 event summary 
+
+%table
+  %th package id
+  %th event name
+  %th timestamp
+  %th notes
+  %th agent
+
+  %tr
+    %td
+      %a{:href => "/package/#{@e.package_id}"}= @e.package_id 
+    %td= @e.name
+    %td= @e.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
+    %td
+      %pre= @e.notes
+    %td= @e.agent_id
+
+%h2 comments
+
+%table
+  %th agent
+  %th timestamp
+  %th comment
+
+  - @e.comments.each do |c|
+    %tr
+      %td= c.agent_id
+      %td= c.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
+      %td
+        %pre= c.text
+
+%h2 new comment
+
+%form{:action => "/events/#{@e.id}", :method => "post"}
+  %textarea#logentry{:name => "comment_text"}
+  %input{:type => "submit", :value => "Submit"}
+ 
+
+

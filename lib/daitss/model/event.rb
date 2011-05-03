@@ -2,6 +2,7 @@ require 'dm-core'
 
 require 'daitss/model/agent'
 require 'daitss/model/package'
+require 'daitss/model/comment'
 
 module Daitss
 
@@ -16,6 +17,7 @@ module Daitss
 
     belongs_to :agent
     belongs_to :package
+    has n, :comments
   end
 
   def polite_name
