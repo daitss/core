@@ -21,8 +21,8 @@ module Daitss
     property :size, Integer, :min => 0, :max => 2**63-1, :required => true
     property :create_date, DateTime
     property :origin, String, :length => 10, :required => true # :default => ORIGIN_UNKNOWN,
-    # the value of the origin is validated by the check_origin method
-    validates_with_method :origin, :validateOrigin
+    # the value of the origin is validated by the validateOrigin method
+    #validates_with_method :origin, :validateOrigin
 
     property :original_path, String, :length => (0..255), :required => true
     # map from package_path + file_title + file_ext
@@ -87,7 +87,7 @@ module Daitss
       object_formats.each {|obj| obj.check_errors }                        
     end
     
-    def fromPremis(premis, formats)
+    def fromPremis(premis, formats, sip_descriptor_ownerid)
       id = premis.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
       attribute_set(:id, id)
       attribute_set(:size, premis.find_first("premis:objectCharacteristics/premis:size", NAMESPACES).content)
@@ -95,18 +95,22 @@ module Daitss
       # creating app. info
       node = premis.find_first("premis:objectCharacteristics/premis:creatingApplication/premis:creatingApplicationName", NAMESPACES)
       attribute_set(:creating_application, node.content) if node
-
+      node = nil
+      
       node = premis.find_first("premis:objectCharacteristics/premis:creatingApplication/premis:dateCreatedByApplication", NAMESPACES)
       attribute_set(:create_date, node.content) if node
-
+      node = nil
+     
       node = premis.find_first("premis:originalName", NAMESPACES)
       attribute_set(:original_path, node.content) if node
-      is_sip_descriptor = premis.find("//M:file[@OWNERID='#{id}']/@USE='sip descriptor'", NS_PREFIX)
-      attribute_set(:is_sip_descriptor, true) if is_sip_descriptor
-        
+      node = nil
+      
+      attribute_set(:is_sip_descriptor, true) if id == sip_descriptor_ownerid
+      is_sip_descriptor = nil
+            
       # process format information
       processFormats(self, premis, formats)
-
+ 
       # process fixity information
       fixities = premis.find("premis:objectCharacteristics/premis:fixity", NAMESPACES)
       fixities.each do |fixity|
@@ -114,14 +118,16 @@ module Daitss
         messageDigest.fromPremis(fixity)
         self.message_digest << messageDigest
       end
-
+      fixities = nil
+            
       # process premis ObjectCharacteristicExtension
       node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
       if (node)
         processObjectCharacteristicExtension(self, node)
         @object.bitstream_id = :null
       end
-
+      node = nil
+      
       # process inhibitor if there is any
       node = premis.find_first("premis:objectCharacteristics/premis:inhibitors", NAMESPACES)
       if (node)
@@ -138,15 +144,14 @@ module Daitss
           inhibitor.datafile_severe_element << dfse
         end
       end
-
+      node = nil
+      
     end
 
     # validate the datafile Origin value which is a daitss defined controlled vocabulary
     def validateOrigin
-      if Origin.include?(@origin)
-        return true
-      else
-        [ false, "value #{@origin} is not a valid origin value" ]
+      unless Origin.include?(@origin)
+        raise "value #{@origin} is not a valid origin value" 
       end
     end
 
@@ -158,6 +163,7 @@ module Daitss
       else
         attribute_set(:origin, ORIGIN_DEPOSITOR)
       end
+      validateOrigin
     end
 
     # set the representation (r0, rn, rc) which contains this datafile

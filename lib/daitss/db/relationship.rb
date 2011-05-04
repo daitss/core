@@ -18,7 +18,7 @@ module Daitss
     property :id, Serial, :key => true
     property :object1, String, :index => true, :length => 100
     property :type, String, :length => 20, :required => true #:default => :unknown
-    validates_with_method :type, :method => :validateType
+    # validates_with_method :type, :method => :validateType
     property :object2, String, :index => true, :length => 100
     property :premis_event_id, String, :length => 100
 
@@ -26,16 +26,15 @@ module Daitss
 
     # validate the relationship type value which is a daitss defined controlled vocabulary
     def validateType
-      if Relationship_Type.include?(@type)
-        return true
-      else
-        [ false, "value #{@type} is not a valid agent type value" ]
+      unless Relationship_Type.include?(@type)
+        raise "value #{@type} is not a valid relationship type value"
       end
     end
 
     def fromPremis(toObj, event_type, premis)
       attribute_set(:object1, premis.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content)
       attribute_set(:type, Relationship_Map[event_type])
+      validateType
       attribute_set(:object2, toObj)
       attribute_set(:premis_event_id, premis.find_first("premis:relatedEventIdentification/premis:relatedEventIdentifierValue", NAMESPACES).content)
     end
