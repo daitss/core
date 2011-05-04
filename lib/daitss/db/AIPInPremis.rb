@@ -33,33 +33,21 @@ module Daitss
       
       # create an new intentities or locate the existing int entities for the int entity object in the aip descriptior.
       processIntEntity
-      puts "#{Time.now} finishprocessIntEntity"
-      puts `ps ux -p #{Process.pid}`      
 
       # process all premis file objects
       processDatafiles
-      puts "#{Time.now} processDatafiles"
-      puts `ps ux -p #{Process.pid}`      
       
       # extract all premis representations
       processRepresentations
-      puts "#{Time.now} processRepresentations"
-      puts `ps ux -p #{Process.pid}`      
 
       # process all premis bitstreams
       processBitstreams
-      puts "#{Time.now} processBitstreams"
-      puts `ps ux -p #{Process.pid}`      
 
       # process all premis agents
       processAgents
-      puts "#{Time.now} processAgents"
-      puts `ps ux -p #{Process.pid}`      
       
       # process all premis events
       processEvents
-      puts "#{Time.now} processEvents"
-      puts `ps ux -p #{Process.pid}`      
 
       # process derived relationships associated with the files
       fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
@@ -67,13 +55,9 @@ module Daitss
         dfid = obj.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
         processRelationship(dfid, obj)
       end
-      puts "#{Time.now} processRelationship"
-      puts `ps ux -p #{Process.pid}`      
      
         toDB
       end
-      puts "#{Time.now} toDB"
-      puts `ps ux -p #{Process.pid}`      
   
     end
 
@@ -123,7 +107,7 @@ module Daitss
     # extract all file objects from the premis document
     def processDatafiles
       sip_descriptor_node = @doc.find_first("//M:file[@USE='sip descriptor']", NS_PREFIX)
-      sip_descriptor_ownerid = sip_descriptor_node['OWNERID']
+      sip_descriptor_ownerid = sip_descriptor_node['OWNERID'] if sip_descriptor_node
       fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
       
       obsolete_dfs = @doc.find("//mets:file[not(mets:FLocat)]", NAMESPACES).map { |n| n['OWNERID'] }.to_set
