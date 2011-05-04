@@ -77,11 +77,21 @@ Feature: overview of a package
     When I click on "mets descriptor"
     Then the body should be mets xml
 
-  Scenario: comment on an event
+  Scenario: should be able to comment on an event
     Given an archived package
     When I goto its package page
-    When I fill in "note" with "foo"
+    When I click on "0 comment(s)"
+    And I fill in "comment_text" with "foo"
     And I press "Submit"
     And I should be redirected
-    And I click on "1 comment"
-    Then I should see a comment with "foo"
+    Then I should see a comment with "foo" by operator
+
+  Scenario: should see an accurate count of comments with events
+    Given an archived package
+    When I goto its package page
+    When I click on "0 comment(s)"
+    And I fill in "comment_text" with "foo"
+    And I press "Submit"
+    And I goto its package page
+    Then I click on "1 comment(s)"
+    Then I should see a comment with "foo" by operator

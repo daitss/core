@@ -263,3 +263,9 @@ Given /^(\d+) submitted package$/ do |count|
   end
 end
 
+Then /^I should see a comment with "([^"]*)" by operator$/ do |notes|
+  last_response.should have_selector(%Q{td:contains("operator")})
+  last_response.should have_selector(%Q{td:contains("#{notes}")})
+  last_response.should have_selector(%Q{td:contains("#{Comment.first.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")}")})
+end
+
