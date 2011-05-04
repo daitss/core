@@ -80,6 +80,7 @@ describe 'describing a datafile' do
 
     it 'should have a message digest originator of archive' do
       df = @wip.new_original_datafile 'foo'
+      df.metadata["aip-path"] = "foo.txt"
       df.open('w') { |io| io.puts 'plain text' }
       df.describe!
       doc = XML::Document.string df['describe-file-object']
