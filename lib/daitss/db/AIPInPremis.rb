@@ -29,8 +29,6 @@ module Daitss
       @package = package
       @doc = aipxml
       
-      Intentity.transaction do
-      
       # create an new intentities or locate the existing int entities for the int entity object in the aip descriptior.
       processIntEntity
 
@@ -56,9 +54,7 @@ module Daitss
         processRelationship(dfid, obj)
       end
      
-        toDB
-      end
-  
+      toDB
     end
 
     def processIntEntity
