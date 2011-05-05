@@ -72,7 +72,7 @@ module Daitss
     def load_datafiles
       doc = XML::Document.string self.package.aip.xml
 
-      tdir = Dir.mktmpdir
+      tdir = Dir.mktmpdir nil, ENV['TMPDIR']
 
       aip_dir = self.id
       tarball_file = "#{aip_dir}.tar"
