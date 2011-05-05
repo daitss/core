@@ -89,3 +89,17 @@ Feature: permissions
     Given I am logged in as an "affiliate"
     When I goto its package page
     Then I should not see "dips"
+
+  Scenario: affiliate should see limited resultset
+    Given I am logged in as an "affiliate"
+    Given 501 package under account/project "ACT-FDA"
+    When I goto "/packages"
+    When I press "Set Scope"
+    Then I should have 500 package in the results
+
+  Scenario: operator should see full resultset
+    Given I am logged in as an "operator"
+    Given 501 package under account/project "ACT-FDA"
+    When I goto "/packages"
+    When I press "Set Scope"
+    Then I should have 501 package in the results

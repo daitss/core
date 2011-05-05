@@ -266,22 +266,26 @@ get '/packages?/?' do
 
                 # account but not project specified
                 elsif account and !project
-                  ps = account.projects.packages.events.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ] ).packages
+                  ps = account.projects.packages.events.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ] ).packages if is_op
+                  ps = account.projects.packages.events.all(:limit => 500, :timestamp => range, :name => names, :order => [ :timestamp.desc ] ).packages unless is_op
 
                 # project specified
                 elsif project
-                  ps = project.packages.events.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages
+                  ps = project.packages.events.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages if is_op
+                  ps = project.packages.events.all(:limit => 500, :timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages unless is_op
 
                 # neither account nor project specified
                 else
-                  ps = Event.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages
+                  ps = Event.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages if is_op
+                  ps = Event.all(:limit => 500, :timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages unless is_op
                 end
 
                 # filter on batches
                 batch = Batch.get(params['batch-scope'])
 
                 if batch
-                  ps = ps.all :batch => batch
+                  ps = ps.all :batch => batch if is_op
+                  ps = ps.all(:limit => 500, :batch => batch) unless is_op
                 end
 
                 ps
