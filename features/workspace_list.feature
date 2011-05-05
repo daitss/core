@@ -154,3 +154,8 @@ Feature: list wips
     Then there should be 1 running wip
     And there should be 2 stopped wips
 
+  Scenario: Workspace should display total size of wips
+    Given 2 stopped wips
+    When I goto "/workspace"
+    Then I should see "58.70 KB"
+

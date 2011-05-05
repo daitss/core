@@ -1,3 +1,15 @@
+- total = wips.inject(0) {|sum, w| sum + Sip.first(:package_id => w.id).size_in_bytes }
+- if total > 1_000_000_000_000
+  %h2= sprintf("size: %5.2f TB",  total / 1_000_000_000_000.0)
+- elsif total > 1_000_000_000
+  %h2= sprintf("size: %5.2f GB",  total / 1_000_000_000.0)
+- elsif total > 1_000_000
+  %h2= sprintf("size: %5.2f MB",  total / 1_000_000.0)
+- elsif total > 1_000
+  %h2= sprintf("size: %5.2f KB",  total / 1_000.0)
+- else
+  %h2= sprintf("size: %5.2f B",   total)     
+ 
 - space ||= 'workspace'
 %table
   %tr
