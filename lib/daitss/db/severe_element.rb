@@ -17,8 +17,8 @@ module Daitss
   end
 
   class Inhibitor < SevereElement
-    property :target, String # the target of this inhibitor
-    property :ikey, String # the key to resolve the inhibitor
+    property :target, String, :length => 255  # the target of this inhibitor
+    property :ikey, String, :length => 255  # the key to resolve the inhibitor
 
     def fromPremis(premis)
       attribute_set(:name, premis.find_first("premis:inhibitorType", NAMESPACES).content)
