@@ -29,6 +29,8 @@ namespace :db do
   task :upgrade => [:setup] do
     archive.setup_db :log => true
     DataMapper.auto_upgrade!
+    DataMapper.repository(:default).adapter.execute("ALTER TABLE severe_elements ALTER target TYPE character varying(255)")
+    DataMapper.repository(:default).adapter.execute("ALTER TABLE severe_elements ALTER ikey TYPE character varying(255)")
   end
 
   desc 'insert initial data into database'
