@@ -187,11 +187,11 @@ MSG
     end
 
     def issue
-      issue_vol_title["issue"]
+      issue_vol_title["issue"][0, 63]
     end
 
     def volume
-      issue_vol_title["volume"]
+      issue_vol_title["volume"][0, 63]
     end
 
     # returns a hash containing issue, volume, and title extracted from sip descriptor
