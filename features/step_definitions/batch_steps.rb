@@ -3,7 +3,8 @@ Given /^the following packages:$/ do |table|
   table.raw.each do |r|
     id = r.first
     sip = Sip.new :name => 'foo.sip'
-    Package.create :id => id, :sip => sip, :project => Project.first
+    p = Package.create :id => id, :sip => sip, :project => Project.first
+    p.log "submit"
   end
 
 end
