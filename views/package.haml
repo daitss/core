@@ -77,11 +77,12 @@
 
     %table
 
-      %tr
-        %th copy url
-        %td
-          %a{ :href => (aip.copy ? aip.copy.url : "#") }
-            = @package.id + ".tar"
+      - if @is_op
+        %tr
+          %th copy url
+          %td
+            %a{ :href => (aip.copy ? aip.copy.url : "#") }
+              = @package.id + ".tar"
 
       %tr
         %th copy md5
