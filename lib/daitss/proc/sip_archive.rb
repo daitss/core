@@ -187,11 +187,13 @@ MSG
     end
 
     def issue
-      issue_vol_title["issue"]
+      issue = issue_vol_title["issue"]
+      issue ? issue[0, 63] : nil
     end
 
     def volume
-      issue_vol_title["volume"]
+      vol = issue_vol_title["volume"]
+      vol ? vol[0, 63] : nil
     end
 
     # returns a hash containing issue, volume, and title extracted from sip descriptor

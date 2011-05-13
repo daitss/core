@@ -2,14 +2,14 @@
 
 <% if metadata.has_key? 'dmd-title' %>
   <titleInfo>
-  <title><%= metadata['dmd-title'] %></title>
+  <title><%= ERB::Util::h(metadata['dmd-title']) %></title>
   </titleInfo>
 <% end %>
 
 <% if metadata.has_key? 'dmd-volume' %>
   <part>
   <detail type='volume'>
-  <number><%= metadata['dmd-volume'] %></number>
+  <number><%= ERB::Util::h(metadata['dmd-volume']) %></number>
   </detail>
   </part>
 <% end %>
@@ -17,13 +17,13 @@
 <% if metadata.has_key? 'dmd-issue' %>
   <part>
   <detail type='issue'>
-  <number><%= metadata['dmd-issue'] %></number>
+  <number><%= ERB::Util::h(metadata['dmd-issue']) %></number>
   </detail>
   </part>
 <% end %>
 
 <% if metadata.has_key? 'dmd-entity-id' %>
-  <identifier type='entity id'><%= metadata['dmd-entity-id'] %></identifier>
+  <identifier type='entity id'><%= ERB::Util::h(metadata['dmd-entity-id']) %></identifier>
 <% end %>
 
 </mods>

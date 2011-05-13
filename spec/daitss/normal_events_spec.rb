@@ -4,8 +4,6 @@ describe Package do
 
   let :normal_event_names do
     [
-      'fixity failure',
-      'integrity failure',
       'ingest started',
       'ingest snafu',
       'ingest started',
