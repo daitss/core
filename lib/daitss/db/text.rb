@@ -52,9 +52,11 @@ module Daitss
       end
       byte_size = premis.find_first("txt:character_info/txt:byte_size", NAMESPACES)
       attribute_set(:byte_size, byte_size.content) if byte_size
-      linebreak = premis.find_first("txt:character_info/txt:linebreak", NAMESPACES).content
-      attribute_set(:linebreak, linebreak)
-      validate_linebreak
+      linebreak = premis.find_first("txt:character_info/txt:linebreak", NAMESPACES)
+      if linebreak && !linebreak.content.empty?
+        attribute_set(:linebreak, linebreak.content)
+        validate_linebreak
+      end
       language = premis.find_first("txt:language", NAMESPACES)
       attribute_set(:language, language.content) if language
       markup_basis = premis.find_first("txt:language/txt:markup_basis", NAMESPACES)

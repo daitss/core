@@ -31,30 +31,31 @@ module Daitss
       
       # create an new intentities or locate the existing int entities for the int entity object in the aip descriptior.
       processIntEntity
-
+      
       # process all premis file objects
       processDatafiles
       
       # extract all premis representations
       processRepresentations
-
+ 
       # process all premis bitstreams
       processBitstreams
-
+          
       # process all premis agents
       processAgents
       
       # process all premis events
       processEvents
-
+          
       # process derived relationships associated with the files
       fileObjects = @doc.find("//premis:object[@xsi:type='file']", NAMESPACES)
       fileObjects.each do |obj|
         dfid = obj.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
         processRelationship(dfid, obj)
       end
-     
+      
       toDB
+
     end
 
     def processIntEntity
@@ -209,7 +210,9 @@ module Daitss
         raise "error in saving int entity, no validation error found"
       end
 
-      @package.save
+      unless @package.save
+        raise "error in saving package #{@package}"
+      end
       
       # explicitly saving the dependencies.
       @events.each {|id, e| raise "error saving event records #{e.inspect}" unless e.save! }
