@@ -14,6 +14,8 @@ module Daitss
   ORIGIN_UNKNOWN = "UNKNOWN"
   Origin = [ ORIGIN_ARCHIVE, ORIGIN_DEPOSITOR, ORIGIN_UNKNOWN ]
 
+  MAX_CREATING_APP = 255
+  
   class Datafile < Pobject
     include DataMapper::Resource
 
@@ -26,7 +28,7 @@ module Daitss
 
     property :original_path, String, :length => (0..255), :required => true
     # map from package_path + file_title + file_ext
-    property :creating_application, String, :length => (0..255)
+    property :creating_application, String, :length => (0..MAX_CREATING_APP)
     property :is_sip_descriptor, Boolean, :default => false
 
     property :r0, Boolean, :default  => false
@@ -94,11 +96,21 @@ module Daitss
 
       # creating app. info
       node = premis.find_first("premis:objectCharacteristics/premis:creatingApplication/premis:creatingApplicationName", NAMESPACES)
-      attribute_set(:creating_application, node.content) if node
+      if node 
+         unless node.content.length > MAX_CREATING_APP
+           attribute_set(:creating_application, node.content) 
+         else
+          # truncate all characters exceeding MAX_CREATING_APP(255) bytes which is the maximum size for the creating application name.
+          truncated = node.content.slice(0, MAX_CREATING_APP)
+          attribute_set(:creating_application, truncated)
+         end
+       end
+                    
       node = nil
       
       node = premis.find_first("premis:objectCharacteristics/premis:creatingApplication/premis:dateCreatedByApplication", NAMESPACES)
       attribute_set(:create_date, node.content) if node
+     
       node = nil
      
       node = premis.find_first("premis:originalName", NAMESPACES)
