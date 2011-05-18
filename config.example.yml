@@ -1,23 +1,35 @@
-database-url: sqlite:/var/daitss/database.sqlite
-d1-database-url: mysql://root@localhost/daitss
-d1-ops-database-url: mysql://root:@localhost/pt
+# database connection URL
+database-url: postgres://username:password@host/schema
 
-data-dir: /var/daitss
+# deprecated, can leave blank
+d1-database-url: 
+d1-ops-database-url: 
+d1-rejects-database-url: 
 
-throttle: 10
-uri-prefix: daitss-test
+# path to data directory
+data-dir: /var/daitss/data
+
+# prefix for AIP URIs
+uri-prefix: daitss://
+
+# HTTP request expiration time in seconds
 http-timeout: 600
 
-actionplan-url: http://localhost:7001
-describe-url: http://localhost:7002
-storage-url: http://localhost:7003
-statusecho-url: http://localhost:7004
-viruscheck-url: http://localhost:7005
-transform-url: http://localhost:7006
-xmlresolution-url: http://xmlresolution.dev.fcla.edu
+# HTTP URLs to D2 services
+actionplan-url: 
+describe-url: 
+viruscheck-url: 
+transform-url: 
+xmlresolution-url: 
+storage-url: 
 
+# specifies how many ingest processes to run at a time
+throttle: 1
+
+# outgoing SMTP server for email report delivery
+smtp-server: your.smtp.server
+
+# directives passed to the Java virtual machine, limiting maximum memory utilization
 jvm-options:
-- -Dhttp.proxyHost=sake.fcla.edu
-- -Dhttp.proxyPort=3128
 - -Xms2G
 - -Xmx2G
