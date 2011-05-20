@@ -23,6 +23,9 @@ transform-url:
 xmlresolution-url: 
 storage-url: 
 
+# deprecated, but don't modify
+statusecho-url: deprecated
+
 # specifies how many ingest processes to run at a time
 throttle: 1
 
