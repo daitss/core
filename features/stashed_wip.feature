@@ -33,6 +33,7 @@ Feature: modifying the status of a stashed wip
     Then I should be redirected
     And I should be at the package page
     And the response contains "abort it!"
+    And the response contains "aborted"
 
   Scenario: abort a wip without a note
     Given a stash bin named "default bin" with 1 package
