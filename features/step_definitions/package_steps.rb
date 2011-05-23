@@ -22,7 +22,7 @@ end
 
 Then /^in the events I should not see a "([^\"]*)" event with "([^"]*)" in the notes$/ do |event, notes|
   pending notes if notes =~ %r{\?$}
-  last_response.should have_selector("td:contains('#{event}')")
+  last_response.should_not have_selector("td:contains('#{event}')")
   last_response.should_not have_selector("td:contains('#{notes}')")
 end
 

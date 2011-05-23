@@ -42,7 +42,7 @@ Feature: overview of a package
   Scenario: hide the fixity events by default
     Given I submit a package with some fixity events
     When I goto its package page
-    Then in the events I should not see a "fixity failure" event with "" in the notes
+    Then in the events I should not see a "fixity failure" event
     And in the events I should not see a "fixity success" event
 
   Scenario: show the fixity events
