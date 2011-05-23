@@ -818,15 +818,19 @@ post '/admin' do
     redirect '/admin/accounts'
 
   when 'new-project'
-    account_id = require_param 'account_id'
-    a = Account.get(account_id) or error 400, "account #{account_id} does not exist"
-    id = require_param 'id'
-    description = require_param 'description'
-    p = Project.new :id => id, :description => description
-    p.account = a
-    archive.log "new project: #{p.id}", @user
-    p.save or error "could not save project bin\n\n#{e.message}\n#{e.backtrace}"
-    redirect '/admin/projects'
+    begin
+      account_id = require_param 'account_id'
+      a = Account.get(account_id) or error 400, "account #{account_id} does not exist"
+      id = require_param 'id'
+      description = require_param 'description'
+      p = Project.new :id => id, :description => description
+      p.account = a
+      archive.log "new project: #{p.id}", @user
+      p.save or error "could not save project bin\n\n#{e.message}\n#{e.backtrace}"
+      redirect '/admin/projects'
+    rescue DataObjects::IntegrityError
+      error 400, "bad project id, #{p.id} already exists in account #{account_id}"
+    end
 
   when 'modify-project'
     account_id = require_param 'account_id'

@@ -53,3 +53,13 @@ Feature: admin of projects
   Scenario: should get 404 if you try to modify non-existant account 
     Given I goto "/admin/accounts/ACT/FOO"
     Then the response code should be 404
+
+  Scenario: should get 400 if attempting to create project that already exists
+    Given I goto "/admin/projects"
+    And a account "ACTPRJ"
+    And I fill in the project form with:
+      | id  | description | account_id |
+      | default | add test    | ACTPRJ     |
+    When I press "Create Project"
+    Then the response code should be 400
+ 
