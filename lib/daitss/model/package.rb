@@ -48,15 +48,15 @@ module Daitss
     end
 
     def fixity_events
-      events.all :name => (FIXITY_PASSED_EVENTS + FIXITY_FAILED_EVENTS), :order => [:id.asc]
+      events.all :name => (FIXITY_PASSED_EVENTS + FIXITY_FAILED_EVENTS), :order => [:timestamp.asc]
     end
 
     def fixity_passed_events
-      events.all :name => FIXITY_PASSED_EVENTS, :order => [:id.asc]
+      events.all :name => FIXITY_PASSED_EVENTS, :order => [:timestamp.asc]
     end
 
     def fixity_failed_events
-      events.all :name => FIXITY_FAILED_EVENTS, :order => [:id.asc]
+      events.all :name => FIXITY_FAILED_EVENTS, :order => [:timestamp.asc]
     end
 
     def legacy_events
