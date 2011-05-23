@@ -790,8 +790,13 @@ post '/admin' do
     a.report_email = require_param 'report-email'
     p = Project.new :id => Daitss::Archive::DEFAULT_PROJECT_ID, :description => 'default project'
     a.projects << p
-    a.save or error "could not create new account"
-    archive.log "new account: #{a.id}", @user
+
+    if a.save
+      archive.log "new account: #{a.id}", @user
+    else
+      error "could not create new account"
+    end
+
     redirect '/admin/accounts'
 
   when 'delete-account'
@@ -799,12 +804,15 @@ post '/admin' do
     a = Account.get(id) or not_found
 
     if a.projects == [a.default_project] and a.default_project.packages.empty?
-      a.destroy or error "could not delete account"
+      if a.destroy 
+        archive.log "delete account: #{a.id}", @user
+      else 
+        error "could not delete account"
+      end
     else
       error 400, "cannot delete a non-empty account"
     end
 
-    archive.log "delete account: #{a.id}", @user
     redirect '/admin/accounts'
 
   when 'modify-account'
@@ -813,8 +821,13 @@ post '/admin' do
 
     a.description = require_param 'description'
     a.report_email = require_param 'report-email'
-    a.save or error "could not update account"
-    archive.log "updated account: #{a.id}", @user
+
+    if a.save 
+      archive.log "updated account: #{a.id}", @user
+    else
+      error "could not update account"
+    end 
+
     redirect '/admin/accounts'
 
   when 'new-project'
@@ -825,8 +838,13 @@ post '/admin' do
       description = require_param 'description'
       p = Project.new :id => id, :description => description
       p.account = a
-      archive.log "new project: #{p.id}", @user
-      p.save or error "could not save project bin\n\n#{e.message}\n#{e.backtrace}"
+
+      if p.save 
+        archive.log "new project: #{p.id}", @user
+      else
+        error "could not save project bin\n\n#{e.message}\n#{e.backtrace}"
+      end
+
       redirect '/admin/projects'
     rescue DataObjects::IntegrityError
       error 400, "bad project id, #{p.id} already exists in account #{account_id}"
@@ -837,8 +855,13 @@ post '/admin' do
     id = require_param 'id'
     p = Project.get(id, account_id) or not_found
     p.description = require_param 'description'
-    p.save or error "could not update project"
-    archive.log "updated project: #{p.id} (#{p.account.id})", @user
+
+    if p.save 
+      archive.log "updated project: #{p.id} (#{p.account.id})", @user
+    else
+      error "could not update project"
+    end
+
     redirect '/admin/projects'
 
   when 'delete-project'
@@ -846,8 +869,13 @@ post '/admin' do
     account_id = require_param 'account_id'
     p = Account.get(account_id).projects.first(:id => id) or not_found
     error 400, "cannot delete a non-empty project" unless p.packages.empty?
-    p.destroy or error "could not delete project"
-    archive.log "delete project: #{p.id}", @user
+
+    if p.destroy
+      archive.log "delete project: #{p.id}", @user
+    else
+      error "could not delete project"
+    end
+
     redirect '/admin/projects'
 
   when 'new-user'
@@ -879,8 +907,13 @@ post '/admin' do
     u.phone = require_param 'phone'
     u.address = require_param 'address'
     u.description = ""
-    u.save or error "could not save user, errors: #{u.errors}"
-    archive.log "new user: #{u.id}", @user
+
+    if u.save 
+      archive.log "new user: #{u.id}", @user
+    else
+      error "could not save user, errors: #{u.errors}"
+    end
+
     redirect '/admin/users'
 
   when 'modify-user'
@@ -906,8 +939,13 @@ post '/admin' do
     u.email = require_param 'email'
     u.phone = require_param 'phone'
     u.address = require_param 'address'
-    u.save or error "could not update user, errors: #{u.errors}"
-    archive.log "updated user: #{u.id}", @user
+
+    if u.save 
+      archive.log "updated user: #{u.id}", @user
+    else
+      error "could not update user, errors: #{u.errors}"
+    end
+
     redirect '/admin/users'
 
   when 'change-user-password'
@@ -917,48 +955,78 @@ post '/admin' do
     error 400 unless require_param("new_password") == require_param("new_password_confirm")
 
     u.encrypt_auth require_param("new_password")
-    u.save or error "could not update user, errors: #{u.errors}"
-    archive.log "changed password for user: #{u.id}", @user
+
+    if u.save 
+      archive.log "changed password for user: #{u.id}", @user
+    else
+      error "could not update user, errors: #{u.errors}"
+    end 
+
     redirect '/admin/users'
 
   when 'delete-user'
     id = require_param 'id'
     u = User.get(id) or not_found
     u.deleted_at = Time.now
-    u.save or error "could not delete user"
-    archive.log "delete user: #{u.id}", @user
+
+    if u.save 
+      archive.log "delete user: #{u.id}", @user
+    else
+      error "could not delete user"
+    end
+
     redirect '/admin/users'
 
   when 'make-admin-contact'
     id = require_param 'id'
     u = Contact.get(id) or not_found
     u.is_admin_contact = true
-    u.save or error "could not save user, errors: #{u.errors}"
-    archive.log "made admin contact: #{u.id}", @user
+
+    if u.save 
+      archive.log "made admin contact: #{u.id}", @user
+    else
+      error "could not save user, errors: #{u.errors}"
+    end
+
     redirect '/admin/users'
 
   when 'make-tech-contact'
     id = require_param 'id'
     u = Contact.get(id) or not_found
     u.is_tech_contact = true
-    u.save or error "could not save user, errors: #{u.errors}"
-    archive.log "made tech contact: #{u.id}", @user
+
+    if u.save 
+      archive.log "made tech contact: #{u.id}", @user
+    else
+      error "could not save user, errors: #{u.errors}"
+    end
+
     redirect '/admin/users'
 
   when 'unmake-admin-contact'
     id = require_param 'id'
     u = Contact.get(id) or not_found
     u.is_admin_contact = false
-    u.save or error "could not save user, errors: #{u.errors}"
-    archive.log "unmade admin contact: #{u.id}", @user
+
+    if u.save 
+      archive.log "unmade admin contact: #{u.id}", @user
+    else 
+      error "could not save user, errors: #{u.errors}"
+    end
+
     redirect '/admin/users'
 
   when 'unmake-tech-contact'
     id = require_param 'id'
     u = Contact.get(id) or not_found
     u.is_tech_contact = false
-    u.save or error "could not save user, errors: #{u.errors}"
-    archive.log "unmade tech contact: #{u.id}", @user
+
+    if u.save
+      archive.log "unmade tech contact: #{u.id}", @user
+    else
+      error "could not save user, errors: #{u.errors}"
+    end
+
     redirect '/admin/users'
 
   else raise "unknown task: #{params['task']}"
