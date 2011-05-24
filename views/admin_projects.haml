@@ -24,9 +24,9 @@
 
     - @projects.each do |p|
       %tr
-        %td= p.id
-        %td= p.description
-        %td= p.account.id
+        %td&= p.id
+        %td&= p.description
+        %td&= p.account.id
         %td
           %a{:href => "/admin/projects/#{p.account.id}/#{p.id}"}
             modify project

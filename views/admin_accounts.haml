@@ -21,9 +21,9 @@
 
     - @accounts.each do |a|
       %tr
-        %td= a.id
-        %td= a.description
-        %td= a.report_email
+        %td&= a.id
+        %td&= a.description
+        %td&= a.report_email
         %td 
           %a{:href => "/admin/accounts/#{a.id}"}
             modify account

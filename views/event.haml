@@ -16,7 +16,7 @@
     %td= @e.name
     %td= @e.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
     %td
-      %pre= @e.notes
+      %pre&= @e.notes
     %td= @e.agent_id
 
 %h2 comments
@@ -31,7 +31,7 @@
       %td= c.agent_id
       %td= c.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
       %td
-        %pre= c.text
+        %pre&= c.text
 
 %h2 new comment
 
