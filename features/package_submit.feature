@@ -77,3 +77,10 @@ Feature: interactive submission
     And I should be redirected
     And I goto "/batches"
     Then I should not have batch "batch name"
+
+  Scenario: submission of a non-package should return 400
+    Given I goto "/packages"
+    When I select "non-package" to upload
+    And I press "Submit"
+    Then the response code should be 400
+ 

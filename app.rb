@@ -195,9 +195,11 @@ post '/packages?/?' do
           end
 
           p
-        ensure
-          FileUtils.rm_r dir
-        end
+      rescue => e
+        error 400, "Submission failed: #{e.message}. Please ensure the SIP you have submitted is valid"
+      ensure
+        FileUtils.rm_r dir
+      end
 
   redirect "/package/#{p.id}"
 end
