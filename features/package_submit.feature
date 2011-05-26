@@ -43,6 +43,7 @@ Feature: interactive submission
       | described-hidden-file             | reject | invalid characters in file name: .hidden.txt |
       | special-characters                | reject | invalid characters in file name: 00039'.txt |
       | lower-level-special-characters    | reject | invalid characters in file name: Content/UF00001074'.pdf |
+      | non-package                       | reject | cannot extract sip archive, must be a valid tar or zip file |
 
   Scenario: submission notes
     Given I goto "/packages"
@@ -77,10 +78,4 @@ Feature: interactive submission
     And I should be redirected
     And I goto "/batches"
     Then I should not have batch "batch name"
-
-  Scenario: submission of a non-package should return 400
-    Given I goto "/packages"
-    When I select "non-package" to upload
-    And I press "Submit"
-    Then the response code should be 400
  

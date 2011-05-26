@@ -195,8 +195,6 @@ post '/packages?/?' do
           end
 
           p
-      rescue => e
-        error 400, "Submission failed: #{e.message}. Please ensure the SIP you have submitted is valid"
       ensure
         FileUtils.rm_r dir
       end
