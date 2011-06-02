@@ -43,7 +43,7 @@ Feature: interactive submission
       | described-hidden-file             | reject | invalid characters in file name: .hidden.txt |
       | special-characters                | reject | invalid characters in file name: 00039'.txt |
       | lower-level-special-characters    | reject | invalid characters in file name: Content/UF00001074'.pdf |
-      | non-package                       | reject | cannot extract sip archive, must be a valid tar or zip file |
+      | non-package                       | reject | cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
 
   Scenario: submission notes
     Given I goto "/packages"

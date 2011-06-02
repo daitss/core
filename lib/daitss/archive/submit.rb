@@ -21,7 +21,7 @@ module Daitss
         p_id = sa.project rescue nil
       rescue
         sa = nil
-        agreement_errors << "cannot extract sip archive, must be a valid tar or zip file"
+        agreement_errors << "cannot extract sip archive, must be a valid tar or zip file containing directory with sip files"
 
         a_id = agent.account.id
         p_id = agent.account.default_project.id
