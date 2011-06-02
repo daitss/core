@@ -113,5 +113,39 @@ Feature: CRUD for batches
     And I click on "mybatch"
     Then the batch should contain the last package ingested
 
+  Scenario: packages should be able to be in more than one batch
+    Given the following packages:
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+    And I goto "/batches"
+    And I fill in "name" with "foo"
+    And I fill in "packages" with: 
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+    When I press "Submit"
+    And I goto "/batches"
+    And I fill in "name" with "bar"
+    And I fill in "packages" with: 
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+    And I press "Submit"
+    Then I goto "/batches"
+    And I click on "foo"
+    And I should have a batch containing
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+    Then I goto "/batches"
+    And I click on "bar"
+    And I should have a batch containing
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+
+
+
 
 

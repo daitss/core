@@ -25,7 +25,10 @@ module Daitss
     has 0..1, :report_delivery
 
     belongs_to :project
-    belongs_to :batch, :required => false
+
+    has n, :batch_assignments
+    has n, :batches, :through => :batch_assignments
+    
 
     LEGACY_EVENTS = [
       'legacy operations data',
