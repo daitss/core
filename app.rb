@@ -319,13 +319,17 @@ get '/rejects' do
 end
 
 get '/snafus' do
-  t0 = Date.today - 30
-
-  es = Event.all(:timestamp.gt => t0, :order => [ :timestamp.desc ], :name => "ingest snafu") + Event.all(:timestamp.gt => t0, :order => [ :timestamp.desc ], :name => "disseminate snafu")
+  es = Event.all(:order => [ :timestamp.desc ], :name => "ingest snafu") + Event.all(:order => [ :timestamp.desc ], :name => "disseminate snafu")
   es = es.map { |e| e.package }.uniq
 
-  @packages = es.find_all do |e|
-    e.events.first(:order => [:timestamp.desc]).name =~ /snafu/
+  # packages that have a "finished" event after last snafu event should be discarded
+  @packages = es.reject do |e|
+    latest_snafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "%snafu")
+    
+    if latest_snafu_event
+      snafu_timestamp = Time.parse(latest_snafu_event.timestamp.to_s)
+      e.events.first(:name.like => "%finished", :timestamp.gt => snafu_timestamp)
+    end
   end
 
   haml :snafus

@@ -22,9 +22,23 @@ Given /^an? ([^"]*) wip$/ do |state|
       raise "oops this is not a real error!"
     rescue => e
       wip.make_snafu e
+      Package.get(wip.id).log "ingest snafu", :notes => "oops this is not a real error!"
     end
 
     wip.should be_snafu
+
+  when 'previously ingested disseminate snafu'
+
+    begin
+      p = Package.get(wip.id)
+      p.log "ingest started"
+      p.log "ingest finished"
+      raise "oops this is not a real error!"
+    rescue => e
+      wip.make_snafu e
+      sleep 1
+      p.log "disseminate snafu"
+    end
 
   when 'stop'
     wip.spawn
