@@ -27,3 +27,9 @@
           %td
             %pre= snafu_event.notes[0, 100]
 
+  %h2 Save as Batch
+  %form{:action => '/batches', :method => 'post'}
+    %input{:name => 'name', :value => "batch name"}
+    %input{:type => 'hidden', :name => 'packages', :value => "#{@packages.inject(''){|str, p| str + " " + p.id}}"}
+    %input{:type => 'submit', :value => 'Save as Batch'}
+

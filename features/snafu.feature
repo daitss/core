@@ -36,3 +36,13 @@ Feature: snafu tab
     Given a previously ingested disseminate snafu package
     When I goto "/snafus"
     Then I should see the package in the results
+
+  Scenario: snafu package should display in snafu tab
+    Given a snafu package
+    Given a snafu package
+    When I goto "/snafus"
+    And I fill in "name" with "default batch"
+    And I press "Save as Batch"
+    Then I should see 2 packages in batch "default batch"
+
+
