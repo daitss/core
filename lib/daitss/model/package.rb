@@ -14,6 +14,8 @@ module Daitss
   class Package
     include DataMapper::Resource
 
+    # NOTE: be sure to update storage side models if this schema changes!
+    
     property :id, EggHeadKey
     property :uri, String, :unique => true, :required => true, :default => proc { |r,p| Daitss.archive.uri_prefix + r.id }
 
