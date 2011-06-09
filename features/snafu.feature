@@ -135,3 +135,11 @@ Feature: snafu tab
       | unsnafued | 1     |
       | stashed   | 1     |
 
+  Scenario: Filter by error message
+    Given a snafu package
+    Given a different snafu package
+    And I goto "/snafus"
+    When I fill in "error-message" with "oops this is not a real error!"
+    And I press "Set Scope"
+    Then I should have 1 package in the results
+

@@ -14,6 +14,7 @@
       %th start date
       %th end date
       %th status
+      %th error message
       %th set scope
     %tr
       %td
@@ -60,6 +61,12 @@
           %option stashed
           - if params["activity-scope"]
             %option{:selected => true}= params['activity-scope']
+
+      %td
+        - if params['error-message']
+          %input{:name => 'error-message', :value => params['error-message']}
+        - else
+          %input{:name => 'error-message'}
 
       %td
         %input{:type => 'submit', :value => 'Set Scope'}

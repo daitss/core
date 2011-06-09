@@ -376,9 +376,6 @@ get '/snafus' do
         latest_unsnafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "%unsnafu") 
         latest_stash_event = e.events.first(:order => [ :timestamp.desc ], :name => "stash") 
 
-        #snafu_timestamp = Time.parse(latest_snafu_event.timestamp.to_s)
-        #e.events.first(:name.like => "%unsnafu", :timestamp.gt => snafu_timestamp) or e.events.first(:name => "stash", :timestamp.gt => snafu_timestamp)
-        
         has_unsnafu = latest_unsnafu_event ? latest_snafu_event.timestamp <= latest_unsnafu_event.timestamp : false
         has_stash = latest_stash_event ? latest_snafu_event.timestamp <= latest_stash_event.timestamp : false
 
@@ -397,6 +394,15 @@ get '/snafus' do
         latest_stash_event = e.events.first(:order => [ :timestamp.desc ], :name => "stash") 
 
         latest_stash_event ? latest_stash_event.timestamp >= latest_snafu_event.timestamp : false
+      end
+    end
+
+    # filter on error message
+    if params['error-message'] and !params['error-message'].strip.empty?
+      es = es.find_all do |e|
+        latest_snafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "% snafu")
+
+        latest_snafu_event.notes == params['error-message']
       end
     end
 

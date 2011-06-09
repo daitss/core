@@ -27,6 +27,18 @@ Given /^an? ([^"]*) wip$/ do |state|
 
     wip.should be_snafu
 
+  when 'different snafu'
+
+    begin
+      raise "oops this is not a real error!"
+    rescue => e
+      wip.make_snafu e
+      Package.get(wip.id).log "ingest snafu", :notes => "this is a different fake error"
+    end
+
+    wip.should be_snafu
+
+
   when 'previously ingested disseminate snafu'
 
     begin
