@@ -284,8 +284,7 @@ get '/packages?/?' do
                 batch = Batch.get(params['batch-scope'])
 
                 if batch
-                  ps = ps.all :batch => batch if is_op
-                  ps = ps.all(:limit => 500, :batch => batch) unless is_op
+                  ps = ps.find_all { |p| p.batches.include? batch } 
                 end
 
                 ps
@@ -319,13 +318,98 @@ get '/rejects' do
 end
 
 get '/snafus' do
-  es = Event.all(:order => [ :timestamp.desc ], :name => "ingest snafu") + Event.all(:order => [ :timestamp.desc ], :name => "disseminate snafu")
-  es = es.map { |e| e.package }.uniq
+
+  if @params['filter'] == 'true'
+
+    # filter on date range
+    start_date = if params['start_date'] and !params['start_date'].strip.empty?
+                   Time.parse params['start_date']
+                 else
+                   Time.at 0
+                 end
+
+    end_date = if params['end_date'] and !params['end_date'].strip.empty?
+                 Time.parse params['end_date']
+               else
+                 Time.now
+               end
+
+    end_date += 1
+    range = (start_date..end_date)
+
+    #lookup account, project if passed in
+    account = Account.get(params['account-scope'])
+
+    project_id, account_id = params['project-scope'].split("-")
+    act = Account.get(account_id)
+    project = act.projects.first(:id => project_id) if act
+
+    # conflicting search, return empty set
+    if account and act and account.id != act.id
+      es = Package.all(:limit => 0)
+
+      # account but not project specified
+    elsif account and !project
+      es = account.projects.packages.events.all(:timestamp => range, :name.like => "% snafu", :order => [ :timestamp.desc ] ).packages
+
+      # project specified
+    elsif project
+      es = project.packages.events.all(:timestamp => range, :name.like => "% snafu", :order => [ :timestamp.desc ]).packages
+
+      # neither account nor project specified
+    else
+      es = Event.all(:timestamp => range, :name.like => "% snafu", :order => [ :timestamp.desc ]).packages
+    end
+
+    # filter on batches
+    batch = Batch.get(params['batch-scope'])
+    
+    if batch
+      es = es.find_all { |p| p.batches.include? batch } 
+    end
+
+    # filter on status
+    case params['activity-scope']
+    when "snafued"
+      es = es.reject do |e|
+        latest_snafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "% snafu")
+        latest_unsnafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "%unsnafu") 
+        latest_stash_event = e.events.first(:order => [ :timestamp.desc ], :name => "stash") 
+
+        #snafu_timestamp = Time.parse(latest_snafu_event.timestamp.to_s)
+        #e.events.first(:name.like => "%unsnafu", :timestamp.gt => snafu_timestamp) or e.events.first(:name => "stash", :timestamp.gt => snafu_timestamp)
+        
+        has_unsnafu = latest_unsnafu_event ? latest_snafu_event.timestamp <= latest_unsnafu_event.timestamp : false
+        has_stash = latest_stash_event ? latest_snafu_event.timestamp <= latest_stash_event.timestamp : false
+
+        has_unsnafu or has_stash
+      end
+    when "unsnafued"
+      es = es.find_all do |e|
+        latest_snafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "% snafu")
+        latest_unsnafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "%unsnafu") 
+
+        latest_unsnafu_event ? latest_unsnafu_event.timestamp >= latest_snafu_event.timestamp : false
+      end
+    when "stashed"
+      es = es.find_all do |e|
+        latest_snafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "% snafu")
+        latest_stash_event = e.events.first(:order => [ :timestamp.desc ], :name => "stash") 
+
+        latest_stash_event ? latest_stash_event.timestamp >= latest_snafu_event.timestamp : false
+      end
+    end
+
+  else
+    es = Event.all(:order => [ :timestamp.desc ], :name.like => "% snafu")
+    es = es.map { |e| e.package }.uniq
+  end
+
 
   # packages that have a "finished" event after last snafu event should be discarded
   @packages = es.reject do |e|
-    latest_snafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "%snafu")
-    
+    latest_snafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "% snafu")
+
     if latest_snafu_event
       snafu_timestamp = Time.parse(latest_snafu_event.timestamp.to_s)
       e.events.first(:name.like => "%finished", :timestamp.gt => snafu_timestamp)

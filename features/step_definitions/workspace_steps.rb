@@ -40,6 +40,32 @@ Given /^an? ([^"]*) wip$/ do |state|
       p.log "disseminate snafu"
     end
 
+    wip.should be_snafu
+
+  when 'stashed snafu'
+
+    begin
+      raise "oops this is not a real error!"
+    rescue => e
+      wip.make_snafu e
+      p = Package.get(wip.id)
+      p.log "ingest snafu", :notes => "oops this is not a real error!"
+      p.log "stash"
+    end
+
+    wip.should be_snafu
+
+  when 'unsnafued snafu'
+
+    begin
+      raise "oops this is not a real error!"
+    rescue => e
+      wip.make_snafu e
+      p = Package.get(wip.id)
+      p.log "ingest snafu", :notes => "oops this is not a real error!"
+      p.log "ingest unsnafu"
+    end
+
   when 'stop'
     wip.spawn
     wip.stop

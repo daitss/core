@@ -14,8 +14,22 @@ Given /^(\d+) packages ingested on "([^"]*)"$/ do |count, date|
     p.save or "can't save package"
 
     t = Time.parse(date)
+    p.log("submit", :timestamp => t)
     p.log("ingest finished", :timestamp => t)
     
+  end
+end
+
+Given /^(\d+) packages snafued on "([^"]*)"$/ do |count, date|
+  count.to_i.times do |t|
+    s = Sip.new :name => t
+    p = Package.new :project => Project.first, :sip => s
+    p.save or "can't save package"
+
+    t = Time.parse(date)
+    p.log("submit", :timestamp => t)
+    p.log("ingest started", :timestamp => t)
+    p.log("ingest snafu", :timestamp => t)
   end
 end
 
@@ -30,7 +44,27 @@ Given /^(\d+) packages under batch "([^"]*)"$/ do |count, batch|
     p.save or "can't save package"
     p.log "ingest finished"
   end
+
+  b.save
 end
+
+Given /^(\d+) packages snafued under batch "([^"]*)"$/ do |count, batch|
+  b = Batch.new :id => batch
+  count.to_i.times do |t|
+    s = Sip.new :name => t
+    p = Package.new :project => Project.first, :sip => s
+
+    b.packages << p
+
+    p.save or "can't save package"
+    p.log "submit"
+    p.log "ingest started"
+    p.log "ingest snafu"
+  end
+
+  b.save
+end
+
 
 
 

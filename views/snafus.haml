@@ -1,9 +1,76 @@
-#results
-  %h1
-    snafued packages
+%h1
+  snafued packages
 
-  - unless @packages.empty?
-    
+%h2
+  filter scope
+
+%form{:action => "/snafus", :method => "get"}
+  %input{:type => 'hidden', :name => 'filter', :value => 'true'}
+  %table
+    %tr
+      %th batch
+      %th account
+      %th project
+      %th start date
+      %th end date
+      %th status
+      %th set scope
+    %tr
+      %td
+        %select{:name => 'batch-scope'}
+          %option
+          - Batch.all.each do |b|
+            - if params["batch-scope"] == b.id
+              %option{:selected => true}= b.id
+            - else
+              %option= b.id
+      %td
+        %select{:name => 'account-scope'}
+          %option
+          - Account.all.each do |a|
+            - if params["account-scope"] == a.id
+              %option{:selected => true}= a.id
+            - else
+              %option= a.id
+      %td
+        %select{:name => 'project-scope'}
+          %option
+          - Project.all.each do |p|
+            - if params["project-scope"] == p.id + "-" + p.account.id
+              %option{:selected => true} #{p.id}-#{p.account.id}
+            - else
+              %option #{p.id}-#{p.account.id}
+      %td
+        - if params['start_date']
+          %input#start_date{:name => 'start_date', :value => params['start_date']}
+        - else
+          %input#start_date{:name => 'start_date', :value => (Time.now - 60 * 60 * 24 * 4).strftime("%m/%d/%Y")}
+
+      %td
+        - if params['end_date']
+          %input{:name => 'end_date', :value => params['end_date']}
+        - else
+          %input{:name => 'end_date', :value => (Time.now + 60 * 60 * 24).strftime("%m/%d/%Y") }
+
+      %td
+        %select{:name => 'activity-scope'}
+          %option
+          %option snafued
+          %option unsnafued
+          %option stashed
+          - if params["activity-scope"]
+            %option{:selected => true}= params['activity-scope']
+
+      %td
+        %input{:type => 'submit', :value => 'Set Scope'}
+%hr/
+
+%h2
+  results
+
+- unless @packages.empty?
+  
+  #results
     %table
       %tr
         %th internal entity id (ieid) 
@@ -23,13 +90,18 @@
           %td= p.project.id
           %td= sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000)
           %td= p.sip.number_of_datafiles
-          - snafu_event = p.events.first(:order => [ :timestamp.desc ], :name.like => "%snafu")
+          - snafu_event = p.events.first(:order => [ :timestamp.desc ], :name.like => "% snafu")
           %td
-            %pre= snafu_event.notes[0, 100]
+            - if snafu_event.notes
+              %pre= snafu_event.notes[0, 100]
+            - else
+              &nbsp;
 
-  %h2 Save as Batch
-  %form{:action => '/batches', :method => 'post'}
-    %input{:name => 'name', :value => "batch name"}
-    %input{:type => 'hidden', :name => 'packages', :value => "#{@packages.inject(''){|str, p| str + " " + p.id}}"}
-    %input{:type => 'submit', :value => 'Save as Batch'}
+%h2 
+  Save as Batch
+
+%form{:action => '/batches', :method => 'post'}
+  %input{:name => 'name', :value => "batch name"}
+  %input{:type => 'hidden', :name => 'packages', :value => "#{@packages.inject(''){|str, p| str + " " + p.id}}"}
+  %input{:type => 'submit', :value => 'Save as Batch'}
 
