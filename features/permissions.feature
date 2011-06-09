@@ -9,7 +9,6 @@ Feature: permissions
       | role      | page            | response |
       | operator  | /log            | 200      |
       | operator  | /profile        | 200      |
-      | operator  | /rejects        | 200      |
       | operator  | /snafus         | 200      |
       | operator  | /workspace      | 200      |
       | operator  | /stashspace     | 200      |
@@ -18,7 +17,6 @@ Feature: permissions
       | operator  | /requests       | 200      |
       | affiliate | /log            | 403      |
       | affiliate | /profile        | 403      |
-      | affiliate | /rejects        | 403      |
       | affiliate | /snafus         | 403      |
       | affiliate | /workspace      | 403      |
       | affiliate | /stashspace     | 403      |

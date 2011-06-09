@@ -109,7 +109,7 @@ end
 # TODO
 
 # ops perms
-[ '/log*', '/profile*', '/rejects*', '/snafus*', '/workspace*', '/stashspace*', '/admin*', '/batches*', '/requests*' ].each do |path|
+[ '/log*', '/profile*', '/snafus*', '/workspace*', '/stashspace*', '/admin*', '/batches*', '/requests*' ].each do |path|
   before(path) { require_ops }
 end
 
@@ -308,13 +308,6 @@ get '/packages?/?' do
   end
 
   haml :packages
-end
-
-get '/rejects' do
-  e = Event.all(:order => [ :timestamp.desc ], :name => "reject", :limit => 150)
-  @packages = e.map { |e| e.package }.uniq
-
-  haml :rejects
 end
 
 get '/snafus' do
