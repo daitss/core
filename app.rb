@@ -234,7 +234,7 @@ get '/packages?/?' do
                         when 'withdrawn'
                           "withdraw finished"
                         else
-                          ['submit', "reject", "ingest finished", "disseminate finished", "ingest snafu", "disseminate snafu", "withdraw finished"]
+                          ['submit', "reject", "ingest finished", "disseminate finished", "ingest snafu", "disseminate snafu", "withdraw finished", "daitss v.1 provenance"]
                         end
 
                 # filter on date range
