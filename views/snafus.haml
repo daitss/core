@@ -45,7 +45,7 @@
         - if params['start_date']
           %input#start_date{:name => 'start_date', :value => params['start_date']}
         - else
-          %input#start_date{:name => 'start_date', :value => (Time.now - 60 * 60 * 24 * 14).strftime("%m/%d/%Y")}
+          %input#start_date{:name => 'start_date'}
 
       %td
         - if params['end_date']

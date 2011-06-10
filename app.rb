@@ -400,9 +400,7 @@ get '/snafus' do
     end
 
   else
-    t0 = Date.today - 14 
-
-    es = Event.all(:order => [ :timestamp.desc ], :name.like => "% snafu", :timestamp.gt => t0)
+    es = Event.all(:order => [ :timestamp.desc ], :name.like => "% snafu")
     es = es.map { |e| e.package }.uniq
   end
 
