@@ -21,7 +21,11 @@ module Daitss
   end
 
   def polite_name
-    name.gsub 'snafu', 'error'
+    if name =~ /unsnafu/
+      name.gsub 'unsnafu', 'reset' 
+    else
+      name.gsub 'snafu', 'error'
+    end
   end
 
 end
