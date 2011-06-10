@@ -28,14 +28,14 @@ class Login < Sinatra::Base
     name = params[:name]
     password = params[:password]
     user = User.get name
-    error 403 unless user
+    error 403, "Failed login: please check your username and password and try again." unless user
 
     if user.authenticate password
       session['user_name'] = user.id
       redirect '/'
     else
       session['user_name'] = nil
-      error 403
+      error 403, "Failed login: please check your username and password and try again."
     end
   end
 
