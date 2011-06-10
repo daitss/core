@@ -18,9 +18,9 @@ Feature: snafu tab
     Then I should see the package in the results
 
   Scenario: snafu package that is subsequently re-ingested should not display in snafu tab
-    Given a snafu package
+    Given a error package
     When I goto "/workspace"
-    And I choose "unsnafu"
+    And I choose "reset"
     And I press "Update"
     And I should be redirected
     And I goto its package page
@@ -131,8 +131,8 @@ Feature: snafu tab
     Then I should have <count> package in the results
     Examples:
       | status    | count |
-      | snafued   | 1     |
-      | unsnafued | 1     |
+      | error     | 1     |
+      | reset     | 1     |
       | stashed   | 1     |
 
   Scenario: Filter by error message

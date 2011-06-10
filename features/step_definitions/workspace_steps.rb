@@ -16,7 +16,7 @@ Given /^an? ([^"]*) wip$/ do |state|
 
   case state
   when 'idle', ""
-  when 'snafu'
+  when 'snafu', 'error'
 
     begin
       raise "oops this is not a real error!"
