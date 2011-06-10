@@ -400,7 +400,9 @@ get '/snafus' do
     end
 
   else
-    es = Event.all(:order => [ :timestamp.desc ], :name.like => "% snafu")
+    t0 = Date.today - 14 
+
+    es = Event.all(:order => [ :timestamp.desc ], :name.like => "% snafu", :timestamp.gt => t0)
     es = es.map { |e| e.package }.uniq
   end
 
@@ -1262,9 +1264,9 @@ end
 
 post '/events/:id' do |id|
   require_param 'comment_text'
-  
+
   e = Event.get(id)
   c = Comment.create :event => e, :agent => @user, :text => params['comment_text']
-  
+
   redirect "/events/#{e.id}"
 end
