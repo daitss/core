@@ -61,7 +61,7 @@ Feature: be able to locate any package
     And I press "Update"
     And I should be redirected
     And I wait for it to finish
-    And I goto "/snafus"
+    And I goto "/errors"
     Then I should see that package in the results
 
   Scenario Outline: Filter by date

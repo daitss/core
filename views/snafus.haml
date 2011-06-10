@@ -1,10 +1,10 @@
 %h1
-  snafued packages
+  errors
 
 %h2
   filter scope
 
-%form{:action => "/snafus", :method => "get"}
+%form{:action => "/errors", :method => "get"}
   %input{:type => 'hidden', :name => 'filter', :value => 'true'}
   %table
     %tr
@@ -56,8 +56,8 @@
       %td
         %select{:name => 'activity-scope'}
           %option
-          %option snafued
-          %option unsnafued
+          %option error
+          %option reset
           %option stashed
           - if params["activity-scope"]
             %option{:selected => true}= params['activity-scope']

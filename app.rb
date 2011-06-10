@@ -109,7 +109,7 @@ end
 # TODO
 
 # ops perms
-[ '/log*', '/profile*', '/snafus*', '/workspace*', '/stashspace*', '/admin*', '/batches*', '/requests*' ].each do |path|
+[ '/log*', '/profile*', '/errors*', '/workspace*', '/stashspace*', '/admin*', '/batches*', '/requests*' ].each do |path|
   before(path) { require_ops }
 end
 
@@ -310,7 +310,7 @@ get '/packages?/?' do
   haml :packages
 end
 
-get '/snafus' do
+get '/errors' do
 
   if @params['filter'] == 'true'
 
@@ -363,7 +363,7 @@ get '/snafus' do
 
     # filter on status
     case params['activity-scope']
-    when "snafued"
+    when "error"
       es = es.reject do |e|
         latest_snafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "% snafu")
         latest_unsnafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "%unsnafu") 
@@ -374,7 +374,7 @@ get '/snafus' do
 
         has_unsnafu or has_stash
       end
-    when "unsnafued"
+    when "reset"
       es = es.find_all do |e|
         latest_snafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "% snafu")
         latest_unsnafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "%unsnafu") 
@@ -549,7 +549,7 @@ get '/workspace' do
       @wips = @wips.select {|w| w.running? == true }
     when "idle"
       @wips = @wips.select {|w| w.state == :idle }
-    when "snafu"
+    when "error"
       @wips = @wips.select {|w| w.snafu? == true }
     when "stopped"
       @wips = @wips.select {|w| w.stopped? == true }
@@ -757,7 +757,7 @@ get '/stashspace/:id' do |id|
       @wips = @wips.select {|w| w.running? == true }
     when "idle"
       @wips = @wips.select {|w| w.state == :idle }
-    when "snafu"
+    when "error"
       @wips = @wips.select {|w| w.snafu? == true }
     when "stopped"
       @wips = @wips.select {|w| w.stopped? == true }
