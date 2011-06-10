@@ -82,10 +82,10 @@ helpers do
 
   def wip_sort_order w
     if w.running? then 3
-    elsif w.state == :idle then 4
+    elsif w.state == :idle then 5
     elsif w.snafu? then 1
     elsif w.stopped? then 2
-    elsif w.dead? then 5
+    elsif w.dead? then 4
     else 0
     end
   end
