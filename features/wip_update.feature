@@ -13,16 +13,16 @@ Feature: update the processing of a wip
       | running    | start   | NG          | don't know  |
       | idle       | stop    | NG          | don't know  |
       | running    | stop    | OK          | stop        |
-      | idle       | unsnafu | NG          | don't know  |
-      | running    | unsnafu | NG          | don't know  |
-      | snafu      | unsnafu | OK          | idle        |
+      | idle       | reset   | NG          | don't know  |
+      | running    | reset   | NG          | don't know  |
+      | snafu      | reset   | OK          | idle        |
       | stop       | start   | OK          | running     |
       | dead       | start   | OK          | running     |
 
   Scenario: updates to a wip with a note
     Given a snafu wip
     And I goto its wip page
-    When I choose "unsnafu"
+    When I choose "reset"
     And I fill in "note" with "lorem ipsum"
     And I press "Update"
     Then the response should be OK
