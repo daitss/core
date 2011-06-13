@@ -85,6 +85,8 @@
         %th project
         %th size (MB)
         %th # of datafiles
+        %th status
+        %th error date
         %th error message
       - @packages.each do |p|
         %tr
@@ -97,6 +99,17 @@
           %td= sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000)
           %td= p.sip.number_of_datafiles
           - snafu_event = p.events.first(:order => [ :timestamp.desc ], :name.like => "% snafu")
+          - latest_unsnafu_event = p.events.first(:order => [ :timestamp.desc ], :name.like => "%unsnafu") 
+          - latest_stash_event = p.events.first(:order => [ :timestamp.desc ], :name => "stash") 
+
+          %td
+            - if latest_unsnafu_event and latest_unsnafu_event.timestamp >= snafu_event.timestamp
+              reset
+            - elsif latest_stash_event and latest_stash_event.timestamp >= snafu_event.timestamp
+              stashed
+            - else
+              error
+          %td= snafu_event.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
           %td
             - if snafu_event.notes
               %pre= snafu_event.notes[0, 100]
