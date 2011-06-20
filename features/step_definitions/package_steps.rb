@@ -180,6 +180,28 @@ Given /^(\d+) package under account\/project "([^"]*)"$/ do |number, account_pro
   end
 end
 
+Given /^(\d+) package snafued under account\/project "([^"]*)"$/ do |number, account_project|
+  account, project = account_project.split("-")
+  a = Account.first_or_create(:id => account)
+  p = a.projects.first_or_create(:id => project)
+
+  p.saved? or raise "can't save project"
+
+  number.to_i.times do |i|
+    s = Sip.new :name => i
+    pa = Package.new
+    pa.sip = s
+    pa.project = p
+    pa.save
+
+    pa.log "submit"
+    pa.log "ingest started"
+    pa.log "ingest snafu"
+  end
+end
+
+
+
 Given /^an account\/project "([^"]*)"$/ do |account_project|
   account, project = account_project.split("-")
   a = Account.first_or_create(:id => account)

@@ -130,7 +130,7 @@ Feature: stash bins
       |running|0|
       |dead|1|
       |idle|1|
-      |snafu|1|
+      |error|1|
       |stopped|1|
 
 

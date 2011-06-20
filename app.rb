@@ -28,14 +28,14 @@ class Login < Sinatra::Base
     name = params[:name]
     password = params[:password]
     user = User.get name
-    error 403 unless user
+    error 403, "Failed login: please check your username and password and try again." unless user
 
     if user.authenticate password
       session['user_name'] = user.id
       redirect '/'
     else
       session['user_name'] = nil
-      error 403
+      error 403, "Failed login: please check your username and password and try again."
     end
   end
 
@@ -82,10 +82,10 @@ helpers do
 
   def wip_sort_order w
     if w.running? then 3
-    elsif w.state == :idle then 4
+    elsif w.state == :idle then 5
     elsif w.snafu? then 1
     elsif w.stopped? then 2
-    elsif w.dead? then 5
+    elsif w.dead? then 4
     else 0
     end
   end
@@ -109,7 +109,7 @@ end
 # TODO
 
 # ops perms
-[ '/log*', '/profile*', '/rejects*', '/snafus*', '/workspace*', '/stashspace*', '/admin*', '/batches*', '/requests*' ].each do |path|
+[ '/log*', '/profile*', '/errors*', '/workspace*', '/stashspace*', '/admin*', '/batches*', '/requests*' ].each do |path|
   before(path) { require_ops }
 end
 
@@ -195,8 +195,6 @@ post '/packages?/?' do
           end
 
           p
-      rescue => e
-        error 400, "Submission failed: #{e.message}. Please ensure the SIP you have submitted is valid"
       ensure
         FileUtils.rm_r dir
       end
@@ -236,7 +234,7 @@ get '/packages?/?' do
                         when 'withdrawn'
                           "withdraw finished"
                         else
-                          ['submit', "reject", "ingest finished", "disseminate finished", "ingest snafu", "disseminate snafu", "withdraw finished"]
+                          ['submit', "reject", "ingest finished", "disseminate finished", "ingest snafu", "disseminate snafu", "withdraw finished", "daitss v.1 provenance"]
                         end
 
                 # filter on date range
@@ -286,8 +284,7 @@ get '/packages?/?' do
                 batch = Batch.get(params['batch-scope'])
 
                 if batch
-                  ps = ps.all :batch => batch if is_op
-                  ps = ps.all(:limit => 500, :batch => batch) unless is_op
+                  ps = ps.find_all { |p| p.batches.include? batch } 
                 end
 
                 ps
@@ -313,21 +310,109 @@ get '/packages?/?' do
   haml :packages
 end
 
-get '/rejects' do
-  e = Event.all(:order => [ :timestamp.desc ], :name => "reject", :limit => 150)
-  @packages = e.map { |e| e.package }.uniq
+get '/errors' do
 
-  haml :rejects
-end
+  if @params['filter'] == 'true'
 
-get '/snafus' do
-  t0 = Date.today - 30
+    # filter on date range
+    start_date = if params['start_date'] and !params['start_date'].strip.empty?
+                   Time.parse params['start_date']
+                 else
+                   Time.at 0
+                 end
 
-  es = Event.all(:timestamp.gt => t0, :order => [ :timestamp.desc ], :name => "ingest snafu") + Event.all(:timestamp.gt => t0, :order => [ :timestamp.desc ], :name => "disseminate snafu")
-  es = es.map { |e| e.package }.uniq
+    end_date = if params['end_date'] and !params['end_date'].strip.empty?
+                 Time.parse params['end_date']
+               else
+                 Time.now
+               end
 
-  @packages = es.find_all do |e|
-    e.events.first(:order => [:timestamp.desc]).name =~ /snafu/
+    end_date += 1
+    range = (start_date..end_date)
+
+    #lookup account, project if passed in
+    account = Account.get(params['account-scope'])
+
+    project_id, account_id = params['project-scope'].split("-")
+    act = Account.get(account_id)
+    project = act.projects.first(:id => project_id) if act
+
+    # conflicting search, return empty set
+    if account and act and account.id != act.id
+      es = Package.all(:limit => 0)
+
+      # account but not project specified
+    elsif account and !project
+      es = account.projects.packages.events.all(:timestamp => range, :name.like => "% snafu", :order => [ :timestamp.desc ] ).packages
+
+      # project specified
+    elsif project
+      es = project.packages.events.all(:timestamp => range, :name.like => "% snafu", :order => [ :timestamp.desc ]).packages
+
+      # neither account nor project specified
+    else
+      es = Event.all(:timestamp => range, :name.like => "% snafu", :order => [ :timestamp.desc ]).packages
+    end
+
+    # filter on batches
+    batch = Batch.get(params['batch-scope'])
+    
+    if batch
+      es = es.find_all { |p| p.batches.include? batch } 
+    end
+
+    # filter on status
+    case params['activity-scope']
+    when "error"
+      es = es.reject do |e|
+        latest_snafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "% snafu")
+        latest_unsnafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "%unsnafu") 
+        latest_stash_event = e.events.first(:order => [ :timestamp.desc ], :name => "stash") 
+
+        has_unsnafu = latest_unsnafu_event ? latest_snafu_event.timestamp <= latest_unsnafu_event.timestamp : false
+        has_stash = latest_stash_event ? latest_snafu_event.timestamp <= latest_stash_event.timestamp : false
+
+        has_unsnafu or has_stash
+      end
+    when "reset"
+      es = es.find_all do |e|
+        latest_snafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "% snafu")
+        latest_unsnafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "%unsnafu") 
+
+        latest_unsnafu_event ? latest_unsnafu_event.timestamp >= latest_snafu_event.timestamp : false
+      end
+    when "stashed"
+      es = es.find_all do |e|
+        latest_snafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "% snafu")
+        latest_stash_event = e.events.first(:order => [ :timestamp.desc ], :name => "stash") 
+
+        latest_stash_event ? latest_stash_event.timestamp >= latest_snafu_event.timestamp : false
+      end
+    end
+
+    # filter on error message
+    if params['error-message'] and !params['error-message'].strip.empty?
+      es = es.find_all do |e|
+        latest_snafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "% snafu")
+
+        latest_snafu_event.notes == params['error-message']
+      end
+    end
+
+  else
+    es = Event.all(:order => [ :timestamp.desc ], :name.like => "% snafu")
+    es = es.map { |e| e.package }.uniq
+  end
+
+
+  # packages that have a "finished" event after last snafu event should be discarded
+  @packages = es.reject do |e|
+    latest_snafu_event = e.events.first(:order => [ :timestamp.desc ], :name.like => "% snafu")
+
+    if latest_snafu_event
+      snafu_timestamp = Time.parse(latest_snafu_event.timestamp.to_s)
+      e.events.first(:name.like => "%finished", :timestamp.gt => snafu_timestamp)
+    end
   end
 
   haml :snafus
@@ -464,7 +549,7 @@ get '/workspace' do
       @wips = @wips.select {|w| w.running? == true }
     when "idle"
       @wips = @wips.select {|w| w.state == :idle }
-    when "snafu"
+    when "error"
       @wips = @wips.select {|w| w.snafu? == true }
     when "stopped"
       @wips = @wips.select {|w| w.stopped? == true }
@@ -672,7 +757,7 @@ get '/stashspace/:id' do |id|
       @wips = @wips.select {|w| w.running? == true }
     when "idle"
       @wips = @wips.select {|w| w.state == :idle }
-    when "snafu"
+    when "error"
       @wips = @wips.select {|w| w.snafu? == true }
     when "stopped"
       @wips = @wips.select {|w| w.stopped? == true }
@@ -1177,9 +1262,9 @@ end
 
 post '/events/:id' do |id|
   require_param 'comment_text'
-  
+
   e = Event.get(id)
   c = Comment.create :event => e, :agent => @user, :text => params['comment_text']
-  
+
   redirect "/events/#{e.id}"
 end

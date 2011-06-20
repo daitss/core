@@ -61,3 +61,8 @@ Given /^a batch "([^"]*)"$/ do |name|
   b.save
 end
 
+Then /^I should see (\d+) packages in batch "([^"]*)"$/ do |num, name|
+  b = Batch.get(name)
+  b.packages.length.should == num.to_i
+end
+

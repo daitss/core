@@ -16,15 +16,67 @@ Given /^an? ([^"]*) wip$/ do |state|
 
   case state
   when 'idle', ""
-  when 'snafu'
+  when 'snafu', 'error'
 
     begin
       raise "oops this is not a real error!"
     rescue => e
       wip.make_snafu e
+      Package.get(wip.id).log "ingest snafu", :notes => "oops this is not a real error!"
     end
 
     wip.should be_snafu
+
+  when 'different snafu'
+
+    begin
+      raise "oops this is not a real error!"
+    rescue => e
+      wip.make_snafu e
+      Package.get(wip.id).log "ingest snafu", :notes => "this is a different fake error"
+    end
+
+    wip.should be_snafu
+
+
+  when 'previously ingested disseminate snafu'
+
+    begin
+      p = Package.get(wip.id)
+      p.log "ingest started"
+      p.log "ingest finished"
+      raise "oops this is not a real error!"
+    rescue => e
+      wip.make_snafu e
+      sleep 1
+      p.log "disseminate snafu"
+    end
+
+    wip.should be_snafu
+
+  when 'stashed snafu'
+
+    begin
+      raise "oops this is not a real error!"
+    rescue => e
+      wip.make_snafu e
+      p = Package.get(wip.id)
+      p.log "ingest snafu", :notes => "oops this is not a real error!"
+      p.log "stash"
+    end
+
+    wip.should be_snafu
+
+  when 'unsnafued snafu'
+
+    begin
+      raise "oops this is not a real error!"
+    rescue => e
+      wip.make_snafu e
+      p = Package.get(wip.id)
+      p.log "ingest snafu", :notes => "oops this is not a real error!"
+      p.log "ingest unsnafu"
+    end
 
   when 'stop'
     wip.spawn

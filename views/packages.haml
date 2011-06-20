@@ -1,6 +1,14 @@
 #forms
   #submit
     %h1 submit
+    %p
+      packages must be in
+      %strong
+        %em tar
+      or
+      %strong
+        %em zip
+      format
 
     %form{:action => '/package', :method => 'POST', :enctype => 'multipart/form-data'}
       %table
@@ -23,26 +31,13 @@
             %textarea{:name => 'note'}
 
 
-      %input{:type => 'submit', :value => 'Submit'}
-    %p
-      packages must be in
-      %strong
-        %em tar
-      or
-      %strong
-        %em zip
-      format
+        %tr
+          %th &nbsp;
+          %td 
+            %input{:type => 'submit', :value => 'Submit'}
 
   #search
     %h1 search
-
-    %form
-      %table
-        %tr
-          %th ieid or package name
-          %td
-            %input#search{:type => 'text', :name => 'search', :value => @query}
-      %input{:type => 'submit', :value => "Search"}
 
     %p
       %strong
@@ -51,6 +46,14 @@
       %strong
         %em sip
       separated by spaces.
+
+    %form
+      %table
+        %tr
+          %th ieid or package name
+          %td
+            %input#search{:type => 'text', :name => 'search', :value => @query}
+      %input{:type => 'submit', :value => "Search"}
 
 - if @is_op
   = partial :package_filter_table_op, :locals => {:params => @params }

@@ -60,7 +60,7 @@ module Daitss
         $stdout.reopen out_path, 'w'
         $stderr.reopen err_path, 'w'
 
-        profile_start
+        #profile_start
 
         begin
 
@@ -80,7 +80,7 @@ module Daitss
           stash_journal
         end
 
-        profile_stop
+        #profile_stop
       end
 
       @process = {

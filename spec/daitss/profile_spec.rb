@@ -20,6 +20,7 @@ describe 'profiling wips' do
   end
 
   it 'should create a profile for a wip' do
+    pending "profiling disabled, for now"
     f = files.find { |f| f =~ /\.prof.html$/ }
     f.should_not be_nil
   end

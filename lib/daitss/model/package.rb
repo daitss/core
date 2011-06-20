@@ -14,6 +14,8 @@ module Daitss
   class Package
     include DataMapper::Resource
 
+    # NOTE: be sure to update storage side models if this schema changes!
+    
     property :id, EggHeadKey
     property :uri, String, :unique => true, :required => true, :default => proc { |r,p| Daitss.archive.uri_prefix + r.id }
 
@@ -25,7 +27,10 @@ module Daitss
     has 0..1, :report_delivery
 
     belongs_to :project
-    belongs_to :batch, :required => false
+
+    has n, :batch_assignments
+    has n, :batches, :through => :batch_assignments
+    
 
     LEGACY_EVENTS = [
       'legacy operations data',

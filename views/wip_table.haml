@@ -28,7 +28,7 @@
       %td= w.task
       %td= w.state
       - if File.directory?(w.path)
-        %td= File.atime(w.path)
+        %td= File.ctime(w.path)
       - else
         %td
           &nbsp;

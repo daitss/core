@@ -4,7 +4,7 @@ Feature: unsnafu
   Scenario: no snafu wips
     Given an idle wip
     And I goto "/workspace"
-    When I choose "unsnafu"
+    When I choose "reset"
     And I press "Update"
     Then I should be redirected to "/workspace"
     And there should be 0 snafu wips
@@ -12,7 +12,7 @@ Feature: unsnafu
   Scenario: some snafu wips
     Given a snafu wip
     And I goto "/workspace"
-    When I choose "unsnafu"
+    When I choose "reset"
     And I press "Update"
     Then I should be redirected to "/workspace"
     And there should be 0 snafu wips
@@ -20,7 +20,7 @@ Feature: unsnafu
   Scenario: with a note
     Given an snafu wip
     And I goto "/workspace"
-    When I choose "unsnafu"
+    When I choose "reset"
     And I fill in "note" with "lorem ipsum"
     And I press "Update"
     Then I should be redirected to "/workspace"
@@ -30,7 +30,7 @@ Feature: unsnafu
   Scenario: wip unsnafu should log the right user
     Given a snafu wip
     And I goto "/workspace"
-    When I choose "unsnafu"
+    When I choose "reset"
     And I press "Update"
     And I goto its wip page
     And it should have an "ingest unsnafu" event by agent "operator"
@@ -38,7 +38,7 @@ Feature: unsnafu
   Scenario: wip unsnafu should log the right user
     Given an snafu wip
     And I goto its wip page
-    When I choose "unsnafu"
+    When I choose "reset"
     And I press "Update"
     And I goto its wip page
     And it should have an "ingest unsnafu" event by agent "operator"

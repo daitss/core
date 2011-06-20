@@ -99,7 +99,7 @@ Feature: list wips
       |running|1|
       |dead|1|
       |idle|1|
-      |snafu|1|
+      |error|1|
       |stopped|1|
 
   Scenario: Workspace wide actions after scope should not affect entire workspace
@@ -135,7 +135,7 @@ Feature: list wips
     And I goto "/workspace"
     When I select batch "foo"
     And I press "Set Scope"
-    And I choose "unsnafu"
+    And I choose "reset"
     And I press "Update"
     And I goto "/workspace"
     Then there should be 1 idle wip

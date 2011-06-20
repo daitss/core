@@ -51,7 +51,7 @@ module Daitss
     end
 
     def size
-      to_a.size
+      Dir.entries(path).length - 2
     end
 
     def unstash wip_id, agent, note

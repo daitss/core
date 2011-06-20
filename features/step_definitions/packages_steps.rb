@@ -31,12 +31,16 @@ When /^I enter one package id and one sip id into the box$/ do
 end
 
 Then /^I should see the packages? in the results$/ do
-
   packages.each do |s|
     last_response.should have_selector("td a[href='/package/#{last_package_id}']", :content => last_package_id)
   end
 
 end
+
+Then /^I should see the snafu error "([^"]*)" in the results$/ do |error|
+  last_response.should have_selector("td", :content => error)
+end
+
 
 Then /^I should see that package in the results$/ do
   id = last_package ? last_package_id : Package.first.id
