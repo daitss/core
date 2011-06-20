@@ -8,19 +8,22 @@ require "daitss"
 require 'daitss/proc/wip/d1_refresh'
 
 include Daitss
-
-archive#.init_seed
-        
-# wip
+archive
+       
+# Start D1 refresh on a given package 
+# require a package id
 id = ARGV.shift or raise "package id required"
 
-# make the request
+# make the d1refresh request
 package = Package.get(id)
 agent = Agent.get('root')
 request = Request.new(:type => :d1refresh, :is_authorized => true, :agent => agent, :package => package)
 
 request.save or raise 'oops'
 sleep 0.5 until package.wip
+# create a wip for d1 refreshing on the given package
 wip = package.wip
+
+# start d1 refreshing
 sleep 0.5 while wip.running?
 puts wip.state

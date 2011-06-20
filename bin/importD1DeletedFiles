@@ -1,26 +1,27 @@
 #!/usr/bin/env ruby
 require 'bundler/setup'
 require 'ruby-debug'
-
 require "daitss"
 
 include Daitss
 
 archive
 
-# d1 dedup report
+# importe d1 deleted files information to the D1DeletedFile table from the d1 dedup report.
+
+# require a d1 dedup report
 report = ARGV.shift or raise "d1_dedup_report required"
 
 # process each line, each line is in the format of IEID/source => duplicate duplicate ...
 IO.foreach(report) do |line| 
-  # puts line.inspect
   line.chomp!
+  # end the importing if reaching the Summary information in the dedup report.
   if line.eql?("Summary")
     break
   else
-    # retrieve ieid 
+    # retrieve ieid from the dedup report
     ieid = line.slice!(0..line.index('/')).chomp("/")
-    # retrieve source
+    # retrieve source file from the dedup reprot
     source = line.slice!(0..line.index(">")).chomp("=>").strip
     # retrieve duplicates, separated by spaces
     line.strip!
