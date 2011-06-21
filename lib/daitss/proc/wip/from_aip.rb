@@ -162,7 +162,7 @@ module Daitss
       end
 
     ensure
-      FileUtils.rm_r tdir
+      FileUtils.rm_r tdir if tdir
     end
 
     # transfer sip descriptor

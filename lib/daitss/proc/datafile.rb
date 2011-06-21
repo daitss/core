@@ -58,7 +58,7 @@ module Daitss
       if @dir == File.join(@wip.path, Wip::ORIGINAL_FILES, id)
         raise "cannot nuke an original datafile"
       else
-        FileUtils::rm_r @dir
+        FileUtils::rm_r @dir if @dir
       end
 
     end
