@@ -23,7 +23,20 @@ module Daitss
 
     # configuration tokens
     CONFIG_ENV_VAR = 'CONFIG'
-    THROTTLE = 'throttle'
+    THROTTLE = 'throttle'              # TODO: remove this; left in for backwards compatibility with older pulse
+
+    # queues
+
+    INGEST_THROTTLE = 'ingest-throttle'
+    DISSEMINATION_THROTTLE = 'dissemination-throttle'
+    D1REFRESH_THROTTLE = 'd1refresh-throttle'
+    WITHDRAWAL_THROTTLE = 'withdrawal-throttle'
+
+    QUEUEING_DISCIPLINE = 'queueing-discipline'
+
+    attr_reader :throttle  # TODO: remove this; left in for backwards compatibility with older pulse
+    attr_reader :ingest_throttle, :dissemination_throttle, :d1refresh_throttle, :withdrawal_throttle, :queueing_discipline
+
     DB_URL = 'database-url'
     DATA_DIR = 'data-dir'
     URI_PREFIX = 'uri-prefix'
@@ -51,7 +64,6 @@ module Daitss
 
     attr_reader *DATA_PATHS.map { |s| "#{s}_path".to_sym }
 
-    attr_reader :throttle
     attr_reader :actionplan_url, :describe_url, :storage_url, :viruscheck_url, :transform_url, :xmlresolution_url
     attr_reader :yaml
 
@@ -82,10 +94,19 @@ module Daitss
       # http timeout value in seconds
       @http_timeout = @yaml[HTTP_TIMEOUT]
 
-      # throttle in number of wips
-      @throttle = @yaml[THROTTLE]
+      # throttle in number of wips per request
+
+      @throttle = @yaml[THROTTLE]  # TODO: remove this; left in for backwards compatibility with older pulse
+
+      @ingest_throttle = @yaml[INGEST_THROTTLE]
+      @dissemination_throttle = @yaml[DISSEMINATION_THROTTLE]
+      @d1refresh_throttle = @yaml[D1REFRESH_THROTTLE]
+      @withdrawal_throttle = @yaml[WITHDRAWAL_THROTTLE]
+
+      @queueing_discipline = @yaml[QUEUEING_DISCIPLINE]
 
       # services
+
       @actionplan_url = @yaml[ACTIONPLAN_URL]
       @describe_url = @yaml[DESCRIBE_URL]
       @storage_url = @yaml[STORAGE_URL]

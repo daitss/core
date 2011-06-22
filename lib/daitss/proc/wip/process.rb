@@ -1,12 +1,11 @@
 require 'mixin/file'
 require 'daitss/profile'
 
-platform = `uname`.chomp
 
-case platform
-when "Linux"
+case PLATFORM
+when /linux/i
   require 'linux/sys/proctable'
-when "Darwin"
+when /darwin/i
   require 'sys/proctable'
 end
 
@@ -206,6 +205,12 @@ module Daitss
         package.log "#{task} unsnafu", :agent => agent
       end
 
+    end
+
+    # @return [Boolean] if WIP is startable
+
+    def startable?
+      not (done? or running? or snafu? or stopped?)
     end
 
     # returns a symbol denoting the state of a wip
