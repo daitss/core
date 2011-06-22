@@ -1,5 +1,41 @@
 #!/usr/bin/env ruby
 
+# Usage:
+#
+#    pulse [ --fifo | --lifo ]
+#
+#
+# The pulse program checks for new DAITSS requests and processes them.
+# It is meant to run continuously in the background.
+#
+# Currently, requests for ingest, dissemination, withdrawl and
+# d1refresh tasks are supported.  Pulse is responsible for creating
+# WIPs for each request and starting processes to handle them, one
+# process per request.  A queue is maintained for each type of
+# request. The number of running processes allowed per type of request
+# is set in the master configuration file, config.yml, as so:
+#
+#    d1refresh-throttle: 1
+#    dissemination-throttle: 2
+#    ingest-throttle: 2
+#    withdrawal-throttle: 1
+#
+#    queueing-discipline: lifo
+#
+# The queueing-discipline setting determines in what order submitted
+# requests are scheduled, based on the time the request was made.  Two
+# values for this setting are allowed: 'lifo' indicates that the most
+# recent requests are processed first, while 'fifo' will schedule the
+# the earliest first.
+#
+# The optional command line arguments, --lifo and --fifo, can be used
+# to over-ride the queueing-discipline setting found in the
+# configuration file.
+#
+# You must restart the pulse program to pick up up any changes made to
+# the configuration file.
+
+
 require 'rubygems'
 require 'bundler/setup'
 require 'logger'
@@ -13,25 +49,26 @@ class ScoreCard
 
   # MANAGED_TASKS is a subset of the symbols in Daitss::Wip::VALID_TASKS, and
   # are returned by Wip#task
-  
+
   MANAGED_TASKS = [ :ingest, :disseminate, :withdraw, :d1refresh ]
 
   Struct.new("Queue", :number_allowed, :number_running, :ready)
-    
+
   def initialize queueing_discipline
-    @queueing_discipline = queueing_discipline        
+    @queueing_discipline = queueing_discipline
 
     @scorecard = {
     # task                              .number_allowed                .number_running     .ready
       :ingest      => Struct::Queue.new(archive.ingest_throttle,        0,                 []),
       :disseminate => Struct::Queue.new(archive.dissemination_throttle, 0,                 []),
       :withdraw    => Struct::Queue.new(archive.withdrawal_throttle,    0,                 []),
-      :d1refresh   => Struct::Queue.new(archive.d1refresh_throttle,     0,                 []) 
+      :d1refresh   => Struct::Queue.new(archive.d1refresh_throttle,     0,                 [])
     }
   end
 
-  def ready
+  # Return a list, possibly empty, of WIPs to process.
 
+  def ready
     # Zero out the scrtach pad to start our reckoning
 
     @scorecard.each { |name, queue| queue.number_running = 0; queue.ready = [] }
@@ -45,38 +82,35 @@ class ScoreCard
     end
 
     # Arrange the ready-to-run lists of WIPs in LIFO/FIFO order as
-    # appropriate, truncating the list to the number that we're
-    # allowed to run for each queue
+    # appropriate, truncating the list to contain the number of WIPs
+    # that we're allowed to run for each queue
 
     @scorecard.each do |name, queue|
-      available = queue.number_allowed - queue.number_running 
+      available = queue.number_allowed - queue.number_running
       if available <= 0
         queue.ready = []
         next
       end
 
       queue.ready.sort! { |wa, wb| File.ctime(wa.path) <=> File.ctime(wb.path)  }
-      queue.ready.reverse! if @queueing_discipline == :lifo      
+      queue.ready.reverse! if @queueing_discipline == :lifo
       queue.ready = queue.ready.first(available)
     end
 
     # Return all the ready-to-run WIPs
-    
-    @scorecard.values.map { |queue| queue.ready }.flatten    
+
+    @scorecard.values.map { |queue| queue.ready }.flatten
   end
 
 end # of class ScoreCard
 
-include Daitss
 
-load_archive
-
-INTERVAL = 5
-
-LOG = Logger.new $stdout
+# Get our default scheduling discipline, LIFO or FIFO by time of
+# request, then check the command line for any over-rides. Returns one
+# of [ :lifo, :fifo ]
 
 def queuing_discipline
-  discipline = archive.queueing_discipline || :fifo  
+  discipline = archive.queueing_discipline || :fifo
   opts = OptionParser.new do |opts|
     opts.on("--lifo", "Process the most recently submitted WIPs first") { discipline = :lifo }
     opts.on("--fifo", "Process the earliest submitted WIPs first")      { discipline = :fifo }
@@ -88,34 +122,35 @@ rescue => e
 else
   return discipline
 end
-  
+
+# Assemble all outstanding requests into WIPs.
 
 def make_wips
   ready = Request.all(:is_authorized => true, :status => :enqueued, :order => [ :timestamp.asc ])
 
-  ready.reject! { |request| request.package.wip }
-
   ready.each do |request|
-    request.dispatch
-    wip = request.package.wip
-    LOG.info "#{wip.id}.#{wip.task} made"
+    unless request.package.wip
+      request.dispatch
+      wip = request.package.wip
+      LOG.info "#{wip.id}.#{wip.task} made"
+    end
   end
-
 end
 
-# wait up to 30 seconds for wip to show up in DB
+# Wait up to 30 seconds for a WIP to show up in the database.
 
 def in_db? wip
 
   60.times do
     return true if Package.get(wip.id)
-    LOG.info "#{wip.id} isn't in database, sleeping briefly to allow DB to catch up"
+    LOG.info "#{wip.id} isn't in the database yet, sleeping briefly to allow the DB to catch up"
     sleep 0.5
   end
 
   return false
-end  
-  
+end
+
+# Check the queues and start processing WIPs, if possible.
 
 def start_wips scorecard
 
@@ -124,18 +159,24 @@ def start_wips scorecard
     wip.spawn
     LOG.info "#{wip.id}.#{wip.task} spawned"
   end
-
 end
+
+# Main:
+
+include Daitss
+
+load_archive
+
+INTERVAL = 5
+
+LOG = Logger.new $stdout
 
 LOG.info "daitss pulse started"
 
-scorecard = ScoreCard.new queuing_discipline 
+scorecard = ScoreCard.new queuing_discipline
 
 loop do
   make_wips
   start_wips scorecard
   sleep INTERVAL
 end
-
-
-
