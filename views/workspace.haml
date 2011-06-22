@@ -43,8 +43,15 @@
     running:
     = archive.workspace.select(&:running?).size
     &nbsp;
-    throttle:
-    = archive.throttle
+    throttles:
+    &nbsp;
+    = throttles(:ingest)
+    &nbsp;
+    = throttles(:dissemination)
+    &nbsp;
+    = throttles(:withdrawal)
+    &nbsp;
+    = throttles(:d1refresh)
 
     - unless @wips.empty?
       = partial :wip_table, :locals => { :wips => @wips }

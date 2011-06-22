@@ -4,60 +4,138 @@ require 'rubygems'
 require 'bundler/setup'
 require 'logger'
 require 'daitss'
+require 'optparse'
+
+# class ScoreCard is a scratchpad object that lets us figure out what
+# WIPs we can ingest, disseminate, withdraw or refresh.
+
+class ScoreCard
+
+  # MANAGED_TASKS is a subset of the symbols in Daitss::Wip::VALID_TASKS, and
+  # are returned by Wip#task
+  
+  MANAGED_TASKS = [ :ingest, :disseminate, :withdraw, :d1refresh ]
+
+  Struct.new("Queue", :number_allowed, :number_running, :ready)
+    
+  def initialize queueing_discipline
+    @queueing_discipline = queueing_discipline        
+
+    @scorecard = {
+    # task                              .number_allowed                .number_running     .ready
+      :ingest      => Struct::Queue.new(archive.ingest_throttle,        0,                 []),
+      :disseminate => Struct::Queue.new(archive.dissemination_throttle, 0,                 []),
+      :withdraw    => Struct::Queue.new(archive.withdrawal_throttle,    0,                 []),
+      :d1refresh   => Struct::Queue.new(archive.d1refresh_throttle,     0,                 []) 
+    }
+  end
+
+  def ready
+
+    # Zero out the scrtach pad to start our reckoning
+
+    @scorecard.each { |name, queue| queue.number_running = 0; queue.ready = [] }
+
+    # Search the WIPs for those running (count) and those startable (add to list)
+
+    archive.workspace.each do |wip|
+      next unless MANAGED_TASKS.include? wip.task
+      @scorecard[wip.task].number_running += 1  if wip.running?
+      @scorecard[wip.task].ready.push wip       if wip.startable? and File.directory? wip.path
+    end
+
+    # Arrange the ready-to-run lists of WIPs in LIFO/FIFO order as
+    # appropriate, truncating the list to the number that we're
+    # allowed to run for each queue
+
+    @scorecard.each do |name, queue|
+      available = queue.number_allowed - queue.number_running 
+      if available <= 0
+        queue.ready = []
+        next
+      end
+
+      queue.ready.sort! { |wa, wb| File.ctime(wa.path) <=> File.ctime(wb.path)  }
+      queue.ready.reverse! if @queueing_discipline == :lifo      
+      queue.ready = queue.ready.first(available)
+    end
+
+    # Return all the ready-to-run WIPs
+    
+    @scorecard.values.map { |queue| queue.ready }.flatten    
+  end
+
+end # of class ScoreCard
 
 include Daitss
 
 load_archive
 
-INTERVAL = 1
+INTERVAL = 5
 
 LOG = Logger.new $stdout
 
-@lifo = true if ARGV.pop == "--newest"
+def queuing_discipline
+  discipline = archive.queueing_discipline || :fifo  
+  opts = OptionParser.new do |opts|
+    opts.on("--lifo", "Process the most recently submitted WIPs first") { discipline = :lifo }
+    opts.on("--fifo", "Process the earliest submitted WIPs first")      { discipline = :fifo }
+  end
+  opts.parse!(ARGV)
+rescue => e
+  STDERR.puts e, opts
+  exit 1
+else
+  return discipline
+end
+  
 
 def make_wips
-  ready = Request.all(:is_authorized => true,
-                      :status => :enqueued,
-                      :order => [ :timestamp.asc ])
-  ready.reject! { |r| r.package.wip }
+  ready = Request.all(:is_authorized => true, :status => :enqueued, :order => [ :timestamp.asc ])
 
-  ready.each do |r|
-    r.dispatch
-    w = r.package.wip
-    LOG.info "#{w.id}.#{w.task} made"
+  ready.reject! { |request| request.package.wip }
+
+  ready.each do |request|
+    request.dispatch
+    wip = request.package.wip
+    LOG.info "#{wip.id}.#{wip.task} made"
   end
 
 end
 
-def start_wips
+# wait up to 30 seconds for wip to show up in DB
 
-  startable = archive.workspace.reject do |w|
-    w.done? or w.running? or w.snafu? or w.stopped?
+def in_db? wip
+
+  60.times do
+    return true if Package.get(wip.id)
+    LOG.info "#{wip.id} isn't in database, sleeping briefly to allow DB to catch up"
+    sleep 0.5
   end
 
-  running = archive.workspace.select { |w| w.running? }
-  n = archive.throttle - running.size
+  return false
+end  
+  
 
-  startable = startable.find_all { |a| File.directory? a.path }
-  startable.sort! { |a, b| File.ctime(a.path) <=> File.ctime(b.path) }
-  startable.reverse! if @lifo
+def start_wips scorecard
 
-  startable.take(n > 0 ? n : 0).each do |w|
-    while not Package.get(w.id)
-      LOG.info "#{w.id} isn't in database, sleeping briefly to allow DB to catch up"
-      sleep 1
-    end
-
-    w.spawn
-    LOG.info "#{w.id}.#{w.task} spawned"
+  scorecard.ready.each do |wip|
+    next if not in_db? wip
+    wip.spawn
+    LOG.info "#{wip.id}.#{wip.task} spawned"
   end
 
 end
 
 LOG.info "daitss pulse started"
 
+scorecard = ScoreCard.new queuing_discipline 
+
 loop do
   make_wips
-  start_wips
+  start_wips scorecard
   sleep INTERVAL
 end
+
+
+

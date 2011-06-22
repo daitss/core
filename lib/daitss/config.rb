@@ -23,7 +23,6 @@ module Daitss
 
     # configuration tokens
     CONFIG_ENV_VAR = 'CONFIG'
-    THROTTLE = 'throttle'              # TODO: remove this; left in for backwards compatibility with older pulse
 
     # queues
 
@@ -34,7 +33,6 @@ module Daitss
 
     QUEUEING_DISCIPLINE = 'queueing-discipline'
 
-    attr_reader :throttle  # TODO: remove this; left in for backwards compatibility with older pulse
     attr_reader :ingest_throttle, :dissemination_throttle, :d1refresh_throttle, :withdrawal_throttle, :queueing_discipline
 
     DB_URL = 'database-url'
@@ -95,8 +93,6 @@ module Daitss
       @http_timeout = @yaml[HTTP_TIMEOUT]
 
       # throttle in number of wips per request
-
-      @throttle = @yaml[THROTTLE]  # TODO: remove this; left in for backwards compatibility with older pulse
 
       @ingest_throttle = @yaml[INGEST_THROTTLE]
       @dissemination_throttle = @yaml[DISSEMINATION_THROTTLE]
