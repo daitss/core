@@ -90,6 +90,15 @@ helpers do
     end
   end
 
+  def throttles type
+    case type
+    when :ingest;           archive.ingest_throttle        != 1 ? "#{archive.ingest_throttle} ingests;"               : "1 ingest;"
+    when :dissemination;    archive.dissemination_throttle != 1 ? "#{archive.dissemination_throttle} disseminations;" : "1 dissemination;"
+    when :withdrawal;       archive.withdrawal_throttle    != 1 ? "#{archive.withdrawal_throttle} withdrawals;"       : "1 withdrawal;"
+    when :d1refresh;        archive.d1refresh_throttle     != 1 ? "#{archive.d1refresh_throttle} d1 refreshes;"       : "1 d1 refresh;"
+    else ; "huh?"
+    end
+  end
 end
 
 configure do

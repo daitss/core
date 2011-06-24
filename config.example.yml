@@ -1,21 +1,27 @@
 # database connection URL
+
 database-url: postgres://username:password@host/schema
 
 # deprecated, can leave blank
+
 d1-database-url: 
 d1-ops-database-url: 
 d1-rejects-database-url: 
 
 # path to data directory
+
 data-dir: /var/daitss/data
 
 # prefix for AIP URIs
+
 uri-prefix: daitss://
 
 # HTTP request expiration time in seconds
+
 http-timeout: 600
 
 # HTTP URLs to D2 services
+
 actionplan-url: 
 describe-url: 
 viruscheck-url: 
@@ -24,15 +30,28 @@ xmlresolution-url:
 storage-url: 
 
 # deprecated, but don't modify
+
 statusecho-url: deprecated
 
-# specifies how many ingest processes to run at a time
-throttle: 1
+# specifies how many processes for a give task to run at a time.
+
+ingest-throttle: 2
+dissemination-throttle: 2
+d1refresh-throttle:  1
+withdrawal-throttle: 1
+
+# how to order processing the requests by time of sumbission - fifo
+# for selecting the earliest first, lifo for the lastest first.
+
+queueing-discipline: lifo
 
 # outgoing SMTP server for email report delivery
+
 smtp-server: your.smtp.server
 
-# directives passed to the Java virtual machine, limiting maximum memory utilization
+# directives passed to the Java virtual machine, limiting maximum
+# memory utilization
+
 jvm-options:
 - -Xms2G
 - -Xmx2G
