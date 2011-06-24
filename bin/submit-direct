@@ -17,11 +17,13 @@ require 'daitss'
 
 
 def get_options(args)
-  config = OpenStruct.new("url" => nil, "package" => nil, "package_name" => nil)
+  config = OpenStruct.new("url" => nil, "package" => nil, "package_name" => nil, "password" => nil, "username" => nil)
 
+  cmd = $0
   begin
     opts = OptionParser.new do |opt|
 
+      cmd += ' ' + opt.default_argv.join(' ')
       opt.banner << "\nSubmits a SIP DAITSS 2"
       opt.on_tail("--help", "Show this message") { puts opts; exit }
 
@@ -52,6 +54,7 @@ def get_options(args)
     exit 1
   end
 
+  $0 = cmd.sub(config.password, '.' * config.password.length)
   return config
 end
 
@@ -71,7 +74,7 @@ def submit_package path
   n = "sip path: #{path}"
   n += ", submission note: #{@config.note}" if @config.note
 
-  #make wip
+  # make wip
   p = archive.submit path, @user, n
 
   if @config.batch
@@ -81,11 +84,12 @@ def submit_package path
   end
 
   if p.rejected?
-    puts Time.now.to_s + " -- " + File.basename(path) + " -- rejected: " + p.id
+    STDOUT.puts Time.now.to_s + " -- " + File.basename(path) + " -- rejected: " + p.id
   else 
-    puts Time.now.to_s + " -- " + File.basename(path) + " -- submitted successfully: " + p.id
-    #FileUtils.rm_rf path if @config.delete
+    STDOUT.puts Time.now.to_s + " -- " + File.basename(path) + " -- submitted successfully: " + p.id
+    # FileUtils.rm_rf path if @config.delete
   end
+  STDOUT.flush
 end
 
 include Daitss
