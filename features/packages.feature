@@ -34,7 +34,7 @@ Feature: be able to locate any package
     Then I should see a "latest activity" heading
     And I should see the packages in the results
     And I should see the following columns:
-      | internal entity id (ieid) | package | size (MB) | # of datafiles | account | activity | time |
+      | intellectual entity id (ieid) | package | size (MB) | # of datafiles | account | activity | time |
     And the package column should link to a package
 
   Scenario: rejects should display in packages list
