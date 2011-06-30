@@ -15,7 +15,7 @@ module Daitss
     property :title, Text
 
     belongs_to :package
-    has 1..n, :datafiles, :constraint=>:destroy
+    has 0..n, :datafiles, :constraint=>:destroy
 
     before :destroy, :deleteChildren
 

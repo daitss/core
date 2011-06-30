@@ -117,12 +117,12 @@ module Daitss
     end
 
     def digiprov_events
-      new_events = metadata_for 'submit-event', 'validate-event', 'ingest-event', 'disseminate-event', 'd1migrate-event'
+      new_events = metadata_for 'submit-event', 'validate-event', 'ingest-event', 'disseminate-event', 'd1migrate-event', 'withdraw-event'
       new_events + old_events.map { |e| e.root.to_s }
     end
 
     def digiprov_agents
-      new_agents = metadata_for 'submit-agent', 'submit-agent-account', 'validate-agent', 'ingest-agent', 'disseminate-agent', 'd1migrate-agent'
+      new_agents = metadata_for 'submit-agent', 'submit-agent-account', 'validate-agent', 'ingest-agent', 'disseminate-agent', 'd1migrate-agent', 'withdraw-agent'
       new_agents + old_agents.map { |a| a.root.to_s }
     end
 

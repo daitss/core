@@ -82,8 +82,13 @@ end
 </fileGrp>
 </fileSec>
 
-<% rep_name_map.each do |name, rep| %>
-  <%= representation_struct_map rep, :id => name, :admid => admids_for(name).join(' ') %>
+<% if rep_name_map.empty? %>
+  <structMap>
+    <div/>
+  </structMap>
+<% else %>
+  <% rep_name_map.each do |name, rep| %>
+    <%= representation_struct_map rep, :id => name, :admid => admids_for(name).join(' ') %>
+  <% end %>
 <% end %>
-
 </mets>

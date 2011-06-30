@@ -54,7 +54,21 @@ module Daitss
 
       aip
     end
-    
+
+    def withdraw_aip
+      aip = package.aip
+      aip.attributes = aip_attrs
+
+      old_rs = RandyStore.new id, aip.copy.url.to_s
+
+      aip.copy.destroy
+      aip.save_and_populate
+
+      old_rs.delete
+
+      aip
+    end
+
     private
 
     def aip_attrs

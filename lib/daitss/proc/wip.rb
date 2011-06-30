@@ -14,6 +14,7 @@ require 'daitss/proc/wip/process'
 
 require 'daitss/proc/wip/ingest'
 require 'daitss/proc/wip/disseminate'
+require 'daitss/proc/wip/withdraw'
 require 'daitss/proc/wip/d1_refresh'
 
 require 'daitss/proc/wip/queue_report.rb'

@@ -54,9 +54,22 @@ module Daitss
     spec = {
       :id => "#{package.uri}/event/disseminate/#{index}",
       :type => 'disseminate',
-        :outcome => 'success',
-        :linking_objects => [ package.uri ],
-        :linking_agents => [ system_agent_spec[:id] ]
+      :outcome => 'success',
+      :linking_objects => [ package.uri ],
+      :linking_agents => [ system_agent_spec[:id] ]
+    }
+
+    event spec
+  end
+
+  def withdraw_event package
+
+    spec = {
+      :id => "#{package.uri}/event/withdraw",
+      :type => 'withdraw',
+      :outcome => 'success',
+      :linking_objects => [ package.uri ],
+      :linking_agents => [ system_agent_spec[:id] ]
     }
 
     event spec
@@ -67,9 +80,9 @@ module Daitss
     spec = {
       :id => "#{package.uri}/event/d1refresh/#{index}",
       :type => 'd1refresh',
-        :outcome => 'success',
-        :linking_objects => [ package.uri ],
-        :linking_agents => [ system_agent_spec[:id] ]
+      :outcome => 'success',
+      :linking_objects => [ package.uri ],
+      :linking_agents => [ system_agent_spec[:id] ]
     }
 
     event spec
