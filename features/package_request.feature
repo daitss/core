@@ -18,21 +18,25 @@ Feature: package requests
     Examples:
       | type        | note      | authorized |
       | disseminate | nice job! | yes        |
-      #      | withdraw    | good bye  | yes        |
+      | withdraw    | good bye  | no         |
       #| peek        | oh hai    | yes        |
 
-  Scenario Outline: requests can be canceled
+  Scenario: requests can be canceled
     Given an archived package
-    And a <type> request
+    And a disseminate request
+    When I goto its package page
+    And I fill in cancel note with "cancelling request"
+    And I press "Cancel" for the request
+    Then I should see a disseminate request with status "cancelled"
+    And there should be an "disseminate request cancelled" event
+    And the "disseminate request cancelled" event should have note "cancelling request"
+
+  Scenario: cancelling request without a note results in 400
+    Given an archived package
+    And a disseminate request
     When I goto its package page
     And I press "Cancel" for the request
-    Then I should see a <type> request with status "cancelled"
-    And there should be an "<type> request cancelled" event
-    Examples:
-      | type        |
-      | disseminate |
-      #| withdraw    |
-      #| peek        |
+    Then the response code should be 400
 
   Scenario: duplicate requests result in 400 returned
     Given an archived package

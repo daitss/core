@@ -105,7 +105,7 @@
         %th authorized
         %th status
         %th timestamp
-        %th &nbsp;
+        %th cancel
       - @package.requests.each do |r|
         %tr
 
@@ -121,6 +121,7 @@
               %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
                 %input{:type => 'hidden', :name => 'task', :value => 'delete'}
                 %input{:type => 'submit', :value => 'Cancel'}
+                %input{:name => 'cancel_note'}
           - else
             %td &nbsp;
     - unless @package.requests.all( :status.not => :cancelled ).any?
@@ -151,8 +152,8 @@
               %th authorized
               %th status
               %th timestamp
-              %th &nbsp;
-              %th &nbsp;
+              %th authorize
+              %th cancel
 
             - @package.requests.each do |r|
               %tr
@@ -163,13 +164,6 @@
                 %td= r.is_authorized ? "yes" : "no"
                 %td= r.status
                 %td= r.timestamp
-                - if r.status == :enqueued
-                  %td
-                    %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
-                      %input{:type => 'hidden', :name => 'task', :value => 'delete'}
-                      %input{:type => 'submit', :value => 'Cancel'}
-                - else
-                  %td &nbsp;
                 - if r.is_authorized == false and r.status == :enqueued
                   %td
                     %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
@@ -178,6 +172,14 @@
                 - else
                   %td &nbsp;
 
+                - if r.status == :enqueued
+                  %td
+                    %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
+                      %input{:type => 'hidden', :name => 'task', :value => 'delete'}
+                      %input{:type => 'submit', :value => 'Cancel'}
+                      %input{:name => 'cancel_note'}
+                - else
+                  %td &nbsp;
 
         - if @is_op
           %h2 submit request

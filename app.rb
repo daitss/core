@@ -497,8 +497,11 @@ post '/package/:pid/request/:rid' do |pid, rid|
 
   case task
   when 'delete'
+    cancel_note = require_param 'cancel_note'
+    error 400, "note on request cancellation required" unless cancel_note and cancel_note != ""
+
     req.cancel or error "cannot cancel request: #{req.errors.inspect}"
-    @package.log "#{req.type} request cancelled", :notes => "cancelled by: #{@user.id}", :agent => @user
+    @package.log "#{req.type} request cancelled", :notes => "cancelled by: #{@user.id}; #{cancel_note}", :agent => @user
   when 'authorize'
     error 403, "withdraw requests cannot be authorized by the user that requested the withdrawal" unless @user.id != req.agent.id
     req.is_authorized = true

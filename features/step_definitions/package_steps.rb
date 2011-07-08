@@ -58,6 +58,11 @@ Then /^there (should not|should) be an "([^"]*)" event$/ do |presence, event|
 
 end
 
+Then /^the "([^"]*)" event should have note "([^"]*)"$/ do |event, note|
+  Event.first(:name => event).notes.should =~ /#{note}/
+end
+
+
 When /^I choose request type "([^"]*)"$/ do |type|
 
   within "#request" do
@@ -73,6 +78,16 @@ When /^I fill in request note with "([^"]*)"$/ do |note|
   end
 
 end
+
+When /^I fill in cancel note with "([^"]*)"$/ do |note|
+
+  within "#request" do
+    fill_in 'cancel_note', :with => note
+  end
+
+end
+
+
 
 Then /^I should see a ([^"]*) request$/ do |type|
   When %Q(I goto its package page)
