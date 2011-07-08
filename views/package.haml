@@ -112,7 +112,8 @@
           %td= r.id
           %td= r.type
           %td= r.agent.id
-          %td= r.note
+          %td
+            %pre&= r.note
           %td= r.is_authorized ? "yes" : "no"
           %td= r.status
           %td= r.timestamp
@@ -160,7 +161,8 @@
                 %td= r.id
                 %td= r.type
                 %td= r.agent.id
-                %td= r.note
+                %td
+                  %pre&= r.note
                 %td= r.is_authorized ? "yes" : "no"
                 %td= r.status
                 %td= r.timestamp

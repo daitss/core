@@ -31,6 +31,13 @@ Feature: package requests
     And there should be an "disseminate request cancelled" event
     And the "disseminate request cancelled" event should have note "cancelling request"
 
+  Scenario: creating request without a note results in 400
+    Given an archived package
+    When I goto its package page
+    And I choose request type "disseminate"
+    And I press "Request"
+    Then the response code should be 400
+
   Scenario: cancelling request without a note results in 400
     Given an archived package
     And a disseminate request
@@ -46,5 +53,3 @@ Feature: package requests
     And I press "Request"
     Then the response code should be 400
  
-
-  Scenario: the top request can has a wip

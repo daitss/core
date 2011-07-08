@@ -471,6 +471,7 @@ post '/package/:id/request' do |id|
   note = require_param 'note'
 
   error 400, "#{type} request already enqueued" if @package.requests.first(:type => type, :status => :enqueued)
+  error 400, "request submissions must include a note" unless note and note != ""
 
   r = Request.new
 
@@ -498,7 +499,7 @@ post '/package/:pid/request/:rid' do |pid, rid|
   case task
   when 'delete'
     cancel_note = require_param 'cancel_note'
-    error 400, "note on request cancellation required" unless cancel_note and cancel_note != ""
+    error 400, "request cancellations must include a note" unless cancel_note and cancel_note != ""
 
     req.cancel or error "cannot cancel request: #{req.errors.inspect}"
     @package.log "#{req.type} request cancelled", :notes => "cancelled by: #{@user.id}; #{cancel_note}", :agent => @user
