@@ -476,6 +476,7 @@ post '/package/:id/request' do |id|
 
   r.type = type
   r.note = note
+  r.is_authorized = false if r.type == :withdraw
 
   @user.requests << r
   r.agent = @user
@@ -492,10 +493,18 @@ post '/package/:pid/request/:rid' do |pid, rid|
   req = @package.requests.first(:id => rid) or not_found
 
   task = require_param 'task'
-  error "unknown task: #{task}" unless task == 'delete'
+  error "unknown task: #{task}" unless task == 'delete' or task == 'authorize'
 
-  req.cancel or error "cannot cancel request: #{req.errors.inspect}"
-  @package.log "#{req.type} request cancelled", :notes => "cancelled by: #{@user.id}", :agent => @user
+  case task
+  when 'delete'
+    req.cancel or error "cannot cancel request: #{req.errors.inspect}"
+    @package.log "#{req.type} request cancelled", :notes => "cancelled by: #{@user.id}", :agent => @user
+  when 'authorize'
+    error 403, "withdraw requests cannot be authorized by the user that requested the withdrawal" unless @user.id != req.agent.id
+    req.is_authorized = true
+    req.save
+    @package.log "#{req.type} request authorized", :notes => "authorized by: #{@user.id}", :agent => @user
+  end
 
   redirect "/package/#{pid}"
 end

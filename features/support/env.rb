@@ -94,6 +94,13 @@ Before do
   op.encrypt_auth('pass')
   op.save or raise 'cannot save aff'
 
+  # second operator
+  op2 = Operator.new :id => 'operator2', :account => a
+  op2.encrypt_auth('pass')
+  op2.save or raise 'cannot save aff'
+
+
+
   visit '/login'
   fill_in 'name', :with => 'operator'
   fill_in 'password', :with => 'pass'

@@ -147,6 +147,7 @@
               %th request submitter
               %th status
               %th &nbsp;
+              %th &nbsp;
 
             - @package.requests.each do |r|
               %tr
@@ -163,6 +164,14 @@
                       %input{:type => 'submit', :value => 'Cancel'}
                 - else
                   %td &nbsp;
+                - if r.is_authorized == false and r.status == :enqueued
+                  %td
+                    %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
+                      %input{:type => 'hidden', :name => 'task', :value => 'authorize'}
+                      %input{:type => 'submit', :value => 'Authorize'}
+                - else
+                  %td &nbsp;
+
 
         - if @is_op
           %h2 submit request
