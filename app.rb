@@ -485,6 +485,9 @@ post '/package/:id/request' do |id|
   r.package = @package
 
   r.save or error "cannot save request: #{r.errors.inspect}"
+
+  @package.log "#{r.type} request placed", :notes => "request id: #{r.id}", :agent => @user
+
   redirect "/package/#{id}"
 end
 
@@ -502,7 +505,7 @@ post '/package/:pid/request/:rid' do |pid, rid|
     error 400, "request cancellations must include a note" unless cancel_note and cancel_note != ""
 
     req.cancel or error "cannot cancel request: #{req.errors.inspect}"
-    @package.log "#{req.type} request cancelled", :notes => "cancelled by: #{@user.id}; #{cancel_note}", :agent => @user
+    @package.log "#{req.type} request cancelled", :notes => "request id: #{req.id}; cancelled by: #{@user.id}; #{cancel_note}", :agent => @user
   when 'authorize'
     error 403, "withdraw requests cannot be authorized by the user that requested the withdrawal" unless @user.id != req.agent.id
     req.is_authorized = true

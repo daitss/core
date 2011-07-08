@@ -15,6 +15,7 @@ Feature: package requests
     And I press "Request"
     Then I should be redirected
     And I should see a <type> request with note "<note>" and authorized "<authorized>"
+    And there should be an "<type> request placed" event
     Examples:
       | type        | note      | authorized |
       | disseminate | nice job! | yes        |
