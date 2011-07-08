@@ -17,7 +17,6 @@ Feature: withdraw a package
     And there should be an "withdraw finished" event
     And there should be an "withdraw request authorized" event
 
-
   Scenario: attempt to self-authorize should result in 403
     Given "haskell-nums-pdf" is archived
     And I goto its package page

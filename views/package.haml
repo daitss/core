@@ -97,21 +97,25 @@
 
     %table
       %tr
-        %th time
-        %th type
+
+        %th id
+        %th request type
+        %th request submitter
         %th note
         %th authorized
-        %th submitter
         %th status
+        %th timestamp
         %th &nbsp;
       - @package.requests.each do |r|
         %tr
-          %td= r.timestamp
+
+          %td= r.id
           %td= r.type
+          %td= r.agent.id
           %td= r.note
           %td= r.is_authorized ? "yes" : "no"
-          %td= r.agent.id
           %td= r.status
+          %td= r.timestamp
           - if r.status == :enqueued
             %td
               %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
@@ -140,23 +144,25 @@
         - if @package.requests.any?
           %table
             %tr
-              %th time
-              %th type
+              %th id
+              %th request type
+              %th request submitter
               %th note
               %th authorized
-              %th request submitter
               %th status
+              %th timestamp
               %th &nbsp;
               %th &nbsp;
 
             - @package.requests.each do |r|
               %tr
-                %td= r.timestamp
+                %td= r.id
                 %td= r.type
+                %td= r.agent.id
                 %td= r.note
                 %td= r.is_authorized ? "yes" : "no"
-                %td= r.agent.id
                 %td= r.status
+                %td= r.timestamp
                 - if r.status == :enqueued
                   %td
                     %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
