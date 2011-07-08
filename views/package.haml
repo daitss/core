@@ -16,12 +16,12 @@
     - else
       %a{:href=>"/workspace/#{@package.wip.id}"} ingesting (#{@package.wip.state})
 
-  - elsif @package.aip
+  - elsif @package.aip and @package.aip.copy == nil
+    withdrawn
+  - elsif @package.aip and @package.aip.copy
     archived
     - if @package.d1?
       (legacy)
-    - elsif @package.aip.copy == nil
-      (withdrawn)
 
   - else
     aborted
