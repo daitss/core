@@ -71,23 +71,28 @@
   - if @requests.any?
     %table
       %tr
+        %th id
         %th intellectual entity id (ieid)
         %th package
         %th project
         %th request type
-        %th status
         %th requesting user
+        %th request status
         %th request timestamp
-        %th package activity
+        %th latest package activity
+        %th package activity timestamp
     
       - @requests.each do |r|
         %tr
+          %td= r.id
           %td 
             %a{:href => "/package/#{r.package.id}"}= r.package.id
           %td= r.package.sip.name
           %td= r.package.project.id
           %td= r.type
-          %td= r.status
           %td= r.agent.id
-          %td= r.timestamp
-          %td= r.package.events.first(:order => [:timestamp.desc]).name
+          %td= r.status
+          %td= r.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
+          - e = r.package.events.first(:order => [:timestamp.desc])
+          %td= e.name
+          %td= e.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
