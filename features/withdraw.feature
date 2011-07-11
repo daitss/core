@@ -5,6 +5,7 @@ Feature: withdraw a package
     Given "haskell-nums-pdf" is archived
     And I goto its package page
     When I choose request type "withdraw"
+    And I fill in "note" with "withdraw, please"
     And I press "Request"
     When I log out and log in as an "operator"
     And I goto its package page
@@ -21,6 +22,7 @@ Feature: withdraw a package
     Given "haskell-nums-pdf" is archived
     And I goto its package page
     When I choose request type "withdraw"
+    And I fill in "note" with "withdraw, please"
     And I press "Request"
     And I goto its package page
     And I press "authorize"

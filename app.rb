@@ -1191,13 +1191,18 @@ post "/batches/:batch_id" do |batch_id|
     redirect "/batches/#{batch_id}"
 
   when 'request-batch'
+    note = require_param 'note'
+    error 400, "request submissions must include a note" unless note and note != ""
+
     @batch.packages.each do |package|
       type = require_param 'type'
+
+      next if package.requests.first(:type => type, :status => :enqueued)
 
       r = Request.new
 
       r.type = type
-      r.note = note if params['note']
+      r.note = note
 
       @user.requests << r
       r.agent = @user
@@ -1205,6 +1210,7 @@ post "/batches/:batch_id" do |batch_id|
       r.package = package
 
       r.save or error "cannot save request: #{r.errors.inspect}"
+      package.log "#{r.type} request placed", :notes => "request id: #{r.id}", :agent => @user
     end
 
     redirect "/batches"

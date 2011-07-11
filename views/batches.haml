@@ -34,13 +34,14 @@
             %form{:action => "/batches/#{b.id}", :method => 'post'}
               %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}
               %input{:type => 'hidden', :name => 'type', :value => 'disseminate'}
+              %input{:name => 'note'}
               %input{:type => 'submit', :value => "Disseminate", :onClick => "return confirmClick();"}
           %td
             %form{:action => "/batches/#{b.id}", :method => 'post'}
               %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}
               %input{:type => 'hidden', :name => 'type', :value => 'withdraw'}
-              %input{:type => 'submit', :value => "Withdraw"}
-              coming soon
+              %input{:name => 'note'}
+              %input{:type => 'submit', :value => "Withdraw", :onClick => "return confirmClick();"}
           %td
             %form{:action => "/batches/#{b.id}", :method => 'post'}
               %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}

@@ -14,7 +14,7 @@
 
 %form{:action => "/batches/#{@batch.id}", :method => 'post'}
   %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}
-  %input{:name => 'notes', :value => 'request note'}
+  %input{:name => 'note', :value => 'request note'}
   %select{:name => 'type'}
     %option disseminate
     %option withdraw

@@ -58,7 +58,7 @@ Feature: CRUD for batches
     Then I should be redirected
     And I should not have batch "foo"
 
-  Scenario Outline: create requests for batch from batches page 
+  Scenario: create requests for batch from batches page 
     Given the following packages:
       |E00000000_000001|
       |E00000000_000002|
@@ -68,17 +68,13 @@ Feature: CRUD for batches
       |E00000000_000002|
       |E00000000_000003|
     And I goto "/batches"
-    And I press "<button name>"
+    And I fill in "note" with "my request note"
+    And I press "Disseminate"
     Then I should be redirected
-    And I should have a <request_type> request for the following packages:
+    And I should have a disseminate request for the following packages:
       |E00000000_000001|
       |E00000000_000002|
       |E00000000_000003|
-      Examples:
-        |request_type|button name|
-        |disseminate|Disseminate|
-        |withdraw|Withdraw|
-        #|peek|Peek|
 
   Scenario Outline: create requests for batch from single batch page
     Given the following packages:
@@ -90,7 +86,7 @@ Feature: CRUD for batches
       |E00000000_000002|
       |E00000000_000003|
     And I goto "/batches/foo"
-    And I fill in "notes" with "my request note"
+    And I fill in "note" with "my request note"
     And I select type "<request_type>"
     And I press "Submit Request"
     Then I should be redirected
@@ -103,6 +99,19 @@ Feature: CRUD for batches
         |disseminate|
         |withdraw|
         #|peek|
+        
+  Scenario: create requests without note on batch should return 400
+    Given the following packages:
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+    Given batch "foo" with the following packages:
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+    And I goto "/batches"
+    And I press "Disseminate"
+    Then the response code should be 400
 
   Scenario: create batch from packages page
     Given an archived package

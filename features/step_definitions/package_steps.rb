@@ -128,6 +128,7 @@ end
 Given /^a ([^"]*) request$/ do |type|
   visit last_package
   And %Q(I choose request type "#{type}")
+  And %Q(I fill in "note" with "do it, please")
   And %Q(I press "Request")
  Then %Q(I should see a #{type} request)
 end

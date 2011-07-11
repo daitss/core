@@ -4,6 +4,7 @@ Feature: Request Dashboard
     Given an archived package
     When I goto its package page
     And I choose request type "disseminate"
+    And I fill in "note" with "disseminate, please"
     And I press "Request"
     And I should be redirected
     And I goto "/requests"
@@ -13,6 +14,7 @@ Feature: Request Dashboard
     Given an archived package
     When I goto its package page
     And I choose request type "disseminate"
+    And I fill in "note" with "disseminate, please"
     And I press "Request"
     And I should be redirected
     And I goto "/requests"
@@ -24,6 +26,7 @@ Feature: Request Dashboard
     Given an archived package
     When I goto its package page
     And I choose request type "disseminate"
+    And I fill in "note" with "disseminate, please"
     And I press "Request"
     And I should be redirected
     And I goto "/requests"
@@ -35,6 +38,7 @@ Feature: Request Dashboard
     Given an archived package
     When I goto its package page
     And I choose request type "disseminate"
+    And I fill in "note" with "disseminate, please"
     And I press "Request"
     And I should be redirected
     And I goto "/packages"
@@ -54,6 +58,7 @@ Feature: Request Dashboard
       |E00000000_000001|
     When I goto its package page
     And I choose request type "disseminate"
+    And I fill in "note" with "disseminate, please"
     And I press "Request"
     And I should be redirected
     And I goto "/requests"
@@ -65,6 +70,7 @@ Feature: Request Dashboard
     Given an archived package
     When I goto its package page
     And I choose request type "disseminate"
+    And I fill in "note" with "disseminate, please"
     And I press "Request"
     And I should be redirected
     And I goto "/requests"
@@ -76,6 +82,7 @@ Feature: Request Dashboard
     Given an archived package
     When I goto its package page
     And I choose request type "disseminate"
+    And I fill in "note" with "disseminate, please"
     And I press "Request"
     And I should be redirected
     And I goto "/requests"
@@ -87,6 +94,7 @@ Feature: Request Dashboard
     Given an archived package
     When I goto its package page
     And I choose request type "disseminate"
+    And I fill in "note" with "disseminate, please"
     And I press "Request"
     And I should be redirected
     And I goto "/requests"
@@ -98,6 +106,7 @@ Feature: Request Dashboard
     Given an archived package
     When I goto its package page
     And I choose request type "disseminate"
+    And I fill in "note" with "disseminate, please"
     And I press "Request"
     And I should be redirected
     And I goto "/requests"
@@ -109,6 +118,7 @@ Feature: Request Dashboard
     Given an archived package
     When I goto its package page
     And I choose request type "disseminate"
+    And I fill in "note" with "disseminate, please"
     And I press "Request"
     And I should be redirected
     And I goto "/requests"
@@ -120,6 +130,7 @@ Feature: Request Dashboard
     Given an archived package
     When I goto its package page
     And I choose request type "disseminate"
+    And I fill in "note" with "disseminate, please"
     And I press "Request"
     And I should be redirected
     And I goto "/requests"
@@ -131,6 +142,7 @@ Feature: Request Dashboard
     Given an archived package
     When I goto its package page
     And I choose request type "disseminate"
+    And I fill in "note" with "disseminate, please"
     And I press "Request"
     And I should be redirected
     And I goto "/requests"
@@ -142,9 +154,11 @@ Feature: Request Dashboard
     Given an archived package
     When I goto its package page
     And I choose request type "disseminate"
+    And I fill in "note" with "disseminate, please"
     And I press "Request"
     And I should be redirected
     And I goto its package page
+    And I fill in "cancel_note" with "cancel, please"
     And I press "Cancel"
     And I should be redirected
     And I goto "/requests"
