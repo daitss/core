@@ -472,8 +472,8 @@ post '/package/:id/request' do |id|
 
   error 400, "#{type} request already enqueued" if @package.requests.first(:type => type, :status => :enqueued)
   error 400, "request submissions must include a note" unless note and note != ""
-  error 400, "can't submit requests on rejected packages" if package.events.first(:name => "reject")
-  error 400, "can't submit requests on withdrawn packages" if package.events.first(:name => "withdraw finished")
+  error 400, "can't submit requests on rejected packages" if @package.events.first(:name => "reject")
+  error 400, "can't submit requests on withdrawn packages" if @package.events.first(:name => "withdraw finished")
 
   r = Request.new
 
