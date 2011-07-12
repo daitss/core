@@ -118,14 +118,13 @@
           %td= r.is_authorized ? "yes" : "no"
           %td= r.status
           %td= r.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
-         - if r.is_authorized == false and r.status == :enqueued
-             %td
-               %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
-                 %input{:type => 'hidden', :name => 'task', :value => 'authorize'}
-                 %input{:type => 'submit', :value => 'Authorize'}
-         - else
-           %td &nbsp;
-
+          - if r.is_authorized == false and r.status == :enqueued
+            %td
+              %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
+                %input{:type => 'hidden', :name => 'task', :value => 'authorize'}
+                %input{:type => 'submit', :value => 'Authorize'}
+          - else
+            %td &nbsp;
 
           - if r.status == :enqueued
             %td
