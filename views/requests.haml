@@ -79,8 +79,8 @@
         %th requesting user
         %th request status
         %th request timestamp
-        %th latest package activity
-        %th package activity timestamp
+        - #%th latest package activity
+        - #%th package activity timestamp
     
       - @requests.each do |r|
         %tr
@@ -93,6 +93,6 @@
           %td= r.agent.id
           %td= r.status
           %td= r.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
-          - e = r.package.events.first(:order => [:timestamp.desc])
-          %td= e.name
-          %td= e.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
+          - #e = r.package.events.first(:order => [:timestamp.desc])
+          - #%td= e.name
+          - #%td= e.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
