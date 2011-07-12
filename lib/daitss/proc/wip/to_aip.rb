@@ -38,23 +38,6 @@ module Daitss
       aip
     end
 
-    def update_aip_no_delete
-      aip = package.aip
-      aip.attributes = aip_attrs
-      rs = RandyStore.reserve id
-      old_rs = RandyStore.new id, aip.copy.url.to_s
-      aip.copy.attributes = rs.put_file tarball_file
-
-      begin
-        aip.save_and_populate
-      rescue
-        rs.delete
-        raise
-      end
-
-      aip
-    end
-
     def withdraw_aip
       aip = package.aip
       aip.attributes = aip_attrs
