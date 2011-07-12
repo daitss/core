@@ -1205,6 +1205,7 @@ post "/batches/:batch_id" do |batch_id|
 
       r.type = type
       r.note = note
+      r.is_authorized = false if type = r.type == :withdraw
 
       @user.requests << r
       r.agent = @user
