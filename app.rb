@@ -1198,6 +1198,8 @@ post "/batches/:batch_id" do |batch_id|
       type = require_param 'type'
 
       next if package.requests.first(:type => type, :status => :enqueued)
+      next if package.events.first(:name => "reject")
+      next if package.events.first(:name => "withdraw finished")
 
       r = Request.new
 

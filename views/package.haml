@@ -183,7 +183,7 @@
                 - else
                   %td &nbsp;
 
-        - if @is_op
+        - if @is_op and aip.copy
           %h2 submit request
           %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
             %select{:name=>'type'}
