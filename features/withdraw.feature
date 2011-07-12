@@ -12,6 +12,7 @@ Feature: withdraw a package
     And I press "authorize"
     And I wait for the "withdraw" to finish
     And I goto its package page
+    And I should not see "submit request"
     And there should be an "ingest started" event
     And there should be an "ingest finished" event
     And there should be an "withdraw started" event

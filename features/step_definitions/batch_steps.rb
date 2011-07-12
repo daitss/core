@@ -9,6 +9,26 @@ Given /^the following packages:$/ do |table|
 
 end
 
+Given /^the following (rejected|withdrawn) packages:$/ do |status, table|
+  table.raw.each do |r|
+    id = r.first
+    sip = Sip.new :name => 'foo.sip'
+    p = Package.create :id => id, :sip => sip, :project => Project.first
+
+    case status
+    when "rejected"
+      p.log "reject"
+    when "withdrawn"
+      p.log "submit"
+      p.log "ingest started"
+      p.log "ingest finished"
+      p.log "withdraw started"
+      p.log "withdraw finished"
+    end
+  end
+end
+
+
 Then /^I should have a batch containig those IEIDs$/ do
   pending # express the regexp above with the code you wish you had
 end
@@ -40,11 +60,16 @@ Then /^I should have a batch not containing$/ do |table|
   end
 end
 
-Then /^I should have a (disseminate|withdraw|peek) request for the following packages:$/ do |type, table|
+Then /^I (should|should not) have a (disseminate|withdraw|peek) request for the following packages:$/ do |has, type, table|
   table.raw.each do |r|
     p = Package.get(r)
     raise "package not found" unless p
-    raise "no #{type} request found for #{r}" unless p.requests.first(:type => type, :status => :enqueued)
+
+    if has == "should"
+      raise "no #{type} request found for #{r}" unless p.requests.first(:type => type, :status => :enqueued)
+    elsif has == "should not"
+      raise "#{type} request found for #{r}" if p.requests.first(:type => type, :status => :enqueued)
+    end
   end
 end
 

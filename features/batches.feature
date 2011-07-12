@@ -113,6 +113,33 @@ Feature: CRUD for batches
     And I press "Disseminate"
     Then the response code should be 400
 
+  Scenario: don't create requests for rejected or withdrawn packages 
+    Given the following packages:
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+    And the following rejected packages:
+      |E00000000_000004|
+    And the following withdrawn packages:
+      |E00000000_000005|
+    Given batch "foo" with the following packages:
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+      |E00000000_000004|
+      |E00000000_000005|
+    And I goto "/batches"
+    And I fill in "note" with "my request note"
+    And I press "Disseminate"
+    Then I should be redirected
+    And I should have a disseminate request for the following packages:
+      |E00000000_000001|
+      |E00000000_000002|
+      |E00000000_000003|
+    And I should not have a disseminate request for the following packages:
+      |E00000000_000004|
+      |E00000000_000005|
+
   Scenario: create batch from packages page
     Given an archived package
     When I goto "/packages"
