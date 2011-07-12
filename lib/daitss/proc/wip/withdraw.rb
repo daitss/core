@@ -7,7 +7,11 @@ module Daitss
       
       step('load aip metadata') do
         load_dmd
-        load_old_package_digiprov
+        if package.d1?
+          load_d1_package_digiprov
+        else
+          load_old_package_digiprov
+        end
       end
 
       step 'withdraw digiprov'  do
