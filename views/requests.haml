@@ -78,9 +78,18 @@
         %th request type
         %th requesting user
         %th request status
+        %th authorized?
         %th request timestamp
         - #%th latest package activity
         - #%th package activity timestamp
+
+      - def request_sort_order r
+        - if r.is_authorized == false and r.status == :enqueued then 1.0 
+        - elsif r.status == :enqueued then 2.0 
+        - else 3.0 + (1 / r.id.to_f)
+
+      - @requests.sort! do |a, b|
+        - request_sort_order(a) <=> request_sort_order(b)
     
       - @requests.each do |r|
         %tr
@@ -92,6 +101,7 @@
           %td= r.type
           %td= r.agent.id
           %td= r.status
+          %td= r.is_authorized
           %td= r.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
           - #e = r.package.events.first(:order => [:timestamp.desc])
           - #%td= e.name
