@@ -201,6 +201,11 @@ Given /^(\d+) stopped wips under account\/project "([^"]*)"$/ do |count, account
   end
 end
 
+Then /^the journal file for the wip should be empty$/ do
+  wip = Daitss.archive.workspace[last_package_id]
+  f = File.open(File.join(wip.path, "journal"), "r")
+  Marshal.load(f).should == {}
+end
 
 
 

@@ -57,6 +57,22 @@ describe Wip do
     lambda { wip.unstop }.should raise_error('stop state is required, not idle')
   end
 
+  it 'should do over' do
+    wip.spawn
+    wip.should be_running
+    wip.stop
+    wip.do_over
+  end
+
+  it 'should do over even if running' do
+    wip.spawn
+    wip.should be_running
+    wip.do_over
+    wip.should_not be_running
+    f = File.open(File.join(wip.path, "journal"), "r")
+    Marshal.load(f).should == {}
+  end
+
   it 'should be snafu on raised errors' do
 
     def wip.blow_up

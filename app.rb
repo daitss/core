@@ -633,6 +633,16 @@ post '/workspace' do
       ws.select(&:snafu?).each { |w| w.unsnafu note, @user }
     end
 
+  when 'doover'
+    note = require_param 'note'
+
+    if @params['filter'] == 'true'
+      wip_list = @params['wips'].map {|w| Wip.new(File.join(ws.path, w))}
+      wip_list.each { |w| w.do_over note, @user }
+    else
+      ws.each { |w| w.do_over note, @user }
+    end
+
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']
     note = require_param 'note'
@@ -706,6 +716,9 @@ post '/workspace/:id' do |id|
     error 400, "bin #{bin} does not exist" unless bin
     ws.stash wip.id, bin, note, @user
     redirect "/stashspace/#{bin.id}/#{wip.id}"
+
+  when 'doover'
+    wip.do_over note, @user
 
   when nil, '' then raise 400, 'parameter task is required'
   else error 400, "unknown command: #{params['task']}"

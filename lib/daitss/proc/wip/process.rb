@@ -40,6 +40,16 @@ module Daitss
       FileUtils.cp jf, pf if File.exist? jf
     end
 
+    def do_over note=nil, agent=nil
+      stop if running?
+
+      package.log "#{task} do over", :notes => note, :agent => agent
+
+      File.lock @path, :shared => true do
+        reset_journal
+      end
+    end
+
     def procname
       "#{id}.#{task}"
     end
