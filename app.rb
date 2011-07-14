@@ -1208,6 +1208,7 @@ post "/batches/:batch_id" do |batch_id|
       next if package.requests.first(:type => type, :status => :enqueued)
       next if package.events.first(:name => "reject")
       next if package.events.first(:name => "withdraw finished")
+      next if package.events.first(:name => "d1refresh finished") and type = "d1refresh"
 
       r = Request.new
 
