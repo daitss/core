@@ -65,9 +65,21 @@
       %td
         %input{:type => 'submit', :value => 'Set Scope'}
   
+
 #list
-  %h2 request list
-  
+  - if @all == true
+    %h2 request list (all displayed)
+  - else
+    %h2 request list (top 100 displayed)
+    - @requests = @requests[0, 99]
+
+  %a{:href => "/requests?display_all=true"}
+    display all
+
+  %a{:href => "/requests"}
+    display 100
+
+
   - if @requests.any?
     %table
       %tr

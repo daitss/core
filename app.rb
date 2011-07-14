@@ -1233,6 +1233,12 @@ get '/fda_logo' do
 end
 
 get '/requests' do
+  if params['display_all'] == "true"
+    @all = true
+  else 
+    @all = false
+  end
+
   @requests = Request.all
 
   # filter based on parameters passed in
