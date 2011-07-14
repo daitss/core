@@ -10,6 +10,12 @@
 
 %hr/
 
+%h2 package list
+
+%pre= @batch.packages.map {|p| p.id}.join(" ")
+
+%hr/
+
 %h2 submit request
 
 %form{:action => "/batches/#{@batch.id}", :method => 'post'}
@@ -24,6 +30,18 @@
 
 %hr/
 
-%h2 package list (#{@batch.packages.length} total)
+- if @all == true
+  %h2 detailed package list (#{@batch.packages.length}, all displayed)
+- else
+  %h2 detailed package list (#{@batch.packages.length} total, up to 400 displayed)
 
-= partial :package_table, :locals => {:packages => @batch.packages }
+%a{:href => "/batches/#{@batch.id}?display_all=true"}
+  display all
+
+%a{:href => "/batches/#{@batch.id}"}
+  display 400
+
+- if @all
+  = partial :package_table, :locals => {:packages => @batch.packages }
+- else
+  = partial :package_table, :locals => {:packages => @batch.packages.all(:limit => 400) }

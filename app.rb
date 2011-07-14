@@ -1163,6 +1163,12 @@ post "/batches" do
 end
 
 get "/batches/:batch_id" do |batch_id|
+  if params['display_all'] == "true"
+    @all = true
+  else 
+    @all = false
+  end
+
   @batch = Batch.get(batch_id)
 
   halt 404 unless @batch
