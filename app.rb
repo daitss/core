@@ -505,6 +505,7 @@ post '/package/:pid/request/:rid' do |pid, rid|
   when 'delete'
     cancel_note = require_param 'cancel_note'
     error 400, "request cancellations must include a note" unless cancel_note and cancel_note != ""
+    error 400, "can't cancel a request unless it has status enqueued" unless req.status == :enqueued
 
     req.cancel or error "cannot cancel request: #{req.errors.inspect}"
     @package.log "#{req.type} request cancelled", :notes => "request id: #{req.id}; cancelled by: #{@user.id}; #{cancel_note}", :agent => @user
