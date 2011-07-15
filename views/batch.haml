@@ -10,12 +10,6 @@
 
 %hr/
 
-%h2 package list
-
-%pre= @batch.packages.map {|p| p.id}.join(" ")
-
-%hr/
-
 %h2 submit request
 
 %form{:action => "/batches/#{@batch.id}", :method => 'post'}
@@ -45,3 +39,11 @@
   = partial :package_table, :locals => {:packages => @batch.packages }
 - else
   = partial :package_table, :locals => {:packages => @batch.packages.all(:limit => 400) }
+
+%hr/
+
+%h2 package list
+
+%pre{:width => 400}= @batch.packages.map {|p| p.id}.join(" ")
+
+
