@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+
+# reads IEIDs from a file and adds them to a D2 batch
+
+require 'rubygems'
+require 'bundler/setup'
+require 'daitss'
+
+include Daitss
+
+load_archive
+
+def error msg
+  STDERR.puts msg
+  exit 1
+end
+
+unless ARGV[0] and ARGV[1]
+  error "Usage: refresh-batch BATCH_NAME FILE_NAME"
+else
+  file = ARGV[1]
+  batch_name = ARGV[0]
+end
+
+error "#{file} does not exist or is not a file" unless File.file? file
+error "A batch with name #{batch_name} already exists" if Batch.get(batch_name)
+
+b = Batch.new :id => batch_name
+b.save or error "Could not save batch with name #{batch_name}"
+
+# figure out the number of lines
+total_lines = `cat #{file} | wc -l`.chomp.to_i
+
+f_handle = File.open(file, "r")
+
+line_num = 0
+while line = f_handle.gets
+  ieid = line.chomp
+  line_num += 1
+
+  STDERR.puts "Attempting to add #{ieid} to batch #{batch_name} (#{line_num}/#{total_lines})"
+  p = Package.get(ieid)
+
+  unless p
+    STDERR.puts "    #{ieid} does not denote a valid package, skipping" 
+    next
+  end
+
+  b.packages << p
+
+  STDERR.puts "    #{ieid} added to batch #{batch_name}" 
+  b.save
+end
+ 
