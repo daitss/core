@@ -38,12 +38,13 @@
 
 %hr/
 
+- idle_wips = @wips.find_all { |w| w.state == :idle }
+
 #idles
   
   %h2
-    idle jobs:
-
-  - idle_wips = @wips.find_all { |w| w.state == :idle }
+    idle jobs: 
+    = idle_wips.length
 
   - ingest_count = idle_wips.find_all { |w| w.task == :ingest }.length
   - d1refresh_count = idle_wips.find_all { |w| w.task == :d1refresh }.length
