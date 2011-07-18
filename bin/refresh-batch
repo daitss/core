@@ -39,14 +39,14 @@ while line = f_handle.gets
   line_num += 1
 
   STDERR.puts "Attempting to add #{ieid} to batch #{batch_name} (#{line_num}/#{total_lines})"
-  p = Package.get(ieid)
+  p = repository(:default).adapter.select("SELECT * FROM packages where id = '#{ieid}'")
 
-  unless p
+  unless p.length == 1
     STDERR.puts "    #{ieid} does not denote a valid package, skipping" 
     next
   end
 
-  b.packages << p
+  repository(:default).adapter.execute("INSERT INTO batch_assignments (batch_id, package_id) VALUES ('#{b.id}', '#{ieid}')")
 
   STDERR.puts "    #{ieid} added to batch #{batch_name}" 
   b.save
