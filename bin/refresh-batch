@@ -34,21 +34,27 @@ total_lines = `cat #{file} | wc -l`.chomp.to_i
 f_handle = File.open(file, "r")
 
 line_num = 0
+added = 0
+skipped = 0
 while line = f_handle.gets
   ieid = line.chomp
   line_num += 1
 
-  STDERR.puts "Attempting to add #{ieid} to batch #{batch_name} (#{line_num}/#{total_lines})"
+  puts "Attempting to add #{ieid} to batch #{batch_name} (#{line_num}/#{total_lines})"
   p = repository(:default).adapter.select("SELECT * FROM packages where id = '#{ieid}'")
 
   unless p.length == 1
-    STDERR.puts "    #{ieid} does not denote a valid package, skipping" 
+    puts "    #{ieid} does not denote a valid package, skipping" 
+    skipped += 1
     next
   end
 
   repository(:default).adapter.execute("INSERT INTO batch_assignments (batch_id, package_id) VALUES ('#{b.id}', '#{ieid}')")
 
-  STDERR.puts "    #{ieid} added to batch #{batch_name}" 
+  added += 1
+  puts "    #{ieid} added to batch #{batch_name}" 
   b.save
 end
+
+puts "\nPackages added to batch #{batch_name}: #{added}\nPackages skipped: #{skipped}"
  
