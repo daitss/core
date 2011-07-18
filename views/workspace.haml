@@ -38,11 +38,50 @@
 
 %hr/
 
+#idles
+  
+  %h2
+    idle jobs:
+
+  - idle_wips = @wips.find_all { |w| w.state == :idle }
+
+  - ingest_count = idle_wips.find_all { |w| w.task == :ingest }.length
+  - d1refresh_count = idle_wips.find_all { |w| w.task == :d1refresh }.length
+  - disseminate_count = idle_wips.find_all { |w| w.task == :disseminate }.length
+  - withdraw_count = idle_wips.find_all { |w| w.task == :withdraw }.length
+  - peek_count = idle_wips.find_all { |w| w.task == :peek }.length
+
+  %table
+    %tr
+      %th
+        task
+      %th
+        count
+    %tr
+      %td
+        ingest
+      %td= ingest_count
+    %tr
+      %td
+        d1refresh
+      %td= d1refresh_count
+    %tr
+      %td
+        disseminate
+      %td= disseminate_count
+    %tr
+      %td
+        withdraw
+      %td= withdraw_count
+
+- @wips = @wips - idle_wips
+
 #results
   %h2
-    jobs:
+    active jobs: 
     = @wips.size
-    &nbsp;
+
+  %h3
     running:
     = archive.workspace.select(&:running?).size
     &nbsp;
@@ -57,4 +96,4 @@
     = throttles(:d1refresh)
 
     - unless @wips.empty?
-      = partial :wip_table, :locals => { :wips => @wips }
+      = partial :wip_table, :locals => { :wips => @wips  }
