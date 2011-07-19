@@ -136,7 +136,7 @@ When /^all running wips have finished$/ do
   end
 end
 
-Then /^there should be (\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
+Then /^there should be (\d+) (running|snafu|stopped|) ?wips?$/ do |count, state|
 
   if state == 'stopped'
     state = 'stop'
@@ -163,6 +163,21 @@ Then /^there should be the following wips:$/ do |table|
 
 end
 
+Then /^there should be (\d+) idle wips listed in the table$/ do |count|
+  last_response.should be_ok
+  doc = Nokogiri::HTML last_response.body
+
+  (doc / "#idles td:contains('#{count}')").size.should == 1
+end
+
+Then /^the idle table should be zeroed out$/ do
+  last_response.should be_ok
+  doc = Nokogiri::HTML last_response.body
+
+  (doc / "#idles td:contains('0')").size.should == 4
+end
+
+
 When /^I select "([^\"]*)"$/ do |bin|
   select bin, :from => 'stash-bin'
 end
@@ -173,12 +188,12 @@ Then /^I should have (\d+) wips in the results$/ do |count|
   (trs.reject { |tr| tr % 'th'}).size.should == count.to_i
 end
 
-Given /^(\d+) (stopped|snafu) wips in batch "([^"]*)"$/ do |count, state, batch|
+Given /^(\d+) (stopped|idle|snafu) wips in batch "([^"]*)"$/ do |count, state, batch|
+  b = Batch.new :id => batch
   count.to_i.times do |i|
     Given "a stop wip" if state == "stopped"
     Given "a snafu wip" if state == "snafu"
 
-    b = Batch.new :id => batch
     p = Package.get(last_package_id)
     b.packages << p
     b.save
