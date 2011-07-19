@@ -474,7 +474,7 @@ post '/package/:id/request' do |id|
   error 400, "request submissions must include a note" unless note and note != ""
   error 400, "can't submit requests on rejected packages" if @package.events.first(:name => "reject")
   error 400, "can't submit requests on withdrawn packages" if @package.events.first(:name => "withdraw finished")
-  error 400, "only withdraw and disseminate requests are supported for this resource" unless type == "disseminate" or type == "withdraw"
+  error 400, "only withdraw and disseminate requests are supported for this resource" unless (type == "disseminate" or type == "withdraw") or @package.d1? == true
 
   r = Request.new
 
