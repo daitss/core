@@ -67,6 +67,14 @@
   
 
 #list
+  - def request_sort_order r
+    - if r.is_authorized == false and r.status == :enqueued then 1.0 
+    - elsif r.status == :enqueued then 2.0 
+    - else 3.0 + (1 / r.id.to_f)
+
+  - @requests.sort! do |a, b|
+    - request_sort_order(a) <=> request_sort_order(b)
+ 
   - if @all == true
     %h2 request list (all displayed)
   - else
@@ -78,7 +86,6 @@
 
   %a{:href => "/requests"}
     display 100
-
 
   - if @requests.any?
     %table
@@ -95,14 +102,7 @@
         %th authorize
         %th cancel
 
-      - def request_sort_order r
-        - if r.is_authorized == false and r.status == :enqueued then 1.0 
-        - elsif r.status == :enqueued then 2.0 
-        - else 3.0 + (1 / r.id.to_f)
-
-      - @requests.sort! do |a, b|
-        - request_sort_order(a) <=> request_sort_order(b)
-    
+   
       - @requests.each do |r|
         %tr
           %td= r.id
