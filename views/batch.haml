@@ -24,6 +24,27 @@
 
 %hr/
 
+%h2 activity summary
+- event_hash = {}
+- @batch.packages.each do |p|
+  - e = p.events.first(:order => [:id.desc])
+  - if e
+    - if event_hash[e.name]
+      - event_hash[e.name] += 1
+    - else
+      - event_hash[e.name] = 1
+
+%table
+  %tr
+    %th 
+      latest event
+    %th
+      count
+  - event_hash.each do |key, value|
+    %tr
+      %td= key
+      %td= value
+
 - if @all == true
   %h2 detailed package list (#{@batch.packages.length}, all displayed)
 - else
