@@ -509,7 +509,7 @@ post '/package/:pid/request/:rid' do |pid, rid|
     error 400, "can't cancel a request unless it has status enqueued" unless req.status == :enqueued
 
     req.cancel or error "cannot cancel request: #{req.errors.inspect}"
-    @package.log "#{req.type} request cancelled", :notes => "request id: #{req.id}; cancelled by: #{@user.id}; #{cancel_note}", :agent => @user
+    @package.log "#{req.type} request cancelled", :notes => "request id: #{req.id}; #{cancel_note}", :agent => @user
   when 'authorize'
     error 403, "withdraw requests cannot be authorized by the user that requested the withdrawal" unless @user.id != req.agent.id
     req.is_authorized = true
