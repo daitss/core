@@ -130,6 +130,13 @@ def make_wips
 
   ready.each do |request|
     unless request.package.wip
+
+      # don't create d1refresh wip for package that has a d1refresh finished event
+      if request.type == :d1refresh
+        LOG.info "#{wip.id}.#{wip.task} skipped, package appears to have been refreshed"
+        next if request.package.events.first(:name => "d1refresh finished")
+      end
+
       request.dispatch
       wip = request.package.wip
       LOG.info "#{wip.id}.#{wip.task} made"
