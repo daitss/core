@@ -38,6 +38,17 @@
     %td= @package.project.account.id
     %td= @package.project.id
 
+- if @package.batches.any?
+  %h2 batches
+
+  %table 
+    %tr
+      %th
+        batch name
+    - @package.batches.each do |batch|
+      %tr
+        %td= batch.id
+
 %h2 events
 
 = partial :events_table, :locals => {:events => @package.normal_events }
