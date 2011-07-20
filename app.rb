@@ -1199,7 +1199,7 @@ post "/batches/:batch_id" do |batch_id|
   case task
   when "delete-batch"
     @batch.packages = []
-    @batch.save
+    @batch.save!
     @batch.destroy
     redirect "/batches"
 
