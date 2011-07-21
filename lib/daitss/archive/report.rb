@@ -37,8 +37,8 @@ module Daitss
     end
 
     def refresh_report id
-      @intentity_record = Intentity.first(:id => uri_prefix + id)
       @package = Package.first(:id => id)
+      @intentity_record = @package.intentity
 
       if not @intentity_record
         raise "There is no record that #{id} was ingested."
