@@ -69,6 +69,13 @@
 
   = partial :events_table, :locals => {:events => @package.fixity_events }
 
+- if @package.rejected?
+  %h2 
+    reject report
+
+  %a{:href=>"/package/#{@package.id}/reject_report"}
+    = "reject report"
+
 - if @ingest_time
   %h2 ingest stats
 
@@ -251,16 +258,25 @@
             - else
               N/A
       %tr
-        %th ingest report
+        %th report
         %td
-          %a{:href=>"/package/#{@package.id}/ingest_report"}
-            = "ingest report"
+          - if @package.events.first(:name => "withdraw finished")
+            %a{:href=>"/package/#{@package.id}/withdraw_report"}
+              = "withdraw report"
+
+          - elsif @package.events.first(:name => "d1refresh finished")
+            %a{:href=>"/package/#{@package.id}/refresh_report"}
+              = "refresh report"
+
+          - else
+            %a{:href=>"/package/#{@package.id}/ingest_report"}
+              = "ingest report"
             
       %tr
-        %th ingest report stylesheet
+        %th report stylesheet
         %td
           %a{:href=>"/daitss_report_xhtml.xsl"}
-            = "ingest report stylesheet"
+            = "report stylesheet"
 
       %tr
         %th aip size

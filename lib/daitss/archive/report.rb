@@ -25,6 +25,30 @@ module Daitss
       template_by_name("reject_report").result binding
     end
 
+    def withdrawal_report id
+      @package = Package.first(:id => id)
+      @intentity_record = Intentity.first(:id => uri_prefix + id)
+
+      if not @intentity_record
+        raise "There is no record that #{id} was ingested."
+      end
+
+      template_by_name("withdraw_report").result binding
+    end
+
+    def refresh_report id
+      @intentity_record = Intentity.first(:id => uri_prefix + id)
+      @package = Package.first(:id => id)
+
+      if not @intentity_record
+        raise "There is no record that #{id} was ingested."
+      end
+
+      template_by_name("refresh_report").result binding
+    end
+
+
+
   end
 end
 

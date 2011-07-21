@@ -464,6 +464,27 @@ get '/package/:id/ingest_report' do |id|
   archive.ingest_report id
 end
 
+get '/package/:id/withdraw_report' do |id|
+  @package = @user.packages.get(id) or not_found
+  not_found unless @package.events.first(:name => "withdraw finished")
+  headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
+  archive.withdrawal_report id
+end
+
+get '/package/:id/reject_report' do |id|
+  @package = @user.packages.get(id) or not_found
+  not_found unless @package.events.first(:name => "reject")
+  headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
+  archive.reject_report id
+end
+
+get '/package/:id/refresh_report' do |id|
+  @package = @user.packages.get(id) or not_found
+  not_found unless @package.events.first(:name => "d1refresh finished")
+  headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
+  archive.refresh_report id
+end
+
 # enqueue a new request
 post '/package/:id/request' do |id|
   @package = @user.packages.get(id) or not_found
