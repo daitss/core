@@ -158,6 +158,26 @@
     </div>
   </xsl:template>
 
+  <!-- refresh element -->
+  <xsl:template match="r:REFRESH">
+    <div class="ingest">
+      <h2>Refresh</h2>
+      <table>
+        <tr>
+          <th>Package name</th>
+          <th>Int. Entity ID</th>
+          <th>Refresh time</th>
+        </tr>
+        <tr>
+          <td><xsl:value-of select="@PACKAGE"/></td>
+          <td><xsl:value-of select="@IEID"/></td>
+          <td><xsl:value-of select="@REFRESH_TIME"/></td>
+        </tr>
+      </table>
+      <xsl:apply-templates/>
+    </div>
+  </xsl:template>
+
   <!-- withdrawal element -->
   <xsl:template match="r:WITHDRAWAL">
     <div class="withdrawal">
