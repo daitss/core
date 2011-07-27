@@ -2,11 +2,8 @@
 
 database-url: postgres://username:password@host/schema
 
-# deprecated, can leave blank
-
+# d1 database connection URL, used only for d1->d2 refreshing.
 d1-database-url: 
-d1-ops-database-url: 
-d1-rejects-database-url: 
 
 # path to data directory
 
