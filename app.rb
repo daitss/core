@@ -464,6 +464,27 @@ get '/package/:id/ingest_report' do |id|
   archive.ingest_report id
 end
 
+get '/package/:id/withdraw_report' do |id|
+  @package = @user.packages.get(id) or not_found
+  not_found unless @package.events.first(:name => "withdraw finished")
+  headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
+  archive.withdrawal_report id
+end
+
+get '/package/:id/reject_report' do |id|
+  @package = @user.packages.get(id) or not_found
+  not_found unless @package.events.first(:name => "reject")
+  headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
+  archive.reject_report id
+end
+
+get '/package/:id/refresh_report' do |id|
+  @package = @user.packages.get(id) or not_found
+  not_found unless @package.events.first(:name => "d1refresh finished")
+  headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
+  archive.refresh_report id
+end
+
 # enqueue a new request
 post '/package/:id/request' do |id|
   @package = @user.packages.get(id) or not_found
@@ -474,6 +495,7 @@ post '/package/:id/request' do |id|
   error 400, "request submissions must include a note" unless note and note != ""
   error 400, "can't submit requests on rejected packages" if @package.events.first(:name => "reject")
   error 400, "can't submit requests on withdrawn packages" if @package.events.first(:name => "withdraw finished")
+  error 400, "only withdraw and disseminate requests are supported for this resource" unless (type == "disseminate" or type == "withdraw") or @package.d1? == true
 
   r = Request.new
 
@@ -505,9 +527,10 @@ post '/package/:pid/request/:rid' do |pid, rid|
   when 'delete'
     cancel_note = require_param 'cancel_note'
     error 400, "request cancellations must include a note" unless cancel_note and cancel_note != ""
+    error 400, "can't cancel a request unless it has status enqueued" unless req.status == :enqueued
 
     req.cancel or error "cannot cancel request: #{req.errors.inspect}"
-    @package.log "#{req.type} request cancelled", :notes => "request id: #{req.id}; cancelled by: #{@user.id}; #{cancel_note}", :agent => @user
+    @package.log "#{req.type} request cancelled", :notes => "request id: #{req.id}; #{cancel_note}", :agent => @user
   when 'authorize'
     error 403, "withdraw requests cannot be authorized by the user that requested the withdrawal" unless @user.id != req.agent.id
     req.is_authorized = true
@@ -633,6 +656,16 @@ post '/workspace' do
       ws.select(&:snafu?).each { |w| w.unsnafu note, @user }
     end
 
+  when 'doover'
+    note = require_param 'note'
+
+    if @params['filter'] == 'true'
+      wip_list = @params['wips'].map {|w| Wip.new(File.join(ws.path, w))}
+      wip_list.each { |w| w.do_over note, @user }
+    else
+      ws.each { |w| w.do_over note, @user }
+    end
+
   when 'stash'
     error 400, 'parameter stash-bin is required' unless params['stash-bin']
     note = require_param 'note'
@@ -706,6 +739,9 @@ post '/workspace/:id' do |id|
     error 400, "bin #{bin} does not exist" unless bin
     ws.stash wip.id, bin, note, @user
     redirect "/stashspace/#{bin.id}/#{wip.id}"
+
+  when 'doover'
+    wip.do_over note, @user
 
   when nil, '' then raise 400, 'parameter task is required'
   else error 400, "unknown command: #{params['task']}"
@@ -1163,6 +1199,12 @@ post "/batches" do
 end
 
 get "/batches/:batch_id" do |batch_id|
+  if params['display_all'] == "true"
+    @all = true
+  else 
+    @all = false
+  end
+
   @batch = Batch.get(batch_id)
 
   halt 404 unless @batch
@@ -1178,7 +1220,7 @@ post "/batches/:batch_id" do |batch_id|
   case task
   when "delete-batch"
     @batch.packages = []
-    @batch.save
+    @batch.save!
     @batch.destroy
     redirect "/batches"
 
@@ -1202,6 +1244,8 @@ post "/batches/:batch_id" do |batch_id|
       next if package.requests.first(:type => type, :status => :enqueued)
       next if package.events.first(:name => "reject")
       next if package.events.first(:name => "withdraw finished")
+      next if package.events.first(:name => "d1refresh finished") and type = "d1refresh"
+      next if package.d1? == false and type == "d1refresh"
 
       r = Request.new
 
@@ -1227,6 +1271,12 @@ get '/fda_logo' do
 end
 
 get '/requests' do
+  if params['display_all'] == "true"
+    @all = true
+  else 
+    @all = false
+  end
+
   @requests = Request.all
 
   # filter based on parameters passed in

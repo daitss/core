@@ -18,6 +18,7 @@ Feature: update the processing of a wip
       | snafu      | reset   | OK          | idle        |
       | stop       | start   | OK          | running     |
       | dead       | start   | OK          | running     |
+      | running    | do over | OK          | stop        |
 
   Scenario: updates to a wip with a note
     Given a snafu wip

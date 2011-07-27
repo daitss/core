@@ -38,6 +38,17 @@
     %td= @package.project.account.id
     %td= @package.project.id
 
+- if @package.batches.any?
+  %h2 batches
+
+  %table 
+    %tr
+      %th
+        batch name
+    - @package.batches.each do |batch|
+      %tr
+        %td= batch.id
+
 %h2 events
 
 = partial :events_table, :locals => {:events => @package.normal_events }
@@ -57,6 +68,13 @@
   %h2 fixity events
 
   = partial :events_table, :locals => {:events => @package.fixity_events }
+
+- if @package.rejected?
+  %h2 
+    reject report
+
+  %a{:href=>"/package/#{@package.id}/reject_report"}
+    = "reject report"
 
 - if @ingest_time
   %h2 ingest stats
@@ -105,6 +123,7 @@
         %th authorized
         %th status
         %th timestamp
+        %th authorize
         %th cancel
       - @package.requests.each do |r|
         %tr
@@ -117,6 +136,14 @@
           %td= r.is_authorized ? "yes" : "no"
           %td= r.status
           %td= r.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
+          - if r.is_authorized == false and r.status == :enqueued
+            %td
+              %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
+                %input{:type => 'hidden', :name => 'task', :value => 'authorize'}
+                %input{:type => 'submit', :value => 'Authorize'}
+          - else
+            %td &nbsp;
+
           - if r.status == :enqueued
             %td
               %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
@@ -231,16 +258,25 @@
             - else
               N/A
       %tr
-        %th ingest report
+        %th report
         %td
-          %a{:href=>"/package/#{@package.id}/ingest_report"}
-            = "ingest report"
+          - if @package.events.first(:name => "withdraw finished")
+            %a{:href=>"/package/#{@package.id}/withdraw_report"}
+              = "withdraw report"
+
+          - elsif @package.events.first(:name => "d1refresh finished")
+            %a{:href=>"/package/#{@package.id}/refresh_report"}
+              = "refresh report"
+
+          - else
+            %a{:href=>"/package/#{@package.id}/ingest_report"}
+              = "ingest report"
             
       %tr
-        %th ingest report stylesheet
+        %th report stylesheet
         %td
           %a{:href=>"/daitss_report_xhtml.xsl"}
-            = "ingest report stylesheet"
+            = "report stylesheet"
 
       %tr
         %th aip size

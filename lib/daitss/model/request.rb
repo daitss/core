@@ -32,6 +32,11 @@ module Daitss
 
       begin
 
+        # if d1refresh, check package history to see if already d1refreshed, if so, don't make wip
+        if self.type == :d1refresh and Event.first(:name => "d1refresh finished", :package_id => self.package.id)
+          return nil
+        end
+
         # make a wip
         dp_path = File.join archive.dispatch_path, package.id
         ws_path = File.join archive.workspace.path, package.id

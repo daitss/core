@@ -149,7 +149,7 @@ module Daitss
 
     def d1?
 
-      if aip.xml
+      if aip and aip.xml
         doc = Nokogiri::XML aip.xml
         doc.root.name == 'daitss1'
       end

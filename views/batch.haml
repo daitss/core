@@ -18,12 +18,53 @@
   %select{:name => 'type'}
     %option disseminate
     %option withdraw
-    %option peek
+    -#%option peek
     %option d1refresh
   %input{:type => 'submit', :value => 'Submit Request'}
 
 %hr/
 
-%h2 package list (#{@batch.packages.length} total)
+%h2 activity summary
+- event_hash = {}
+- @batch.packages.each do |p|
+  - e = p.events.first(:order => [:id.desc])
+  - if e
+    - if event_hash[e.name]
+      - event_hash[e.name] += 1
+    - else
+      - event_hash[e.name] = 1
 
-= partial :package_table, :locals => {:packages => @batch.packages }
+%table
+  %tr
+    %th 
+      latest event
+    %th
+      count
+  - event_hash.each do |key, value|
+    %tr
+      %td= key
+      %td= value
+
+- if @all == true
+  %h2 detailed package list (#{@batch.packages.length}, all displayed)
+- else
+  %h2 detailed package list (#{@batch.packages.length} total, up to 400 displayed)
+
+%a{:href => "/batches/#{@batch.id}?display_all=true"}
+  display all
+
+%a{:href => "/batches/#{@batch.id}"}
+  display 400
+
+- if @all
+  = partial :package_table, :locals => {:packages => @batch.packages }
+- else
+  = partial :package_table, :locals => {:packages => @batch.packages.all(:limit => 400) }
+
+%hr/
+
+%h2 package list
+
+%pre{:width => 118}= @batch.packages.map {|p| p.id}.join(" ")
+
+

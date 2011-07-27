@@ -5,14 +5,14 @@ Feature: list wips
   Scenario: listing with states
     Given a workspace with the following wips:
       | count |   state |
-      |     1 |    idle |
+      |     2 |    idle |
       |     1 | running |
       |     1 |   snafu |
       |     1 | stopped |
     When I goto "/workspace"
+    Then there should be 2 idle wips listed in the table
     Then there should be the following wips:
       | count |   state |
-      |     1 |    idle |
       |     1 | running |
       |     1 |   snafu |
       |     1 | stopped |
@@ -20,12 +20,16 @@ Feature: list wips
   Scenario Outline: listing
     Given <quantity> wips
     When I goto "/workspace"
-    Then there should be <quantity> wips
+    Then there should be <quantity> idle wips listed in the table
 
     Examples:
       | quantity |
-      |        0 |
+      |        2 |
       |        5 |
+
+  Scenario: listing idles
+    When I goto "/workspace"
+    Then the idle table should be zeroed out
 
   Scenario Outline: Filter by date
     Given 1 stopped wips
@@ -86,7 +90,6 @@ Feature: list wips
 
   Scenario Outline: Filter by state
     Given a snafu wip
-    Given a idle wip
     Given a stop wip
     Given a running wip
     Given a dead wip
@@ -98,7 +101,6 @@ Feature: list wips
       |activity|count|
       |running|1|
       |dead|1|
-      |idle|1|
       |error|1|
       |stopped|1|
 
@@ -129,7 +131,7 @@ Feature: list wips
     Then I should have 1 wips in the results
 
   Scenario: Workspace wide actions after scope should not affect entire workspace
-    Given 1 snafu wips in batch "foo"
+    Given 2 snafu wips in batch "foo"
     Given a snafu wip
     Given a snafu wip
     And I goto "/workspace"
@@ -138,7 +140,7 @@ Feature: list wips
     And I choose "reset"
     And I press "Update"
     And I goto "/workspace"
-    Then there should be 1 idle wip
+    Then there should be 2 idle wips listed in the table
     And there should be 2 snafu wips
 
   Scenario: Workspace wide actions after scope should not affect entire workspace

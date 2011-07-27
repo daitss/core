@@ -307,3 +307,9 @@ Then /^I should see a comment with "([^"]*)" by operator$/ do |notes|
   last_response.should have_selector(%Q{td:contains("#{Comment.first.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")}")})
 end
 
+When /^the request is picked up by pulse and sent to workspace$/ do
+  r = Request.first
+  r.status = :released_to_workspace
+  r.save
+end
+

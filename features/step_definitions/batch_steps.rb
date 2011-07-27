@@ -9,7 +9,7 @@ Given /^the following packages:$/ do |table|
 
 end
 
-Given /^the following (rejected|withdrawn) packages:$/ do |status, table|
+Given /^the following (rejected|withdrawn|d1 refreshed) packages:$/ do |status, table|
   table.raw.each do |r|
     id = r.first
     sip = Sip.new :name => 'foo.sip'
@@ -24,6 +24,12 @@ Given /^the following (rejected|withdrawn) packages:$/ do |status, table|
       p.log "ingest finished"
       p.log "withdraw started"
       p.log "withdraw finished"
+    when "d1 refreshed"
+      p.log "submit"
+      p.log "ingest started"
+      p.log "ingest finished"
+      p.log "d1refresh started"
+      p.log "d1refresh finished"
     end
   end
 end
@@ -60,7 +66,7 @@ Then /^I should have a batch not containing$/ do |table|
   end
 end
 
-Then /^I (should|should not) have a (disseminate|withdraw|peek) request for the following packages:$/ do |has, type, table|
+Then /^I (should|should not) have a (disseminate|withdraw|peek|d1refresh) request for the following packages:$/ do |has, type, table|
   table.raw.each do |r|
     p = Package.get(r)
     raise "package not found" unless p

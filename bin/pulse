@@ -110,7 +110,7 @@ end # of class ScoreCard
 # of [ :lifo, :fifo ]
 
 def queuing_discipline
-  discipline = archive.queueing_discipline || :fifo
+  discipline = archive.queueing_discipline.to_sym || :fifo
   opts = OptionParser.new do |opts|
     opts.on("--lifo", "Process the most recently submitted WIPs first") { discipline = :lifo }
     opts.on("--fifo", "Process the earliest submitted WIPs first")      { discipline = :fifo }
