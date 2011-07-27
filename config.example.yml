@@ -2,12 +2,11 @@
 
 database-url: postgres://username:password@host/schema
 
-# deprecated, can leave blank
-
+# d1 database connection URL, used by d1->d2 refreshing.
 d1-database-url: 
-d1-ops-database-url: 
-d1-rejects-database-url: 
-
+    
+# the location of the trimmed down version of d1 global file packages, used by d1->d2 refreshing
+d1-globals-dir:
 # path to data directory
 
 data-dir: /var/daitss/data
