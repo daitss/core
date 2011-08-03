@@ -113,12 +113,20 @@ end
 
 # returns an array of filesystem paths containing packages to submit
 def find_packages
-  list = Dir.glob(@config.path + "/**/*")
+  list = Dir.glob(@config.path + "/*")
   list = list.select { |p| File.directory? p}
   list_u = list.select { |p| File.exists? File.join(p, File.basename(p) + ".xml") }
   list_l = list.select { |p| File.exists? File.join(p, File.basename(p) + ".XML") }
 
-  list_l | list_u
+
+  packages = list_l | list_u
+  not_packages = list - packages 
+
+  not_packages.each do |not_p|
+    STDERR.puts "#{not_p}, doesn't appear to be a SIP, skipping"
+  end
+
+  packages
 end
 
 # submits package at path
