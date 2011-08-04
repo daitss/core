@@ -1,0 +1,5 @@
+intellectual entity id (ieid),package,account,project,size (MB),# of datafiles
+
+- @packages.each do |p|
+  = p.id + "," + p.sip.name + "," + p.project.account.id + "," + p.project.id + "," + sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000).to_s + "," + p.sip.number_of_datafiles.to_s
+

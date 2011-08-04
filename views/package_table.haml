@@ -1,3 +1,7 @@
+%form{:action => "/package_csv", :method => "GET"}
+  %input{:name => 'packages', :type => 'hidden', :value => packages.inject(''){|str, p| str + " " + p.id}}
+  %input{:type => 'submit', :value => 'Download CSV'}
+
 %table
   %tr
     %th intellectual entity id (ieid) 
