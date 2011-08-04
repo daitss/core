@@ -90,6 +90,7 @@ Feature: permissions
     Then I should not see "dips"
 
   Scenario: affiliate should see limited resultset
+    Given this test is pending
     Given I am logged in as an "affiliate"
     Given 501 package under account/project "ACT-FDA"
     When I goto "/packages"

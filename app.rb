@@ -275,18 +275,15 @@ get '/packages?/?' do
 
                 # account but not project specified
                 elsif account and !project
-                  ps = account.projects.packages.events.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ] ).packages if is_op
-                  ps = account.projects.packages.events.all(:limit => 500, :timestamp => range, :name => names, :order => [ :timestamp.desc ] ).packages unless is_op
+                  ps = account.projects.packages.events.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ] ).packages 
 
                 # project specified
                 elsif project
-                  ps = project.packages.events.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages if is_op
-                  ps = project.packages.events.all(:limit => 500, :timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages unless is_op
+                  ps = project.packages.events.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages 
 
                 # neither account nor project specified
                 else
-                  ps = Event.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages if is_op
-                  ps = Event.all(:limit => 500, :timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages unless is_op
+                  ps = Event.all(:timestamp => range, :name => names, :order => [ :timestamp.desc ]).packages 
                 end
 
                 # filter on batches

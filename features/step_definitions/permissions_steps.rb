@@ -16,3 +16,8 @@ When /^I log out and log in as an? "([^"]*)"$/ do |role|
   click_button 'login'
   follow_redirect!
 end
+
+Given /^this test is pending$/ do
+  pending "disabled limited resultset for affiliates, for now"
+end
+
