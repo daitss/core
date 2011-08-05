@@ -70,11 +70,11 @@ def find_packages
   not_packages = list - packages - not_readable 
 
   not_readable.each do |not_r|
-    STDERR.puts "#{not_r}, is not readable or not executable, skipping"
+    STDERR.puts "#{not_r} is not readable or not executable, skipping"
   end
 
   not_packages.each do |not_p|
-    STDERR.puts "#{not_p}, doesn't appear to be a SIP, skipping"
+    STDERR.puts "#{not_p} doesn't appear to be a SIP, skipping"
   end
 
   packages
