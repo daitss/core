@@ -88,7 +88,7 @@ GEM
     linecache (0.43)
     macaddr (1.0.0)
     nokogiri (1.4.4)
-    rack (1.2.2)
+    rack (1.3.2)
     rack-ssl-enforcer (0.2.0)
     rack-test (0.5.7)
       rack (>= 1.0)
