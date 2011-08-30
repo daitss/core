@@ -1,5 +1,12 @@
+# Some of these targest must be executed as
+#
+#     bundle exec rake <target>
+#
+# esp. :db and :rspec.
+# 
+
+
 require 'rubygems'
-require 'bundler/setup'
 
 require 'rake'
 require 'semver'

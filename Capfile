@@ -64,7 +64,12 @@ namespace :deploy do
   end
 
   desc "DIY bundle to work around conditional system path issues" do
-    run "bundle install --path #{File.join(shared_path, 'bundle'}"
+    java_home = case variables[:domain]
+                when /retsina/i;   '/usr/java/default'
+                else;              '/etc/alternatives/java_sdk_1.6.0'
+                end
+
+    run "cd #{release_path}; touch foo; JAVA_HOME=#{java_home} bundle install --path #{File.join(shared_path, 'bundle')}"
   end
   
 end
