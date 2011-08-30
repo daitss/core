@@ -14,6 +14,7 @@ gem 'uuid'
 gem 'rjb'
 gem 'curb'
 gem 'dm-postgres-adapter'
+gem 'dm-mysql-adapter'
 gem 'selenium-client'
 
 # this gem is WONK
