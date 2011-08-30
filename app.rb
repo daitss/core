@@ -1361,3 +1361,6 @@ get '/package_csv' do
   partial :package_table_csv
 end
 
+get '/status' do
+  [ 200, {'Content-Type'  => 'application/xml'}, "<status/>\n" ]
+end

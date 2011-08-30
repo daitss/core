@@ -16,3 +16,4 @@ var
 vendor
 public/stylesheets
 tmp/sass-cache
+bundle
