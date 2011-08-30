@@ -10,6 +10,9 @@
 require 'rubygems'
 require 'railsless-deploy'
 
+# we run our own bundle install on deployment to work around conditionalized system path
+# in the Gemfile;  we don't want to check in a Gemfile.lock file for this service.
+#
 # require 'bundler/capistrano'
 
 set :repository,   "git://github.com/daitss/core.git"
@@ -20,8 +23,8 @@ set :use_sudo,     false
 set :user,         "daitss"
 set :group,        "daitss" 
 
-# set :bundle_flags,       "--quiet"   # --quiet is one of the defaults, we explicitly set it to remove --deployment
-# set :bundle_without,      []
+set :keep_releases, 5   # default is 5
+
 
 def usage(*messages)
   STDERR.puts "Usage: cap deploy -S target=<host:filesystem>"  
@@ -47,7 +50,7 @@ end
 
 role :app, domain
 
-after "deploy:update", "deploy:layout", "deploy:restart"
+after "deploy:update", "deploy:bundle", "deploy:layout"
 
 namespace :deploy do
 
@@ -61,15 +64,17 @@ namespace :deploy do
     # make everything group ownership daitss, for easy maintenance.
     run "find #{shared_path} #{release_path} -print0 | xargs -0 chgrp #{group}"
     run "find #{shared_path} #{release_path} -print0 -type d | xargs -0 chmod 2775"
+    run "find #{shared_path} #{release_path} -print0 -type f | xargs -0 chmod g+rwX"
   end
 
-  desc "DIY bundle to work around conditional system path issues" do
-    java_home = case variables[:domain]
-                when /retsina/i;   '/usr/java/default'
-                else;              '/etc/alternatives/java_sdk_1.6.0'
-                end
 
-    run "cd #{release_path}; touch foo; JAVA_HOME=#{java_home} bundle install --path #{File.join(shared_path, 'bundle')}"
+  # Note: JAVA_HOME, GEM and path to bundle must be set correctly for the 
+  # deployment user on the deployment host
+
+  desc "DIY bundle to work around conditional system path issues"
+  task :bundle, :roles => :app do
+    run "cd #{release_path}; which bundle"
+    run "cd #{release_path}; bundle install --path #{File.join(shared_path, 'bundle')}"
   end
   
 end
