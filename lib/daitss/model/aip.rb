@@ -31,7 +31,7 @@ module Daitss
 
       Aip.transaction do
         self.save
-        AIPInPremis.new.process self.package, XML::Document.string(self.xml)
+        AIPInPremis.new.process self.package, LibXML::XML::Document.string(self.xml)
       end
 
     end
