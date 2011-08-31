@@ -2,16 +2,16 @@
 #
 #  Set deploy target host/filesystem and test proxy to use from cap command line as so:
 #
-#  cap deploy  -S target=ripple.fcla.edu:/opt/web-services/sites/storemaster  -S test_proxy=sake.fcla.edu:3128
+#  cap deploy  -S target=ripple.fcla.edu:/opt/web-services/sites/core
 #
-#  The test-proxy is used only in remote spec tests.
-#  One can over-ride user and group settings using -S who=user:group
+#  You can over-ride user and group settings using -S who=user:group - defaults to daitss
 
 require 'rubygems'
 require 'railsless-deploy'
 
-# we run our own bundle install on deployment to work around conditionalized system path
-# in the Gemfile;  we don't want to check in a Gemfile.lock file for this service.
+# we run our own bundle install on deployment to work around a
+# conditionalized system path in the Gemfile; we don't want to check
+# in a Gemfile.lock file for this service.
 #
 # require 'bundler/capistrano'
 
@@ -23,8 +23,10 @@ set :use_sudo,     false
 set :user,         "daitss"
 set :group,        "daitss" 
 
-set :keep_releases, 5   # default is 5
+# doesn't save enough to be worthwhile:
+# set :git_shallow_clone, 1   # only works with master branch, only copy last commit
 
+set :keep_releases, 4   # default is 5
 
 def usage(*messages)
   STDERR.puts "Usage: cap deploy -S target=<host:filesystem>"  
@@ -35,7 +37,7 @@ def usage(*messages)
   exit
 end
 
-usage('The deployment target was not set (e.g., target=ripple.fcla.edu:/opt/web-services/sites/silos).') unless (variables[:target] and variables[:target] =~ %r{.*:.*})
+usage('The deployment target was not set (e.g., target=ripple.fcla.edu:/opt/web-services/sites/core).') unless (variables[:target] and variables[:target] =~ %r{.*:.*})
 
 _domain, _filesystem = variables[:target].split(':', 2)
 
@@ -53,27 +55,21 @@ role :app, domain
 after "deploy:update", "deploy:bundle", "deploy:layout"
 
 namespace :deploy do
-
-  desc "Touch the tmp/restart.txt file on the target host, which signals passenger phusion to reload the app"
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    run "touch #{File.join(current_path, 'tmp', 'restart.txt')}"
-  end
   
   desc "Create the directory hierarchy, as necessary, on the target host"
   task :layout, :roles => :app do
-    # make everything group ownership daitss, for easy maintenance.
+    # make everything group ownership daitss, for easier maintenance.
     run "find #{shared_path} #{release_path} -print0 | xargs -0 chgrp #{group}"
-    run "find #{shared_path} #{release_path} -print0 -type d | xargs -0 chmod 2775"
-    run "find #{shared_path} #{release_path} -print0 -type f | xargs -0 chmod g+rwX"
+    run "find #{shared_path} #{release_path} -type d | xargs chmod 2775"
+    run "find #{shared_path} #{release_path} -type f -print0 | xargs -0 chmod g+rw"
+    run "chmod 666 #{File.join(release_path, 'Gemfile.lock')}"
   end
 
-
-  # Note: JAVA_HOME, GEM and path to bundle must be set correctly for the 
+  # Note: JAVA_HOME, GEM_HOME and PATH to bundle must be set correctly for the 
   # deployment user on the deployment host
 
   desc "DIY bundle to work around conditional system path issues"
   task :bundle, :roles => :app do
-    run "cd #{release_path}; which bundle"
     run "cd #{release_path}; bundle install --path #{File.join(shared_path, 'bundle')}"
   end
   
