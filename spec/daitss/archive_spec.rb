@@ -57,13 +57,27 @@ describe Daitss::Archive do
         end
 
         it "all files should have a sip path" do
-          subject.original_datafiles[0]['sip-path'].should == 'haskell-nums-pdf.xml'
-          subject.original_datafiles[1]['sip-path'].should == 'Haskell98numbers.pdf'
+          subject.original_datafiles[0].should_not == subject.original_datafiles[1]
+          zero_ok = true if subject.original_datafiles[0]['sip-path'] == 'haskell-nums-pdf.xml'
+          zero_ok = true if subject.original_datafiles[0]['sip-path'] == 'Haskell98numbers.pdf'
+
+          one_ok = true if subject.original_datafiles[1]['sip-path'] == 'haskell-nums-pdf.xml'
+          one_ok = true if subject.original_datafiles[1]['sip-path'] == 'Haskell98numbers.pdf'
+
+          zero_ok.should == true
+          one_ok.should == true
         end
 
         it "all files should have a aip path" do
-          subject.original_datafiles[0]['aip-path'].should == File.join(Wip::SIP_FILES_DIR, 'haskell-nums-pdf.xml')
-          subject.original_datafiles[1]['aip-path'].should == File.join(Wip::SIP_FILES_DIR, 'Haskell98numbers.pdf')
+          subject.original_datafiles[0].should_not == subject.original_datafiles[1]
+          zero_ok = true if subject.original_datafiles[0]['aip-path'] == File.join(Wip::SIP_FILES_DIR, 'haskell-nums-pdf.xml')
+          zero_ok = true if subject.original_datafiles[0]['aip-path'] == File.join(Wip::SIP_FILES_DIR, 'Haskell98numbers.pdf')
+
+          one_ok = true if subject.original_datafiles[1]['aip-path'] == File.join(Wip::SIP_FILES_DIR, 'haskell-nums-pdf.xml')
+          one_ok = true if subject.original_datafiles[1]['aip-path'] == File.join(Wip::SIP_FILES_DIR, 'Haskell98numbers.pdf')
+
+          zero_ok.should == true
+          one_ok.should == true
         end
 
         it "should extract FDA account from the descriptor" do
