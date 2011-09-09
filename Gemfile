@@ -16,6 +16,9 @@ gem 'curb'
 gem 'dm-postgres-adapter'
 gem 'dm-mysql-adapter'
 gem 'selenium-client'
+gem "datyl", :git => "git://github.com/daitss/datyl.git"
+gem "log4r"
+
 
 # this gem is WONK
 case `uname`.chomp

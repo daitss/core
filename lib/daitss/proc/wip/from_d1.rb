@@ -162,7 +162,7 @@ module Daitss
     end
 
     def compile_globals
-      d1adapter = DataMapper.setup(:daitss1, archive.yaml["d1-database-url"])
+      d1adapter = DataMapper.setup(:daitss1, archive.d1_db_url)
 
       sql_query = %Q{
         select concat(IEID,'/',PACKAGE_PATH)
@@ -185,7 +185,7 @@ module Daitss
         FileUtils.mkdir pdir
 
         ps.each do |f|
-          gf_path = File.join archive.yaml["d1-globals-dir"], f
+          gf_path = File.join archive.d1_globals_dir, f
           tb_path = File.join pdir, f
           FileUtils.mkdir_p File.dirname(tb_path)
           FileUtils.ln_s gf_path, tb_path

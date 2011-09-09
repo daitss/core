@@ -1,6 +1,7 @@
 require 'daitss/proc/workspace'
 require 'daitss/model'
 require 'daitss/db'
+require 'datyl/config'
 
 module Daitss
 
@@ -21,33 +22,9 @@ module Daitss
     # id of default projects
     DEFAULT_PROJECT_ID = 'default'
 
-    # configuration tokens
-    CONFIG_ENV_VAR = 'CONFIG'
-
-    # queues
-
-    INGEST_THROTTLE = 'ingest-throttle'
-    DISSEMINATION_THROTTLE = 'dissemination-throttle'
-    D1REFRESH_THROTTLE = 'd1refresh-throttle'
-    WITHDRAWAL_THROTTLE = 'withdrawal-throttle'
-
-    QUEUEING_DISCIPLINE = 'queueing-discipline'
-
     attr_reader :ingest_throttle, :dissemination_throttle, :d1refresh_throttle, :withdrawal_throttle, :queueing_discipline
-
-    DB_URL = 'database-url'
-    DATA_DIR = 'data-dir'
-    URI_PREFIX = 'uri-prefix'
-    HTTP_TIMEOUT = 'http-timeout'
-    ACTIONPLAN_URL = 'actionplan-url'
-    DESCRIBE_URL = 'describe-url'
-    STORAGE_URL = 'storage-url'
-    STATUSECHO_URL = 'statusecho-url'
-    VIRUSCHECK_URL = 'viruscheck-url'
-    TRANSFORM_URL = 'transform-url'
-    XMLRESOLUTION_URL = 'xmlresolution-url'
-
-    attr_reader :db_url, :uri_prefix, :http_timeout, :data_dir
+    attr_reader :db_url, :d1_db_url, :uri_prefix, :http_timeout, :data_dir, :d1_globals_dir
+    attr_reader :temp_directory, :log_syslog_facility, :log_filename
 
     DATA_PATHS = [
       :work,
@@ -59,27 +36,34 @@ module Daitss
       :nuke,
       :reports
     ]
-
     attr_reader *DATA_PATHS.map { |s| "#{s}_path".to_sym }
 
     attr_reader :actionplan_url, :describe_url, :storage_url, :viruscheck_url, :transform_url, :xmlresolution_url
     attr_reader :yaml
 
-    # load the settings from the file specified
-    # by the environment variable CONFIG_ENV_VAR
+    
+    # load the settings from the file specified by the environment variable DAITSS_CONFIG,
+    # and key specified by the environment variable VIRTUAL_HOSTNAME
     def load_configuration
-      file = ENV[CONFIG_ENV_VAR] or raise "#{CONFIG_ENV_VAR} environment variable must be set"
-      @yaml = YAML.load_file file
+      raise "No DAITSS_CONFIG environment variable has been set, so there's no configuration file to read"             unless ENV['DAITSS_CONFIG']
+      raise "The DAITSS_CONFIG environment variable points to a non-existant file, (#{ENV['DAITSS_CONFIG']})"          unless File.exists? ENV['DAITSS_CONFIG']
+      raise "The DAITSS_CONFIG environment variable points to a directory instead of a file (#{ENV['DAITSS_CONFIG']})"     if File.directory? ENV['DAITSS_CONFIG']
+      raise "The DAITSS_CONFIG environment variable points to an unreadable file (#{ENV['DAITSS_CONFIG']})"            unless File.readable? ENV['DAITSS_CONFIG']
 
-      def @yaml.[] key
-        super or raise "missing configuration: #{key}"
-      end
+      dconf = Datyl::Config.new(ENV['DAITSS_CONFIG'], :defaults, :database, ENV['VIRTUAL_HOSTNAME'])
 
+      # logging
+      @log_syslog_facility = dconf.log_syslog_facility
+      @log_filename = dconf.log_filename
+      
       # database
-      @db_url = @yaml[DB_URL]
+      @db_url = dconf.daitss_db
+      @d1_db_url = dconf.daitss1_db
 
       # data directories
-      @data_dir = @yaml[DATA_DIR]
+      @data_dir = dconf.data_dir
+      @d1_globals_dir = dconf.d1_globals_dir
+
       DATA_PATHS.each do |sym|
         i_sym = "@#{sym}_path".to_sym
         path = File.join @data_dir, sym.to_s
@@ -87,29 +71,28 @@ module Daitss
       end
 
       # uri prefix
-      @uri_prefix = @yaml[URI_PREFIX]
+      @uri_prefix = dconf.uri_prefix
 
       # http timeout value in seconds
-      @http_timeout = @yaml[HTTP_TIMEOUT]
+      @http_timeout = dconf.http_timeout
 
       # throttle in number of wips per request
 
-      @ingest_throttle = @yaml[INGEST_THROTTLE]
-      @dissemination_throttle = @yaml[DISSEMINATION_THROTTLE]
-      @d1refresh_throttle = @yaml[D1REFRESH_THROTTLE]
-      @withdrawal_throttle = @yaml[WITHDRAWAL_THROTTLE]
+      @ingest_throttle = dconf.ingest_throttle
+      @dissemination_throttle = dconf.dissemination_throttle
+      @d1refresh_throttle = dconf.d1refresh_throttle
+      @withdrawal_throttle = dconf.withdrawal_throttle
 
-      @queueing_discipline = @yaml[QUEUEING_DISCIPLINE]
+      @queueing_discipline = dconf.queueing_discipline
 
       # services
 
-      @actionplan_url = @yaml[ACTIONPLAN_URL]
-      @describe_url = @yaml[DESCRIBE_URL]
-      @storage_url = @yaml[STORAGE_URL]
-      @statusecho_url = @yaml[STATUSECHO_URL]
-      @viruscheck_url = @yaml[VIRUSCHECK_URL]
-      @transform_url = @yaml[TRANSFORM_URL]
-      @xmlresolution_url = @yaml[XMLRESOLUTION_URL]
+      @actionplan_url = dconf.actionplan_url
+      @describe_url = dconf.describe_url
+      @storage_url = dconf.storage_url
+      @viruscheck_url = dconf.viruscheck_url
+      @transform_url = dconf.transform_url
+      @xmlresolution_url = dconf.xmlresolution_url
     end
 
     # sets up the database adapter

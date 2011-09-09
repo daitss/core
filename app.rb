@@ -8,9 +8,14 @@ require 'rack/ssl-enforcer'
 require 'daitss'
 require 'ruby-debug'
 
+require 'datyl/logger'
+require 'datyl/config'
+
 require 'daitss/archive/report'
 
 include Daitss
+include Datyl
+
 load_archive
 
 set :session_secret, Digest::SHA1.file(ENV['CONFIG']).hexdigest
@@ -101,9 +106,30 @@ helpers do
   end
 end
 
+
 configure do
   enable :method_override
   enable :sessions
+
+  ENV['TMPDIR'] = archive.temp_directory
+
+  disable :logging        # Stop CommonLogger from logging to STDERR; we'll set it up ourselves.
+  disable :dump_errors    # Normally set to true in 'classic' style apps (of which this is one) regardless of :environment; it adds a backtrace to STDERR on all raised errors (even those we properly handle). Not so good.
+  set :environment,  :production  # Get some exceptional defaults.
+  set :raise_errors, false        # Handle our own exceptions.
+
+  Logger.setup('Core', ENV['VIRTUAL_HOSTNAME'])
+
+  if not (archive.log_syslog_facility or archive.log_filename)
+    Logger.stderr # log to STDERR
+  end
+
+  Logger.facility = archive.log_syslog_facility if archive.log_syslog_facility
+  Logger.filename = archive.log_filename if archive.log_filename
+
+  Logger.info "Starting up core service"
+
+  use Rack::CommonLogger, Logger.new(:info, 'Rack:')
 end
 
 before do
@@ -113,6 +139,24 @@ before do
     redirect '/login' unless @user
   end
 
+end
+
+error do
+  e = @env['sinatra.error']
+
+  request.body.rewind if request.body.respond_to?('rewind') # work around for verbose passenger warning
+
+  Logger.err "Caught exception #{e.class}: '#{e.message}'; backtrace follows", @env
+  e.backtrace.each { |line| Logger.err line, @env }
+
+  halt 500, { 'Content-Type' => 'text/plain' }, e.message + "\n"
+end 
+
+not_found do
+  request.body.rewind if request.body.respond_to?(:rewind)
+
+  content_type 'text/plain'  
+  "Not Found\n"
 end
 
 # TODO
