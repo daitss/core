@@ -118,18 +118,18 @@ configure do
   set :environment,  :production  # Get some exceptional defaults.
   set :raise_errors, false        # Handle our own exceptions.
 
-  Logger.setup('Core', ENV['VIRTUAL_HOSTNAME'])
+  Datyl::Logger.setup('Core', ENV['VIRTUAL_HOSTNAME'])
 
   if not (archive.log_syslog_facility or archive.log_filename)
-    Logger.stderr # log to STDERR
+    Datyl::Logger.stderr # log to STDERR
   end
 
-  Logger.facility = archive.log_syslog_facility if archive.log_syslog_facility
-  Logger.filename = archive.log_filename if archive.log_filename
+  Datyl::Logger.facility = archive.log_syslog_facility if archive.log_syslog_facility
+  Datyl::Logger.filename = archive.log_filename if archive.log_filename
 
-  Logger.info "Starting up core service"
+  Datyl::Logger.info "Starting up core service"
 
-  use Rack::CommonLogger, Logger.new(:info, 'Rack:')
+  use Rack::CommonLogger, Datyl::Logger.new(:info, 'Rack:')
 end
 
 before do
@@ -146,8 +146,8 @@ error do
 
   request.body.rewind if request.body.respond_to?('rewind') # work around for verbose passenger warning
 
-  Logger.err "Caught exception #{e.class}: '#{e.message}'; backtrace follows", @env
-  e.backtrace.each { |line| Logger.err line, @env }
+  Datyl::Logger.err "Caught exception #{e.class}: '#{e.message}'; backtrace follows", @env
+  e.backtrace.each { |line| Datyl::Logger.err line, @env }
 
   halt 500, { 'Content-Type' => 'text/plain' }, e.message + "\n"
 end 
