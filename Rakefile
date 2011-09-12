@@ -13,20 +13,26 @@ require 'semver'
 
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'lib')
 
-require 'daitss/archive'
-require 'daitss/db'
-require 'daitss/model/aip'
-
-include Daitss
-
 namespace :db do
 
   task :setup do
+    require 'daitss/archive'
+    require 'daitss/db'
+    require 'daitss/model/aip'
+
+    include Daitss
+
     Archive.instance.setup_db :log => true
   end
   
   desc 'migrate the database'
   task :migrate => [:setup] do
+    require 'daitss/archive'
+    require 'daitss/db'
+    require 'daitss/model/aip'
+
+    include Daitss
+
     STDERR.puts "db:migrate has been disabled"
     #archive.setup_db :log => true
     #archive.init_db
@@ -34,6 +40,12 @@ namespace :db do
 
   desc 'upgrade the database'
   task :upgrade => [:setup] do
+    require 'daitss/archive'
+    require 'daitss/db'
+    require 'daitss/model/aip'
+
+    include Daitss
+
     archive.setup_db :log => true
     DataMapper.auto_upgrade!
     DataMapper.repository(:default).adapter.execute("ALTER TABLE severe_elements ALTER target TYPE character varying(255)")
@@ -42,6 +54,12 @@ namespace :db do
 
   desc 'insert initial data into database'
   task :initial_data => [:setup] do
+    require 'daitss/archive'
+    require 'daitss/db'
+    require 'daitss/model/aip'
+
+    include Daitss
+    
     archive.setup_db :log => true
     Archive.create_initial_data
 

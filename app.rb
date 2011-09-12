@@ -18,7 +18,7 @@ include Datyl
 
 load_archive
 
-set :session_secret, Digest::SHA1.file(ENV['CONFIG']).hexdigest
+set :session_secret, Digest::SHA1.file(ENV['DAITSS_CONFIG']).hexdigest
 enable :sessions
 
 # if there is an ssl server running uncomment this
