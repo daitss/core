@@ -1,0 +1,152 @@
+#dm 1.1.0
+
+# initial insert
+flash:core Carol$ bundle exec bin/loadaip  aip_13K 
+process id 26817
+Thu Sep 01 14:55:42 -0400 2011 after rubygems require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 26817 100.0  0.5  2452612  20484 s000  S+    2:55PM   0:02.68 ruby bin/loadaip aip_13K
+Thu Sep 01 14:55:42 -0400 2011 after bundler require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 26817 100.0  0.5  2452612  20484 s000  S+    2:55PM   0:02.69 ruby bin/loadaip aip_13K
+DataObjects::URI.new with arguments is deprecated, use a Hash of URI components (/Users/Carol/Workspace/core/bundle/ruby/1.8/gems/dm-do-adapter-1.1.0/lib/dm-do-adapter/adapter.rb:231:in `new')
+Thu Sep 01 14:55:48 -0400 2011 after Document.io
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 26817  89.2 16.2  3119032 678780 s000  S+    2:55PM   0:08.26 ruby bin/loadaip aip_13K
+Thu Sep 01 15:58:24 -0400 2011 after AIPInPremis.process
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 26817   9.9 39.2  4111216 1643796 s000  S+    2:55PM  61:18.62 ruby bin/loadaip aip_13K
+
+
+#delete & insert
+flash:core Carol$ bundle exec bin/loadaip  aip_13K 
+process id 53880
+Tue Sep 06 08:45:54 -0400 2011 after rubygems require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 53880  94.5  0.5  2452612  20484 s000  S+    8:45AM   0:03.15 ruby bin/loadaip aip_13K
+Tue Sep 06 08:45:54 -0400 2011 after bundler require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 53880  94.5  0.5  2452612  20484 s000  S+    8:45AM   0:03.16 ruby bin/loadaip aip_13K
+DataObjects::URI.new with arguments is deprecated, use a Hash of URI components (/Users/Carol/Workspace/core/bundle/ruby/1.8/gems/dm-do-adapter-1.1.0/lib/dm-do-adapter/adapter.rb:231:in `new')
+Tue Sep 06 08:46:03 -0400 2011 after Document.io
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 53880  93.1 16.1  3109816 675592 s000  S+    8:45AM   0:08.79 ruby bin/loadaip aip_13K
+Tue Sep 06 10:43:18 -0400 2011 after AIPInPremis.process
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 53880  67.5 57.3  4851532 2403116 s000  S+    8:45AM 109:21.33 ruby bin/loadaip aip_13K
+
+
+# after manual delete, intentity.destroy! 
+flash:core Carol$ bundle exec bin/loadaip  aip_13K 
+process id 59560
+Wed Sep 07 09:06:59 -0400 2011 after rubygems require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 59560  99.4  0.5  2452612  20484 s000  S+    9:06AM   0:02.73 ruby bin/loadaip aip_13K
+Wed Sep 07 09:06:59 -0400 2011 after bundler require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 59560  99.4  0.5  2452612  20484 s000  S+    9:06AM   0:02.74 ruby bin/loadaip aip_13K
+DataObjects::URI.new with arguments is deprecated, use a Hash of URI components (/Users/Carol/Workspace/core/bundle/ruby/1.8/gems/dm-do-adapter-1.1.0/lib/dm-do-adapter/adapter.rb:231:in `new')
+Wed Sep 07 09:07:06 -0400 2011 after Document.io
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 59560  99.0 16.1  3109816 676960 s000  S+    9:06AM   0:08.58 ruby bin/loadaip aip_13K
+Wed Sep 07 10:10:54 -0400 2011 after AIPInPremis.process
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 59560  66.6 40.2  4117484 1684812 s000  S+    9:06AM  61:44.42 ruby bin/loadaip aip_13K
+
+
+#after package.save!
+flash:core Carol$ bundle exec bin/loadaip  aip_13K
+process id 59935
+Wed Sep 07 10:29:54 -0400 2011 after rubygems require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 59935  98.6  0.5  2452612  20484 s000  S+   10:29AM   0:02.70 ruby bin/loadaip aip_13K
+Wed Sep 07 10:29:54 -0400 2011 after bundler require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 59935  98.6  0.5  2452612  20484 s000  S+   10:29AM   0:02.70 ruby bin/loadaip aip_13K
+DataObjects::URI.new with arguments is deprecated, use a Hash of URI components (/Users/Carol/Workspace/core/bundle/ruby/1.8/gems/dm-do-adapter-1.1.0/lib/dm-do-adapter/adapter.rb:231:in `new')
+Wed Sep 07 10:29:59 -0400 2011 after Document.io
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 59935 100.1 16.1  3118008 676640 s000  S+   10:29AM   0:08.04 ruby bin/loadaip aip_13K
+Wed Sep 07 11:28:42 -0400 2011 after AIPInPremis.process
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 59935  95.5 40.1  4119532 1680532 s000  S+   10:29AM  56:36.65 ruby bin/loadaip aip_13K
+flash:core Carol$ LOG:  unexpected EOF on client connection
+
+conclusion: close to ingest speed but need to delete related records in object_formats, documents, images, texts and audios
+
+
+-------------------------------------------------------------------------------------------
+# change foreign key constraint on relationship to cascade delete on premis_event
+# add index for formats.name, message_digests.code and severe_elements.name
+# In code, traverse through datafile to delete object_formats, documents, images, texts and audios records for each datafile and its bitstreams
+
+# initial insert
+flash:core Carol$ bundle exec bin/loadaip  aip_13K
+process id 60763
+Wed Sep 07 13:06:57 -0400 2011 after rubygems require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 60763  99.9  0.5  2452612  20484 s000  S+    1:06PM   0:02.68 ruby bin/loadaip aip_13K
+Wed Sep 07 13:06:57 -0400 2011 after bundler require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 60763  99.9  0.5  2452612  20484 s000  S+    1:06PM   0:02.69 ruby bin/loadaip aip_13K
+DataObjects::URI.new with arguments is deprecated, use a Hash of URI components (/Users/Carol/Workspace/core/bundle/ruby/1.8/gems/dm-do-adapter-1.1.0/lib/dm-do-adapter/adapter.rb:231:in `new')
+Wed Sep 07 13:07:03 -0400 2011 after Document.io
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 60763  92.0 16.2  3118008 677696 s000  S+    1:06PM   0:08.15 ruby bin/loadaip aip_13K
+Wed Sep 07 14:03:32 -0400 2011 after AIPInPremis.process
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 60763  78.5 40.4  4126572 1694352 s000  S+    1:06PM  55:33.72 ruby bin/loadaip aip_13K
+
+
+
+# delete & insert
+flash:core Carol$ bundle exec bin/loadaip  aip_13K
+process id 61184
+Wed Sep 07 14:53:42 -0400 2011 after rubygems require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 61184  99.8  0.5  2452612  20484 s000  S+    2:53PM   0:02.70 ruby bin/loadaip aip_13K
+Wed Sep 07 14:53:42 -0400 2011 after bundler require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 61184  99.8  0.5  2452612  20484 s000  S+    2:53PM   0:02.70 ruby bin/loadaip aip_13K
+DataObjects::URI.new with arguments is deprecated, use a Hash of URI components (/Users/Carol/Workspace/core/bundle/ruby/1.8/gems/dm-do-adapter-1.1.0/lib/dm-do-adapter/adapter.rb:231:in `new')
+Wed Sep 07 14:53:47 -0400 2011 after Document.io
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 61184  99.1 16.2  3118008 680744 s000  S+    2:53PM   0:08.10 ruby bin/loadaip aip_13K
+Wed Sep 07 16:00:17 -0400 2011 after AIPInPremis.process
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 61184  67.2 40.2  4117484 1685764 s000  S+    2:53PM  57:45.70 ruby bin/loadaip aip_13K
+
+# add cascade delete constraints on bitstream_id and datafile_id of images/documents/texts/audios/object_formats
+# delete and insert
+flash:core Carol$ bundle exec bin/loadaip  aip_13K
+process id 65879
+Thu Sep 08 11:01:03 -0400 2011 after rubygems require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 65879  98.9  0.5  2452612  20484 s000  S+   11:01AM   0:02.67 ruby bin/loadaip aip_13K
+Thu Sep 08 11:01:03 -0400 2011 after bundler require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 65879  96.9  0.5  2452612  20484 s000  S+   11:01AM   0:02.67 ruby bin/loadaip aip_13K
+DataObjects::URI.new with arguments is deprecated, use a Hash of URI components (/Users/Carol/Workspace/core/bundle/ruby/1.8/gems/dm-do-adapter-1.1.0/lib/dm-do-adapter/adapter.rb:231:in `new')
+Thu Sep 08 11:01:09 -0400 2011 after Document.io
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 65879 100.1 16.2  3119032 678776 s000  S+   11:01AM   0:08.76 ruby bin/loadaip aip_13K
+Thu Sep 08 12:05:51 -0400 2011 after AIPInPremis.process
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 65879  36.2 39.9  4108272 1675624 s000  S+   11:01AM  57:03.20 ruby bin/loadaip aip_13K
+
+flash:core Carol$ bundle exec bin/loadaip  aip_13K
+process id 90198
+Mon Sep 12 08:49:54 -0400 2011 after rubygems require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 90198  99.4  0.5  2453636  20096 s000  S+    8:49AM   0:02.90 ruby bin/loadaip aip_13K
+Mon Sep 12 08:49:54 -0400 2011 after bundler require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 90198  99.4  0.5  2453636  20096 s000  S+    8:49AM   0:02.90 ruby bin/loadaip aip_13K
+DataObjects::URI.new with arguments is deprecated, use a Hash of URI components (/Users/Carol/Workspace/core/bundle/ruby/1.8/gems/dm-do-adapter-1.1.0/lib/dm-do-adapter/adapter.rb:231:in `new')
+Mon Sep 12 08:50:02 -0400 2011 after Document.io
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 90198  95.9 16.2  3118008 678360 s000  S+    8:49AM   0:08.66 ruby bin/loadaip aip_13K
+Mon Sep 12 09:56:25 -0400 2011 after AIPInPremis.process
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol 90198  75.3 40.2  4117488 1684780 s000  S+    8:49AM  58:33.90 ruby bin/loadaip aip_13K
+
