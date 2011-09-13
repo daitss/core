@@ -28,6 +28,8 @@ core.example.org:
     log_syslog_facility:         LOG_LOCAL0
     log_filename:                core.log
 
+    submit_log_directory:        /path/to/submit/log
+
     d1_globals_dir:              /path/to/d1globals/dir
 
     data_dir:                    /var/daitss/data
@@ -86,6 +88,9 @@ core.example.org:
 # core:log_filename
 # -------------------------------
 # Filesystem path to d1 global files, used for d1refresh
+#
+# core:submit_log_directory
+# Path to write commandline submit logfiles to
 #
 # core:data_dir
 # --------------------------

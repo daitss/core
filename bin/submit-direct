@@ -5,8 +5,11 @@ require 'uri'
 require 'ostruct'
 require 'digest/md5'
 require 'fileutils'
-require 'daitss'
 
+require 'bundler/setup'
+
+require 'daitss'
+require 'datyl/logger'
 
 # a commandline DAITSS 2 submission client
 # takes a specified package on a filesystem, tars it up, and POSTs it to the submission at the specified url as the specified
@@ -14,6 +17,9 @@ require 'daitss'
 
 # dependencies:
 # tar
+
+# set to virtual hostname core's config is under
+ENV['VIRTUAL_HOSTNAME'] = ""
 
 
 def get_options(args)
@@ -32,6 +38,7 @@ def get_options(args)
       opt.on("--username USERNAME", String, "Operations agent username, required") { |username| config.username = username }
       opt.on("--password PASSWORD", String, "Operations agent password, required") { |password| config.password = password }
       opt.on("--note NOTE", String, "Submission event note (should be in quotes)") { |note| config.note = note }
+      opt.on("--source SOURCE", String, "source of package, required") { |src| config.source = src }
       opt.on("--batch BATCH", String, "Batch to submit package under") { |batch| config.batch = batch }
       opt.on("--delete-orig", "-d") { |delete| config.delete = delete }
     end
@@ -42,6 +49,7 @@ def get_options(args)
     raise StandardError, "Only --path or --package can be specified, but not both" if config.path and config.package
     raise StandardError, "Username not specified" unless config.username
     raise StandardError, "Password not specified" unless config.password
+    raise StandardError, "Source not specified" unless config.source
 
     if config.path
       raise StandardError, "Specified path is not a directory" unless File.directory? config.path
@@ -70,11 +78,11 @@ def find_packages
   not_packages = list - packages - not_readable 
 
   not_readable.each do |not_r|
-    STDERR.puts "#{not_r} is not readable or not executable, skipping"
+    Datyl::Logger.err "#{not_r} is not readable or not executable, skipping"
   end
 
   not_packages.each do |not_p|
-    STDERR.puts "#{not_p} doesn't appear to be a SIP, skipping"
+    Datyl::Logger.err "#{not_p} doesn't appear to be a SIP, skipping"
   end
 
   packages
@@ -96,18 +104,33 @@ def submit_package path
   end
 
   if p.rejected?
-    STDOUT.puts Time.now.to_s + " -- " + File.basename(path) + " -- rejected: " + p.id
+    Datyl::Logger.info Time.now.to_s + " -- " + File.basename(path) + " -- rejected: " + p.id
   else 
-    STDOUT.puts Time.now.to_s + " -- " + File.basename(path) + " -- submitted successfully: " + p.id
+    Datyl::Logger.info Time.now.to_s + " -- " + File.basename(path) + " -- submitted successfully: " + p.id
     # FileUtils.rm_rf path if @config.delete
   end
   STDOUT.flush
 end
 
 include Daitss
+include Datyl
+
 load_archive
 
 @config = get_options(ARGV) or exit
+
+Datyl::Logger.setup('SubmitDirect', ENV['VIRTUAL_HOSTNAME'])
+
+Datyl::Logger.stderr # log to STDERR
+
+if @config.batch
+  logfile = File.join archive.submit_log_directory, "SUBMIT_#{@config.source}_#{Time.now.strftime("%Y%m%d%H%m%S")}_#{@config.batch}.log"
+else
+  logfile = File.join archive.submit_log_directory, "SUBMIT_#{@config.source}_#{Time.now.strftime("%Y%m%d%H%m%S")}.log"
+end
+
+Datyl::Logger.filename = logfile
+
 
 # TODO: remove this once this program is vetted
 if @config.delete
@@ -117,20 +140,20 @@ end
 
 @user = Agent.get(@config.username)
 unless @user and @user.authenticate(@config.password)
-  STDERR.puts "Authentication failure" 
+  Datyl::Logger.err "Authentication failure" 
   exit 1
 end
 
 if @config.path
   list = find_packages
 
-  STDERR.puts "No packages found in #{@config.path}" unless list.length > 0
+  Datyl::Logger.err "No packages found in #{@config.path}" unless list.length > 0
 
   list.each do |pkg_path|
     begin 
       submit_package pkg_path
     rescue => e
-      STDERR.puts "Error submitting #{pkg_path}: #{e.message}"
+      Datyl::Logger.err "Error submitting #{pkg_path}: #{e.message}"
     end
   end
 elsif @config.package
