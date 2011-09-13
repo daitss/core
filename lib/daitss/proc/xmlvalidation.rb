@@ -57,11 +57,7 @@ module Daitss
 
     pid = fork do
 
-       if ENV['JAVA_OPTS']
-         Rjb.load nil, ENV['JAVA_OPTS'].split
-       else
-         Rjb.load
-       end
+      Rjb.load nil, archive.jvm_options
 
       $stderr.reopen '/dev/null'
 
