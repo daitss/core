@@ -30,6 +30,7 @@ core.example.org:
 
     submit_log_directory:        /path/to/submit/log
     pulse_log_filename:          /path/to/pulse/logfile
+    mailer_log_filename:         /path/to/mailer/logfile
 
     d1_globals_dir:              /path/to/d1globals/dir
 
@@ -92,6 +93,12 @@ core.example.org:
 #
 # core:submit_log_directory
 # Path to write commandline submit logfiles to
+#
+# core:pulse_log_filename
+# File to write pulse log to
+#
+# core:mailer_log_filename
+# File to write mailer log to
 #
 # core:data_dir
 # --------------------------

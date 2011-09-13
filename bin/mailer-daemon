@@ -1,40 +1,49 @@
 #!/usr/bin/env ruby
 
+require 'bundler/setup'
 require 'daitss/archive'
 require 'daitss/model'
 require 'daitss/archive/email'
 require 'fileutils'
 
+require 'datyl/logger'
+
+# set to virtual hostname core's config is under
+ENV['VIRTUAL_HOSTNAME'] = ""
+
 include Daitss
 
 archive
 
+Datyl::Logger.setup('MailerDaemon', ENV['VIRTUAL_HOSTNAME'])
+Datyl::Logger.filename = archive.mailer_log_filename
+
 # find all ingested packages. If it doesn't have an ingest report ops event, mail the report to the account address, and add an event for the report being mailed
-STDERR.puts "Starting report daemon..."
+Datyl::Logger.info "Starting report daemon..."
 
 while true
   ReportDelivery.all.each do |r|
     p = r.package
     if r.mechanism == :email
       if r.type == :ingest
-        STDERR.puts "emailing ingest report for #{p.id}"
+        Datyl::Logger.info "emailing ingest report for #{p.id}"
 
         Archive.instance.email_report p
         p.log "ingest report mailed"
       else
-        STDERR.puts "emailing reject report for #{p.id}"
+        Datyl::Logger.info "emailing reject report for #{p.id}"
 
         Archive.instance.email_reject_report p
         p.log "reject report mailed"
       end
     else
       if r.type == :ingest
-        STDERR.puts "writing out ingest report for #{p.id}"
+        Datyl::Logger.info "writing out ingest report for #{p.id}"
 
         rep = Archive.instance.ingest_report p.id
         p.log "ingest report written out for ftp"
       else
-        STDERR.puts "writing out reject report for #{p.id}"
+        Datyl::Logger.info "writing out reject report for #{p.id}"
 
         rep = Archive.instance.reject_report p.id
         p.log "reject report written out for ftp"
