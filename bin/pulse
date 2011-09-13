@@ -38,12 +38,15 @@
 
 require 'rubygems'
 require 'bundler/setup'
-require 'logger'
+require 'datyl/logger'
 require 'daitss'
 require 'optparse'
 
 # class ScoreCard is a scratchpad object that lets us figure out what
 # WIPs we can ingest, disseminate, withdraw or refresh.
+#
+# set to virtual hostname core's config is under
+ENV['VIRTUAL_HOSTNAME'] = ""
 
 class ScoreCard
 
@@ -132,7 +135,7 @@ def make_wips
     unless request.package.wip
       request.dispatch
       wip = request.package.wip
-      LOG.info "#{wip.id}.#{wip.task} made"
+      Datyl::Logger.info "#{wip.id}.#{wip.task} made"
     end
   end
 end
@@ -143,7 +146,7 @@ def in_db? wip
 
   60.times do
     return true if Package.get(wip.id)
-    LOG.info "#{wip.id} isn't in the database yet, sleeping briefly to allow the DB to catch up"
+    Datyl::Logger.info "#{wip.id} isn't in the database yet, sleeping briefly to allow the DB to catch up"
     sleep 0.5
   end
 
@@ -157,21 +160,23 @@ def start_wips scorecard
   scorecard.ready.each do |wip|
     next if not in_db? wip
     wip.spawn
-    LOG.info "#{wip.id}.#{wip.task} spawned"
+    Datyl::Logger.info "#{wip.id}.#{wip.task} spawned"
   end
 end
 
 # Main:
 
 include Daitss
+include Datyl
 
 load_archive
 
 INTERVAL = 5
 
-LOG = Logger.new $stdout
+Datyl::Logger.setup('Pulse', ENV['VIRTUAL_HOSTNAME'])
+Datyl::Logger.filename = archive.pulse_log_filename
 
-LOG.info "daitss pulse started"
+Datyl::Logger.info "daitss pulse started"
 
 scorecard = ScoreCard.new queuing_discipline
 

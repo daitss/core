@@ -24,7 +24,7 @@ module Daitss
 
     attr_reader :ingest_throttle, :dissemination_throttle, :d1refresh_throttle, :withdrawal_throttle, :queueing_discipline
     attr_reader :db_url, :d1_db_url, :uri_prefix, :http_timeout, :data_dir, :d1_globals_dir
-    attr_reader :temp_directory, :log_syslog_facility, :log_filename, :jvm_options, :submit_log_directory
+    attr_reader :temp_directory, :log_syslog_facility, :log_filename, :jvm_options, :submit_log_directory, :pulse_log_filename
 
     DATA_PATHS = [
       :work,
@@ -56,6 +56,7 @@ module Daitss
       @log_syslog_facility = dconf.log_syslog_facility
       @log_filename = dconf.log_filename
       @submit_log_directory = dconf.submit_log_directory
+      @pulse_log_filename = dconf.pulse_log_filename
 
       # java options
       @jvm_options = dconf.jvm_options

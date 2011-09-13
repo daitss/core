@@ -29,6 +29,7 @@ core.example.org:
     log_filename:                core.log
 
     submit_log_directory:        /path/to/submit/log
+    pulse_log_filename:          /path/to/pulse/logfile
 
     d1_globals_dir:              /path/to/d1globals/dir
 
