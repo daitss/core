@@ -40,9 +40,9 @@ namespace :db do
     archive.setup_db :log => true
     DataMapper.auto_upgrade!
     #uncomment upon rollout
-    #DataMapper.repository(:default).adapter.execute("CREATE  INDEX index_formats_name ON formats (format_name)")
-    #DataMapper.repository(:default).adapter.execute("CREATE  INDEX index_message_digests_code ON message_digests (code)")
-    #DataMapper.repository(:default).adapter.execute("CREATE  INDEX index_severe_elements ON severe_elements (name)")
+    DataMapper.repository(:default).adapter.execute("CREATE  INDEX index_formats_name ON formats (format_name)")
+    DataMapper.repository(:default).adapter.execute("CREATE  INDEX index_message_digests_code ON message_digests (code)")
+    DataMapper.repository(:default).adapter.execute("CREATE  INDEX index_severe_elements ON severe_elements (name)")
     # recreate the relationships_premis_event foreign key contrain to allow cascade delete
     DataMapper.repository(:default).adapter.execute("ALTER TABLE relationships drop constraint relationships_premis_event_fk")
     DataMapper.repository(:default).adapter.execute("ALTER TABLE relationships ADD CONSTRAINT relationships_premis_event_fk FOREIGN KEY (premis_event_id) REFERENCES premis_events (id) ON DELETE CASCADE ON UPDATE CASCADE")    
