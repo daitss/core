@@ -190,16 +190,13 @@ module Daitss
       # TODO: attribute_set(:extra_samples, premis.find_first("mix:extraSamples", NAMESPACES).content)
     end
 
-    before :save do
+    #before :save do
       # make sure either dfid or bsid is not null.
-      if (:datafile_id.nil? && :bitstream_id.nil?)
-        raise "this image neither associates with a datafile nor with a bitstream"
-      end
-    end
+      #if (:datafile_id.nil? && :bitstream_id.nil?)
+      #  raise "this image neither associates with a datafile nor with a bitstream"
+      #end
+    #end
 
-    after :save do
-      puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
-    end
   end
 
 end

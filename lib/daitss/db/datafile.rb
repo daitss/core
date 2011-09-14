@@ -49,9 +49,7 @@ module Daitss
     has 0..n, :message_digest, :constraint => :destroy
     has 0..n, :object_formats, :constraint=>:destroy # a datafile may have 0-n file_formats
     has 0..n, :broken_links, :constraint=>:destroy # if there is missing links in the datafiles (only applies to xml)
-
-    before :destroy, :deleteChildren
-    
+   
     def check_errors
       unless self.valid?
         bigmessage = self.errors.full_messages.join "\n" 
@@ -136,7 +134,7 @@ module Daitss
       node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
       if (node)
         processObjectCharacteristicExtension(self, node)
-        @object.bitstream_id = :null
+        @object.bitstream_id = nil
       end
       node = nil
       
@@ -186,18 +184,6 @@ module Daitss
         attribute_set(:rc, true)
       elsif (rep_id.include? REP_NORM)
         attribute_set(:rn, true)
-      end
-    end
-
-    # delete this datafile record and all its children from the database
-    def deleteChildren
-      # delete all events associated with this datafile
-      dfevents = PremisEvent.all(:relatedObjectId => @id)
-      dfevents.each do |e|
-        # delete all relationships associated with this event
-        rels = Relationship.all(:premis_event_id => e.id)
-        rels.each {|rel| raise "error deleting relationship #{rel.inspect}" unless rel.destroy}
-        raise "error deleting event #{e.inspect}" unless e.destroy
       end
     end
 

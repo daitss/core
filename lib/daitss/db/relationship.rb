@@ -39,8 +39,4 @@ module Daitss
       attribute_set(:premis_event_id, premis.find_first("premis:relatedEventIdentification/premis:relatedEventIdentifierValue", NAMESPACES).content)
     end
   end
-
-
-
-
 end

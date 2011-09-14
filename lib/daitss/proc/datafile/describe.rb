@@ -13,7 +13,7 @@ module Daitss
     def describe!
       doc = ask_description_service(:location => "file:#{File.expand_path data_file }",
                                     :uri => uri,
-                                      :originalName => metadata['aip-path'])
+                                    :originalName => metadata['aip-path'])
                                     augment_fixity doc
                                     fix_event_ids doc
                                     fix_jhove_ids doc
@@ -48,10 +48,8 @@ module Daitss
     private
 
     def augment_fixity doc
-      sip_descriptor_doc = XML::Document.string @wip['sip-descriptor']
       href = metadata['sip-path'] ? URI.escape(metadata['sip-path']) : nil
-      file_node = sip_descriptor_doc.find_first %Q{//M:file[M:FLocat/@xlink:href = "#{href}"]}, NS_PREFIX
-
+      file_node = @wip.file_group.find_first %Q{M:file[M:FLocat/@xlink:href = "#{href}"]}, NS_PREFIX
       # XXX sip checksums could be done better in submit
       if file_node and file_node['CHECKSUM'] and file_node['CHECKSUMTYPE'] and %w(SHA-1 MD5).include?(file_node['CHECKSUMTYPE'])
         fixity_origin = doc.find_first %Q{

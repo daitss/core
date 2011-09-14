@@ -64,20 +64,15 @@ module Daitss
       # check if this is an existing int entity, if not create a new int entity object with
       # the read-in premis info.  Otheriwse, destroy the existing int entity records in the database
       # including all related datafiles, representations, events and agents.
-      entities = Intentity.all(:id => @int_entity.id)
-      entities.each do |entity|
-        # destroy all files in the int entities
-        dfs = Datafile.all(:intentity => entity.id)
-        dfs.each do |df|
-          raise "error deleting datafile #{df.inspect}" unless df.destroy
-        end
-
-        unless entity.destroy
-          raise "error deleting entity #{entity.inspect}"
-        end
-        dfs.clear
+      entity = Intentity.first(:id => @int_entity.id)
+      if (entity)
+        entity.deleteChildren
+        # those the destroy! bypass the datamapper validation, it will still delete the associated children
+        # dependencies.  Tables that are not associated directly such as image/documents/texts/audios/object_formats
+        # will be cascade deleted when the datafile is deleted.
+        entity.destroy!
       end
-      entities.clear
+  
       @package.intentity = @int_entity
     end
 
@@ -210,7 +205,7 @@ module Daitss
         raise "error in saving int entity, no validation error found"
       end
 
-      unless @package.save
+      unless @package.save!
         raise "error in saving package #{@package}"
       end
       

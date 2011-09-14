@@ -48,26 +48,12 @@ module Daitss
       node = premis.find_first("premis:objectCharacteristics/premis:objectCharacteristicsExtension", NAMESPACES)
       if (node)
         processObjectCharacteristicExtension(self, node)
-        @object.datafile_id = :null
+        @object.datafile_id = nil
       end
 
       # process format information
       processFormats(self, premis, formats)
     end
-
-    # delete this bitstream record and all its children from the database
-    before :destroy do
-      # delete all metadata associated with this datafile
-      # texts = Text.all(:bitstream_id => @id)
-      #   texts.each {|text| text.destroy}
-      #   audios = Audio.all(:bitstream_id => @id)
-      #   audios.each {|audio| audio.destroy}
-      #   images = Image.all(:bitstream_id => @id)
-      #   images.each {|image| image.destroy}
-      #   docs = Document.all(:bitstream_id => @id)
-      #   docs.each {|doc| doc.destroy}
-    end
-
   end
 
 end

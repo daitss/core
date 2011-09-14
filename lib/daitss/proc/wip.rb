@@ -33,8 +33,8 @@ module Daitss
     MIGRATED_FILES = File.join FILES_DIR, 'migrated'
     OLD_XML_RES_DIR = 'xmlresolutions'
 
-    attr_reader :id, :path, :metadata
-    attr_reader :id, :path, :metadata
+    attr_reader :id, :path, :metadata, :file_group
+    attr_reader :id, :path, :metadata, :file_group
 
     def_delegators :@metadata, :[]=, :[], :has_key?, :delete
 

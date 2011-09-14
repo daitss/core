@@ -13,7 +13,7 @@ module Daitss
     include DataMapper::Resource
     property :id, Serial, :key => true
     # property :dfid, String, :length => 16, :key => true # :unique_index => :u1
-    property :code, String, :length => 10 #, :key=>true, :unique_index => :u1
+    property :code, String, :length => 10, :index => true
     # validates_with_method :code, :method => :validateDigestCode
     property :value,  String, :required => true, :length => 255
     property :origin, String, :length => 10, :required => true # :default => :unknown
@@ -40,10 +40,6 @@ module Daitss
       attribute_set(:value, premis.find_first("premis:messageDigest", NAMESPACES).content)
       origin = premis.find_first("premis:messageDigestOriginator", NAMESPACES)
       attribute_set(:origin, origin.content.downcase) if origin
-    end
-
-    after :save do
-      puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
     end
   end
 

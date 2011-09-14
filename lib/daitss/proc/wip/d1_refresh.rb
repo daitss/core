@@ -13,8 +13,7 @@ module Daitss
     def d1refresh
       raise "no aip for #{id}" unless package.aip
 
-      #TODO handle withdrawn packages
-      step('load-aip') { load_from_d1_aip }
+      load_from_d1_aip
 
       preserve
 
