@@ -53,9 +53,6 @@ module Daitss
         dfid = obj.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
         processRelationship(dfid, obj)
       end
-      
-      toDB
-
     end
 
     def processIntEntity
