@@ -5,6 +5,7 @@ module Daitss
   class Wip
 
     def save_aip
+      rs = nil
       aip = Aip.new :package => package, :copy => Copy.new
       add_substep('make aip', 'aip attributes') { aip.attributes = aip_attrs }
 
@@ -15,8 +16,10 @@ module Daitss
       }
             
       # write the tarball to storage
-      rs = RandyStore.reserve id
-      add_substep('make aip', 'storage write') { aip.copy.attributes = rs.put_file tarball_file }
+      add_substep('make aip', 'storage write') { 
+        rs = RandyStore.reserve id
+        aip.copy.attributes = rs.put_file tarball_file 
+      }
       
       begin
         # save the aip descriptor and all preservation records
@@ -37,6 +40,8 @@ module Daitss
     end
 
     def update_aip
+      rs = nil
+      old_rs = nil
       aip = package.aip
       add_substep('make aip', 'aip attributes') { aip.attributes = aip_attrs }
 
@@ -47,9 +52,9 @@ module Daitss
       }
       
       # write the tarball to storage
-      rs = RandyStore.reserve id
-      old_rs = RandyStore.new id, aip.copy.url.to_s      
       add_substep('make aip', 'storage write') { 
+        rs = RandyStore.reserve id
+        old_rs = RandyStore.new id, aip.copy.url.to_s      
         aip.copy.attributes = rs.put_file tarball_file
       }
       
