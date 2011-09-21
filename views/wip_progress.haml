@@ -6,11 +6,13 @@
       %th step
       %th time
       %th seconds
+      %th detail
     - steps.each do |name,s|
       %tr
         %td.step= name
         %td= s[:time].iso8601#strftime('%F %T')
         %td= "%06.2f" % s[:duration]
+        %td= s[:detail]
     %tr
       %th{:colspan => 2} total duration
       %th= "%06.2f" % steps.inject(0) { |acc,(n,s)| acc += s[:duration] }
