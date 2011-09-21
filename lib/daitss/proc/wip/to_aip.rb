@@ -6,13 +6,29 @@ module Daitss
 
     def save_aip
       aip = Aip.new :package => package, :copy => Copy.new
-      aip.attributes = aip_attrs
-      rs = RandyStore.reserve id
-      aip.copy.attributes = rs.put_file tarball_file
+      add_substep('make aip', 'aip attributes') { aip.attributes = aip_attrs }
 
+      # parse the aip descriptor and build the preservation records
+      aipInPremis = AIPInPremis.new
+      add_substep('make aip', 'parse aip') {
+         aipInPremis.process aip.package, LibXML::XML::Document.string(aip.xml)
+      }
+            
+      # write the tarball to storage
+      rs = RandyStore.reserve id
+      add_substep('make aip', 'storage write') { aip.copy.attributes = rs.put_file tarball_file }
+      
       begin
-        aip.save_and_populate
+        # save the aip descriptor and all preservation records
+        add_substep('make aip', 'db save') {
+          Aip.transaction do
+            aip.raise_on_save_failure = true
+            aip.save
+            aipInPremis.toDB
+          end
+        }
       rescue
+        #if db save fails, delete the new aip from storage.
         rs.delete
         raise
       end
@@ -22,14 +38,32 @@ module Daitss
 
     def update_aip
       aip = package.aip
-      aip.attributes = aip_attrs
-      rs = RandyStore.reserve id
-      old_rs = RandyStore.new id, aip.copy.url.to_s
-      aip.copy.attributes = rs.put_file tarball_file
+      add_substep('make aip', 'aip attributes') { aip.attributes = aip_attrs }
 
+      # parse the aip descriptor and build the preservation records
+      aipInPremis = AIPInPremis.new
+      add_substep('make aip', 'parse aip') {
+         aipInPremis.process aip.package, LibXML::XML::Document.string(aip.xml)
+      }
+      
+      # write the tarball to storage
+      rs = RandyStore.reserve id
+      old_rs = RandyStore.new id, aip.copy.url.to_s      
+      add_substep('make aip', 'storage write') { 
+        aip.copy.attributes = rs.put_file tarball_file
+      }
+      
       begin
-        aip.save_and_populate
-        old_rs.delete
+        Aip.transaction do
+          # save the aip descriptor and all preservation records
+          add_substep('make aip', 'db save') {
+            aip.raise_on_save_failure = true
+            aip.save
+            aipInPremis.toDB
+          }
+          # delete the old aip from storage
+          add_substep('make aip', 'delete old aip') {old_rs.delete}
+        end
       rescue
         rs.delete
         raise
@@ -40,14 +74,26 @@ module Daitss
 
     def withdraw_aip
       aip = package.aip
-      aip.attributes = aip_attrs
+      add_substep('make aip', 'aip attributes') { aip.attributes = aip_attrs }
 
       old_rs = RandyStore.new id, aip.copy.url.to_s
 
-      aip.copy.destroy
-      aip.save_and_populate
+      # parse the tombstone' aip descriptor and build the preservation records
+      aipInPremis = AIPInPremis.new
+      add_substep('make aip', 'parse aip') {
+        aipInPremis.process aip.package, LibXML::XML::Document.string(aip.xml)
+      }
 
-      old_rs.delete
+      aip.copy.destroy
+      # save the 'tombstone' aip descriptor and all preservation records
+      add_substep('make aip', 'db save') {
+        aip.raise_on_save_failure = true
+        aip.save
+        aipInPremis.toDB
+      }
+      
+      # delete the aip from storage
+      add_substep('make aip', 'delete aip') { old_rs.delete }
 
       aip
     end
