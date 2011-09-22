@@ -111,8 +111,6 @@ configure do
   enable :method_override
   enable :sessions
 
-  ENV['TMPDIR'] = archive.temp_directory
-
   disable :logging        # Stop CommonLogger from logging to STDERR; we'll set it up ourselves.
   disable :dump_errors    # Normally set to true in 'classic' style apps (of which this is one) regardless of :environment; it adds a backtrace to STDERR on all raised errors (even those we properly handle). Not so good.
   set :environment,  :production  # Get some exceptional defaults.

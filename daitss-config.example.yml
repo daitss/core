@@ -10,7 +10,6 @@
 # Please don't use tabs in this file.
 
 defaults:
-     temp_directory:             /var/tmp
 
 database:
      daitss_db: postgres://user:pass@host/database
@@ -60,13 +59,6 @@ core.example.org:
     - -Xms2G
     - -Xmx2G
 
-# defaults:temp_directory
-# -----------------------
-# Where should temporary files be created? This should be at least
-# twice the size of the largest package you plan to ingest, plus
-# headroom.  Defaults to system-defined temp directory (typically
-# /tmp/)
-#
 # database:daitss_db
 # -----------------------
 # Database URL to the daitss database (typically postgres)
