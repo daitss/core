@@ -126,6 +126,7 @@ configure do
   Datyl::Logger.filename = archive.log_filename if archive.log_filename
 
   Datyl::Logger.info "Starting up core service"
+  Datyl::Logger.info "Using temp directory #{ENV['TMPDIR']}"
 
   use Rack::CommonLogger, Datyl::Logger.new(:info, 'Rack:')
 end
