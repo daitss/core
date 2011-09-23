@@ -6,6 +6,9 @@ require 'rubygems'
 require 'bundler/setup'
 require 'daitss'
 
+ENV['DAITSS_CONFIG'] = "/opt/web-services/conf.d/daitss-config.yml"
+ENV['VIRTUAL_HOSTNAME'] = "fda.fcla.edu"
+
 include Daitss
 
 load_archive
