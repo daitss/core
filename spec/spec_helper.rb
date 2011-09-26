@@ -9,7 +9,13 @@ require "help/profile"
 require "help/agreement"
 require "help/fs"
 
+require 'rubygems'
+require 'bundler/setup'
+
+require 'datyl/logger'
+
 include Daitss
+include Datyl
 
 RSpec.configure do |config|
 
@@ -40,6 +46,9 @@ RSpec.configure do |config|
 
     $sandbox = Dir.mktmpdir
     $cleanup = [$sandbox]
+
+    Datyl::Logger.setup "Rspec"
+    Datyl::Logger.stderr
   end
 
   config.after :all do

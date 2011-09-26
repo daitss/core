@@ -138,7 +138,7 @@ module Daitss
     # delete the data from this resource
     def delete
       c = Curl::Easy.http_delete @url
-      c.error("bad status") unless [200, 202, 204].include? c.response_code
+      c.error("bad status") unless [200, 202, 204, 207].include? c.response_code
     end
 
     def head
