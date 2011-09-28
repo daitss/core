@@ -30,6 +30,7 @@ module Daitss
       step('validate aip descriptor') { validate_aip_descriptor }
       step('make tarball') { make_tarball }
       step('make aip') { update_aip }
+      step('delete old copy') { delete_old_aip }
     end
 
   end

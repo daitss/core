@@ -35,7 +35,7 @@ module Daitss
       Datyl::Logger.info "Reserving storage for updated AIP for #{id}"
       rs = RandyStore.reserve id
 
-      old_rs = RandyStore.new id, aip.copy.url.to_s
+      metadata['old-copy-url'] = aip.copy.url.to_s
 
       Datyl::Logger.info "Writing updated AIP for #{id} to storage"
       aip.copy.attributes = rs.put_file tarball_file
@@ -51,17 +51,22 @@ module Daitss
         raise
       end
 
+      aip
+    end
+
+    def delete_old_aip
+      old_copy = RandyStore.new id, metadata['old-copy-url']
+
       # attempt to delete old AIP, log error if failure
       begin
         Datyl::Logger.info "Deleting old AIP for #{id} from storage"
-        old_rs.delete
+        old_copy.delete
       rescue => e
         # log orphan
         Datyl::Logger.err "Caught exception #{e.class}: '#{e.message}' deleting old copy of #{id} after AIP update; backtrace follows"
         e.backtrace.each { |line| Datyl::Logger.err line }
+        raise
       end
-
-      aip
     end
 
     def withdraw_aip
