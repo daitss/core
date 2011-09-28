@@ -30,6 +30,10 @@ module Daitss
       event.at("//P:linkingObjectIdentifierValue", NS_PREFIX).content = df.uri
       event_doc = Nokogiri::XML(nil)
       event_doc << event
+
+      event_doc.remove_namespaces! 
+      event_doc.root["xmlns"] = "info:lc/xmlns/premis-v2"
+
       event_xml = event_doc.root.serialize
 
       # agent
@@ -37,6 +41,10 @@ module Daitss
       agent or raise "no agent found"
       agent_doc = Nokogiri::XML(nil)
       agent_doc << agent
+
+      agent_doc.remove_namespaces!
+      agent_doc.root["xmlns"] = "info:lc/xmlns/premis-v2"
+
       agent_xml = agent_doc.root.serialize
 
       [event_xml, agent_xml]
