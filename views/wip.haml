@@ -5,7 +5,7 @@
     %a{:href => "/package/#{@wip.id}"}
       = @wip.id
     (
-    = @wip.state
+    = @wip.state.to_s.gsub("snafu", "error")
     )
 
   - if @wip.snafu?

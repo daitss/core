@@ -11,10 +11,7 @@
 
   - elsif @package.wip
 
-    - if @package.wip.stashed?
-      %a{:href=>"/stashspace/#{@package.wip.bin.id}/#{@package.wip.id}"} stashed
-    - else
-      %a{:href=>"/workspace/#{@package.wip.id}"} ingesting (#{@package.wip.state})
+    %a{:href=>"/workspace/#{@package.wip.id}"} processing (#{@package.wip.state.to_s.gsub("snafu", "error")})
 
   - elsif @package.aip and @package.aip.copy == nil
     withdrawn
@@ -25,6 +22,10 @@
 
   - else
     aborted
+
+  - if @package.wip and @package.wip.stashed?
+    %a{:href=>"/stashspace/#{@package.wip.bin.id}/#{@package.wip.id}"} (stashed)
+
 
 %table
   %tr
