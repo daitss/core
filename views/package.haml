@@ -11,7 +11,7 @@
 
   - elsif @package.wip
 
-    %a{:href=>"/workspace/#{@package.wip.id}"} processing (#{@package.wip.state.to_s.gsub("snafu", "error")})
+    %a{:href=>"/workspace/#{@package.wip.id}"} ingesting (#{@package.wip.state.to_s.gsub("snafu", "error")})
 
   - elsif @package.aip and @package.aip.copy == nil
     withdrawn
