@@ -45,8 +45,6 @@ require 'optparse'
 # class ScoreCard is a scratchpad object that lets us figure out what
 # WIPs we can ingest, disseminate, withdraw or refresh.
 #
-# set to virtual hostname core's config is under
-ENV['VIRTUAL_HOSTNAME'] = ""
 
 class ScoreCard
 
