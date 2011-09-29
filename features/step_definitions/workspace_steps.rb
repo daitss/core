@@ -165,6 +165,7 @@ end
 
 Then /^there should be (\d+) idle wips listed in the table$/ do |count|
   last_response.should be_ok
+  pending "idle wips are no longer being displayed in the workspace"
   doc = Nokogiri::HTML last_response.body
 
   (doc / "#idles td:contains('#{count}')").size.should == 1
