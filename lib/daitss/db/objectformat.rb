@@ -9,10 +9,10 @@ module Daitss
   class ObjectFormat
     include DataMapper::Resource
     property :id, Serial, :key => true
-    property :type, String, :length => 10, :required => true # :default => :primary # indicate if this format is perceived to be
+    property :type, String, :length => 10, :required => true # indicate if this format is perceived to be
     # the primary or secondary format for this data file
-    property :datafile_id, String, :length => 100, :default => :null
-    property :bitstream_id, String, :length => 100, :default => :null
+    property :datafile_id, String, :length => 100
+    property :bitstream_id, String, :length => 100
     property :note, String, :length => 50
 
     belongs_to :format # the format of the datafile or bitstream.
@@ -27,6 +27,7 @@ module Daitss
       attribute_set(:type, SECONDARY)
     end
 
+    # check and dump any datamapper validation error.
     def check_errors
       unless valid? 
         bigmessage = self.errors.full_messages.join "\n" 

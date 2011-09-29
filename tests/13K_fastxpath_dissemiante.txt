@@ -1,0 +1,46 @@
+process id 8485
+Thu Apr 28 13:19:12 -0400 2011 after bundler require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485 100.0  0.8  2466140  34648 s000  S+    1:19PM   0:01.99 ruby bin/loadaip aip_13K
+Thu Apr 28 13:19:13 -0400 2011 after daitss require
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485  54.5  1.3  2490692  55916 s000  S+    1:19PM   0:03.32 ruby bin/loadaip aip_13K
+Thu Apr 28 13:19:13 -0400 2011 after daitss include
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485  54.5  1.3  2490692  55916 s000  S+    1:19PM   0:03.32 ruby bin/loadaip aip_13K
+Thu Apr 28 13:19:14 -0400 2011 after archive
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485  52.2  1.4  2495088  57936 s000  S+    1:19PM   0:03.42 ruby bin/loadaip aip_13K
+Thu Apr 28 13:19:14 -0400 2011 after open
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485  57.3  1.4  2504828  58340 s000  S+    1:19PM   0:03.44 ruby bin/loadaip aip_13K
+Thu Apr 28 13:19:18 -0400 2011 after Document.io
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485  98.3 16.8  3144864 704864 s000  S+    1:19PM   0:08.17 ruby bin/loadaip aip_13K
+Thu Apr 28 14:05:53 -0400 2011 finishprocessIntEntity
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485  59.8 39.4  4320836 1650592 s000  S+    1:19PM  44:00.16 ruby bin/loadaip aip_13K
+Thu Apr 28 14:10:23 -0400 2011 processDatafiles
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485  80.1 36.2  3957316 1517324 s000  S+    1:19PM  48:04.45 ruby bin/loadaip aip_13K
+Thu Apr 28 14:10:35 -0400 2011 processRepresentations
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485  99.4 37.0  3990084 1550752 s000  S+    1:19PM  48:16.85 ruby bin/loadaip aip_13K
+Thu Apr 28 14:11:46 -0400 2011 processBitstreams
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485 100.3 36.8  3981892 1542592 s000  S+    1:19PM  49:27.76 ruby bin/loadaip aip_13K
+Thu Apr 28 14:11:47 -0400 2011 processAgents
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485  39.5 36.8  3981892 1542592 s000  S+    1:19PM  49:28.24 ruby bin/loadaip aip_13K
+Thu Apr 28 14:13:36 -0400 2011 processEvents
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485  99.0 37.0  3989840 1550992 s000  S+    1:19PM  51:16.12 ruby bin/loadaip aip_13K
+Thu Apr 28 14:14:10 -0400 2011 processRelationship
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485  99.0 37.0  3989840 1550996 s000  S+    1:19PM  51:49.53 ruby bin/loadaip aip_13K
+Thu Apr 28 14:56:42 -0400 2011 toDB
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485  77.4 40.3  4130128 1690420 s000  S+    1:19PM  93:25.60 ruby bin/loadaip aip_13K
+Thu Apr 28 14:56:42 -0400 2011 after AIPInPremis.process
+USER    PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+Carol  8485  77.4 40.3  4130128 1690420 s000  S+    1:19PM  93:25.61 ruby bin/loadaip aip_13K

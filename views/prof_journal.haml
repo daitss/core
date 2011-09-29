@@ -8,6 +8,7 @@
       %td.step= name
       %td= s[:time].iso8601#strftime('%F %T')
       %td= "%06.2f" % s[:duration]
+      %td= s[:detail]
   %tr
     %th total duration
     %th= "%06.2f" % @elapsed_time

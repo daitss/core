@@ -56,10 +56,10 @@ module Daitss
 
         if (p.instance_of? Datafile)
           objectformat.datafile_id = p.id
-          objectformat.bitstream_id = :null
+          objectformat.bitstream_id = nil
         else
           objectformat.bitstream_id = p.id
-          objectformat.datafile_id = :null
+          objectformat.datafile_id = nil
         end
 
         format.object_formats << objectformat

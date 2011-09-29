@@ -5,22 +5,41 @@ module Daitss
   class Wip
 
     def save_aip
+      rs = nil
       aip = Aip.new :package => package, :copy => Copy.new
-      aip.attributes = aip_attrs
 
-      Datyl::Logger.info "Reserving storage for #{id}"
-      rs = RandyStore.reserve id
+      add_substep('make aip', 'aip attributes') { aip.attributes = aip_attrs }
 
-      Datyl::Logger.info "Writing AIP for #{id} to storage"
-      aip.copy.attributes = rs.put_file tarball_file
+      # parse the aip descriptor and build the preservation records
+      aipInPremis = AIPInPremis.new
+      add_substep('make aip', 'parse aip') {
+        Datyl::Logger.info "Parsing AIP descriptor"
+        aipInPremis.process aip.package, LibXML::XML::Document.string(aip.xml)
+      }
+            
+      # write the tarball to storage
+      add_substep('make aip', 'storage write') { 
+        Datyl::Logger.info "Reserving storage for #{id}"
+        rs = RandyStore.reserve id
+        Datyl::Logger.info "Writing AIP for #{id} to storage"
+        aip.copy.attributes = rs.put_file tarball_file 
+      }
 
+ 
       begin
-        Datyl::Logger.info "Writing AIP for #{id} to database"
-        aip.save_and_populate
+        # save the aip descriptor and all preservation records
+        add_substep('make aip', 'db save') {
+          Aip.transaction do
+            Datyl::Logger.info "Writing AIP records for #{id} to database"
+            aip.raise_on_save_failure = true
+            aip.save
+            aipInPremis.toDB
+          end
+        }
       rescue => e
-
+        #if db save fails, delete the new aip from storage.
         Datyl::Logger.err "Caught exception #{e.class}: '#{e.message}' updating database, rolling back AIP on storage; backtrace follows"
-        e.backtrace.each { |line| Datyl::Logger.err line }
+         e.backtrace.each { |line| Datyl::Logger.err line }        
         rs.delete
         raise
       end
@@ -29,25 +48,44 @@ module Daitss
     end
 
     def update_aip
+      rs = nil
       aip = package.aip
-      aip.attributes = aip_attrs
 
-      Datyl::Logger.info "Reserving storage for updated AIP for #{id}"
-      rs = RandyStore.reserve id
+      add_substep('make aip', 'aip attributes') { aip.attributes = aip_attrs }
 
-      metadata['old-copy-url'] = aip.copy.url.to_s
+      # parse the aip descriptor and build the preservation records
+      aipInPremis = AIPInPremis.new
+      add_substep('make aip', 'parse aip') {
+         Datyl::Logger.info "Parsing AIP descriptor"  
+         aipInPremis.process aip.package, LibXML::XML::Document.string(aip.xml)
+      }
+      
+      # write the tarball to storage
+      add_substep('make aip', 'storage write') { 
+        Datyl::Logger.info "Reserving storage for updated AIP for #{id}"
+        rs = RandyStore.reserve id
+            
+        metadata['old-copy-url'] = aip.copy.url.to_s
 
-      Datyl::Logger.info "Writing updated AIP for #{id} to storage"
-      aip.copy.attributes = rs.put_file tarball_file
-
+        Datyl::Logger.info "Writing updated AIP for #{id} to storage" 
+        aip.copy.attributes = rs.put_file tarball_file
+      }
+      
       begin
-        Datyl::Logger.info "Updating AIP in database for #{id}"
-        aip.save_and_populate
+        Aip.transaction do
+          # save the aip descriptor and all preservation records
+          add_substep('make aip', 'db save') {
+            Datyl::Logger.info "Updating AIP in database for #{id}"    
+            aip.raise_on_save_failure = true
+            aip.save
+            aipInPremis.toDB
+          }
+          
+        end
       rescue => e
-        Datyl::Logger.err "Caught exception #{e.class}: '#{e.message}' updating database, rolling back AIP on storage; backtrace follows"
-        e.backtrace.each { |line| Datyl::Logger.err line }
-
-        rs.delete
+         Datyl::Logger.err "Caught exception #{e.class}: '#{e.message}' updating database, rolling back AIP on storage; backtrace follows"
+         e.backtrace.each { |line| Datyl::Logger.err line }
+         rs.delete
         raise
       end
 
@@ -71,17 +109,31 @@ module Daitss
 
     def withdraw_aip
       aip = package.aip
-      aip.attributes = aip_attrs
+      add_substep('make aip', 'aip attributes') { aip.attributes = aip_attrs }
 
       old_rs = RandyStore.new id, aip.copy.url.to_s
 
+      # parse the tombstone' aip descriptor and build the preservation records
+      aipInPremis = AIPInPremis.new
+      add_substep('make aip', 'parse aip') {
+        Datyl::Logger.info "Parsing AIP descriptor"
+        aipInPremis.process aip.package, LibXML::XML::Document.string(aip.xml)
+      }
+
       aip.copy.destroy
-
-      Datyl::Logger.info "Updating AIP for withdrawal in database for #{id}"
-      aip.save_and_populate
-
-      Datyl::Logger.info "Deleting AIP for #{id} from storage"
-      old_rs.delete
+      # save the 'tombstone' aip descriptor and all preservation records
+      add_substep('make aip', 'db save') {
+        Datyl::Logger.info "Updating AIP for withdrawal in database for #{id}"      
+        aip.raise_on_save_failure = true
+        aip.save
+        aipInPremis.toDB
+      }
+      
+      # delete the aip from storage
+      add_substep('make aip', 'delete aip') { 
+        Datyl::Logger.info "Deleting AIP for #{id} from storage"
+        old_rs.delete 
+        }
 
       aip
     end

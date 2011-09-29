@@ -17,7 +17,7 @@ module Daitss
     belongs_to :package
     has 0..n, :datafiles, :constraint=>:destroy
 
-    before :destroy, :deleteChildren
+    #before :destroy, :deleteChildren
 
     def check_errors
       unless self.valid?
@@ -61,14 +61,20 @@ module Daitss
 
     # delete this datafile record and all its children from the database
     def deleteChildren
-      # delete all events associated with this int entity
-      dfevents = PremisEvent.all(:relatedObjectId => @id)
-      dfevents.each do |e|
-        # delete all relationships associated with this event
-        rels = Relationship.all(:premis_event_id => e.id)
-        rels.each {|rel| rel.destroy}
-        e.destroy
+      # find the id of all datafiles belong to this int entity
+      sql = "SELECT id from datafiles where intentity_id = '#{@id}'"
+      dfids = DataMapper.repository(:default).adapter.select(sql)
+      #puts sql
+      dfids.each do |dfid|
+        # delete all related premis_events records and its associated relationships which will be deleted
+        # automatically by cascade delete
+        del_sql = "DELETE from premis_events where related_object_id = '#{dfid}'"
+        DataMapper.repository(:default).adapter.execute(del_sql)
       end
+      
+      # delete all events associated with this int entity
+      sql = "delete from premis_events where related_object_id = '#{@id}'"
+      DataMapper.repository(:default).adapter.execute(sql)
     end
 
     def match id

@@ -44,41 +44,52 @@ module Daitss
     property :bitstream_id, String, :length => 100
 
     def fromPremis premis
+      # extract characterset
       attribute_set(:charset, premis.find_first("txt:character_info/txt:charset", NAMESPACES).content)
+      # extract and validate the byte_order
       byte_order = premis.find_first("txt:character_info/txt:byte_order", NAMESPACES)
       if byte_order
         attribute_set(:byte_order, byte_order.content) 
         validate_byteorder
       end
+      # extract and validate the byte_size      
       byte_size = premis.find_first("txt:character_info/txt:byte_size", NAMESPACES)
       attribute_set(:byte_size, byte_size.content) if byte_size
+      # extract and validate the linebreak
       linebreak = premis.find_first("txt:character_info/txt:linebreak", NAMESPACES)
       if linebreak && !linebreak.content.empty?
         attribute_set(:linebreak, linebreak.content)
         validate_linebreak
       end
+      # extract and validate the language 
       language = premis.find_first("txt:language", NAMESPACES)
       attribute_set(:language, language.content) if language
+      # extract and validate the markup_basis 
       markup_basis = premis.find_first("txt:language/txt:markup_basis", NAMESPACES)
       if markup_basis
         attribute_set(:markup_basis, markup_basis.content)
         validate_markup_basis
       end
+      # extract and validate the markup_language      
       markup_language = premis.find_first("txt:language/txt:markup_language", NAMESPACES)
       attribute_set(:markup_language, markup_language.content) if markup_language
+      # extract and validate the processingNote       
       processing_note = premis.find_first("txt:language/txt:processingNote", NAMESPACES)
       attribute_set(:processing_note, processing_note.content) if processing_note
       # following are textmd 3.0 alpha elements
+      # extract and validate the pageOrder       
       page_order = premis.find_first("txt:pageOrder", NAMESPACES)
       if page_order
        attribute_set(:page_order, page_order.content) 
         validate_page_order
       end
+      # extract and validate the lineLayout       
       line_layout = premis.find_first("txt:lineLayout", NAMESPACES)
       if line_layout
         attribute_set(:line_layout, line_layout.content) 
         validate_line_layout
       end
+      # extract and validate the lineOrientation       
       line_orientation = premis.find_first("txt:lineOrientation", NAMESPACES)
       if line_orientation
         attribute_set(:line_orientation, line_orientation.content)
@@ -86,53 +97,54 @@ module Daitss
       end
     end
 
+    # validate the linebreak based on controlled vocabularies as defined in the textmd
     def validate_linebreak
       unless @linebreak.nil? || Linebreaks.include?(@linebreak)
         raise "value #{@linebreak} is not a valid linebreak value"
       end
     end
 
+    # validate the byteorder based on controlled vocabularies as defined in the textmd
     def validate_byteorder
       unless Text_Byte_Order.include?(@byte_order)
         raise "value #{@byte_order} is not a valid text byte order"
       end
     end
 
+    # validate the markup_basis based on controlled vocabularies as defined in the textmd
     def validate_markup_basis
       unless @markup_basis.nil? || Markup_Basis.include?(@markup_basis)
         raise "value #{@markup_basis} is not a valid markup_basis value" 
       end
     end
 
+   # validate the page_order based on controlled vocabularies as defined in the textmd
     def validate_page_order
       unless @page_order.nil? || Page_Order.include?(@page_order)
         raise "value #{@page_order} is not a valid page_order value" 
       end
     end
 
+   # validate the line_layout based on controlled vocabularies as defined in the textmd
     def validate_line_layout
       unless @line_layout.nil? || Line_Layout.include?(@line_layout)
         raise "value #{@line_layout} is not a valid line_layout value"
       end
     end
 
+   # validate the line_orientation based on controlled vocabularies as defined in the textmd
     def validate_line_orientation
       unless @line_orientation.nil? || Line_Orientation.include?(@line_orientation)
         raise "value #{@line_orientation} is not a valid line_orientation value" 
       end
     end
     
-    before :save do
+    #before :save do
       # make sure either dfid or bsid is not null.
-      if (:datafile_id.nil? && :bitstream_id.nil?)
-        raise "this text table neither associates with a datafile nor associates with a bitstream"
-      end
-    end
-
-    after :save do
-      puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
-    end
-
+      #if (:datafile_id.nil? && :bitstream_id.nil?)
+      #  raise "this text table neither associates with a datafile nor associates with a bitstream"
+      #end
+    #end
   end
 
 end

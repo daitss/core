@@ -11,12 +11,28 @@ module Daitss
       else
         m = {}
         m[:time] = Time.now
+        m[:detail] = ""
+        @journal[name] = m
         yield
         m[:duration] = Time.now - m[:time]
-        @journal[name] = m
+
         save_journal
         m
       end
+
+    end
+
+    # add substep detail to an existing step
+    def add_substep stepname, substep
+        m = @journal[stepname]
+        start_time = Time.now
+        yield
+        duration = "%4.2f" % (Time.now - start_time).to_f
+        m[:detail] += "#{substep}:#{duration} | "
+       
+        #@journal[stepname] = m
+        #save_journal
+        #m
 
     end
 

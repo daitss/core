@@ -57,7 +57,8 @@ module Daitss
     # an event must be associated with an agent
     # note: for deletion event, the agent would be reingest.
 
-    # datamapper return system error once this constraint is added in.  so we will delete relationship manually
+    # datamapper return system error once this constraint is added in (#<SystemStackError: stack level too deep>).  
+    # so we will add cascade delete on postgres directly. 
     # has 0..n, :relationships, :constraint=>:destroy
 
     # validate the event type value which is a daitss defined controlled vocabulary
@@ -88,22 +89,16 @@ module Daitss
        event :id => self.id, :type => self.e_type, :time => self.datetime, :outcome => self.outcome, :linking_agents => [self.premis_agent.id], :linking_objects => [self.relatedObjectId]
      end
 
-    before :save do
-      puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
-      puts "#{self.premis_agent.errors.to_a} error encountered while saving #{self.premis_agent.inspect} " unless self.premis_agent.valid?
-    end
+    #before :save do
+      #puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
+      #puts "#{self.premis_agent.errors.to_a} error encountered while saving #{self.premis_agent.inspect} " unless self.premis_agent.valid?
+    #end
   end
 
   class IntentityEvent < PremisEvent
-    before :save do
-      #TODO implement validation of objectID, making sure the objectID is a valid IntEntity
-    end
   end
 
   class RepresentationEvent < PremisEvent
-    before :save do
-      #TODO implement validation of objectID, making sure the objectID is a valid representation
-    end
   end
 
   class DatafileEvent < PremisEvent

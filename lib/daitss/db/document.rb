@@ -64,16 +64,12 @@ module Daitss
       end
     end
     
-    before :save do
+   # before :save do
       # make sure either dfid or bsid is not null.
-      if (:datafile_id.nil? && :bitstream_id.nil?)
-        raise "this document neither associates with a datafile nor associates with a bitstream"
-      end
-    end
-
-    after :save do
-      puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
-    end
+    #  if (:datafile_id.nil? && :bitstream_id.nil?)
+    #    raise "this document neither associates with a datafile nor associates with a bitstream"
+    #  end
+    #end
 
   end
 

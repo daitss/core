@@ -26,16 +26,10 @@ module Daitss
     has 0..1, :copy # 0 if package has been withdrawn, otherwise, 1
 
     # @return [Boolean] true if Aip instance and associated fast access data were saved
-    def save_and_populate
-      self.raise_on_save_failure = true
-
-      Aip.transaction do
-        self.save
-        AIPInPremis.new.process self.package, LibXML::XML::Document.string(self.xml)
-      end
-
-    end
-
+      #Aip.transaction do
+       # self.save
+      #  AIPInPremis.new.process self.package, LibXML::XML::Document.string(self.xml)
+      #end
   end
 
 end

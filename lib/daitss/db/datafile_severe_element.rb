@@ -8,10 +8,10 @@ module Daitss
     belongs_to :datafile
     belongs_to :severe_element
 
-    after :save do
-      puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
-      puts "#{severe_element.errors.to_a} error encountered while saving #{severe_element.inspect} " unless severe_element.valid?
-    end
+    #after :save do
+    #  puts "#{self.errors.to_a} error encountered while saving #{self.inspect} " unless valid?
+    #  puts "#{severe_element.errors.to_a} error encountered while saving #{severe_element.inspect} " unless severe_element.valid?
+    #end
   end
 
 end

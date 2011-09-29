@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+puts "process id #{Process.pid}\n"
+puts "#{Time.now} after rubygems require"
+puts `ps ux -p #{Process.pid}`
+
+require 'bundler/setup'
+
+puts "#{Time.now} after bundler require"
+puts `ps ux -p #{Process.pid}`
+
+require 'daitss'
+
+include Daitss
+archive
+
+aip = ARGV.shift or raise "aip descriptor required"
+
+DataMapper::Model.raise_on_save_failure = true
+act = DataMapper.repository(:default) { Account.get('UF') }
+prj = DataMapper.repository(:default) { act.projects.first :id => 'UFDC' }
+p = Package.new :project => prj
+io = open(aip)
+
+doc = XML::Document.io(io)
+puts "#{Time.now} after Document.io"
+puts `ps ux -p #{Process.pid}`
+
+begin
+  Aip.transaction do
+    AIPInPremis.new.process p, doc
+  end
+rescue => e
+  puts e.inspect
+  raise "cannot save aip"
+end
+    
+puts "#{Time.now} after AIPInPremis.process"
+puts `ps ux -p #{Process.pid}`

@@ -10,7 +10,10 @@ module Daitss
   class Wip
 
     def preserve
-
+      # extract the fileGrp section in the sip descriptor, this would be used to determine
+      # if the sip descriptor provides the checksum for each file
+      sip_descriptor_doc = XML::Document.string metadata['sip-descriptor']
+      @file_group = sip_descriptor_doc.find_first %Q{//M:fileSec/M:fileGrp}, NS_PREFIX
       # describe and preserve original_files
       original_datafiles.each do |df|
 

@@ -122,6 +122,21 @@ module Daitss
       DataMapper.repository(:default).adapter.execute("ALTER TABLE copies ALTER timestamp TYPE timestamp with time zone")
       # create funcitonal index with ieid value on premis_events to speed up query.
       DataMapper.repository(:default).adapter.execute("create index index_ieid on premis_events(substring(premis_events.related_object_id from'................$'))")
+      # recreate the relationships_premis_event foreign key contrain to allow cascade delete
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE relationships drop constraint relationships_premis_event_fk")
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE relationships ADD CONSTRAINT relationships_premis_event_fk FOREIGN KEY (premis_event_id) REFERENCES premis_events (id) ON DELETE CASCADE ON UPDATE CASCADE")
+      # manually add the following constraints.  these tables can be linked with either datafile or bitstreams 
+      # and datamapper can't create the constraint automatically for us.
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE images ADD CONSTRAINT images_datafile_id_fk FOREIGN KEY (datafile_id) REFERENCES datafiles (id) on update cascade on delete cascade");
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE images ADD CONSTRAINT images_bitstream_id_fk FOREIGN KEY (bitstream_id) REFERENCES bitstreams (id) on update cascade on delete cascade");
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE audios ADD CONSTRAINT audios_datafile_id_fk FOREIGN KEY (datafile_id) REFERENCES datafiles (id) on update cascade on delete cascade");
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE audios ADD CONSTRAINT audios_bitstream_id_fk FOREIGN KEY (bitstream_id) REFERENCES bitstreams (id) on update cascade on delete cascade");
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE texts ADD CONSTRAINT texts_datafile_id_fk FOREIGN KEY (datafile_id) REFERENCES datafiles (id) on update cascade on delete cascade");
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE texts ADD CONSTRAINT texts_bitstream_id_fk FOREIGN KEY (bitstream_id) REFERENCES bitstreams (id) on update cascade on delete cascade");
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE documents ADD CONSTRAINT documents_datafile_id_fk FOREIGN KEY (datafile_id) REFERENCES datafiles (id) on update cascade on delete cascade");
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE documents ADD CONSTRAINT documents_bitstream_id_fk FOREIGN KEY (bitstream_id) REFERENCES bitstreams (id) on update cascade on delete cascade");
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE object_formats ADD CONSTRAINT object_formats_datafile_id_fk FOREIGN KEY (datafile_id) REFERENCES datafiles (id) on update cascade on delete cascade");
+      DataMapper.repository(:default).adapter.execute("ALTER TABLE object_formats ADD CONSTRAINT object_formats_bitstream_id_fk FOREIGN KEY (bitstream_id) REFERENCES bitstreams (id) on update cascade on delete cascade");
     end
 
     # create the stash and work directories in the data dir

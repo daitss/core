@@ -11,7 +11,7 @@ module Daitss
   class Wip
 
     def disseminate
-      step('load from aip') { load_from_aip }
+      load_from_aip
       preserve
 
       step 'disseminate digiprov'  do
