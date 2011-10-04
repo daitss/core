@@ -8,9 +8,6 @@ require 'fileutils'
 
 require 'datyl/logger'
 
-# set to virtual hostname core's config is under
-ENV['VIRTUAL_HOSTNAME'] = ""
-
 include Daitss
 
 archive

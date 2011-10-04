@@ -18,10 +18,6 @@ require 'datyl/logger'
 # dependencies:
 # tar
 
-# set to virtual hostname core's config is under
-ENV['VIRTUAL_HOSTNAME'] = ""
-
-
 def get_options(args)
   config = OpenStruct.new("url" => nil, "package" => nil, "package_name" => nil, "password" => nil, "username" => nil)
 
