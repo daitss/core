@@ -7,8 +7,7 @@ require 'daitss'
 include Daitss
 
 load_archive
-#archive.init_data_dir
-#archive.setup_db :log => true
-#archive.init_db
-#archive.init_seed
-puts "if you need me, uncomment me!"
+archive.init_data_dir
+archive.setup_db :log => true
+archive.init_db
+archive.init_seed

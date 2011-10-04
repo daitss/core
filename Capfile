@@ -63,6 +63,14 @@ namespace :deploy do
     run "find #{shared_path} #{release_path} -type d | xargs chmod 2775"
     run "find #{shared_path} #{release_path} -type f -print0 | xargs -0 chmod g+rw"
     run "chmod 666 #{File.join(release_path, 'Gemfile.lock')}"
+
+    if variables[:target] =~ "darchive.fcla.edu"
+      run "mv Rakefile.safe Rakefile"
+      run "mv bin/init.safe bin/init"
+    else
+      run "rm Rakefile.safe"
+      run "rm bin/init.safe"
+    end
   end
 
   # Note: JAVA_HOME, GEM_HOME and PATH to bundle must be set correctly for the 

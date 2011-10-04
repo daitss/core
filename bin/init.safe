@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'bundler/setup'
+require 'daitss'
+
+include Daitss
+
+#load_archive
+#archive.init_data_dir
+#archive.setup_db :log => true
+#archive.init_db
+#archive.init_seed
+STDERR.puts "init has been disabled"
