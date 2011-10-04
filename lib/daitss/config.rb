@@ -17,7 +17,7 @@ module Daitss
     D1_PROGRAM_ID = 'DAITSS1'
 
     # id of default operator
-    ROOT_OPERATOR_ID = 'root'
+    ROOT_OPERATOR_ID = 'daitss'
 
     # id of default projects
     DEFAULT_PROJECT_ID = 'default'
@@ -166,6 +166,19 @@ module Daitss
 
       a.save or raise "cannot save system account"
       p.save or raise "cannot save system project"
+
+      act = Account.new(:id => "ACT",
+                      :description => 'sample account')
+
+      prjd = Daitss::Project.new :id => 'default', :description => 'default project for sample account', :account => act
+
+      prj = Project.new(:id => "PRJ",
+                      :description => 'sample project',
+                      :account => act)
+
+      act.save or raise "cannot save sample account"
+      prj.save or raise "cannot save sample project"
+      prjd.save or raise "cannot save sample default project"
 
       # some agents
       program = Program.new(:id => SYSTEM_PROGRAM_ID,

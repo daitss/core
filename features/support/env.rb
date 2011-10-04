@@ -77,12 +77,8 @@ Before do
   archive.init_seed
 
   # extra initial data
-  a = Daitss::Account.new :id => 'ACT', :description => 'the description', :report_email => 'daitss@localhost'
-  pd = Daitss::Project.new :id => 'default', :description => 'the default description', :account => a
-  p = Daitss::Project.new :id => 'PRJ', :description => 'the description', :account => a
-  a.save or 'cannot save ACT'
-  pd.save or 'cannot save ACT/default'
-  p.save or 'cannot save PRJ'
+
+  a = Account.get("ACT") or raise "Project ACT not found"
 
   # affiliate
   aff = User.new :id => 'affiliate', :account => a
