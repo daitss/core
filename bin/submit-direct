@@ -34,7 +34,7 @@ def get_options(args)
       opt.on("--username USERNAME", String, "Operations agent username, required") { |username| config.username = username }
       opt.on("--password PASSWORD", String, "Operations agent password, required") { |password| config.password = password }
       opt.on("--note NOTE", String, "Submission event note (should be in quotes)") { |note| config.note = note }
-      opt.on("--source SOURCE", String, "source of package, required") { |src| config.source = src }
+      opt.on("--source SOURCE", String, "source of package") { |src| config.source = src }
       opt.on("--batch BATCH", String, "Batch to submit package under") { |batch| config.batch = batch }
       opt.on("--delete-orig", "-d") { |delete| config.delete = delete }
     end
@@ -45,7 +45,6 @@ def get_options(args)
     raise StandardError, "Only --path or --package can be specified, but not both" if config.path and config.package
     raise StandardError, "Username not specified" unless config.username
     raise StandardError, "Password not specified" unless config.password
-    raise StandardError, "Source not specified" unless config.source
 
     if config.path
       raise StandardError, "Specified path is not a directory" unless File.directory? config.path
@@ -119,10 +118,15 @@ Datyl::Logger.setup('SubmitDirect', ENV['VIRTUAL_HOSTNAME'])
 
 Datyl::Logger.stderr # log to STDERR
 
-if @config.batch
+if @config.batch and @config.source
   logfile = File.join archive.submit_log_directory, "SUBMIT_#{@config.source}_#{Time.now.strftime("%Y%m%d%H%m%S")}_#{@config.batch}.log"
-else
+elsif @config.batch and not @config.source
+  logfile = File.join archive.submit_log_directory, "SUBMIT_#{Time.now.strftime("%Y%m%d%H%m%S")}_#{@config.batch}.log"
+
+elsif @config.source and not @config.batch
   logfile = File.join archive.submit_log_directory, "SUBMIT_#{@config.source}_#{Time.now.strftime("%Y%m%d%H%m%S")}.log"
+else
+  logfile = File.join archive.submit_log_directory, "SUBMIT_#{Time.now.strftime("%Y%m%d%H%m%S")}.log"
 end
 
 Datyl::Logger.filename = logfile
