@@ -109,20 +109,20 @@ module Daitss
 
     def withdraw_aip
       aip = package.aip
-      add_substep('make aip', 'aip attributes') { aip.attributes = aip_attrs }
+      add_substep('withdraw aip', 'aip attributes') { aip.attributes = aip_attrs }
 
       old_rs = RandyStore.new id, aip.copy.url.to_s
 
       # parse the tombstone' aip descriptor and build the preservation records
       aipInPremis = AIPInPremis.new
-      add_substep('make aip', 'parse aip') {
+      add_substep('withdraw aip', 'parse aip') {
         Datyl::Logger.info "Parsing AIP descriptor"
         aipInPremis.process aip.package, LibXML::XML::Document.string(aip.xml)
       }
 
       aip.copy.destroy
       # save the 'tombstone' aip descriptor and all preservation records
-      add_substep('make aip', 'db save') {
+      add_substep('withdraw aip', 'db save') {
         Datyl::Logger.info "Updating AIP for withdrawal in database for #{id}"      
         aip.raise_on_save_failure = true
         aip.save
@@ -130,7 +130,7 @@ module Daitss
       }
       
       # delete the aip from storage
-      add_substep('make aip', 'delete aip') { 
+      add_substep('withdraw aip', 'delete aip') { 
         Datyl::Logger.info "Deleting AIP for #{id} from storage"
         old_rs.delete 
         }
