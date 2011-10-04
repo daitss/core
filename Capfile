@@ -64,7 +64,7 @@ namespace :deploy do
     run "find #{shared_path} #{release_path} -type f -print0 | xargs -0 chmod g+rw"
     run "chmod 666 #{File.join(release_path, 'Gemfile.lock')}"
 
-    if variables[:target].to_s =~ "darchive.fcla.edu"
+    if variables[:target] =~ /darchive.fcla.edu/
       run "mv Rakefile.safe Rakefile"
       run "mv bin/init.safe bin/init"
     else
