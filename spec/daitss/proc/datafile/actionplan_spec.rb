@@ -13,6 +13,9 @@ describe DataFile do
 
     before :all do
       wip = submit 'mimi'
+      sip_descriptor_doc = XML::Document.string wip.metadata['sip-descriptor']
+      wip.file_group = sip_descriptor_doc.find_first %Q{//M:fileSec/M:fileGrp}, NS_PREFIX
+
       @pdf = wip.original_datafiles.find { |df| df['aip-path'] == File.join(Wip::SIP_FILES_DIR, 'mimi.pdf') }
       @pdf.describe!
     end
@@ -39,6 +42,9 @@ describe DataFile do
 
     before :all do
       wip = submit 'wave'
+      sip_descriptor_doc = XML::Document.string wip.metadata['sip-descriptor']
+      wip.file_group = sip_descriptor_doc.find_first %Q{//M:fileSec/M:fileGrp}, NS_PREFIX
+
       @wave = wip.original_datafiles.find { |df| df['aip-path'] == File.join(Wip::SIP_FILES_DIR, 'obj1.wav') }
       @wave.describe!
       @norm = @wave.normalization
@@ -70,6 +76,9 @@ describe DataFile do
 
     before :all do
       wip = submit 'wave'
+      sip_descriptor_doc = XML::Document.string wip.metadata['sip-descriptor']
+      wip.file_group = sip_descriptor_doc.find_first %Q{//M:fileSec/M:fileGrp}, NS_PREFIX
+
       @xml = wip.original_datafiles.find { |df| df['aip-path'] == File.join(Wip::SIP_FILES_DIR, 'wave.xml') }
       @xml.describe!
     end

@@ -15,7 +15,9 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), 'lib')
 
 namespace :db do
 
+
   task :setup do
+    require 'bundler/setup'
     require 'daitss/archive'
     require 'daitss/db'
     require 'daitss/model/aip'
@@ -27,6 +29,7 @@ namespace :db do
   
   desc 'migrate the database'
   task :migrate => [:setup] do
+    require 'bundler/setup'
     require 'daitss/archive'
     require 'daitss/db'
     require 'daitss/model/aip'
@@ -34,8 +37,8 @@ namespace :db do
     include Daitss
 
     STDERR.puts "db:migrate has been disabled"
-    #archive.setup_db :log => true
-    #archive.init_db
+    archive.setup_db :log => true
+    archive.init_db
     # recreate the relationships_premis_event foreign key contrain to allow cascade delete
     DataMapper.repository(:default).adapter.execute("ALTER TABLE relationships drop constraint relationships_premis_event_fk")
     DataMapper.repository(:default).adapter.execute("ALTER TABLE relationships ADD CONSTRAINT relationships_premis_event_fk FOREIGN KEY (premis_event_id) REFERENCES premis_events (id) ON DELETE CASCADE ON UPDATE CASCADE")    
@@ -43,6 +46,7 @@ namespace :db do
 
   desc 'upgrade the database'
   task :upgrade => [:setup] do
+    require 'bundler/setup'
     require 'daitss/archive'
     require 'daitss/db'
     require 'daitss/model/aip'
@@ -94,6 +98,7 @@ namespace :db do
     require 'daitss/archive'
     require 'daitss/db'
     require 'daitss/model/aip'
+    require 'bundler/setup'
 
     include Daitss
     

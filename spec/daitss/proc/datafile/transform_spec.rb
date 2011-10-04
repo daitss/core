@@ -26,6 +26,9 @@ describe DataFile do
 
     before :all do
       wip = submit 'wave'
+      sip_descriptor_doc = XML::Document.string wip.metadata['sip-descriptor']
+      wip.file_group = sip_descriptor_doc.find_first %Q{//M:fileSec/M:fileGrp}, NS_PREFIX
+
       @source = wip.original_datafiles.find { |odf| odf['aip-path'] == File.join(Wip::SIP_FILES_DIR, 'obj1.wav') }
       @source.describe!
       @source.migrate!
@@ -58,6 +61,9 @@ describe DataFile do
 
     before :all do
       wip = submit 'wave'
+      sip_descriptor_doc = XML::Document.string wip.metadata['sip-descriptor']
+      wip.file_group = sip_descriptor_doc.find_first %Q{//M:fileSec/M:fileGrp}, NS_PREFIX
+
       @source = wip.original_datafiles.find { |odf| odf['aip-path'] == File.join(Wip::SIP_FILES_DIR, 'obj1.wav') }
       @source.describe!
       @source.normalize!

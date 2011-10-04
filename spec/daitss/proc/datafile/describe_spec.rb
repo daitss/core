@@ -8,6 +8,8 @@ describe 'describing a datafile' do
 
   subject do
     @wip = submit 'mimi'
+    sip_descriptor_doc = XML::Document.string @wip.metadata['sip-descriptor']
+    @wip.file_group = sip_descriptor_doc.find_first %Q{//M:fileSec/M:fileGrp}, NS_PREFIX
     @wip.original_datafiles.find { |df| df['aip-path'] == File.join(Wip::SIP_FILES_DIR, 'mimi.pdf') }
   end
 
@@ -185,6 +187,9 @@ describe 'a datafile with multiple bitstreams' do
 
   it "should have multiple bitstreams" do
     wip = submit 'etd'
+    sip_descriptor_doc = XML::Document.string wip.metadata['sip-descriptor']
+    wip.file_group = sip_descriptor_doc.find_first %Q{//M:fileSec/M:fileGrp}, NS_PREFIX
+
     df = wip.original_datafiles.find { |df| df['aip-path'] == File.join(Wip::SIP_FILES_DIR, 'etd.pdf') }
     df.describe!
     df.bitstream_objects.size.should == 19
