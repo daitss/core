@@ -2,10 +2,23 @@
   %h2 create new account
 
 %form#create-account{:action => '/admin', :method => 'post'}
+  %table
+    %tr
+      %th
+        account id
+      %th 
+        account description
+      %th 
+        report e-mail address
+    %tr
+      %td
+        %input{:name => 'id'}
+      %td
+        %input{:name => 'description'}
+      %td
+        %input{:name => 'report-email'}
+
   %input{:type => 'hidden', :name => 'task', :value => 'new-account'}
-  %input{:name => 'id', :value =>"account id"}
-  %input{:name => 'description', :value =>"account description"}
-  %input{:name => 'report-email', :value =>"report e-mail address"}
   %input{:type => 'submit', :value => "Create Account"}
 
 %h2 existing accounts
