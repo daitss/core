@@ -28,20 +28,10 @@ RSpec.configure do |config|
     archive.init_seed
 
     # some test data
-    ac = Account.new :id => 'ACT', :description => 'the description'
-    dpr = Project.new :id => Daitss::Archive::DEFAULT_PROJECT_ID, :description => 'the default project'
-    pr = Project.new :id => 'PRJ', :description => 'the description'
+    ac = Account.get("ACT")
     ag = User.new :id => 'Bureaucrat'
 
-    dpr.account = ac
-    pr.account = ac
-    ac.projects << dpr
-    ac.projects << pr
-    ac.agents << ag
-
-    ac.save or "cannot save #{ac.id}"
-    pr.save or "cannot save #{pr.id}"
-    dpr.save or "cannot save #{dpr.id}"
+    ag.account = ac
     ag.save or "cannot save #{ag.id}"
 
     $sandbox = Dir.mktmpdir
