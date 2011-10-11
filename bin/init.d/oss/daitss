@@ -17,7 +17,7 @@ ACTIONPLAN_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/actionplan.yml
 
 CORE_PATH=/opt/web-services/sites/core
 CORE_VIRTUAL_HOSTNAME=core.shades.local
-DESCRIBE_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/core.yml
+CORE_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/core.yml
 
 DESCRIBE_PATH=/opt/web-services/sites/describe
 DESCRIBE_VIRTUAL_HOSTNAME=describe.shades.local
