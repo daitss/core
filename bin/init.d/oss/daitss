@@ -288,7 +288,7 @@ start() {
   then
     echo "Actionplan service is already running"
   else
-    echo "Starting description service..."
+    echo "Starting actionplan service..."
     /bin/su daitss -c "cd $ACTIONPLAN_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$ACTIONPLAN_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $ACTIONPLAN_THIN_CONFIG_PATH -d start"
   fi
 
