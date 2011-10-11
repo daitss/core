@@ -1,0 +1,246 @@
+#!/bin/sh
+#
+### BEGIN INIT INFO
+# Provides: daitss
+# Required-Start: postgres httpd
+# Defalt-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: start and stop the DAITSS daemon processes
+# Description: DAITSS provides a long-term digital preservation repository. 
+### END INIT INFO
+
+DAITSS_CONFIG=/opt/web-services/conf.d/daitss-config.yml
+
+CORE_PATH=/opt/web-services/sites/core/current
+CORE_VIRTUAL_HOSTNAME=core.retsina.fcla.edu
+
+DESCRIBE_PATH=/opt/web-services/sites/describe/current
+DESCRIBE_VIRTUAL_HOSTNAME=describe.retsina.fcla.edu
+DESCRIBE_THIN_CONFIG_PATH=/opt/web-services/conf.d/describe.yml
+
+DESCRIBE_PIDFILE=/var/run/daitss/describe.pid
+PULSE_PIDFILE=/var/run/daitss/pulse.pid
+REPORTER_PIDFILE=/var/run/daitss/reporter.pid
+
+GEM_BIN=/opt/ruby/gem-repos/bin
+JAVA_HOME=/usr/java/default
+GEM_HOME=/opt/ruby/gem-repos
+RUBY_HOME=/opt/ruby/bin
+RUBYOPT=rubygems
+TMPDIR=/var/daitss/tmp
+
+pidrunning() {
+  if [ -n $1 ]
+  then
+    i=`ps aux | grep $1 2> /dev/null | grep -v grep 2> /dev/null | awk '{print $2}'`
+
+    if [ -n $i ]
+    then
+      return $i
+    else
+      return 0
+    fi
+  else
+    return 0
+  fi
+}
+
+describerunning() {
+  if [ -e $DESCRIBE_PIDFILE ]
+  then
+    pidrunning `cat $DESCRIBE_PIDFILE`
+    running=$?
+    if [ "$running" -ne "0" ]
+    then
+      return 1
+    else 
+      rm $DESCRIBE_PIDFILE
+      return 0
+    fi
+  else 
+    return 0
+  fi
+}
+
+pulserunning() {
+  if [ -e $PULSE_PIDFILE ]
+  then
+    pidrunning `cat $PULSE_PIDFILE`
+    running=$?
+    if [ "$running" -ne "0" ]
+    then
+      return 1
+    else 
+      rm $PULSE_PIDFILE
+      return 0
+    fi
+  else 
+    return 0
+  fi
+}
+
+reporterrunning() {
+  if [ -e $REPORTER_PIDFILE ]
+  then
+    pidrunning `cat $REPORTER_PIDFILE`
+    running=$?
+    if [ "$running" -ne "0" ]
+    then
+      return 1
+    else 
+      rm $REPORTER_PIDFILE
+      return 0
+    fi
+  else 
+    return 0
+  fi
+}
+
+startpulse() {
+  pulserunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Pulse is already running"
+  else
+    echo "Starting pulse..."
+    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR JAVA_HOME=$JAVA_HOME DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/pulse 2>&1 > /dev/null & echo \$! > $PULSE_PIDFILE"
+  fi
+}
+
+stoppulse() {
+  pulserunning
+  if [ "$?" -eq "0" ]
+  then 
+    echo "Pulse is already stopped"
+  else
+    echo "Stopping pulse..."
+    kill `cat $PULSE_PIDFILE`
+    rm $PULSE_PIDFILE
+  fi
+}
+
+
+start() {
+  httpd_running=`/etc/init.d/httpd status`
+
+  if [ "$httpd_running" != "httpd is stopped" ]
+  then
+    echo "Apache services are already running"
+  else
+    echo "Starting apache services..."
+    /etc/init.d/httpd start  > /dev/null
+  fi 
+
+  describerunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Description service is already running"
+  else
+    echo "Starting description service..."
+    /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d start"
+  fi
+
+  startpulse
+
+  reporterrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Reporter is already running"
+  else
+    echo "Starting reporter"
+    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/mailer-daemon 2>&1 > /dev/null & echo \$! > $REPORTER_PIDFILE"
+  fi
+}
+
+stop() {
+  echo "Stopping apache services..."
+  /etc/init.d/httpd stop > /dev/null
+
+  echo "Stopping describe..."
+  /bin/su daitss -c "cd $DESCRIBE_PATH; PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME="/usr/java/default" bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d stop"
+
+  stoppulse
+
+  reporterrunning
+  if [ "$?" -eq "0" ]
+  then
+    echo "Reporter is already stopped"
+  else 
+    echo "Stopping reporter..."
+    kill `cat $REPORTER_PIDFILE`
+    rm $REPORTER_PIDFILE
+  fi
+}
+
+status() {
+  httpd_running=`/etc/init.d/httpd status`
+
+  if [ "$httpd_running" != "httpd is stopped" ]
+  then
+    echo "Apache is running"
+  else
+    echo "Apache is not running"
+  fi
+
+  describerunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Description service is running"
+  else
+    echo "Description service is not running"
+  fi
+
+  pulserunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Pulse is running"
+  else
+    echo "Pulse is not running"
+  fi
+
+  reporterrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Reporter is running"
+  else
+    echo "Reporter is not running"
+  fi
+}
+
+graceful() {
+  echo "Gracefully restarting apache..."
+  /etc/init.d/httpd graceful
+  stoppulse
+  startpulse
+}
+
+case "$1" in
+  start)
+  start
+  ;;
+  stop)
+  stop
+  ;;
+  status)
+  status
+  ;;
+  restart|reload|condrestart)
+  stop
+  start
+  ;;
+  start-pulse)
+  startpulse
+  ;;
+  stop-pulse)
+  stoppulse
+  ;;
+  graceful)
+  graceful
+  ;;
+  *)
+  echo $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful}"
+  exit 1
+esac
+
+exit 0
+
