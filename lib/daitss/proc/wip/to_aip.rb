@@ -13,7 +13,7 @@ module Daitss
       # parse the aip descriptor and build the preservation records
       aipInPremis = AIPInPremis.new
       add_substep('make aip', 'parse aip') {
-        Datyl::Logger.info "Parsing AIP descriptor"
+        Datyl::Logger.info "Parsing AIP descriptor for #{id}"
         aipInPremis.process aip.package, LibXML::XML::Document.string(aip.xml)
       }
             
@@ -56,7 +56,7 @@ module Daitss
       # parse the aip descriptor and build the preservation records
       aipInPremis = AIPInPremis.new
       add_substep('make aip', 'parse aip') {
-         Datyl::Logger.info "Parsing AIP descriptor"  
+         Datyl::Logger.info "Parsing AIP descriptor for #{id}"  
          aipInPremis.process aip.package, LibXML::XML::Document.string(aip.xml)
       }
       
@@ -116,7 +116,7 @@ module Daitss
       # parse the tombstone' aip descriptor and build the preservation records
       aipInPremis = AIPInPremis.new
       add_substep('withdraw aip', 'parse aip') {
-        Datyl::Logger.info "Parsing AIP descriptor"
+        Datyl::Logger.info "Parsing AIP descriptor for #{id}"
         aipInPremis.process aip.package, LibXML::XML::Document.string(aip.xml)
       }
 
