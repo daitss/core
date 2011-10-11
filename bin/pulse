@@ -156,9 +156,14 @@ end
 def start_wips scorecard
 
   scorecard.ready.each do |wip|
-    next if not in_db? wip
-    wip.spawn
-    Datyl::Logger.info "#{wip.id}.#{wip.task} spawned"
+    begin
+      next if not in_db? wip
+      wip.spawn
+      Datyl::Logger.info "#{wip.id}.#{wip.task} spawned"
+    rescue => e
+      Datyl::Logger.err "#{wip.task} spawn for #{wip.id} failed: #{e.message}"
+      next
+    end
   end
 end
 
