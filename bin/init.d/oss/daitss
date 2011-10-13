@@ -27,9 +27,9 @@ SILO_PATH=/opt/web-services/sites/silo-pool
 SILO_VIRTUAL_HOSTNAME=silo.shades.local
 SILO_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/silos.yml
 
-STOREMASTER_PATH=/opt/web-services/sites/store-master
-STOREMASTER_VIRTUAL_HOSTNAME=storemaster.shades.local
-STOREMASTER_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/storemaster.yml
+STORAGEMASTER_PATH=/opt/web-services/sites/storage-master
+STORAGEMASTER_VIRTUAL_HOSTNAME=storagemaster.shades.local
+STORAGEMASTER_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/storagemaster.yml
 
 TRANSFORM_PATH=/opt/web-services/sites/transform
 TRANSFORM_VIRTUAL_HOSTNAME=transform.shades.local
@@ -47,7 +47,7 @@ ACTIONPLAN_PIDFILE=/var/run/daitss/thin/actionplan.pid
 CORE_PIDFILE=/var/run/daitss/thin/core.pid
 DESCRIBE_PIDFILE=/var/run/daitss/thin/describe.pid
 SILO_PIDFILE=/var/run/daitss/thin/silo.pid
-STOREMASTER_PIDFILE=/var/run/daitss/thin/storemaster.pid
+STORAGEMASTER_PIDFILE=/var/run/daitss/thin/storagemaster.pid
 TRANSFORM_PIDFILE=/var/run/daitss/thin/transform.pid
 VIRUSCHECK_PIDFILE=/var/run/daitss/thin/viruscheck.pid
 XMLRESOLUTION_PIDFILE=/var/run/daitss/thin/xmlresolution.pid
@@ -60,7 +60,7 @@ JAVA_HOME=/usr/java/jdk1.6.0_27
 GEM_HOME=/usr/lib64/ruby/gems/1.8/gems
 RUBY_HOME=/usr/bin
 RUBYOPT=rubygems
-TMPDIR=/tmp
+TMPDIR=/var/daitss/tmp
 
 pidrunning() {
   if [ -n $1 ]
@@ -146,16 +146,16 @@ silorunning() {
   fi
 }
 
-storemasterrunning() {
-  if [ -e $STOREMASTER_PIDFILE ]
+storagemasterrunning() {
+  if [ -e $STORAGEMASTER_PIDFILE ]
   then
-    pidrunning `cat $STOREMASTER_PIDFILE`
+    pidrunning `cat $STORAGEMASTER_PIDFILE`
     running=$?
     if [ "$running" -ne "0" ]
     then
       return 1
     else 
-      rm $STOREMASTER_PIDFILE
+      rm $STORAGEMASTER_PIDFILE
       return 0
     fi
   else 
@@ -319,13 +319,13 @@ start() {
     /bin/su daitss -c "cd $SILO_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$SILO_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $SILO_THIN_CONFIG_PATH -d start"
   fi
 
-  storemasterrunning
+  storagemasterrunning
   if [ "$?" -eq "1" ]
   then
     echo "Storage Master service is already running"
   else
     echo "Starting storage master service..."
-    /bin/su daitss -c "cd $STOREMASTER_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$STOREMASTER_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $STOREMASTER_THIN_CONFIG_PATH -d start"
+    /bin/su daitss -c "cd $STORAGEMASTER_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$STORAGEMASTER_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $STORAGEMASTER_THIN_CONFIG_PATH -d start"
   fi
 
   transformrunning
@@ -384,7 +384,7 @@ stop() {
   /bin/su daitss -c "cd $SILO_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$SILO_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $SILO_THIN_CONFIG_PATH -d stop"
 
   echo "Stopping storage master service..."
-  /bin/su daitss -c "cd $STOREMASTER_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$STOREMASTER_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $STOREMASTER_THIN_CONFIG_PATH -d stop"
+  /bin/su daitss -c "cd $STORAGEMASTER_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$STORAGEMASTER_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $STORAGEMASTER_THIN_CONFIG_PATH -d stop"
 
   echo "Stopping transform service..."
   /bin/su daitss -c "cd $TRANSFORM_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$TRANSFORM_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $TRANSFORM_THIN_CONFIG_PATH -d stop"
@@ -450,7 +450,7 @@ status() {
     echo "Silo-pool service is not running"
   fi
 
-  storemasterrunning
+  storagemasterrunning
   if [ "$?" -eq "1" ]
   then
     echo "Storage Master service is running"
