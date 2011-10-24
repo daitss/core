@@ -12,7 +12,8 @@ module Daitss
   # mapping of characterization output to MIX 2.0
   Compression_Scheme_Map = {
     "uncompressed" => "Uncompressed",
-    "Group 4 Fax" => "CCITT Group 4"
+    "Group 4 Fax" => "CCITT Group 4",
+    "Group 3 Fax" => "CCITT Group 3"    
   }
 
   # Please see mix 2.0 data dictionary for the color space value
