@@ -220,7 +220,7 @@ module Daitss
     # @return [Boolean] if WIP is startable
 
     def startable?
-      not (done? or running? or snafu? or stopped?)
+      not (done? or running? or snafu? or stopped? or dead?)
     end
 
     # returns a symbol denoting the state of a wip
