@@ -119,8 +119,10 @@ module Daitss
     def fromPremis premis
       byte_order = premis.find_first("mix:BasicDigitalObjectInformation/mix:byteOrder", NAMESPACES)
       attribute_set(:byte_order, byte_order.content) if byte_order
-      attribute_set(:width, premis.find_first("mix:BasicImageInformation/mix:BasicImageCharacteristics/mix:imageWidth", NAMESPACES).content)
-      attribute_set(:height, premis.find_first("mix:BasicImageInformation/mix:BasicImageCharacteristics/mix:imageHeight", NAMESPACES).content)
+      width = premis.find_first("mix:BasicImageInformation/mix:BasicImageCharacteristics/mix:imageWidth", NAMESPACES)
+      attribute_set(:width, width.content) if width
+      height = premis.find_first("mix:BasicImageInformation/mix:BasicImageCharacteristics/mix:imageHeight", NAMESPACES)
+      attribute_set(:height, height.content) if height
       compressionScheme = premis.find_first("mix:BasicDigitalObjectInformation/mix:Compression/mix:compressionScheme", NAMESPACES)
       if compressionScheme
         if Compression_Scheme.include?(compressionScheme.content)
