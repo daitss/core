@@ -29,7 +29,10 @@ puts `ps ux -p #{Process.pid}`
 
 begin
   Aip.transaction do
-    AIPInPremis.new.process p, doc
+    # parse the aip descriptor and build the preservation records
+    aipInPremis = AIPInPremis.new
+    aipInPremis.process p, doc
+    aipInPremis.toDB
   end
 rescue => e
   puts e.inspect
