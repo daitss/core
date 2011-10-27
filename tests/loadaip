@@ -18,8 +18,8 @@ archive
 aip = ARGV.shift or raise "aip descriptor required"
 
 DataMapper::Model.raise_on_save_failure = true
-act = DataMapper.repository(:default) { Account.get('UF') }
-prj = DataMapper.repository(:default) { act.projects.first :id => 'UFDC' }
+act = DataMapper.repository(:default) { Account.get('ACT') }
+prj = DataMapper.repository(:default) { act.projects.first :id => 'PRJ' }
 p = Package.new :project => prj
 io = open(aip)
 
@@ -39,5 +39,5 @@ rescue => e
   raise "cannot save aip"
 end
     
-puts "#{Time.now} after AIPInPremis.process"
-puts `ps ux -p #{Process.pid}`
+#puts "#{Time.now} after AIPInPremis.process"
+#puts `ps ux -p #{Process.pid}`
