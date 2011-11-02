@@ -46,7 +46,7 @@ pidrunning() {
 }
 
 describerunning() {
-  if [ -e $DESCRIBE_PIDFILE ]
+  if [ -e '$DESCRIBE_PIDFILE' ]
   then
     pidrunning `cat $DESCRIBE_PIDFILE`
     running=$?
@@ -63,7 +63,7 @@ describerunning() {
 }
 
 pulserunning() {
-  if [ -e $PULSE_PIDFILE ]
+  if [ -e '$PULSE_PIDFILE' ]
   then
     pidrunning `cat $PULSE_PIDFILE`
     running=$?
@@ -80,7 +80,7 @@ pulserunning() {
 }
 
 reporterrunning() {
-  if [ -e $REPORTER_PIDFILE ]
+  if [ -e '$REPORTER_PIDFILE' ]
   then
     pidrunning `cat $REPORTER_PIDFILE`
     running=$?

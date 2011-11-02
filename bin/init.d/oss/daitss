@@ -79,7 +79,7 @@ pidrunning() {
 }
 
 actionplanrunning() {
-  if [ -e $ACTIONPLAN_PIDFILE ]
+  if [ -e '$ACTIONPLAN_PIDFILE' ]
   then
     pidrunning `cat $ACTIONPLAN_PIDFILE`
     running=$?
@@ -96,7 +96,7 @@ actionplanrunning() {
 }
 
 corerunning() {
-  if [ -e $CORE_PIDFILE ]
+  if [ -e '$CORE_PIDFILE' ]
   then
     pidrunning `cat $CORE_PIDFILE`
     running=$?
@@ -113,7 +113,7 @@ corerunning() {
 }
 
 describerunning() {
-  if [ -e $DESCRIBE_PIDFILE ]
+  if [ -e '$DESCRIBE_PIDFILE' ]
   then
     pidrunning `cat $DESCRIBE_PIDFILE`
     running=$?
@@ -130,7 +130,7 @@ describerunning() {
 }
 
 silorunning() {
-  if [ -e $SILO_PIDFILE ]
+  if [ -e '$SILO_PIDFILE' ]
   then
     pidrunning `cat $SILO_PIDFILE`
     running=$?
@@ -147,7 +147,7 @@ silorunning() {
 }
 
 storagemasterrunning() {
-  if [ -e $STORAGEMASTER_PIDFILE ]
+  if [ -e '$STORAGEMASTER_PIDFILE' ]
   then
     pidrunning `cat $STORAGEMASTER_PIDFILE`
     running=$?
@@ -164,7 +164,7 @@ storagemasterrunning() {
 }
 
 transformrunning() {
-  if [ -e $TRANSFORM_PIDFILE ]
+  if [ -e '$TRANSFORM_PIDFILE' ]
   then
     pidrunning `cat $TRANSFORM_PIDFILE`
     running=$?
@@ -181,7 +181,7 @@ transformrunning() {
 }
 
 viruscheckrunning() {
-  if [ -e $VIRUSCHECK_PIDFILE ]
+  if [ -e '$VIRUSCHECK_PIDFILE' ]
   then
     pidrunning `cat $VIRUSCHECK_PIDFILE`
     running=$?
@@ -198,7 +198,7 @@ viruscheckrunning() {
 }
 
 xmlresolutionrunning() {
-  if [ -e $XMLRESOLUTION_PIDFILE ]
+  if [ -e '$XMLRESOLUTION_PIDFILE' ]
   then
     pidrunning `cat $XMLRESOLUTION_PIDFILE`
     running=$?
@@ -215,7 +215,7 @@ xmlresolutionrunning() {
 }
 
 pulserunning() {
-  if [ -e $PULSE_PIDFILE ]
+  if [ -e '$PULSE_PIDFILE' ]
   then
     pidrunning `cat $PULSE_PIDFILE`
     running=$?
@@ -232,7 +232,7 @@ pulserunning() {
 }
 
 reporterrunning() {
-  if [ -e $REPORTER_PIDFILE ]
+  if [ -e '$REPORTER_PIDFILE' ]
   then
     pidrunning `cat $REPORTER_PIDFILE`
     running=$?
