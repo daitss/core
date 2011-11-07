@@ -55,11 +55,14 @@ module Daitss
     # @return [String] tarball data
     def download f
 
+      Datyl::Logger.info "Beginning AIP download for #{f}"
+
       c = Curl::Easy.download(@url, f) do |c|
         c.follow_location = true
       end
 
       c.error "bad status" unless c.response_code == 200
+      Datyl::Logger.info "AIP download for #{f} complete"
     end
 
     # put the data to this resource
