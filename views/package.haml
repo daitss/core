@@ -54,9 +54,10 @@
 
 = partial :events_table, :locals => {:events => @package.normal_events }
 
-%h2 legacy events
+- if id =~ /E[0-9]{8}_[A-Z]{6}/
+  %h2 legacy events
 
-= partial :events_table, :locals => {:events => @package.legacy_events }
+  = partial :events_table, :locals => {:events => @package.legacy_events }
 
 %br
 - unless @fixity_events
