@@ -51,7 +51,7 @@ module Daitss
     end
 
     def procname
-      "#{id}.#{task}"
+      "#{id[10,15]}.#{task}"
     end
 
     # start a wip's task in a new process
