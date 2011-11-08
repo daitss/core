@@ -65,19 +65,12 @@ end
 def find_packages
   list = Dir.glob(@config.path + "/*")
   list = list.select { |p| File.directory? p}
-  list_u = list.select { |p| File.exists? File.join(p, File.basename(p) + ".xml") }
-  list_l = list.select { |p| File.exists? File.join(p, File.basename(p) + ".XML") }
 
   not_readable = list.select {|p| File.readable?(p) == false or File.executable?(p) == false }
-  packages = (list_l | list_u) - not_readable
-  not_packages = list - packages - not_readable 
+  packages = list - not_readable
 
   not_readable.each do |not_r|
     Datyl::Logger.err "#{not_r} is not readable or not executable, skipping"
-  end
-
-  not_packages.each do |not_p|
-    Datyl::Logger.err "#{not_p} doesn't appear to be a SIP, skipping"
   end
 
   packages
