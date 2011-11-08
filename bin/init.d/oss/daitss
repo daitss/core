@@ -273,87 +273,7 @@ stoppulse() {
 
 
 start() {
-  httpd_running=`/etc/init.d/httpd status`
-
-  if [ "$httpd_running" != "httpd is stopped" ]
-  then
-    echo "Apache is already running"
-  else
-    echo "Starting apache..."
-    /etc/init.d/httpd start  > /dev/null
-  fi 
-
-  actionplanrunning
-  if [ "$?" -eq "1" ]
-  then
-    echo "Actionplan service is already running"
-  else
-    echo "Starting actionplan service..."
-    /bin/su daitss -c "cd $ACTIONPLAN_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$ACTIONPLAN_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $ACTIONPLAN_THIN_CONFIG_PATH -d start"
-  fi
-
-  corerunning
-  if [ "$?" -eq "1" ]
-  then
-    echo "Core service is already running"
-  else
-    echo "Starting core service..."
-    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $CORE_THIN_CONFIG_PATH -d start"
-  fi
-
-  describerunning
-  if [ "$?" -eq "1" ]
-  then
-    echo "Description service is already running"
-  else
-    echo "Starting description service..."
-    /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $DESCRIBE_THIN_CONFIG_PATH -d start"
-  fi
-
-  silorunning
-  if [ "$?" -eq "1" ]
-  then
-    echo "Silo-pool service is already running"
-  else
-    echo "Starting silo-pool service..."
-    /bin/su daitss -c "cd $SILO_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$SILO_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $SILO_THIN_CONFIG_PATH -d start"
-  fi
-
-  storagemasterrunning
-  if [ "$?" -eq "1" ]
-  then
-    echo "Storage Master service is already running"
-  else
-    echo "Starting storage master service..."
-    /bin/su daitss -c "cd $STORAGEMASTER_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$STORAGEMASTER_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $STORAGEMASTER_THIN_CONFIG_PATH -d start"
-  fi
-
-  transformrunning
-  if [ "$?" -eq "1" ]
-  then
-    echo "Transform service is already running"
-  else
-    echo "Starting transform service..."
-    /bin/su daitss -c "cd $TRANSFORM_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$TRANSFORM_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $TRANSFORM_THIN_CONFIG_PATH -d start"
-  fi
-
-  viruscheckrunning
-  if [ "$?" -eq "1" ]
-  then
-    echo "Viruscheck service is already running"
-  else
-    echo "Starting viruscheck service..."
-    /bin/su daitss -c "cd $VIRUSCHECK_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$VIRUSCHECK_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $VIRUSCHECK_THIN_CONFIG_PATH -d start"
-  fi
-
-  xmlresolutionrunning
-  if [ "$?" -eq "1" ]
-  then
-    echo "Xmlresolution service is already running"
-  else
-    echo "Starting xmlresolution service..."
-    /bin/su daitss -c "cd $XMLRESOLUTION_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$XMLRESOLUTION_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $XMLRESOLUTION_THIN_CONFIG_PATH -d start"
-  fi
+  startservices
 
   startpulse
 
@@ -506,6 +426,90 @@ graceful() {
   startpulse
 }
 
+startservices() {
+  httpd_running=`/etc/init.d/httpd status`
+
+  if [ "$httpd_running" != "httpd is stopped" ]
+  then
+    echo "Apache is already running"
+  else
+    echo "Starting apache..."
+    /etc/init.d/httpd start  > /dev/null
+  fi 
+
+  actionplanrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Actionplan service is already running"
+  else
+    echo "Starting actionplan service..."
+    /bin/su daitss -c "cd $ACTIONPLAN_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$ACTIONPLAN_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $ACTIONPLAN_THIN_CONFIG_PATH -d start"
+  fi
+
+  corerunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Core service is already running"
+  else
+    echo "Starting core service..."
+    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $CORE_THIN_CONFIG_PATH -d start"
+  fi
+
+  describerunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Description service is already running"
+  else
+    echo "Starting description service..."
+    /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $DESCRIBE_THIN_CONFIG_PATH -d start"
+  fi
+
+  silorunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Silo-pool service is already running"
+  else
+    echo "Starting silo-pool service..."
+    /bin/su daitss -c "cd $SILO_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$SILO_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $SILO_THIN_CONFIG_PATH -d start"
+  fi
+
+  storagemasterrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Storage Master service is already running"
+  else
+    echo "Starting storage master service..."
+    /bin/su daitss -c "cd $STORAGEMASTER_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$STORAGEMASTER_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $STORAGEMASTER_THIN_CONFIG_PATH -d start"
+  fi
+
+  transformrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Transform service is already running"
+  else
+    echo "Starting transform service..."
+    /bin/su daitss -c "cd $TRANSFORM_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$TRANSFORM_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $TRANSFORM_THIN_CONFIG_PATH -d start"
+  fi
+
+  viruscheckrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Viruscheck service is already running"
+  else
+    echo "Starting viruscheck service..."
+    /bin/su daitss -c "cd $VIRUSCHECK_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$VIRUSCHECK_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $VIRUSCHECK_THIN_CONFIG_PATH -d start"
+  fi
+
+  xmlresolutionrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Xmlresolution service is already running"
+  else
+    echo "Starting xmlresolution service..."
+    /bin/su daitss -c "cd $XMLRESOLUTION_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$XMLRESOLUTION_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  thin -C $XMLRESOLUTION_THIN_CONFIG_PATH -d start"
+  fi
+}
+
 case "$1" in
   start)
   start
@@ -529,8 +533,11 @@ case "$1" in
   graceful)
   graceful
   ;;
+  start-services)
+  startservices
+  ;;
   *)
-  echo $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful}"
+  echo $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful|start-services}"
   exit 1
 esac
 
