@@ -80,6 +80,9 @@ module Daitss
         raise "could not extract tarball: #{$?}" unless $?.exitstatus == 0
       end
 
+
+      Datyl::Logger.info "Creating wip from tar for #{id}"
+
       df_paths = self.package.intentity.datafiles.map do |dbdf|
         df_id = dbdf.id
         df = new_original_datafile df_id
@@ -117,6 +120,8 @@ module Daitss
         df['aip-path'] = aip_path
 
       end
+
+      Datyl::Logger.info "Finished creating wip from tar for #{id}"
 
       unless File.directory? old_xml_res_tarball_dir
         FileUtils.mkdir old_xml_res_tarball_dir

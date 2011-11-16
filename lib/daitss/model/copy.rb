@@ -19,7 +19,7 @@ module Daitss
     belongs_to :aip
 
     def download f
-      rs = RandyStore.new id, url.to_s
+      rs = StorageMaster.new id, url.to_s
       rs.download f
 
       if size

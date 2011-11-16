@@ -7,14 +7,14 @@ require 'nokogiri'
 
 module Daitss
 
-  class RandyStore
+  class StorageMaster
 
     RESERVE_PATH = '/reserve'
 
     # reserve a new location
     #
     # @param [String] package_id
-    def RandyStore.reserve package_id
+    def StorageMaster.reserve package_id
       c = Curl::Easy.http_post(archive.storage_url + RESERVE_PATH, Curl::PostField.content('ieid', package_id))
       (200..201).include? c.response_code or c.error("bad status")
 
@@ -26,7 +26,7 @@ module Daitss
       not xml.root['location'].empty? or  c.error("empty location")
 
       # return a new resource object
-      RandyStore.new package_id, xml.root['location']
+      StorageMaster.new package_id, xml.root['location']
     end
 
     attr_reader :package_id, :url
@@ -55,11 +55,14 @@ module Daitss
     # @return [String] tarball data
     def download f
 
+      Datyl::Logger.info "Beginning AIP download for #{f}"
+
       c = Curl::Easy.download(@url, f) do |c|
         c.follow_location = true
       end
 
       c.error "bad status" unless c.response_code == 200
+      Datyl::Logger.info "AIP download for #{f} complete"
     end
 
     # put the data to this resource

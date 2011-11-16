@@ -1,4 +1,4 @@
-require 'daitss/service/randystore'
+require 'daitss/service/storagemaster'
 
 module Daitss
 
@@ -20,7 +20,7 @@ module Daitss
       # write the tarball to storage
       add_substep('make aip', 'storage write') { 
         Datyl::Logger.info "Reserving storage for #{id}"
-        rs = RandyStore.reserve id
+        rs = StorageMaster.reserve id
         Datyl::Logger.info "Writing AIP for #{id} to storage"
         aip.copy.attributes = rs.put_file tarball_file 
       }
@@ -63,7 +63,7 @@ module Daitss
       # write the tarball to storage
       add_substep('make aip', 'storage write') { 
         Datyl::Logger.info "Reserving storage for updated AIP for #{id}"
-        rs = RandyStore.reserve id
+        rs = StorageMaster.reserve id
             
         metadata['old-copy-url'] = aip.copy.url.to_s
 
@@ -93,7 +93,7 @@ module Daitss
     end
 
     def delete_old_aip
-      old_copy = RandyStore.new id, metadata['old-copy-url']
+      old_copy = StorageMaster.new id, metadata['old-copy-url']
 
       # attempt to delete old AIP, log error if failure
       begin
@@ -111,7 +111,7 @@ module Daitss
       aip = package.aip
       add_substep('withdraw aip', 'aip attributes') { aip.attributes = aip_attrs }
 
-      old_rs = RandyStore.new id, aip.copy.url.to_s
+      old_rs = StorageMaster.new id, aip.copy.url.to_s
 
       # parse the tombstone' aip descriptor and build the preservation records
       aipInPremis = AIPInPremis.new

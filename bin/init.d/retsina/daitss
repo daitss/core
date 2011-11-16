@@ -46,7 +46,7 @@ pidrunning() {
 }
 
 describerunning() {
-  if [ -e $DESCRIBE_PIDFILE ]
+  if [ -e "$DESCRIBE_PIDFILE" ]
   then
     pidrunning `cat $DESCRIBE_PIDFILE`
     running=$?
@@ -63,7 +63,7 @@ describerunning() {
 }
 
 pulserunning() {
-  if [ -e $PULSE_PIDFILE ]
+  if [ -e "$PULSE_PIDFILE" ]
   then
     pidrunning `cat $PULSE_PIDFILE`
     running=$?
@@ -80,7 +80,7 @@ pulserunning() {
 }
 
 reporterrunning() {
-  if [ -e $REPORTER_PIDFILE ]
+  if [ -e "$REPORTER_PIDFILE" ]
   then
     pidrunning `cat $REPORTER_PIDFILE`
     running=$?
@@ -121,24 +121,7 @@ stoppulse() {
 
 
 start() {
-  httpd_running=`/etc/init.d/httpd status`
-
-  if [ "$httpd_running" != "httpd is stopped" ]
-  then
-    echo "Apache services are already running"
-  else
-    echo "Starting apache services..."
-    /etc/init.d/httpd start  > /dev/null
-  fi 
-
-  describerunning
-  if [ "$?" -eq "1" ]
-  then
-    echo "Description service is already running"
-  else
-    echo "Starting description service..."
-    /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d start"
-  fi
+  startservices
 
   startpulse
 
@@ -214,6 +197,27 @@ graceful() {
   startpulse
 }
 
+startservices() {
+  httpd_running=`/etc/init.d/httpd status`
+
+  if [ "$httpd_running" != "httpd is stopped" ]
+  then
+    echo "Apache services are already running"
+  else
+    echo "Starting apache services..."
+    /etc/init.d/httpd start  > /dev/null
+  fi 
+
+  describerunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Description service is already running"
+  else
+    echo "Starting description service..."
+    /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d start"
+  fi
+}
+
 case "$1" in
   start)
   start
@@ -237,8 +241,11 @@ case "$1" in
   graceful)
   graceful
   ;;
+  start-services)
+  startservices
+  ;;
   *)
-  echo $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful}"
+  echo $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful|start-services}"
   exit 1
 esac
 
