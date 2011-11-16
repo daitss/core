@@ -38,7 +38,7 @@ module Daitss
         }
       rescue => e
         #if db save fails, delete the new aip from storage.
-        Datyl::Logger.err "Caught exception #{e.class}: '#{e.message}' updating database, rolling back AIP on storage; backtrace follows"
+        Datyl::Logger.err "Caught exception #{e.class}: '#{e.message}' updating database for #{id}, rolling back AIP on storage; backtrace follows"
          e.backtrace.each { |line| Datyl::Logger.err line }        
         rs.delete
         raise
@@ -83,7 +83,7 @@ module Daitss
           
         end
       rescue => e
-         Datyl::Logger.err "Caught exception #{e.class}: '#{e.message}' updating database, rolling back AIP on storage; backtrace follows"
+         Datyl::Logger.err "Caught exception #{e.class}: '#{e.message}' updating database for #{id}, rolling back AIP on storage; backtrace follows"
          e.backtrace.each { |line| Datyl::Logger.err line }
          rs.delete
         raise
