@@ -1,10 +1,16 @@
+def op_event package, event_name
+  e = Event.new :name => event_name, :package => package, :agent => Program.get("SYSTEM")
+  e.save! 
+end
+
 Given /^the following packages:$/ do |table|
 
   table.raw.each do |r|
     id = r.first
     sip = Sip.new :name => 'foo.sip'
-    p = Package.create :id => id, :sip => sip, :project => Project.first
-    p.log "submit"
+    p = Package.new :id => id, :sip => sip, :project => Project.first
+    p.save!
+    op_event p, "submit"
   end
 
 end
@@ -13,23 +19,24 @@ Given /^the following (rejected|withdrawn|d1 refreshed) packages:$/ do |status, 
   table.raw.each do |r|
     id = r.first
     sip = Sip.new :name => 'foo.sip'
-    p = Package.create :id => id, :sip => sip, :project => Project.first
+    p = Package.new :id => id, :sip => sip, :project => Project.first
+    p.save!
 
     case status
     when "rejected"
-      p.log "reject"
+      op_event p, "reject"
     when "withdrawn"
-      p.log "submit"
-      p.log "ingest started"
-      p.log "ingest finished"
-      p.log "withdraw started"
-      p.log "withdraw finished"
+      op_event p, "submit"
+      op_event p, "ingest started"
+      op_event p, "ingest finished"
+      op_event p, "withdraw started"
+      op_event p, "withdraw finished"
     when "d1 refreshed"
-      p.log "submit"
-      p.log "ingest started"
-      p.log "ingest finished"
-      p.log "d1refresh started"
-      p.log "d1refresh finished"
+      op_event p, "submit"
+      op_event p, "ingest started"
+      op_event p, "ingest finished"
+      op_event p, "d1refresh started"
+      op_event p, "d1refresh finished"
     end
   end
 end
