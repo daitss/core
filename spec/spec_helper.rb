@@ -21,7 +21,7 @@ RSpec.configure do |config|
 
   config.before :all do
     FileUtils.rm_rf archive.data_dir
-    FileUtils.mkdir archive.data_dir
+    FileUtils.mkdir_p archive.data_dir
     archive.init_data_dir
     archive.setup_db
     archive.init_db
@@ -43,6 +43,7 @@ RSpec.configure do |config|
 
   config.after :all do
     $cleanup.each { |x| FileUtils.rm_rf x }
+    FileUtils.rm_rf archive.data_dir
   end
 
 end
