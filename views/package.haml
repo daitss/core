@@ -54,7 +54,7 @@
 
 = partial :events_table, :locals => {:events => @package.normal_events }
 
-- if id =~ /E[0-9]{8}_[A-Z]{6}/
+- if @package.legacy_events.any?
   %h2 legacy events
 
   = partial :events_table, :locals => {:events => @package.legacy_events }

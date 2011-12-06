@@ -70,7 +70,7 @@ end
 Before do
   archive = Daitss.archive
   FileUtils.rm_rf archive.data_dir
-  FileUtils.mkdir archive.data_dir
+  FileUtils.mkdir_p archive.data_dir
   archive.init_data_dir
   archive.setup_db
   archive.init_db
@@ -114,4 +114,5 @@ After do
     FileUtils.rm_rf w.path
   end
 
+  FileUtils.rm_rf archive.data_dir
 end

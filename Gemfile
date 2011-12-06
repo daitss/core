@@ -3,7 +3,7 @@ source "http://rubygems.org"
 gem 'data_mapper'
 gem 'dm-is-list'
 gem 'haml'
-gem 'libxml-ruby'
+gem 'libxml-ruby', "1.1.3"
 gem 'nokogiri'
 gem 'rake'
 gem 'semver'

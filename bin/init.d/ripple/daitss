@@ -23,18 +23,18 @@ PULSE_PIDFILE=/var/run/daitss/pulse.pid
 REPORTER_PIDFILE=/var/run/daitss/reporter.pid
 
 GEM_BIN=/opt/ruby/gem-repos/bin
-JAVA_HOME=/etc/alternatives/java_sdk_1.6.0
+JAVA_HOME=/usr/java/jdk1.6.0_29
 GEM_HOME=/opt/ruby/gem-repos
 RUBY_HOME=/opt/ruby/bin
 RUBYOPT=rubygems
 TMPDIR=/var/daitss/tmp
 
 pidrunning() {
-  if [ -n $1 ]
+  if [ -n "$1" ]
   then
     i=`ps aux | grep $1 2> /dev/null | grep -v grep 2> /dev/null | awk '{print $2}'`
 
-    if [ -n $i ]
+    if [ -n "$i" ]
     then
       return $i
     else
@@ -50,7 +50,7 @@ describerunning() {
   then
     pidrunning `cat $DESCRIBE_PIDFILE`
     running=$?
-    if [ "$running" -ne "0" ]
+    if [ "$running" != "0" ]
     then
       return 1
     else 
@@ -67,7 +67,7 @@ pulserunning() {
   then
     pidrunning `cat $PULSE_PIDFILE`
     running=$?
-    if [ "$running" -ne "0" ]
+    if [ "$running" != "0" ]
     then
       return 1
     else 
@@ -84,7 +84,7 @@ reporterrunning() {
   then
     pidrunning `cat $REPORTER_PIDFILE`
     running=$?
-    if [ "$running" -ne "0" ]
+    if [ "$running" != "0" ]
     then
       return 1
     else 
@@ -98,24 +98,30 @@ reporterrunning() {
 
 startpulse() {
   pulserunning
-  if [ "$?" -eq "1" ]
+  if [ $? -eq 1 ]
   then
     echo "Pulse is already running"
   else
     echo "Starting pulse..."
-    /bin/su d2core -c "cd $CORE_PATH; TMPDIR=$TMPDIR JAVA_HOME=$JAVA_HOME DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/pulse 2>&1 > /dev/null & echo \$! > $PULSE_PIDFILE"
+    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR JAVA_HOME=$JAVA_HOME DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/pulse 2>&1 > /dev/null & echo \$! > $PULSE_PIDFILE"
   fi
 }
 
 stoppulse() {
   pulserunning
-  if [ "$?" -eq "0" ]
+  if [ "$?" == "0" ]
   then 
     echo "Pulse is already stopped"
   else
     echo "Stopping pulse..."
     kill `cat $PULSE_PIDFILE`
-    rm $PULSE_PIDFILE
+
+    if [ $? -eq 0 ] 
+    then
+      rm $PULSE_PIDFILE
+    else
+      echo "Unable to kill pulse. PID file left intact"
+    fi
   fi
 }
 
@@ -126,12 +132,12 @@ start() {
   startpulse
 
   reporterrunning
-  if [ "$?" -eq "1" ]
+  if [ "$?" == "1" ]
   then
     echo "Reporter is already running"
   else
     echo "Starting reporter"
-    /bin/su d2core -c "cd $CORE_PATH; TMPDIR=$TMPDIR DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/mailer-daemon 2>&1 > /dev/null & echo \$! > $REPORTER_PIDFILE"
+    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/mailer-daemon 2>&1 > /dev/null & echo \$! > $REPORTER_PIDFILE"
   fi
 }
 
@@ -145,13 +151,19 @@ stop() {
   stoppulse
 
   reporterrunning
-  if [ "$?" -eq "0" ]
+  if [ "$?" == "0" ]
   then
     echo "Reporter is already stopped"
   else 
     echo "Stopping reporter..."
     kill `cat $REPORTER_PIDFILE`
-    rm $REPORTER_PIDFILE
+
+    if [ $? -eq 0 ] 
+    then
+      rm $REPORTER_PIDFILE
+    else
+      echo "Unable to kill reporter. PID file left intact"
+    fi
   fi
 }
 
@@ -166,7 +178,7 @@ status() {
   fi
 
   describerunning
-  if [ "$?" -eq "1" ]
+  if [ "$?" == "1" ]
   then
     echo "Description service is running"
   else
@@ -174,7 +186,7 @@ status() {
   fi
 
   pulserunning
-  if [ "$?" -eq "1" ]
+  if [ "$?" == "1" ]
   then
     echo "Pulse is running"
   else
@@ -182,7 +194,7 @@ status() {
   fi
 
   reporterrunning
-  if [ "$?" -eq "1" ]
+  if [ "$?" == "1" ]
   then
     echo "Reporter is running"
   else
@@ -209,7 +221,7 @@ startservices() {
   fi 
 
   describerunning
-  if [ "$?" -eq "1" ]
+  if [ "$?" == "1" ]
   then
     echo "Description service is already running"
   else

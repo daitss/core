@@ -39,6 +39,11 @@ Feature: overview of a package
     When I goto its package page
     Then in the events I should see a "legacy operations data" event with "" in the notes
 
+  Scenario: don't show the legacy events if there aren't any
+    Given I submit a package
+    When I goto its package page
+    Then I should not see "legacy operations data"
+
   Scenario: hide the fixity events by default
     Given I submit a package with some fixity events
     When I goto its package page

@@ -1,0 +1,47 @@
+#!/usr/bin/env ruby
+
+# Script to authorize withdrawal requests for packages in a batch
+
+require 'rubygems'
+require 'bundler/setup'
+require 'daitss'
+
+include Daitss
+
+load_archive
+
+def error msg
+  STDERR.puts "Error: " + msg
+  exit 1
+end
+
+unless ARGV[0] and ARGV[1] and ARGV[2]
+  error "Usage: authorize-batch BATCH_NAME USER_NAME USER_PASSWORD"
+else
+  batch_name = ARGV[0]
+  user = ARGV[1]
+  password = ARGV[2]
+end
+
+error "Invalid user credentials" unless  u = User.get(user)
+error "Invalid user credentials" unless  u.authenticate(password)
+error "No batch with name #{batch_name} exists" unless b = Batch.get(batch_name)
+
+authorized = 0
+
+b.packages.each do |pkg|
+  req = pkg.requests.first(:type => :withdraw, :is_authorized => false, :status => :enqueued)
+  if req
+    authorized += 1
+    STDOUT.puts "authorizing withdrawal request for #{pkg.id}"
+
+    req.is_authorized = true
+    req.save
+    pkg.log "#{req.type} request authorized", :notes => "authorized by: #{u.id}", :agent => u
+  end
+end
+
+puts "\nPackages in batch #{b.id}: #{b.packages.length}"
+puts "Requests authorized: #{authorized}"
+
+ 
