@@ -28,12 +28,12 @@ module Daitss
     # report error upon failure in saving 
     def check_errors
       unless self.valid?
-        bigmessage = "#{self.class}: "  + self.errors.full_messages.join "\n" 
+        bigmessage = self.errors.full_messages.join "\n" 
         raise bigmessage unless bigmessage.empty?
       end
       
       unless copy.valid?
-        bigmessage = "#{copy.class}: " + copy.errors.full_messages.join "\n" 
+        bigmessage =  copy.errors.full_messages.join "\n" 
         raise bigmessage unless bigmessage.empty?
       end
     end
