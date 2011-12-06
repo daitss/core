@@ -31,8 +31,7 @@ module Daitss
         add_substep('make aip', 'db save') {
           Aip.transaction do
             Datyl::Logger.info "Writing AIP records for #{id} to database"
-            aip.raise_on_save_failure = true
-            aip.save
+            aip.toDB
             aipInPremis.toDB
           end
         }
@@ -76,8 +75,7 @@ module Daitss
           # save the aip descriptor and all preservation records
           add_substep('make aip', 'db save') {
             Datyl::Logger.info "Updating AIP in database for #{id}"    
-            aip.raise_on_save_failure = true
-            aip.save
+            aip.toDB
             aipInPremis.toDB
           }
           
@@ -124,8 +122,7 @@ module Daitss
       # save the 'tombstone' aip descriptor and all preservation records
       add_substep('withdraw aip', 'db save') {
         Datyl::Logger.info "Updating AIP for withdrawal in database for #{id}"      
-        aip.raise_on_save_failure = true
-        aip.save
+        aip.toDB
         aipInPremis.toDB
       }
       
