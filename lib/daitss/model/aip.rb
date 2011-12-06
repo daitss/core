@@ -25,6 +25,27 @@ module Daitss
     belongs_to :package
     has 0..1, :copy # 0 if package has been withdrawn, otherwise, 1
 
+    # report error upon failure in saving 
+    def check_errors
+      unless self.valid?
+        bigmessage = "#{self.class}: "  + self.errors.full_messages.join "\n" 
+        raise bigmessage unless bigmessage.empty?
+      end
+      
+      unless copy.valid?
+        bigmessage = "#{copy.class}: " + copy.errors.full_messages.join "\n" 
+        raise bigmessage unless bigmessage.empty?
+      end
+    end
+   
+    def toDB
+      # @datafiles.each {|dfid, df| df.check_errors unless  df.save }
+      unless self.save
+        self.check_errors 
+        raise "error in saving Aip record, no validation error found"
+      end
+    end
+   
     # @return [Boolean] true if Aip instance and associated fast access data were saved
       #Aip.transaction do
        # self.save
