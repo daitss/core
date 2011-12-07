@@ -16,10 +16,11 @@ module Daitss
     include DataMapper::Resource
 
     XML_SIZE = 2**32-1
-
+    XML_ERRATA_SIZE = 65535
+    
     property :id, Serial
     property :xml, Text, :required => true, :length => XML_SIZE
-    property :xml_errata, Text, :required => false
+    property :xml_errata, Text, :length => XML_ERRATA_SIZE, :required => false
     property :datafile_count, Integer # uncomment after all d1 packages are migrated, :required => true
 
     belongs_to :package
@@ -38,8 +39,9 @@ module Daitss
       end
     end
    
+    # save to database
     def toDB
-      # @datafiles.each {|dfid, df| df.check_errors unless  df.save }
+      @xml_errata = @xml_errata.slice(0, XML_ERRATA_SIZE)
       unless self.save
         self.check_errors 
         raise "error in saving Aip record, no validation error found"
