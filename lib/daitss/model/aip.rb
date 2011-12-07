@@ -41,7 +41,7 @@ module Daitss
    
     # save to database
     def toDB
-      :xml_errata.slice(0, XML_ERRATA_SIZE)
+      @xml_errata = @xml_errata.slice(0, XML_ERRATA_SIZE)
       unless self.save
         self.check_errors 
         raise "error in saving Aip record, no validation error found"
