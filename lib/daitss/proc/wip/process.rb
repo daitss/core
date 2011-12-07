@@ -36,7 +36,7 @@ module Daitss
 
     def stash_journal
       jf = File.join @path, 'journal'
-      pf = profile_file('journal')
+      pf = profile_file('journal', id, task) 
       FileUtils.cp jf, pf if File.exist? jf
     end
 
@@ -89,7 +89,7 @@ module Daitss
           stash_journal
         end
 
-        profile_stop
+        profile_stop id, task
       end
 
       @process = {

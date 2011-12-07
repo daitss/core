@@ -3,8 +3,8 @@ require 'daitss/proc/wip/process'
 
 module Daitss
 
-  def profile_file suffix
-    f = "#{procname}.#{$$}.#{suffix}"
+  def profile_file suffix, id, task
+    f = "#{id}.#{task}.#{$$}.#{suffix}"
     File.join archive.profile_path, f
   end
 
@@ -12,10 +12,10 @@ module Daitss
     RubyProf.start
   end
 
-  def profile_stop
+  def profile_stop id, task
     result = RubyProf.stop
     printer = RubyProf::GraphHtmlPrinter.new result
-    f = profile_file('prof.html')
+    f = profile_file('prof.html', id, task)
     open(f, 'w') { |io| printer.print io, :min_percent => 1 }
   end
 
