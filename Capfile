@@ -28,6 +28,10 @@ set :group,        "daitss"
 
 set :keep_releases, 4   # default is 5
 
+if variables[:target] =~ /ripple.fcla.edu/
+  set :keep_releases, 2   # default is 5
+end
+
 def usage(*messages)
   STDERR.puts "Usage: cap deploy -S target=<host:filesystem>"  
   STDERR.puts messages.join("\n")

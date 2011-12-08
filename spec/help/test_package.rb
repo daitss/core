@@ -27,6 +27,8 @@ def submit name
     raise "test submit failed for #{name}:\n\n#{package.events.last.notes}"
   end
 
+  FileUtils.rm zip_path
+
   a.workspace[package.id]
 end
 

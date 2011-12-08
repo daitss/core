@@ -25,7 +25,7 @@ describe 'profiling wips' do
     f.should_not be_nil
   end
 
-  it 'should create a profile for a wip' do
+  it 'should create a journal for a wip' do
     f = files.find { |f| f =~ /\.journal$/ }
     f.should_not be_nil
   end
