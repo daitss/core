@@ -154,7 +154,7 @@ Feature: be able to locate any package
     Examples:
       | activity     | count |
       | rejected     | 1     |
-      | submitted    | 1     |
+      | submitted    | 2     |
       | error        | 1     |
       | archived     | 1     |
       | disseminated | 1     |
