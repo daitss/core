@@ -26,7 +26,7 @@ set :group,        "daitss"
 # doesn't save enough to be worthwhile:
 # set :git_shallow_clone, 1   # only works with master branch, only copy last commit
 
-set :keep_releases, 4   # default is 5
+set :keep_releases, 3   # default is 5
 
 if variables[:target] =~ /ripple.fcla.edu/
   set :keep_releases, 2   # default is 5
