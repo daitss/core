@@ -14,7 +14,7 @@ module Daitss
       doc = ask_description_service(:location => "file:#{File.expand_path data_file }",
                                     :uri => uri,
                                     :originalName => metadata['aip-path'])
-                                    augment_fixity doc
+                                    augment_fixity doc if @wip.file_group
                                     fix_event_ids doc
                                     fix_jhove_ids doc
                                     metadata['describe-file-object'] = element_doc_as_str doc, "//P:object[@xsi:type='file']"
