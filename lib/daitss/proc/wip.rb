@@ -198,7 +198,7 @@ module Daitss
     def new_datafile container, id
 
       if File.exist? File.join(@path, container, id.to_s)
-        raise "datafile #{id} already exists in #{container}"
+        raise "datafile #{id} already exists in #{container}" unless task == :d1refresh
       end
 
       DataFile.make self, container, id.to_s

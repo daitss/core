@@ -149,12 +149,12 @@ Feature: be able to locate any package
     And I goto "/packages"
     When I select activity "<activity>"
     And I press "Set Scope"
-    And I wait for "1.0" seconds
+    And I wait for "0.5" seconds
     Then I should have <count> package in the results
     Examples:
       | activity     | count |
       | rejected     | 1     |
-      | submitted    | 1     |
+      | submitted    | 2     |
       | error        | 1     |
       | archived     | 1     |
       | disseminated | 1     |

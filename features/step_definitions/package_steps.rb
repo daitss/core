@@ -273,7 +273,9 @@ Given /^(\d+) snafu package$/ do |count|
     pa.project = Project.first
     pa.save
 
-    rand(10) % 2 == 1 ? pa.log("snafu") : pa.log("disseminate snafu")
+    pa.log("submit")
+    pa.log("ingest started")
+    pa.log("ingest snafu")
   end
 end
 
