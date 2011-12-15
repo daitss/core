@@ -15,27 +15,46 @@ require 'daitss'
 include Daitss
 archive
 
-aip = ARGV.shift or raise "aip descriptor required"
+aip_descriptor = ARGV.shift or raise "aip descriptor required"
 
 DataMapper::Model.raise_on_save_failure = true
 act = DataMapper.repository(:default) { Account.get('ACT') }
 prj = DataMapper.repository(:default) { act.projects.first :id => 'PRJ' }
 p = Package.new :project => prj
-io = open(aip)
+io = open(aip_descriptor)
 
 doc = XML::Document.io(io)
-puts "#{Time.now} after Document.io"
-puts `ps ux -p #{Process.pid}`
 
 begin
+  aipInPremis = AIPInPremis.new
+  aip = Aip.new :package => p, :copy => Copy.new
+  # parse the aip descriptor and build the preservation records
+  aipInPremis.process p, doc
+  puts aip_descriptor
+  aip.attributes = {
+    :xml => doc.to_s,
+    :xml_errata => nil,
+    :datafile_count => 0
+  }
+  
+  aip.copy.attributes = {
+        :size => 1000,
+        :sha1 => '224916a49af566a47b29641abed7a65561555481',
+        :md5 => '67aec1c62b4854b5f37a565ff9761b99',
+        :url => 'storagemaster',
+        :timestamp => Time.now
+      }
+      
   Aip.transaction do
-    # parse the aip descriptor and build the preservation records
-    aipInPremis = AIPInPremis.new
-    aipInPremis.process p, doc
+    aip.toDB
     aipInPremis.toDB
   end
 rescue => e
-  puts e.inspect
+  puts p.inspect
+  puts aip.inspect
+  puts e.inspect  
+  puts "Caught exception #{e.class}: '#{e.message}' updating database"
+  e.backtrace.each { |line| puts line}        
   raise "cannot save aip"
 end
     
