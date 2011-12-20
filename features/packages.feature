@@ -141,6 +141,7 @@ Feature: be able to locate any package
     Then I should have 0 package in the results
 
   Scenario Outline: Filter by activity
+    Given pending
     Given 1 rejected package
     And 1 archived package
     And 1 submitted package
