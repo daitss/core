@@ -34,7 +34,7 @@ else
 end
 
 group :test do
-  gem "cucumber"
+  gem "cucumber", "1.1.0"
   gem "rack-test"
   gem "rspec"
   gem "fuubar"
