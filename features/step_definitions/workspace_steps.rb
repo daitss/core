@@ -90,7 +90,7 @@ Given /^an? ([^"]*) wip$/ do |state|
   when 'dead'
     wip.spawn
     Process.kill 'KILL', wip.process[:id]
-    sleep 0.5
+    sleep 2
     wip.should be_dead
 
   when 'archived'
