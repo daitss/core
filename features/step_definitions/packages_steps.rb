@@ -108,9 +108,3 @@ end
 When /^I search for the package$/ do
   fill_in "search", :with => Package.first.id
 end
-
-Given /pending/ do
-  pending 'test failing non-deterministically'
-end
-
-

@@ -89,8 +89,9 @@ Feature: permissions
     When I goto its package page
     Then I should not see "dips"
 
+  # 12/21/11: limiting results for affiliates has been disabled, so this test is disabled as well
   Scenario: affiliate should see limited resultset
-    Given this test is pending
+    Given this test is pending 
     Given I am logged in as an "affiliate"
     Given 501 package under account/project "ACT-FDA"
     When I goto "/packages"

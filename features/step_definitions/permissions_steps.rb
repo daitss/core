@@ -18,6 +18,6 @@ When /^I log out and log in as an? "([^"]*)"$/ do |role|
 end
 
 Given /^this test is pending$/ do
-  pending "disabled limited resultset for affiliates, for now"
+  pending "this test is pending"
 end
 
