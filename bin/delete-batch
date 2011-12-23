@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+# Script to delete a batch 
+
+require 'rubygems'
+require 'bundler/setup'
+require 'daitss'
+
+include Daitss
+
+load_archive
+
+def error msg
+  STDERR.puts "Error: " + msg
+  exit 1
+end
+
+unless ARGV[0] and ARGV[1] and ARGV[2]
+  error "Usage: delete-batch BATCH_NAME USER_NAME USER_PASSWORD"
+else
+  batch_name = ARGV[0]
+  user = ARGV[1]
+  password = ARGV[2]
+end
+
+error "Invalid user credentials" unless  u = User.get(user)
+error "Invalid user credentials" unless  u.authenticate(password)
+error "No batch with name #{batch_name} exists" unless b = Batch.get(batch_name)
+
+b.packages = []
+b.save!
+b.destroy
+
+puts "Batch #{batch_name} deleted"
