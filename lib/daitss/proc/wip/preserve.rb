@@ -22,7 +22,7 @@ module Daitss
             df.migrate!
             df.normalize!
           end
-        rescue e
+        rescue => e
           throw "error while processing #{df.id}: " + e
         end
       end
