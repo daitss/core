@@ -43,7 +43,6 @@ RSpec.configure do |config|
 
   config.after :all do
     $cleanup.each { |x| FileUtils.rm_rf x }
-    FileUtils.rm_rf archive.data_dir
   end
 
 end

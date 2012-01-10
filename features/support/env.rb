@@ -113,6 +113,4 @@ After do
     w.kill if w.running?
     FileUtils.rm_rf w.path
   end
-
-  FileUtils.rm_rf archive.data_dir
 end
