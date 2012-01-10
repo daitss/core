@@ -315,3 +315,7 @@ When /^the request is picked up by pulse and sent to workspace$/ do
   r.save
 end
 
+Given /^the package is missing its copy record$/ do
+  p = Package.get(File.basename(last_package))
+  p.aip.copy.destroy
+end
