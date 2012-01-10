@@ -37,6 +37,7 @@ core.example.org:
 
     uri_prefix:                  daitss-test://
     http_timeout:                600
+    storage_download_timeout:    600
 
     actionplan_url:              http://url/to/actionplan
     describe_url:                http://url/to/describe
@@ -102,7 +103,11 @@ core.example.org:
 # 
 # core:http_timeout
 # --------------------------
-# Amount of time in seconds to wait for a http request to complete
+# Amount of time in seconds to wait for a per-file processing http request to complete
+#
+# core:storage_download_timeout
+# --------------------------
+# Amount of time in seconds to wait for a GET http request to storage to complete
 #
 # core:actionplan_url
 # --------------------------

@@ -59,6 +59,7 @@ module Daitss
 
       c = Curl::Easy.download(@url, f) do |c|
         c.follow_location = true
+        c.timeout = Archive.instance.storage_download_timeout
       end
 
       c.error "bad status" unless c.response_code == 200
