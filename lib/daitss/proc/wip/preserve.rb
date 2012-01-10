@@ -16,13 +16,15 @@ module Daitss
       @file_group = sip_descriptor_doc.find_first %Q{//M:fileSec/M:fileGrp}, NS_PREFIX
       # describe and preserve original_files
       original_datafiles.each do |df|
-
-        step("describe-migrate-normalize-#{df.id}") do
-          df.describe!
-          df.migrate!
-          df.normalize!
+        begin
+          step("describe-migrate-normalize-#{df.id}") do
+            df.describe!
+            df.migrate!
+            df.normalize!
+          end
+        rescue => e
+          raise "error while processing #{df.id}(#{df['aip-path']}): " + e
         end
-
       end
 
       # describe transformed files
