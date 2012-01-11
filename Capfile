@@ -20,8 +20,8 @@ set :scm,          "git"
 set :branch,       "master"
 
 set :use_sudo,     false
-set :user,         "manny"
-set :group,        "manny" 
+set :user,         "daitss"
+set :group,        "daitss" 
 
 # doesn't save enough to be worthwhile:
 # set :git_shallow_clone, 1   # only works with master branch, only copy last commit
