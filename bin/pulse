@@ -177,7 +177,13 @@ load_archive
 INTERVAL = 5
 
 Datyl::Logger.setup('Pulse', ENV['VIRTUAL_HOSTNAME'])
-Datyl::Logger.filename = archive.pulse_log_filename
+
+if not (archive.log_syslog_facility or archive.pulse_log_filename)
+  Datyl::Logger.stderr # log to STDERR
+end
+
+Datyl::Logger.facility = archive.log_syslog_facility if archive.log_syslog_facility
+Datyl::Logger.filename = archive.pulse_log_filename if archive.pulse_log_filename
 
 Datyl::Logger.info "daitss pulse started"
 

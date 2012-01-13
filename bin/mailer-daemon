@@ -13,7 +13,13 @@ include Daitss
 archive
 
 Datyl::Logger.setup('MailerDaemon', ENV['VIRTUAL_HOSTNAME'])
-Datyl::Logger.filename = archive.mailer_log_filename
+
+if not (archive.log_syslog_facility or archive.mailer_log_filename)
+  Datyl::Logger.stderr # log to STDERR
+end
+
+Datyl::Logger.facility = archive.log_syslog_facility if archive.log_syslog_facility
+Datyl::Logger.filename = archive.mailer_log_filename if archive.mailer_log_filename
 
 # find all ingested packages. If it doesn't have an ingest report ops event, mail the report to the account address, and add an event for the report being mailed
 Datyl::Logger.info "Starting report daemon..."
