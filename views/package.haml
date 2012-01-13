@@ -228,6 +228,18 @@
       %tr
         %th title
         %td= @package.intentity.title 
+      %tr 
+        %th package datafiles
+        %td
+          %a{:href => "/package/#{@package.id}/datafiles"} view datafiles
+        
+      %tr
+        %th number of datafiles
+        %td= aip.datafile_count
+
+      %tr
+        %th number of submitted datafiles
+        %td= @package.sip.submitted_datafiles
 
       - if @package.intentity.volume != ""
         %tr
@@ -291,23 +303,13 @@
         %tr
           %th copy md5
           %td= aip.copy ? aip.copy.md5 : "N/A"
-        
-      %tr
-        %th number of datafiles
-        %td= aip.datafile_count
 
-      %tr
-        %th number of submitted datafiles
-        %td= @package.sip.submitted_datafiles
+  %h2 dips
 
-- if @is_op
-  - if @package.dips.any?
-    %h2 dips
-  
-    %table
+  %table
+    %tr
+ 
+    - @package.dips.each do |dip|
       %tr
-  
-      - @package.dips.each do |dip|
-        %tr
-          %td
-            %a{:href=>"/package/#{@package.id}/dip/#{dip}"}= dip
+        %td
+          %a{:href=>"/package/#{@package.id}/dip/#{dip}"}= dip

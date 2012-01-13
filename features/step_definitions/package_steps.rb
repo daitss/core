@@ -319,3 +319,13 @@ Given /^the package is missing its copy record$/ do
   p = Package.get(File.basename(last_package))
   p.aip.copy.destroy
 end
+
+Then /^there should be a datafile with:$/ do |table|
+
+  table.hashes.each do |row|
+    cell_conditions = row.values.map { |v| "td = '#{v}'"}.join ' and '
+    last_response.should have_xpath("//tr[#{cell_conditions}]")
+  end
+
+end
+

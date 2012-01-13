@@ -1,0 +1,42 @@
+%h1
+  %span.package
+    = "Datafiles in package " + @package.id
+
+%a{:href => "/package/#{@package.id}"}
+  = "Back to package details for " + @package.id
+
+%hr
+
+%table
+  %tr
+    %th
+      id
+    %th
+      original path
+    %th
+      origin
+    %th
+      size 
+    %th
+      flags
+  - @package.intentity.datafiles.each do |df|
+    %tr
+      %td= df.id
+      %td= df.original_path.gsub!(/^sip-files\//, '')
+      %td= df.origin
+
+      - if df.size > 1_000_000_000_000
+        - size = sprintf("%5.2f TB",  df.size / 1_000_000_000_000.0)
+      - elsif df.size > 1_000_000_000
+        - size = sprintf("%5.2f GB",  df.size / 1_000_000_000.0)
+      - elsif df.size > 1_000_000
+        - size = sprintf("%5.2f MB",  df.size / 1_000_000.0)
+      - elsif df.size > 1_000
+        - size = sprintf("%5.2f KB",  df.size / 1_000.0)
+      - else
+        - size = sprintf("%5.2f B",   df.size)     
+ 
+      %td= size.strip
+
+      %td= "SIP Descriptor" if df.is_sip_descriptor
+

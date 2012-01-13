@@ -100,3 +100,15 @@ Feature: overview of a package
     And I goto its package page
     Then I click on "1 comment(s)"
     Then I should see a comment with "foo" by operator
+
+  Scenario: should see datafiles in datafile link
+    Given an archived package
+    When I goto its package page
+    When I click on "view datafiles"
+    Then there should be a datafile with:
+      | original path | origin | size | flags |
+      | haskell-nums-pdf.xml | DEPOSITOR | 1.43 KB | SIP Descriptor |
+    Then there should be a datafile with:
+      | original path | origin | size | flags |
+      | Haskell98numbers.pdf | DEPOSITOR | 27.92 KB | |
+

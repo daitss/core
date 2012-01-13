@@ -482,6 +482,12 @@ get '/package/:id' do |id|
   haml :package
 end
 
+get '/package/:id/datafiles' do |id|
+  @package = Package.get(id)
+
+  haml :package_datafiles
+end
+
 get '/package/:id/descriptor' do |id|
   @package = @user.packages.get(id) or not_found
   @aip = @package.aip or not_found
