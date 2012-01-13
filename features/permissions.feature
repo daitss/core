@@ -79,7 +79,9 @@ Feature: permissions
     Then I should not see "batch"
     Then I should not see "Batch"
 
+    # 1/13/2012: DIP links enabled for affilates
   Scenario: affiliate should not see DIP links
+    Given this test in pending
     Given "haskell-nums-pdf" is archived
     When I choose request type "disseminate"
     And I fill in "note" with "disseminate, please"
