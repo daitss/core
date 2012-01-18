@@ -19,7 +19,19 @@
       size 
     %th
       flags
-  - @package.intentity.datafiles.each do |df|
+    %th
+      create date
+
+  - datafiles = @package.intentity.datafiles.sort do |a, b|
+    - if a.is_sip_descriptor
+      - -1
+    - elsif b.is_sip_descriptor 
+      - 1
+    - else
+      - a.original_path <=> b.original_path
+ 
+
+  - datafiles.each do |df|
     %tr
       %td= df.id
       %td= df.original_path.gsub!(/^sip-files\//, '')
@@ -39,4 +51,6 @@
       %td= size.strip
 
       %td= "SIP Descriptor" if df.is_sip_descriptor
+
+      %td= df.create_date
 
