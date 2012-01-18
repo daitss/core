@@ -32,7 +32,7 @@ TMPDIR=/var/daitss/tmp
 pidrunning() {
   if [ -n "$1" ]
   then
-    i=`ps aux | grep $1 2> /dev/null | grep -v grep 2> /dev/null | awk '{print $2}'`
+    i=`ps -e | grep $1 2> /dev/null | grep -v grep 2> /dev/null | awk '{print $1}'`
 
     if [ -n "$i" ]
     then
@@ -103,7 +103,7 @@ startpulse() {
     echo "Pulse is already running"
   else
     echo "Starting pulse..."
-    /bin/su d2core -c "cd $CORE_PATH; TMPDIR=$TMPDIR JAVA_HOME=$JAVA_HOME DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/pulse 2>&1 > /dev/null & echo \$! > $PULSE_PIDFILE"
+    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR JAVA_HOME=$JAVA_HOME DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/pulse 2>&1 > /dev/null & echo \$! > $PULSE_PIDFILE"
   fi
 }
 
@@ -137,7 +137,7 @@ start() {
     echo "Reporter is already running"
   else
     echo "Starting reporter"
-    /bin/su d2core -c "cd $CORE_PATH; TMPDIR=$TMPDIR DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/mailer-daemon 2>&1 > /dev/null & echo \$! > $REPORTER_PIDFILE"
+    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/mailer-daemon 2>&1 > /dev/null & echo \$! > $REPORTER_PIDFILE"
   fi
 }
 
