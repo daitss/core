@@ -128,6 +128,14 @@ end
 
 HOME    = File.expand_path(File.dirname(__FILE__))
 
+# map local users to server users
+
+if ENV["USER"] == "Carol"
+  user = "cchou"
+else
+  user = ENV["USER"]
+end
+
 desc "Hit the restart button for apache/passenger, pow servers"
 task :restart do
   sh "touch #{HOME}/tmp/restart.txt"
@@ -135,22 +143,22 @@ end
 
 desc "deploy to darchive's production site (core.fda.fcla.edu)"
 task :darchive do
-    sh "cap deploy -S target=darchive.fcla.edu:/opt/web-services/sites/core -S who=daitss:daitss"
+    sh "cap deploy -S target=darchive.fcla.edu:/opt/web-services/sites/core -S who=#{user}:#{user}"
 end
 
 desc "deploy to development site (core.retsina.fcla.edu)"
 task :retsina do
-    sh "cap deploy -S target=retsina.fcla.edu:/opt/web-services/sites/core -S who=daitss:daitss"
+    sh "cap deploy -S target=retsina.fcla.edu:/opt/web-services/sites/core -S who=#{user}:#{user}"
 end
 
 desc "deploy to ripple's test site (core.ripple.fcla.edu)"
 task :ripple do
-    sh "cap deploy -S target=ripple.fcla.edu:/opt/web-services/sites/core -S who=daitss:daitss"
+    sh "cap deploy -S target=ripple.fcla.edu:/opt/web-services/sites/core -S who=#{user}:#{user}"
 end
 
 desc "deploy to tarchive's coop (core.tarchive.fcla.edu?)"
 task :tarchive_coop do
-    sh "cap deploy -S target=tarchive.fcla.edu:/opt/web-services/sites/coop/core -S who=daitss:daitss"
+    sh "cap deploy -S target=tarchive.fcla.edu:/opt/web-services/sites/coop/core -S who=#{user}:#{user}"
 end
 
 defaults = [:restart]

@@ -62,12 +62,6 @@ namespace :deploy do
   
   desc "Create the directory hierarchy, as necessary, on the target host"
   task :layout, :roles => :app do
-    # make everything group ownership daitss, for easier maintenance.
-    run "find #{shared_path} #{release_path} -print0 | xargs -0 chgrp #{group}"
-    run "find #{shared_path} #{release_path} -type d | xargs chmod 2775"
-    run "find #{shared_path} #{release_path} -type f -print0 | xargs -0 chmod g+rw"
-    run "chmod 666 #{File.join(release_path, 'Gemfile.lock')}"
-
     if variables[:target] =~ /darchive.fcla.edu/
       run "mv #{release_path}/Rakefile.safe #{release_path}/Rakefile"
       run "mv #{release_path}/bin/init.safe #{release_path}/bin/init"
