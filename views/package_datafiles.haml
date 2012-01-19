@@ -10,17 +10,17 @@
 %table
   %tr
     %th
-      id
+      AIP file ID
     %th
-      original path
+      Datafile name
     %th
-      origin
+      Origin
     %th
-      size 
+      Size 
     %th
-      flags
+      Flags
     %th
-      create date
+      Create date
 
   - datafiles = @package.intentity.datafiles.sort do |a, b|
     - if a.is_sip_descriptor
