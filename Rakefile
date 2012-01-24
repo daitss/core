@@ -38,10 +38,7 @@ namespace :db do
 
     archive.setup_db :log => true
     archive.init_db
-    # recreate the relationships_premis_event foreign key contrain to allow cascade delete
-    DataMapper.repository(:default).adapter.execute("ALTER TABLE relationships drop constraint relationships_premis_event_fk")
-    DataMapper.repository(:default).adapter.execute("ALTER TABLE relationships ADD CONSTRAINT relationships_premis_event_fk FOREIGN KEY (premis_event_id) REFERENCES premis_events (id) ON DELETE CASCADE ON UPDATE CASCADE")    
-  end
+   end
 
   desc 'upgrade the database'
   task :upgrade => [:setup] do
@@ -54,42 +51,6 @@ namespace :db do
 
     archive.setup_db :log => true
     DataMapper.auto_upgrade!
-    #uncomment upon rollout
-    DataMapper.repository(:default).adapter.execute("CREATE  INDEX index_formats_name ON formats (format_name)")
-    DataMapper.repository(:default).adapter.execute("CREATE  INDEX index_message_digests_code ON message_digests (code)")
-    DataMapper.repository(:default).adapter.execute("CREATE  INDEX index_severe_elements ON severe_elements (name)")
-    # recreate the relationships_premis_event foreign key contrain to allow cascade delete
-    DataMapper.repository(:default).adapter.execute("ALTER TABLE relationships drop constraint relationships_premis_event_fk")
-    DataMapper.repository(:default).adapter.execute("ALTER TABLE relationships ADD CONSTRAINT relationships_premis_event_fk FOREIGN KEY (premis_event_id) REFERENCES premis_events (id) ON DELETE CASCADE ON UPDATE CASCADE")    
-
-    # correct the :null value entered by datamapper mistakenly
-    DataMapper.repository(:default).adapter.execute("update images set datafile_id = null where datafile_id = 'null'");
-    DataMapper.repository(:default).adapter.execute("update images set bitstream_id = null where bitstream_id = 'null'");
-    DataMapper.repository(:default).adapter.execute("update audios set datafile_id = null where datafile_id = 'null'");
-    DataMapper.repository(:default).adapter.execute("update audios set bitstream_id = null where bitstream_id = 'null'");
-    DataMapper.repository(:default).adapter.execute("update texts set datafile_id = null where datafile_id = 'null'");
-    DataMapper.repository(:default).adapter.execute("update texts set bitstream_id = null where bitstream_id = 'null'");
-    DataMapper.repository(:default).adapter.execute("update documents set datafile_id = null where datafile_id = 'null'");
-    DataMapper.repository(:default).adapter.execute("update documents set bitstream_id = null where bitstream_id = 'null'");
-    DataMapper.repository(:default).adapter.execute("update object_formats set datafile_id = null where datafile_id = 'null'");
-    DataMapper.repository(:default).adapter.execute("update object_formats set bitstream_id = null where bitstream_id = 'null'");
-
-    # manually add the following constraints 
-    DataMapper.repository(:default).adapter.execute("ALTER TABLE images ADD CONSTRAINT images_datafile_id_fk FOREIGN KEY (datafile_id) REFERENCES datafiles (id) on update cascade on delete cascade");
-    DataMapper.repository(:default).adapter.execute("ALTER TABLE images ADD CONSTRAINT images_bitstream_id_fk FOREIGN KEY (bitstream_id) REFERENCES bitstreams (id) on update cascade on delete cascade");
-    DataMapper.repository(:default).adapter.execute("ALTER TABLE audios ADD CONSTRAINT audios_datafile_id_fk FOREIGN KEY (datafile_id) REFERENCES datafiles (id) on update cascade on delete cascade");
-    DataMapper.repository(:default).adapter.execute("ALTER TABLE audios ADD CONSTRAINT audios_bitstream_id_fk FOREIGN KEY (bitstream_id) REFERENCES bitstreams (id) on update cascade on delete cascade");
-    DataMapper.repository(:default).adapter.execute("ALTER TABLE texts ADD CONSTRAINT texts_datafile_id_fk FOREIGN KEY (datafile_id) REFERENCES datafiles (id) on update cascade on delete cascade");
-    DataMapper.repository(:default).adapter.execute("ALTER TABLE texts ADD CONSTRAINT texts_bitstream_id_fk FOREIGN KEY (bitstream_id) REFERENCES bitstreams (id) on update cascade on delete cascade");
-    DataMapper.repository(:default).adapter.execute("ALTER TABLE documents ADD CONSTRAINT documents_datafile_id_fk FOREIGN KEY (datafile_id) REFERENCES datafiles (id) on update cascade on delete cascade");
-    DataMapper.repository(:default).adapter.execute("ALTER TABLE documents ADD CONSTRAINT documents_bitstream_id_fk FOREIGN KEY (bitstream_id) REFERENCES bitstreams (id) on update cascade on delete cascade");
-    DataMapper.repository(:default).adapter.execute("ALTER TABLE object_formats ADD CONSTRAINT object_formats_datafile_id_fk FOREIGN KEY (datafile_id) REFERENCES datafiles (id) on update cascade on delete cascade");
-    DataMapper.repository(:default).adapter.execute("ALTER TABLE object_formats ADD CONSTRAINT object_formats_bitstream_id_fk FOREIGN KEY (bitstream_id) REFERENCES bitstreams (id) on update cascade on delete cascade");
-
-    # drop the default that were set to string 'null' by datamapper
-    DataMapper.repository(:default).adapter.execute("alter table object_formats alter column datafile_id drop default");
-    DataMapper.repository(:default).adapter.execute("alter table object_formats alter column bitstream_id drop default");
-
   end
 
   desc 'insert initial data into database'
