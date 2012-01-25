@@ -65,7 +65,7 @@ TMPDIR=/var/daitss/tmp
 pidrunning() {
   if [ -n $1 ]
   then
-    i=`ps aux | grep $1 2> /dev/null | grep -v grep 2> /dev/null | awk '{print $2}'`
+    i=`ps -e | grep $1 2> /dev/null | grep -v grep 2> /dev/null | awk '{print $1}'`
 
     if [ -n $i ]
     then
