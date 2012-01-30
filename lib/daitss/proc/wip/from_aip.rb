@@ -121,6 +121,10 @@ module Daitss
             raise "datafile #{df.id} sha1 is wrong: expected #{expected_sha1}, actual #{actual_sha1}"
           end
 
+          # the sip path cannot contains SIP_FILES_DIR, otherwise, the wip cannot detect which file is the sip descriptor.
+          sip_path = aip_path.clone
+          sip_path.slice!(Wip::SIP_FILES_DIR+'/')
+          df['sip-path'] = sip_path
           df['aip-path'] = aip_path
         end
 
