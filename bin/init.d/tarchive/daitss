@@ -23,18 +23,18 @@ PULSE_PIDFILE=/var/run/daitss/pulse.pid
 REPORTER_PIDFILE=/var/run/daitss/reporter.pid
 
 GEM_BIN=/opt/ruby/gem-repos/bin
-JAVA_HOME=/usr/local/java
+JAVA_HOME=/usr/java/latest
 GEM_HOME=/opt/ruby/gem-repos
 RUBY_HOME=/opt/ruby/bin
 RUBYOPT=rubygems
 TMPDIR=/var/daitss/tmp
 
 pidrunning() {
-  if [ -n $1 ]
+  if [ -n "$1" ]
   then
     i=`ps -p $1 | grep $1 2> /dev/null | awk '{print $1}'`
 
-    if [ -n $i ]
+    if [ -n "$i" ]
     then
       return $i
     else
@@ -46,11 +46,11 @@ pidrunning() {
 }
 
 describerunning() {
-  if [ -e $DESCRIBE_PIDFILE ]
+  if [ -e "$DESCRIBE_PIDFILE" ]
   then
     pidrunning `cat $DESCRIBE_PIDFILE`
     running=$?
-    if [ "$running" -ne "0" ]
+    if [ "$running" != "0" ]
     then
       return 1
     else 
@@ -63,11 +63,11 @@ describerunning() {
 }
 
 pulserunning() {
-  if [ -e $PULSE_PIDFILE ]
+  if [ -e "$PULSE_PIDFILE" ]
   then
     pidrunning `cat $PULSE_PIDFILE`
     running=$?
-    if [ "$running" -ne "0" ]
+    if [ "$running" != "0" ]
     then
       return 1
     else 
@@ -80,11 +80,11 @@ pulserunning() {
 }
 
 reporterrunning() {
-  if [ -e $REPORTER_PIDFILE ]
+  if [ -e "$REPORTER_PIDFILE" ]
   then
     pidrunning `cat $REPORTER_PIDFILE`
     running=$?
-    if [ "$running" -ne "0" ]
+    if [ "$running" != "0" ]
     then
       return 1
     else 
@@ -98,7 +98,7 @@ reporterrunning() {
 
 startpulse() {
   pulserunning
-  if [ "$?" -eq "1" ]
+  if [ $? -eq 1 ]
   then
     echo "Pulse is already running"
   else
@@ -109,41 +109,30 @@ startpulse() {
 
 stoppulse() {
   pulserunning
-  if [ "$?" -eq "0" ]
+  if [ "$?" == "0" ]
   then 
     echo "Pulse is already stopped"
   else
     echo "Stopping pulse..."
     kill `cat $PULSE_PIDFILE`
-    rm $PULSE_PIDFILE
+
+    if [ $? -eq 0 ] 
+    then
+      rm $PULSE_PIDFILE
+    else
+      echo "Unable to kill pulse. PID file left intact"
+    fi
   fi
 }
 
 
 start() {
-  httpd_running=`/etc/init.d/httpd status`
-
-  if [ "$httpd_running" != "httpd is stopped" ]
-  then
-    echo "Apache services are already running"
-  else
-    echo "Starting apache services..."
-    /etc/init.d/httpd start  > /dev/null
-  fi 
-
-  describerunning
-  if [ "$?" -eq "1" ]
-  then
-    echo "Description service is already running"
-  else
-    echo "Starting description service..."
-    /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d start"
-  fi
+  startservices
 
   startpulse
 
   reporterrunning
-  if [ "$?" -eq "1" ]
+  if [ "$?" == "1" ]
   then
     echo "Reporter is already running"
   else
@@ -162,13 +151,19 @@ stop() {
   stoppulse
 
   reporterrunning
-  if [ "$?" -eq "0" ]
+  if [ "$?" == "0" ]
   then
     echo "Reporter is already stopped"
   else 
     echo "Stopping reporter..."
     kill `cat $REPORTER_PIDFILE`
-    rm $REPORTER_PIDFILE
+
+    if [ $? -eq 0 ] 
+    then
+      rm $REPORTER_PIDFILE
+    else
+      echo "Unable to kill reporter. PID file left intact"
+    fi
   fi
 }
 
@@ -183,7 +178,7 @@ status() {
   fi
 
   describerunning
-  if [ "$?" -eq "1" ]
+  if [ "$?" == "1" ]
   then
     echo "Description service is running"
   else
@@ -191,7 +186,7 @@ status() {
   fi
 
   pulserunning
-  if [ "$?" -eq "1" ]
+  if [ "$?" == "1" ]
   then
     echo "Pulse is running"
   else
@@ -199,7 +194,7 @@ status() {
   fi
 
   reporterrunning
-  if [ "$?" -eq "1" ]
+  if [ "$?" == "1" ]
   then
     echo "Reporter is running"
   else
@@ -212,6 +207,28 @@ graceful() {
   /etc/init.d/httpd graceful
   stoppulse
   startpulse
+}
+
+startservices() {
+  httpd_running=`/etc/init.d/httpd status`
+
+  if [ "$httpd_running" != "httpd is stopped" ]
+  then
+    echo "Apache services are already running"
+  else
+    echo "Starting apache services..."
+    /etc/init.d/httpd start  > /dev/null
+  fi 
+
+#  comment out for tarchive because only apache (silo service) is needed on tarchive
+#  describerunning
+#  if [ "$?" == "1" ]
+#  then
+#    echo "Description service is already running"
+#  else
+#    echo "Starting description service..."
+#    /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d start"
+#  fi
 }
 
 case "$1" in
@@ -237,8 +254,11 @@ case "$1" in
   graceful)
   graceful
   ;;
+  start-services)
+  startservices
+  ;;
   *)
-  echo $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful}"
+  echo $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful|start-services}"
   exit 1
 esac
 
