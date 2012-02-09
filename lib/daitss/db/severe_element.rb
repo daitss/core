@@ -25,9 +25,25 @@ module Daitss
     end
   end
 
+  # for certain anomaly, JHOVE outputs tons of variation for the same kind of anomaly, e.g.
+  #"Value offset not word-aligned : 644", "Value offset not word-aligned : 1250", etc.  This is
+  # the set to combine those anomalies into a simplied one.
+  # To Do: finish the conversion.
+  TRIM_ANOMALY = [
+    "Value offset not word-aligned",
+    "Unknown TIFF IFD tag",
+    "Flash value out of range",
+    "Invalid DateTime length",
+    "Type mismatch for tag",
+    "Invalid DateTime separator",
+    "out of sequence"
+  ]
+
   class Anomaly < SevereElement
     def fromPremis(premis)
-      attribute_set(:name, premis.content)
+      # truncate the anomaly name over 255 characters
+      truncated = premis.content.slice(0, 255)
+      attribute_set(:name, truncated)
     end
   end
 
