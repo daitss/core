@@ -36,16 +36,32 @@ module Daitss
       # process all listed formats inside the premis object
       list = premis.find("premis:objectCharacteristics/premis:format", NAMESPACES)
       firstNode = true
+      search_string = nil
       list.each do |node|
         # create a temporary format record with the info. from the premis
         newFormat = Format.new
         newFormat.fromPremis node
 
-        # check if it was processed earlier.
-        format = formats[newFormat.format_name]
+        #construct format search string, if there is a format version, use format name plus version
+        # to search for existing format records.
+        
+        if newFormat.format_version
+          search_string = newFormat.format_name + newFormat.format_version
+        else
+          search_string = newFormat.format_name
+        end
 
+        # check if it was processed earlier.
+        format = formats[search_string]
+      
         # otherwise, check if it's not already in the format table,
-        format = Format.first(:format_name => newFormat.format_name) if format.nil?
+        if format.nil?
+          if newFormat.format_version
+             format = Format.first(:format_name => newFormat.format_name, :format_version => newFormat.format_version) 
+          else
+            format = Format.first(:format_name => newFormat.format_name) 
+          end
+        end
 
         # use the new format record if the format name has not been seen before.
         format = newFormat if format.nil?
@@ -63,7 +79,7 @@ module Daitss
         end
 
         format.object_formats << objectformat
-        formats[format.format_name] = format
+        formats[search_string] = format
 
         p.object_formats << objectformat
 
