@@ -43,6 +43,7 @@ module Daitss
     def fromPremis(premis)
       # truncate the anomaly name over 255 characters
       truncated = premis.content.slice(0, 255)
+      TRIM_ANOMALY.each {|a| truncated = a if truncated.include? a}
       attribute_set(:name, truncated)
     end
   end
