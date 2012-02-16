@@ -23,11 +23,20 @@ PULSE_PIDFILE=/var/run/daitss/pulse.pid
 REPORTER_PIDFILE=/var/run/daitss/reporter.pid
 
 GEM_BIN=/opt/ruby/gem-repos/bin
-JAVA_HOME=/usr/java/jdk1.6.0_29
+JAVA_HOME=/usr/java/latest
 GEM_HOME=/opt/ruby/gem-repos
 RUBY_HOME=/opt/ruby/bin
 RUBYOPT=rubygems
 TMPDIR=/var/daitss/tmp
+DAITSS_LOG=local0.info
+
+log_message() {
+  if [ -n "$1" ]
+  then
+	echo $1
+    logger -p $DAITSS_LOG -t DAITSS	$1
+  fi
+}
 
 pidrunning() {
   if [ -n "$1" ]
@@ -100,9 +109,9 @@ startpulse() {
   pulserunning
   if [ $? -eq 1 ]
   then
-    echo "Pulse is already running"
+    log_message "Pulse is already running"
   else
-    echo "Starting pulse..."
+    log_message "Starting pulse..."
     /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR JAVA_HOME=$JAVA_HOME DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/pulse 2>&1 > /dev/null & echo \$! > $PULSE_PIDFILE"
   fi
 }
@@ -111,16 +120,16 @@ stoppulse() {
   pulserunning
   if [ "$?" == "0" ]
   then 
-    echo "Pulse is already stopped"
+    log_message "Pulse is already stopped"
   else
-    echo "Stopping pulse..."
+    log_message "Stopping pulse..."
     kill `cat $PULSE_PIDFILE`
 
     if [ $? -eq 0 ] 
     then
       rm $PULSE_PIDFILE
     else
-      echo "Unable to kill pulse. PID file left intact"
+      log_message "Unable to kill pulse. PID file left intact"
     fi
   fi
 }
@@ -134,18 +143,18 @@ start() {
   reporterrunning
   if [ "$?" == "1" ]
   then
-    echo "Reporter is already running"
+    log_message "Reporter is already running"
   else
-    echo "Starting reporter"
+    log_message "Starting reporter"
     /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/mailer-daemon 2>&1 > /dev/null & echo \$! > $REPORTER_PIDFILE"
   fi
 }
 
 stop() {
-  echo "Stopping apache services..."
+  log_message "Stopping apache services..."
   /etc/init.d/httpd stop > /dev/null
 
-  echo "Stopping describe..."
+  log_message "Stopping describe..."
   /bin/su daitss -c "cd $DESCRIBE_PATH; PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME="/usr/java/default" bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d stop"
 
   stoppulse
@@ -153,16 +162,16 @@ stop() {
   reporterrunning
   if [ "$?" == "0" ]
   then
-    echo "Reporter is already stopped"
+    log_message "Reporter is already stopped"
   else 
-    echo "Stopping reporter..."
+    log_message "Stopping reporter..."
     kill `cat $REPORTER_PIDFILE`
 
     if [ $? -eq 0 ] 
     then
       rm $REPORTER_PIDFILE
     else
-      echo "Unable to kill reporter. PID file left intact"
+      log_message "Unable to kill reporter. PID file left intact"
     fi
   fi
 }
@@ -172,38 +181,38 @@ status() {
 
   if [ "$httpd_running" != "httpd is stopped" ]
   then
-    echo "Apache is running"
+    log_message "Apache is running"
   else
-    echo "Apache is not running"
+    log_message "Apache is not running"
   fi
 
   describerunning
   if [ "$?" == "1" ]
   then
-    echo "Description service is running"
+    log_message "Description service is running"
   else
-    echo "Description service is not running"
+    log_message "Description service is not running"
   fi
 
   pulserunning
   if [ "$?" == "1" ]
   then
-    echo "Pulse is running"
+    log_message "Pulse is running"
   else
-    echo "Pulse is not running"
+    log_message "Pulse is not running"
   fi
 
   reporterrunning
   if [ "$?" == "1" ]
   then
-    echo "Reporter is running"
+    log_message "Reporter is running"
   else
-    echo "Reporter is not running"
+    log_message "Reporter is not running"
   fi
 }
 
 graceful() {
-  echo "Gracefully restarting apache..."
+  log_message "Gracefully restarting apache..."
   /etc/init.d/httpd graceful
   stoppulse
   startpulse
@@ -214,18 +223,18 @@ startservices() {
 
   if [ "$httpd_running" != "httpd is stopped" ]
   then
-    echo "Apache services are already running"
+    log_message "Apache services are already running"
   else
-    echo "Starting apache services..."
-    /etc/init.d/httpd start  > /dev/null
+    log_message "Starting apache services..."
+    /etc/init.d/httpd start > /dev/null
   fi 
 
   describerunning
   if [ "$?" == "1" ]
   then
-    echo "Description service is already running"
+    log_message "Description service is already running"
   else
-    echo "Starting description service..."
+    log_message "Starting description service..."
     /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d start"
   fi
 }
@@ -257,7 +266,7 @@ case "$1" in
   startservices
   ;;
   *)
-  echo $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful|start-services}"
+  log_message $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful|start-services}"
   exit 1
 esac
 
