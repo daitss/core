@@ -53,8 +53,8 @@ namespace :db do
     DataMapper.auto_upgrade!
     # update pdf/a format record, PRONON has changes fmt/95 to be used for pdf/A-1a
     DataMapper.repository(:default).adapter.execute("update formats set registry_id = 'fmt/354', format_version = '1b' where id = (select id from formats where format_name = 'Acrobat PDF/A - Portable Document Format')")
-    DataMapper.repository(:default).adapter.execute("update formats set registry = 'http://www.nationalarchives.gov.uk/pronom', registry_id = 'fmt/95', format_version = '1a', format_name = 'Acrobat PDF/A - Portable Document Format' where id = (select id from formats where format_name = 'ISO PDF/A-1, Level A')"
-    DataMapper.repository(:default).adapter.execute("update formats set registry = 'http://www.nationalarchives.gov.uk/pronom', registry_id = 'fmt/276, format_name = 'Acrobat PDF 1.7 - Portable Document Format' where id = (select id from formats where format_name = 'PDF' and format_version = '1.7')"
+    DataMapper.repository(:default).adapter.execute("update formats set registry = 'http://www.nationalarchives.gov.uk/pronom', registry_id = 'fmt/95', format_version = '1a', format_name = 'Acrobat PDF/A - Portable Document Format' where id = (select id from formats where format_name = 'ISO PDF/A-1, Level A')")
+    DataMapper.repository(:default).adapter.execute("update formats set registry = 'http://www.nationalarchives.gov.uk/pronom', registry_id = 'fmt/276, format_name = 'Acrobat PDF 1.7 - Portable Document Format' where id = (select id from formats where format_name = 'PDF' and format_version = '1.7')")
   end
 
   desc 'insert initial data into database'
