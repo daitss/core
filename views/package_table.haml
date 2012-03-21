@@ -12,6 +12,7 @@
     %th # of datafiles
     %th latest activity
     %th time
+    %th title
   - packages.each do |p|
     %tr
       %td
@@ -31,3 +32,7 @@
           daitss v.1 provenance
         - last_legacy_event = p.legacy_events.last(:name => "legacy operations data")
         %td= last_legacy_event.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
+      - if p.intentity
+        %td= p.intentity.title
+      - else
+        %td= "not available"
