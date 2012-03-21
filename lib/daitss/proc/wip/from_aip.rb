@@ -180,8 +180,8 @@ module Daitss
           parts = df['aip-path'].split File::SEPARATOR
 
           parts.size == 3 and
-          parts[0] = Wip::SIP_FILES_DIR and
-          parts[2] = self.package.sip.name
+          parts[0] == Wip::SIP_FILES_DIR and
+          parts[2] == "#{self.package.sip.name}.xml"
         end
 
       end
