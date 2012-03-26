@@ -13,6 +13,8 @@
     %th latest activity
     %th time
     %th title
+    %th volume
+    %th issue
   - packages.each do |p|
     %tr
       %td
@@ -34,5 +36,9 @@
         %td= last_legacy_event.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
       - if p.intentity
         %td= p.intentity.title
+        %td= p.intentity.volume
+        %td= p.intentity.issue
       - else
-        %td= "not available"
+        %td= "n/a"
+        %td= "n/a"
+        %td= "n/a"
