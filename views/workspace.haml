@@ -56,7 +56,12 @@
     %h2= sprintf("size: %5.2f KB",  total / 1_000.0)
   - else
     %h2= sprintf("size: %5.2f B",   total)     
-   
+  
+  - total_files =  idle_wips.inject(0) {|sum, w| sum + Sip.first(:package_id => w.id).number_of_datafiles }
+  %h2
+    total number of files:
+    = total_files
+
   - ingest_count = 0
   - d1refresh_count = 0
   - disseminate_count = 0
