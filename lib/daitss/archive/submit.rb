@@ -16,12 +16,11 @@ module Daitss
       # make a new sip archive
       begin
         sa = SipArchive.new sip_path
-
-        a_id = sa.account rescue nil
-        p_id = sa.project rescue nil
+	a_id = sa.account
+        p_id = sa.project
       rescue
         sa = nil
-        agreement_errors << "cannot extract sip archive, must be a valid tar or zip file containing directory with sip files"
+	agreement_errors << $!
 
         a_id = agent.account.id
         p_id = agent.account.default_project.id

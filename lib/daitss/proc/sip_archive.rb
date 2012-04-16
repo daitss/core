@@ -20,7 +20,26 @@ module Daitss
 
 
       filename = File.basename path
-      raise "invalid characters in sip name" if filename =~ %r{^\..*['" ]}
+      puts "April 11 2012  wednesday five  starting tests for bad characters in filename: #{filename}"
+      puts "content starts with period file name=#{filename}" if filename =~ /^\./
+      raise "invalid characters in file name: #{filename}"    if filename =~ /^\./
+
+      puts "reserved invalid characters in file name: #{filename}" if filename =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
+      raise "invalid characters in file name: #{filename}\nreserved characters  ; / ? : @ & = + $ ,"  if filename =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
+
+      puts  "unwise invalid characters in file name: #{filename}" if filename =~ /[\{\}\|\\\^\[\]\`]/       # unwise 
+      # backslash is an unwise character but it never gets this far:
+      # ABCDE\FGHI.zip  will be parsed as   FGHI.zip  and most like will result in message:   FGHI.zip is not a package
+      raise "invalid characters in file name: #{filename}\nunwise characters  { } | \\ ^ [ ] `"        if filename =~ /[\{\}\|\\\^\[\]\`]/       # unwise
+
+      puts  "delims invalid characters in file name: #{filename}" if filename =~ /[\<\>\#\%\"\ ]/           # delims
+      raise "invalid characters in file name: #{filename}\ndelim characters  < > # % \" space"        if filename =~ /[\<\>\#\%\"\ ]/           # delims
+
+
+      puts  "filename:#{filename} no invalid character(s) in sip name"
+      #
+
+      ##
 
       ext = File.extname path
       name = File.basename path, ext
@@ -36,7 +55,6 @@ module Daitss
                    when '.tar' then `tar -xf "#{filename}" 2>&1`
                    else raise "unknown archive extension: #{ext}"
                    end
-
           raise "error extracting #{filename}\n\n#{output}" unless $? == 0
         end
 
@@ -65,6 +83,7 @@ module Daitss
       # check for valid descriptor
       if es[:descriptor_presence].empty?
         validation_errors = validate_xml descriptor_file
+	xml_validate
 
         unless validation_errors.empty?
           es[:descriptor_valid] << "invalid descriptor"
@@ -97,13 +116,33 @@ module Daitss
       end
 
       # check content file name validity
+      # see RFC2396
+      #  2.2 Reserved Characters donot allow  ;  /  ?  :  @  &  =  +  $  ,     - URI href:xlink
+      #  2.4.3    unwise         donot allow  {  }  |  \  ^  [  ]  `         in the URI 
+      #  also weed out hidden files that begin with a period
+      #  2.3  Unreserved characters are not excluded they  are          -  _  .  !  ~  *  '  (  )         
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty? and es[:content_file_presence].empty?
-
+        puts "checking content file validity for file " << content_files.inspect
         content_files.each do |f|
+        	puts "check content for file=#{f}<--"
+	  puts "content starts with period file name=#{f}" if f =~ /^\./	
           es[:content_file_name_validity] << "invalid characters in file name: #{f}" if f =~ /^\./
-          es[:content_file_name_validity] << "invalid characters in file name: #{f}" if f =~ /['"]/
-        end
 
+	  puts "content bad chars will raise an an error for file #{f}"              if f =~ /[\~\`\!\@\#\$\%\^\&\*\(\)\+\=\{\[\]\:\;\"\'\<\>\?\/\,\\]/
+
+          puts "reserved                      invalid characters in file name: #{f}" if f =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
+          es[:content_file_name_validity] << "invalid characters in file name: #{f}\nreserved characters  ; / ? : @ & = + $ ," if f =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
+	   
+          puts "unwise                       invalid characters in file name: #{f}\nunwise characters { } \\ ^ [ ] `"  if f =~ /[\{\}\|\\\^\[\]\`]/       # unwise 
+	  es[:content_file_name_validity] << "invalid characters in file name: #{f}\nunwise characters { } \\ ^ [ ] `" if f =~ /[\{\}\|\\\^\[\]\`]/       # unwise
+
+	  puts "delims                        invalid characters in file name: #{f}" if f =~ /[\<\>\#\%\"\ ]/           # delims
+	  es[:content_file_name_validity] << "invalid characters in file name: #{f}\ndelims characters < > # % \" space" if f =~ /[\<\>\#\%\"\ ]/           # delims
+
+
+         puts "after delims  check es[:content_file_name_validity]= #{es[:content_file_name_validity]}<--"		  
+	
+	end
       end
 
       # check content file fixity
@@ -169,16 +208,27 @@ MSG
 
     end
 
+    def xml_validate
+	    xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
+            node = descriptor_doc.find_first xpath, NS_PREFIX
+	    node
+    rescue Exception => e
+	    raise "xml invalid characters in file name: "  << `basename #{descriptor_file}`  << $!
+    end
 
     def account
       xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
       node = descriptor_doc.find_first xpath, NS_PREFIX
+      rescue Exception  =>  e  
+      raise "invalid characters in file name: "  << `basename #{descriptor_file}`  << $!
       node.value rescue nil
     end
 
     def project
       xpath = "#{AGREEMENT_INFO_XPATH}/@PROJECT"
       node = descriptor_doc.find_first xpath, NS_PREFIX
+    rescue Exception  =>  e      
+       raise "invalid characters in file name: " << `basename #{descriptor_file}` << $!
       node.value rescue nil
     end
 
