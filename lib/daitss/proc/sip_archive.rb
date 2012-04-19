@@ -20,26 +20,18 @@ module Daitss
 
 
       filename = File.basename path
-      puts "April 11 2012  wednesday five  starting tests for bad characters in filename: #{filename}"
-      puts "content starts with period file name=#{filename}" if filename =~ /^\./
       raise "invalid characters in file name: #{filename}"    if filename =~ /^\./
 
-      puts "reserved invalid characters in file name: #{filename}" if filename =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
       raise "invalid characters in file name: #{filename}\nreserved characters  ; / ? : @ & = + $ ,"  if filename =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
 
-      puts  "unwise invalid characters in file name: #{filename}" if filename =~ /[\{\}\|\\\^\[\]\`]/       # unwise 
       # backslash is an unwise character but it never gets this far:
-      # ABCDE\FGHI.zip  will be parsed as   FGHI.zip  and most like will result in message:   FGHI.zip is not a package
+      # ABCDE\FGHI.zip  will be parsed as   FGHI.zip  and most likely will result in message:   FGHI.zip is not a package
       raise "invalid characters in file name: #{filename}\nunwise characters  { } | \\ ^ [ ] `"        if filename =~ /[\{\}\|\\\^\[\]\`]/       # unwise
 
-      puts  "delims invalid characters in file name: #{filename}" if filename =~ /[\<\>\#\%\"\ ]/           # delims
       raise "invalid characters in file name: #{filename}\ndelim characters  < > # % \" space"        if filename =~ /[\<\>\#\%\"\ ]/           # delims
 
+      raise "invalid characters in file name: #{filename}\nproblem characters  ! ' ( )  * \\ "        if filename =~ /[\!\'\(\)\*\\]/            # bothersome
 
-      puts  "filename:#{filename} no invalid character(s) in sip name"
-      #
-
-      ##
 
       ext = File.extname path
       name = File.basename path, ext
@@ -49,7 +41,6 @@ module Daitss
         @path = path
       else
         Dir.chdir File.dirname(path) do
-
           output = case ext
                    when '.zip' then `unzip -o "#{filename}" 2>&1`
                    when '.tar' then `tar -xf "#{filename}" 2>&1`
@@ -60,12 +51,11 @@ module Daitss
 
         @name = name
         @path = File.join File.dirname(path), name
-
         raise "#{filename} is not a package" unless File.directory? @path
       end
     end
 
-    def valid?
+    def valid? 
       validate! unless @errors
       @errors.empty?
     end
@@ -77,13 +67,14 @@ module Daitss
         es[:package_name] << "package name contains too many characters (#{name.length}) max is #{MAX_NAME_LENGTH}"
       end
 
+
       # check for missing descriptor
       es[:descriptor_presence] << "missing descriptor" unless File.file? descriptor_file
 
       # check for valid descriptor
       if es[:descriptor_presence].empty?
+	#xml_initial_validation      
         validation_errors = validate_xml descriptor_file
-	xml_validate
 
         unless validation_errors.empty?
           es[:descriptor_valid] << "invalid descriptor"
@@ -114,7 +105,6 @@ module Daitss
 
         end
       end
-
       # check content file name validity
       # see RFC2396
       #  2.2 Reserved Characters donot allow  ;  /  ?  :  @  &  =  +  $  ,     - URI href:xlink
@@ -122,29 +112,18 @@ module Daitss
       #  also weed out hidden files that begin with a period
       #  2.3  Unreserved characters are not excluded they  are          -  _  .  !  ~  *  '  (  )         
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty? and es[:content_file_presence].empty?
-        puts "checking content file validity for file " << content_files.inspect
         content_files.each do |f|
-        	puts "check content for file=#{f}<--"
-	  puts "content starts with period file name=#{f}" if f =~ /^\./	
           es[:content_file_name_validity] << "invalid characters in file name: #{f}" if f =~ /^\./
 
-	  puts "content bad chars will raise an an error for file #{f}"              if f =~ /[\~\`\!\@\#\$\%\^\&\*\(\)\+\=\{\[\]\:\;\"\'\<\>\?\/\,\\]/
-
-          puts "reserved                      invalid characters in file name: #{f}" if f =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
           es[:content_file_name_validity] << "invalid characters in file name: #{f}\nreserved characters  ; / ? : @ & = + $ ," if f =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
 	   
-          puts "unwise                       invalid characters in file name: #{f}\nunwise characters { } \\ ^ [ ] `"  if f =~ /[\{\}\|\\\^\[\]\`]/       # unwise 
 	  es[:content_file_name_validity] << "invalid characters in file name: #{f}\nunwise characters { } \\ ^ [ ] `" if f =~ /[\{\}\|\\\^\[\]\`]/       # unwise
 
-	  puts "delims                        invalid characters in file name: #{f}" if f =~ /[\<\>\#\%\"\ ]/           # delims
 	  es[:content_file_name_validity] << "invalid characters in file name: #{f}\ndelims characters < > # % \" space" if f =~ /[\<\>\#\%\"\ ]/           # delims
 
-
-         puts "after delims  check es[:content_file_name_validity]= #{es[:content_file_name_validity]}<--"		  
-	
+	  es[:content_file_name_validity] << "invalid characters in file name: #{f}\nsingle quote '" if f =~ /[\']/           # invalid single quote 
 	end
       end
-
       # check content file fixity
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty? and es[:content_file_presence].empty?
 
@@ -208,15 +187,27 @@ MSG
 
     end
 
-    def xml_validate
-	    xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
-            node = descriptor_doc.find_first xpath, NS_PREFIX
-	    node
+    def xml_initial_validation
+	 xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
+         node = descriptor_doc.find_first xpath, NS_PREFIX
+	 node
     rescue Exception => e
-	    raise "xml invalid characters in file name: "  << `basename #{descriptor_file}`  << $!
+	 raise "xml invalid characters in file name: "  << `basename #{descriptor_file}`  << $!
     end
 
     def account
+      xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
+      node = descriptor_doc.find_first xpath, NS_PREFIX
+      node.value rescue nil
+    end
+
+    def project
+      xpath = "#{AGREEMENT_INFO_XPATH}/@PROJECT"
+      node = descriptor_doc.find_first xpath, NS_PREFIX
+      node.value rescue nil
+    end
+
+    def account_bad
       xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
       node = descriptor_doc.find_first xpath, NS_PREFIX
       rescue Exception  =>  e  
@@ -224,11 +215,11 @@ MSG
       node.value rescue nil
     end
 
-    def project
+    def project_bad
       xpath = "#{AGREEMENT_INFO_XPATH}/@PROJECT"
       node = descriptor_doc.find_first xpath, NS_PREFIX
     rescue Exception  =>  e      
-       raise "invalid characters in file name: " << `basename #{descriptor_file}` << $!
+      raise "invalid characters in file name: " << `basename #{descriptor_file}` << $!
       node.value rescue nil
     end
 

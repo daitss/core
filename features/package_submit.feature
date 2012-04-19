@@ -29,6 +29,55 @@ Feature: interactive submission
     And there should be a reject report delivery record
     Examples:
       | package                           | event  | note |
+      | non-package                       | reject |  cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
+      | FD A                              | reject | invalid characters in file name:          |
+      | FD!A                              | reject | invalid characters in file name: FD!A.zip |
+      | FD"A                              | reject | invalid characters in file name: FD"A.zip |
+      | FD#A                              | reject | invalid characters in file name: FD#A.zip |
+	  | FD$A                              | reject | invalid characters in file name: FD$A.zip |
+      | FD%A                              | reject | invalid characters in file name: FD%A.zip |
+      | FD&A                              | reject | invalid characters in file name: FD&A.zip |
+      | FD'A                              | reject | invalid characters in file name: FD'A.zip |
+	  | FD(A                              | reject | invalid characters in file name: FD(A.zip |
+      | FD)A                              | reject | invalid characters in file name: FD)A.zip |
+      | FD*A                              | reject | invalid characters in file name: FD*A.zip |
+      | FD+A                              | reject | invalid characters in file name: FD+A.zip |
+	  | FD,A                              | reject | invalid characters in file name: FD,A.zip |
+      | FD?A                              | reject | invalid characters in file name: FD?A.zip |
+      | FD:A                              | reject | invalid characters in file name: FD:A.zip |
+      | FD;A                              | reject | invalid characters in file name: FD;A.zip |
+	  | FD<A                              | reject | invalid characters in file name: FD<A.zip |
+      | FD=A                              | reject | invalid characters in file name: FD=A.zip |
+      | FD>A                              | reject | invalid characters in file name: FD>A.zip |
+      | FD?A                              | reject | invalid characters in file name: FD?A.zip |
+	  | FD@A                              | reject | invalid characters in file name: FD@A.zip |
+      | FD[A                              | reject | invalid characters in file name: FD[A.zip |
+      | FD\A                              | reject | is not a package                          |
+      | FD]A                              | reject | invalid characters in file name: FD]A.zip |
+	  | FD^A                              | reject | invalid characters in file name: FD^A.zip |
+      | FD`A                              | reject | invalid characters in file name: FD`A.zip |
+      | FDCONTENTLEFTBRACKET              | reject | invalid descriptor  |
+      | FDCONTENTPERCENT                  | reject | invalid descriptor  |
+      | FDCONTENTPOUND                    | reject | invalid characters in file name: small#test.pdf |
+      | FDCONTENTATSIGN                   | reject | invalid characters in file name: small@test.pdf |
+      | FDCONTENTAMPER                    | reject | invalid characters in file name: FDCONTENTAMPER.xml    |
+      | FDCONTENTDOUBLEQUOTE              | reject | invalid characters in file name: FDCONTENTDOUBLEQUOTE.xml  |
+      | FDCONTENTSPACE                    | reject | invalid characters in file name: small test.pdf |
+      | FDCONTENTMORETHAN                 | reject | invalid characters in file name: small>test.pdf |
+      | FDCONTENTPIPE                     | reject | invalid characters in file name: small                     |
+      | FDCONTENTBACKSLASH                | reject | missing descriptor                                 |
+      | FDCONTENTBACKTICK                 | reject | invalid characters in file name: small`test.pdf    |
+      | FDCONTENTCARET                    | reject | invalid characters in file name: small^test.pdf    |
+      | FDCONTENTLEFTBRACKET              | reject | invalid descriptor  |
+      | FDCONTENTRIGHTBRACKET             | reject | invalid descriptor  |
+      | FDCONTENTLEFTCURLY                | reject | invalid characters in file name: small{test.pdf    |
+      | FDCONTENTRIGHTCURLY               | reject | invalid characters in file name: small}test.pdf    |
+      | FDCONTENTCOLON                    | reject | invalid characters in file name: small:test.pdf    |
+      | FDCONTENTCOMMA                    | reject | invalid characters in file name: small,test.pdf    |
+      | FDCONTENTDOLLAR                   | reject | invalid characters in file name: small$test.pdf    |
+      | FDCONTENTEQUAL                    | reject | invalid characters in file name: small=test.pdf    |
+      | FDCONTENTPLUS                     | reject | invalid characters in file name: small+test.pdf    |
+      | FDCONTENTQUESTION                 | reject | invalid characters in file name: small?test.pdf    |
       | checksum-mismatch                 | reject | MD5 for ateam.tiff |
       | missing-descriptor                | reject | missing descriptor |
       | missing-content-file              | reject | missing content file: ateam.tiff |
@@ -43,7 +92,7 @@ Feature: interactive submission
       | described-hidden-file             | reject | invalid characters in file name: .hidden.txt |
       | special-characters                | reject | invalid characters in file name: 00039'.txt |
       | lower-level-special-characters    | reject | invalid characters in file name: Content/UF00001074'.pdf |
-      | non-package                       | reject | cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
+     
 
   Scenario: submission notes
     Given I goto "/packages"

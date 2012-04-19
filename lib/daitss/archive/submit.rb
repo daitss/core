@@ -16,16 +16,23 @@ module Daitss
       # make a new sip archive
       begin
         sa = SipArchive.new sip_path
+	sa.xml_initial_validation
 	a_id = sa.account
         p_id = sa.project
       rescue
         sa = nil
-	agreement_errors << $!
+	if $!.to_s.index('No such file or directory')
+           agreement_errors << "missing descriptor"
+	elsif $!.to_s.index('error extracting')
+           agreement_errors << "cannot extract sip archive, must be a valid tar or zip file containing directory with sip files"
+	else   
+	  agreement_errors << $!
+	end  
+	
 
         a_id = agent.account.id
         p_id = agent.account.default_project.id
       end
-
       # validate account and project outside of class
 
       # determine the project to use
