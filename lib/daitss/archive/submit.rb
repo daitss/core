@@ -8,35 +8,69 @@ module Daitss
     # submit a sip on behalf of an agent
     #
     # @return [Package]
-    def submit sip_path, agent, event_note = ""
+    def submit sip_path, agent, filename, event_note = ""
       package = Package.new
+      name = filename[0...filename.length - 4]
+      package.sip = Sip.new :name => name
 
       agreement_errors = []
 
       # make a new sip archive
       begin
+        rescued = nil
         sa = SipArchive.new sip_path
-	sa.xml_initial_validation
-	a_id = sa.account
-        p_id = sa.project
+
       rescue
         sa = nil
-	if $!.to_s.index('No such file or directory')
-           agreement_errors << "missing descriptor"
-	elsif $!.to_s.index('error extracting')
-           agreement_errors << "cannot extract sip archive, must be a valid tar or zip file containing directory with sip files"
-	else   
-	  agreement_errors << $!
-	end  
-	
+        rescued = true
+        if $!.to_s.index('No such file or directory')
+          agreement_errors << "missing descriptor"
+        elsif $!.to_s.index('error extracting')
+          agreement_errors << "cannot extract sip archive, must be a valid tar or zip file containing directory with sip files"
+        else
+          agreement_errors << $!
+	end
+      end
 
-        a_id = agent.account.id
-        p_id = agent.account.default_project.id
+
+      begin 
+        
+	count = sa.multiple_agreements
+	if count > 1
+	  rescued = true
+	  agreement_errors << "multiple agreements"
+	end
+        #sa.xml_initial_validation
+	if !rescued
+	  rescued = nil
+	  a_id = "UnknownAccount"
+	  a_id = sa.account
+	end
+      rescue
+	      rescued = true
+	      account = a_id
+	      agreement_errors << "Package #{filename} not able to determine Account: #{a_id}"
+      end 
+     begin
+      if !rescued	     
+        p_id = "UnknownProject"
+        p_id = sa.project
+      end 
+    rescue
+      rescued = true
+      project =  p_id
+      agreement_errors << "Package #{filename} not able to determine project Account: #{a_id} Project: #{p_id}"
+    end 
+    begin
+      sa.xml_initial_validation unless rescued
+      rescue
+	agreement_errors <<  $!      
+        sa = nil
       end
       # validate account and project outside of class
 
       # determine the project to use
-      if p_id != 'default' and agent.kind_of?(Operator) or agent.account.id == a_id
+      if !rescued && (p_id != 'default' and agent.kind_of?(Operator) or agent.account.id == a_id)
         account = Account.get(a_id)
 
         if account
@@ -57,13 +91,14 @@ module Daitss
       elsif sa == nil and p_id == 'default'
         agent.account.default_project.packages  << package
 
-      else
+      elsif !rescued
         agreement_errors << "cannot submit to account #{a_id}"
         agent.account.default_project.packages  << package
+      else
+	 agent.account.default_project.packages  << package     
       end
-
       # set name to "unnamed" if sip archive was not extracted
-      name = sa ? sa.name : "unnamed"
+      ####name = sa ? sa.name : "unnamed"
 
       package.sip = Sip.new :name => name
       package.sip.number_of_datafiles = sa.files.size rescue nil
