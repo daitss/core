@@ -8,7 +8,22 @@ Feature: interactive submission
     And in the events I should see a "<event>" event with "<note>" in the notes
     Examples:
       | package                           | event  | note |
+      | lower-level-special-characters    | submit | |
       | haskell-nums-pdf                  | submit | |
+      | FDCONTENTTILDE                    | submit | |
+      | FDCONTENTLEFTPAREN                | submit | |
+      | FDCONTENTRIGHTPAREN               | submit | |
+      | FDCONTENTASTERISK                 | submit | |
+      | FDCONTENTSINGLEQUOTE              | submit | |
+      | percent20_in_href                 | submit | |
+      | FD A                              | submit | |                                      
+      | FD!A                              | submit | |
+      | FD*A                              | submit | |
+      | FD(A                              | submit | |
+      | FD)A                              | submit | |
+      | FD'A                              | submit | |
+      | FD~A                              | submit | |
+      | FDCONTENTSPACE                    | submit | |
       | mixed-case-checksums              | submit | |
       | virus                             | submit | |
       | undescribed                       | submit | undescribed file: file.txt |
@@ -30,39 +45,33 @@ Feature: interactive submission
     Examples:
       | package                           | event  | note |
       | non-package                       | reject |  cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
-      | FD A                              | reject | invalid characters in file name:          |
-      | FD!A                              | reject | invalid characters in file name: FD!A.zip |
       | FD"A                              | reject | invalid characters in file name: FD"A.zip |
       | FD#A                              | reject | invalid characters in file name: FD#A.zip |
-	  | FD$A                              | reject | invalid characters in file name: FD$A.zip |
+      | FD$A                              | reject | invalid characters in file name: FD$A.zip |
       | FD%A                              | reject | invalid characters in file name: FD%A.zip |
       | FD&A                              | reject | invalid characters in file name: FD&A.zip |
-      | FD'A                              | reject | invalid characters in file name: FD'A.zip |
-	  | FD(A                              | reject | invalid characters in file name: FD(A.zip |
-      | FD)A                              | reject | invalid characters in file name: FD)A.zip |
-      | FD*A                              | reject | invalid characters in file name: FD*A.zip |
       | FD+A                              | reject | invalid characters in file name: FD+A.zip |
-	  | FD,A                              | reject | invalid characters in file name: FD,A.zip |
+      | FD,A                              | reject | invalid characters in file name: FD,A.zip |
       | FD?A                              | reject | invalid characters in file name: FD?A.zip |
       | FD:A                              | reject | invalid characters in file name: FD:A.zip |
       | FD;A                              | reject | invalid characters in file name: FD;A.zip |
-	  | FD<A                              | reject | invalid characters in file name: FD<A.zip |
+      | FD<A                              | reject | invalid characters in file name: FD<A.zip |
       | FD=A                              | reject | invalid characters in file name: FD=A.zip |
       | FD>A                              | reject | invalid characters in file name: FD>A.zip |
       | FD?A                              | reject | invalid characters in file name: FD?A.zip |
-	  | FD@A                              | reject | invalid characters in file name: FD@A.zip |
+      | FD@A                              | reject | invalid characters in file name: FD@A.zip |
       | FD[A                              | reject | invalid characters in file name: FD[A.zip |
       | FD\A                              | reject | is not a package                          |
       | FD]A                              | reject | invalid characters in file name: FD]A.zip |
-	  | FD^A                              | reject | invalid characters in file name: FD^A.zip |
+      | FD^A                              | reject | invalid characters in file name: FD^A.zip |
       | FD`A                              | reject | invalid characters in file name: FD`A.zip |
       | FDCONTENTLEFTBRACKET              | reject | invalid descriptor  |
       | FDCONTENTPERCENT                  | reject | invalid descriptor  |
       | FDCONTENTPOUND                    | reject | invalid characters in file name: small#test.pdf |
       | FDCONTENTATSIGN                   | reject | invalid characters in file name: small@test.pdf |
+      | FDCONTENTSPACETWO                 | reject | invalid characters in file name: small  test.pdf |
       | FDCONTENTAMPER                    | reject | invalid characters in file name: FDCONTENTAMPER.xml    |
       | FDCONTENTDOUBLEQUOTE              | reject | invalid characters in file name: FDCONTENTDOUBLEQUOTE.xml  |
-      | FDCONTENTSPACE                    | reject | invalid characters in file name: small test.pdf |
       | FDCONTENTMORETHAN                 | reject | invalid characters in file name: small>test.pdf |
       | FDCONTENTPIPE                     | reject | invalid characters in file name: small                     |
       | FDCONTENTBACKSLASH                | reject | missing descriptor                                 |
@@ -90,8 +99,7 @@ Feature: interactive submission
       | invalid-descriptor                | reject | invalid descriptor |
       | name-too-long-xxxxxxxxxxxxxxxxxxx | reject | package name contains too many characters (33) max is 32 |
       | described-hidden-file             | reject | invalid characters in file name: .hidden.txt |
-      | special-characters                | reject | invalid characters in file name: 00039'.txt |
-      | lower-level-special-characters    | reject | invalid characters in file name: Content/UF00001074'.pdf |
+      | lower-level-special-characters-ng | reject | invalid characters in file name: Content/UF00001074?.pdf |
      
 
   Scenario: submission notes
