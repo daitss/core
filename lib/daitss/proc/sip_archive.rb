@@ -20,17 +20,47 @@ module Daitss
 
 
       filename = File.basename path
-      raise "invalid characters in file name: #{filename}"    if filename =~ /^\./
+      
+      
+      raise "#{filename} size exceeds maximum 100GB (107,374,182,400 bytes) size: #{File.size(path)}  "  if File.size(path) > 107374182400
+      
+      raise "invalid characters in file name: #{filename}"    if filename =~ /^\./  # hidden file not allowed
 
-      raise "invalid characters in file name: #{filename}\nreserved characters  ; / ? : @ & = + $ ,"  if filename =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
+      #raise "invalid characters in file name: #{filename}\nreserved characters  ; / ? : @ & = + $ ,"  if filename =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
+      raise "invalid characters in file name: #{filename}\nsemi-colon  ;"         if filename =~ /[\;]/
+      raise "invalid characters in file name: #{filename}\nquestion mark  ? "     if filename =~ /[\?]/
+      raise "invalid characters in file name: #{filename}\ncolon  :"              if filename =~ /[\:]/
+      raise "invalid characters in file name: #{filename}\nat sign  @"            if filename =~ /[\@]/
+      raise "invalid characters in file name: #{filename}\nampersand  :"          if filename =~ /[\&]/
+      raise "invalid characters in file name: #{filename}\nequal  ="              if filename =~ /[\=]/
+      raise "invalid characters in file name: #{filename}\nplus  +"               if filename =~ /[\+]/
+      raise "invalid characters in file name: #{filename}\ndollar  $"             if filename =~ /[\$]/
+      raise "invalid characters in file name: #{filename}\ncomma  ,"              if filename =~ /[\,]/
+      raise "invalid characters in file name: #{filename}\ndouble quote \""       if filename =~ /[\"]/
 
       # backslash is an unwise character but it never gets this far:
       # ABCDE\FGHI.zip  will be parsed as   FGHI.zip  and most likely will result in message:   FGHI.zip is not a package
-      raise "invalid characters in file name: #{filename}\nunwise characters  { } | \\ ^ [ ] `"        if filename =~ /[\{\}\|\\\^\[\]\`]/       # unwise
+      #raise "invalid characters in file name: #{filename}\nunwise characters  { } | \\ ^ [ ] `"        if filename =~ /[\{\}\|\\\^\[\]\`]/       # unwise
+      raise "invalid characters in file name: #{filename}\nopen brace  {"          if filename =~ /[\{]/
+      raise "invalid characters in file name: #{filename}\nclose brace  }"         if filename =~ /[\}]/
+      raise "invalid characters in file name: #{filename}\nback slash  \\"         if filename =~ /[\\]/
+      raise "invalid characters in file name: #{filename}\ncaret  ^"               if filename =~ /[\^]/
+      raise "invalid characters in file name: #{filename}\nopen bracket  []"       if filename =~ /[\[]/
+      raise "invalid characters in file name: #{filename}\nclose bracket  ]"       if filename =~ /[\]]/
+      raise "invalid characters in file name: #{filename}\ngrave accent  `"        if filename =~ /[\`]/
+      raise "invalid characters in file name: #{filename}\npipe  |"                if filename =~ /[\\]/
 
-      raise "invalid characters in file name: #{filename}\ndelim characters  < > # % \" space"        if filename =~ /[\<\>\#\%\"\ ]/           # delims
+      #raise "invalid characters in file name: #{filename}\ndelim characters  < > # % \" space"        if filename =~ /[\<\>\#\%\"\ ]/           # delims
+      raise "invalid characters in file name: #{filename}\nless than  <"          if filename =~ /[\<]/
+      raise "invalid characters in file name: #{filename}\nmore than  ;"          if filename =~ /[\>]/
+      raise "invalid characters in file name: #{filename}\npound  #"              if filename =~ /[\#]/
+      raise "invalid characters in file name: #{filename}\npercent  %"            if filename =~ /[\%]/  
 
-      raise "invalid characters in file name: #{filename}\nproblem characters  ! ' ( )  * \\ "        if filename =~ /[\!\'\(\)\*\\]/            # bothersome
+      #raise "invalid characters in file name: #{filename}\nproblem characters  ! ' ( )  * \\ "        if filename =~ /[\!\'\(\)\*\\]/            # bothersome
+      #raise "invalid characters in file name: #{filename}\ntilde  ~"             if filename =~ /[\~]/ 
+      #raise "invalid characters in file name: #{filename}\nasterisk  *"          if filename =~ /[\*]/ 
+      #raise "invalid characters in file name: #{filename}\nsingle quote  \'"     if filename =~ /[\']/  
+   
 
 
       ext = File.extname path
@@ -40,6 +70,7 @@ module Daitss
         @name = name
         @path = path
       else
+        
         Dir.chdir File.dirname(path) do
           output = case ext
                    when '.zip' then `unzip -o "#{filename}" 2>&1`
@@ -102,26 +133,60 @@ module Daitss
           unless Dir.chdir(path) { File.exist? f }
             es[:content_file_presence] << "missing content file: #{f}"
           end
+          
+          es[:content_file_name_validity] << "invalid file name: #{f}\nlength: #{f.length}, exceeds maximum 220  ;"  if (f.length > 220)
+         
 
         end
       end
       # check content file name validity
       # see RFC2396
       #  2.2 Reserved Characters donot allow  ;  /  ?  :  @  &  =  +  $  ,     - URI href:xlink
-      #  2.4.3    unwise         donot allow  {  }  |  \  ^  [  ]  `         in the URI 
+      #  2.4.3    unwise         donot allow  {  }  |  \  ^  [  ]  `         in the URI unless escaped
       #  also weed out hidden files that begin with a period
       #  2.3  Unreserved characters are not excluded they  are          -  _  .  !  ~  *  '  (  )         
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty? and es[:content_file_presence].empty?
         content_files.each do |f|
           es[:content_file_name_validity] << "invalid characters in file name: #{f}" if f =~ /^\./
-
-          es[:content_file_name_validity] << "invalid characters in file name: #{f}\nreserved characters  ; / ? : @ & = + $ ," if f =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
+          
+         
+         # es[:content_file_name_validity] << "invalid characters in file name: #{f}\nreserved characters  ; / ? : @ & = + $ ," if f =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nsemi-colon  ;"         if f =~ /[\;]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nquestion mark  ? "     if f =~ /[\?]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\ncolon  :"              if f =~ /[\:]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nat sign  @"            if f =~ /[\@]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nampersand  :"          if f =~ /[\&]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nequal  ="              if f =~ /[\=]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nplus  +"               if f =~ /[\+]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\ndollar  $"             if f =~ /[\$]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\ncomma  ,"              if f =~ /[\,]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\ndouble quote \""       if f =~ /[\"]/
 	   
-	  es[:content_file_name_validity] << "invalid characters in file name: #{f}\nunwise characters { } \\ ^ [ ] `" if f =~ /[\{\}\|\\\^\[\]\`]/       # unwise
+	       #es[:content_file_name_validity] << "invalid characters in file name: #{f}\nunwise characters { } \\ ^ [ ] `" if f =~ /[\{\}\|\\\^\[\]\`]/       # unwise
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nopen brace  {"          if f =~ /[\{]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nclose brace  }"         if f =~ /[\}]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nback slash  \\"         if f =~ /[\\]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\npipe  |"                if f =~ /[\|]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\ncaret  ^"               if f =~ /[\^]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nopen bracket  ["        if f =~ /[\[]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nclose bracket  ]"       if f =~ /[\]]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\ngrave accent  ``"       if f =~ /[\`]/
 
-	  es[:content_file_name_validity] << "invalid characters in file name: #{f}\ndelims characters < > # % \" space" if f =~ /[\<\>\#\%\"\ ]/           # delims
-
-	  es[:content_file_name_validity] << "invalid characters in file name: #{f}\nsingle quote '" if f =~ /[\']/           # invalid single quote 
+	       #es[:content_file_name_validity] << "invalid characters in file name: #{f}\ndelims characters < > # % \" space" if f =~ /[\<\>\#\%\"\ ]/           # delims
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nless than  <"          if f =~ /[\<]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nmore than  ;"          if f =~ /[\>]/
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\npound  #"              if f =~ /[\#]/
+	       
+	       #  an escaped percent ala URL encode should be ok.  this means a % followed by two hex digits like %2b  for the plus sign
+	       # a package that has X%20Y will be unescaped to be  X Y  and this is ALLOWED but only for single spaace
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\npercent  %"            if f =~ /[\%]/
+	       
+	       #es[:content_file_name_validity] << "invalid characters in file name: #{f}\ntilde  ~"                   if f =~ /[\~]/
+	       #es[:content_file_name_validity] << "invalid characters in file name: #{f}\nasterisk  *"                if f =~ /[\*]/
+	       #es[:content_file_name_validity] << "invalid characters in file name: #{f}\nsingle quote  \'"           if f =~ /[\']/
+	                
+                                       
+	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\ntwo or more spaces in a row"             if f =~ /[\ ]{2,}/                                                                                                   if f =~ /[\ ]{2,}/
 	end
       end
       # check content file fixity
@@ -192,20 +257,54 @@ MSG
          node = descriptor_doc.find_first xpath, NS_PREFIX
 	 node
     rescue Exception => e
-	 raise "xml invalid characters in file name: "  << `basename #{descriptor_file}`  << $!
+	  raise "invalid characters in file name: "  << `basename #{descriptor_file}`  << $!
     end
 
-    def account
+    def accountX #
       xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
       node = descriptor_doc.find_first xpath, NS_PREFIX
       node.value rescue nil
     end
+      
+        
+    def multiple_agreements
+      count = descriptor_file_string.scan("<AGREEMENT_INFO ").size
+    end
 
-    def project
+    def account
+	    descriptor_doc_string = descriptor_file_string
+	    beginidx = descriptor_doc_string.index('AGREEMENT_INFO') 
+	    raise "AccountException1" if    !beginidx
+	    endidx = descriptor_doc_string.index('/>',beginidx)
+	    raise "AccountException2" if    !endidx
+	    agreement_info = descriptor_doc_string[beginidx..endidx]
+	    accountidx = agreement_info.index(" ACCOUNT=")
+	    # !accountidx will be true only when accountidx is nil
+	    raise "AccountException3"  if !accountidx 
+	    finalquoteidx =  agreement_info.index('"',accountidx+10)
+	    raise "AccountException4" if     !finalquoteidx  || (finalquoteidx >= accountidx+50 )
+	    acc = agreement_info[accountidx+10..finalquoteidx - 1]
+	  end
+
+    def projectX
       xpath = "#{AGREEMENT_INFO_XPATH}/@PROJECT"
       node = descriptor_doc.find_first xpath, NS_PREFIX
       node.value rescue nil
     end
+
+      def project
+	    	 descriptor_doc_string = descriptor_file_string
+         beginidx = descriptor_doc_string.index('AGREEMENT_INFO')
+         raise "ProjectException1" if    !beginidx
+         endidx = descriptor_doc_string.index('/>',beginidx)
+         raise "ProjectException2" if    !endidx 
+	       agreement_info = descriptor_doc_string[beginidx..endidx]
+	       projectidx = agreement_info.index(" PROJECT=")
+         raise "ProjectException3"  if    !projectidx 
+	       finalquoteidx =  agreement_info.index('"',projectidx+10)
+	    	 raise "ProjectException4" if    !finalquoteidx || finalquoteidx >= projectidx+50 
+         prj = agreement_info[projectidx+10..finalquoteidx - 1]
+       end
 
     def account_bad
       xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
@@ -368,8 +467,13 @@ MSG
       descriptor_doc.root['OBJID']
     end
 
+    def descriptor_file_string
+  	  file_string = File.read(descriptor_file)
+    end
+
     def descriptor_doc
-      @descriptor_doc ||= XML::Document.string File.read(descriptor_file)
+      @descriptor_file_string = File.read(descriptor_file)	    
+      descriptor_doc ||= XML::Document.string @descriptor_file_string
     end
 
     def name
