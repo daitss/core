@@ -238,7 +238,7 @@ post '/packages?/?' do
           path = File.join dir, filename
           open(path, 'w') { |io| io.write data }
 
-          p = archive.submit path, @user, filename, note
+          p = archive.submit path, @user, note
 
           if batch_id
             b = Batch.first_or_create(:id => batch_id)
