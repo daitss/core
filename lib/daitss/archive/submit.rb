@@ -8,9 +8,14 @@ module Daitss
     # submit a sip on behalf of an agent
     #
     # @return [Package]
-    def submit sip_path, agent, filename, event_note = ""
+    def submit sip_path, agent, event_note = ""
       package = Package.new
-      name = filename[0...filename.length - 4]
+      filename = File.basename(sip_path)
+      if File.directory?(sip_path)
+	      name = filename
+      else
+	      name = filename[0...filename.length - 4]
+      end 	      
       package.sip = Sip.new :name => name
 
       agreement_errors = []
