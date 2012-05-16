@@ -44,62 +44,63 @@ Feature: interactive submission
     And there should be a reject report delivery record
     Examples:
       | package                           | event  | note |
-      | non-package                       | reject |  cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
-      | FD"A                              | reject | invalid characters in file name: FD"A.zip |
-      | FD#A                              | reject | invalid characters in file name: FD#A.zip |
-      | FD$A                              | reject | invalid characters in file name: FD$A.zip |
-      | FD%A                              | reject | invalid characters in file name: FD%A.zip |
-      | FD&A                              | reject | invalid characters in file name: FD&A.zip |
-      | FD+A                              | reject | invalid characters in file name: FD+A.zip |
-      | FD,A                              | reject | invalid characters in file name: FD,A.zip |
-      | FD?A                              | reject | invalid characters in file name: FD?A.zip |
-      | FD:A                              | reject | invalid characters in file name: FD:A.zip |
-      | FD;A                              | reject | invalid characters in file name: FD;A.zip |
-      | FD<A                              | reject | invalid characters in file name: FD<A.zip |
-      | FD=A                              | reject | invalid characters in file name: FD=A.zip |
-      | FD>A                              | reject | invalid characters in file name: FD>A.zip |
-      | FD?A                              | reject | invalid characters in file name: FD?A.zip |
-      | FD@A                              | reject | invalid characters in file name: FD@A.zip |
-      | FD[A                              | reject | invalid characters in file name: FD[A.zip |
+      | non-package                       | reject |  Cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
+      | ateam_rar_as_zip                  | reject |  Cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
+      | non-package                       | reject |  Cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
+      | FD"A                              | reject | Invalid character in package name: FD"A.zip |
+      | FD#A                              | reject | Invalid character in package name: FD#A.zip |
+      | FD$A                              | reject | Invalid character in package name: FD$A.zip |
+      | FD%A                              | reject | Invalid character in package name: FD%A.zip |
+      | FD&A                              | reject | Invalid character in package name: FD&A.zip |
+      | FD+A                              | reject | Invalid character in package name: FD+A.zip |
+      | FD,A                              | reject | Invalid character in package name: FD,A.zip |
+      | FD?A                              | reject | Invalid character in package name: FD?A.zip |
+      | FD:A                              | reject | Invalid character in package name: FD:A.zip |
+      | FD;A                              | reject | Invalid character in package name: FD;A.zip |
+      | FD<A                              | reject | Invalid character in package name: FD<A.zip |
+      | FD=A                              | reject | Invalid character in package name: FD=A.zip |
+      | FD>A                              | reject | Invalid character in package name: FD>A.zip |
+      | FD?A                              | reject | Invalid character in package name: FD?A.zip |
+      | FD@A                              | reject | Invalid character in package name: FD@A.zip |
+      | FD[A                              | reject | Invalid character in package name: FD[A.zip |
       | FD\A                              | reject | is not a package                          |
-      | FD]A                              | reject | invalid characters in file name: FD]A.zip |
-      | FD^A                              | reject | invalid characters in file name: FD^A.zip |
-      | FD`A                              | reject | invalid characters in file name: FD`A.zip |
-      | FDCONTENTLEFTBRACKET              | reject | invalid descriptor  |
-      | FDCONTENTPERCENT                  | reject | invalid descriptor  |
-      | FDCONTENTPOUND                    | reject | invalid characters in file name: small#test.pdf |
-      | FDCONTENTATSIGN                   | reject | invalid characters in file name: small@test.pdf |
-      | FDCONTENTSPACETWO                 | reject | invalid characters in file name: small  test.pdf |
-      | FDCONTENTAMPER                    | reject | invalid characters in file name: FDCONTENTAMPER.xml    |
-      | FDCONTENTDOUBLEQUOTE              | reject | invalid characters in file name: FDCONTENTDOUBLEQUOTE.xml  |
-      | FDCONTENTMORETHAN                 | reject | invalid characters in file name: small>test.pdf |
-      | FDCONTENTPIPE                     | reject | invalid characters in file name: small                     |
+      | FD]A                              | reject | Invalid character in package name: FD]A.zip |
+      | FD^A                              | reject | Invalid character in package name: FD^A.zip |
+      | FD`A                              | reject | Invalid character in package name: FD`A.zip |
+      | FDCONTENTPERCENT                  | reject | Invalid SIP descriptor  |
+      | FDCONTENTPOUND                    | reject | Invalid character in file name: small#test.pdf |
+      | FDCONTENTATSIGN                   | reject | Invalid character in file name: small@test.pdf |
+      | FDCONTENTSPACETWO                 | reject | Invalid character in file name: small  test.pdf |
+      | FDCONTENTAMPER                    | reject | Invalid character in file name: FDCONTENTAMPER.xml    |
+      | FDCONTENTDOUBLEQUOTE              | reject | Invalid character in file name: FDCONTENTDOUBLEQUOTE.xml  |
+      | FDCONTENTMORETHAN                 | reject | Invalid character in file name: small>test.pdf |
+      | FDCONTENTPIPE                     | reject | Invalid character in file name: small                     |
       | FDCONTENTBACKSLASH                | reject | missing descriptor                                 |
-      | FDCONTENTBACKTICK                 | reject | invalid characters in file name: small`test.pdf    |
-      | FDCONTENTCARET                    | reject | invalid characters in file name: small^test.pdf    |
-      | FDCONTENTLEFTBRACKET              | reject | invalid descriptor  |
-      | FDCONTENTRIGHTBRACKET             | reject | invalid descriptor  |
-      | FDCONTENTLEFTCURLY                | reject | invalid characters in file name: small{test.pdf    |
-      | FDCONTENTRIGHTCURLY               | reject | invalid characters in file name: small}test.pdf    |
-      | FDCONTENTCOLON                    | reject | invalid characters in file name: small:test.pdf    |
-      | FDCONTENTCOMMA                    | reject | invalid characters in file name: small,test.pdf    |
-      | FDCONTENTDOLLAR                   | reject | invalid characters in file name: small$test.pdf    |
-      | FDCONTENTEQUAL                    | reject | invalid characters in file name: small=test.pdf    |
-      | FDCONTENTPLUS                     | reject | invalid characters in file name: small+test.pdf    |
-      | FDCONTENTQUESTION                 | reject | invalid characters in file name: small?test.pdf    |
+      | FDCONTENTBACKTICK                 | reject | Invalid character in file name: small`test.pdf    |
+      | FDCONTENTCARET                    | reject | Invalid character in file name: small^test.pdf    |
+      | FDCONTENTLEFTBRACKET              | reject | Invalid SIP descriptor  |
+      | FDCONTENTRIGHTBRACKET             | reject | Invalid SIP descriptor  |
+      | FDCONTENTLEFTCURLY                | reject | Invalid character in file name: small{test.pdf    |
+      | FDCONTENTRIGHTCURLY               | reject | Invalid character in file name: small}test.pdf    |
+      | FDCONTENTCOLON                    | reject | Invalid character in file name: small:test.pdf    |
+      | FDCONTENTCOMMA                    | reject | Invalid character in file name: small,test.pdf    |
+      | FDCONTENTDOLLAR                   | reject | Invalid character in file name: small$test.pdf    |
+      | FDCONTENTEQUAL                    | reject | Invalid character in file name: small=test.pdf    |
+      | FDCONTENTPLUS                     | reject | Invalid character in file name: small+test.pdf    |
+      | FDCONTENTQUESTION                 | reject | Invalid character in file name: small?test.pdf    |
       | checksum-mismatch                 | reject | MD5 for ateam.tiff |
       | missing-descriptor                | reject | missing descriptor |
-      | missing-content-file              | reject | missing content file: ateam.tiff |
+      | missing-content-file              | reject | Cannot find described content file: ateam.tiff |
       | bad-account                       | reject | no account DNE |
       | bad-project                       | reject | no project DNE for account ACT |
       | missing-account                   | reject | missing account |
       | missing-project                   | reject | missing project |
       | missing-agreement                 | reject | missing agreement info |
       | multiple-agreements               | reject | multiple agreement info |
-      | invalid-descriptor                | reject | invalid descriptor |
-      | name-too-long-xxxxxxxxxxxxxxxxxxx | reject | package name contains too many characters (33) max is 32 |
-      | described-hidden-file             | reject | invalid characters in file name: .hidden.txt |
-      | lower-level-special-characters-ng | reject | invalid characters in file name: Content/UF00001074?.pdf |
+      | invalid-descriptor                | reject | Invalid SIP descriptor |
+      | name-too-long-xxxxxxxxxxxxxxxxxxx | reject | Package name contains too many characters (33) max is 32 |
+      | described-hidden-file             | reject | Invalid character in file name: .hidden.txt |
+      | lower-level-special-characters-ng | reject | Invalid character in file name: Content/UF00001074?.pdf |
      
 
   Scenario: submission notes
