@@ -24,43 +24,39 @@ module Daitss
       
       raise "#{filename} size exceeds maximum 100GB (107,374,182,400 bytes) size: #{File.size(path)}  "  if File.size(path) > 107374182400
       
-      raise "invalid characters in file name: #{filename}"    if filename =~ /^\./  # hidden file not allowed
+      raise "\nInvalid character in package name: #{filename}"    if filename =~ /^\./  # hidden file not allowed
 
-      #raise "invalid characters in file name: #{filename}\nreserved characters  ; / ? : @ & = + $ ,"  if filename =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
-      raise "invalid characters in file name: #{filename}\nsemi-colon  ;"         if filename =~ /[\;]/
-      raise "invalid characters in file name: #{filename}\nquestion mark  ? "     if filename =~ /[\?]/
-      raise "invalid characters in file name: #{filename}\ncolon  :"              if filename =~ /[\:]/
-      raise "invalid characters in file name: #{filename}\nat sign  @"            if filename =~ /[\@]/
-      raise "invalid characters in file name: #{filename}\nampersand  :"          if filename =~ /[\&]/
-      raise "invalid characters in file name: #{filename}\nequal  ="              if filename =~ /[\=]/
-      raise "invalid characters in file name: #{filename}\nplus  +"               if filename =~ /[\+]/
-      raise "invalid characters in file name: #{filename}\ndollar  $"             if filename =~ /[\$]/
-      raise "invalid characters in file name: #{filename}\ncomma  ,"              if filename =~ /[\,]/
-      raise "invalid characters in file name: #{filename}\ndouble quote \""       if filename =~ /[\"]/
+      #raise "invalid character in file name: #{filename}\nreserved characters  ; / ? : @ & = + $ ,"  if filename =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
+      raise "\nInvalid character in package name: #{filename}\nsemi-colon  ;"         if filename =~ /[\;]/
+      raise "\nInvalid character in package name: #{filename}\nquestion mark  ? "     if filename =~ /[\?]/
+      raise "\nInvalid character in package name: #{filename}\ncolon  :"              if filename =~ /[\:]/
+      raise "\nInvalid character in package name: #{filename}\nat sign  @"            if filename =~ /[\@]/
+      raise "\nInvalid character in package name: #{filename}\nampersand  &"          if filename =~ /[\&]/
+      raise "\nInvalid character in package name: #{filename}\nequal  ="              if filename =~ /[\=]/
+      raise "\nInvalid character in package name: #{filename}\nplus  +"               if filename =~ /[\+]/
+      raise "\nInvalid character in package name: #{filename}\ndollar  $"             if filename =~ /[\$]/
+      raise "\nInvalid character in package name: #{filename}\ncomma  ,"              if filename =~ /[\,]/
+      raise "\nInvalid character in package name: #{filename}\ndouble quote \""       if filename =~ /[\"]/
 
       # backslash is an unwise character but it never gets this far:
       # ABCDE\FGHI.zip  will be parsed as   FGHI.zip  and most likely will result in message:   FGHI.zip is not a package
-      #raise "invalid characters in file name: #{filename}\nunwise characters  { } | \\ ^ [ ] `"        if filename =~ /[\{\}\|\\\^\[\]\`]/       # unwise
-      raise "invalid characters in file name: #{filename}\nopen brace  {"          if filename =~ /[\{]/
-      raise "invalid characters in file name: #{filename}\nclose brace  }"         if filename =~ /[\}]/
-      raise "invalid characters in file name: #{filename}\nback slash  \\"         if filename =~ /[\\]/
-      raise "invalid characters in file name: #{filename}\ncaret  ^"               if filename =~ /[\^]/
-      raise "invalid characters in file name: #{filename}\nopen bracket  []"       if filename =~ /[\[]/
-      raise "invalid characters in file name: #{filename}\nclose bracket  ]"       if filename =~ /[\]]/
-      raise "invalid characters in file name: #{filename}\ngrave accent  `"        if filename =~ /[\`]/
-      raise "invalid characters in file name: #{filename}\npipe  |"                if filename =~ /[\\]/
+      #raise "invalid character in file name: #{filename}\nunwise characters  { } | \\ ^ [ ] `"        if filename =~ /[\{\}\|\\\^\[\]\`]/       # unwise
+      raise "\nInvalid character in package name: #{filename}\nopen brace  {"          if filename =~ /[\{]/
+      raise "\nInvalid character in package name: #{filename}\nclose brace  }"         if filename =~ /[\}]/
+      raise "\nInvalid character in package name: #{filename}\nback slash  \\"         if filename =~ /[\\]/
+      raise "\nInvalid character in package name: #{filename}\ncaret  ^"               if filename =~ /[\^]/
+      raise "\nInvalid character in package name: #{filename}\nopen bracket  []"       if filename =~ /[\[]/
+      raise "\nInvalid character in package name: #{filename}\nclose bracket  ]"       if filename =~ /[\]]/
+      raise "\nInvalid character in package name: #{filename}\ngrave accent  `"        if filename =~ /[\`]/
+      raise "\nInvalid character in package name: #{filename}\npipe  |"                if filename =~ /[\\]/
 
-      #raise "invalid characters in file name: #{filename}\ndelim characters  < > # % \" space"        if filename =~ /[\<\>\#\%\"\ ]/           # delims
-      raise "invalid characters in file name: #{filename}\nless than  <"          if filename =~ /[\<]/
-      raise "invalid characters in file name: #{filename}\nmore than  ;"          if filename =~ /[\>]/
-      raise "invalid characters in file name: #{filename}\npound  #"              if filename =~ /[\#]/
-      raise "invalid characters in file name: #{filename}\npercent  %"            if filename =~ /[\%]/  
+      #raise "invalid character in file name: #{filename}\ndelim characters  < > # % \" space"        if filename =~ /[\<\>\#\%\"\ ]/           # delims
+      raise "\nInvalid character in package name: #{filename}\nless than  <"          if filename =~ /[\<]/
+      raise "\nInvalid character in package name: #{filename}\nmore than  ;"          if filename =~ /[\>]/
+      raise "\nInvalid character in package name: #{filename}\npound  #"              if filename =~ /[\#]/
+      raise "\nInvalid character in package name: #{filename}\npercent  %"            if filename =~ /[\%]/  
 
-      #raise "invalid characters in file name: #{filename}\nproblem characters  ! ' ( )  * \\ "        if filename =~ /[\!\'\(\)\*\\]/            # bothersome
-      #raise "invalid characters in file name: #{filename}\ntilde  ~"             if filename =~ /[\~]/ 
-      #raise "invalid characters in file name: #{filename}\nasterisk  *"          if filename =~ /[\*]/ 
-      #raise "invalid characters in file name: #{filename}\nsingle quote  \'"     if filename =~ /[\']/  
-   
+      #raise "invalid character in file name: #{filename}\nproblem characters  ! ' ( )  * \\ "        if filename =~ /[\!\'\(\)\*\\]/            # bothersome
 
 
       ext = File.extname path
@@ -75,14 +71,14 @@ module Daitss
           output = case ext
                    when '.zip' then `unzip -o "#{filename}" 2>&1`
                    when '.tar' then `tar -xf "#{filename}" 2>&1`
-                   else raise "unknown archive extension: #{ext}"
+                   else raise "\nUnknown archive extension: #{ext}" << "\nCannot extract sip archive, must be a valid tar or zip file containing directory with sip files"
                    end
-          raise "error extracting #{filename}\n\n#{output}" unless $? == 0
+          raise "\nError extracting #{filename}\n\n#{output}" unless $? == 0
         end
 
         @name = name
         @path = File.join File.dirname(path), name
-        raise "#{filename} is not a package" unless File.directory? @path
+        raise "\n#{filename} is not a package" unless File.directory? @path
       end
     end
 
@@ -95,7 +91,7 @@ module Daitss
       es = Hash.new { |h,k| h[k] = [] }
 
       if name.length > MAX_NAME_LENGTH
-        es[:package_name] << "package name contains too many characters (#{name.length}) max is #{MAX_NAME_LENGTH}"
+        es[:package_name] << "\nPackage name contains too many characters (#{name.length}) max is #{MAX_NAME_LENGTH}"
       end
 
 
@@ -108,8 +104,8 @@ module Daitss
         validation_errors = validate_xml descriptor_file
 
         unless validation_errors.empty?
-          es[:descriptor_valid] << "invalid descriptor"
-          es[:descriptor_valid] += validation_errors.map { |e| "#{e[:line]}: #{e[:message]}" }
+          es[:descriptor_valid] << "\nInvalid SIP descriptor"
+          es[:descriptor_valid] += validation_errors.map { |e| "\n[:line]}: #{e[:message]}" }
         end
 
       end
@@ -118,23 +114,23 @@ module Daitss
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty?
         ainfo = descriptor_doc.find_first AGREEMENT_INFO_XPATH, NS_PREFIX
 
-        es[:agreement_info] << "missing agreement info" unless ainfo
+        es[:agreement_info] << "\nmissing agreement info" unless ainfo
         
-        es[:agreement_info] << "missing account" if ainfo.nil? or ainfo['ACCOUNT'].to_s.strip.empty?
-        es[:agreement_info] << "missing project" if ainfo.nil? or ainfo['PROJECT'].to_s.strip.empty?
+        es[:agreement_info] << "\nmissing account" if ainfo.nil? or ainfo['ACCOUNT'].to_s.strip.empty?
+        es[:agreement_info] << "\nmissing project" if ainfo.nil? or ainfo['PROJECT'].to_s.strip.empty?
       end
 
       # check for content files
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty?
-        es[:content_file_presence] << "missing content files" if content_files.empty?
+        es[:content_file_presence] << "\nmissing content file" if content_files.empty?
 
         content_files.each do |f|
 
           unless Dir.chdir(path) { File.exist? f }
-            es[:content_file_presence] << "missing content file: #{f}"
+            es[:content_file_presence] << "Cannot find described content file: #{f}"
           end
           
-          es[:content_file_name_validity] << "invalid file name: #{f}\nlength: #{f.length}, exceeds maximum 220  ;"  if (f.length > 220)
+          es[:content_file_name_validity] << "\nInvalid file name: #{f}\nlength: #{f.length}, exceeds maximum 220  ;"  if (f.length > 220)
          
 
         end
@@ -147,46 +143,46 @@ module Daitss
       #  2.3  Unreserved characters are not excluded they  are          -  _  .  !  ~  *  '  (  )         
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty? and es[:content_file_presence].empty?
         content_files.each do |f|
-          es[:content_file_name_validity] << "invalid characters in file name: #{f}" if f =~ /^\./
+          es[:content_file_name_validity] << "\nInvalid character in file name: #{f}" if f =~ /^\./
           
          
-         # es[:content_file_name_validity] << "invalid characters in file name: #{f}\nreserved characters  ; / ? : @ & = + $ ," if f =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nsemi-colon  ;"         if f =~ /[\;]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nquestion mark  ? "     if f =~ /[\?]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\ncolon  :"              if f =~ /[\:]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nat sign  @"            if f =~ /[\@]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nampersand  :"          if f =~ /[\&]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nequal  ="              if f =~ /[\=]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nplus  +"               if f =~ /[\+]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\ndollar  $"             if f =~ /[\$]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\ncomma  ,"              if f =~ /[\,]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\ndouble quote \""       if f =~ /[\"]/
+         # es[:content_file_name_validity] << "invalid character in file name: #{f}\nreserved characters  ; / ? : @ & = + $ ," if f =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nsemi-colon  ;"         if f =~ /[\;]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nquestion mark  ? "     if f =~ /[\?]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\ncolon  :"              if f =~ /[\:]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nat sign  @"            if f =~ /[\@]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nampersand  &"          if f =~ /[\&]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nequal  ="              if f =~ /[\=]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nplus  +"               if f =~ /[\+]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\ndollar  $"             if f =~ /[\$]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\ncomma  ,"              if f =~ /[\,]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\ndouble quote \""       if f =~ /[\"]/
 	   
-	       #es[:content_file_name_validity] << "invalid characters in file name: #{f}\nunwise characters { } \\ ^ [ ] `" if f =~ /[\{\}\|\\\^\[\]\`]/       # unwise
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nopen brace  {"          if f =~ /[\{]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nclose brace  }"         if f =~ /[\}]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nback slash  \\"         if f =~ /[\\]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\npipe  |"                if f =~ /[\|]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\ncaret  ^"               if f =~ /[\^]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nopen bracket  ["        if f =~ /[\[]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nclose bracket  ]"       if f =~ /[\]]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\ngrave accent  ``"       if f =~ /[\`]/
+	       #es[:content_file_name_validity] << "invalid character in file name: #{f}\nunwise characters { } \\ ^ [ ] `" if f =~ /[\{\}\|\\\^\[\]\`]/       # unwise
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nopen brace  {"          if f =~ /[\{]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nclose brace  }"         if f =~ /[\}]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nback slash  \\"         if f =~ /[\\]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\npipe  |"                if f =~ /[\|]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\ncaret  ^"               if f =~ /[\^]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nopen bracket  ["        if f =~ /[\[]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nclose bracket  ]"       if f =~ /[\]]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\ngrave accent  ``"       if f =~ /[\`]/
 
-	       #es[:content_file_name_validity] << "invalid characters in file name: #{f}\ndelims characters < > # % \" space" if f =~ /[\<\>\#\%\"\ ]/           # delims
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nless than  <"          if f =~ /[\<]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\nmore than  ;"          if f =~ /[\>]/
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\npound  #"              if f =~ /[\#]/
+	       #es[:content_file_name_validity] << "invalid character in file name: #{f}\ndelims characters < > # % \" space" if f =~ /[\<\>\#\%\"\ ]/           # delims
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nless than  <"          if f =~ /[\<]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nmore than  ;"          if f =~ /[\>]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\npound  #"              if f =~ /[\#]/
 	       
 	       #  an escaped percent ala URL encode should be ok.  this means a % followed by two hex digits like %2b  for the plus sign
 	       # a package that has X%20Y will be unescaped to be  X Y  and this is ALLOWED but only for single spaace
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\npercent  %"            if f =~ /[\%]/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\npercent  %"            if f =~ /[\%]/
 	       
-	       #es[:content_file_name_validity] << "invalid characters in file name: #{f}\ntilde  ~"                   if f =~ /[\~]/
-	       #es[:content_file_name_validity] << "invalid characters in file name: #{f}\nasterisk  *"                if f =~ /[\*]/
-	       #es[:content_file_name_validity] << "invalid characters in file name: #{f}\nsingle quote  \'"           if f =~ /[\']/
+	       #es[:content_file_name_validity] << "invalid character in file name: #{f}\ntilde  ~"                   if f =~ /[\~]/
+	       #es[:content_file_name_validity] << "invalid character in file name: #{f}\nasterisk  *"                if f =~ /[\*]/
+	       #es[:content_file_name_validity] << "invalid character in file name: #{f}\nsingle quote  \'"           if f =~ /[\']/
 	                
                                        
-	       es[:content_file_name_validity] << "invalid characters in file name: #{f}\ntwo or more spaces in a row"             if f =~ /[\ ]{2,}/                                                                                                   if f =~ /[\ ]{2,}/
+	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\ntwo or more spaces in a row"             if f =~ /[\ ]{2,}/                                                                                                   if f =~ /[\ ]{2,}/
 	end
       end
       # check content file fixity
@@ -257,7 +253,7 @@ MSG
          node = descriptor_doc.find_first xpath, NS_PREFIX
 	 node
     rescue Exception => e
-	  raise "invalid characters in file name: "  << `basename #{descriptor_file}`  << $!
+	  raise "\nInvalid character in file name: "  << `basename #{descriptor_file}`  << $!
     end
 
     def accountX #
@@ -310,7 +306,7 @@ MSG
       xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
       node = descriptor_doc.find_first xpath, NS_PREFIX
       rescue Exception  =>  e  
-      raise "invalid characters in file name: "  << `basename #{descriptor_file}`  << $!
+      raise "\nInvalid character in file name: "  << `basename #{descriptor_file}`  << $!
       node.value rescue nil
     end
 
@@ -318,7 +314,7 @@ MSG
       xpath = "#{AGREEMENT_INFO_XPATH}/@PROJECT"
       node = descriptor_doc.find_first xpath, NS_PREFIX
     rescue Exception  =>  e      
-      raise "invalid characters in file name: " << `basename #{descriptor_file}` << $!
+      raise "\nInvalid character in file name: " << `basename #{descriptor_file}` << $!
       node.value rescue nil
     end
 
