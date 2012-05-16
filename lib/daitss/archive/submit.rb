@@ -30,10 +30,11 @@ module Daitss
         rescued = true
         if $!.to_s.index('No such file or directory')
           agreement_errors << "missing descriptor"
-        elsif $!.to_s.index('error extracting')
-          agreement_errors << "cannot extract sip archive, must be a valid tar or zip file containing directory with sip files"
+        elsif $!.to_s.index('rror extracting')
+          agreement_errors << "\nCannot extract sip archive, must be a valid tar or zip file containing directory with sip files"
         else
-          agreement_errors << $!
+          agreement_errors <<"Invalid SIP descriptor. XML validation errors:" <<  $!
+          #agreement_errors  <<  $!
 	end
       end
 
@@ -54,7 +55,7 @@ module Daitss
       rescue
 	      rescued = true
 	      account = a_id
-	      agreement_errors << "Package #{filename} not able to determine Account: #{a_id}"
+	      agreement_errors << "Not able to determine Account code in package #{filename};"
       end 
      begin
       if !rescued	     
@@ -97,7 +98,7 @@ module Daitss
         agent.account.default_project.packages  << package
 
       elsif !rescued
-        agreement_errors << "cannot submit to account #{a_id}"
+        agreement_errors << "\nCannot submit to account #{a_id}"
         agent.account.default_project.packages  << package
       else
 	 agent.account.default_project.packages  << package     
