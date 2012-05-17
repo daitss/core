@@ -44,6 +44,12 @@ Feature: interactive submission
     And there should be a reject report delivery record
     Examples:
       | package                           | event  | note |
+      | checksum-mismatch                 | reject | MD5 checksum mismatch for ateam.tiff |
+      | missing-account                   | reject | Account code missing in SIP descriptor |
+      | missing-content-file              | reject | Cannot find content file listed in SIP descriptor: ateam.tiff |
+      | missing-project                   | reject | Project code missing in SIP descriptor |
+      | bad-account                       | reject | does not exist |
+      | bad-project                       | reject | is not valid for Account |
       | non-package                       | reject |  Cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
       | ateam_rar_as_zip                  | reject |  Cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
       | non-package                       | reject |  Cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
@@ -75,7 +81,7 @@ Feature: interactive submission
       | FDCONTENTDOUBLEQUOTE              | reject | Invalid character in file name: FDCONTENTDOUBLEQUOTE.xml  |
       | FDCONTENTMORETHAN                 | reject | Invalid character in file name: small>test.pdf |
       | FDCONTENTPIPE                     | reject | Invalid character in file name: small                     |
-      | FDCONTENTBACKSLASH                | reject | missing descriptor                                 |
+      | FDCONTENTBACKSLASH                | reject | Missing SIP descriptor                                 |
       | FDCONTENTBACKTICK                 | reject | Invalid character in file name: small`test.pdf    |
       | FDCONTENTCARET                    | reject | Invalid character in file name: small^test.pdf    |
       | FDCONTENTLEFTBRACKET              | reject | Invalid SIP descriptor  |
@@ -88,13 +94,7 @@ Feature: interactive submission
       | FDCONTENTEQUAL                    | reject | Invalid character in file name: small=test.pdf    |
       | FDCONTENTPLUS                     | reject | Invalid character in file name: small+test.pdf    |
       | FDCONTENTQUESTION                 | reject | Invalid character in file name: small?test.pdf    |
-      | checksum-mismatch                 | reject | MD5 for ateam.tiff |
-      | missing-descriptor                | reject | missing descriptor |
-      | missing-content-file              | reject | Cannot find described content file: ateam.tiff |
-      | bad-account                       | reject | no account DNE |
-      | bad-project                       | reject | no project DNE for account ACT |
-      | missing-account                   | reject | missing account |
-      | missing-project                   | reject | missing project |
+      | missing-descriptor                | reject | Missing SIP descriptor |
       | missing-agreement                 | reject | missing agreement info |
       | multiple-agreements               | reject | multiple agreement info |
       | invalid-descriptor                | reject | Invalid SIP descriptor |
