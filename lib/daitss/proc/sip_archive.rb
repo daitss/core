@@ -96,7 +96,7 @@ module Daitss
 
 
       # check for missing descriptor
-      es[:descriptor_presence] << "missing descriptor" unless File.file? descriptor_file
+      es[:descriptor_presence] << "\nMissing SIP descriptor." unless File.file? descriptor_file
 
       # check for valid descriptor
       if es[:descriptor_presence].empty?
@@ -104,7 +104,7 @@ module Daitss
         validation_errors = validate_xml descriptor_file
 
         unless validation_errors.empty?
-          es[:descriptor_valid] << "\nInvalid SIP descriptor"
+          es[:descriptor_valid] << "\nInvalid SIP descriptor. XML validation errors:"
           es[:descriptor_valid] += validation_errors.map { |e| "\n[:line]}: #{e[:message]}" }
         end
 
@@ -116,8 +116,8 @@ module Daitss
 
         es[:agreement_info] << "\nmissing agreement info" unless ainfo
         
-        es[:agreement_info] << "\nmissing account" if ainfo.nil? or ainfo['ACCOUNT'].to_s.strip.empty?
-        es[:agreement_info] << "\nmissing project" if ainfo.nil? or ainfo['PROJECT'].to_s.strip.empty?
+	es[:agreement_info] << "\nAccount code missing in SIP descriptor." if ainfo.nil? or ainfo['ACCOUNT'].to_s.strip.empty?
+	es[:agreement_info] << "\nProject code missing in SIP descriptor." if ainfo.nil? or ainfo['PROJECT'].to_s.strip.empty?
       end
 
       # check for content files
@@ -127,7 +127,7 @@ module Daitss
         content_files.each do |f|
 
           unless Dir.chdir(path) { File.exist? f }
-            es[:content_file_presence] << "Cannot find described content file: #{f}"
+            es[:content_file_presence] << "\nCannot find content file listed in SIP descriptor: #{f}"
           end
           
           es[:content_file_name_validity] << "\nInvalid file name: #{f}\nlength: #{f.length}, exceeds maximum 220  ;"  if (f.length > 220)
@@ -212,11 +212,11 @@ module Daitss
 
             if computed.downcase != expected.downcase
               message = <<MSG
-#{expected_type} for #{f}:
+#{expected_type} checksum mismatch for #{f}:
   expected: #{expected}
   computed: #{computed}
 MSG
-              es[:content_file_fixity] << message
+              es[:content_file_fixity] << "\n" << message
             end
 
           end
