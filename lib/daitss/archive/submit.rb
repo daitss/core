@@ -28,13 +28,14 @@ module Daitss
       rescue
         sa = nil
         rescued = true
-        if $!.to_s.index('No such file or directory')
-          agreement_errors << "missing descriptor"
+        if $!.to_s.index('\nNo such file or directory')
+          agreement_errors << "\nmissing descriptor"
         elsif $!.to_s.index('rror extracting')
           agreement_errors << "\nCannot extract sip archive, must be a valid tar or zip file containing directory with sip files"
-        else
-          agreement_errors <<"Invalid SIP descriptor. XML validation errors:" <<  $!
-          #agreement_errors  <<  $!
+	elsif ! $!.to_s.index('Unknown archive extension')  || ! $!.to_s.index('Error extracting')
+          agreement_errors << $!		
+	else  
+          agreement_errors <<"\nInvalid SIP descriptor. XML validation errors:" <<  $!
 	end
       end
 
@@ -44,7 +45,7 @@ module Daitss
 	count = sa.multiple_agreements
 	if count > 1
 	  rescued = true
-	  agreement_errors << "multiple agreements"
+	  agreement_errors << "\nmultiple agreements"
 	end
         #sa.xml_initial_validation
 	if !rescued
@@ -55,7 +56,7 @@ module Daitss
       rescue
 	      rescued = true
 	      account = a_id
-	      agreement_errors << "Not able to determine Account code in package #{filename};"
+	      agreement_errors << "\nNot able to determine Account code in package #{filename};"
       end 
      begin
       if !rescued	     
@@ -65,7 +66,7 @@ module Daitss
     rescue
       rescued = true
       project =  p_id
-      agreement_errors << "Package #{filename} not able to determine project Account: #{a_id} Project: #{p_id}"
+      agreement_errors << "\nPackage #{filename} not able to determine project Account: #{a_id} Project: #{p_id}"
     end 
     begin
       sa.xml_initial_validation unless rescued
@@ -85,12 +86,12 @@ module Daitss
           if project
             project.packages << package
           else
-            agreement_errors << "no project #{p_id} for account #{a_id}"
+	    agreement_errors << "\nProject code \"#{p_id}\" is not valid for account \"#{a_id}\""
             account.default_project.packages  << package
           end
 
         else
-          agreement_errors << "no account #{a_id}"
+	  agreement_errors << "\nAccount \"#{a_id}\" does not exist"
           agent.account.default_project.packages  << package
         end
 
@@ -98,7 +99,7 @@ module Daitss
         agent.account.default_project.packages  << package
 
       elsif !rescued
-        agreement_errors << "\nCannot submit to account #{a_id}"
+	agreement_errors << "\nYou are not authorized to submit to Account \"#{a_id}\""
         agent.account.default_project.packages  << package
       else
 	 agent.account.default_project.packages  << package     
@@ -140,8 +141,10 @@ module Daitss
             else
               combined_errors = agreement_errors.join "\n"
             end
-
-            package.log 'reject', :agent => agent, :notes => event_note + '; ' + combined_errors
+            event_note_sqz = event_note + '; ' + combined_errors
+	    event_note_sqz = event_note_sqz.squeeze("\n");
+            #package.log 'reject', :agent => agent, :notes => event_note + '; ' + combined_errors
+	    package.log 'reject', :agent => agent, :notes => event_note_sqz
             package.queue_reject_report
           end
 
