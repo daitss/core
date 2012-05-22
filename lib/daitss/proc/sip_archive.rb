@@ -114,7 +114,7 @@ module Daitss
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty?
         ainfo = descriptor_doc.find_first AGREEMENT_INFO_XPATH, NS_PREFIX
 
-        es[:agreement_info] << "\nmissing agreement info" unless ainfo
+        es[:agreement_info] << "\nSIP descriptor contains no AGREEMENT_INFO element." unless ainfo
         
 	es[:agreement_info] << "\nAccount code missing in SIP descriptor." if ainfo.nil? or ainfo['ACCOUNT'].to_s.strip.empty?
 	es[:agreement_info] << "\nProject code missing in SIP descriptor." if ainfo.nil? or ainfo['PROJECT'].to_s.strip.empty?
@@ -253,7 +253,7 @@ MSG
          node = descriptor_doc.find_first xpath, NS_PREFIX
 	 node
     rescue Exception => e
-	  raise "\nInvalid character in file name: "  << `basename #{descriptor_file}`  << $!
+	  raise "\nInvalid SIP descriptor. XML validation errors: "  << "\n" << $!
     end
 
     def accountX #
@@ -503,13 +503,16 @@ MSG
     end
 
     def undescribed_files
-
-      Dir.chdir @path do
+       Dir.chdir @path do
         pattern = File.join *%w(** *)
         all_files = Dir[pattern]
-        all_files - content_files - [ "#{name}.xml" ]
+        all_files = all_files - content_files - [ "#{name}.xml" ]
+        dir_files = []
+        all_files.each do |f|
+	  dir_files = dir_files + ["#{f}"]  if File.directory?(f)
+	end
+	all_files - dir_files
       end
-
     end
 
   end
