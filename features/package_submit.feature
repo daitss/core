@@ -8,6 +8,7 @@ Feature: interactive submission
     And in the events I should see a "<event>" event with "<note>" in the notes
     Examples:
       | package                           | event  | note |
+      | undescribed                       | submit | File not listed in SIP descriptor not retained: file.txt |
       | lower-level-special-characters    | submit | |
       | haskell-nums-pdf                  | submit | |
       | FDCONTENTTILDE                    | submit | |
@@ -26,7 +27,6 @@ Feature: interactive submission
       | FDCONTENTSPACE                    | submit | |
       | mixed-case-checksums              | submit | |
       | virus                             | submit | |
-      | undescribed                       | submit | undescribed file: file.txt |
 
   Scenario: total file count
     Given I goto "/packages"
@@ -44,12 +44,18 @@ Feature: interactive submission
     And there should be a reject report delivery record
     Examples:
       | package                           | event  | note |
+      | FDCONTENTAMPER                    | reject | Invalid SIP descriptor. XML validation errors:    |
+      | FDAD25ded_missing_project         | reject |Not able to determine Account code in package |
+      | missing-agreement                 | reject | SIP descriptor contains no AGREEMENT_INFO element. |
+      | multiple-agreements               | reject | SIP descriptor contains mulitple AGREEMENT_INFO elements |
+      | ateam-descriptor-broken           | reject | Invalid SIP descriptor. |
+      | FDCONTENTDOUBLEQUOTE              | reject | Invalid SIP descriptor. XML validation errors:  |
       | checksum-mismatch                 | reject | MD5 checksum mismatch for ateam.tiff |
       | missing-account                   | reject | Account code missing in SIP descriptor |
       | missing-content-file              | reject | Cannot find content file listed in SIP descriptor: ateam.tiff |
       | missing-project                   | reject | Project code missing in SIP descriptor |
       | bad-account                       | reject | does not exist |
-      | bad-project                       | reject | is not valid for Account |
+      | bad-project                       | reject | Project code "DNE" is not valid for account "ACT" |
       | non-package                       | reject |  Cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
       | ateam_rar_as_zip                  | reject |  Cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
       | non-package                       | reject |  Cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
@@ -77,8 +83,6 @@ Feature: interactive submission
       | FDCONTENTPOUND                    | reject | Invalid character in file name: small#test.pdf |
       | FDCONTENTATSIGN                   | reject | Invalid character in file name: small@test.pdf |
       | FDCONTENTSPACETWO                 | reject | Invalid character in file name: small  test.pdf |
-      | FDCONTENTAMPER                    | reject | Invalid character in file name: FDCONTENTAMPER.xml    |
-      | FDCONTENTDOUBLEQUOTE              | reject | Invalid character in file name: FDCONTENTDOUBLEQUOTE.xml  |
       | FDCONTENTMORETHAN                 | reject | Invalid character in file name: small>test.pdf |
       | FDCONTENTPIPE                     | reject | Invalid character in file name: small                     |
       | FDCONTENTBACKSLASH                | reject | Missing SIP descriptor                                 |
@@ -95,8 +99,6 @@ Feature: interactive submission
       | FDCONTENTPLUS                     | reject | Invalid character in file name: small+test.pdf    |
       | FDCONTENTQUESTION                 | reject | Invalid character in file name: small?test.pdf    |
       | missing-descriptor                | reject | Missing SIP descriptor |
-      | missing-agreement                 | reject | missing agreement info |
-      | multiple-agreements               | reject | multiple agreement info |
       | invalid-descriptor                | reject | Invalid SIP descriptor |
       | name-too-long-xxxxxxxxxxxxxxxxxxx | reject | Package name contains too many characters (33) max is 32 |
       | described-hidden-file             | reject | Invalid character in file name: .hidden.txt |
