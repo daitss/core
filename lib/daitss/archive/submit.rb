@@ -45,12 +45,11 @@ module Daitss
 	count = sa.multiple_agreements
 	if count > 1
 	  rescued = true
-	  agreement_errors << "\nmultiple agreements"
+	  agreement_errors << "\nSIP descriptor contains mulitple AGREEMENT_INFO elements."
 	end
         #sa.xml_initial_validation
 	if !rescued
 	  rescued = nil
-	  a_id = "UnknownAccount"
 	  a_id = sa.account
 	end
       rescue
@@ -60,13 +59,12 @@ module Daitss
       end 
      begin
       if !rescued	     
-        p_id = "UnknownProject"
         p_id = sa.project
       end 
     rescue
       rescued = true
       project =  p_id
-      agreement_errors << "\nPackage #{filename} not able to determine project Account: #{a_id} Project: #{p_id}"
+      agreement_errors << "\nNot able to determine Account code in package #{filename}"
     end 
     begin
       sa.xml_initial_validation unless rescued
@@ -132,7 +130,7 @@ module Daitss
 
           if sa and sa.valid? and agreement_errors.empty?
             event_note += "\n\n"
-            event_note += sa.undescribed_files.map { |f| "undescribed file: #{f}" }.join("\n")
+            event_note += sa.undescribed_files.map { |f| "File not listed in SIP descriptor not retained: #{f}" }.join("\n")
             wip = Wip.from_sip_archive workspace, package, sa
             package.log 'submit', :agent => agent, :notes => event_note
           else
