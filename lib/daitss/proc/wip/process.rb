@@ -204,7 +204,11 @@ module Daitss
 
     # resets the state of a package if it is snafu
     def unsnafu note=nil, agent = nil
-      need_state :snafu
+      # allow resetting of dead process
+      unless dead?
+        need_state :snafu
+      end
+      
       reset_process
 
       agent = Program.get("SYSTEM") unless agent
