@@ -775,7 +775,7 @@ post '/workspace/:id' do |id|
     wip.stop note, @user
 
   when 'unsnafu'
-    error 400, 'can only unsnafu a snafu wip' unless wip.snafu?
+    error 400, 'can only unsnafu a snafu or dead wip' unless wip.snafu? || dead?
     wip.unsnafu note, @user
 
   when 'stash'
