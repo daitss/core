@@ -175,7 +175,7 @@ module Daitss
               from INT_ENTITY_GLOBAL_FILE
               where IEID='#{id}') dfs, DATA_FILE
         where DATA_FILE.DFID=dfs.DFID
-          and DATA_FILE.PACKAGE_PATH not like '%_LOC%'
+          and DATA_FILE.PACKAGE_PATH not like binary '%_LOC%'
           and DATA_FILE.PACKAGE_PATH not like '%dls/md/daitss/daitss_%.xsd';
       }
 

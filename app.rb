@@ -702,11 +702,14 @@ post '/workspace' do
   when 'unsnafu'
     note = require_param 'note'
 
+    # reset/unsnafu the snafued or dead wip
     if @params['filter'] == 'true'
       wip_list = @params['wips'].map {|w| Wip.new(File.join(ws.path, w))}
       wip_list.select(&:snafu?).each { |w| w.unsnafu note }
+      wip_list.select(&:dead?).each { |w| w.unsnafu note }      
     else
       ws.select(&:snafu?).each { |w| w.unsnafu note, @user }
+      ws.select(&:dead?).each { |w| w.unsnafu note, @user }      
     end
 
   when 'doover'
@@ -782,7 +785,7 @@ post '/workspace/:id' do |id|
     wip.stop note, @user
 
   when 'unsnafu'
-    error 400, 'can only unsnafu a snafu wip' unless wip.snafu?
+    error 400, 'can only unsnafu a snafu or dead wip' unless wip.snafu? || wip.dead?
     wip.unsnafu note, @user
 
   when 'stash'
