@@ -7,6 +7,7 @@ require 'sinatra'
 require 'rack/ssl-enforcer'
 require 'daitss'
 require 'ruby-debug'
+require 'Nokogiri'
 
 require 'datyl/logger'
 require 'datyl/config'
@@ -503,11 +504,17 @@ get '/package/:p_id/dip/:d_id' do |p_id, d_id|
   send_file dip_path
 end
 
+
 get '/package/:id/ingest_report' do |id|
   @package = @user.packages.get(id) or not_found
   not_found unless @package.status == "archived"
-  headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
-  archive.ingest_report id
+ 
+  rep = archive.ingest_report id
+  doc = Nokogiri::XML rep
+  xslt  = Nokogiri::XSLT(File.read('public/daitss_report_xhtml.xsl'))
+  html = xslt.transform(doc)
+  html.to_s
+  
 end
 
 get '/package/:id/withdraw_report' do |id|
