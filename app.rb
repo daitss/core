@@ -7,7 +7,7 @@ require 'sinatra'
 require 'rack/ssl-enforcer'
 require 'daitss'
 require 'ruby-debug'
-require 'Nokogiri'
+require 'nokogiri'
 
 require 'datyl/logger'
 require 'datyl/config'
