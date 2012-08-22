@@ -26,9 +26,6 @@ case `uname`.chomp
 when 'Darwin'
   gem 'sys-proctable', :path => '/Library/Ruby/Gems/1.8/gems/sys-proctable-0.9.1-universal-darwin'
 
-when 'Linux'
-  gem 'sys-proctable', :path => '/opt/ruby-1.8.7/lib/ruby/gems/1.8/gems/sys-proctable-0.9.0-x86-linux/'
-
 else
   gem 'sys-proctable'
 end
