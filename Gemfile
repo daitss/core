@@ -14,7 +14,9 @@ gem 'uuid'
 gem 'rjb'
 gem 'curb', '0.7.15'
 gem 'dm-postgres-adapter'
-gem 'dm-mysql-adapter'
+if `hostname`.chomp != 'marsala.fcla.edu' 
+   gem 'dm-mysql-adapter'
+end
 gem 'selenium-client'
 gem "datyl", :git => "git://github.com/daitss/datyl.git"
 gem "log4r"
