@@ -6,7 +6,7 @@
       <% if df.sip_descriptor? %>
         USE="sip descriptor"
       <% end %>
-      CHECKSUM='<%= df.open { |io| Digest::SHA1.hexdigest io.read } %>'>
+      CHECKSUM='<%= Digest::SHA1.file(df.data_file).hexdigest %>'>
   <% unless df.obsolete? %>
     <FLocat LOCTYPE='URL' xlink:href="<%= URI.escape df['aip-path'] %>"/>
   <% end %>
