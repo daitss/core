@@ -493,9 +493,10 @@ get '/package/:id/descriptor' do |id|
   @package = @user.packages.get(id) or not_found
   @aip = @package.aip or not_found
   not_found unless @aip
-  content_type = 'application/xml'
+  content_type  'application/octet-stream'   # github issue 654, force a download
+  attachment @package.id+'_aip_descriptor.xml'
   @aip.xml
-end
+end 
 
 get '/package/:p_id/dip/:d_id' do |p_id, d_id|
   @package = @user.packages.get(p_id) or not_found
