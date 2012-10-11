@@ -56,7 +56,9 @@ module Daitss
       
         # otherwise, check if it's not already in the format table,
         if format.nil?
-          if newFormat.format_version
+          if newFormat.registry_id
+            format = Format.first(:registry => newFormat.registry, :registry_id => newFormat.registry_id)
+          elsif newFormat.format_version
              format = Format.first(:format_name => newFormat.format_name, :format_version => newFormat.format_version) 
           else
             format = Format.first(:format_name => newFormat.format_name) 
