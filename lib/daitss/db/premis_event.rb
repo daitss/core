@@ -106,28 +106,28 @@ module Daitss
     attr_reader :anomalies
 
     def fromPremis(premis, df, anomalies)
-      super(premis)
-      details = premis.find_first("premis:eventOutcomeInformation/premis:eventOutcomeDetail", NAMESPACES)
-      if details
-        detailsExtension = details.find_first("premis:eventOutcomeDetailExtension", NAMESPACES)
-        attribute_set(:outcome_details, details.content.strip!) if detailsExtension.nil?
-        unless detailsExtension.nil?
-          @df = df
-          @anomalies = anomalies
-          nodes = detailsExtension.find("premis:anomaly", NAMESPACES)
-          processAnomalies(nodes)
-          nodes = detailsExtension.find("premis:broken_link", NAMESPACES)
-          unless (nodes.empty?)
-            while detailsExtension.count >  0
-              brokenlink = BrokenLink.new
-              brokenlink.fromPremis(@df, detailsExtension)
-              first_broken = detailsExtension.first
-              first_broken.remove!
-            end  
+          super(premis)
+          details = premis.find_first("premis:eventOutcomeInformation/premis:eventOutcomeDetail", NAMESPACES)
+          if details
+            detailsExtension = details.find_first("premis:eventOutcomeDetailExtension", NAMESPACES)
+            attribute_set(:outcome_details, details.content.strip!) if detailsExtension.nil?
+            unless detailsExtension.nil?
+              @df = df
+              @anomalies = anomalies
+              nodes = detailsExtension.find("premis:anomaly", NAMESPACES)
+              processAnomalies(nodes)
+              nodes = detailsExtension.find("premis:broken_link", NAMESPACES)
+              unless (nodes.empty?)
+                while detailsExtension.count >  0
+                  brokenlink = BrokenLink.new
+                  brokenlink.fromPremis(@df, detailsExtension)
+                  first_broken = detailsExtension.first
+                  first_broken.remove!
+                end
+              end
+            end
           end
         end
-      end
-    end
 
     def processAnomalies(nodes)
       nodes.each do |obj|
