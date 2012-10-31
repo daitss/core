@@ -118,16 +118,17 @@ module Daitss
           processAnomalies(nodes)
           nodes = detailsExtension.find("premis:broken_link", NAMESPACES)
           unless (nodes.empty?)
-            while detailsExtension.count >  0
+            children = detailsExtension.children
+              children.each do |child|
               brokenlink = BrokenLink.new
-              brokenlink.fromPremis(@df, detailsExtension)
-              first_broken = detailsExtension.first
-              first_broken.remove!
-            end  
+              brokenlink.fromPremis(@df, child)
+            end
           end
         end
       end
     end
+
+
 
     def processAnomalies(nodes)
       nodes.each do |obj|

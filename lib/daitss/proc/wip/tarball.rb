@@ -45,8 +45,8 @@ module Daitss
         old_xml_res_tarballs.each do |f|
         container = File.basename(f)
 	container=container.chomp(File.extname(container) ).chomp
-         tar_temp_dir  = Dir.mktmpdir
-
+         #tar_temp_dir  = Dir.mktmpdir
+         Dir.mktmpdir do |tar_temp_dir|  
 	   Dir.chdir tar_temp_dir  # raises  warning: conflicting chdir during another chdir block
 	   %x{tar -xf #{f}}
            raise "could not expand tarball=#{f} into dir= #{tar_temp_dir}: #{$?}" unless $?.exitstatus == 0
@@ -59,9 +59,8 @@ module Daitss
 	   %x{tar -cf #{f} #{container}}
            raise "could not make   tarball=#{f} from dir #{container} rc: #{$?}" unless $?.exitstatus == 0
 	   Dir.chdir(cwd)   # raises  warning: conflicting chdir during another chdir block
-		 
-
           FileUtils.ln_s f, File.join(aip_dir, File.basename(f))
+	 end
         end
 
         # link in current xmlres tarball
