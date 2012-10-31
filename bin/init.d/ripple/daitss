@@ -331,10 +331,10 @@ case "$1" in
   startservices
   ;;
   gui-redirect)
-  gui-redirect
+  guiredirect
   ;;
   stop-gui-redirect)
-  stop-gui-redirect
+  stopguiredirect
   ;;
   *)
   log_message $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful|start-services|gui-redirect|stop-gui-redirect}"
