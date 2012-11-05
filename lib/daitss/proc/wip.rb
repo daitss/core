@@ -135,8 +135,8 @@ module Daitss
     # add a new migrated datafile
     #
     # @param [String] id of the new datafile
-    def new_migrated_datafile id
-      new_datafile MIGRATED_FILES, id
+    def new_migrated_datafile id    
+      new_datafile_override MIGRATED_FILES, id
     end
 
     # @return [Array] the normalized datafiles
@@ -148,7 +148,7 @@ module Daitss
     #
     # @param [String] id of the new datafile
     def new_normalized_datafile id
-      new_datafile NORMALIZED_FILES, id
+      new_datafile_override NORMALIZED_FILES, id
     end
 
     # @return [Array] all datafiles
@@ -195,15 +195,22 @@ module Daitss
       end
     end
 
-    def new_datafile container, id
-
-      if File.exist? File.join(@path, container, id.to_s)
-        raise "datafile #{id} already exists in #{container}" unless (task == :disseminate || task == :d1refresh)
+    # create a new datafile, there a file with the same name already exist, override it
+    def new_datafile_override container, id
+      newfile = File.join(@path, container, id.to_s)
+      if File.exist? newfile
+       FileUtils.rm newfile
       end
-
       DataFile.make self, container, id.to_s
     end
 
+    def new_datafile container, id
+       if File.exist? File.join(@path, container, id.to_s)
+         raise "datafile #{id} already exists in #{container}" unless (task == :disseminate || task == :d1refresh)
+       end
+
+       DataFile.make self, container, id.to_s
+     end
   end
 
 end
