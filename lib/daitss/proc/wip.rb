@@ -195,7 +195,7 @@ module Daitss
       end
     end
 
-    # create a new datafile, there a file with the same name already exist, override it
+    # create a new datafile, if a file with the same name already exist, override it
     def new_datafile_override container, id
       newfile = File.join(@path, container, id.to_s)
       if File.exist? newfile
