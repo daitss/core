@@ -199,7 +199,7 @@ module Daitss
     def new_datafile_override container, id
       newfile = File.join(@path, container, id.to_s)
       if File.exist? newfile
-       FileUtils.rm newfile
+       FileUtils.rm_r newfile
       end
       DataFile.make self, container, id.to_s
     end
