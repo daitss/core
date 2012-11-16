@@ -242,36 +242,59 @@ module Daitss
     def load_old_datafile_digiprov
       doc = XML::Document.string self.package.aip.xml
 
+      # Buffer all agents into a local hash and look it up later
+      # instead of looking it up everytime from the 'doc'
+      xpath = "//P:agent"
+      agents_pool = doc.find(xpath, NS_PREFIX);
+
+      agents_hash = Hash.new
+      agents_pool.each do |agent|
+            id_value = agent.find_first("P:agentIdentifier/P:agentIdentifierValue", NS_PREFIX).content
+            agents_hash[id_value] = agent
+      end
+
       all_datafiles.each do |df|
 
         # transfer old events
-        xpath = %Q{
-        //P:event
-            [P:eventType != 'normalize' and P:eventType != 'migrate' ]
-            [P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = '#{df.uri}']
-        }
-        es_desc = doc.find(xpath, NS_PREFIX)
+	xpath = %Q{
+	//P:event
+	    [P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = '#{df.uri}']
+	}
 
-        xpath = %Q{
-        //P:event
-            [P:eventType = 'normalize' or P:eventType = 'migrate']
-            [P:linkingObjectIdentifier
-                [P:linkingObjectIdentifierValue = '#{df.uri}']
-                [P:linkingObjectRole = 'outcome']]
-        }
-        es_xform = doc.find(xpath, NS_PREFIX)
-
-        es = es_desc.to_a + es_xform.to_a
-        df['old-digiprov-events'] = es.map { |e| e.to_s }.join "\n"
+	es_obj = doc.find(xpath, NS_PREFIX)
+	es = es_obj.to_a
+	df['old-digiprov-events'] = {}
+	i = 0
 
         # transfer old agents used in the events
         as = es.map do |event|
+
+          # Filter out all events which do not match the criteria
+	  check1_xpath = "P:eventType = 'normalize' or P:eventType = 'migrate'"
+          if true == event.find(check1_xpath, NS_PREFIX)
+	    check2_xpath = "P:linkingObjectIdentifier
+	      [P:linkingObjectIdentifierValue = '#{df.uri}']
+	      [P:linkingObjectRole = 'outcome']"
+	    if event.find(check2_xpath, NS_PREFIX).size == 0
+	      next
+	    end
+	  end
+
+	  if i > 0
+	    df['old-digiprov-events'] << "\n"
+	    df['old-digiprov-events'] << event.to_s
+	  else
+	    df['old-digiprov-events'] = event.to_s
+	  end
+
+	  i = i + 1
+
           xpath = "P:linkingAgentIdentifier/P:linkingAgentIdentifierValue"
           agent_ids = event.find(xpath, NS_PREFIX).map { |agent_id| agent_id.content }
 
           agent_ids.map do |agent_id|
-            xpath = "//P:agent[P:agentIdentifier/P:agentIdentifierValue = '#{agent_id}']"
-            doc.find_first(xpath, NS_PREFIX)
+	    # Look it up from Hash of agents
+	    agents_hash[agent_id]
           end
 
         end
