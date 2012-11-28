@@ -264,10 +264,10 @@ get '/packages?/?' do
   @query = params['search']
   @batches = Batch.all
   @is_op = is_op
-
   @packages = if @query and @query.length > 0
                 ids = @query.strip.split
                 @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
+
               elsif params['filter'] == 'true'
                 @filter = true
 
@@ -277,7 +277,7 @@ get '/packages?/?' do
                         when 'submitted'
                           "submit"
                         when 'rejected'
-                          "reject"
+                          ["reject","daitss v.1 reject"]  # github #717
                         when 'archived'
                           "ingest finished"
                         when 'disseminated'
@@ -350,13 +350,11 @@ get '/packages?/?' do
                   ps = @user.account.projects.packages.events.all(:timestamp => range, :name => names, :limit => 150, :order => [ :timestamp.desc ]).packages
                 end
               end
-
   @packages.sort! do |a,b|
     t_a = a.events.last.timestamp
     t_b = b.events.last.timestamp
     t_b <=> t_a
   end
-
   haml :packages
 end
 
