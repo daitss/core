@@ -16,9 +16,11 @@ CORE_VIRTUAL_HOSTNAME=core.ripple.fcla.edu
 
 DESCRIBE_PATH=/opt/web-services/sites/describe/current
 DESCRIBE_VIRTUAL_HOSTNAME=describe.ripple.fcla.edu
-DESCRIBE_THIN_CONFIG_PATH=/opt/web-services/conf.d/describe.yml
+DESCRIBE_THIN_CONFIG_PATH_1=/opt/web-services/conf.d/describe1.yml
+DESCRIBE_THIN_CONFIG_PATH_2=/opt/web-services/conf.d/describe2.yml
 
-DESCRIBE_PIDFILE=/var/run/daitss/describe.pid
+DESCRIBE_PIDFILE_1=/var/run/daitss/describe1.pid
+DESCRIBE_PIDFILE_2=/var/run/daitss/describe2.pid
 PULSE_PIDFILE=/var/run/daitss/pulse.pid
 REPORTER_PIDFILE=/var/run/daitss/reporter.pid
 
@@ -54,19 +56,36 @@ pidrunning() {
   fi
 }
 
-describerunning() {
-  if [ -e "$DESCRIBE_PIDFILE" ]
+describe1running() {
+  if [ -e "$DESCRIBE_PIDFILE_1" ]
   then
-    pidrunning `cat $DESCRIBE_PIDFILE`
+    pidrunning `cat $DESCRIBE_PIDFILE_1`
     running=$?
     if [ "$running" != "0" ]
     then
       return 1
     else 
-      rm $DESCRIBE_PIDFILE
+      rm $DESCRIBE_PIDFILE_1
       return 0
     fi
   else 
+    return 0
+  fi
+}
+
+describe2running() {
+  if [ -e "$DESCRIBE_PIDFILE_2" ]
+  then
+    pidrunning `cat $DESCRIBE_PIDFILE_2`
+    running=$?
+    if [ "$running" != "0" ]
+    then
+      return 1
+    else
+      rm $DESCRIBE_PIDFILE_2
+      return 0
+    fi
+  else
     return 0
   fi
 }
@@ -155,7 +174,9 @@ stop() {
   /etc/init.d/httpd stop > /dev/null
 
   log_message "Stopping describe..."
-  /bin/su daitss -c "cd $DESCRIBE_PATH; PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME="/usr/java/default" bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d stop"
+  /bin/su daitss -c "cd $DESCRIBE_PATH; PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME="/usr/java/default" bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH_1 -d stop"
+
+  /bin/su daitss -c "cd $DESCRIBE_PATH; PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME="/usr/java/default" bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH_2 -d stop"
 
   stoppulse
 
@@ -186,12 +207,20 @@ status() {
     log_message "Apache is not running"
   fi
 
-  describerunning
+  describe1running
   if [ "$?" == "1" ]
   then
-    log_message "Description service is running"
+    log_message "Description service 1 is running"
   else
-    log_message "Description service is not running"
+    log_message "Description service 1 is not running"
+  fi
+
+ describe2running
+  if [ "$?" == "1" ]
+  then
+    log_message "Description service 2 is running"
+  else
+    log_message "Description service 2 is not running"
   fi
 
   pulserunning
@@ -229,13 +258,49 @@ startservices() {
     /etc/init.d/httpd start > /dev/null
   fi 
 
-  describerunning
+  describe1running
   if [ "$?" == "1" ]
   then
-    log_message "Description service is already running"
+    log_message "Description service 1 is already running"
   else
-    log_message "Starting description service..."
-    /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d start"
+    log_message "Starting description service 1..."
+    /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH_1 -d start"
+  fi
+
+  describe2running
+  if [ "$?" == "1" ]
+  then
+    log_message "Description service 2 is already running"
+  else
+    log_message "Starting description service 2..."
+    /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH_2 -d start"
+  fi
+
+}
+
+guiredirect() {
+  httpd_running=`/etc/init.d/httpd status`
+
+  if [ "$httpd_running" != "httpd is stopped" ]
+  then
+    log_message "Apache services is running, GUI redirect aborted!"
+  else
+    log_message "Apached is stopped, GUI redirecting..."
+	/usr/sbin/httpd -f /opt/daitss-down/conf/httpd.conf
+  fi
+}
+
+stopguiredirect() {
+  log_message "Stopping GUI redirect..."	
+  /sbin/service httpd stop
+  sleep 1
+
+  httpd_running=`/etc/init.d/httpd status`	
+  if [ "$httpd_running" != "httpd is stopped" ]
+  then
+    log_message "Apache for GUI redirect is still running!"
+  else
+    log_message "GUI redirect is stopped"
   fi
 }
 
@@ -265,8 +330,14 @@ case "$1" in
   start-services)
   startservices
   ;;
+  gui-redirect)
+  guiredirect
+  ;;
+  stop-gui-redirect)
+  stopguiredirect
+  ;;
   *)
-  log_message $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful|start-services}"
+  log_message $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful|start-services|gui-redirect|stop-gui-redirect}"
   exit 1
 esac
 

@@ -239,6 +239,32 @@ startservices() {
   fi
 }
 
+guiredirect() {
+  httpd_running=`/etc/init.d/httpd status`
+
+  if [ "$httpd_running" != "httpd is stopped" ]
+  then
+    log_message "Apache services is running, GUI redirect aborted!"
+  else
+    log_message "Apached is stopped, GUI redirecting..."
+	/usr/sbin/httpd -f /opt/daitss-down/conf/httpd.conf
+  fi
+}
+
+stopguiredirect() {
+  log_message "Stopping GUI redirect..."	
+  /sbin/service httpd stop
+  sleep 1
+
+  httpd_running=`/etc/init.d/httpd status`	
+  if [ "$httpd_running" != "httpd is stopped" ]
+  then
+    log_message "Apache for GUI redirect is still running!"
+  else
+    log_message "GUI redirect is stopped"
+  fi
+}
+
 case "$1" in
   start)
   start
@@ -265,8 +291,14 @@ case "$1" in
   start-services)
   startservices
   ;;
+  gui-redirect)
+  guiredirect
+  ;;
+  stop-gui-redirect)
+  stopguiredirect
+  ;;
   *)
-  log_message $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful|start-services}"
+  log_message $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful|start-services|gui-redirect|stop-gui-redirect}"
   exit 1
 esac
 
