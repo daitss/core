@@ -263,8 +263,7 @@ module Daitss
 
 	es_obj = doc.find(xpath, NS_PREFIX)
 	es = es_obj.to_a
-	df['old-digiprov-events'] = {}
-	i = 0
+	events_temp = Array.new
 
         # transfer old agents used in the events
         as = es.map do |event|
@@ -280,14 +279,7 @@ module Daitss
 	    end
 	  end
 
-	  if i > 0
-	    df['old-digiprov-events'] << "\n"
-	    df['old-digiprov-events'] << event.to_s
-	  else
-	    df['old-digiprov-events'] = event.to_s
-	  end
-
-	  i = i + 1
+	  events_temp << event.to_s
 
           xpath = "P:linkingAgentIdentifier/P:linkingAgentIdentifierValue"
           agent_ids = event.find(xpath, NS_PREFIX).map { |agent_id| agent_id.content }
@@ -299,6 +291,7 @@ module Daitss
 
         end
 
+	df['old-digiprov-events'] = events_temp.map { |e| e.to_s }.join "\n"
         df['old-digiprov-agents'] = as.flatten.map { |a| a.to_s }.join "\n"
       end
 
