@@ -112,7 +112,7 @@ startpulse() {
     log_message "Pulse is already running"
   else
     log_message "Starting pulse..."
-    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR JAVA_HOME=$JAVA_HOME DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ${PWD}/bin/pulse 2>&1 > /dev/null & echo \$! > $PULSE_PIDFILE"
+    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR JAVA_HOME=$JAVA_HOME DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ${CORE_PATH}/bin/pulse 2>&1 > /dev/null & echo \$! > $PULSE_PIDFILE"
   fi
 }
 
