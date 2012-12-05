@@ -140,41 +140,6 @@ Feature: CRUD for batches
       |E00000000_000004|
       |E00000000_000005|
 
-  Scenario: don't create requests for already d1 refreshed packages
-    Given the following packages:
-      |E00000000_000001|
-      |E00000000_000002|
-      |E00000000_000003|
-    And the following d1 refreshed packages:
-      |E00000000_000004|
-      |E00000000_000005|
-    Given batch "foo" with the following packages:
-      |E00000000_000001|
-      |E00000000_000002|
-      |E00000000_000003|
-      |E00000000_000004|
-      |E00000000_000005|
-    And I goto "/batches/foo"
-    And I select type "d1refresh"
-    And I press "Submit Request"
-    Then I should be redirected
-    And I should have a d1refresh request for the following packages:
-      |E00000000_000001|
-      |E00000000_000002|
-      |E00000000_000003|
-    And I should not have a d1refresh request for the following packages:
-      |E00000000_000004|
-      |E00000000_000005|
-
-  Scenario: create batch from packages page
-    Given an archived package
-    When I goto "/packages"
-    And I fill in "name" with "mybatch"
-    And I press "Save as Batch"
-    And I should be redirected
-    And I click on "mybatch"
-    Then the batch should contain the last package ingested
-
   Scenario: packages should be able to be in more than one batch
     Given the following packages:
       |E00000000_000001|
@@ -206,6 +171,15 @@ Feature: CRUD for batches
       |E00000000_000001|
       |E00000000_000002|
       |E00000000_000003|
+
+	 Scenario: create batch from packages page
+	    Given an archived package
+	    When I goto "/packages"
+	    And I fill in "name" with "mybatch"
+	    And I press "Save as Batch"
+	    And I should be redirected
+	    And I click on "mybatch"
+	    Then the batch should contain the last package ingested
 
 
 

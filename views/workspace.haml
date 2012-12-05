@@ -63,14 +63,12 @@
     = total_files
 
   - ingest_count = 0
-  - d1refresh_count = 0
   - disseminate_count = 0
   - withdraw_count = 0
   - peek_count = 0
 
   - idle_wips.each do |w|
     - ingest_count += 1 if w.task == :ingest 
-    - d1refresh_count += 1 if w.task == :d1refresh
     - disseminate_count += 1 if w.task == :disseminate
     - withdraw_count += 1 if w.task == :withdraw
     - peek_count += 1 if w.task == :peek
@@ -85,10 +83,6 @@
       %td
         ingest
       %td= ingest_count
-    %tr
-      %td
-        d1refresh
-      %td= d1refresh_count
     %tr
       %td
         disseminate
@@ -116,8 +110,6 @@
     = throttles(:dissemination)
     &nbsp;
     = throttles(:withdrawal)
-    &nbsp;
-    = throttles(:d1refresh)
 
     - unless @wips.empty?
       = partial :wip_table, :locals => { :wips => @wips  }

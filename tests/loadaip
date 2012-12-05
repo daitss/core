@@ -26,6 +26,10 @@ io = open(aip_descriptor)
 doc = XML::Document.io(io)
 
 begin
+  #puts "validating AIP descriptor"
+  #results = validate_xml aip_descriptor
+  
+  puts "parsing AIP descriptor"
   aipInPremis = AIPInPremis.new
   aip = Aip.new :package => p, :copy => Copy.new
   # parse the aip descriptor and build the preservation records

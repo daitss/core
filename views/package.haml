@@ -93,134 +93,61 @@
 
   - aip = @package.aip
 
-  - if @package.d1?
+ 
+  - if @package.aip
 
-    %h2 legacy aip
+    #request
+      %h2 requests
 
-    %table
-
-      - if @is_op
-        %tr
-          %th copy url
-          %td
-            - if aip.copy
-              %a{ :href => aip.copy.url }
-                = @package.id + ".tar"
-            - else
-              N/A
-
-      %tr
-        %th copy md5
-        %td= aip.copy ? aip.copy.md5 : "N/A"
-
-    %h2 legacy refresh
-
-    %table
-      %tr
-
-        %th id
-        %th request type
-        %th request submitter
-        %th note
-        %th authorized
-        %th status
-        %th timestamp
-        %th authorize
-        %th cancel
-      - @package.requests.each do |r|
-        %tr
-
-          %td= r.id
-          %td= r.type
-          %td= r.agent.id
-          %td
-            %pre&= r.note
-          %td= r.is_authorized ? "yes" : "no"
-          %td= r.status
-          %td= r.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
-          - if r.is_authorized == false and r.status == :enqueued
-            %td
-              %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
-                %input{:type => 'hidden', :name => 'task', :value => 'authorize'}
-                %input{:type => 'submit', :value => 'Authorize'}
-          - else
-            %td &nbsp;
-
-          - if r.status == :enqueued
-            %td
-              %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
-                %input{:type => 'hidden', :name => 'task', :value => 'delete'}
-                %input{:type => 'submit', :value => 'Cancel'}
-                %input{:name => 'cancel_note'}
-          - else
-            %td &nbsp;
-    - unless @package.requests.all( :status.not => :cancelled ).any?
-      %h2 request refresh
-      %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
-        %input{:type => 'hidden', :name => 'type', :value => 'd1refresh'}
+      - if @package.requests.any?
         %table
           %tr
+            %th id
+            %th request type
+            %th request submitter
             %th note
-            %td
-              %textarea{:name => 'note'}
-        %input{:type => 'submit', :value => 'Request'}
+            %th authorized
+            %th status
+            %th timestamp
+            %th authorize
+            %th cancel
 
-
-  - else
-    - if @package.aip
-
-      #request
-        %h2 requests
-
-        - if @package.requests.any?
-          %table
+          - @package.requests.each do |r|
             %tr
-              %th id
-              %th request type
-              %th request submitter
-              %th note
-              %th authorized
-              %th status
-              %th timestamp
-              %th authorize
-              %th cancel
-
-            - @package.requests.each do |r|
-              %tr
-                %td= r.id
-                %td= r.type
-                %td= r.agent.id
+              %td= r.id
+              %td= r.type
+              %td= r.agent.id
+              %td
+                %pre&= r.note
+              %td= r.is_authorized ? "yes" : "no"
+              %td= r.status
+              %td= r.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
+              - if r.is_authorized == false and r.status == :enqueued
                 %td
-                  %pre&= r.note
-                %td= r.is_authorized ? "yes" : "no"
-                %td= r.status
-                %td= r.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
-                - if r.is_authorized == false and r.status == :enqueued
-                  %td
-                    %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
-                      %input{:type => 'hidden', :name => 'task', :value => 'authorize'}
-                      %input{:type => 'submit', :value => 'Authorize'}
-                - else
-                  %td &nbsp;
+                  %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
+                    %input{:type => 'hidden', :name => 'task', :value => 'authorize'}
+                    %input{:type => 'submit', :value => 'Authorize'}
+              - else
+                %td &nbsp;
 
-                - if r.status == :enqueued
-                  %td
-                    %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
-                      %input{:type => 'hidden', :name => 'task', :value => 'delete'}
-                      %input{:type => 'submit', :value => 'Cancel'}
-                      %input{:name => 'cancel_note'}
-                - else
-                  %td &nbsp;
+              - if r.status == :enqueued
+                %td
+                  %form{:action => "/package/#{@package.id}/request/#{r.id}", :method => 'POST'}
+                    %input{:type => 'hidden', :name => 'task', :value => 'delete'}
+                    %input{:type => 'submit', :value => 'Cancel'}
+                    %input{:name => 'cancel_note'}
+              - else
+                %td &nbsp;
 
-        - if @is_op and aip.copy
-          %h2 submit request
-          %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
-            %select{:name=>'type'}
-              %option= 'disseminate'
-              %option= 'withdraw'
-              -#%option= 'peek'
-            %input{:name => 'note'}
-            %input{:type => 'submit', :value => 'Request'}
+      - if @is_op and aip.copy
+        %h2 submit request
+        %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
+          %select{:name=>'type'}
+            %option= 'disseminate'
+            %option= 'withdraw'
+            -#%option= 'peek'
+          %input{:name => 'note'}
+          %input{:type => 'submit', :value => 'Request'}
 
     %h2 aip
 

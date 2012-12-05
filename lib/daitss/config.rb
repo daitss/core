@@ -22,7 +22,7 @@ module Daitss
     # id of default projects
     DEFAULT_PROJECT_ID = 'default'
 
-    attr_reader :ingest_throttle, :dissemination_throttle, :d1refresh_throttle, :withdrawal_throttle, :queueing_discipline
+    attr_reader :ingest_throttle, :dissemination_throttle, :withdrawal_throttle, :queueing_discipline
     attr_reader :db_url, :d1_db_url, :uri_prefix, :http_timeout, :storage_download_timeout, :data_dir, :d1_globals_dir
     attr_reader :log_syslog_facility, :log_filename, :jvm_options, :submit_log_directory, :pulse_log_filename, :mailer_log_filename
 
@@ -51,7 +51,7 @@ module Daitss
       raise "The DAITSS_CONFIG environment variable points to an unreadable file (#{ENV['DAITSS_CONFIG']})"            unless File.readable? ENV['DAITSS_CONFIG']
 
       dconf = Datyl::Config.new(ENV['DAITSS_CONFIG'], :defaults, :database, ENV['VIRTUAL_HOSTNAME'])
-
+ 
       # logging
       @log_syslog_facility = dconf.log_syslog_facility
       @log_filename = dconf.log_filename
@@ -69,7 +69,7 @@ module Daitss
       # data directories
       @data_dir = dconf.data_dir
       @d1_globals_dir = dconf.d1_globals_dir
-
+ 
       DATA_PATHS.each do |sym|
         i_sym = "@#{sym}_path".to_sym
         path = File.join @data_dir, sym.to_s
@@ -87,7 +87,6 @@ module Daitss
 
       @ingest_throttle = dconf.ingest_throttle
       @dissemination_throttle = dconf.dissemination_throttle
-      @d1refresh_throttle = dconf.d1refresh_throttle
       @withdrawal_throttle = dconf.withdrawal_throttle
 
       @queueing_discipline = dconf.queueing_discipline

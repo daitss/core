@@ -101,7 +101,6 @@ helpers do
     when :ingest;           archive.ingest_throttle        != 1 ? "#{archive.ingest_throttle} ingests;"               : "1 ingest;"
     when :dissemination;    archive.dissemination_throttle != 1 ? "#{archive.dissemination_throttle} disseminations;" : "1 dissemination;"
     when :withdrawal;       archive.withdrawal_throttle    != 1 ? "#{archive.withdrawal_throttle} withdrawals;"       : "1 withdrawal;"
-    when :d1refresh;        archive.d1refresh_throttle     != 1 ? "#{archive.d1refresh_throttle} d1 refreshes;"       : "1 d1 refresh;"
     else ; "huh?"
     end
   end
@@ -264,10 +263,10 @@ get '/packages?/?' do
   @query = params['search']
   @batches = Batch.all
   @is_op = is_op
+
   @packages = if @query and @query.length > 0
                 ids = @query.strip.split
                 @user.packages.sips.all(:name => ids).packages | @user.packages.all(:id => ids)
-
               elsif params['filter'] == 'true'
                 @filter = true
 
@@ -283,7 +282,7 @@ get '/packages?/?' do
                         when 'disseminated'
                           "disseminate finished"
                         when 'error'
-                          ["ingest snafu", "disseminate snafu", "d1refresh snafu"]
+                          ["ingest snafu", "disseminate snafu"]
                         when 'withdrawn'
                           "withdraw finished"
                         else
@@ -350,11 +349,13 @@ get '/packages?/?' do
                   ps = @user.account.projects.packages.events.all(:timestamp => range, :name => names, :limit => 150, :order => [ :timestamp.desc ]).packages
                 end
               end
+
   @packages.sort! do |a,b|
     t_a = a.events.last.timestamp
     t_b = b.events.last.timestamp
     t_b <=> t_a
   end
+
   haml :packages
 end
 

@@ -15,7 +15,7 @@ module Daitss
     property :timestamp, DateTime, :required => true, :default => proc { DateTime.now }
     property :is_authorized, Boolean, :required => true, :default => true
     property :status, Enum[:enqueued, :released_to_workspace, :cancelled], :default => :enqueued
-    property :type, Enum[:disseminate, :withdraw, :peek, :d1refresh]
+    property :type, Enum[:disseminate, :withdraw, :peek]
 
     # TODO investigate Wip::VALID_TASKS - [:sleep, :ingeset] to have one place for it all
 
@@ -31,11 +31,6 @@ module Daitss
     def dispatch
 
       begin
-
-        # if d1refresh, check package history to see if already d1refreshed, if so, don't make wip
-        if self.type == :d1refresh and Event.first(:name => "d1refresh finished", :package_id => self.package.id)
-          return nil
-        end
 
         # make a wip
         dp_path = File.join archive.dispatch_path, package.id

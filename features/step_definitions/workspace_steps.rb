@@ -174,8 +174,7 @@ end
 Then /^the idle table should be zeroed out$/ do
   last_response.should be_ok
   doc = Nokogiri::HTML last_response.body
-
-  (doc / "#idles td:contains('0')").size.should == 4
+  (doc / "#idles td:contains('0')").size.should == 3
 end
 
 

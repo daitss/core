@@ -8,14 +8,13 @@
 # The pulse program checks for new DAITSS requests and processes them.
 # It is meant to run continuously in the background.
 #
-# Currently, requests for ingest, dissemination, withdrawl and
-# d1refresh tasks are supported.  Pulse is responsible for creating
+# Currently, requests for ingest, dissemination and withdrawl tasks are supported.  
+# Pulse is responsible for creating
 # WIPs for each request and starting processes to handle them, one
 # process per request.  A queue is maintained for each type of
 # request. The number of running processes allowed per type of request
 # is set in the master configuration file, config.yml, as so:
 #
-#    d1refresh-throttle: 1
 #    dissemination-throttle: 2
 #    ingest-throttle: 2
 #    withdrawal-throttle: 1
@@ -51,7 +50,7 @@ class ScoreCard
   # MANAGED_TASKS is a subset of the symbols in Daitss::Wip::VALID_TASKS, and
   # are returned by Wip#task
 
-  MANAGED_TASKS = [ :ingest, :disseminate, :withdraw, :d1refresh ]
+  MANAGED_TASKS = [ :ingest, :disseminate, :withdraw ]
 
   Struct.new("Queue", :number_allowed, :number_running, :ready)
 
@@ -62,8 +61,7 @@ class ScoreCard
     # task                              .number_allowed                .number_running     .ready
       :ingest      => Struct::Queue.new(archive.ingest_throttle,        0,                 []),
       :disseminate => Struct::Queue.new(archive.dissemination_throttle, 0,                 []),
-      :withdraw    => Struct::Queue.new(archive.withdrawal_throttle,    0,                 []),
-      :d1refresh   => Struct::Queue.new(archive.d1refresh_throttle,     0,                 [])
+      :withdraw    => Struct::Queue.new(archive.withdrawal_throttle,    0,                 [])
     }
   end
 

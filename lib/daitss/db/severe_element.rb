@@ -36,7 +36,8 @@ module Daitss
     "Invalid DateTime length",
     "Type mismatch for tag",
     "Invalid DateTime separator",
-    "out of sequence"
+    "out of sequence",
+    "cvc-id.2: There are multiple occurrences of ID value"
   ]
 
   class Anomaly < SevereElement
