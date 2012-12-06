@@ -29,7 +29,7 @@
 %table
   %tr
     %th count
-    %td= Aip.count - Aip.all(:datafile_count  => 0).count
+    %td= Aip.count - Aip.all(:datafile_count  => 0).count - Aip.all(:datafile_count  => nil).count
   %tr
     %th files
     %td= Aip.sum :datafile_count
