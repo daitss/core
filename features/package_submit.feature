@@ -45,6 +45,9 @@ Feature: interactive submission
     Examples:
       | package                           | event  | note |
       | FDCONTENTAMPER                    | reject | Invalid SIP descriptor. XML validation errors:    |
+      | non-utf8-package3                 | reject | Fatal error: Input is not proper UTF-8    |
+      | premature_eof                     | reject | Fatal error: Premature end of data    |
+      | PrefixNotBound                    | reject | EOFError: end of file reached          |
       | FDAD25ded_missing_project         | reject |Not able to determine Account code in package |
       | missing-agreement                 | reject | SIP descriptor contains no AGREEMENT_INFO element. |
       | multiple-agreements               | reject | SIP descriptor contains mulitple AGREEMENT_INFO elements |

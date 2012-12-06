@@ -110,6 +110,19 @@ module Daitss
 
       end
 
+
+     unless  es[:descriptor_valid].empty?
+             xmlmsgp = es[:descriptor_valid]
+             xmlmsga = es[:descriptor_valid]
+	     if xmlmsgp.join.index("'")
+	       es[:agreement_info] << "\nProject code missing in SIP descriptor." if xmlmsgp.join.gsub!("'","").index("The value  of attribute PROJECT on element daitss:AGREEMENT_INFO is not valid with respect to its type")
+               xmlmsga = es[:descriptor_valid]
+               es[:agreement_info] << "\nAccount code missing in SIP descriptor." if xmlmsga.join.gsub!("'","").index("The value  of attribute ACCOUNT on element AGREEMENT_INFO is not valid with respect to its type")
+	     end
+      end 
+
+
+
       # check for a single agreement info
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty?
         ainfo = descriptor_doc.find_first AGREEMENT_INFO_XPATH, NS_PREFIX

@@ -80,9 +80,13 @@ module Daitss
     end
 
     wr.close
+    begin                   #607
     rs = Marshal.load rd
     Process.wait pid
     rs
+    rescue
+      rs = [:message=>"#{$!.inspect}",:line=>"unknown"]
+    end
   end
   module_function :validate_xml
 
