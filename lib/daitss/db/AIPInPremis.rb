@@ -4,6 +4,7 @@ require 'daitss/db'
 #require 'memory_debug'
 
 module Daitss
+  XMLRES ='<eventType>XML Resolution</eventType>'
 
   class AIPInPremis
 
@@ -142,9 +143,19 @@ module Daitss
       end
     end
 
-    # extract all events from the premis document
+    # extract all events from the premis document, but only the first XMLRES events
     def processEvents
-      eventObjects = @doc.find("//premis:event", NAMESPACES)
+      eventObjects = @doc.find("//premis:event", NAMESPACES).to_a
+      xmlresFirstEvents = Array.new
+      eventObjects.each_with_index do |obj,i|
+	      id = obj.find_first("premis:linkingObjectIdentifier/premis:linkingObjectIdentifierValue", NAMESPACES).to_s
+	      type = obj.find_first("premis:eventType", NAMESPACES)
+	      if type.to_s == XMLRES    && xmlresFirstEvents.index(id+XMLRES) 
+		      eventObjects.delete_at(i)
+	      else
+		      xmlresFirstEvents << id + type.to_s 
+	      end
+      end
       eventObjects.each do |obj|
         id = obj.find_first("premis:linkingObjectIdentifier/premis:linkingObjectIdentifierValue", NAMESPACES)
         # make sure this event related to a datafile

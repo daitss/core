@@ -172,6 +172,14 @@ module Daitss
       r.save
     end
 
+#     new for diddesm
+    def queue_dissemination_report
+      r = ReportDelivery.new :type => :dissemination
+      (self.project.account.report_email == nil or self.project.account.report_email.length == 0) ? r.mechanism = :ftp : r.mechanism = :email
+      r.package = self
+
+      r.save
+    end
 
   end
 

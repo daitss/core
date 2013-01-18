@@ -29,6 +29,9 @@ module Daitss
         set_drop_path
         FileUtils.cp tarball_file, drop_path
       end
+      p = self.package
+      p.queue_dissemination_report
+      queue_report :disseminate
 
     end
 

@@ -103,6 +103,7 @@
     </html>
   </xsl:template>
 
+
   <!-- error element -->
   <xsl:template match="r:ERROR">
     <div class="error">
@@ -121,7 +122,7 @@
   <!-- dissemination element -->
   <xsl:template match="r:DISSEMINATION">
     <div class="dissemination">
-      <h1>DiZZZZination Report</h1>
+      <h1>Dissemination Report</h1>
       <table>
         <tr>
           <th>Package name</th>
@@ -137,15 +138,15 @@
 
 
   <!-- agreement info -->
-      <h2>AgreementDInfo</h2>
+      <h2>Agreement Info</h2>
       <table>
         <tr>
           <th>Account:</th>
-          <td><xsl:value-of select="@ACCOUNT"/></td>
+	  <td><xsl:value-of select="r:AGREEMENT_INFO/@ACCOUNT"/></td>
         </tr>
         <tr>
           <th>Project:</th>
-          <td><xsl:value-of select="@PROJECT"/></td>
+	  <td><xsl:value-of select="r:AGREEMENT_INFO/@PROJECT"/></td>
         </tr>
       </table>
 
@@ -167,30 +168,6 @@
 		</xsl:for-each>
 	      </table>
 
-
-
-
-
-      <xsl:apply-templates/>
-    </div>
-  </xsl:template>
-
-  <!-- ingest element -->
-  <xsl:template match="r:INGEST">
-    <div class="ingest">
-      <h2>Ingest</h2>
-      <table>
-        <tr>
-          <th>Package name</th>
-          <th>Int. Entity ID</th>
-          <th>Ingest time</th>
-        </tr>
-        <tr>
-          <td><xsl:value-of select="@PACKAGE"/></td>
-          <td><xsl:value-of select="@IEID"/></td>
-          <td><xsl:value-of select="@INGEST_TIME"/></td>
-        </tr>
-      </table>
       <xsl:apply-templates/>
     </div>
   </xsl:template>
@@ -281,23 +258,6 @@
     </div>
   </xsl:template>
 
-
-  <!-- agreement info -->
-  <xsl:template match="r:AGREEMENT_INFO">
-    <div class="agreementInfo">
-      <h3>Agreement Info</h3>
-      <table>
-        <tr>
-          <th>Account:</th>
-          <td><xsl:value-of select="@ACCOUNT"/></td>
-        </tr>
-        <tr>
-          <th>Project:</th>
-          <td><xsl:value-of select="@PROJECT"/></td>
-        </tr>
-      </table>
-    </div>
-  </xsl:template>
 
 
   <!-- files element -->

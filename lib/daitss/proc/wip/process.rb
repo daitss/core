@@ -65,9 +65,9 @@ module Daitss
 
       pid = fork do
         $0 = procname
-        Signal.trap('INT', 'DEFAULT')
-        $stdout.reopen out_path, 'w'
-        $stderr.reopen err_path, 'w'
+        #Signal.trap('INT', 'DEFAULT')
+        #$stdout.reopen out_path, 'w'
+        #$stderr.reopen err_path, 'w'
 
         profile_start
 

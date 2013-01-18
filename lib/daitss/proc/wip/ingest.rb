@@ -37,7 +37,7 @@ module Daitss
       step('validate aip descriptor') { validate_aip_descriptor }
       step('make tarball') { make_tarball }
       step('make aip') { save_aip }
-      queue_report
+      queue_report :ingest
     end
 
   end
