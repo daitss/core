@@ -47,7 +47,7 @@
           padding:.5em;
           width:auto}
 
-          div.ingest, div.withdrawal,div.dissemination {
+          div.ingest, div.withdrawal {
           margin:0.5em;
           padding:0.5em;
           width:auto}
@@ -116,12 +116,11 @@
     </div>
   </xsl:template>
 
-
- 
   <!-- dissemination element -->
   <xsl:template match="r:DISSEMINATION">
-    <div class="dissemination">
-      <h1>DiZZZZination Report</h1>
+    <div class="ingest">
+      <h2>Dissemination</h2>
+      <div>dissemination event info</div>
       <table>
         <tr>
           <th>Package name</th>
@@ -129,51 +128,15 @@
           <th>Ingest time</th>
         </tr>
         <tr>
-		<td><xsl:value-of select="@PACKAGE"/></td>
-		<td><xsl:value-of select="@IEID"/></td>
-		<td><xsl:value-of select="@INGEST_TIME"/></td><td></td>
+          <td><xsl:value-of select="@PACKAGE"/></td>
+          <td><xsl:value-of select="@IEID"/></td>
+          <td><xsl:value-of select="@INGEST_TIME"/></td>
         </tr>
       </table>
-
-
-  <!-- agreement info -->
-      <h2>AgreementDInfo</h2>
-      <table>
-        <tr>
-          <th>Account:</th>
-          <td><xsl:value-of select="@ACCOUNT"/></td>
-        </tr>
-        <tr>
-          <th>Project:</th>
-          <td><xsl:value-of select="@PROJECT"/></td>
-        </tr>
-      </table>
-
-	  <h2>Dissemination/Event</h2>
-	      <table>
-	        <tr>
-		<th>Type</th>
-		<th>Time: </th>
-		<th>agent ID: </th>
-		<th>note: </th>
-		</tr>
-		<xsl:for-each select="r:DISSEMINATION_REQUEST">
-		<tr>
-		<td><xsl:value-of select="@NAME"/></td>
-		<td><xsl:value-of select="@TIME"/></td>
-	   	<td><xsl:value-of select="@AGENT"  /></td>
-		<td><xsl:value-of select="@NOTE"/></td>
-	        </tr>
-		</xsl:for-each>
-	      </table>
-
-
-
-
-
       <xsl:apply-templates/>
     </div>
   </xsl:template>
+
 
   <!-- ingest element -->
   <xsl:template match="r:INGEST">
@@ -298,7 +261,6 @@
       </table>
     </div>
   </xsl:template>
-
 
   <!-- files element -->
   <xsl:template match="r:FILES">

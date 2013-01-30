@@ -30,6 +30,8 @@ core.example.org:
     submit_log_directory:        /path/to/submit/log
     pulse_log_filename:          /path/to/pulse/logfile
     mailer_log_filename:         /path/to/mailer/logfile
+    mailer_reply_to:             email_addr_of_repyto_in_emails
+    mailer_smtp_host:            smtp.ufl.edu
 
     d1_globals_dir:              /path/to/d1globals/dir
 

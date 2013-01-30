@@ -1,0 +1,545 @@
+#!/bin/sh
+#
+### BEGIN INIT INFO
+# Provides: daitss
+# Required-Start: postgres httpd
+# Defalt-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: start and stop the DAITSS daemon processes
+# Description: DAITSS provides a long-term digital preservation repository. 
+### END INIT INFO
+
+DAITSS_CONFIG=/opt/web-services/conf.d/daitss-config.yml
+
+ACTIONPLAN_PATH=/opt/web-services/sites/actionplan/current
+ACTIONPLAN_VIRTUAL_HOSTNAME=actionplan.marsala.fcla.edu
+ACTIONPLAN_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/actionplan.yml
+
+CORE_PATH=/opt/web-services/sites/core/current
+CORE_VIRTUAL_HOSTNAME=core.marsala.fcla.edu
+CORE_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/core.yml
+
+DESCRIBE_PATH=/opt/web-services/sites/describe/current
+DESCRIBE_VIRTUAL_HOSTNAME=describe.marsala.fcla.edu
+DESCRIBE_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/describe.yml
+
+SILO_PATH=/opt/web-services/sites/silos/current
+SILO_VIRTUAL_HOSTNAME=silo.marsala.fcla.edu
+SILO_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/silos.yml
+
+STORAGEMASTER_PATH=/opt/web-services/sites/storage-master
+STORAGEMASTER_VIRTUAL_HOSTNAME=storage-master.marsala.fcla.edu
+STORAGEMASTER_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/storage-master.yml
+
+TRANSFORM_PATH=/opt/web-services/sites/transform/current
+TRANSFORM_VIRTUAL_HOSTNAME=transform.marsala.fcla.edu
+TRANSFORM_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/transform.yml
+
+VIRUSCHECK_PATH=/opt/web-services/sites/viruscheck/current
+VIRUSCHECK_VIRTUAL_HOSTNAME=viruscheck.marsala.fcla.edu
+VIRUSCHECK_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/viruscheck.yml
+
+XMLRESOLUTION_PATH=/opt/web-services/sites/xmlresolution/current
+XMLRESOLUTION_VIRTUAL_HOSTNAME=xmlresolution.marsala.fcla.edu
+XMLRESOLUTION_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/xmlresolution.yml
+
+ACTIONPLAN_PIDFILE=/var/run/daitss/thin/actionplan.pid
+CORE_PIDFILE=/var/run/daitss/thin/core.pid
+DESCRIBE_PIDFILE=/var/run/daitss/thin/describe.pid
+SILO_PIDFILE=/var/run/daitss/thin/silo.pid
+STORAGEMASTER_PIDFILE=/var/run/daitss/thin/storagemaster.pid
+TRANSFORM_PIDFILE=/var/run/daitss/thin/transform.pid
+VIRUSCHECK_PIDFILE=/var/run/daitss/thin/viruscheck.pid
+XMLRESOLUTION_PIDFILE=/var/run/daitss/thin/xmlresolution.pid
+
+PULSE_PIDFILE=/var/run/daitss/pulse.pid
+REPORTER_PIDFILE=/var/run/daitss/reporter.pid
+
+GEM_BIN=/usr/bin/gem
+JAVA_HOME=/usr/java/latest
+GEM_HOME=/usr/lib64/ruby/gems/1.8/gems
+RUBY_HOME=/usr/bin
+RUBYOPT=rubygems
+TMPDIR=/var/daitss/tmp
+
+pidrunning() {
+  if [ -n $1 ]
+  then
+    i=`ps -p $1 | grep $1 2> /dev/null | awk '{print $1}'`
+
+    if [ -n $i ]
+    then
+      return $i
+    else
+      return 0
+    fi
+  else
+    return 0
+  fi
+}
+
+actionplanrunning() {
+  if [ -e "$ACTIONPLAN_PIDFILE" ]
+  then
+    pidrunning `cat $ACTIONPLAN_PIDFILE`
+    running=$?
+    if [ "$running" -ne "0" ]
+    then
+      return 1
+    else 
+      rm $ACTIONPLAN_PIDFILE
+      return 0
+    fi
+  else 
+    return 0
+  fi
+}
+
+corerunning() {
+  if [ -e "$CORE_PIDFILE" ]
+  then
+    pidrunning `cat $CORE_PIDFILE`
+    running=$?
+    if [ "$running" -ne "0" ]
+    then
+      return 1
+    else 
+      rm $CORE_PIDFILE
+      return 0
+    fi
+  else 
+    return 0
+  fi
+}
+
+describerunning() {
+  if [ -e "$DESCRIBE_PIDFILE" ]
+  then
+    pidrunning `cat $DESCRIBE_PIDFILE`
+    running=$?
+    if [ "$running" -ne "0" ]
+    then
+      return 1
+    else 
+      rm $DESCRIBE_PIDFILE
+      return 0
+    fi
+  else 
+    return 0
+  fi
+}
+
+silorunning() {
+  if [ -e "$SILO_PIDFILE" ]
+  then
+    pidrunning `cat $SILO_PIDFILE`
+    running=$?
+    if [ "$running" -ne "0" ]
+    then
+      return 1
+    else 
+      rm $SILO_PIDFILE
+      return 0
+    fi
+  else 
+    return 0
+  fi
+}
+
+storagemasterrunning() {
+  if [ -e "$STORAGEMASTER_PIDFILE" ]
+  then
+    pidrunning `cat $STORAGEMASTER_PIDFILE`
+    running=$?
+    if [ "$running" -ne "0" ]
+    then
+      return 1
+    else 
+      rm $STORAGEMASTER_PIDFILE
+      return 0
+    fi
+  else 
+    return 0
+  fi
+}
+
+transformrunning() {
+  if [ -e "$TRANSFORM_PIDFILE" ]
+  then
+    pidrunning `cat $TRANSFORM_PIDFILE`
+    running=$?
+    if [ "$running" -ne "0" ]
+    then
+      return 1
+    else 
+      rm $TRANSFORM_PIDFILE
+      return 0
+    fi
+  else 
+    return 0
+  fi
+}
+
+viruscheckrunning() {
+  if [ -e "$VIRUSCHECK_PIDFILE" ]
+  then
+    pidrunning `cat $VIRUSCHECK_PIDFILE`
+    running=$?
+    if [ "$running" -ne "0" ]
+    then
+      return 1
+    else 
+      rm $VIRUSCHECK_PIDFILE
+      return 0
+    fi
+  else 
+    return 0
+  fi
+}
+
+xmlresolutionrunning() {
+  if [ -e "$XMLRESOLUTION_PIDFILE" ]
+  then
+    pidrunning `cat $XMLRESOLUTION_PIDFILE`
+    running=$?
+    if [ "$running" -ne "0" ]
+    then
+      return 1
+    else 
+      rm $XMLRESOLUTION_PIDFILE
+      return 0
+    fi
+  else 
+    return 0
+  fi
+}
+
+pulserunning() {
+  if [ -e "$PULSE_PIDFILE" ]
+  then
+    pidrunning `cat $PULSE_PIDFILE`
+    running=$?
+    if [ "$running" -ne "0" ]
+    then
+      return 1
+    else 
+      rm $PULSE_PIDFILE
+      return 0
+    fi
+  else 
+    return 0
+  fi
+}
+
+reporterrunning() {
+  if [ -e "$REPORTER_PIDFILE" ]
+  then
+    pidrunning `cat $REPORTER_PIDFILE`
+    running=$?
+    if [ "$running" -ne "0" ]
+    then
+      return 1
+    else 
+      rm $REPORTER_PIDFILE
+      return 0
+    fi
+  else 
+    return 0
+  fi
+}
+
+startpulse() {
+  pulserunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Pulse is already running"
+  else
+    echo "Starting pulse..."
+    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR JAVA_HOME=$JAVA_HOME DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/pulse 2>&1 > /dev/null & echo \$! > $PULSE_PIDFILE"
+  fi
+}
+
+stoppulse() {
+  pulserunning
+  if [ "$?" -eq "0" ]
+  then 
+    echo "Pulse is already stopped"
+  else
+    echo "Stopping pulse..."
+    kill `cat $PULSE_PIDFILE`
+    rm $PULSE_PIDFILE
+  fi
+}
+
+
+start() {
+  startservices
+
+  startpulse
+
+  reporterrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Reporter is already running"
+  else
+    echo "Starting reporter"
+    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/mailer-daemon 2>&1 > /dev/null & echo \$! > $REPORTER_PIDFILE"
+  fi
+}
+
+stop() {
+  echo "Stopping apache services..."
+  /etc/init.d/httpd stop > /dev/null
+
+  echo "Stopping actionplan service..."
+  /bin/su daitss -c "cd $ACTIONPLAN_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$ACTIONPLAN_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $ACTIONPLAN_THIN_CONFIG_PATH -d stop"
+
+  echo "Stopping core service..."
+  /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $CORE_THIN_CONFIG_PATH -d stop"
+
+  echo "Stopping description service..."
+  /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d stop"
+
+  echo "Stopping silo-pool service..."
+  /bin/su daitss -c "cd $SILO_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$SILO_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $SILO_THIN_CONFIG_PATH -d stop"
+
+  echo "Stopping storage master service..."
+  /bin/su daitss -c "cd $STORAGEMASTER_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$STORAGEMASTER_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $STORAGEMASTER_THIN_CONFIG_PATH -d stop"
+
+  echo "Stopping transform service..."
+  /bin/su daitss -c "cd $TRANSFORM_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$TRANSFORM_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $TRANSFORM_THIN_CONFIG_PATH -d stop"
+
+  echo "Stopping viruscheck service..."
+  /bin/su daitss -c "cd $VIRUSCHECK_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$VIRUSCHECK_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $VIRUSCHECK_THIN_CONFIG_PATH -d stop"
+
+  echo "Stopping xmlresolution service..."
+  /bin/su daitss -c "cd $XMLRESOLUTION_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$XMLRESOLUTION_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $XMLRESOLUTION_THIN_CONFIG_PATH -d stop"
+
+  stoppulse
+
+  reporterrunning
+  if [ "$?" -eq "0" ]
+  then
+    echo "Reporter is already stopped"
+  else 
+    echo "Stopping reporter..."
+    kill `cat $REPORTER_PIDFILE`
+    rm $REPORTER_PIDFILE
+  fi
+}
+
+status() {
+  httpd_running=`/etc/init.d/httpd status`
+
+  if [ "$httpd_running" != "httpd is stopped" ]
+  then
+    echo "Apache is running"
+  else
+    echo "Apache is not running"
+  fi
+
+  actionplanrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Actionplan service is running"
+  else
+    echo "Actionplan service is not running"
+  fi
+
+  corerunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Core service is running"
+  else
+    echo "Core service is not running"
+  fi
+
+  describerunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Description service is running"
+  else
+    echo "Description service is not running"
+  fi
+
+  silorunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Silo-pool service is running"
+  else
+    echo "Silo-pool service is not running"
+  fi
+
+  storagemasterrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Storage Master service is running"
+  else
+    echo "Storage Master service is not running"
+  fi
+
+  transformrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Transform service is running"
+  else
+    echo "Transform service is not running"
+  fi
+
+  viruscheckrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Viruscheck service is running"
+  else
+    echo "Viruscheck service is not running"
+  fi
+
+  xmlresolutionrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Xmlresolution service is running"
+  else
+    echo "Xmlresolution service is not running"
+  fi
+
+  pulserunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Pulse is running"
+  else
+    echo "Pulse is not running"
+  fi
+
+  reporterrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Reporter is running"
+  else
+    echo "Reporter is not running"
+  fi
+}
+
+graceful() {
+  echo "Gracefully restarting apache..."
+  /etc/init.d/httpd graceful
+  stoppulse
+  startpulse
+}
+
+startservices() {
+  httpd_running=`/etc/init.d/httpd status`
+
+  if [ "$httpd_running" != "httpd is stopped" ]
+  then
+    echo "Apache is already running"
+  else
+    echo "Starting apache..."
+    /etc/init.d/httpd start  > /dev/null
+  fi 
+
+  actionplanrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Actionplan service is already running"
+  else
+    echo "Starting actionplan service..."
+    /bin/su daitss -c "cd $ACTIONPLAN_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$ACTIONPLAN_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $ACTIONPLAN_THIN_CONFIG_PATH -d start"
+  fi
+
+  corerunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Core service is already running"
+  else
+    echo "Starting core service..."
+    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $CORE_THIN_CONFIG_PATH -d start"
+  fi
+
+  describerunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Description service is already running"
+  else
+    echo "Starting description service..."
+    /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d start"
+  fi
+
+  silorunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Silo-pool service is already running"
+  else
+    echo "Starting silo-pool service..."
+    /bin/su daitss -c "cd $SILO_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$SILO_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $SILO_THIN_CONFIG_PATH -d start"
+  fi
+
+  storagemasterrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Storage Master service is already running"
+  else
+    echo "Starting storage master service..."
+    /bin/su daitss -c "cd $STORAGEMASTER_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$STORAGEMASTER_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $STORAGEMASTER_THIN_CONFIG_PATH -d start"
+  fi
+
+  transformrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Transform service is already running"
+  else
+    echo "Starting transform service..."
+    /bin/su daitss -c "cd $TRANSFORM_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$TRANSFORM_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $TRANSFORM_THIN_CONFIG_PATH -d start"
+  fi
+
+  viruscheckrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Viruscheck service is already running"
+  else
+    echo "Starting viruscheck service..."
+    /bin/su daitss -c "cd $VIRUSCHECK_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$VIRUSCHECK_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $VIRUSCHECK_THIN_CONFIG_PATH -d start"
+  fi
+
+  xmlresolutionrunning
+  if [ "$?" -eq "1" ]
+  then
+    echo "Xmlresolution service is already running"
+  else
+    echo "Starting xmlresolution service..."
+    /bin/su daitss -c "cd $XMLRESOLUTION_PATH; TMPDIR=$TMPDIR DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$XMLRESOLUTION_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT bundle exec   thin -C $XMLRESOLUTION_THIN_CONFIG_PATH -d start"
+  fi
+}
+
+case "$1" in
+  start)
+  start
+  ;;
+  stop)
+  stop
+  ;;
+  status)
+  status
+  ;;
+  restart|reload|condrestart)
+  stop
+  start
+  ;;
+  start-pulse)
+  startpulse
+  ;;
+  stop-pulse)
+  stoppulse
+  ;;
+  graceful)
+  graceful
+  ;;
+  start-services)
+  startservices
+  ;;
+  *)
+  echo $"Usage: $0 {start|stop|restart|reload|status|start-pulse|stop-pulse|graceful|start-services}"
+  exit 1
+esac
+
+exit 0
+
