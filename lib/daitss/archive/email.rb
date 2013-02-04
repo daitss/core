@@ -33,7 +33,7 @@ Content-Type: text/plain
 
 Ingest of package #{package.sip.name}, IEID: #{package.id}
 --#{marker}
-Content-Type: text/xml; name="#{package.id}_ingest_report.html"
+Content-Type: text/html; name="#{package.id}_ingest_report.html"
 
 #{html}                  
 
@@ -99,7 +99,7 @@ Dissemination of package #{package.sip.name}, IEID: #{package.id}
 #{package.events.last(:name => "disseminate request placed").notes}
  
 --#{marker}
-Content-Type: text/xml; name="#{package.id}_disseminate_report.html"
+Content-Type: text/html; name="#{package.id}_disseminate_report.html"
 
 #{html}                  
 
