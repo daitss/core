@@ -96,7 +96,7 @@ Content-Type: multipart/mixed; boundary="#{marker}"
 Content-Type: text/plain
 
 Dissemination of package #{package.sip.name}, IEID: #{package.id}
-#{package.events.last(:name => "disseminate request placed").notes}
+Dissemination request note: #{package.events.last(:name => "disseminate request placed").notes}
  
 --#{marker}
 Content-Type: text/html; name="#{package.id}_disseminate_report.html"
