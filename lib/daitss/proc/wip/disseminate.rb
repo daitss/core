@@ -45,7 +45,12 @@ module Daitss
     end
 
     def next_drop_path
-      pattern = File.join archive.disseminate_path, "#{id}-*.tar"
+      dirname = File.join archive.disseminate_path, package.project_account_id	    
+      if ! File.exist?(dirname)
+	      Dir.mkdir(dirname)
+      end
+
+      pattern = File.join dirname,   "#{id}-*.tar"  #github 700
       dips = Dir[pattern]
 
       n = if dips.empty?
@@ -54,7 +59,7 @@ module Daitss
             dips.map { |f| File.basename(f)[%r{#{id}-(\d+).tar}, 1].to_i }.max + 1
           end
 
-      File.join archive.disseminate_path, "#{id}-#{n}.tar"
+      File.join dirname, "#{id}-#{n}.tar"  #github #700
     end
 
   end
