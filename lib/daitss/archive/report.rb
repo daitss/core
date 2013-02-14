@@ -46,6 +46,18 @@ module Daitss
 
       template_by_name("refresh_report").result binding
     end
+    
+    # generates and returns an disseminate  report for the specified IEID 
+    def disseminate_report id
+      @intentity_record = Intentity.first(:id => uri_prefix + id)
+      @package = Package.last(:id => id)
+
+      if not @intentity_record
+        raise "There is no record that #{id} was ingested."
+      end
+
+      template_by_name("disseminate_report").result binding
+    end
 
 
 

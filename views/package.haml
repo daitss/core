@@ -209,10 +209,14 @@
             %a{:href=>"/package/#{@package.id}/refresh_report"}
               = "refresh report"
 
-          - else
+          - elsif @package.events.first(:name => "disseminate finished")
+            %a{:href=>"/package/#{@package.id}/disseminate_report"}
+              = "disseminate report"
+
+          - else 
             %a{:href=>"/package/#{@package.id}/ingest_report"}
               = "ingest report"
-            
+
       %tr
         %th report stylesheet
         %td

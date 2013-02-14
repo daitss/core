@@ -17,6 +17,7 @@ gem 'dm-postgres-adapter'
 gem 'selenium-client'
 gem "datyl", :git => "git://github.com/daitss/datyl.git"
 gem "log4r"
+gem "thin"
 # this gem is WONK
 case `uname`.chomp
 

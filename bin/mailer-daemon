@@ -23,6 +23,7 @@ Datyl::Logger.filename = archive.mailer_log_filename if archive.mailer_log_filen
 
 # find all ingested packages. If it doesn't have an ingest report ops event, mail the report to the account address, and add an event for the report being mailed
 Datyl::Logger.info "Starting report daemon..."
+reply_to = archive.mailer_reply_to
 
 while true
   ReportDelivery.all.each do |r|
@@ -33,11 +34,16 @@ while true
 
         Archive.instance.email_report p
         p.log "ingest report mailed"
-      else
+      elsif r.type == :reject
         Datyl::Logger.info "emailing reject report for #{p.id}"
 
         Archive.instance.email_reject_report p
         p.log "reject report mailed"
+       else
+        Datyl::Logger.info "emailing dissemination report for #{p.id}"
+
+        Archive.instance.email_dissemination_report p
+        p.log "dissemination report mailed"
       end
     else
       if r.type == :ingest
@@ -45,11 +51,16 @@ while true
 
         rep = Archive.instance.ingest_report p.id
         p.log "ingest report written out for ftp"
-      else
+      elsif r.type == :reject
         Datyl::Logger.info "writing out reject report for #{p.id}"
 
         rep = Archive.instance.reject_report p.id
         p.log "reject report written out for ftp"
+       else
+         Datyl::Logger.info "writing out dissemination report for #{p.id}"
+
+         rep = Archive.instance.disseminate_report p.id
+         p.log "dissemination report written out for ftp"
       end
 
       report_file = File.join archive.reports_path, p.project.account.id, Time.now.strftime("%Y%m%d"), (p.id + ".xml")
