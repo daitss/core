@@ -25,7 +25,7 @@ module Daitss
                                     if metadata['transformation-source']
                                       src_uri = metadata['transformation-source']
                                       strategy = metadata['transformation-strategy']
-                                      describe_derivation src_uri, strategy
+                                      describe_derivation src_uri, strategy if strategy
                                     end
 
     end
