@@ -105,7 +105,7 @@ module Daitss
 
         unless validation_errors.empty?
           es[:descriptor_valid] << "\nInvalid SIP descriptor. XML validation errors:"
-          es[:descriptor_valid] += validation_errors.map { |e| "\n[:line]}: #{e[:message]}" }
+          es[:descriptor_valid] += validation_errors.map { |e| "\nline:#{e[:line]}: msg:#{e[:message]}" }
         end
 
       end
@@ -269,12 +269,6 @@ MSG
 	  raise "\nInvalid SIP descriptor. XML validation errors: "  << "\n" << $!
     end
 
-    def accountX #
-      xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
-      node = descriptor_doc.find_first xpath, NS_PREFIX
-      node.value rescue nil
-    end
-      
         
     def multiple_agreements
       count = descriptor_file_string.scan("<AGREEMENT_INFO ").size
@@ -295,12 +289,6 @@ MSG
 	    acc = agreement_info[accountidx+10..finalquoteidx - 1]
 	  end
 
-    def projectX
-      xpath = "#{AGREEMENT_INFO_XPATH}/@PROJECT"
-      node = descriptor_doc.find_first xpath, NS_PREFIX
-      node.value rescue nil
-    end
-
       def project
 	    	 descriptor_doc_string = descriptor_file_string
          beginidx = descriptor_doc_string.index('AGREEMENT_INFO')
@@ -315,21 +303,6 @@ MSG
          prj = agreement_info[projectidx+10..finalquoteidx - 1]
        end
 
-    def account_bad
-      xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
-      node = descriptor_doc.find_first xpath, NS_PREFIX
-      rescue Exception  =>  e  
-      raise "\nInvalid character in file name: "  << `basename #{descriptor_file}`  << $!
-      node.value rescue nil
-    end
-
-    def project_bad
-      xpath = "#{AGREEMENT_INFO_XPATH}/@PROJECT"
-      node = descriptor_doc.find_first xpath, NS_PREFIX
-    rescue Exception  =>  e      
-      raise "\nInvalid character in file name: " << `basename #{descriptor_file}` << $!
-      node.value rescue nil
-    end
 
     def title
       issue_vol_title["title"]
