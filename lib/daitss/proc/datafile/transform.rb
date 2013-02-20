@@ -40,15 +40,24 @@ module Daitss
                 when :normalize then source.normalization
                 else raise "unknown transformation strategy: #{strategy}"
                 end
-
+                      
       if ap_data
-
-        agent_key, event_key = case strategy
+        xform_id = case strategy
+                   when :migrate then ap_data['migration']
+                   when :normalize then ap_data['normalization']
+                   else raise "unknown transformation strategy: #{strategy}"
+                   end
+                         
+        skip = skip_transformation_service xform_id, archive.skip_undefined
+   
+        unless skip
+          begin
+            agent_key, event_key = case strategy
                                when :normalize then ['normalize-agent', 'normalize-event']
                                else raise "unknown transformation strategy: #{strategy}"
                                end
-
-        old, dest = case strategy
+  
+            old, dest = case strategy
                     when :migrate
                       old = migrated_version
                       dest_id = old ? next_transformed_id(old) : "#{id}-mig-0"
@@ -62,66 +71,90 @@ module Daitss
                     else raise "unknown transformation strategy: #{strategy}"
                     end
 
-        xform_id = case strategy
-                   when :migrate then ap_data['migration']
-                   when :normalize then ap_data['normalization']
-                   else raise "unknown transformation strategy: #{strategy}"
-                   end
+            agent, event, data, ext = source.ask_transformation_service xform_id
 
-        begin
-          agent, event, data, ext = source.ask_transformation_service xform_id
+            # fill in destination datafile
+            dest.open('w') { |io| io.write data }
+            dest['aip-path'] = File.join Wip::AIP_FILES_DIR, "#{dest.id}#{ext}"
+            dest[agent_key] = fix_transformation_agent agent
+            dest[event_key] = fix_transformation_event event, source, dest, strategy, ap_data
+            dest["transformation-source"] = source.uri
+            dest["transformation-strategy"] = strategy.to_s
 
-          # fill in destination datafile
-          dest.open('w') { |io| io.write data }
-          dest['aip-path'] = File.join Wip::AIP_FILES_DIR, "#{dest.id}#{ext}"
-          dest[agent_key] = fix_transformation_agent agent
-          dest[event_key] = fix_transformation_event event, source, dest, strategy, ap_data
-          dest["transformation-source"] = source.uri
-          dest["transformation-strategy"] = strategy.to_s
-
-          # make the old one obsolete
-          old.obsolete! if old
-        rescue
-          dest.nuke! if dest
-          raise
+            # make the old one obsolete
+            old.obsolete! if old
+          rescue
+            dest.nuke! if dest
+            raise
+          end
         end
-
       end
 
     end
 
-    def ask_transformation_service xform_id
-
-      # ask for the main doc with the link, event, agent
-      url = URI.parse archive.transform_url + '/transform/' + xform_id
-      req = Net::HTTP::Get.new url.path
-      req.form_data = { 'location' => "file:#{File.expand_path data_file}" }
-
-      res = Net::HTTP.start(url.host, url.port) do |http|
-        http.read_timeout = Archive.instance.http_timeout
-        http.request req
+    # skip the undefined transformation identifier if skip_undefined is true
+    def skip_transformation_service xform_id, skip_undefined
+      url_location =  archive.transform_url + '/transform/' + xform_id
+      url = URI.parse url_location
+      c = Curl::Easy.new url_location
+      c.perform
+      # check if we should skip transformation if there is no xform_id defined, i.e., 404 + ignore_404=true
+      if c.response_code != 200 && skip_undefined
+        true
+      else
+        false
       end
-
-      res.error! unless Net::HTTPSuccess === res
-      doc = XML::Document.string res.body
+    end
+    
+    # submit file to either local (use HTTP GET) or remote (use HTTP POST) transformation to convert sip files according
+    # to the transformation instruction returned from the action plan service.  Parse the xml output returned from 
+    # the transformation to extract the detailed event and agent information.
+    def ask_transformation_service xform_id
+      doc = nil
+      
+      # ask for the main doc with the link, event, agent
+      if (archive.remote_transform)
+        url_location =  archive.transform_url + '/transform/' + xform_id
+        url = URI.parse url_location
+        c = Curl::Easy.new url_location
+        c.multipart_form_post = true
+        data = Curl::PostField.file 'file', data_file
+        c.http_post data
+        c.response_code == 200 or c.error("bad status")   
+        doc = XML::Document.string c.body_str     
+      else
+        url_location =  archive.transform_url + '/transform/' + xform_id
+        url = URI.parse url_location
+        c = Curl::Easy.new url_location
+        c.headers["location"] = "file:#{File.expand_path data_file}" 
+        c.perform
+        c.response_code == 200 or c.error("bad status")   
+        doc = XML::Document.string c.body_str
+      end
+      
       agent = doc.find_first('//P:agent', NS_PREFIX)
       event = doc.find_first('//P:event', NS_PREFIX)
-      link = url + doc.find_first('//P:links/P:link', NS_PREFIX).content
+      unless doc.find_first('//P:links/P:link', NS_PREFIX).nil?
+        link = url + doc.find_first('//P:links/P:link', NS_PREFIX).content
+     
+        # ask for the data from the link
+        req = Net::HTTP::Get.new link.request_uri
 
-      # ask for the data from the link
-      req = Net::HTTP::Get.new link.request_uri
+        res = Net::HTTP.start(url.host, url.port) do |http|
+          http.read_timeout = Archive.instance.http_timeout
+          http.request req
+        end
 
-      res = Net::HTTP.start(url.host, url.port) do |http|
-        http.read_timeout = Archive.instance.http_timeout
-        http.request req
+        res.error! unless Net::HTTPSuccess === res
+        data = res.body
+        ext = File::extname(link.request_uri)
+
+        # return everything
+        [agent, event, data, ext]
+      else
+        # no link, return only agent and event
+        [agent, event, nil, nil]
       end
-
-      res.error! unless Net::HTTPSuccess === res
-      data = res.body
-      ext = File::extname(link.request_uri)
-
-      # return everything
-      [agent, event, data, ext]
     end
 
     def fix_transformation_event node, source, dest, strategy, ap_data
