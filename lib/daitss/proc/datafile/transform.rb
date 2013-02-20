@@ -49,7 +49,7 @@ module Daitss
                    end
                          
         skip = skip_transformation_service xform_id, archive.skip_undefined
-   
+
         unless skip
           begin
             agent_key, event_key = case strategy
@@ -111,7 +111,7 @@ module Daitss
     # the transformation to extract the detailed event and agent information.
     def ask_transformation_service xform_id
       doc = nil
-      
+  
       # ask for the main doc with the link, event, agent
       if (archive.remote_transform)
         url_location =  archive.transform_url + '/transform/' + xform_id
@@ -123,10 +123,8 @@ module Daitss
         c.response_code == 200 or c.error("bad status")   
         doc = XML::Document.string c.body_str     
       else
-        url_location =  archive.transform_url + '/transform/' + xform_id
-        url = URI.parse url_location
-        c = Curl::Easy.new url_location
-        c.headers["location"] = "file:#{File.expand_path data_file}" 
+        path = File.expand_path data_file
+        c = Curl::Easy.new "#{archive.transform_url}/transform/#{xform_id}?location=file:#{path}"
         c.perform
         c.response_code == 200 or c.error("bad status")   
         doc = XML::Document.string c.body_str
