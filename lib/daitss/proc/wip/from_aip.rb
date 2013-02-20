@@ -256,42 +256,42 @@ module Daitss
       all_datafiles.each do |df|
 
         # transfer old events
-	xpath = %Q{
-	//P:event
-	    [P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = '#{df.uri}']
-	}
+        xpath = %Q{
+          //P:event
+          [P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = '#{df.uri}']
+        }
 
-	es_obj = doc.find(xpath, NS_PREFIX)
-	es = es_obj.to_a
-	events_temp = Array.new
+        es_obj = doc.find(xpath, NS_PREFIX)
+        es = es_obj.to_a
+        events_temp = Array.new
 
         # transfer old agents used in the events
         as = es.map do |event|
 
           # Filter out all events which do not match the criteria
-	  check1_xpath = "P:eventType = 'normalize' or P:eventType = 'migrate'"
+          check1_xpath = "P:eventType = 'normalize' or P:eventType = 'migrate'"
           if true == event.find(check1_xpath, NS_PREFIX)
-	    check2_xpath = "P:linkingObjectIdentifier
-	      [P:linkingObjectIdentifierValue = '#{df.uri}']
-	      [P:linkingObjectRole = 'outcome']"
-	    if event.find(check2_xpath, NS_PREFIX).size == 0
-	      next
-	    end
-	  end
+            check2_xpath = "P:linkingObjectIdentifier
+            [P:linkingObjectIdentifierValue = '#{df.uri}']
+            [P:linkingObjectRole = 'outcome']"
+            if event.find(check2_xpath, NS_PREFIX).size == 0
+              next
+            end
+          end
 
-	  events_temp << event.to_s
+          events_temp << event.to_s
 
           xpath = "P:linkingAgentIdentifier/P:linkingAgentIdentifierValue"
           agent_ids = event.find(xpath, NS_PREFIX).map { |agent_id| agent_id.content }
 
           agent_ids.map do |agent_id|
-	    # Look it up from Hash of agents
-	    agents_hash[agent_id]
+            # Look it up from Hash of agents
+            agents_hash[agent_id]
           end
 
         end
 
-	df['old-digiprov-events'] = events_temp.map { |e| e.to_s }.join "\n"
+        df['old-digiprov-events'] = events_temp.map { |e| e.to_s }.join "\n"
         df['old-digiprov-agents'] = as.flatten.map { |a| a.to_s }.join "\n"
       end
 
