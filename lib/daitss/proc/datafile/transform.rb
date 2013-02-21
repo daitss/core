@@ -83,9 +83,9 @@ module Daitss
 
             # make the old one obsolete
             old.obsolete! if old
-          rescue
+          rescue => e
             dest.nuke! if dest
-            raise
+            raise e
           end
         end
       end
@@ -111,11 +111,10 @@ module Daitss
     # the transformation to extract the detailed event and agent information.
     def ask_transformation_service xform_id
       doc = nil
-  
+      url_location =  archive.transform_url + '/transform/' + xform_id
+      url = URI.parse url_location
       # ask for the main doc with the link, event, agent
       if (archive.remote_transform)
-        url_location =  archive.transform_url + '/transform/' + xform_id
-        url = URI.parse url_location
         c = Curl::Easy.new url_location
         c.multipart_form_post = true
         data = Curl::PostField.file 'file', data_file
@@ -124,7 +123,7 @@ module Daitss
         doc = XML::Document.string c.body_str     
       else
         path = File.expand_path data_file
-        c = Curl::Easy.new "#{archive.transform_url}/transform/#{xform_id}?location=file:#{path}"
+        c = Curl::Easy.new "#{url_location}?location=file:#{path}"
         c.perform
         c.response_code == 200 or c.error("bad status")   
         doc = XML::Document.string c.body_str
