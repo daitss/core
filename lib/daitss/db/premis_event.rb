@@ -83,6 +83,8 @@ module Daitss
       attribute_set(:event_detail, eventDetail.content) if eventDetail
       attribute_set(:datetime, premis.find_first("premis:eventDateTime", NAMESPACES).content)
       attribute_set(:outcome, premis.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NAMESPACES).content)
+      detailExtension = premis.find_first("premis:eventOutcomeInformation/premis:eventOutcomeDetail/premis:eventOutcomeDetailExtension", NAMESPACES)
+      attribute_set(:outcome_details,detailExtension.children.to_s)  unless detailExtension.nil?
     end
 
     def to_premis_xml
@@ -110,7 +112,6 @@ module Daitss
       details = premis.find_first("premis:eventOutcomeInformation/premis:eventOutcomeDetail", NAMESPACES)
       if details
         detailsExtension = details.find_first("premis:eventOutcomeDetailExtension", NAMESPACES)
-        attribute_set(:outcome_details, details.content.strip!) if detailsExtension.nil?
         unless detailsExtension.nil?
           @df = df
           @anomalies = anomalies
@@ -127,8 +128,6 @@ module Daitss
         end
       end
     end
-
-
 
     def processAnomalies(nodes)
       nodes.each do |obj|
