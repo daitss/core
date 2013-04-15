@@ -158,8 +158,12 @@ module Daitss
 
     def dips
 
-      Dir.chdir archive.disseminate_path do
-        Dir['*'].select { |dip| dip =~ /^#{id}-\d+.tar$/ }
+      if ! File.exist? archive.disseminate_path+'/'+project_account_id 
+        []
+      else	
+       Dir.chdir archive.disseminate_path+'/'+project_account_id  do
+         Dir['*'].select { |dip| dip =~ /^#{id}-\d+.tar$/ }
+       end
       end
 
     end

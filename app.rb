@@ -499,7 +499,7 @@ end
 
 get '/package/:p_id/dip/:d_id' do |p_id, d_id|
   @package = @user.packages.get(p_id) or not_found
-  dip_path = File.join archive.disseminate_path, d_id
+  dip_path = File.join archive.disseminate_path+'/'+@package.project_account_id, d_id
   File.exist?(dip_path) or not_found
   send_file dip_path
 end

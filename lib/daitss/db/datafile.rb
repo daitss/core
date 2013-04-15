@@ -86,7 +86,55 @@ module Daitss
         
       object_formats.each {|obj| obj.check_errors }                        
     end
+#
+    # tests to see if string passed in has valid utf8 encoding
+    def is_utf8?(str)
+      isutf8 = true
+         begin
+          str.unpack('U'*str.length)  # check for utf-8 encoding violations, either introduced or in the data
+         rescue
+          isutf8 = false
+         end
+      isutf8
+    end
     
+    #  our database is set to utf8 encoding. we must ensure strings for insert  meet this condition.
+    # this method does:
+    # 1. limits content to a maximun size.
+    # 2  then if the truncation on the right happened to fall
+    #   in the middle of a multibyte utf8 character it lops off a byte at a time upto 5.
+    # 3. finally it tests the string for valid utf8 and if not converts the string to hexadecimal characters.
+    #
+    def utf8_trunc(content)
+       if     content.length > MAX_CREATING_APP
+          # truncate all characters exceeding MAX_CREATING_APP(255) bytes which is the maximum size for the creating application name.
+         content = content.slice(0, MAX_CREATING_APP) # has the potential to break utf8,if @255 there is a multibyte char
+       end
+       utf8len = content.length
+       utf8str = content
+       while  utf8len > content.length - 5
+
+         if is_utf8?(utf8str) 
+	   break
+	 else
+           utf8len -= 1
+	   utf8str = content.slice(0,utf8len)
+	 end
+       
+       end 
+
+      if ! is_utf8?(utf8str)
+          utf8str =  utf8str.each_byte.map { |b| b.to_s(16) }.join   # conv to hex, doubles the length
+         if     utf8str.length > MAX_CREATING_APP
+         #truncate all chars exceeding MAX_CREATING_APP(255) bytes which is the maximum size for the creating application name.
+           utf8str = utf8str.slice(0, MAX_CREATING_APP)
+         end
+      end
+
+       utf8str
+    end
+
+
     def fromPremis(premis, formats, sip_descriptor_ownerid)
       id = premis.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
       attribute_set(:id, id)
@@ -94,14 +142,9 @@ module Daitss
 
       # creating app. info
       node = premis.find_first("premis:objectCharacteristics/premis:creatingApplication/premis:creatingApplicationName", NAMESPACES)
-      if node 
-         unless node.content.length > MAX_CREATING_APP
-           attribute_set(:creating_application, node.content) 
-         else
-          # truncate all characters exceeding MAX_CREATING_APP(255) bytes which is the maximum size for the creating application name.
-          truncated = node.content.slice(0, MAX_CREATING_APP)
-          attribute_set(:creating_application, truncated)
-         end
+      if node
+        content = utf8_trunc(node.content)
+        attribute_set(:creating_application, content) 
        end
                     
       node = nil
