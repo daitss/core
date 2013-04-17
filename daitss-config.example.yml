@@ -40,14 +40,20 @@ core.example.org:
     storage_download_timeout:    600
 
     actionplan_url:              http://url/to/actionplan
-    describe_url:                http://url/to/describe
+    #   There are two methods for core to communicate with the describe service, http POST for file upload or GET for file url.
+    #   if describe service is running on a remote server (remote = true), core will use http POST to upload file to the
+    #   remote service.  Otherwise (remote = false), core will use http GET with file url for efficiency and saving time in
+    #   file copying and network transmission.
+    describe_service:
+        remote:                  true/false
+        url:                     http://url/to/describe
     storage_url:                 http://url/to/storemaster
     viruscheck_url:              http://url/to/viruscheck
-#   There are two methods for core to communicate with the transformation service, http POST for file upload or GET for file url.
-#   if transformation service is running on a remote server (remote = true), core will use http POST to upload file to the
-#   remote service.  Otherwise (remote = false), core will use http GET with file url for efficiency and saving time in
-#   file copying and network transmission.  
-#   skip_undefined = true: daitss would skip the undefined transformation identifier (default) and thus won't snafu
+    #   There are two methods for core to communicate with the transformation service, http POST for file upload or GET for file url.
+    #   if transformation service is running on a remote server (remote = true), core will use http POST to upload file to the
+    #   remote service.  Otherwise (remote = false), core will use http GET with file url for efficiency and saving time in
+    #   file copying and network transmission.  
+    #   skip_undefined = true: daitss would skip the undefined transformation identifier (default) and thus won't snafu
     transform_service:              
         remote:                  true/false
         url:                     http://url/to/transform
