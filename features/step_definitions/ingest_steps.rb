@@ -21,8 +21,6 @@ And /^there should be an "(normalize|migrate)" premis-event on "(.*)" file$/ do 
 end
 
 And /^there should be an "(normalize|migrate|describe)" premis-event for "(.*)"$/ do |event_type, filepath|
-#  package = Package.get(last_package_id)
-#  package.intentity.id.should_not be_nil
   df = Datafile.first(:original_path => filepath)
   @premis_event = PremisEvent.first(:relatedObjectId => df.id, :e_type => event_type)
   @premis_event.should_not be_nil

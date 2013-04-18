@@ -61,9 +61,10 @@ Feature: ingest a package with pdf/a conversion and validation
 	  And I wait for it to finish
 	  Then I should be redirected
 	  And I should be at the package page
-	  And there should have anomalies for "sip-files/invalid.pdf"
 	  And there should be an "describe" premis-event for "sip-files/invalid.pdf"
+	  And the event_details should be "Well-Formed, but not valid"
 	  And the outcome_details should be "<anomaly>pdfaPilot:PDF/A entry missing</anomaly><anomaly>pdfaPilot:Syntax problem: Indirect object “obj” keyword not followed by an EOL marker</anomaly><anomaly>pdfaPilot:XMP property not predefined and no extension schema present</anomaly>"
+	  And there should have anomalies for "sip-files/invalid.pdf"
 	  Examples:
 	    | sip              |
 	    | invalid_a1b      |
