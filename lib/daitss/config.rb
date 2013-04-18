@@ -39,7 +39,7 @@ module Daitss
     ]
     attr_reader *DATA_PATHS.map { |s| "#{s}_path".to_sym }
 
-    attr_reader :actionplan_url, :describe_url, :storage_url, :viruscheck_url, :remote_transform, :transform_url, :skip_undefined, :xmlresolution_url
+    attr_reader :actionplan_url, :remote_describe, :describe_url, :storage_url, :viruscheck_url, :remote_transform, :transform_url, :skip_undefined, :xmlresolution_url
     attr_reader :yaml
 
     
@@ -97,7 +97,8 @@ module Daitss
       # services
 
       @actionplan_url = dconf.actionplan_url
-      @describe_url = dconf.describe_url
+      @remote_describe = dconf.describe_service["remote"]
+      @describe_url = dconf.describe_service["url"]
       @storage_url = dconf.storage_url
       @viruscheck_url = dconf.viruscheck_url
       @remote_transform = dconf.transform_service["remote"]

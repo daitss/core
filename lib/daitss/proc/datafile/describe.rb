@@ -11,22 +11,21 @@ module Daitss
   class DataFile
 
     def describe!
-      doc = ask_description_service(:location => "file:#{File.expand_path data_file }",
-                                    :uri => uri,
+      doc = ask_description_service(:uri => uri,
                                     :originalName => metadata['aip-path'])
-                                    augment_fixity doc if @wip.file_group
-                                    fix_event_ids doc
-                                    fix_jhove_ids doc
-                                    metadata['describe-file-object'] = element_doc_as_str doc, "//P:object[@xsi:type='file']"
-                                    metadata['describe-event'] = element_doc_as_str doc, "//P:event"
-                                    metadata['describe-agent'] = element_doc_as_str doc, "//P:agent"
-                                    metadata['describe-bitstream-objects'] = elements_doc_as_str doc, "//P:object[@xsi:type='bitstream']"
+      augment_fixity doc if @wip.file_group
+      fix_event_ids doc
+      fix_jhove_ids doc
+      metadata['describe-file-object'] = element_doc_as_str doc, "//P:object[@xsi:type='file']"
+      metadata['describe-event'] = element_doc_as_str doc, "//P:event"
+      metadata['describe-agent'] = element_doc_as_str doc, "//P:agent"
+      metadata['describe-bitstream-objects'] = elements_doc_as_str doc, "//P:object[@xsi:type='bitstream']"
 
-                                    if metadata['transformation-source']
-                                      src_uri = metadata['transformation-source']
-                                      strategy = metadata['transformation-strategy']
-                                      describe_derivation src_uri, strategy if strategy
-                                    end
+      if metadata['transformation-source']
+        src_uri = metadata['transformation-source']
+        strategy = metadata['transformation-strategy']
+        describe_derivation src_uri, strategy if strategy
+      end
 
     end
 
@@ -110,21 +109,30 @@ module Daitss
     end
 
     def ask_description_service query={}
-      query_str = query.map { |key, value| "#{key.id2name}=#{CGI::escape value.to_s}" }.join '&'
-      url = URI.parse "#{Archive.instance.describe_url}/describe?#{query_str}"
-      req = Net::HTTP::Get.new url.path
-      req.form_data = query unless query.empty?
-
-      res = Net::HTTP.start(url.host, url.port) do |http|
-        http.read_timeout = Archive.instance.http_timeout
-        http.request req
+      begin
+        query_str = query.map { |key, value| "#{key.id2name}=#{CGI::escape value.to_s}" }.join '&'
+        url_location =  archive.describe_url + '/describe'
+        url = URI.parse url_location
+        # ask for the main doc with the link, event, agent
+        if (archive.remote_describe)
+          c = Curl::Easy.new "#{url_location}?#{query_str}"
+          c.timeout = Archive.instance.http_timeout
+          c.multipart_form_post = true
+          data = Curl::PostField.file 'file', data_file
+          c.http_post data
+          c.response_code == 200 or c.error("bad status")   
+          doc = XML::Document.string c.body_str     
+        else
+          path = File.expand_path data_file
+          c = Curl::Easy.new "#{url_location}?location=file:#{File.expand_path data_file}&#{query_str}"
+          c.timeout = Archive.instance.http_timeout
+          c.perform
+          c.response_code == 200 or c.error("bad status")   
+          doc = XML::Document.string c.body_str
+        end
+      rescue => e
+        raise e
       end
-
-      case res
-      when Net::HTTPSuccess then XML::Document.string res.body
-      else res.error!
-      end
-
     end
 
     def element_doc_as_str doc, xpath
