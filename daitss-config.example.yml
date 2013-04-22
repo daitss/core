@@ -12,9 +12,7 @@
 defaults:
 
 database:
-     daitss_db: postgres://user:pass@host/database
-     daitss1_db: postgres://user:pass@host/database
-    
+     daitss_db: postgres://user:pass@host/database    
 
 #   We normally name sections after the virtual hostname used by an
 #   applcation (this is so one physical host can run multiple services
@@ -40,6 +38,7 @@ core.example.org:
     storage_download_timeout:    600
 
     actionplan_url:              http://url/to/actionplan
+
     #   There are two methods for core to communicate with the describe service, http POST for file upload or GET for file url.
     #   if describe service is running on a remote server (remote = true), core will use http POST to upload file to the
     #   remote service.  Otherwise (remote = false), core will use http GET with file url for efficiency and saving time in
@@ -49,6 +48,7 @@ core.example.org:
         url:                     http://url/to/describe
     storage_url:                 http://url/to/storemaster
     viruscheck_url:              http://url/to/viruscheck
+
     #   There are two methods for core to communicate with the transformation service, http POST for file upload or GET for file url.
     #   if transformation service is running on a remote server (remote = true), core will use http POST to upload file to the
     #   remote service.  Otherwise (remote = false), core will use http GET with file url for efficiency and saving time in
