@@ -52,7 +52,7 @@ Feature: ingest a package with pdf/a conversion and validation
 	    | valid_a1b        |
 	    | valid_a2b        |	
 
-  Scenario Outline: ingest a package with an invalid pdf/a 
+  Scenario Outline: ingest a package with an invalid pdf/a-1b
 	Given I submit "<sip>"
 	  When I click on "ingesting"
       And I choose "start"
@@ -68,3 +68,20 @@ Feature: ingest a package with pdf/a conversion and validation
 	  Examples:
 	    | sip              |
 	    | invalid_a1b      |
+
+  Scenario Outline: ingest a package with an invalid pdf/a-1a
+	Given I submit "<sip>"
+	  When I click on "ingesting"
+      And I choose "start"
+      And I press "Update"
+	  And I should be redirected
+	  And I wait for it to finish
+	  Then I should be redirected
+	  And I should be at the package page
+	  And there should be an "describe" premis-event for "sip-files/invalid.pdf"
+	  And the event_details should be "Well-Formed, but not valid"
+	  And the outcome_details should be "<anomaly>pdfaPilot:Text cannot be mapped to Unicode</anomaly>"
+	  And there should have anomalies for "sip-files/invalid.pdf"
+	  Examples:
+	    | sip              |
+		| invalid_a1a      |
