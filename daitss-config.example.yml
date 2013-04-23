@@ -40,9 +40,9 @@ core.example.org:
     actionplan_url:              http://url/to/actionplan
 
     #   There are two methods for core to communicate with the describe service, http POST for file upload or GET for file url.
-    #   if describe service is running on a remote server (remote = true), core will use http POST to upload file to the
-    #   remote service.  Otherwise (remote = false), core will use http GET with file url for efficiency and saving time in
-    #   file copying and network transmission.
+    #   if describe service is running on a remote server (remote = true), core will upload the file to the
+    #   remote service.  Otherwise (remote = false), core will pass a file url to the local service for the purpose of effecient, i.e.,
+    #   reduce file copying to temp storage and network transmission.
     describe_service:
         remote:                  true/false
         url:                     http://url/to/describe
@@ -50,9 +50,9 @@ core.example.org:
     viruscheck_url:              http://url/to/viruscheck
 
     #   There are two methods for core to communicate with the transformation service, http POST for file upload or GET for file url.
-    #   if transformation service is running on a remote server (remote = true), core will use http POST to upload file to the
-    #   remote service.  Otherwise (remote = false), core will use http GET with file url for efficiency and saving time in
-    #   file copying and network transmission.  
+    #   if transformation service is running on a remote server (remote = true), core will upload the file to the
+    #   remote service.  Otherwise (remote = false), core will pass a file url to the local service for the purpose of effecient, i.e.,
+    #   reduce file copying to temp storage and network transmission.
     #   skip_undefined = true: daitss would skip the undefined transformation identifier (default) and thus won't snafu
     transform_service:              
         remote:                  true/false
