@@ -22,7 +22,7 @@ module Daitss
     # id of default projects
     DEFAULT_PROJECT_ID = 'default'
 
-    attr_reader :ingest_throttle, :dissemination_throttle, :withdrawal_throttle, :queueing_discipline
+    attr_reader :ingest_throttle, :dissemination_throttle, :refresh_throttle, :withdrawal_throttle, :queueing_discipline
     attr_reader :db_url, :d1_db_url, :uri_prefix, :http_timeout, :storage_download_timeout, :data_dir, :d1_globals_dir
     attr_reader :log_syslog_facility, :log_filename, :jvm_options, :submit_log_directory, :pulse_log_filename, :mailer_log_filename
     attr_reader :mailer_reply_to, :mailer_smtp_host 
@@ -91,6 +91,7 @@ module Daitss
       @ingest_throttle = dconf.ingest_throttle
       @dissemination_throttle = dconf.dissemination_throttle
       @withdrawal_throttle = dconf.withdrawal_throttle
+      @refresh_throttle = dconf.refresh_throttle
 
       @queueing_discipline = dconf.queueing_discipline
 
