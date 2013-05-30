@@ -21,6 +21,7 @@
       %th batch name
       %th # of packages
       %th disseminate
+      %th refresh
       %th withdraw
       %th peek
       %th delete
@@ -36,6 +37,12 @@
               %input{:type => 'hidden', :name => 'type', :value => 'disseminate'}
               %input{:name => 'note'}
               %input{:type => 'submit', :value => "Disseminate", :onClick => "return confirmClick();"}
+          %td
+            %form{:action => "/batches/#{b.id}", :method => 'post'}
+              %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}
+              %input{:type => 'hidden', :name => 'type', :value => 'refresh'}
+              %input{:name => 'note'}
+              %input{:type => 'submit', :value => "Refresh", :onClick => "return confirmClick();"}
           %td
             %form{:action => "/batches/#{b.id}", :method => 'post'}
               %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}

@@ -49,7 +49,8 @@
       %td
         %select{:name => 'type-scope'}
           %option all
-          %option disseminate 
+          %option disseminate
+          %option refresh 
           %option withdraw 
           %option peek
           - if @params["type-scope"]
