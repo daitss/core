@@ -145,7 +145,7 @@ module Daitss
         }, NS_PREFIX).map { |node| node.content }
 
         bs_nodes = bs_uris.map do |bs_uri|
-          doc.find(%Q{
+          doc.find_first(%Q{
               //P:object [@xsi:type='bitstream']
                          [P:objectIdentifier/P:objectIdentifierValue = '#{bs_uri}']
           }, NS_PREFIX)
@@ -208,9 +208,9 @@ module Daitss
                    ]/
           P:linkingObjectIdentifier [ P:linkingObjectRole = 'source' ] /
             P:linkingObjectIdentifierValue
-          }, NS_PREFIX).content
+          }, NS_PREFIX)
 
-          df['transformation-source'] = source_uri
+          df['transformation-source'] = source_uri.content if source_uri
         end
 
       end

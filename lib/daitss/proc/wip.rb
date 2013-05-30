@@ -15,6 +15,7 @@ require 'daitss/proc/wip/process'
 require 'daitss/proc/wip/ingest'
 require 'daitss/proc/wip/disseminate'
 require 'daitss/proc/wip/withdraw'
+require 'daitss/proc/wip/refresh'
 
 require 'daitss/proc/wip/queue_report.rb'
 
@@ -53,6 +54,7 @@ module Daitss
       :ingest,
       :disseminate,
       :withdraw,
+      :refresh,
       :peek
     ]
 
@@ -204,7 +206,7 @@ module Daitss
 
     def new_datafile container, id
        if File.exist? File.join(@path, container, id.to_s)
-         raise "datafile #{id} already exists in #{container}" unless (task == :disseminate)
+         raise "datafile #{id} already exists in #{container}" unless (task == :disseminate || task == :refresh)
        end
 
        DataFile.make self, container, id.to_s

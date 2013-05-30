@@ -65,12 +65,14 @@
   - ingest_count = 0
   - disseminate_count = 0
   - withdraw_count = 0
+  - refresh_count = 0
   - peek_count = 0
 
   - idle_wips.each do |w|
     - ingest_count += 1 if w.task == :ingest 
     - disseminate_count += 1 if w.task == :disseminate
     - withdraw_count += 1 if w.task == :withdraw
+    - refresh_count += 1 if w.task == :refresh
     - peek_count += 1 if w.task == :peek
 
   %table
@@ -87,6 +89,10 @@
       %td
         disseminate
       %td= disseminate_count
+    %tr
+      %td
+        refresh
+      %td= refresh_count
     %tr
       %td
         withdraw
@@ -108,6 +114,8 @@
     = throttles(:ingest)
     &nbsp;
     = throttles(:dissemination)
+    &nbsp;
+    = throttles(:refresh)
     &nbsp;
     = throttles(:withdrawal)
 

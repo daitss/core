@@ -101,6 +101,7 @@ helpers do
     when :ingest;           archive.ingest_throttle        != 1 ? "#{archive.ingest_throttle} ingests;"               : "1 ingest;"
     when :dissemination;    archive.dissemination_throttle != 1 ? "#{archive.dissemination_throttle} disseminations;" : "1 dissemination;"
     when :withdrawal;       archive.withdrawal_throttle    != 1 ? "#{archive.withdrawal_throttle} withdrawals;"       : "1 withdrawal;"
+    when :refresh;          archive.refresh_throttle       != 1 ? "#{archive.refresh_throttle} refreshes;"            : "1 refresh;"
     else ; "huh?"
     end
   end
@@ -282,7 +283,7 @@ get '/packages?/?' do
                         when 'disseminated'
                           "disseminate finished"
                         when 'error'
-                          ["ingest snafu", "disseminate snafu"]
+                          ["ingest snafu", "disseminate snafu", "refresh snafus"]
                         when 'withdrawn'
                           "withdraw finished"
                         else
@@ -574,7 +575,7 @@ post '/package/:id/request' do |id|
   error 400, "request submissions must include a note" unless note and note != ""
   error 400, "can't submit requests on rejected packages" if @package.events.first(:name => "reject")
   error 400, "can't submit requests on withdrawn packages" if @package.events.first(:name => "withdraw finished")
-  error 400, "only withdraw and disseminate requests are supported for this resource" unless (type == "disseminate" or type == "withdraw") or @package.d1? == true
+  error 400, "only withdraw, refresh and disseminate requests are supported for this resource" unless (type == "disseminate" or type == "withdraw" or type == 'refresh') or @package.d1? == true
 
   r = Request.new
 
@@ -1396,6 +1397,8 @@ get '/requests' do
       scope = :disseminate
     when 'withdraw'
       scope = :withdraw
+    when 'refresh'
+      scope = :refresh      
     when 'peek'
       scope = :peek
     end

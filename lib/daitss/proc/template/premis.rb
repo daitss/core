@@ -62,6 +62,19 @@ module Daitss
     event spec
   end
 
+  def refresh_event package, index
+
+    spec = {
+      :id => "#{package.uri}/event/refresh/#{index}",
+      :type => 'refresh',
+      :outcome => 'success',
+      :linking_objects => [ package.uri ],
+      :linking_agents => [ system_agent_spec[:id] ]
+    }
+
+    event spec
+  end
+  
   def withdraw_event package
 
     spec = {

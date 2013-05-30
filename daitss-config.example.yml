@@ -62,6 +62,7 @@ core.example.org:
 
     ingest_throttle:             2
     dissemination_throttle:      2
+    refresh_throttle:            2
     withdrawal_throttle:         1
     queueing_discipline:         lifo
 

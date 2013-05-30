@@ -8,6 +8,7 @@ module Daitss
   VALIDATE = "validate"
   VIRUS_CHECK = "virus check"
   DISSEMINATE = "disseminate"
+  REFRESH = "refresh"  
   D1REFRESH = "d1refresh"
   REDUP = "redup"
   WITHDRAW = "withdraw"
@@ -20,7 +21,7 @@ module Daitss
   BROKEN_LINKS = "broken links found"
 
   # all possible event types
-  Event_Type = [INGEST, SUBMIT, VALIDATE, VIRUS_CHECK, DISSEMINATE, D1REFRESH, REDUP,
+  Event_Type = [INGEST, SUBMIT, VALIDATE, VIRUS_CHECK, DISSEMINATE, REFRESH, D1REFRESH, REDUP,
     WITHDRAW, FIXITY_CHECK, DESCRIBE, NORMALIZE, MIGRATE, XML_RESOLUTION, DELETION, BROKEN_LINKS]
 
   Event_Map = {
@@ -29,6 +30,7 @@ module Daitss
     "comprehensive validation" => VALIDATE,
     "virus check" => VIRUS_CHECK,
     "disseminate" => DISSEMINATE,
+    "refresh" => REFRESH,    
     "d1refresh" => D1REFRESH,
     "redup" => REDUP,
     "withdraw" => WITHDRAW,
