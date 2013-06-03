@@ -12,9 +12,9 @@ module Daitss
       package = Package.new
       filename = File.basename(sip_path)
       if File.directory?(sip_path)
-	      name = filename
+        name = filename
       else
-	      name = filename[0...filename.length - 4]
+        name = filename[0...filename.length - 4]
       end 	      
       package.sip = Sip.new :name => name
 
@@ -32,44 +32,44 @@ module Daitss
           agreement_errors << "\nmissing descriptor"
         elsif $!.to_s.index('rror extracting')
           agreement_errors << "\nCannot extract sip archive, must be a valid tar or zip file containing directory with sip files"
-	elsif ! $!.to_s.index('Unknown archive extension')  || ! $!.to_s.index('Error extracting')
+        elsif ! $!.to_s.index('Unknown archive extension')  || ! $!.to_s.index('Error extracting')
           agreement_errors << $!		
-	else  
+        else  
           agreement_errors <<"\nInvalid SIP descriptor. XML validation errors:" <<  $!
-	end
+        end
       end
 
 
       begin 
-        
-	count = sa.multiple_agreements
-	if count > 1
-	  rescued = true
-	  agreement_errors << "\nSIP descriptor contains mulitple AGREEMENT_INFO elements."
-	end
+
+        count = sa.multiple_agreements
+        if count > 1
+          rescued = true
+          agreement_errors << "\nSIP descriptor contains mulitple AGREEMENT_INFO elements."
+        end
         #sa.xml_initial_validation
-	if !rescued
-	  rescued = nil
-	  a_id = sa.account
-	end
+        if !rescued
+          rescued = nil
+          a_id = sa.account
+        end
       rescue
-	      rescued = true
-	      account = a_id
-	      agreement_errors << "\nNot able to determine Account code in package #{filename};"
+        rescued = true
+        account = a_id
+        agreement_errors << "\nNot able to determine Account code in package #{filename};"
       end 
-     begin
-      if !rescued	     
-        p_id = sa.project
-      end 
-    rescue
-      rescued = true
-      project =  p_id
-      agreement_errors << "\nNot able to determine Account code in package #{filename}"
-    end 
-    begin
-      sa.xml_initial_validation unless rescued
+      begin
+        if !rescued	     
+          p_id = sa.project
+        end 
       rescue
-	agreement_errors <<  $!      
+        rescued = true
+        project =  p_id
+        agreement_errors << "\nNot able to determine Account code in package #{filename}"
+      end 
+      begin
+        sa.xml_initial_validation unless rescued
+      rescue
+        agreement_errors <<  $!      
         sa = nil
       end
       # validate account and project outside of class
@@ -84,12 +84,12 @@ module Daitss
           if project
             project.packages << package
           else
-	    agreement_errors << "\nProject code \"#{p_id}\" is not valid for account \"#{a_id}\""
+            agreement_errors << "\nProject code \"#{p_id}\" is not valid for account \"#{a_id}\""
             account.default_project.packages  << package
           end
 
         else
-	  agreement_errors << "\nAccount \"#{a_id}\" does not exist"
+          agreement_errors << "\nAccount \"#{a_id}\" does not exist"
           agent.account.default_project.packages  << package
         end
 
@@ -97,10 +97,10 @@ module Daitss
         agent.account.default_project.packages  << package
 
       elsif !rescued
-	agreement_errors << "\nYou are not authorized to submit to Account \"#{a_id}\""
+        agreement_errors << "\nYou are not authorized to submit to Account \"#{a_id}\""
         agent.account.default_project.packages  << package
       else
-	 agent.account.default_project.packages  << package     
+        agent.account.default_project.packages  << package     
       end
       # set name to "unnamed" if sip archive was not extracted
       ####name = sa ? sa.name : "unnamed"
@@ -108,7 +108,7 @@ module Daitss
       package.sip = Sip.new :name => name
       package.sip.number_of_datafiles = sa.files.size rescue nil
       package.sip.size_in_bytes = sa.size_in_bytes rescue nil
-      
+
       #count files if sip archive was successfully extracted
       files = []
       if sa
@@ -140,9 +140,9 @@ module Daitss
               combined_errors = agreement_errors.join "\n"
             end
             event_note_sqz = event_note + '; ' + combined_errors
-	    event_note_sqz = event_note_sqz.squeeze("\n");
+            event_note_sqz = event_note_sqz.squeeze("\n");
             #package.log 'reject', :agent => agent, :notes => event_note + '; ' + combined_errors
-	    package.log 'reject', :agent => agent, :notes => event_note_sqz
+            package.log 'reject', :agent => agent, :notes => event_note_sqz
             package.queue_reject_report
           end
 
