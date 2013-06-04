@@ -1,5 +1,5 @@
 # OSX SHA1 bug
-if PLATFORM =~ /darwin/
+if RUBY_PLATFORM =~ /darwin/
 
   class Digest::SHA1
 

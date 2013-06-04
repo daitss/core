@@ -228,29 +228,30 @@ end
 
 post '/packages?/?' do
   require_param 'sip'
-
   p = begin
-          filename = params['sip'][:filename]
-          data = params['sip'][:tempfile].read
-          batch_id = params["batch_id"].strip == "batch name" ? nil : params["batch_id"].strip
-          note = params["note"] == "note" ? nil : params["note"].strip
+    filename = params['sip'][:filename]
+    data = params['sip'][:tempfile].read
+    batch_id = params["batch_id"].strip == "batch name" ? nil : params["batch_id"].strip
+    note = params["note"] == "note" ? nil : params["note"].strip
 
-          dir = Dir.mktmpdir
-          path = File.join dir, filename
-          open(path, 'w') { |io| io.write data }
+    dir = Dir.mktmpdir
+    path = File.join dir, filename
+    open(path, 'w') { |io| io.write data }
 
-          p = archive.submit path, @user, note
+    p = archive.submit path, @user, note
 
-          if batch_id
-            b = Batch.first_or_create(:id => batch_id)
-            b.packages << p
-            b.save
-          end
+    if batch_id
+      b = Batch.first_or_create(:id => batch_id)
+      b.packages << p
+      b.save
+    end
 
-          p
-      ensure
-        FileUtils.rm_r dir
-      end
+    p
+  rescue => e
+    raise e
+  ensure
+    FileUtils.rm_r dir
+  end
 
   redirect "/package/#{p.id}"
 end

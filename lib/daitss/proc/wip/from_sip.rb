@@ -47,7 +47,7 @@ module Daitss
           :type => 'submit',
           :outcome => 'success',
           :linking_objects => [ uri ],
-          :linking_agents => agent_uri
+          :linking_agents => [ agent_uri ]
         )
 
         wip['submit-agent'] = agent(

@@ -23,7 +23,7 @@ module Daitss
             df.normalize!
           end
         rescue => e
-          raise "error while processing #{df.id}(#{df['aip-path']}): " + e
+          raise "error while processing #{df.id}(#{df['aip-path']}): " + e.message
         end
       end
 
