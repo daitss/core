@@ -509,20 +509,55 @@ end
 get '/package/:id/ingest_report' do |id|
   @package = @user.packages.get(id) or not_found
   not_found unless @package.status == "archived"
- 
+
   begin
-  rep = archive.ingest_report id   ##ilt  archive.ingest_report id
+    rep = archive.ingest_report id   
   rescue => e
-	 puts  "Unexpected error: #{e}, back trace follows:"
-	      e.backtrace.each { |line| puts         line.chomp }
-	        puts         "Can't continue  quitting."
-		exit
+    puts"Unexpected error: #{e}, back trace follows:"
+    e.backtrace.each { |line| puts line.chomp }
+    puts "Can't continue  quitting."
+    exit
   end
   doc = Nokogiri::XML rep
   xslt  = Nokogiri::XSLT(File.read('public/daitss_report_xhtml.xsl'))
   html = xslt.transform(doc)
   html.to_s
-  
+end
+
+get '/package/:id/refresh_report' do |id|
+  @package = @user.packages.get(id) or not_found
+  not_found unless @package.status == "archived"
+
+  begin
+    rep = archive.refresh_report id  
+  rescue => e
+    puts "Unexpected error: #{e}, back trace follows:"
+    e.backtrace.each { |line| puts line.chomp }
+    puts "Can't continue quitting."
+    exit
+  end
+  doc = Nokogiri::XML rep
+  xslt  = Nokogiri::XSLT(File.read('public/daitss_report_xhtml.xsl')) 
+  html = xslt.transform(doc)
+  html.to_s
+end
+
+get '/package/:id/d1refresh_report' do |id|
+  @package = @user.packages.get(id) or not_found
+  not_found unless @package.status == "archived"
+
+  begin
+    rep = archive.d1refresh_report id  
+  rescue => e
+    puts "Unexpected error: #{e}, back trace follows:"
+    e.backtrace.each { |line| puts line.chomp }
+    puts "Can't continue quitting."
+    exit
+  end
+  doc = Nokogiri::XML rep
+  xslt  = Nokogiri::XSLT(File.read('public/daitss_report_xhtml.xsl')) 
+  html = xslt.transform(doc)
+  html.to_s
 end
 
 get '/package/:id/disseminate_report' do |id|

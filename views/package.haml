@@ -207,6 +207,10 @@
               = "withdraw report"
 
           - elsif @package.events.first(:name => "d1refresh finished")
+            %a{:href=>"/package/#{@package.id}/d1refresh_report"}
+              = "d1refresh report"
+
+          - elsif @package.events.first(:name => "refresh finished")
             %a{:href=>"/package/#{@package.id}/refresh_report"}
               = "refresh report"
 

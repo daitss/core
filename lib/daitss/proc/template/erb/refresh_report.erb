@@ -1,8 +1,16 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="daitss_report_xhtml.xsl"?>
 <REPORT xsi:schemaLocation='http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss2Report.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.fcla.edu/dls/md/daitss/'>
-  <REFRESH IEID='<%= @package.id %>' PACKAGE='<%= @intentity_record.original_name %>' REFRESH_TIME='<%= Time.parse(@package.events.first(:name => "d1refresh finished").timestamp.to_s).iso8601 %>'>
-  <AGREEMENT_INFO ACCOUNT='<%= @package.project.account.id %>' PROJECT='<%= @package.project.id %>'/>
+  <REFRESH IEID='<%= @package.id %>' PACKAGE='<%= @intentity_record.original_name %>' REFRESH_TIME='<%= Time.parse(@package.events.first(:name => "refresh finished").timestamp.to_s).iso8601 %>'>
+    <AGREEMENT_INFO ACCOUNT='<%= @package.project.account.id %>' PROJECT='<%= @package.project.id %>'/>
+    <REQUEST_EVENTS TITLE="Refresh Event">
+      <% requests = Array.new %>
+      <% requests << @package.events.last(:name=>"refresh request placed") %>
+      <% requests << @package.events.last(:name=>"refresh finished") %>
+      <% requests.each do |request| %>
+        <REQUEST_EVENT NAME='<%=request.name %>' TIME='<%= Time.parse(request.timestamp.to_s).iso8601 %>' NOTE='<%= request.notes %>' AGENT='<%= request.agent_id %>'></REQUEST_EVENT>
+      <% end %>
+    </REFRESH_EVENTS>
     <FILES>
     <% @intentity_record.datafiles.each do |datafile| %>
       <FILE SIZE='<%= datafile.size %>' DFID='<%= datafile.id %>' ORIGIN='<%= datafile.origin %>' PATH='<%= datafile.original_path %>'> 
@@ -27,6 +35,7 @@
       </FILE>
     <% end %>
     </FILES>
+
   </REFRESH>
 </REPORT>
 
