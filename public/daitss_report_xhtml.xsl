@@ -47,19 +47,14 @@
           padding:.5em;
           width:auto}
 
-          div.ingest, div.withdrawal {
-          margin:0.5em;
-          padding:0.5em;
-          width:auto}
-
-          div.agreementInfo {
+          div.ingest, div.refresh, div.d1refresh, div.withdrawal {
           margin:0.5em;
           padding:0.5em;
           width:auto}
 
           div.files {
           margin:0.5em;
-          padding:0.5em;
+          padding: 0.5em;
           width:auto}
 
           div.archivalAttributes,
@@ -116,32 +111,10 @@
     </div>
   </xsl:template>
 
-  <!-- dissemination element -->
-  <xsl:template match="r:DISSEMINATION">
-    <div class="ingest">
-      <h2>Dissemination</h2>
-      <div>dissemination event info</div>
-      <table>
-        <tr>
-          <th>Package name</th>
-          <th>Int. Entity ID</th>
-          <th>Ingest time</th>
-        </tr>
-        <tr>
-          <td><xsl:value-of select="@PACKAGE"/></td>
-          <td><xsl:value-of select="@IEID"/></td>
-          <td><xsl:value-of select="@INGEST_TIME"/></td>
-        </tr>
-      </table>
-      <xsl:apply-templates/>
-    </div>
-  </xsl:template>
-
-
   <!-- ingest element -->
   <xsl:template match="r:INGEST">
     <div class="ingest">
-      <h2>Ingest</h2>
+      <h1>Ingest Report</h1>
       <table>
         <tr>
           <th>Package name</th>
@@ -160,8 +133,28 @@
 
   <!-- refresh element -->
   <xsl:template match="r:REFRESH">
-    <div class="ingest">
-      <h2>Refresh</h2>
+    <div class="refresh">
+      <h1>Refresh Report</h1>
+      <table>
+        <tr>
+          <th>Package name</th>
+          <th>Int. Entity ID</th>
+          <th>Refresh time</th>
+        </tr>
+        <tr>
+          <td><xsl:value-of select="@PACKAGE"/></td>
+          <td><xsl:value-of select="@IEID"/></td>
+          <td><xsl:value-of select="@REFRESH_TIME"/></td>
+        </tr>
+      </table>
+      <xsl:apply-templates/>
+    </div>
+  </xsl:template>
+
+  <!-- refresh element -->
+  <xsl:template match="r:D1REFRESH">
+    <div class="d1refresh">
+      <h1>D1 Refresh Report</h1>
       <table>
         <tr>
           <th>Package name</th>
@@ -181,7 +174,7 @@
   <!-- withdrawal element -->
   <xsl:template match="r:WITHDRAWAL">
     <div class="withdrawal">
-      <h2>Withdrawal</h2>
+      <h1>Withdrawal Report</h1>
       <table>
         <tr>
           <th>Package name</th>
@@ -212,29 +205,17 @@
           <dd>
             <table>
               <tr>
-                <th>
-                  Path
-                </th>
-                <td>
-                  <xsl:value-of select="@PATH"/>
-                </td>
+                <th>Path</th>
+                <td><xsl:value-of select="@PATH"/></td>
               </tr>
               <tr>
-                <th>
-                  Size
-                </th>
-                <td>
-                  <xsl:value-of select="@SIZE"/>
-                </td>
+                <th>Size</th>
+                <td><xsl:value-of select="@SIZE"/></td>
               </tr>
               <xsl:for-each select="r:MESSAGE_DIGEST">
                 <tr>
-                  <th>
-                    <xsl:value-of select="@ALGORITHM"/>
-                  </th>
-                  <td>
-                    <xsl:value-of select="text()"/>
-                  </td>
+                  <th><xsl:value-of select="@ALGORITHM"/></th>
+                  <td><xsl:value-of select="text()"/></td>
                 </tr>
               </xsl:for-each>
             </table>
@@ -248,7 +229,7 @@
   <!-- agreement info -->
   <xsl:template match="r:AGREEMENT_INFO">
     <div class="agreementInfo">
-      <h3>Agreement Info</h3>
+      <h2>Agreement Info</h3>
       <table>
         <tr>
           <th>Account:</th>
@@ -262,14 +243,35 @@
     </div>
   </xsl:template>
 
+  <!-- Request Events -->
+  <xsl:template match="r:REQUEST_EVENTS">
+	<div class="requestEvents">
+		<h2><xsl:value-of select="@TITLE"/></h2>	
+		<table>
+			<tr>
+				<th>Type</th>
+				<th>Time: </th>
+				<th>agent ID: </th>
+				<th>note: </th>
+			</tr>
+			<xsl:for-each select="r:REQUEST_EVENT">
+				<tr>
+					<td><xsl:value-of select="@NAME"/></td>
+					<td><xsl:value-of select="@TIME"/></td>
+					<td><xsl:value-of select="@AGENT"/></td>
+					<td><xsl:value-of select="@NOTE"/></td>
+				</tr>
+			</xsl:for-each>
+		</table>
+	</div>
+  </xsl:template>
+
   <!-- files element -->
   <xsl:template match="r:FILES">
 
     <!-- reportable files, for now just exclude the daitss namespace files -->
     <xsl:variable name="rfiles"
                   select="r:FILE[not(contains(@PATH, 'www.fcla.edu/dls/md/daitss'))]"/>
-
-
     <div class="files">
       <h3>Files</h3>
 
