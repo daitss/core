@@ -282,12 +282,14 @@ get '/packages?/?' do
                           "ingest finished"
                         when 'disseminated'
                           "disseminate finished"
+                        when 'refreshed'
+                          "refresh finished"                          
                         when 'error'
                           ["ingest snafu", "disseminate snafu", "refresh snafus"]
                         when 'withdrawn'
                           "withdraw finished"
                         else
-                          ['submit', "reject", "ingest finished", "disseminate finished", "ingest snafu", "disseminate snafu", "withdraw finished", "daitss v.1 provenance"]
+                          ['submit', "reject", "ingest finished", "disseminate finished", "refresh finished","ingest snafu", "disseminate snafu", "refresh snafu","withdraw finished", "daitss v.1 provenance"]
                         end
 
                 # filter on date range
