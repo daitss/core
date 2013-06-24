@@ -150,6 +150,7 @@
           %input{:name => 'note'}
           %input{:type => 'submit', :value => 'Request'}
 
+    - last_finished_event = @package.events.last(:name.like => "% finished")
     %h2 aip
 
     %table
@@ -202,19 +203,19 @@
       %tr
         %th report
         %td
-          - if @package.events.first(:name => "withdraw finished")
+          - if last_finished_event.name.eql?("withdraw finished")
             %a{:href=>"/package/#{@package.id}/withdraw_report"}
               = "withdraw report"
 
-          - elsif @package.events.first(:name => "d1refresh finished")
+          - elsif last_finished_event.name.eql?("d1refresh finished")
             %a{:href=>"/package/#{@package.id}/d1refresh_report"}
               = "d1refresh report"
 
-          - elsif @package.events.first(:name => "refresh finished")
+          - elsif last_finished_event.name.eql?("refresh finished")
             %a{:href=>"/package/#{@package.id}/refresh_report"}
               = "refresh report"
 
-          - elsif @package.events.first(:name => "disseminate finished")
+          - elsif last_finished_event.name.eql?("disseminate finished")
             %a{:href=>"/package/#{@package.id}/disseminate_report"}
               = "disseminate report"
 
