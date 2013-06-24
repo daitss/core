@@ -2,11 +2,15 @@ Core Service
 ==========================
 
 Core service is comprised of the DAITSS preservation business logic and workflow web interface. It also includes the models for the DAITSS preservation and operations databases. Whereas the other DAITSS web-service components are stand alone and single purpose, Core service ties them all together to implement a digital preservation workflow.
+
+Current Production Code
+-----------------------
+* https://github.com/daitss/core/tree/299045994cd9bf1cbe1b040e6ea3e44ec1cb57a0
  
 Requirements
 ------------
 * ruby (tested on 1.8.6 and 1.8.7)
-* java (tested 1.6)
+* java (tested 1.6,1.7)
 * ruby-devel, rubygems, gcc and g++
 * libxml2-devel, libxslt-devel, libcurl development libraries
 * PostgresSQL
