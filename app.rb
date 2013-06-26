@@ -293,13 +293,13 @@ get '/packages?/?' do
 
                 # filter on date range
                 start_date = if params['start_date'] and !params['start_date'].strip.empty?
-                               Time.parse params['start_date']
+                               Time.strptime(params['start_date'], "%m/%d/%Y")
                              else
                                Time.at 0
                              end
 
                 end_date = if params['end_date'] and !params['end_date'].strip.empty?
-                             Time.parse params['end_date']
+                             Time.strptime(params['end_date'], "%m/%d/%Y")
                            else
                              Time.now
                            end
@@ -367,13 +367,13 @@ get '/errors' do
 
     # filter on date range
     start_date = if params['start_date'] and !params['start_date'].strip.empty?
-                   Time.parse params['start_date']
+                   Time.strptime(params['start_date'], "%m/%d/%Y")
                  else
                    Time.at 0
                  end
 
     end_date = if params['end_date'] and !params['end_date'].strip.empty?
-                 Time.parse params['end_date']
+                 Time.strptime(params['end_date'], "%m/%d/%Y")
                else
                  Time.now
                end
@@ -630,13 +630,13 @@ get '/workspace' do
 
     # filter wips by date range
     start_date = if params['start_date'] and !params['start_date'].strip.empty?
-                   Time.parse params['start_date']
+                   Time.strptime(params['start_date'], "%m/%d/%Y")
                  else
                    Time.at 0
                  end
 
     end_date = if params['end_date'] and !params['end_date'].strip.empty?
-                 Time.parse params['end_date']
+                 Time.strptime(params['end_date'], "%m/%d/%Y")
                else
                  Time.now
                end
@@ -856,13 +856,13 @@ get '/stashspace/:id' do |id|
   if params['filter'] == 'true'
     # filter wips by date range
     start_date = if params['start_date'] and !params['start_date'].strip.empty?
-                   Time.parse params['start_date']
+                   Time.strptime(params['start_date'], "%m/%d/%Y")
                  else
                    Time.at 0
                  end
 
     end_date = if params['end_date'] and !params['end_date'].strip.empty?
-                 Time.parse params['end_date']
+                 Time.strptime(params['end_date'], "%m/%d/%Y")
                else
                  Time.now
                end
