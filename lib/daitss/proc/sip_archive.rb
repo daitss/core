@@ -266,7 +266,7 @@ MSG
          node = descriptor_doc.find_first xpath, NS_PREFIX
 	 node
     rescue Exception => e
-	  raise "\nInvalid SIP descriptor. XML validation errors: "  << "\n" << $!
+	  raise "\nInvalid SIP descriptor. XML validation errors: \n#{$!}"
     end
 
         
