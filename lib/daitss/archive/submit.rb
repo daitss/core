@@ -35,10 +35,9 @@ module Daitss
         elsif ! $!.to_s.index('Unknown archive extension')  || ! $!.to_s.index('Error extracting')
           agreement_errors << $!		
         else  
-          agreement_errors <<"\nInvalid SIP descriptor. XML validation errors:" <<  $!
+          agreement_errors <<"\nInvalid SIP descriptor. XML validation errors:\n #{$!}"
         end
       end
-
 
       begin 
 
@@ -67,10 +66,10 @@ module Daitss
         agreement_errors << "\nNot able to determine Account code in package #{filename}"
       end 
       begin
-        sa.xml_initial_validation unless rescued
-      rescue
+        sa.xml_initial_validation #unless rescued
+      rescue => e
         agreement_errors <<  $!      
-        sa = nil
+#        sa = nil
       end
       # validate account and project outside of class
 
