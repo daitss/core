@@ -5,7 +5,7 @@ Core service is comprised of the DAITSS preservation business logic and workflow
 
 Current Production Code
 -----------------------
-* https://github.com/daitss/core/tree/299045994cd9bf1cbe1b040e6ea3e44ec1cb57a0
+* Release 2.20.3, https://github.com/daitss/core/releases/tag/v2.20.3
  
 Requirements
 ------------
