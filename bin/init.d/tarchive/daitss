@@ -156,7 +156,7 @@ stop() {
 
   # comment out for tarchive because only apache (silo service) is on tarchive
   # log_message "Stopping describe..."
-  # /bin/su daitss -c "cd $DESCRIBE_PATH; PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME="/usr/java/default" bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d stop"
+  # /bin/su daitss -c "cd $DESCRIBE_PATH; PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d stop"
 
   stoppulse
 
