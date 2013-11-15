@@ -14,7 +14,7 @@ require 'nokogiri'
 require 'daitss/model'
 require 'daitss/archive'
 
-require 'spec_helper'
+require './spec_helper'
 
 Webrat.configure { |config| config.mode = :rack }
 
