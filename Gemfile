@@ -1,11 +1,11 @@
 source "http://rubygems.org"
 
+gem 'nokogiri', "~> 1.5.10"
 gem 'data_mapper', ">= 1.2.0"
 gem 'dm-is-list'
 gem 'haml'
 gem 'sass'
 gem 'libxml-ruby'
-gem 'nokogiri'
 gem 'rake'
 gem 'semver'
 gem 'sinatra'
