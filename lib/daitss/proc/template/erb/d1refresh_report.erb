@@ -3,7 +3,7 @@
 <REPORT xsi:schemaLocation='http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss2Report.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.fcla.edu/dls/md/daitss/'>
   <D1REFRESH IEID='<%= @package.id %>' PACKAGE='<%= @intentity_record.original_name %>' INGEST_TIME='<%= Time.parse(@package.events.first(:name => "ingest finished").timestamp.to_s).iso8601 %>'>
     <AGREEMENT_INFO ACCOUNT='<%= @package.project.account.id %>' PROJECT='<%= @package.project.id %>'/>
-    <REQUEST_EVENTS TITLE="Refresh Event">
+    <REFRESH_EVENTS TITLE="Refresh Event">
       <% requests = Array.new %>
       <% requests << @package.events.last(:name=>"d1refresh request placed") %>
       <% requests << @package.events.last(:name=>"d1refresh finished") %>
