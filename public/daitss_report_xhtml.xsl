@@ -229,7 +229,7 @@
   <!-- agreement info -->
   <xsl:template match="r:AGREEMENT_INFO">
     <div class="agreementInfo">
-      <h2>Agreement Info</h3>
+      <h2>Agreement Info</h2>
       <table>
         <tr>
           <th>Account:</th>
