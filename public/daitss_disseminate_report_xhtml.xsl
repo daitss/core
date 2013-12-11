@@ -150,7 +150,7 @@
         </tr>
       </table>
 
-	  <h2>Dissemination/Event</h2>
+	  <h2>Dissemination Event</h2>
 	      <table>
 	        <tr>
 		<th>Type</th>
