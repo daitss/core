@@ -224,6 +224,29 @@
               = "ingest report"
 
       %tr
+        %th download report
+        %td
+          - if last_finished_event.name.eql?("withdraw finished")
+            %a{:href=>"/package/#{@package.id}/withdraw_report"}
+              = "withdraw report"
+
+          - elsif last_finished_event.name.eql?("d1refresh finished")
+            %a{:href=>"/package/#{@package.id}/download_d1refresh"}
+              = "download d1refresh"
+
+          - elsif last_finished_event.name.eql?("refresh finished")
+            %a{:href=>"/package/#{@package.id}/download_refresh"}
+              = "download refresh"
+
+          - elsif last_finished_event.name.eql?("disseminate finished")
+            %a{:href=>"/package/#{@package.id}/download_disseminate"}
+              = "download disseminate"
+
+          - else 
+            %a{:href=>"/package/#{@package.id}/download_ingest"}
+              = "download ingest"
+
+      %tr
         %th report stylesheet
         %td
           %a{:href=>"/daitss_report_xhtml.xsl"}

@@ -567,7 +567,7 @@ get '/package/:id/disseminate_report' do |id|
   not_found unless @package.status == "archived"
  
   begin
-  rep = archive.disseminate_report id   ##ilt  archive.ingest_report id
+  rep = archive.disseminate_report id
   rescue => e
 	 puts  "Unexpected error: #{e}, back trace follows:"
 	      e.backtrace.each { |line| puts         line.chomp }
@@ -575,10 +575,38 @@ get '/package/:id/disseminate_report' do |id|
 		exit
   end
   doc = Nokogiri::XML rep
-  xslt  = Nokogiri::XSLT(File.read('public/daitss_disseminate_report_xhtml.xsl'))  #github 721
+  xslt  = Nokogiri::XSLT(File.read('public/daitss_disseminate_report_xhtml.xsl'))  
   html = xslt.transform(doc)
   html.to_s
   
+end
+
+get '/package/:id/download_ingest' do |id| 
+  @package = @user.packages.get(id) or not_found
+  not_found unless @package.status == "archived"
+  headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
+  archive.ingest_report id
+end
+
+get '/package/:id/download_refresh' do |id| 
+  @package = @user.packages.get(id) or not_found
+  not_found unless @package.status == "archived"
+  headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
+  archive.refresh_report id
+end
+
+get '/package/:id/download_d1refresh' do |id| 
+  @package = @user.packages.get(id) or not_found
+  not_found unless @package.status == "archived"
+  headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
+  archive.d1refresh_report id
+end
+
+get '/package/:id/download_disseminate' do |id| 
+  @package = @user.packages.get(id) or not_found
+  not_found unless @package.status == "archived"
+  headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
+  archive.disseminate_report id
 end
 
 get '/package/:id/withdraw_report' do |id|
