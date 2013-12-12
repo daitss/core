@@ -569,10 +569,48 @@ get '/package/:id/disseminate_report' do |id|
   begin
   rep = archive.disseminate_report id
   rescue => e
-	 puts  "Unexpected error: #{e}, back trace follows:"
-	      e.backtrace.each { |line| puts         line.chomp }
-	        puts         "Can't continue  quitting."
-		exit
+    puts "Unexpected error: #{e}, back trace follows:"
+    e.backtrace.each { |line| puts line.chomp }
+    puts "Can't continue  quitting."
+    exit
+  end
+  doc = Nokogiri::XML rep
+  xslt  = Nokogiri::XSLT(File.read('public/daitss_report_xhtml.xsl'))  
+  html = xslt.transform(doc)
+  html.to_s
+  
+end
+
+get '/package/:id/withdraw_report' do |id|
+  @package = @user.packages.get(id) or not_found
+  not_found unless @package.events.first(:name => "withdraw finished")
+ 
+  begin
+  rep = archive.withdrawal_report id
+  rescue => e
+    puts "Unexpected error: #{e}, back trace follows:"
+    e.backtrace.each { |line| puts line.chomp }
+    puts "Can't continue  quitting."
+    exit
+  end
+  doc = Nokogiri::XML rep
+  xslt  = Nokogiri::XSLT(File.read('public/daitss_report_xhtml.xsl'))  
+  html = xslt.transform(doc)
+  html.to_s
+  
+end
+
+get '/package/:id/reject_report' do |id|
+  @package = @user.packages.get(id) or not_found
+  not_found unless @package.events.first(:name => "reject")
+ 
+  begin
+  rep = archive.reject_report id
+  rescue => e
+    puts "Unexpected error: #{e}, back trace follows:"
+    e.backtrace.each { |line| puts line.chomp }
+    puts "Can't continue  quitting."
+    exit
   end
   doc = Nokogiri::XML rep
   xslt  = Nokogiri::XSLT(File.read('public/daitss_report_xhtml.xsl'))  
@@ -609,26 +647,20 @@ get '/package/:id/download_disseminate' do |id|
   archive.disseminate_report id
 end
 
-get '/package/:id/withdraw_report' do |id|
+get '/package/:id/download_withdraw' do |id|
   @package = @user.packages.get(id) or not_found
   not_found unless @package.events.first(:name => "withdraw finished")
   headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
   archive.withdrawal_report id
 end
 
-get '/package/:id/reject_report' do |id|
+get '/package/:id/download_reject' do |id|
   @package = @user.packages.get(id) or not_found
   not_found unless @package.events.first(:name => "reject")
   headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
   archive.reject_report id
 end
 
-get '/package/:id/refresh_report' do |id|
-  @package = @user.packages.get(id) or not_found
-  not_found unless @package.events.first(:name => "d1refresh finished")
-  headers 'Content-Disposition' => "attachment; filename=#{id}.xml"
-  archive.refresh_report id
-end
 
 # enqueue a new request
 post '/package/:id/request' do |id|

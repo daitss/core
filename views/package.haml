@@ -77,6 +77,12 @@
 
   %a{:href=>"/package/#{@package.id}/reject_report"}
     = "reject report"
+    
+  %h2
+    reject download
+    
+  %a{:href=>"/package/#{@package.id}/download_reject"}
+    = "reject download"
 
 - if @ingest_time
   %h2 ingest stats
@@ -227,7 +233,7 @@
         %th download report
         %td
           - if last_finished_event.name.eql?("withdraw finished")
-            %a{:href=>"/package/#{@package.id}/withdraw_report"}
+            %a{:href=>"/package/#{@package.id}/download_withdraw"}
               = "withdraw report"
 
           - elsif last_finished_event.name.eql?("d1refresh finished")
