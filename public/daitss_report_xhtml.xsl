@@ -47,7 +47,7 @@
           padding:.5em;
           width:auto}
 
-          div.ingest, div.refresh, div.d1refresh, div.withdrawal {
+          div.ingest, div.refresh, div.d1refresh, div.withdrawal, div.dissemination {
           margin:0.5em;
           padding:0.5em;
           width:auto}
@@ -170,6 +170,26 @@
       <xsl:apply-templates/>
     </div>
   </xsl:template>
+  
+  <!-- dissemination element -->
+  <xsl:template match="r:DISSEMINATION">
+    <div class="dissemination">
+      <h1>Dissemination Report</h1>
+      <table>
+        <tr>
+          <th>Package name</th>
+          <th>Int. Entity ID</th>
+          <th>Ingest time</th>
+        </tr>
+        <tr>
+		<td><xsl:value-of select="@PACKAGE"/></td>
+		<td><xsl:value-of select="@IEID"/></td>
+		<td><xsl:value-of select="@INGEST_TIME"/></td><td></td>
+        </tr>
+      </table>
+      <xsl:apply-templates/>
+    </div>
+  </xsl:template>      
 
   <!-- withdrawal element -->
   <xsl:template match="r:WITHDRAWAL">
@@ -245,25 +265,25 @@
 
   <!-- Request Events -->
   <xsl:template match="r:REQUEST_EVENTS">
-	<div class="requestEvents">
-		<h2><xsl:value-of select="@TITLE"/></h2>	
-		<table>
-			<tr>
-				<th>Type</th>
-				<th>Time: </th>
-				<th>agent ID: </th>
-				<th>note: </th>
-			</tr>
-			<xsl:for-each select="r:REQUEST_EVENT">
-				<tr>
-					<td><xsl:value-of select="@NAME"/></td>
-					<td><xsl:value-of select="@TIME"/></td>
-					<td><xsl:value-of select="@AGENT"/></td>
-					<td><xsl:value-of select="@NOTE"/></td>
-				</tr>
-			</xsl:for-each>
-		</table>
-	</div>
+   <div class="requestEvents">
+      <h2><xsl:value-of select="@TITLE"/></h2>	
+        <table>
+          <tr>
+            <th>Type</th>
+            <th>Time: </th>
+            <th>agent ID: </th>
+            <th>note: </th>
+          </tr>
+          <xsl:for-each select="r:REQUEST_EVENT">
+          <tr>
+	    <td><xsl:value-of select="@NAME"/></td>
+	    <td><xsl:value-of select="@TIME"/></td>
+	    <td><xsl:value-of select="@AGENT"/></td>
+	    <td><xsl:value-of select="@NOTE"/></td>
+          </tr>
+          </xsl:for-each>
+      </table>
+   </div>
   </xsl:template>
 
   <!-- files element -->

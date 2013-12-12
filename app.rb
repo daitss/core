@@ -575,7 +575,7 @@ get '/package/:id/disseminate_report' do |id|
 		exit
   end
   doc = Nokogiri::XML rep
-  xslt  = Nokogiri::XSLT(File.read('public/daitss_disseminate_report_xhtml.xsl'))  
+  xslt  = Nokogiri::XSLT(File.read('public/daitss_report_xhtml.xsl'))  
   html = xslt.transform(doc)
   html.to_s
   

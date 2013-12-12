@@ -1,14 +1,16 @@
 <?xml version="1.0"?>
-<?xml-stylesheet type="text/xsl" href="daitss_disseminate_report_xhtml.xsl"?>
+<?xml-stylesheet type="text/xsl" href="daitss_report_xhtml.xsl"?>
 <REPORT xsi:schemaLocation='http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss2Report.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.fcla.edu/dls/md/daitss/'>
   <DISSEMINATION IEID='<%= @package.id %>' PACKAGE='<%= @intentity_record.original_name %>' INGEST_TIME='<%= Time.parse(@package.events.first(:name => "ingest finished").timestamp.to_s).iso8601 %>'>
-  <AGREEMENT_INFO ACCOUNT='<%= @package.project.account.id %>' PROJECT='<%= @package.project.id %>'/>
-  <%      ev = Array.new
-          ev << @package.events.last(:name=>"disseminate request placed")
-	  ev << @package.events.last(:name=>"disseminate finished")
-	  ev.each do |ev| %>
-	  <DISSEMINATION_REQUEST NAME='<%=ev.name %>' TIME='<%= Time.parse(ev.timestamp.to_s).iso8601 %>' NOTE='<%= ev.notes %>' AGENT='<%= ev.agent_id %>'/>
-  <% end %>
+    <AGREEMENT_INFO ACCOUNT='<%= @package.project.account.id %>' PROJECT='<%= @package.project.id %>'/>
+    <REQUEST_EVENTS TITLE="Disseminate Event">
+      <% requests = Array.new %>
+      <% requests << @package.events.last(:name=>"disseminate request placed") %>
+      <% requests << @package.events.last(:name=>"disseminate finished") %>
+      <% requests.each do |request| %>
+        <REQUEST_EVENT NAME='<%=request.name %>' TIME='<%= Time.parse(request.timestamp.to_s).iso8601 %>' NOTE='<%= request.notes %>' AGENT='<%= request.agent_id %>'></REQUEST_EVENT>
+      <% end %>
+    </REQUEST_EVENTS>   
     <FILES>
     <% @intentity_record.datafiles.each do |datafile| %>
       <FILE SIZE='<%= datafile.size %>' DFID='<%= datafile.id %>' ORIGIN='<%= datafile.origin %>' PATH='<%= datafile.original_path %>'> 
@@ -21,15 +23,8 @@
           </EVENT>
         <% end %>
         <% if datafile.broken_links.any? %>
-		<% just_links = Array.new
-		 datafile.broken_links.each do |broken_link| 
-		 just_links <<    ERB::Util::h(broken_link.broken_links)
-	         end
-	   uniq = just_links.uniq	 
-	 %>
-
-          <% uniq.each do |broken_link| %>
-            <BROKEN_LINK><%= broken_link %></BROKEN_LINK>
+          <% datafile.broken_links.each do |broken_link| %>
+            <BROKEN_LINK><%= ERB::Util::h(broken_link.broken_links) %></BROKEN_LINK>
           <% end %>
         <% end %>
         <% if datafile.datafile_severe_element.any? %>
@@ -40,6 +35,7 @@
       </FILE>
     <% end %>
     </FILES>
-    </DISSEMINATION>
+    
+  </DISSEMINATION>
 </REPORT>
 

@@ -3,14 +3,14 @@
 <REPORT xsi:schemaLocation='http://www.fcla.edu/dls/md/daitss/ http://www.fcla.edu/dls/md/daitss/daitss2Report.xsd' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='http://www.fcla.edu/dls/md/daitss/'>
   <REFRESH IEID='<%= @package.id %>' PACKAGE='<%= @intentity_record.original_name %>' INGEST_TIME='<%= Time.parse(@package.events.first(:name => "ingest finished").timestamp.to_s).iso8601 %>'>
     <AGREEMENT_INFO ACCOUNT='<%= @package.project.account.id %>' PROJECT='<%= @package.project.id %>'/>
-    <REFRESH_EVENTS TITLE="Refresh Event">
+    <REQUEST_EVENTS TITLE="Refresh Event">
       <% requests = Array.new %>
       <% requests << @package.events.last(:name=>"refresh request placed") %>
       <% requests << @package.events.last(:name=>"refresh finished") %>
       <% requests.each do |request| %>
         <REQUEST_EVENT NAME='<%=request.name %>' TIME='<%= Time.parse(request.timestamp.to_s).iso8601 %>' NOTE='<%= request.notes %>' AGENT='<%= request.agent_id %>'></REQUEST_EVENT>
       <% end %>
-    </REFRESH_EVENTS>
+    </REQUEST_EVENTS>
     <FILES>
     <% @intentity_record.datafiles.each do |datafile| %>
       <FILE SIZE='<%= datafile.size %>' DFID='<%= datafile.id %>' ORIGIN='<%= datafile.origin %>' PATH='<%= datafile.original_path %>'> 
