@@ -152,7 +152,7 @@ end
 When /^I press "([^"]*)" for the request$/ do |button|
 
   within "#request table tr td form" do
-    click_button buttonF
+    click_button button
   end
 
 end
