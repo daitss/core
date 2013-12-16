@@ -66,7 +66,49 @@ Feature: overview of a package
     Given I submit a package
     When I goto its ingest report
     Then the response code should be 404
-
+    
+  Scenario: download reject report
+    Given I goto "/packages"
+    When I select "bad-project" to upload
+    And I press "Submit"
+    Then I should be at a package page
+    When I click on "reject report"
+    Then the response should contain a valid reject report  
+    
+  Scenario: download disseminate report
+    Given "haskell-nums-pdf" is archived
+    When I choose request type "disseminate"
+    And I fill in "note" with "disseminate, please"
+    And I press "Request"
+    And I wait for the "disseminate" to finish
+    When I goto its package page
+    And I click on "disseminate report"
+    Then the response should contain a valid disseminate report
+    
+  Scenario: download refresh report
+    Given "haskell-nums-pdf" is archived
+    When I choose request type "refresh"
+    And I fill in "note" with "refresh, please"
+    And I press "Request"
+    And I wait for the "refresh" to finish
+    When I goto its package page
+    And I click on "refresh report"
+    Then the response should contain a valid refresh report
+    
+  Scenario: download withdraw report
+    Given I am logged in as an "operator2"
+    Given "haskell-nums-pdf" is archived
+    And I goto its package page
+    When I choose request type "withdraw"
+    And I fill in "note" with "withdraw, please"
+    And I press "Request"
+    When I log out and log in as an "operator"
+    And I goto its package page
+    And I press "authorize"
+    And I wait for the "withdraw" to finish
+    And I goto its package page   
+    Then the response should contain a valid withdraw report
+    
   Scenario: show the aip
     Given an archived package
     When I goto its package page

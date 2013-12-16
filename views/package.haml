@@ -76,13 +76,13 @@
     reject report
 
   %a{:href=>"/package/#{@package.id}/reject_report"}
-    = "reject report"
+    = "show reject report"
     
   %h2
     reject download
     
   %a{:href=>"/package/#{@package.id}/download_reject"}
-    = "reject download"
+    = "download reject report"
 
 - if @ingest_time
   %h2 ingest stats

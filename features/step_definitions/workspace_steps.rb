@@ -98,7 +98,7 @@ Given /^an? ([^"]*) wip$/ do |state|
     sleep 0.5 until wip.done?
     wip.should_not be_dead
     wip.should_not be_snafu
-
+    
   else raise "unknown state: #{state}"
   end
 

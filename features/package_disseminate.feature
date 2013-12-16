@@ -14,3 +14,4 @@ Feature: disseminate a package
     And there should be an "disseminate finished" event
     And there should be an "disseminate finished" event
     And clicking the dip link downloads the tarball
+
