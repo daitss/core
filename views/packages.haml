@@ -1,41 +1,4 @@
 #forms
-  #submit
-    %h1 submit
-    %p
-      packages must be in
-      %strong
-        %em tar
-      or
-      %strong
-        %em zip
-      format
-
-    %form{:action => '/package', :method => 'POST', :enctype => 'multipart/form-data'}
-      %table
-        %tr
-          %th File
-          %td
-            %input{:type => 'file', :name => 'sip', :size => 50}
-
-        - if @is_op
-          %tr
-            %th Batch
-            %td
-              %input{:name => 'batch_id'}
-        - else
-          %input{:type => "hidden", :name => 'batch_id'}
-
-        %tr
-          %th Note
-          %td
-            %textarea{:name => 'note'}
-
-
-        %tr
-          %th &nbsp;
-          %td 
-            %input{:type => 'submit', :value => 'Submit'}
-
   #search
     %h1 search
 
