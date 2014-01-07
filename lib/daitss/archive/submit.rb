@@ -19,7 +19,12 @@ module Daitss
       package.sip = Sip.new :name => name
 
       agreement_errors = []
-
+      
+      # check file size against max file size
+      if File.size(sip_path) > archive.max_file_size
+        agreement_errors << "This ZIP package exceeds the maximum allowed size of %.3fGB." % [ archive.max_file_size.to_f / 1073741824 ]
+      end
+      
       # make a new sip archive
       begin
         rescued = nil
@@ -30,7 +35,7 @@ module Daitss
         rescued = true
         if $!.to_s.index('\nNo such file or directory')
           agreement_errors << "\nmissing descriptor"
-        elsif $!.to_s.index('rror extracting')
+        elsif $!.to_s.index('Error extracting')
           agreement_errors << "\nCannot extract sip archive, must be a valid tar or zip file containing directory with sip files"
         elsif ! $!.to_s.index('Unknown archive extension')  || ! $!.to_s.index('Error extracting')
           agreement_errors << $!		

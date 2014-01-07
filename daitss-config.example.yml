@@ -65,6 +65,9 @@ core.example.org:
     refresh_throttle:            2
     withdrawal_throttle:         1
     queueing_discipline:         lifo
+    
+    #   Max file size for submission.  Size below is 100GB of virtual or actual size.
+    max_file_size:               107374182400
 
     smtp_server:                 smtp.ufl.edu
 
