@@ -77,7 +77,7 @@ EOF
     def email_dissemination_report package
       reply_to = archive.mailer_reply_to     
       account = package.project.account
-      xslt  = Nokogiri::XSLT(File.read('public/daitss_disseminate_report_xhtml.xsl'))
+      xslt  = Nokogiri::XSLT(File.read('public/daitss_report_xhtml.xsl'))
       doc = Nokogiri::XML disseminate_report package.id 
       transform = xslt.transform(doc)
       html = transform.to_s
