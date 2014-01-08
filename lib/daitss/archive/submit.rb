@@ -19,17 +19,12 @@ module Daitss
       package.sip = Sip.new :name => name
 
       agreement_errors = []
-      
-      # check file size against max file size
-      if File.size(sip_path) > archive.max_file_size
-        agreement_errors << "This ZIP package exceeds the maximum allowed size of %.3fGB." % [ archive.max_file_size.to_f / 1073741824 ]
-      end
-      
+
       # make a new sip archive
       begin
         rescued = nil
         sa = SipArchive.new sip_path
-
+     
       rescue
         sa = nil
         rescued = true
@@ -43,7 +38,14 @@ module Daitss
           agreement_errors <<"\nInvalid SIP descriptor. XML validation errors:" <<  $!
         end
       end
-
+      
+      # check file size against max file size
+      begin
+      if sa.size_in_bytes > archive.max_file_size
+        agreement_errors << "The SIP package exceeds the maximum allowed size of %.3fGB." % [ archive.max_file_size.to_f / 1073741824 ]
+      end
+      rescue
+      end
 
       begin 
 

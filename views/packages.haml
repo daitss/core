@@ -9,7 +9,11 @@
       %strong
         %em zip
       format
-
+      %br
+      Uncompressed package size must be less than
+      %strong
+        %em= "%.1f GB." %[archive.max_file_size.to_f/1073741824] 
+        
     %form{:action => '/package', :method => 'POST', :enctype => 'multipart/form-data'}
       %table
         %tr
