@@ -13,6 +13,7 @@ require 'nokogiri'
 
 require 'daitss/model'
 require 'daitss/archive'
+require 'open-uri'
 
 require 'spec_helper'
 
@@ -32,9 +33,31 @@ class MyWorld
   end
 
   def fixture name
-    File.join File.dirname(__FILE__), '..', 'fixtures', name
+    filename = File.join "http://www.fcla.edu/daitss-test/packages/", name
+    tmpfile = @tmpdir + '/' + name
+    puts tmpfile
+    File.open("#{tmpfile}", "wb") do |file|
+      file.write open("#{filename}").read
+    end
+    return tmpfile
   end
-
+  
+  #remove downloaded fixture
+  def rm_fixture tmpfile
+    FileUtils.remove_entry_secure "#{@tmpdir}" + '/' + "#{tmpfile}" + ".zip"
+  end
+  
+  #mk tmp dir for fixtures
+  def mktmpdir
+    @tmpdir = Dir.mktmpdir
+    puts "Tmp dir is #{@tmpdir}."
+  end
+  
+  #rm tmp dir for fixtures
+  def rm_tmpdir
+    FileUtils.remove_entry_secure @tmpdir
+  end
+    
   def packages
     @packages ||= []
   end
@@ -95,7 +118,7 @@ Before do
   op2.encrypt_auth('pass')
   op2.save or raise 'cannot save aff'
 
-
+  mktmpdir
 
   visit '/login'
   fill_in 'name', :with => 'operator'
@@ -108,7 +131,8 @@ end
 After do
   visit '/'
   click_button 'logout'
-
+  rm_tmpdir
+  
   Daitss.archive.workspace.each do |w|
     w.kill if w.running?
     FileUtils.rm_rf w.path

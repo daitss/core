@@ -3,8 +3,11 @@ Given /^I submit "([^"]*)"$/ do |package|
   When %Q(I select "#{package}" to upload)
   When %q(I press "Submit")
   Then %q(I should be at a package page)
+  #cleanup after each submit
+  rm_fixture(package)
   last_response.should be_ok
   packages << last_request.env["PATH_INFO"]
+  
 end
 
 Given /^(\d+) packages ingested on "([^"]*)"$/ do |count, date|
