@@ -33,9 +33,8 @@ class MyWorld
   end
 
   def fixture name
-    filename = File.join "http://www.fcla.edu/daitss-test/packages/", name
+    filename = "http://www.fcla.edu/daitss-test/packages/" + CGI.escape(name)
     tmpfile = @tmpdir + '/' + name
-    puts tmpfile
     File.open("#{tmpfile}", "wb") do |file|
       file.write open("#{filename}").read
     end
@@ -50,7 +49,6 @@ class MyWorld
   #mk tmp dir for fixtures
   def mktmpdir
     @tmpdir = Dir.mktmpdir
-    puts "Tmp dir is #{@tmpdir}."
   end
   
   #rm tmp dir for fixtures
