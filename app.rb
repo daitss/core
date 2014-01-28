@@ -212,6 +212,7 @@ get '/stylesheet.css' do
 end
 
 get '/' do
+  @is_op = is_op
   haml :index
 end
 
