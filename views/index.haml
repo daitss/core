@@ -12,10 +12,35 @@
 
 %h2
   = "Welcome #{@user.id}"
-
+  
 - if @is_op
+  - Account.all.each do |act|
+    %div
+      %h2= "Account: #{act.id} - SIP summary"
+      %table
+        %tr
+          %th count
+          %td= act.projects.packages.sips.all.count
+        %tr
+          %th files
+          %td= (act.projects.packages.sips.all.sum :number_of_datafiles)
+        %tr
+          %th total size
+          %td= sprintf('%.2f', act.projects.packages.sips.all.sum(:size_in_bytes).to_i / (1024*1024)) + " MB"
+    %div
+      %h2= "Account: #{act.id} - AIP summary"    
+      %table
+        %tr
+          %th count
+          %td= act.projects.packages.aips.count - act.projects.packages.aips.all(:datafile_count => 0).count - act.projects.packages.aips.all(:datafile_count => nil).count
+        %tr
+          %th files
+          %td= act.projects.packages.aips.all.sum :datafile_count
+        %tr
+          %th total size
+          %td= sprintf('%.2f', act.projects.packages.aips.copys.all.sum(:size).to_i / (1024*1024)) + " MB" 
   %hr
-  %h2 sip summary
+  %h2 SIP Total summary
   %table
     %tr
       %th count
@@ -25,9 +50,9 @@
       %td= (Sip.sum :number_of_datafiles )
     %tr
       %th total size
-      %td= sprintf('%.2f', Sip.sum(:size_in_bytes).to_i / 1000000) + " MB"
+      %td= sprintf('%.2f', Sip.sum(:size_in_bytes).to_i / (1024*1024)) + " MB"
   %hr
-  %h2 aip summary
+  %h2 AIP Total summary
   %table
     %tr
       %th count
@@ -37,7 +62,7 @@
       %td= Aip.sum :datafile_count
     %tr
       %th total size
-      %td= sprintf('%.2f', Copy.sum(:size).to_i / 1000000) + " MB"
+      %td= sprintf('%.2f', Copy.sum(:size).to_i / (1024*1024)) + " MB"
       
 - else
   %h2
