@@ -13,7 +13,36 @@
 %h2
   = "Welcome #{@user.id}"
   
+%form{:action => '/logout', :method => 'POST'}
+  %input{:type => 'submit', :value => 'logout'}    
+
+  
 - if @is_op
+  %hr
+  %h2 SIP Total summary
+  %table
+    %tr
+      %th count
+      %td= Sip.count
+    %tr
+      %th files
+      %td= (Sip.sum :number_of_datafiles )
+    %tr
+      %th total size
+      %td= sprintf('%.2f', Sip.sum(:size_in_bytes).to_i / (1024*1024)) + " MB"
+  %hr
+  %h2 AIP Total summary
+  %table
+    %tr
+      %th count
+      %td= Aip.count - Aip.all(:datafile_count  => 0).count - Aip.all(:datafile_count  => nil).count
+    %tr
+      %th files
+      %td= Aip.sum :datafile_count
+    %tr
+      %th total size
+      %td= sprintf('%.2f', Copy.sum(:size).to_i / (1024*1024)) + " MB"
+      
   - Account.all.each do |act|
     %div
       %h2= "Account: #{act.id} - SIP summary"
@@ -39,30 +68,7 @@
         %tr
           %th total size
           %td= sprintf('%.2f', act.projects.packages.aips.copys.all.sum(:size).to_i / (1024*1024)) + " MB" 
-  %hr
-  %h2 SIP Total summary
-  %table
-    %tr
-      %th count
-      %td= Sip.count
-    %tr
-      %th files
-      %td= (Sip.sum :number_of_datafiles )
-    %tr
-      %th total size
-      %td= sprintf('%.2f', Sip.sum(:size_in_bytes).to_i / (1024*1024)) + " MB"
-  %hr
-  %h2 AIP Total summary
-  %table
-    %tr
-      %th count
-      %td= Aip.count - Aip.all(:datafile_count  => 0).count - Aip.all(:datafile_count  => nil).count
-    %tr
-      %th files
-      %td= Aip.sum :datafile_count
-    %tr
-      %th total size
-      %td= sprintf('%.2f', Copy.sum(:size).to_i / (1024*1024)) + " MB"
+  
       
 - else
   %h2
@@ -90,6 +96,3 @@
       %th total size
       %td= sprintf('%.2f', @user.packages.aips.copys.all.sum(:size).to_i / (1024*1024)) + " MB"
     
-%form{:action => '/logout', :method => 'POST'}
-  %input{:type => 'submit', :value => 'logout'}    
-
