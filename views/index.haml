@@ -19,55 +19,42 @@
   
 - if @is_op
   %hr
-  %h2 SIP Total summary
+  %h2 Operator Summary and Breakdown
+ 
   %table
     %tr
-      %th count
+      %th Totals
+      %th SIP Count
+      %th SIP # Files
+      %th SIP Size in MB
+      %th AIP Count
+      %th AIP # Files
+      %th AIP Size in MB
+    %tr
+      %td 
       %td= Sip.count
-    %tr
-      %th files
       %td= (Sip.sum :number_of_datafiles )
-    %tr
-      %th total size
-      %td= sprintf('%.2f', Sip.sum(:size_in_bytes).to_i / (1024*1024)) + " MB"
-  %hr
-  %h2 AIP Total summary
-  %table
-    %tr
-      %th count
+      %td= sprintf('%.2f', Sip.sum(:size_in_bytes).to_i / (1024*1024))
       %td= Aip.count - Aip.all(:datafile_count  => 0).count - Aip.all(:datafile_count  => nil).count
-    %tr
-      %th files
       %td= Aip.sum :datafile_count
+      %td= sprintf('%.2f', Copy.sum(:size).to_i / (1024*1024))
     %tr
-      %th total size
-      %td= sprintf('%.2f', Copy.sum(:size).to_i / (1024*1024)) + " MB"
-      
-  - Account.all.each do |act|
-    %div
-      %h2= "Account: #{act.id} - SIP summary"
-      %table
-        %tr
-          %th count
-          %td= act.projects.packages.sips.all.count
-        %tr
-          %th files
-          %td= (act.projects.packages.sips.all.sum :number_of_datafiles)
-        %tr
-          %th total size
-          %td= sprintf('%.2f', act.projects.packages.sips.all.sum(:size_in_bytes).to_i / (1024*1024)) + " MB"
-    %div
-      %h2= "Account: #{act.id} - AIP summary"    
-      %table
-        %tr
-          %th count
-          %td= act.projects.packages.aips.count - act.projects.packages.aips.all(:datafile_count => 0).count - act.projects.packages.aips.all(:datafile_count => nil).count
-        %tr
-          %th files
-          %td= act.projects.packages.aips.all.sum :datafile_count
-        %tr
-          %th total size
-          %td= sprintf('%.2f', act.projects.packages.aips.copys.all.sum(:size).to_i / (1024*1024)) + " MB" 
+      %th Account
+      %th Sip Count
+      %th # Files
+      %th Total Size in MB
+      %th Aip Count
+      %th # Files
+      %th Total Size in MB
+    - Account.all.each do |act|
+      %tr
+        %td= "#{act.id}"
+        %td= act.projects.packages.sips.all.count
+        %td= (act.projects.packages.sips.all.sum :number_of_datafiles)
+        %td= sprintf('%.2f', act.projects.packages.sips.all.sum(:size_in_bytes).to_i / (1024*1024))
+        %td= act.projects.packages.aips.count - act.projects.packages.aips.all(:datafile_count => 0).count - act.projects.packages.aips.all(:datafile_count => nil).count
+        %td= act.projects.packages.aips.all.sum :datafile_count
+        %td= sprintf('%.2f', act.projects.packages.aips.copys.all.sum(:size).to_i / (1024*1024))
   
       
 - else
