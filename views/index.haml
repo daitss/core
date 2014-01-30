@@ -34,10 +34,10 @@
       %td 
       %td= Sip.count
       %td= (Sip.sum :number_of_datafiles )
-      %td= sprintf('%.2f', Sip.sum(:size_in_bytes).to_i / (1024*1024))
+      %td= sprintf('%.2f', Sip.sum(:size_in_bytes).to_f / (1024*1024))
       %td= Aip.count - Aip.all(:datafile_count  => 0).count - Aip.all(:datafile_count  => nil).count
       %td= Aip.sum :datafile_count
-      %td= sprintf('%.2f', Copy.sum(:size).to_i / (1024*1024))
+      %td= sprintf('%.2f', Copy.sum(:size).to_f / (1024*1024))
     %tr
       %th Account
       %th Sip Count
@@ -51,15 +51,16 @@
         %td= "#{act.id}"
         %td= act.projects.packages.sips.all.count
         %td= (act.projects.packages.sips.all.sum :number_of_datafiles)
-        %td= sprintf('%.2f', act.projects.packages.sips.all.sum(:size_in_bytes).to_i / (1024*1024))
+        %td= sprintf('%.2f', act.projects.packages.sips.all.sum(:size_in_bytes).to_f / (1024*1024))
         %td= act.projects.packages.aips.count - act.projects.packages.aips.all(:datafile_count => 0).count - act.projects.packages.aips.all(:datafile_count => nil).count
         %td= act.projects.packages.aips.all.sum :datafile_count
-        %td= sprintf('%.2f', act.projects.packages.aips.copys.all.sum(:size).to_i / (1024*1024))
+        %td= sprintf('%.2f', act.projects.packages.aips.copys.all.sum(:size).to_f / (1024*1024))
   
       
 - else
   %h2
-    = "SIP summary for user: #{@user.id}"
+    = "SIP summary for account: #{@user.account.id}"
+  SIP summary includes all archival submission attemps including rejected packages.  
   %table
     %tr
       %th count
@@ -69,9 +70,10 @@
       %td= (@user.packages.sips.all.sum :number_of_datafiles)
     %tr
       %th total size
-      %td= sprintf('%.2f', @user.packages.sips.all.sum(:size_in_bytes).to_i / (1024*1024)) + " MB"
+      %td= sprintf('%.2f', @user.packages.sips.all.sum(:size_in_bytes).to_f / (1024*1024)) + " MB"
   %h2
-    = "AIP summary for user: #{@user.id}"
+    = "AIP summary for account: #{@user.account.id}"
+  AIP summary consists of all packages currently archived.
   %table
     %tr
       %th count
@@ -81,5 +83,5 @@
       %td= @user.packages.aips.all.sum :datafile_count
     %tr
       %th total size
-      %td= sprintf('%.2f', @user.packages.aips.copys.all.sum(:size).to_i / (1024*1024)) + " MB"
+      %td= sprintf('%.2f', @user.packages.aips.copys.all.sum(:size).to_f / (1024*1024)) + " MB"
     
