@@ -34,10 +34,10 @@
       %td 
       %td.dash= Sip.count
       %td.dash= (Sip.sum :number_of_datafiles )
-      %td.dash= sprintf('%.2f', Sip.sum(:size_in_bytes).to_f / (1024*1024))
+      %td.dash= sprintf('%.2f', Sip.sum(:size_in_bytes).to_f / (1024*1024)).reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
       %td.dash= Aip.count - Aip.all(:datafile_count  => 0).count - Aip.all(:datafile_count  => nil).count
       %td.dash= Aip.sum :datafile_count
-      %td.dash= sprintf('%.2f', Copy.sum(:size).to_f / (1024*1024))
+      %td.dash= sprintf('%.2f', Copy.sum(:size).to_f / (1024*1024)).reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
     %tr
       %th Account
       %th Sip Count
@@ -70,7 +70,7 @@
       %td.dash= (@user.packages.sips.all.sum :number_of_datafiles)
     %tr
       %th total size
-      %td.dash= sprintf('%.2f', @user.packages.sips.all.sum(:size_in_bytes).to_f / (1024*1024)) + " MB"
+      %td.dash= sprintf('%.2f', @user.packages.sips.all.sum(:size_in_bytes).to_f / (1024*1024)).reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse + " MB"
   %h2
     = "AIP summary for account: #{@user.account.id}"
   AIP summary consists of all packages currently archived.
@@ -83,5 +83,5 @@
       %td.dash= @user.packages.aips.all.sum :datafile_count
     %tr
       %th total size
-      %td.dash= sprintf('%.2f', @user.packages.aips.copys.all.sum(:size).to_f / (1024*1024)) + " MB"
+      %td.dash= sprintf('%.2f', @user.packages.aips.copys.all.sum(:size).to_f / (1024*1024)).reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse + " MB"
     
