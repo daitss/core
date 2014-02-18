@@ -46,15 +46,15 @@
       %th Aip Count
       %th # Files
       %th Total Size in MB
-    - Account.all.each do |act|
-      %tr
-        %td= "#{act.id}"
-        %td.dash= act.projects.packages.sips.all.count
-        %td.dash= (act.projects.packages.sips.all.sum :number_of_datafiles)
-        %td.dash= sprintf('%.2f', act.projects.packages.sips.all.sum(:size_in_bytes).to_f / (1024*1024))
-        %td.dash= act.projects.packages.aips.count - act.projects.packages.aips.all(:datafile_count => 0).count - act.projects.packages.aips.all(:datafile_count => nil).count
-        %td.dash= act.projects.packages.aips.all.sum :datafile_count
-        %td.dash= sprintf('%.2f', act.projects.packages.aips.copys.all.sum(:size).to_f / (1024*1024))
+    / - Account.all.each do |act|
+    /  %tr
+    /    %td= "#{act.id}"
+    /    %td.dash= act.projects.packages.sips.all.count
+    /    %td.dash= (act.projects.packages.sips.all.sum :number_of_datafiles)
+    /    %td.dash= sprintf('%.2f', act.projects.packages.sips.all.sum(:size_in_bytes).to_f / (1024*1024))
+    /    %td.dash= act.projects.packages.aips.count - act.projects.packages.aips.all(:datafile_count => 0).count - act.projects.packages.aips.all(:datafile_count => nil).count
+    /    %td.dash= act.projects.packages.aips.all.sum :datafile_count
+    /    %td.dash= sprintf('%.2f', act.projects.packages.aips.copys.all.sum(:size).to_f / (1024*1024))
   
       
 - else
