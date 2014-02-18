@@ -32,11 +32,11 @@
       %th AIP Size in MB
     %tr
       %td 
-      %td.dash= Sip.count
-      %td.dash= (Sip.sum :number_of_datafiles )
+      %td.dash= Sip.count.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+      %td.dash= (Sip.sum :number_of_datafiles ).to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
       %td.dash= sprintf('%.2f', Sip.sum(:size_in_bytes).to_f / (1024*1024)).reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
-      %td.dash= Aip.count - Aip.all(:datafile_count  => 0).count - Aip.all(:datafile_count  => nil).count
-      %td.dash= Aip.sum :datafile_count
+      %td.dash= (Aip.count - Aip.all(:datafile_count  => 0).count - Aip.all(:datafile_count  => nil).count).to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+      %td.dash= (Aip.sum :datafile_count).to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
       %td.dash= sprintf('%.2f', Copy.sum(:size).to_f / (1024*1024)).reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
     %tr
       %th Account
@@ -64,10 +64,10 @@
   %table
     %tr
       %th count
-      %td.dash= @user.packages.sips.all.count
+      %td.dash= @user.packages.sips.all.count.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
     %tr
       %th files
-      %td.dash= (@user.packages.sips.all.sum :number_of_datafiles)
+      %td.dash= (@user.packages.sips.all.sum :number_of_datafiles).to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
     %tr
       %th total size
       %td.dash= sprintf('%.2f', @user.packages.sips.all.sum(:size_in_bytes).to_f / (1024*1024)).reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse + " MB"
@@ -77,10 +77,10 @@
   %table
     %tr
       %th count
-      %td.dash= @user.packages.aips.count - @user.packages.aips.all(:datafile_count => 0).count - @user.packages.aips.all(:datafile_count => nil).count
+      %td.dash= (@user.packages.aips.count - @user.packages.aips.all(:datafile_count => 0).count - @user.packages.aips.all(:datafile_count => nil).count).to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
     %tr
       %th files
-      %td.dash= @user.packages.aips.all.sum :datafile_count
+      %td.dash= (@user.packages.aips.all.sum :datafile_count).to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
     %tr
       %th total size
       %td.dash= sprintf('%.2f', @user.packages.aips.copys.all.sum(:size).to_f / (1024*1024)).reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse + " MB"
