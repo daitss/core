@@ -46,17 +46,22 @@
       %th Aip Count
       %th # Files
       %th Total Size in MB
-    / - Account.all.each do |act|
-    /  %tr
-    /    %td= "#{act.id}"
-    /    %td.dash= act.projects.packages.sips.all.count
-    /    %td.dash= (act.projects.packages.sips.all.sum :number_of_datafiles)
-    /    %td.dash= sprintf('%.2f', act.projects.packages.sips.all.sum(:size_in_bytes).to_f / (1024*1024))
-    /    %td.dash= act.projects.packages.aips.count - act.projects.packages.aips.all(:datafile_count => 0).count - act.projects.packages.aips.all(:datafile_count => nil).count
-    /    %td.dash= act.projects.packages.aips.all.sum :datafile_count
-    /    %td.dash= sprintf('%.2f', act.projects.packages.aips.copys.all.sum(:size).to_f / (1024*1024))
-  
-      
+    - @sip_data.each do |account|
+      %tr
+        %td= account.project_account_id
+        %td.dash= account.sip_count.to_i.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+        %td.dash= account.file_count.to_i.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+        %td.dash= sprintf('%.2f', account.size.to_f / (1024*1024)).reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+        - @aip_data.each_with_index do |act, i|
+          - if act.project_account_id == account.project_account_id
+            %td.dash= act.aip_count.to_i.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+            %td.dash= act.file_count.to_i.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+            %td.dash= sprintf('%.2f', act.size.to_f / (1024*1024)).reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+            - break
+          - elsif i == @aip_data.size-1
+            %td.dash= " "
+            %td.dash= " "
+            %td.dash= " "
 - else
   %h2
     = "SIP summary for account: #{@user.account.id}"
