@@ -1,6 +1,7 @@
 require 'libxml'
 require 'daitss/xmlns'
 require 'daitss/proc/xmlvalidation'
+require 'ruby-debug'
 
 module Daitss
 
@@ -14,51 +15,57 @@ module Daitss
     AGREEMENT_INFO_XPATH =  "//M:amdSec/M:digiprovMD/M:mdWrap/M:xmlData/daitss:daitss/daitss:AGREEMENT_INFO"
 
     attr_reader :path, :errors, :owner_ids
+    
+    # check content file name validity
+    # see RFC2396
+    #  2.2 Reserved Characters donot allow  ;  /  ?  :  @  &  =  +  $  ,     - URI href:xlink
+    #  2.4.3    unwise         donot allow  {  }  |  \  ^  [  ]  `         in the URI unless escaped
+    #  also weed out hidden files that begin with a period
+    #  2.3  Unreserved characters are not excluded they  are          -  _  .  !  ~  *  '  (  )
+    def char_check filename
+      raise "#{filename}"                        if filename =~ /^\./  # hidden file not allowed
+      #raise "invalid character in file name: #{filename}\nreserved characters  ; / ? : @ & = + $ ,"  if filename =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
+      raise "#{filename}\nsemi-colon  ;"         if filename =~ /[\;]/
+      raise "#{filename}\nquestion mark  ? "     if filename =~ /[\?]/
+      raise "#{filename}\ncolon  :"              if filename =~ /[\:]/
+      raise "#{filename}\nat sign  @"            if filename =~ /[\@]/
+      raise "#{filename}\nampersand  &"          if filename =~ /[\&]/
+      raise "#{filename}\nequal  ="              if filename =~ /[\=]/
+      raise "#{filename}\nplus  +"               if filename =~ /[\+]/
+      raise "#{filename}\ndollar  $"             if filename =~ /[\$]/
+      raise "#{filename}\ncomma  ,"              if filename =~ /[\,]/
+      raise "#{filename}\ndouble quote \""       if filename =~ /[\"]/
+      # backslash is an unwise character but it never gets this far:
+      # ABCDE\FGHI.zip  will be parsed as   FGHI.zip  and most likely will result in message:   FGHI.zip is not a package
+      #raise "invalid character in file name: #{filename}\nunwise characters  { } | \\ ^ [ ] `"        if filename =~ /[\{\}\|\\\^\[\]\`]/       # unwise
+      raise "#{filename}\nopen brace  {"         if filename =~ /[\{]/
+      raise "#{filename}\nclose brace  }"        if filename =~ /[\}]/
+      raise "#{filename}\nback slash  \\"        if filename =~ /[\\]/
+      raise "#{filename}\ncaret  ^"              if filename =~ /[\^]/
+      raise "#{filename}\nopen bracket  []"      if filename =~ /[\[]/
+      raise "#{filename}\nclose bracket  ]"      if filename =~ /[\]]/
+      raise "#{filename}\ngrave accent  `"       if filename =~ /[\`]/
+      raise "#{filename}\npipe  |"               if filename =~ /[\|]/
+      #raise "invalid character in file name: #{filename}\ndelim characters  < > # % \" space"        if filename =~ /[\<\>\#\%\"\ ]/           # delims
+      raise "#{filename}\nless than  <"          if filename =~ /[\<]/
+      raise "#{filename}\nmore than  >"          if filename =~ /[\>]/
+      raise "#{filename}\npound  #"              if filename =~ /[\#]/
+      raise "#{filename}\npercent  %"            if filename =~ /[\%]/  
+      #raise "invalid character in file name: #{filename}\nproblem characters  ! ' ( )  * \\ "        if filename =~ /[\!\'\(\)\*\\]/            # bothersome
+	    raise "#{filename}\ntwo or more spaces in a row"     if filename =~ /[\ ]{2,}/
+	  end
 
     def initialize path
       path = File.expand_path path
 
-
       filename = File.basename path
       
+      begin
+        char_check filename #raises exception
+      rescue => e
+        raise "\nInvalid character in package name: #{e.message}"
+      end
       
-      raise "#{filename} size exceeds maximum 100GB (107,374,182,400 bytes) size: #{File.size(path)}  "  if File.size(path) > 107374182400
-      
-      raise "\nInvalid character in package name: #{filename}"    if filename =~ /^\./  # hidden file not allowed
-
-      #raise "invalid character in file name: #{filename}\nreserved characters  ; / ? : @ & = + $ ,"  if filename =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
-      raise "\nInvalid character in package name: #{filename}\nsemi-colon  ;"         if filename =~ /[\;]/
-      raise "\nInvalid character in package name: #{filename}\nquestion mark  ? "     if filename =~ /[\?]/
-      raise "\nInvalid character in package name: #{filename}\ncolon  :"              if filename =~ /[\:]/
-      raise "\nInvalid character in package name: #{filename}\nat sign  @"            if filename =~ /[\@]/
-      raise "\nInvalid character in package name: #{filename}\nampersand  &"          if filename =~ /[\&]/
-      raise "\nInvalid character in package name: #{filename}\nequal  ="              if filename =~ /[\=]/
-      raise "\nInvalid character in package name: #{filename}\nplus  +"               if filename =~ /[\+]/
-      raise "\nInvalid character in package name: #{filename}\ndollar  $"             if filename =~ /[\$]/
-      raise "\nInvalid character in package name: #{filename}\ncomma  ,"              if filename =~ /[\,]/
-      raise "\nInvalid character in package name: #{filename}\ndouble quote \""       if filename =~ /[\"]/
-
-      # backslash is an unwise character but it never gets this far:
-      # ABCDE\FGHI.zip  will be parsed as   FGHI.zip  and most likely will result in message:   FGHI.zip is not a package
-      #raise "invalid character in file name: #{filename}\nunwise characters  { } | \\ ^ [ ] `"        if filename =~ /[\{\}\|\\\^\[\]\`]/       # unwise
-      raise "\nInvalid character in package name: #{filename}\nopen brace  {"          if filename =~ /[\{]/
-      raise "\nInvalid character in package name: #{filename}\nclose brace  }"         if filename =~ /[\}]/
-      raise "\nInvalid character in package name: #{filename}\nback slash  \\"         if filename =~ /[\\]/
-      raise "\nInvalid character in package name: #{filename}\ncaret  ^"               if filename =~ /[\^]/
-      raise "\nInvalid character in package name: #{filename}\nopen bracket  []"       if filename =~ /[\[]/
-      raise "\nInvalid character in package name: #{filename}\nclose bracket  ]"       if filename =~ /[\]]/
-      raise "\nInvalid character in package name: #{filename}\ngrave accent  `"        if filename =~ /[\`]/
-      raise "\nInvalid character in package name: #{filename}\npipe  |"                if filename =~ /[\\]/
-
-      #raise "invalid character in file name: #{filename}\ndelim characters  < > # % \" space"        if filename =~ /[\<\>\#\%\"\ ]/           # delims
-      raise "\nInvalid character in package name: #{filename}\nless than  <"          if filename =~ /[\<]/
-      raise "\nInvalid character in package name: #{filename}\nmore than  ;"          if filename =~ /[\>]/
-      raise "\nInvalid character in package name: #{filename}\npound  #"              if filename =~ /[\#]/
-      raise "\nInvalid character in package name: #{filename}\npercent  %"            if filename =~ /[\%]/  
-
-      #raise "invalid character in file name: #{filename}\nproblem characters  ! ' ( )  * \\ "        if filename =~ /[\!\'\(\)\*\\]/            # bothersome
-
-
       ext = File.extname path
       name = File.basename path, ext
 
@@ -93,111 +100,49 @@ module Daitss
       if name.length > MAX_NAME_LENGTH
         es[:package_name] << "\nPackage name contains too many characters (#{name.length}) max is #{MAX_NAME_LENGTH}"
       end
-
-
+      
       # check for missing descriptor
       es[:descriptor_presence] << "\nMissing SIP descriptor." unless File.file? descriptor_file
 
       # check for valid descriptor
-      if es[:descriptor_presence].empty?
-	#xml_initial_validation      
+      if es[:descriptor_presence].empty?   
         validation_errors = validate_xml descriptor_file
 
         unless validation_errors.empty?
           es[:descriptor_valid] << "\nInvalid SIP descriptor. XML validation errors:"
           es[:descriptor_valid] += validation_errors.map { |e| "\nline:#{e[:line]}: msg:#{e[:message]}" }
         end
-
       end
-
-
-     unless  es[:descriptor_valid].empty?
-             xmlmsgp = es[:descriptor_valid]
-             xmlmsga = es[:descriptor_valid]
-	     if xmlmsgp.join.index("'")
-	       es[:agreement_info] << "\nProject code missing in SIP descriptor." if xmlmsgp.join.gsub!("'","").index("The value  of attribute PROJECT on element daitss:AGREEMENT_INFO is not valid with respect to its type")
-               xmlmsga = es[:descriptor_valid]
-               es[:agreement_info] << "\nAccount code missing in SIP descriptor." if xmlmsga.join.gsub!("'","").index("The value  of attribute ACCOUNT on element AGREEMENT_INFO is not valid with respect to its type")
-	     end
-      end 
-
-
 
       # check for a single agreement info
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty?
         ainfo = descriptor_doc.find_first AGREEMENT_INFO_XPATH, NS_PREFIX
-
         es[:agreement_info] << "\nSIP descriptor contains no AGREEMENT_INFO element." unless ainfo
-        
-	es[:agreement_info] << "\nAccount code missing in SIP descriptor." if ainfo.nil? or ainfo['ACCOUNT'].to_s.strip.empty?
-	es[:agreement_info] << "\nProject code missing in SIP descriptor." if ainfo.nil? or ainfo['PROJECT'].to_s.strip.empty?
+        es[:agreement_info] << "\nAccount code missing in SIP descriptor." if ainfo.nil? or ainfo['ACCOUNT'].to_s.strip.empty?
+        es[:agreement_info] << "\nProject code missing in SIP descriptor." if ainfo.nil? or ainfo['PROJECT'].to_s.strip.empty?
       end
 
       # check for content files
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty?
         es[:content_file_presence] << "\nmissing content file" if content_files.empty?
-
         content_files.each do |f|
-
           unless Dir.chdir(path) { File.exist? f }
             es[:content_file_presence] << "\nCannot find content file listed in SIP descriptor: #{f}"
           end
-          
-          es[:content_file_name_validity] << "\nInvalid file name: #{f}\nlength: #{f.length}, exceeds maximum 220  ;"  if (f.length > 220)
-         
-
         end
       end
-      # check content file name validity
-      # see RFC2396
-      #  2.2 Reserved Characters donot allow  ;  /  ?  :  @  &  =  +  $  ,     - URI href:xlink
-      #  2.4.3    unwise         donot allow  {  }  |  \  ^  [  ]  `         in the URI unless escaped
-      #  also weed out hidden files that begin with a period
-      #  2.3  Unreserved characters are not excluded they  are          -  _  .  !  ~  *  '  (  )         
+      
+      # check content file name validity         
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty? and es[:content_file_presence].empty?
         content_files.each do |f|
-          es[:content_file_name_validity] << "\nInvalid character in file name: #{f}" if f =~ /^\./
-          
-         
-         # es[:content_file_name_validity] << "invalid character in file name: #{f}\nreserved characters  ; / ? : @ & = + $ ," if f =~ /[\;\/\?\:\@\&\=\+\$\,]/   # reserved
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nsemi-colon  ;"         if f =~ /[\;]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nquestion mark  ? "     if f =~ /[\?]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\ncolon  :"              if f =~ /[\:]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nat sign  @"            if f =~ /[\@]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nampersand  &"          if f =~ /[\&]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nequal  ="              if f =~ /[\=]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nplus  +"               if f =~ /[\+]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\ndollar  $"             if f =~ /[\$]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\ncomma  ,"              if f =~ /[\,]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\ndouble quote \""       if f =~ /[\"]/
-	   
-	       #es[:content_file_name_validity] << "invalid character in file name: #{f}\nunwise characters { } \\ ^ [ ] `" if f =~ /[\{\}\|\\\^\[\]\`]/       # unwise
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nopen brace  {"          if f =~ /[\{]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nclose brace  }"         if f =~ /[\}]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nback slash  \\"         if f =~ /[\\]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\npipe  |"                if f =~ /[\|]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\ncaret  ^"               if f =~ /[\^]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nopen bracket  ["        if f =~ /[\[]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nclose bracket  ]"       if f =~ /[\]]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\ngrave accent  ``"       if f =~ /[\`]/
-
-	       #es[:content_file_name_validity] << "invalid character in file name: #{f}\ndelims characters < > # % \" space" if f =~ /[\<\>\#\%\"\ ]/           # delims
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nless than  <"          if f =~ /[\<]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\nmore than  ;"          if f =~ /[\>]/
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\npound  #"              if f =~ /[\#]/
-	       
-	       #  an escaped percent ala URL encode should be ok.  this means a % followed by two hex digits like %2b  for the plus sign
-	       # a package that has X%20Y will be unescaped to be  X Y  and this is ALLOWED but only for single spaace
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\npercent  %"            if f =~ /[\%]/
-	       
-	       #es[:content_file_name_validity] << "invalid character in file name: #{f}\ntilde  ~"                   if f =~ /[\~]/
-	       #es[:content_file_name_validity] << "invalid character in file name: #{f}\nasterisk  *"                if f =~ /[\*]/
-	       #es[:content_file_name_validity] << "invalid character in file name: #{f}\nsingle quote  \'"           if f =~ /[\']/
-	                
-                                       
-	       es[:content_file_name_validity] << "\nInvalid character in file name: #{f}\ntwo or more spaces in a row"             if f =~ /[\ ]{2,}/                                                                                                   if f =~ /[\ ]{2,}/
-	end
+          begin 
+            char_check f
+          rescue => e
+            es[:content_file_name_validity] << "\nInvalid character in file name: #{e.message}"
+          end
+	      end  
       end
+      
       # check content file fixity
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty? and es[:content_file_presence].empty?
 
@@ -205,17 +150,13 @@ module Daitss
 
           content_files_with_checksums.each do |f_uri, expected, expected_type|
             f = URI.unescape f_uri
-
             # try to infer expected type if not provided
             if expected_type.nil? or expected_type.empty?
-
               expected_type = case expected
                               when %r{^[a-fA-F0-9]{32}$} then 'MD5'
                               when %r{^[a-fA-F0-9]{40}$} then 'SHA-1'
                               end
-
             end
-
             # compute the checksum
             computed = case expected_type
                        when "MD5" then Digest::MD5.file(f).hexdigest
@@ -231,78 +172,39 @@ module Daitss
 MSG
               es[:content_file_fixity] << "\n" << message
             end
-
           end
-
         end
-
       end
-
       @errors = es.values.flatten
     end
 
     def extract_owner_ids
-
       @descriptor_doc.find("/M:mets/M:fileSec//M:file[M:FLocat/@xlink:href]", NS_PREFIX).each do |node|
         href = node.find_first('M:FLocat', NS_PREFIX)['href']
         f = URI.unescape href
         @owner_ids[f] = node['OWNERID'] if node['OWNERID']
       end
-
     end
 
     # the sum of all the files' size in bytes
     def size_in_bytes
-
       files.inject(0) do |sum, f|
         path = File.join self.path, f
         sum + File.size(path)
       end
-
-    end
-
-    def xml_initial_validation
-	 xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
-         node = descriptor_doc.find_first xpath, NS_PREFIX
-	 node
-    rescue Exception => e
-	  raise "\nInvalid SIP descriptor. XML validation errors: "  << "\n" << $!
-    end
-
-        
-    def multiple_agreements
-      count = descriptor_file_string.scan("<AGREEMENT_INFO ").size
     end
 
     def account
-	    descriptor_doc_string = descriptor_file_string
-	    beginidx = descriptor_doc_string.index('AGREEMENT_INFO') 
-	    raise "AccountException1" if    !beginidx
-	    endidx = descriptor_doc_string.index('/>',beginidx)
-	    raise "AccountException2" if    !endidx
-	    agreement_info = descriptor_doc_string[beginidx..endidx]
-	    accountidx = agreement_info.index(" ACCOUNT=")
-	    # !accountidx will be true only when accountidx is nil
-	    raise "AccountException3"  if !accountidx 
-	    finalquoteidx =  agreement_info.index('"',accountidx+10)
-	    raise "AccountException4" if     !finalquoteidx  || (finalquoteidx >= accountidx+50 )
-	    acc = agreement_info[accountidx+10..finalquoteidx - 1]
-	  end
+	    xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
+      node = descriptor_doc.find_first xpath, NS_PREFIX
+	    node.value rescue nil
+    end
 
-      def project
-	    	 descriptor_doc_string = descriptor_file_string
-         beginidx = descriptor_doc_string.index('AGREEMENT_INFO')
-         raise "ProjectException1" if    !beginidx
-         endidx = descriptor_doc_string.index('/>',beginidx)
-         raise "ProjectException2" if    !endidx 
-	       agreement_info = descriptor_doc_string[beginidx..endidx]
-	       projectidx = agreement_info.index(" PROJECT=")
-         raise "ProjectException3"  if    !projectidx 
-	       finalquoteidx =  agreement_info.index('"',projectidx+10)
-	    	 raise "ProjectException4" if    !finalquoteidx || finalquoteidx >= projectidx+50 
-         prj = agreement_info[projectidx+10..finalquoteidx - 1]
-       end
-
+    def project
+	    xpath = "#{AGREEMENT_INFO_XPATH}/@PROJECT"
+      node = descriptor_doc.find_first xpath, NS_PREFIX
+	    node.value rescue nil
+    end
 
     def title
       issue_vol_title["title"]
@@ -362,7 +264,6 @@ MSG
       # check if vol/issue are in structMap
       struct_vol_node = descriptor_doc.find_first(structmap_orderlabel_volume_xpath, NS_PREFIX)
       struct_issue_node = descriptor_doc.find_first(structmap_orderlabel_issue_xpath, NS_PREFIX)
-
       struct_volume = struct_vol_node["ORDERLABEL"] ? struct_vol_node["ORDERLABEL"] : struct_vol_node["LABEL"] if struct_vol_node
       struct_issue = struct_issue_node["ORDERLABEL"] ? struct_issue_node["ORDERLABEL"] : struct_issue_node["LABEL"] if struct_issue_node
 
@@ -398,12 +299,10 @@ MSG
       unless @ivt["title"]
         marc_title_a = descriptor_doc.find_first(marc_title_a_xpath, NS_PREFIX)
         marc_title_b = descriptor_doc.find_first(marc_title_b_xpath, NS_PREFIX)
-
         marc_title = marc_title_a.content if marc_title_a
         marc_title += " " + marc_title_b.content if marc_title_b
 
         @ivt["title"] = marc_title ? marc_title : nil
-
         marc_issue_vol = descriptor_doc.find_first(marc_issue_vol_xpath, NS_PREFIX)
 
         if marc_issue_vol
@@ -449,13 +348,8 @@ MSG
       descriptor_doc.root['OBJID']
     end
 
-    def descriptor_file_string
-  	  file_string = File.read(descriptor_file)
-    end
-
     def descriptor_doc
-      @descriptor_file_string = File.read(descriptor_file)	    
-      descriptor_doc ||= XML::Document.string @descriptor_file_string
+      @descriptor_doc ||= XML::Document.string File.read(descriptor_file)
     end
 
     def name
@@ -476,7 +370,6 @@ MSG
         cst = n['CHECKSUMTYPE']
         [path, cs, cst]
       end
-
     end
 
     def content_files
@@ -489,18 +382,17 @@ MSG
     end
 
     def undescribed_files
-       Dir.chdir @path do
+      Dir.chdir @path do
         pattern = File.join *%w(** *)
         all_files = Dir[pattern]
         all_files = all_files - content_files - [ "#{name}.xml" ]
         dir_files = []
         all_files.each do |f|
-	  dir_files = dir_files + ["#{f}"]  if File.directory?(f)
-	end
-	all_files - dir_files
+	        dir_files = dir_files + ["#{f}"]  if File.directory?(f)
+	      end
+	      all_files - dir_files
       end
     end
-
   end
 
 end

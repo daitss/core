@@ -1,5 +1,6 @@
 require 'daitss/archive'
 require 'daitss/proc/wip/from_sip'
+require 'ruby-debug'
 
 module Daitss
 
@@ -22,60 +23,29 @@ module Daitss
 
       # make a new sip archive
       begin
-        rescued = nil
-        sa = SipArchive.new sip_path
-
-      rescue
+        sa = SipArchive.new sip_path #raises errors in xpath xml
+                
+      rescue => e 
         sa = nil
-        rescued = true
-        if $!.to_s.index('\nNo such file or directory')
-          agreement_errors << "\nmissing descriptor"
-        elsif $!.to_s.index('rror extracting')
-          agreement_errors << "\nCannot extract sip archive, must be a valid tar or zip file containing directory with sip files"
-        elsif ! $!.to_s.index('Unknown archive extension')  || ! $!.to_s.index('Error extracting')
-          agreement_errors << $!		
-        else  
-          agreement_errors <<"\nInvalid SIP descriptor. XML validation errors:" <<  $!
-        end
+        
+        agreement_errors << e.message #xml errors
+        a_id = agent.account.id
+        p_id = agent.account.default_project.id
       end
-
-
-      begin 
-
-        count = sa.multiple_agreements
-        if count > 1
-          rescued = true
-          agreement_errors << "\nSIP descriptor contains mulitple AGREEMENT_INFO elements."
-        end
-        #sa.xml_initial_validation
-        if !rescued
-          rescued = nil
-          a_id = sa.account
-        end
-      rescue
-        rescued = true
-        account = a_id
-        agreement_errors << "\nNot able to determine Account code in package #{filename};"
-      end 
+      
       begin
-        if !rescued	     
-          p_id = sa.project
-        end 
-      rescue
-        rescued = true
-        project =  p_id
-        agreement_errors << "\nNot able to determine Account code in package #{filename}"
-      end 
-      begin
-        sa.xml_initial_validation unless rescued
-      rescue
-        agreement_errors <<  $!      
-        sa = nil
+        a_id = sa.account unless a_id == agent.account.id
+        p_id = sa.project unless p_id == 'default'
+      rescue => e
+        agreement_errors << e.message #descriptor errors (missing-account, missing-project, missing descriptor)
       end
+      
       # validate account and project outside of class
-
+      agreement_errors << "\nNot able to determine Account code in package #{filename}" if a_id == ""
+      agreement_errors << "\nNot able to determine Project code in package #{filename}" if p_id == ""
+      
       # determine the project to use
-      if !rescued && (p_id != 'default' and agent.kind_of?(Operator) or agent.account.id == a_id)
+      if p_id != 'default' and agent.kind_of?(Operator) or agent.account.id == a_id
         account = Account.get(a_id)
 
         if account
@@ -84,26 +54,25 @@ module Daitss
           if project
             project.packages << package
           else
-            agreement_errors << "\nProject code \"#{p_id}\" is not valid for account \"#{a_id}\""
+            agreement_errors << "\nProject code #{p_id} is not valid for account #{a_id}"
             account.default_project.packages  << package
           end
 
         else
-          agreement_errors << "\nAccount \"#{a_id}\" does not exist"
+          agreement_errors << "\nAccount #{a_id} does not exist in database"
           agent.account.default_project.packages  << package
         end
 
       elsif sa == nil and p_id == 'default'
         agent.account.default_project.packages  << package
 
-      elsif !rescued
-        agreement_errors << "\nYou are not authorized to submit to Account \"#{a_id}\""
-        agent.account.default_project.packages  << package
       else
-        agent.account.default_project.packages  << package     
+        agreement_errors << "\nCannot submit to account #{a_id}"
+        agent.account.default_project.packages  << package
       end
+      
       # set name to "unnamed" if sip archive was not extracted
-      ####name = sa ? sa.name : "unnamed"
+      ###name = sa ? sa.name : "unnamed"
 
       package.sip = Sip.new :name => name
       package.sip.number_of_datafiles = sa.files.size rescue nil
@@ -127,12 +96,15 @@ module Daitss
           unless package.save
             raise "cannot save package: #{package.id}"
           end
+          
 
           if sa and sa.valid? and agreement_errors.empty?
-            event_note += "\n\n"
-            event_note += sa.undescribed_files.map { |f| "File not listed in SIP descriptor not retained: #{f}" }.join("\n")
-            wip = Wip.from_sip_archive workspace, package, sa
-            package.log 'submit', :agent => agent, :notes => event_note
+            begin 
+              event_note += "\n\n"
+              event_note += sa.undescribed_files.map { |f| "File not listed in SIP descriptor not retained: #{f}" }.join("\n")
+              wip = Wip.from_sip_archive workspace, package, sa
+              package.log 'submit', :agent => agent, :notes => event_note
+            end
           else
             if sa
               combined_errors = (agreement_errors + sa.errors).join "\n"
