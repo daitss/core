@@ -44,24 +44,25 @@ Feature: interactive submission
     And there should be a reject report delivery record
     Examples:
       | package                           | event  | note |
-      | FDCONTENTAMPER                    | reject | Invalid SIP descriptor. XML validation errors:    |
+      | FDCONTENTAMPER                    | reject | Invalid SIP descriptor. XML validation errors: |
       | non-utf8-package3                 | reject | Fatal error: Input is not proper UTF-8    |
       | premature_eof                     | reject | Fatal error: Premature end of data    |
       | PrefixNotBound                    | reject | EOFError: end of file reached          |
-      | FDAD25ded_missing_project         | reject |Not able to determine Account code in package |
+      | FDAD25ded_missing_project         | reject | Invalid SIP descriptor. XML validation errors: |
       | missing-agreement                 | reject | SIP descriptor contains no AGREEMENT_INFO element. |
       | multiple-agreements               | reject | SIP descriptor contains mulitple AGREEMENT_INFO elements |
       | ateam-descriptor-broken           | reject | Invalid SIP descriptor. |
       | FDCONTENTDOUBLEQUOTE              | reject | Invalid SIP descriptor. XML validation errors:  |
       | checksum-mismatch                 | reject | MD5 checksum mismatch for ateam.tiff |
-      | missing-account                   | reject | Account code missing in SIP descriptor |
+      | missing-account                   | reject | Not able to determine Account code |
       | missing-content-file              | reject | Cannot find content file listed in SIP descriptor: ateam.tiff |
-      | missing-project                   | reject | Project code missing in SIP descriptor |
-      | bad-account                       | reject | does not exist |
+      | missing-project                   | reject | Not able to determine Project code |
+      | bad-account                       | reject | Account DNE does not exist |
       | bad-project                       | reject | Project code "DNE" is not valid for account "ACT" |
-      | non-package                       | reject |  Cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
-      | ateam_rar_as_zip                  | reject |  Cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
-      | non-package                       | reject |  Cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
+      | non-package-tar                   | reject | Error extracting non-package-tar.tar |
+      | non-package-zip                   | reject | Error extracting non-package-zip.zip |
+      | non-package-text                  | reject | Cannot extract sip archive, must be a valid tar or zip file containing directory with sip files |
+      | ateam_rar_as_zip                  | reject | Error extracting ateam_rar_as_zip.zip |
       | FD"A                              | reject | Invalid character in package name: FD"A.zip |
       | FD#A                              | reject | Invalid character in package name: FD#A.zip |
       | FD$A                              | reject | Invalid character in package name: FD$A.zip |
@@ -78,17 +79,17 @@ Feature: interactive submission
       | FD?A                              | reject | Invalid character in package name: FD?A.zip |
       | FD@A                              | reject | Invalid character in package name: FD@A.zip |
       | FD[A                              | reject | Invalid character in package name: FD[A.zip |
-      | FD\A                              | reject | is not a package                          |
+      | FD\A                              | reject | is not a package                            |
       | FD]A                              | reject | Invalid character in package name: FD]A.zip |
       | FD^A                              | reject | Invalid character in package name: FD^A.zip |
       | FD`A                              | reject | Invalid character in package name: FD`A.zip |
       | FDCONTENTPERCENT                  | reject | Invalid SIP descriptor  |
-      | FDCONTENTPOUND                    | reject | Invalid character in file name: small#test.pdf |
-      | FDCONTENTATSIGN                   | reject | Invalid character in file name: small@test.pdf |
-      | FDCONTENTSPACETWO                 | reject | Invalid character in file name: small  test.pdf |
-      | FDCONTENTMORETHAN                 | reject | Invalid character in file name: small>test.pdf |
-      | FDCONTENTPIPE                     | reject | Invalid character in file name: small                     |
-      | FDCONTENTBACKSLASH                | reject | Missing SIP descriptor                                 |
+      | FDCONTENTPOUND                    | reject | Invalid character in file name: small#test.pdf    |
+      | FDCONTENTATSIGN                   | reject | Invalid character in file name: small@test.pdf    |
+      | FDCONTENTSPACETWO                 | reject | Invalid character in file name: small  test.pdf   |
+      | FDCONTENTMORETHAN                 | reject | Invalid character in file name: small>test.pdf    |
+      | FDCONTENTPIPE                     | reject | Invalid character in file name: small             |
+      | FDCONTENTBACKSLASH                | reject | Invalid character in file name: small\test.pdf    |
       | FDCONTENTBACKTICK                 | reject | Invalid character in file name: small`test.pdf    |
       | FDCONTENTCARET                    | reject | Invalid character in file name: small^test.pdf    |
       | FDCONTENTLEFTBRACKET              | reject | Invalid SIP descriptor  |
@@ -105,7 +106,7 @@ Feature: interactive submission
       | invalid-descriptor                | reject | Invalid SIP descriptor |
       | name-too-long-xxxxxxxxxxxxxxxxxxx | reject | Package name contains too many characters (33) max is 32 |
       | described-hidden-file             | reject | Invalid character in file name: .hidden.txt |
-      | lower-level-special-characters-ng | reject | Invalid character in file name: Content/UF00001074?.pdf |
+      | lower-level-special-characters-ng | reject | Invalid character in file name: content/UF00001074?.pdf |
      
 
   Scenario: submission notes
