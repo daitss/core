@@ -3,76 +3,10 @@
 %h1
   daitss
   = Daitss::VERSION
-<<<<<<< HEAD
-  
-=======
-
-%h2 Notice
-%p
-  As of 1/7/2014, the Florida Digital Archive is operating under <a href='https://fclaweb.fcla.edu/content/interim-fda-operations'> an interim procedure</a>. Online submission has been disabled during this time.
-
->>>>>>> interim
-%hr
 
 %h2
   = "Welcome #{@user.id}"
-<<<<<<< HEAD
-
-- if @is_op
-  %hr
-  %h2 sip summary
-  %table
-    %tr
-      %th count
-      %td= Sip.count
-    %tr
-      %th files
-      %td= (Sip.sum :number_of_datafiles )
-    %tr
-      %th total size
-      %td= sprintf('%.2f', Sip.sum(:size_in_bytes).to_i / 1000000) + " MB"
-  %hr
-  %h2 aip summary
-  %table
-    %tr
-      %th count
-      %td= Aip.count - Aip.all(:datafile_count  => 0).count - Aip.all(:datafile_count  => nil).count
-    %tr
-      %th files
-      %td= Aip.sum :datafile_count
-    %tr
-      %th total size
-      %td= sprintf('%.2f', Copy.sum(:size).to_i / 1000000) + " MB"
-      
-- else
-  %h2
-    = "SIP summary for user: #{@user.id}"
-  %table
-    %tr
-      %th count
-      %td= @user.packages.sips.all.count
-    %tr
-      %th files
-      %td= (@user.packages.sips.all.sum :number_of_datafiles)
-    %tr
-      %th total size
-      %td= sprintf('%.2f', @user.packages.sips.all.sum(:size_in_bytes).to_i / (1024*1024)) + " MB"
-  %h2
-    = "AIP summary for user: #{@user.id}"
-  %table
-    %tr
-      %th count
-      %td= @user.packages.aips.count - @user.packages.aips.all(:datafile_count => 0).count - @user.packages.aips.all(:datafile_count => nil).count
-    %tr
-      %th files
-      %td= @user.packages.aips.all.sum :datafile_count
-    %tr
-      %th total size
-      %td= sprintf('%.2f', @user.packages.aips.copys.all.sum(:size).to_i / (1024*1024)) + " MB"
-    
-=======
   
->>>>>>> interim
 %form{:action => '/logout', :method => 'POST'}
   %input{:type => 'submit', :value => 'logout'}    
 
