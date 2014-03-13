@@ -1,10 +1,16 @@
-intellectual entity id (ieid),package,account,project,size (MB),# of datafiles,latest activity,time
+intellectual entity id (ieid),package,account,project,size (MB),# of datafiles,latest activity,time,title,volume,issue
 
 - @packages.each do |p|
-
+  - title = ""
+  - volume = ""
+  - issue = ""
+  - if p.intentity
+    - title = "\"#{p.intentity.title}\""
+    - volume = "\"#{p.intentity.volume}\""
+    - issue = "\"#{p.intentity.issue}\""
   - latest_event = p.normal_events.last
   - if latest_event
-    = p.id + "," + p.sip.name + "," + p.project.account.id + "," + p.project.id + "," + sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000).to_s + "," + p.sip.number_of_datafiles.to_s + "," + latest_event.polite_name + "," + latest_event.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")
+    = p.id + "," + p.sip.name + "," + p.project.account.id + "," + p.project.id + "," + sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000).to_s + "," + p.sip.number_of_datafiles.to_s + "," + latest_event.polite_name + "," + latest_event.timestamp.strftime("%a %b %d %Y %I:%M:%S %p") + "," + title + "," + volume + "," + issue
   - else
     - last_legacy_event = p.legacy_events.last(:name => "legacy operations data")
     = p.id + "," + p.sip.name + "," + p.project.account.id + "," + p.project.id + "," + sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000).to_s + "," + p.sip.number_of_datafiles.to_s + "," + "daitss v.1 provenance" + "," + last_legacy_event.timestamp.strftime("%a %b %d %Y %I:%M:%S %p")

@@ -100,7 +100,11 @@ end
 When /^I select "([^\"]*)" to upload$/ do |name|
   pending if name == "multiple-agreements"
   pending if name == "lower-level-special-characters"
-  name = name + ".zip"
+  case name
+  when "non-package-text" then name = name + ".xyz"
+  when "non-package-tar" then name = name + ".tar"
+  else name = name + ".zip"
+  end
   zip_file = fixture(name)
   attach_file 'sip', zip_file
 end
