@@ -1,7 +1,6 @@
 require 'libxml'
 require 'daitss/xmlns'
 require 'daitss/proc/xmlvalidation'
-require 'ruby-debug'
 
 module Daitss
 
@@ -195,15 +194,15 @@ MSG
     end
 
     def account
-	    xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
+      xpath = "#{AGREEMENT_INFO_XPATH}/@ACCOUNT"
       node = descriptor_doc.find_first xpath, NS_PREFIX
-	    node.value rescue nil
+      node.value rescue nil
     end
 
     def project
-	    xpath = "#{AGREEMENT_INFO_XPATH}/@PROJECT"
+      xpath = "#{AGREEMENT_INFO_XPATH}/@PROJECT"
       node = descriptor_doc.find_first xpath, NS_PREFIX
-	    node.value rescue nil
+      node.value rescue nil
     end
 
     def title
@@ -388,9 +387,9 @@ MSG
         all_files = all_files - content_files - [ "#{name}.xml" ]
         dir_files = []
         all_files.each do |f|
-	        dir_files = dir_files + ["#{f}"]  if File.directory?(f)
-	      end
-	      all_files - dir_files
+          dir_files = dir_files + ["#{f}"]  if File.directory?(f)
+        end
+        all_files - dir_files
       end
     end
   end
