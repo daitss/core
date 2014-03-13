@@ -17,7 +17,7 @@ require 'railsless-deploy'
 
 set :repository,   "git://github.com/daitss/core.git"
 set :scm,          "git"
-set :branch,       "interim"
+set :branch,       "master"
 
 set :use_sudo,     false
 set :user,         "daitss"
