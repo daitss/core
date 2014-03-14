@@ -66,7 +66,7 @@ module Daitss
           end
 
         else
-          agreement_errors << "\nAccount #{a_id} does not exist in database"
+          agreement_errors << "\nNot able to determine Account code in package #{filename}"
           agent.account.default_project.packages  << package
         end
 
@@ -74,7 +74,7 @@ module Daitss
         agent.account.default_project.packages  << package
 
       else
-        agreement_errors << "\nCannot submit to account #{a_id}"
+        agreement_errors << "\nYou are not authorized to submit to Account #{a_id} (code found in ACCOUNT= attribute of SIP descriptor)"
         agent.account.default_project.packages  << package
       end
       

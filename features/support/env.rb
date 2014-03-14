@@ -33,7 +33,11 @@ class MyWorld
   end
 
   def fixture name
-    filename = "http://www.fcla.edu/daitss-test/packages/" + CGI.escape(name)
+    if name.include? " "
+      filename = "http://www.fcla.edu/daitss-test/packages/" + URI.escape(name) #space character is handled differently
+    else
+      filename = "http://www.fcla.edu/daitss-test/packages/" + CGI.escape(name)
+    end  
     tmpfile = @tmpdir + '/' + name
     File.open("#{tmpfile}", "wb") do |file|
       file.write open("#{filename}").read

@@ -77,7 +77,7 @@ module Daitss
           output = case ext
                    when '.zip' then `unzip -o "#{filename}" 2>&1`
                    when '.tar' then `tar -xf "#{filename}" 2>&1`
-                   else raise "\nUnknown archive extension: #{ext}" << "\nCannot extract sip archive, must be a valid tar or zip file containing directory with sip files"
+                   else raise "\nUnknown archive extension: #{ext}" << "\nCannot extract sip archive, must be a valid tar or zip file containing directory with sip files.\nNot able to determine Account code in package #{filename}"
                    end
           raise "\nError extracting #{filename}\n\n#{output}" unless $? == 0
         end
