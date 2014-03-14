@@ -57,7 +57,7 @@ Feature: interactive submission
       | missing-account                   | reject | Not able to determine Account code |
       | missing-content-file              | reject | Cannot find content file listed in SIP descriptor: ateam.tiff |
       | missing-project                   | reject | Not able to determine Project code |
-      | bad-account                       | reject | Account DNE does not exist |
+      | bad-account                       | reject | Not able to determine Account code |
       | bad-project                       | reject | Project code "DNE" is not valid for account "ACT" |
       | non-package-tar                   | reject | Error extracting non-package-tar.tar |
       | non-package-zip                   | reject | Error extracting non-package-zip.zip |
