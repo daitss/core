@@ -138,16 +138,16 @@ stoppulse() {
 start() {
   startservices
 
-  startpulse
-
-  reporterrunning
-  if [ "$?" == "1" ]
-  then
-    log_message "Reporter is already running"
-  else
-    log_message "Starting reporter"
-    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/mailer-daemon 2>&1 > /dev/null & echo \$! > $REPORTER_PIDFILE"
-  fi
+  # startpulse
+  # 
+  # reporterrunning
+  # if [ "$?" == "1" ]
+  # then
+  #   log_message "Reporter is already running"
+  # else
+  #   log_message "Starting reporter"
+  #   /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/mailer-daemon 2>&1 > /dev/null & echo \$! > $REPORTER_PIDFILE"
+  # fi
 }
 
 stop() {
