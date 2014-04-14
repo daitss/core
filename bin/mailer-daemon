@@ -28,50 +28,54 @@ reply_to = archive.mailer_reply_to
 while true
   ReportDelivery.all.each do |r|
     p = r.package
-    if r.mechanism == :email
-      if r.type == :ingest
-        Datyl::Logger.info "emailing ingest report for #{p.id}"
+    begin
+      if r.mechanism == :email
+        if r.type == :ingest
+          Datyl::Logger.info "emailing ingest report for #{p.id}"
 
-        Archive.instance.email_report p
-        p.log "ingest report mailed"
-      elsif r.type == :reject
-        Datyl::Logger.info "emailing reject report for #{p.id}"
+          Archive.instance.email_report p
+          p.log "ingest report mailed"
+        elsif r.type == :reject
+          Datyl::Logger.info "emailing reject report for #{p.id}"
 
-        Archive.instance.email_reject_report p
-        p.log "reject report mailed"
-       else
-        Datyl::Logger.info "emailing dissemination report for #{p.id}"
+          Archive.instance.email_reject_report p
+          p.log "reject report mailed"
+        else
+          Datyl::Logger.info "emailing dissemination report for #{p.id}"
 
-        Archive.instance.email_dissemination_report p
-        p.log "dissemination report mailed"
+          Archive.instance.email_dissemination_report p
+          p.log "dissemination report mailed"
+        end
+      else
+        if r.type == :ingest
+          Datyl::Logger.info "writing out ingest report for #{p.id}"
+
+          rep       = Archive.instance.ingest_report p.id
+          p.log "ingest report written out for ftp"
+        elsif r.type == :reject
+          Datyl::Logger.info "writing out reject report for #{p.id}"
+
+          rep       = Archive.instance.reject_report p.id
+          p.log "reject report written out for ftp"
+        else
+          Datyl::Logger.info "writing out dissemination report for #{p.id}"
+
+          rep      = Archive.instance.disseminate_report p.id
+          p.log "dissemination report written out for ftp"
+        end
+
+        report_file = File.join archive.reports_path, p.project.account.id, Time.now.strftime("%Y%m%d"), (p.id + ".xml")
+        FileUtils.mkdir_p File.dirname report_file
+
+        File.open(report_file, "w+") do |f|
+          f.puts rep
+        end
       end
-    else
-      if r.type == :ingest
-        Datyl::Logger.info "writing out ingest report for #{p.id}"
 
-        rep = Archive.instance.ingest_report p.id
-        p.log "ingest report written out for ftp"
-      elsif r.type == :reject
-        Datyl::Logger.info "writing out reject report for #{p.id}"
-
-        rep = Archive.instance.reject_report p.id
-        p.log "reject report written out for ftp"
-       else
-         Datyl::Logger.info "writing out dissemination report for #{p.id}"
-
-         rep = Archive.instance.disseminate_report p.id
-         p.log "dissemination report written out for ftp"
-      end
-
-      report_file = File.join archive.reports_path, p.project.account.id, Time.now.strftime("%Y%m%d"), (p.id + ".xml")
-      FileUtils.mkdir_p File.dirname report_file
-
-      File.open(report_file, "w+") do |f|
-        f.puts rep
-      end
+      r.destroy
+    rescue Exception => e
+      Datyl::Logger.err "Error processing report: #{e.message}"
     end
-
-    r.destroy
   end
 
   sleep 60

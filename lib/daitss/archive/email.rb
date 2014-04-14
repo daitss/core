@@ -116,9 +116,9 @@ EOF
       Net::SMTP.start(smtp_host) do |smtp|
         smtp.send_message msg, from, to
      end
-	  rescue
-		  puts "email problem rc=#{$!} \nsmtp_host=#{smtp_host},from=#{from},to=#{to}"
-	  end
-  end
+   rescue
+     raise "email problem rc=#{$!} \nsmtp_host=#{smtp_host},from=#{from},to=#{to}"
+   end
+ end
 end
  
