@@ -1546,7 +1546,7 @@ post '/events/:id' do |id|
   redirect "/events/#{e.id}"
 end
 
-get '/package_csv' do
+post '/package_csv' do
   raw = require_param('packages').strip
   @packages = raw.split %r{\s+}
   @packages.map! { |id| Package.get id or raise "#{id} not found" }

@@ -1,4 +1,4 @@
-%form{:action => "/package_csv", :method => "GET"}
+%form{:action => "/package_csv", :method => "POST"}
   %input{:name => 'packages', :type => 'hidden', :value => packages.inject(''){|str, p| str + " " + p.id}}
   %input{:type => 'submit', :value => 'Download CSV'}
 
