@@ -19,6 +19,11 @@ gem 'selenium-client'
 gem "datyl", :git => "git://github.com/daitss/datyl.git"
 gem "log4r"
 gem "thin"
+gem "capistrano"
+gem "capistrano-bundler"
+gem "sshkit"
+gem 'net-ssh', '~> 2.8.1', :git => "https://github.com/net-ssh/net-ssh"
+gem 'sys-proctable'
 
 group :test do
   gem "cucumber", "1.1.0"
@@ -28,15 +33,6 @@ group :test do
   gem "webrat"
   gem 'debugger'
   gem 'ruby-prof'
-end
-
-# this gem is WONK
-
-case `uname`.chomp
-when 'Darwin'
-  gem 'sys-proctable', :path => '~/.rvm/gems/ruby-1.9.3-p429/gems/sys-proctable-0.9.3-universal-darwin'
-else
-  gem 'sys-proctable'
 end
 
 gemspec
