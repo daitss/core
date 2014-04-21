@@ -17,7 +17,7 @@ require 'railsless-deploy'
 
 set :repository,   "git://github.com/daitss/core.git"
 set :scm,          "git"
-set :branch,       "master"
+set :branch,       "ruby1.9.3"
 
 set :use_sudo,     false
 set :user,         "daitss"
@@ -47,6 +47,11 @@ _domain, _filesystem = variables[:target].split(':', 2)
 
 set :deploy_to,  _filesystem
 set :domain,     _domain
+
+set :default_environment, { 
+  'PATH' => "/opt/ruby-1.9.3-p545/bin:$PATH",
+  'RUBY_VERSION' => 'ruby 1.9.3-p545'
+}
 
 if (variables[:who] and variables[:who] =~ %r{.*:.*})
   _user, _group = variables[:who].split(':', 2)
