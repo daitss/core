@@ -16,7 +16,7 @@ Given /^(\d+) packages ingested on "([^"]*)"$/ do |count, date|
     p = Package.new :project => Project.first, :sip => s
     p.save or "can't save package"
 
-    t = Time.parse(date)
+    t = Time.strptime(date, "%m/%d/%Y")
     p.log("submit", :timestamp => t)
     p.log("ingest finished", :timestamp => t)
     
@@ -29,7 +29,7 @@ Given /^(\d+) packages snafued on "([^"]*)"$/ do |count, date|
     p = Package.new :project => Project.first, :sip => s
     p.save or "can't save package"
 
-    t = Time.parse(date)
+    t = Time.strptime(date, "%m/%d/%Y")
     p.log("submit", :timestamp => t)
     p.log("ingest started", :timestamp => t)
     p.log("ingest snafu", :timestamp => t)

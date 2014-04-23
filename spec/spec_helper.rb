@@ -3,11 +3,11 @@ require 'data_mapper'
 
 require "daitss"
 
-require "help/test_package"
-require "help/sandbox"
-require "help/profile"
-require "help/agreement"
-require "help/fs"
+require_relative "help/test_package"
+require_relative "help/sandbox"
+require_relative "help/profile"
+require_relative "help/agreement"
+require_relative "help/fs"
 
 require 'rubygems'
 require 'bundler/setup'

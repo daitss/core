@@ -86,7 +86,7 @@ module Daitss
       attribute_set(:datetime, premis.find_first("premis:eventDateTime", NAMESPACES).content)
       attribute_set(:outcome, premis.find_first("premis:eventOutcomeInformation/premis:eventOutcome", NAMESPACES).content)
       detailExtension = premis.find_first("premis:eventOutcomeInformation/premis:eventOutcomeDetail/premis:eventOutcomeDetailExtension", NAMESPACES)
-      attribute_set(:outcome_details,detailExtension.children.to_s)  unless detailExtension.nil?
+      attribute_set(:outcome_details,detailExtension.children.join)  unless detailExtension.nil?
     end
 
     def to_premis_xml

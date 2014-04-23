@@ -2,7 +2,7 @@ require 'mixin/file'
 require 'daitss/profile'
 
 
-case PLATFORM
+case RUBY_PLATFORM
 when /linux/i
   require 'linux/sys/proctable'
 when /darwin/i

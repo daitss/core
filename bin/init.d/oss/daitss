@@ -11,35 +11,35 @@
 
 DAITSS_CONFIG=/opt/web-services/conf.d/daitss-config.yml
 
-ACTIONPLAN_PATH=/opt/web-services/sites/actionplan
+ACTIONPLAN_PATH=/opt/web-services/sites/actionplan/current
 ACTIONPLAN_VIRTUAL_HOSTNAME=actionplan.shades.local
 ACTIONPLAN_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/actionplan.yml
 
-CORE_PATH=/opt/web-services/sites/core
+CORE_PATH=/opt/web-services/sites/core/current
 CORE_VIRTUAL_HOSTNAME=core.shades.local
 CORE_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/core.yml
 
-DESCRIBE_PATH=/opt/web-services/sites/describe
+DESCRIBE_PATH=/opt/web-services/sites/describe/current
 DESCRIBE_VIRTUAL_HOSTNAME=describe.shades.local
 DESCRIBE_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/describe.yml
 
-SILO_PATH=/opt/web-services/sites/silo-pool
+SILO_PATH=/opt/web-services/sites/silos/current
 SILO_VIRTUAL_HOSTNAME=silo.shades.local
 SILO_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/silos.yml
 
-STORAGEMASTER_PATH=/opt/web-services/sites/storage-master
-STORAGEMASTER_VIRTUAL_HOSTNAME=storagemaster.shades.local
-STORAGEMASTER_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/storagemaster.yml
+STORAGEMASTER_PATH=/opt/web-services/sites/storage-master/current
+STORAGEMASTER_VIRTUAL_HOSTNAME=storage-master.shades.local
+STORAGEMASTER_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/storage-master.yml
 
-TRANSFORM_PATH=/opt/web-services/sites/transform
+TRANSFORM_PATH=/opt/web-services/sites/transform/current
 TRANSFORM_VIRTUAL_HOSTNAME=transform.shades.local
 TRANSFORM_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/transform.yml
 
-VIRUSCHECK_PATH=/opt/web-services/sites/viruscheck
+VIRUSCHECK_PATH=/opt/web-services/sites/viruscheck/current
 VIRUSCHECK_VIRTUAL_HOSTNAME=viruscheck.shades.local
 VIRUSCHECK_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/viruscheck.yml
 
-XMLRESOLUTION_PATH=/opt/web-services/sites/xmlresolution
+XMLRESOLUTION_PATH=/opt/web-services/sites/xmlresolution/current
 XMLRESOLUTION_VIRTUAL_HOSTNAME=xmlresolution.shades.local
 XMLRESOLUTION_THIN_CONFIG_PATH=/opt/web-services/conf.d/thin/xmlresolution.yml
 
@@ -55,12 +55,13 @@ XMLRESOLUTION_PIDFILE=/var/run/daitss/thin/xmlresolution.pid
 PULSE_PIDFILE=/var/run/daitss/pulse.pid
 REPORTER_PIDFILE=/var/run/daitss/reporter.pid
 
-GEM_BIN=/usr/bin/gem
-JAVA_HOME=/usr/java/jdk1.6.0_29
-GEM_HOME=/usr/lib64/ruby/gems/1.8/gems
-RUBY_HOME=/usr/bin
+GEM_BIN=/opt/rh/ruby193/root/usr/bin/gem
+JAVA_HOME=/usr/java/latest
+GEM_HOME=/opt/rh/ruby193/root/usr/share/gems/gems
+RUBY_HOME=/opt/rh/ruby193/root/usr/bin
 RUBYOPT=rubygems
 TMPDIR=/var/daitss/tmp
+LD_LIBRARY_PATH=/opt/rh/ruby193/root/usr/lib64
 
 pidrunning() {
   if [ -n $1 ]
@@ -255,7 +256,7 @@ startpulse() {
     echo "Pulse is already running"
   else
     echo "Starting pulse..."
-    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR JAVA_HOME=$JAVA_HOME DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/pulse 2>&1 > /dev/null & echo \$! > $PULSE_PIDFILE"
+    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR JAVA_HOME=$JAVA_HOME DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/pulse 2>&1 > /dev/null & echo \$! > $PULSE_PIDFILE"
   fi
 }
 
@@ -283,7 +284,7 @@ start() {
     echo "Reporter is already running"
   else
     echo "Starting reporter"
-    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/mailer-daemon 2>&1 > /dev/null & echo \$! > $REPORTER_PIDFILE"
+    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME GEM_HOME=$GEM_HOME RUBYOPT=$RUBYOPT LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" bundle exec ./bin/mailer-daemon 2>&1 > /dev/null & echo \$! > $REPORTER_PIDFILE"
   fi
 }
 
@@ -292,28 +293,29 @@ stop() {
   /etc/init.d/httpd stop > /dev/null
 
   echo "Stopping actionplan service..."
-  /bin/su daitss -c "cd $ACTIONPLAN_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$ACTIONPLAN_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $ACTIONPLAN_THIN_CONFIG_PATH -d stop"
+  
+  /bin/su daitss -c "cd $ACTIONPLAN_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$ACTIONPLAN_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec 'thin -C $ACTIONPLAN_THIN_CONFIG_PATH -d stop'"
 
-  echo "Stopping core service..."
-  /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $CORE_THIN_CONFIG_PATH -d stop"
+  echo "Stopping(kill) core service ..."
+  kill `ps -ef|egrep 'core'|grep 'thin server'|awk '{print $2}'`
 
   echo "Stopping description service..."
-  /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d stop"
+  /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec 'thin -C $DESCRIBE_THIN_CONFIG_PATH -d stop'"
 
   echo "Stopping silo-pool service..."
-  /bin/su daitss -c "cd $SILO_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$SILO_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $SILO_THIN_CONFIG_PATH -d stop"
+  /bin/su daitss -c "cd $SILO_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$SILO_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec 'thin -C $SILO_THIN_CONFIG_PATH -d stop'"
 
   echo "Stopping storage master service..."
-  /bin/su daitss -c "cd $STORAGEMASTER_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$STORAGEMASTER_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $STORAGEMASTER_THIN_CONFIG_PATH -d stop"
+  /bin/su daitss -c "cd $STORAGEMASTER_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$STORAGEMASTER_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec 'thin -C $STORAGEMASTER_THIN_CONFIG_PATH -d stop'"
 
   echo "Stopping transform service..."
-  /bin/su daitss -c "cd $TRANSFORM_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$TRANSFORM_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $TRANSFORM_THIN_CONFIG_PATH -d stop"
+  /bin/su daitss -c "cd $TRANSFORM_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$TRANSFORM_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec 'thin -C $TRANSFORM_THIN_CONFIG_PATH -d stop'"
 
   echo "Stopping viruscheck service..."
-  /bin/su daitss -c "cd $VIRUSCHECK_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$VIRUSCHECK_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $VIRUSCHECK_THIN_CONFIG_PATH -d stop"
+  /bin/su daitss -c "cd $VIRUSCHECK_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$VIRUSCHECK_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec 'thin -C $VIRUSCHECK_THIN_CONFIG_PATH -d stop'"
 
   echo "Stopping xmlresolution service..."
-  /bin/su daitss -c "cd $XMLRESOLUTION_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$XMLRESOLUTION_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $XMLRESOLUTION_THIN_CONFIG_PATH -d stop"
+  /bin/su daitss -c "cd $XMLRESOLUTION_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$XMLRESOLUTION_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec 'thin -C $XMLRESOLUTION_THIN_CONFIG_PATH -d stop'"
 
   stoppulse
 
@@ -443,7 +445,7 @@ startservices() {
     echo "Actionplan service is already running"
   else
     echo "Starting actionplan service..."
-    /bin/su daitss -c "cd $ACTIONPLAN_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$ACTIONPLAN_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $ACTIONPLAN_THIN_CONFIG_PATH -d start"
+    /bin/su daitss -c "cd $ACTIONPLAN_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$ACTIONPLAN_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec 'thin -C $ACTIONPLAN_THIN_CONFIG_PATH -d start'"
   fi
 
   corerunning
@@ -452,7 +454,7 @@ startservices() {
     echo "Core service is already running"
   else
     echo "Starting core service..."
-    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $CORE_THIN_CONFIG_PATH -d start"
+    /bin/su daitss -c "cd $CORE_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$CORE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec 'thin -C $CORE_THIN_CONFIG_PATH -d start'"
   fi
 
   describerunning
@@ -461,7 +463,11 @@ startservices() {
     echo "Description service is already running"
   else
     echo "Starting description service..."
+<<<<<<< HEAD
     /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $DESCRIBE_THIN_CONFIG_PATH -d start"
+=======
+    /bin/su daitss -c "cd $DESCRIBE_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$DESCRIBE_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec 'thin -C $DESCRIBE_THIN_CONFIG_PATH -d start'"
+>>>>>>> ruby1.9.3
   fi
 
   silorunning
@@ -470,7 +476,7 @@ startservices() {
     echo "Silo-pool service is already running"
   else
     echo "Starting silo-pool service..."
-    /bin/su daitss -c "cd $SILO_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$SILO_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $SILO_THIN_CONFIG_PATH -d start"
+    /bin/su daitss -c "cd $SILO_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$SILO_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec 'thin -C $SILO_THIN_CONFIG_PATH -d start'"
   fi
 
   storagemasterrunning
@@ -479,7 +485,7 @@ startservices() {
     echo "Storage Master service is already running"
   else
     echo "Starting storage master service..."
-    /bin/su daitss -c "cd $STORAGEMASTER_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$STORAGEMASTER_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $STORAGEMASTER_THIN_CONFIG_PATH -d start"
+    /bin/su daitss -c "cd $STORAGEMASTER_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$STORAGEMASTER_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec 'thin -C $STORAGEMASTER_THIN_CONFIG_PATH -d start'"
   fi
 
   transformrunning
@@ -488,7 +494,7 @@ startservices() {
     echo "Transform service is already running"
   else
     echo "Starting transform service..."
-    /bin/su daitss -c "cd $TRANSFORM_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$TRANSFORM_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $TRANSFORM_THIN_CONFIG_PATH -d start"
+    /bin/su daitss -c "cd $TRANSFORM_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$TRANSFORM_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec 'thin -C $TRANSFORM_THIN_CONFIG_PATH -d start'"
   fi
 
   viruscheckrunning
@@ -497,7 +503,7 @@ startservices() {
     echo "Viruscheck service is already running"
   else
     echo "Starting viruscheck service..."
-    /bin/su daitss -c "cd $VIRUSCHECK_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$VIRUSCHECK_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $VIRUSCHECK_THIN_CONFIG_PATH -d start"
+    /bin/su daitss -c "cd $VIRUSCHECK_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$VIRUSCHECK_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec 'thin -C $VIRUSCHECK_THIN_CONFIG_PATH -d start'"
   fi
 
   xmlresolutionrunning
@@ -506,7 +512,7 @@ startservices() {
     echo "Xmlresolution service is already running"
   else
     echo "Starting xmlresolution service..."
-    /bin/su daitss -c "cd $XMLRESOLUTION_PATH; TMPDIR=$TMPDIR PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$XMLRESOLUTION_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT GEM_HOME=$GEM_HOME JAVA_HOME=$JAVA_HOME  bundle exec thin -C $XMLRESOLUTION_THIN_CONFIG_PATH -d start"
+    /bin/su daitss -c "cd $XMLRESOLUTION_PATH; TMPDIR=$TMPDIR LD_LIBRARY_PATH=$LD_LIBRARY_PATH PATH="$RUBY_HOME:$GEM_BIN:$PATH" DAITSS_CONFIG=$DAITSS_CONFIG VIRTUAL_HOSTNAME=$XMLRESOLUTION_VIRTUAL_HOSTNAME RUBYOPT=$RUBYOPT bundle exec 'thin -C $XMLRESOLUTION_THIN_CONFIG_PATH -d start'"
   fi
 }
 

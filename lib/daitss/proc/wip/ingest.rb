@@ -17,11 +17,15 @@ module Daitss
       original_datafiles.each do |df|
 
         step("virus check #{df.id}") do
-          vc = Virus.new df.data_file, df.uri
-          vc.post
-          df.metadata['virus-check-event'] = vc.event
-          df.metadata['virus-check-agent'] = vc.agent
-          raise "virus detected\n#{vc.note}" if vc.failed?
+          begin
+            vc = Virus.new df.data_file, df.uri
+            vc.post
+            df.metadata['virus-check-event'] = vc.event
+            df.metadata['virus-check-agent'] = vc.agent
+            raise "virus detected\n#{vc.note}" if vc.failed?
+          rescue Interrupt
+            exit 1
+          end
         end
 
       end

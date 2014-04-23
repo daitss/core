@@ -48,6 +48,11 @@ _domain, _filesystem = variables[:target].split(':', 2)
 set :deploy_to,  _filesystem
 set :domain,     _domain
 
+set :default_environment, { 
+  'PATH' => "/opt/ruby-1.9.3-p545/bin:$PATH",
+  'RUBY_VERSION' => 'ruby 1.9.3-p545'
+}
+
 if (variables[:who] and variables[:who] =~ %r{.*:.*})
   _user, _group = variables[:who].split(':', 2)
   set :user,  _user

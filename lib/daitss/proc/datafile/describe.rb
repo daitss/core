@@ -132,6 +132,8 @@ module Daitss
         end
       rescue => e
         raise e
+      rescue Interrupt
+        exit 1
       end
     end
 

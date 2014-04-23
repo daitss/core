@@ -7,7 +7,7 @@ When /^I choose "([^\"]*)"$/ do |name|
 end
 
 When /^I press "([^\"]*)"$/ do |name|
-  click_button name
+  click_button(name)
 end
 
 When /^I click on "([^\"]*)"$/ do |link|

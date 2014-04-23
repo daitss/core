@@ -23,13 +23,21 @@ module Daitss
             df.normalize!
           end
         rescue => e
-          raise "error while processing #{df.id}(#{df['aip-path']}): " + e
+          raise "error while processing #{df.id}(#{df['aip-path']}): " + e.message
+        rescue Interrupt # if the process was interruptted by user stopping the process
+          exit 1
         end
       end
 
       # describe transformed files
       tfs = (migrated_datafiles + normalized_datafiles).reject { |df| df.obsolete? }
-      tfs.each { |df| step("describe-#{df.id}") { df.describe! } }
+      tfs.each do |df| 
+        begin
+          step("describe-#{df.id}") { df.describe! } 
+        rescue => e
+          raise "error while describing #{df.id}(#{df['aip-path']}): " + e.message
+        end
+      end
 
       # xmlresolve this wip
       step('xml-resolution') do

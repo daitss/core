@@ -1,0 +1,70 @@
+1. need to install sys-proctable gem outside of bundler.
+
+2. If getting a  "fatal: Not a git repository (or any of the parent directories): .git",
+update bundle gem (https://github.com/bundler/bundler/issues/2039).
+
+3. Gemfile
+   - Change gem 'libxml-ruby', "1.1.3"
+     to gem 'libxml-ruby'
+   - ruby-debug is deprecated in 1.9.  Change gem "ruby-debug"
+     to gem debugger
+   - the new version of haml gem is separate from sass.  Add gem 'sass' to Gemfile
+   - Change the path of the sys-proctable gem to the installed gem path in ruby 1.9
+   - remove version restriction for curb gem.
+
+4. Config.ru
+   - Ruby 1.9 remove current directory from load path, http://stackoverflow.com/questions/9750610/ruby-require-error-cannot-load-such-file.
+     Change require 'app'
+     to
+     require './app'
+
+5. process.rb
+   digest.rb
+   PLATFORM is deprecated, use RUBY_PLATFORM
+
+6. line 50 in from_sip.rb, change to
+     :linking_agents => [ agent_uri ]
+
+7. Alignment in submit.rb is messed up (though not related to ruby 1.9), realign it properly.
+
+8. line 26 in preserve.rb, change to
+     raise "error while processing #{df.id}(#{df['aip-path']}): " + e.message
+
+9. line 52 batch_step.rb
+   In 1.9.3, the array doesn't default to the first element any more. 
+   Change 
+     raise "Package #{r} not found" unless p = Package.get(r)
+   To:
+     p = Package.get(r.first)  
+     raise "Package #{r} not found" if p.nil?
+
+10. line 80 batch_step.rb
+   Change 
+     p = Package.get(r)
+   To:
+     p = Package.get(r.first)
+
+11. line 88 premis_event.rb
+  Array.to_s behavior changed in 1.9.3, use join instead
+  http://stackoverflow.com/questions/3960392/ruby-1-9-array-to-s-behaves-differently
+
+12.line 19, 31, submit_step.rb
+  Ruby 1.9.3 DateTime parse differently than 1.8.7. http://stackoverflow.com/questions/9483563/differences-in-date-string-parsing-between-ruby-1-9-3-and-ruby-1-8-7
+
+13. line 297, 371, 376, 634, 640, 860, 866 in app.rb
+  Change Time.parse to Time.strptime with format.
+
+14. Stashbin test harness failed while stopping a running ingest. In ruby 1.9, an Interrupt signal is raised during http call
+  if the calling process was stopped. 
+  In ingest.rb, preserve.rb, describe.rb
+    Add a rescue Interrupt to catch the interrupt signal when the process is stopped by user (ruby 1.9.3 behavior).
+
+15. In stashbin.haml, @wips is an Array thus @wips.id is not valid. It should be bin.id
+    = partial :wip_table, :locals => { :space => "stashspace/#{@bin.id}", :wips => @wips }
+
+16. bug fixings in submit.rb
+    - << $! is not a valid command, fix it correctly.
+    - odd logic causing xml not validated.
+
+17. sip_archive.rb
+    "<< "\n" << $!" is not valid in ruby 1.9.3. Fix it to use "#{$!}" instead.

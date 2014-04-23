@@ -48,9 +48,10 @@ end
 
 Given /^batch "([^"]*)" with the following packages:$/ do |name, table|
    b = Batch.new :id => name
-
+   
   table.raw.each do |r|
-    raise "Package #{r} not found" unless p = Package.get(r)
+    p = Package.get(r.first)  
+    raise "Package #{r} not found" if p.nil?
     b.packages << p
   end
 
@@ -75,7 +76,7 @@ end
 
 Then /^I (should|should not) have a (disseminate|withdraw|peek|refresh) request for the following packages:$/ do |has, type, table|
   table.raw.each do |r|
-    p = Package.get(r)
+    p = Package.get(r.first)
     raise "package not found" unless p
 
     if has == "should"

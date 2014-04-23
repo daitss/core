@@ -10,4 +10,4 @@
 
 #results
   - unless @wips.empty?
-    = partial :wip_table, :locals => { :space => "stashspace/#{@wips.id}", :wips => @wips }
+    = partial :wip_table, :locals => { :space => "stashspace/#{@bin.id}", :wips => @wips }

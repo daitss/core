@@ -9,8 +9,9 @@ Current Production Code
  
 Requirements
 ------------
-* ruby (tested on 1.8.6 and 1.8.7)
-* java (tested 1.6,1.7)
+* ruby 1.9.3 - master branch
+* ruby (tested on 1.8.6 and 1.8.7) - please use ruby1.8.7 branch
+* java (tested 1.6, 1.7)
 * ruby-devel, rubygems, gcc and g++
 * libxml2-devel, libxslt-devel, libcurl development libraries
 * PostgresSQL
