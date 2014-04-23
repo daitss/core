@@ -15,7 +15,7 @@ require 'daitss/model'
 require 'daitss/archive'
 require 'open-uri'
 
-require '../../spec/spec_helper'
+require_relative '../../spec/spec_helper'
 
 Webrat.configure { |config| config.mode = :rack }
 
