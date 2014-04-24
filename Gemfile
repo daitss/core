@@ -19,14 +19,10 @@ gem 'selenium-client'
 gem "datyl", :git => "git://github.com/daitss/datyl.git"
 gem "log4r"
 gem "thin"
-gem "capistrano"
-gem "capistrano-bundler"
-gem "sshkit"
-gem 'net-ssh', '~> 2.8.1', :git => "https://github.com/net-ssh/net-ssh"
 gem 'sys-proctable'
 
 group :test do
-  gem "cucumber", "1.1.0"
+  gem "cucumber"
   gem "rack-test"
   gem "rspec"
   gem "fuubar"
