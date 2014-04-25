@@ -19,7 +19,15 @@ gem 'selenium-client'
 gem "datyl", :git => "git://github.com/daitss/datyl.git"
 gem "log4r"
 gem "thin"
-gem 'sys-proctable'
+# this gem is WONK
+case `uname`.chomp
+
+when 'Darwin'
+  gem 'sys-proctable', :path => '/Library/Ruby/Gems/1.8/gems/sys-proctable-0.9.1-universal-darwin'
+
+else
+  gem 'sys-proctable'
+end
 
 group :test do
   gem "cucumber"
