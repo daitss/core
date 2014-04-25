@@ -1,5 +1,5 @@
 Given /^I fill in the user form with:$/ do |table|
-  Given 'I goto "/admin/users"'
+  step 'I goto "/admin/users"'
 
   within "form#create-user" do
 
@@ -59,7 +59,7 @@ Then /^there should not be a user with:$/ do |table|
 end
 
 Given /^a user "([^"]*)"$/ do |id|
-  Given 'I goto "/admin/users"'
+  step 'I goto "/admin/users"'
 
   within "form#create-user" do
     fill_in 'id', :with => id
@@ -70,15 +70,15 @@ Given /^a user "([^"]*)"$/ do |id|
     fill_in 'address', :with => "San Jose"
   end
 
-  When 'I press "Create User"'
-  Then 'I should be redirected'
+  step 'I press "Create User"'
+  step 'I should be redirected'
   last_response.should be_ok
   @the_user = User.get id
   @the_user.should_not be_nil
 end
 
 Given /^a contact "([^"]*)"$/ do |id|
-  Given 'I goto "/admin/users"'
+  step 'I goto "/admin/users"'
 
   within "form#create-user" do
     select "affiliate", :from => "type"
@@ -90,8 +90,8 @@ Given /^a contact "([^"]*)"$/ do |id|
     fill_in 'address', :with => "San Jose"
   end
 
-  When 'I press "Create User"'
-  Then 'I should be redirected'
+  step 'I press "Create User"'
+  step 'I should be redirected'
   last_response.should be_ok
   @the_user = User.get id
   @the_user.should_not be_nil

@@ -1,20 +1,20 @@
 Given /^a stash bin named "([^\"]*)"$/ do |name|
-  Given %Q(I goto "/stashspace")
-  And %Q(I fill in "name" with "default bin")
-  When %Q(I press "Create")
-  Then 'I should be redirected to "/stashspace"'
+  step %Q(I goto "/stashspace")
+  step %Q(I fill in "name" with "default bin")
+  step %Q(I press "Create")
+  step 'I should be redirected to "/stashspace"'
   last_response.should be_ok
   @the_bin = Daitss.archive.stashspace.find { |b| b.name == name }
   @the_bin.should_not be_nil
 end
 
 Given /^a stash bin named "([^\"]*)" with (\d+) package$/ do |name, count|
-  Given %Q(a stash bin named "#{name}")
-  Given "#{count} idle wips"
-  Given %Q(I goto "/workspace")
-  When %Q(I choose "stash")
-  When %Q(I select "#{@the_bin.name}")
-  When %Q(I press "Update")
+  step %Q(a stash bin named "#{name}")
+  step "#{count} idle wips"
+  step %Q(I goto "/workspace")
+  step %Q(I choose "stash")
+  step %Q(I select "#{@the_bin.name}")
+  step %Q(I press "Update")
 end
 
 Then /^there should (be|not be) a stash bin named "([^\"]*)"$/ do |presence, name|
@@ -38,12 +38,12 @@ Given /^that stash bin is (empty|not empty)$/ do |contents|
   when 'empty' then @the_bin.should be_empty
 
   when 'not empty'
-    Given "an idle wip"
-    And "I goto its wip page"
-    When %Q(I choose "stash")
-    And %Q(I select "#{@the_bin.name}")
-    And %Q(I press "Update")
-    And "the response should be OK"
+    step "an idle wip"
+    step "I goto its wip page"
+    step %Q(I choose "stash")
+    step %Q(I select "#{@the_bin.name}")
+    step %Q(I press "Update")
+    step "the response should be OK"
   end
 
 end

@@ -1,5 +1,5 @@
 Given /^I goto its wip page$/ do
-  Given %Q(I goto "/workspace/#{last_package_id}")
+  step %Q(I goto "/workspace/#{last_package_id}")
 end
 
 Then /^the package should be (don't know|running|stop|idle)$/ do |status|

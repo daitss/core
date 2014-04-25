@@ -59,18 +59,18 @@ Given /^batch "([^"]*)" with the following packages:$/ do |name, table|
 end
 
 Then /^I should not have batch "([^"]*)"$/ do |arg1|
-    Then "the response does not contain \"#{arg1}\""
+    step "the response does not contain \"#{arg1}\""
 end
 
 Then /^I should have a batch containing$/ do |table|
   table.raw.each do |r|
-    Then "the response contains \"#{r}\""
+    step "the response contains \"#{r}\""
   end
 end
 
 Then /^I should have a batch not containing$/ do |table|
   table.raw.each do |r|
-    Then "the response does not contain \"#{r}\""
+    step "the response does not contain \"#{r}\""
   end
 end
 
@@ -92,7 +92,7 @@ When /^I select type "([^\"]*)"$/ do |type|
 end
 
 Then /^the batch should contain the last package ingested$/ do
-  Then "the response contains \"#{last_package_id}\""
+  step "the response contains \"#{last_package_id}\""
 end
 
 Given /^a batch "([^"]*)"$/ do |name|

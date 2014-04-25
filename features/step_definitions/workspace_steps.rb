@@ -1,9 +1,9 @@
 Given /^an? ([^"]*) package$/ do |state|
-  Given %Q(a #{state} wip)
+  step %Q(a #{state} wip)
 end
 
 Given /^an? ([^"]*) wip$/ do |state|
-  Given "I submit a package"
+  step "I submit a package"
   last_response.should be_ok
 
   # TODO implement all of this 'over-the-hood'
@@ -110,7 +110,7 @@ Given /^(\d+) (running|idle|snafu|stopped|) ?wips?$/ do |count, state|
     state = 'stop'
   end
 
-  count.to_i.times { Given "a #{state} wip" }
+  count.to_i.times { step "a #{state} wip" }
 end
 
 Given /^a workspace with the following wips:$/ do |table|
@@ -118,7 +118,7 @@ Given /^a workspace with the following wips:$/ do |table|
   table.hashes.each do |h|
     count = h['count']
     state = h['state']
-    Given %Q(#{count} #{state} wips)
+    step %Q(#{count} #{state} wips)
   end
 
 end
@@ -158,7 +158,7 @@ Then /^there should be the following wips:$/ do |table|
   table.hashes.each do |h|
     count = h['count']
     state = h['state']
-    Then "there should be #{count} #{state} wips"
+    step "there should be #{count} #{state} wips"
   end
 
 end
@@ -191,8 +191,8 @@ end
 Given /^(\d+) (stopped|idle|snafu) wips in batch "([^"]*)"$/ do |count, state, batch|
   b = Batch.new :id => batch
   count.to_i.times do |i|
-    Given "a stop wip" if state == "stopped"
-    Given "a snafu wip" if state == "snafu"
+    step "a stop wip" if state == "stopped"
+    step "a snafu wip" if state == "snafu"
 
     p = Package.get(last_package_id)
     b.packages << p
@@ -208,7 +208,7 @@ Given /^(\d+) stopped wips under account\/project "([^"]*)"$/ do |count, account
   p.saved? or raise "can't save project"
 
   count.to_i.times do |i|
-    Given "a stop wip"
+    step "a stop wip"
 
     pa = Package.get(last_package_id)
     pa.project = p

@@ -1,8 +1,8 @@
 Given /^I submit "([^"]*)"$/ do |package|
-  Given %q(I goto "/packages")
-  When %Q(I select "#{package}" to upload)
-  When %q(I press "Submit")
-  Then %q(I should be at a package page)
+  step %q(I goto "/packages")
+  step %Q(I select "#{package}" to upload)
+  step %q(I press "Submit")
+  step %q(I should be at a package page)
   #cleanup after each submit
   rm_fixture(package)
   last_response.should be_ok
@@ -73,28 +73,28 @@ end
 
 
 Given /^I submit a package$/ do
-  Given %q(I submit "haskell-nums-pdf")
+  step %q(I submit "haskell-nums-pdf")
 end
 
 Given /^I submit a package with some legacy events$/ do
-  Given %q(I submit "haskell-nums-pdf")
+  step %q(I submit "haskell-nums-pdf")
   p = Package.get last_package_id
   p.log 'legacy operations data'
 end
 
 Given /^I submit a package with some fixity events$/ do
-  Given %q(I submit "haskell-nums-pdf")
+  step %q(I submit "haskell-nums-pdf")
   p = Package.get last_package_id
   p.log 'fixity success'
   p.log 'fixity failure'
 end
 
 Given /^I submit (\d+) packages$/ do |count|
-  count.to_i.times { Given "I submit a package" }
+  count.to_i.times { step "I submit a package" }
 end
 
 When "I select a sip to upload" do
-  When "I select \"haskell-nums-pdf\" to upload"
+  step "I select \"haskell-nums-pdf\" to upload"
 end
 
 When /^I select "([^\"]*)" to upload$/ do |name|

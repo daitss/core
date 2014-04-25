@@ -7,10 +7,10 @@ Then /^I should see a log message "([^"]*)"$/ do |message|
 end
 
 Then /^there should be an admin log entry:$/ do |table|
-  Given "I goto \"/log\""
+  step "I goto \"/log\""
 
   table.hashes.each do |r|
-    Then "I should see a log message \"#{r['message']}\""
+    step "I should see a log message \"#{r['message']}\""
   end
 
 end

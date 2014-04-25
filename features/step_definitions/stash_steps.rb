@@ -3,11 +3,11 @@ Then /^I should see the wip in the stash bin$/ do
 end
 
 Given /^I stash it in "([^\"]*)"$/ do |bin_name|
-  Given %Q(I goto "/workspace/#{last_package_id}")
-  When %Q(I choose "stash")
-  When %Q(I select "#{bin_name}")
-  When %Q(I press "Update")
-  Then 'I should be redirected'
+  step %Q(I goto "/workspace/#{last_package_id}")
+  step %Q(I choose "stash")
+  step %Q(I select "#{bin_name}")
+  step %Q(I press "Update")
+  step 'I should be redirected'
   last_response.should be_ok
 end
 

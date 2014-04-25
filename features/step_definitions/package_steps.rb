@@ -61,7 +61,7 @@ Then /^in the jobs summary I should see a stashed ingest wip in "([^\"]*)"$/ do 
 end
 
 Then /^in the jobs summary I should see that no jobs are pending$/ do
-  Then %Q(the response contains "archived")
+  step %Q(the response contains "archived")
 end
 
 Then /^there (should not|should) be an "([^"]*)" event$/ do |presence, event|
@@ -106,19 +106,19 @@ end
 
 
 Then /^I should see a ([^"]*) request$/ do |type|
-  When %Q(I goto its package page)
+  step %Q(I goto its package page)
   last_response.should have_selector("#request table tr td", :content => type)
 end
 
 Then /^I should see a ([^"]*) request with note "([^"]*)" and authorized "(yes|no)"$/ do |type, note, auth|
-  When %Q(I goto its package page)
+  step %Q(I goto its package page)
   last_response.should have_selector("#request table tr td", :content => type)
   last_response.should have_selector("#request table tr td", :content => note)
   last_response.should have_selector("#request table tr td", :content => auth)
 end
 
 Then /^I should see a ([^"]*) request with status "([^"]*)"$/ do |type, status|
-  When %Q(I goto its package page)
+  step %Q(I goto its package page)
   last_response.should have_selector("#request table tr td", :content => type)
   last_response.should have_selector("#request table tr td", :content => status)
 end
@@ -143,10 +143,10 @@ end
 
 Given /^a ([^"]*) request$/ do |type|
   visit last_package
-  And %Q(I choose request type "#{type}")
-  And %Q(I fill in "note" with "do it, please")
-  And %Q(I press "Request")
- Then %Q(I should see a #{type} request)
+  step %Q(I choose request type "#{type}")
+  step %Q(I fill in "note" with "do it, please")
+  step %Q(I press "Request")
+ step %Q(I should see a #{type} request)
 end
 
 When /^I press "([^"]*)" for the request$/ do |button|

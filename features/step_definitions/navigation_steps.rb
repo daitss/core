@@ -63,7 +63,7 @@ end
 
 Then /^I should (be|not be) redirected to "([^"]*)"$/ do |cond, url|
   URI.parse(last_response['Location']).path.should == url if cond == 'be'
-  Then "I should #{cond} redirected"
+  step "I should #{cond} redirected"
 end
 
 Then /^I should (be|not be) redirected$/ do |cond|
