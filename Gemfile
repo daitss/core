@@ -19,6 +19,7 @@ gem 'selenium-client'
 gem "datyl", :git => "git://github.com/daitss/datyl.git"
 gem "log4r"
 gem "thin"
+gem 'ruby-prof'
 # this gem is WONK
 case `uname`.chomp
 
@@ -36,7 +37,6 @@ group :test do
   gem "fuubar"
   gem "webrat"
   gem 'debugger'
-  gem 'ruby-prof'
 end
 
 gemspec
