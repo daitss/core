@@ -6,7 +6,7 @@ require 'sass'
 require 'sinatra'
 require 'rack/ssl-enforcer'
 require 'daitss'
-require 'ruby-debug'
+#require 'ruby-debug'
 require 'nokogiri'
 
 require 'datyl/logger'
