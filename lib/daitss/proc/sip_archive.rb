@@ -124,6 +124,7 @@ module Daitss
       # check for content files
       if es[:descriptor_presence].empty? and es[:descriptor_valid].empty?
         es[:content_file_presence] << "\nmissing content file" if content_files.empty?
+        #es[:content_file_presence] << "duplicate references to files within FLocat tags inside sip descriptor." unless content_files.count == content_files.uniq.count
         content_files.each do |f|
           unless Dir.chdir(path) { File.exist? f }
             es[:content_file_presence] << "\nCannot find content file listed in SIP descriptor: #{f}"
@@ -370,10 +371,11 @@ MSG
         [path, cs, cst]
       end
     end
-
+    
+    #METS allows for duplicate references here.  Let's only take a unique set for archiving purposes
     def content_files
       ns = descriptor_doc.find "//M:file/M:FLocat/@xlink:href", NS_PREFIX
-      ns.map { |n| URI.unescape n.value }
+      (ns.map { |n| URI.unescape n.value }).uniq
     end
 
     def files
