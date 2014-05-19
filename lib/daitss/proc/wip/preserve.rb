@@ -51,6 +51,7 @@ module Daitss
         end
 
         xmlres.save_tarball xmlres_file
+        xmlres.remove_collection id
       end
 
     end
