@@ -12,6 +12,14 @@ module Daitss
       (200..201).include? c.response_code or c.error("bad status")
       @url = url + '/'
     end
+    
+    #remove a tar collection from xmlresolution
+    def remove_collection id
+      url = "#{archive.xmlresolution_url}/ieids/remove/#{id}"
+      c = Curl::Easy.new url
+      c.http_put ""
+      (200..301).include? c.response_code or c.error("bad status")
+    end
 
     def resolve_file df
       filepath = df.metadata["sip-path"] ? df.metadata["sip-path"] : df.metadata["aip-path"]
