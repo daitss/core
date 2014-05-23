@@ -15,7 +15,7 @@ module Daitss
     property :salt, String, :required => true, :default => proc { rand(0x100000).to_s 26  }
 
     property :type, Discriminator
-    property :deleted_at, ParanoidDateTime
+    property :deleted_at, DateTime
 
     has n, :events
     has n, :requests
