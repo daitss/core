@@ -17,7 +17,7 @@ module Daitss
     def remove_collection id
       url = "#{archive.xmlresolution_url}/ieids/remove/#{id}"
       c = Curl::Easy.new url
-      c.http_put ""
+      c.http_delete
       (200..301).include? c.response_code or c.error("bad status")
     end
 
