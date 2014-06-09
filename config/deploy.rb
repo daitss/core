@@ -61,7 +61,7 @@ task :darchive => :environment do
 end
 
 #deploy to marsala
-task :darchive => :environment do
+task :marsala => :environment do
   set :domain, 'marsala.fcla.edu'
   set :keep_releases, 5
   invoke :deploy
