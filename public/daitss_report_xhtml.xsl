@@ -424,13 +424,18 @@
                 <xsl:value-of select="@DFID"/>
               </a>
             </div>
-            <ul>
+            <table class="data" style="border-collapse: collapse;">
+              <tr>
+                <th>Resource Type</th>
+                <th style="text-align: center;">Link</th>
+              </tr>
               <xsl:for-each select="r:BROKEN_LINK">
-                <li class="data">
-                  <xsl:value-of select="."/>
-                </li>
+                <tr>
+                  <td style="border: 1px solid black; padding: 3px;"><xsl:value-of select="@type"/></td>
+                  <td style="border: 1px solid black; padding: 3px;"><xsl:value-of select="."/></td>
+                </tr>  
+            </table>
               </xsl:for-each>
-            </ul>
           </xsl:if>
         </xsl:for-each>
       </div>

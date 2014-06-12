@@ -16,7 +16,7 @@
         <% end %>
         <% if datafile.broken_links.any? %>
           <% datafile.broken_links.each do |broken_link| %>
-            <BROKEN_LINK><%= ERB::Util::h(broken_link.broken_links) %></BROKEN_LINK>
+            <BROKEN_LINK type="<%= broken_link.type %>"><%= ERB::Util::h(broken_link.broken_links) %></BROKEN_LINK>
           <% end %>
         <% end %>
         <% if datafile.datafile_severe_element.any? %>
