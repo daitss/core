@@ -182,9 +182,9 @@
           <th>Ingest time</th>
         </tr>
         <tr>
-		<td><xsl:value-of select="@PACKAGE"/></td>
-		<td><xsl:value-of select="@IEID"/></td>
-		<td><xsl:value-of select="@INGEST_TIME"/></td><td></td>
+          <td><xsl:value-of select="@PACKAGE"/></td>
+          <td><xsl:value-of select="@IEID"/></td>
+          <td><xsl:value-of select="@INGEST_TIME"/></td>
         </tr>
       </table>
       <xsl:apply-templates/>
@@ -276,10 +276,10 @@
           </tr>
           <xsl:for-each select="r:REQUEST_EVENT">
           <tr>
-	    <td><xsl:value-of select="@NAME"/></td>
-	    <td><xsl:value-of select="@TIME"/></td>
-	    <td><xsl:value-of select="@AGENT"/></td>
-	    <td><xsl:value-of select="@NOTE"/></td>
+            <td><xsl:value-of select="@NAME"/></td>
+            <td><xsl:value-of select="@TIME"/></td>
+            <td><xsl:value-of select="@AGENT"/></td>
+            <td><xsl:value-of select="@NOTE"/></td>
           </tr>
           </xsl:for-each>
       </table>
