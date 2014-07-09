@@ -102,10 +102,11 @@ module Daitss
 
           unless package.save
             #validation errors
+            errorStr = "Error saving package: #{package.id}"
             package.sip.errors.each do |e|
-             agreement_errors << "Database Error: #{e}"
+             errorStr += " Database Error: #{e}"
             end
-
+            raise errorStr
           end
           
 
