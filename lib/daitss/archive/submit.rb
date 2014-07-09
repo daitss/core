@@ -103,7 +103,7 @@ module Daitss
           unless package.save
             #validation errors
             package.sip.errors.each do |e|
-             agreement_errors << "Database Field Constraint: #{e}"
+             agreement_errors << "Database Error: #{e}"
             end
 
           end
