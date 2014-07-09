@@ -101,7 +101,11 @@ module Daitss
         Package.transaction do
 
           unless package.save
-            raise "cannot save package: #{package.id}"
+            #validation errors
+            package.sip.errors.each do |e|
+             agreement_errors << "Database Field Constraint: #{e}"
+            end
+
           end
           
 

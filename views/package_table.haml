@@ -20,11 +20,18 @@
       %td
         %a{:href => "/package/#{p.id}"}= p.id
       %td
-        %a{:href => "/package?search=#{p.sip.name}"}= p.sip.name 
+        - if p.sip
+          %a{:href => "/package?search=#{p.sip.name}"}= p.sip.name 
       %td= p.project.account.id
       %td= p.project.id
-      %td= sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000)
-      %td= p.sip.number_of_datafiles
+      - if p.sip
+        %td= sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000)
+      - else
+        %td= 'N/A'
+      - if p.sip
+        %td= p.sip.number_of_datafiles
+      - else
+        %td= 'N/A'
       - latest_event = p.normal_events.last
       - if latest_event
         %td= latest_event.polite_name

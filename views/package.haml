@@ -35,7 +35,8 @@
 
   %tr
     %td
-      %a{:href => "/packages?search=#{@package.sip.name}"} #{@package.sip.name}
+      - if @package.sip
+        %a{:href => "/packages?search=#{@package.sip.name}"} #{@package.sip.name}
     %td= @package.project.account.id
     %td= @package.project.id
 
@@ -174,7 +175,10 @@
 
       %tr
         %th number of submitted datafiles
-        %td= @package.sip.submitted_datafiles
+        - if @package.sip
+          %td= @package.sip.submitted_datafiles
+        - else
+          %td= 'N/A'  
 
       - if @package.intentity.volume != ""
         %tr
