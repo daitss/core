@@ -86,6 +86,17 @@ helpers do
     @user.kind_of? Contact
   end
 
+  def allowed_requests
+    requests = Array.new
+    if @user.kind_of? Operator
+      requests = ['disseminate', 'withdraw', 'refresh']
+    else 
+      requests << 'disseminate' if @user.permissions.include? :disseminate
+      requests << 'withdraw' if @user.permissions.include? :withdraw
+    end
+    requests
+  end
+  
   def wip_sort_order w
     if w.running? then 3
     elsif w.state == :idle then 5
@@ -220,7 +231,6 @@ get '/' do
     @aip_data = DataMapper.repository(:default).adapter.select("SELECT project_account_id, SUM(size) AS size, COUNT(*) AS AIP_count, SUM(datafile_count) AS file_count FROM packages INNER JOIN accounts ON packages.project_account_id=accounts.id INNER JOIN aips ON packages.id=aips.package_id INNER JOIN copies ON aips.id=copies.aip_id GROUP BY project_account_id")
     @sip_data = DataMapper.repository(:default).adapter.select("SELECT project_account_id, SUM(size_in_bytes) AS size, COUNT(*) AS SIP_count, SUM(number_of_datafiles) AS file_count FROM packages INNER JOIN accounts ON packages.project_account_id=accounts.id INNER JOIN sips ON packages.id=sips.package_id GROUP BY project_account_id ORDER BY project_account_id")
   end
-    
   haml :index
 end
 

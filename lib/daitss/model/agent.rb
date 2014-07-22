@@ -50,6 +50,7 @@ module Daitss
 
   class Contact < User
     property :permissions, Flag[:disseminate, :withdraw, :peek, :submit, :report]
+    
   end
 
   class Operator < User

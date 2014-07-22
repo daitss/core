@@ -96,10 +96,7 @@
       %td elapsed time
       %td= @ingest_time
 
-
-
   - aip = @package.aip
-
  
   - if @package.aip
 
@@ -146,14 +143,12 @@
               - else
                 %td &nbsp;
 
-      - if @is_op and aip.copy
+      - if aip.copy 
         %h2 submit request
         %form{:action => "/package/#{@package.id}/request", :method => 'POST'}
           %select{:name=>'type'}
-            %option= 'disseminate'
-            %option= 'withdraw'
-            %option= 'refresh'
-            -#%option= 'peek'
+            - allowed_requests.each do |r|
+              %option{:value => r}= r
           %input{:name => 'note'}
           %input{:type => 'submit', :value => 'Request'}
 
