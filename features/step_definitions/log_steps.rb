@@ -3,7 +3,7 @@ When /^I enter a log message "([^"]*)"$/ do |message|
 end
 
 Then /^I should see a log message "([^"]*)"$/ do |message|
-  last_response.should have_selector("td:contains('#{message}')")
+  page.should have_selector("td:contains('#{message}')")
 end
 
 Then /^there should be an admin log entry:$/ do |table|
@@ -16,6 +16,6 @@ Then /^there should be an admin log entry:$/ do |table|
 end
 
 Then /^I should see an operator "([^"]*)"$/ do |op|
-  last_response.should have_selector("td:contains('#{op}')")
+  page.should have_selector("td:contains('#{op}')")
 end
 

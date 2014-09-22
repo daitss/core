@@ -7,24 +7,27 @@ require File.join(File.dirname(__FILE__), *%w[.. .. app.rb])
 require 'ruby-debug'
 require 'net/http'
 require 'rspec'
-require 'rack/test'
-require 'webrat'
+#require 'rack/test'
+#require 'webrat'
 require 'nokogiri'
+require 'capybara/cucumber'
 
 require 'daitss/model'
 require 'daitss/archive'
 require 'open-uri'
-
+require 'rspec/expectations'
+require 'rspec/collection_matchers'
 require_relative '../../spec/spec_helper'
 
-Webrat.configure { |config| config.mode = :rack }
+#Webrat.configure { |config| config.mode = :rack }
+Capybara.app = Sinatra::Application
 
 class MyWorld
-  include Rack::Test::Methods
-  include Webrat::Methods
-  include Webrat::Matchers
-
-  Webrat::Methods.delegate_to_session :response_code, :response_body
+  #include Rack::Test::Methods
+  #include Webrat::Methods
+  #include Webrat::Matchers
+  include Capybara::DSL
+  #Webrat::Methods.delegate_to_session :response_code, :response_body
 
   def app
     Sinatra::Application.environment = :test
@@ -83,7 +86,7 @@ class MyWorld
   end
 
   def reload!
-    visit last_request.env["PATH_INFO"]
+    visit page.current_path
   end
 
 end
@@ -126,8 +129,9 @@ Before do
   fill_in 'name', :with => 'operator'
   fill_in 'password', :with => 'pass'
   click_button 'login'
-  follow_redirect!
-  last_response.should be_ok
+  #follow_redirect! capybara follows redirects automatically
+  #last_response.should be_ok
+  page.status_code.should be 200
 end
 
 After do

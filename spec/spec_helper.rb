@@ -8,7 +8,8 @@ require_relative "help/sandbox"
 require_relative "help/profile"
 require_relative "help/agreement"
 require_relative "help/fs"
-
+require 'capybara'
+require 'capybara/dsl'
 require 'rubygems'
 require 'bundler/setup'
 
@@ -16,6 +17,7 @@ require 'datyl/logger'
 
 include Daitss
 include Datyl
+
 
 RSpec.configure do |config|
 
@@ -39,6 +41,8 @@ RSpec.configure do |config|
 
     Datyl::Logger.setup "Rspec"
     Datyl::Logger.stderr
+    #config.include Capybara
+    #config.include Rack::Test::Methods
   end
 
   config.after :all do
@@ -46,3 +50,5 @@ RSpec.configure do |config|
   end
 
 end
+
+

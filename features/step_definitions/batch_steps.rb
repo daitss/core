@@ -64,13 +64,13 @@ end
 
 Then /^I should have a batch containing$/ do |table|
   table.raw.each do |r|
-    step "the response contains \"#{r}\""
+    step "the response contains \"#{r[0]}\""
   end
 end
 
 Then /^I should have a batch not containing$/ do |table|
   table.raw.each do |r|
-    step "the response does not contain \"#{r}\""
+    step "the response does not contain \"#{r[0]}\""
   end
 end
 

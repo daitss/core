@@ -12,7 +12,7 @@ Feature: snafu tab
     And I goto "/workspace"
     When I choose "stash"
     And I select "default bin"
-    And I press "update"
+    And I press "Update"
     And I should be redirected
     And I goto "/errors"
     Then I should see the package in the results
@@ -26,7 +26,7 @@ Feature: snafu tab
     And I goto its package page
     And I click on "ingesting"
     And I choose "start"
-    And I press "update"
+    And I press "Update"
     Then I should be redirected
     And I wait for it to finish
     And I goto "/errors"

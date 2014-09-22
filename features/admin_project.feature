@@ -7,7 +7,7 @@ Feature: admin of projects
     And I fill in the project form with:
       | id  | description | account_id |
       | ADD | add test    | ACTPRJ     |
-    When I press "Create Project"
+    When I press "Create project"
     Then I should be redirected
     And there should be an project with:
       | id  | description | account_id |
@@ -60,6 +60,6 @@ Feature: admin of projects
     And I fill in the project form with:
       | id  | description | account_id |
       | default | add test    | ACTPRJ     |
-    When I press "Create Project"
+    When I press "Create project"
     Then the response code should be 400
  

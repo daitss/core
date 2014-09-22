@@ -5,8 +5,8 @@ Given /^I submit "([^"]*)"$/ do |package|
   step %q(I should be at a package page)
   #cleanup after each submit
   rm_fixture(package)
-  last_response.should be_ok
-  packages << last_request.env["PATH_INFO"]
+  (200..399).should include(page.status_code)
+  packages << page.current_path #last_request.env["PATH_INFO"]
   
 end
 
@@ -68,10 +68,6 @@ Given /^(\d+) packages snafued under batch "([^"]*)"$/ do |count, batch|
   b.save
 end
 
-
-
-
-
 Given /^I submit a package$/ do
   step %q(I submit "haskell-nums-pdf")
 end
@@ -110,8 +106,8 @@ When /^I select "([^\"]*)" to upload$/ do |name|
 end
 
 Then /^I should be at a package page$/ do
-  follow_redirect! if last_response.status == 302
-  last_request.env['PATH_INFO'].should =~ %r{^/package/\w+}
+  #follow_redirect! if last_response.status == 302
+  page.current_path.should match /package/
 end
 
 Then /^the submitted datafiles field should show (\d+) files$/ do |count|

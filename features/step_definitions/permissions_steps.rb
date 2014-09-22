@@ -3,7 +3,6 @@ Given /^I am logged in as an? "([^"]*)"$/ do |role|
   fill_in 'name', :with => role
   fill_in 'password', :with => 'pass'
   click_button 'login'
-  follow_redirect!
 end
 
 When /^I log out and log in as an? "([^"]*)"$/ do |role|
@@ -14,7 +13,6 @@ When /^I log out and log in as an? "([^"]*)"$/ do |role|
   fill_in 'name', :with => role
   fill_in 'password', :with => 'pass'
   click_button 'login'
-  follow_redirect!
 end
 
 Given /^this test is pending$/ do

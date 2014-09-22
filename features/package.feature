@@ -104,7 +104,7 @@ Feature: overview of a package
     And I press "Request"
     When I log out and log in as an "operator"
     And I goto its package page
-    And I press "authorize"
+    And I press "Authorize"
     And I wait for the "withdraw" to finish
     And I goto its package page   
     Then the response should contain a valid withdraw report

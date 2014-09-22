@@ -31,9 +31,11 @@ else
 end
 
 group :test do
+  gem "capybara"
   gem "cucumber"
   gem "rack-test"
   gem "rspec"
+  gem 'rspec-collection_matchers'
   gem "fuubar"
   gem "webrat"
   gem 'debugger'

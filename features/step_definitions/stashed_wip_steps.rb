@@ -1,19 +1,19 @@
-Then /^I should be at (the stashed wip|the wip|an error|the package) page$/ do |page|
+Then /^I should be at (the stashed wip|the wip|an error|the package) page$/ do |pg|
 
-  case page
+  case pg
 
   when "the stashed wip"
-    last_response.should be_ok
-    last_response.should have_selector("h1:contains('stashed')")
+    (200..399).should include(page.status_code)
+    page.should have_selector("h1:contains('stashed')")
 
   when "an error"
-    last_response.should_not be_ok
-    last_response.should have_selector("p:contains('can only stash a non-running wip')")
+    (200..399).should_not include(page.status_code)
+    page.should have_selector("p:contains('can only stash a non-running wip')")
 
   when "the wip"
-    last_request.url.should =~ %r'/workspace/#{last_package_id}'
-    last_response.should be_ok
-    last_response.should_not have_selector("h1:contains('stashed')")
+    page.current_url.should match "/workspace/#{last_package_id}"
+    (200..399).should include(page.status_code)
+    page.should_not have_selector("h1:contains('stashed')")
 
   end
 

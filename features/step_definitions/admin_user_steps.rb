@@ -1,7 +1,7 @@
 Given /^I fill in the user form with:$/ do |table|
   step 'I goto "/admin/users"'
 
-  within "form#create-user" do
+  page.within "form#create-user" do
 
     table.hashes.each do |row|
 
@@ -13,7 +13,7 @@ Given /^I fill in the user form with:$/ do |table|
 end
 
 Given /^I fill in the user update form with:$/ do |table|
-  within "form#modify-user" do
+  page.within "form#modify-user" do
 
     table.hashes.each do |row|
 
@@ -25,7 +25,7 @@ Given /^I fill in the user update form with:$/ do |table|
 end
 
 Given /^I fill in the user password form with:$/ do |table|
-  within "form#change-user-password" do
+  page.within "form#change-user-password" do
 
     table.hashes.each do |row|
 
@@ -45,7 +45,7 @@ Then /^there should be a user with:$/ do |table|
 
   table.hashes.each do |row|
     cell_conditions = row.values.map { |v| "td = '#{v}'"}.join ' and '
-    last_response.should have_xpath("//tr[#{cell_conditions}]")
+    page.should have_xpath("//tr[#{cell_conditions}]")
   end
 
 end
@@ -54,14 +54,14 @@ Then /^there should not be a user with:$/ do |table|
 
   table.hashes.each do |row|
     cell_conditions = row.values.map { |v| "td = '#{v}'"}.join ' and '
-    last_response.should_not have_xpath("//tr[#{cell_conditions}]")
+    page.should_not have_xpath("//tr[#{cell_conditions}]")
   end
 end
 
 Given /^a user "([^"]*)"$/ do |id|
   step 'I goto "/admin/users"'
 
-  within "form#create-user" do
+  page.within "form#create-user" do
     fill_in 'id', :with => id
     fill_in 'first_name', :with => "#{id} first name"
     fill_in 'last_name', :with => "#{id}last name"
@@ -72,7 +72,7 @@ Given /^a user "([^"]*)"$/ do |id|
 
   step 'I press "Create User"'
   step 'I should be redirected'
-  last_response.should be_ok
+  (200..399).should include(page.status_code)
   @the_user = User.get id
   @the_user.should_not be_nil
 end
@@ -80,7 +80,7 @@ end
 Given /^a contact "([^"]*)"$/ do |id|
   step 'I goto "/admin/users"'
 
-  within "form#create-user" do
+  page.within "form#create-user" do
     select "affiliate", :from => "type"
     fill_in 'id', :with => id
     fill_in 'first_name', :with => "#{id} first name"
@@ -92,7 +92,7 @@ Given /^a contact "([^"]*)"$/ do |id|
 
   step 'I press "Create User"'
   step 'I should be redirected'
-  last_response.should be_ok
+  (200..399).should include(page.status_code)
   @the_user = User.get id
   @the_user.should_not be_nil
 end
@@ -115,20 +115,20 @@ Given /^that user (is|is not) empty$/ do |condition|
     e.package = p
 
     @the_user.events << e
-    @the_user.save.should be_true
+    @the_user.save.should be true
   end
 end
 
 When /^I press "([^"]*)" for the user$/ do |button|
 
-  within "tr:contains('#{@the_user.id}')" do
+  page.within "tr:contains('#{@the_user.id}')" do
     click_button button
   end
 
 end
 
 Then /^there should not be a user "([^"]*)"$/ do |id|
-  last_response.should_not have_selector("td:contains('#{id}')")
+  page.should_not have_selector("td:contains('#{id}')")
 end
 
 Then /^user "([^"]*)" should authenticate with password "([^"]*)"$/ do |user, pass|

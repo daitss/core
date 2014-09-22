@@ -1,5 +1,5 @@
 Then /^I should see the wip in the stash bin$/ do
-  last_response.should have_selector("td a", :content => last_package_id)
+  page.should have_selector("td a", :text => last_package_id)
 end
 
 Given /^I stash it in "([^\"]*)"$/ do |bin_name|
@@ -8,9 +8,9 @@ Given /^I stash it in "([^\"]*)"$/ do |bin_name|
   step %Q(I select "#{bin_name}")
   step %Q(I press "Update")
   step 'I should be redirected'
-  last_response.should be_ok
+  (200..399).should include(page.status_code)
 end
 
 Then /^I should see no stashed packages$/ do
-  last_response.should_not have_selector("tr:contains('package')")
+  page.should_not have_selector("tr:contains('package')")
 end

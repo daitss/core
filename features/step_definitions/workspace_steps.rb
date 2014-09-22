@@ -4,7 +4,7 @@ end
 
 Given /^an? ([^"]*) wip$/ do |state|
   step "I submit a package"
-  last_response.should be_ok
+  (200..399).should include(page.status_code)
 
   # TODO implement all of this 'over-the-hood'
   #When %Q(I click on "ingesting")
@@ -126,8 +126,8 @@ end
 When /^all running wips have finished$/ do
   while true
     visit "/workspace"
-    last_response.should be_ok
-    doc = Nokogiri::HTML last_response.body
+    (200..399).should include(page.status_code)
+    doc = Nokogiri::HTML page.body
 
     if (doc / "td:contains('running')").size == 0
       break
@@ -142,8 +142,8 @@ Then /^there should be (\d+) (running|snafu|stopped|) ?wips?$/ do |count, state|
     state = 'stop'
   end
 
-  last_response.should be_ok
-  doc = Nokogiri::HTML last_response.body
+  (200..399).should include(page.status_code)
+  doc = Nokogiri::HTML page.body
 
   unless state.empty?
     (doc / "#results td:contains('#{state}')").size.should == count.to_i
@@ -164,16 +164,16 @@ Then /^there should be the following wips:$/ do |table|
 end
 
 Then /^there should be (\d+) idle wips listed in the table$/ do |count|
-  last_response.should be_ok
+  (200..399).should include(page.status_code)
   pending "idle wips are no longer being displayed in the workspace"
-  doc = Nokogiri::HTML last_response.body
+  doc = Nokogiri::HTML page.body
 
   (doc / "#idles td:contains('#{count}')").size.should == 1
 end
 
 Then /^the idle table should be zeroed out$/ do
-  last_response.should be_ok
-  doc = Nokogiri::HTML last_response.body
+  (200..399).should include(page.status_code)
+  doc = Nokogiri::HTML page.body
   (doc / "#idles td:contains('0')").size.should == 4
 end
 
@@ -183,7 +183,7 @@ When /^I select "([^\"]*)"$/ do |bin|
 end
 
 Then /^I should have (\d+) wips in the results$/ do |count|
-  doc = Nokogiri::HTML last_response.body
+  doc = Nokogiri::HTML page.body
   trs = doc / '#results tr'
   (trs.reject { |tr| tr % 'th'}).size.should == count.to_i
 end

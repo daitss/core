@@ -9,7 +9,7 @@ Feature: withdraw a package
     And I press "Request"
     When I log out and log in as an "operator"
     And I goto its package page
-    And I press "authorize"
+    And I press "Authorize"
     And I wait for the "withdraw" to finish
     And I goto its package page
     And I should not see "submit request"
@@ -29,7 +29,7 @@ Feature: withdraw a package
     When I log out and log in as an "operator"
     And I goto its package page
     Given the package is missing its copy record
-    And I press "authorize"
+    And I press "Authorize"
     And I wait for the "withdraw" to finish
     And I goto its package page
     And I should not see "submit request"
@@ -46,5 +46,5 @@ Feature: withdraw a package
     And I fill in "note" with "withdraw, please"
     And I press "Request"
     And I goto its package page
-    And I press "authorize"
+    And I press "Authorize"
     Then the response code should be 403

@@ -32,28 +32,28 @@ end
 
 Then /^I should see the packages? in the results$/ do
   packages.each do |s|
-    last_response.should have_selector("td a[href='/package/#{last_package_id}']", :content => last_package_id)
+    page.should have_selector("td a[href='/package/#{last_package_id}']", :text => last_package_id)
   end
 
 end
 
 Then /^I should see the snafu error "([^"]*)" in the results$/ do |error|
-  last_response.should have_selector("td", :content => error)
+  page.should have_selector("td", :text => error)
 end
 
 
 Then /^I should see that package in the results$/ do
   id = last_package ? last_package_id : Package.first.id
-  last_response.should have_selector("td a[href='/package/#{id}']", :content => id)
+  page.should have_selector("td a[href='/package/#{id}']", :text => id)
 end
 
 Then /^I should not see the package in the results$/ do
   id = last_package ? last_package_id : Package.first.id
-  last_response.should_not have_selector("td a[href='/package/#{id}']", :content => id)
+  page.should_not have_selector("td a[href='/package/#{id}']", :text => id)
 end
 
 Then /^I should see a "([^"]*)" heading$/ do |heading|
-  doc = Nokogiri::HTML last_response.body
+  doc = Nokogiri::HTML page.body
   rules = (1..3).map { |n| "h#{n}:contains('#{heading}')"}
   matches = doc.css *rules
   matches.should_not be_empty
@@ -62,17 +62,17 @@ end
 Then /^I should see the following columns:$/ do |table|
 
   table.headers.each do |h|
-    last_response.should have_selector("th:contains('#{h}')")
+    page.should have_selector("th:contains('#{h}')")
   end
 
 end
 
 Then /^the package column should link to a package$/ do
-  last_response.should have_selector("td a[href*='/package/']")
+  page.should have_selector("td a[href*='/package/']")
 end
 
 Then /^I should have (\d+) package in the results$/ do |count|
-  doc = Nokogiri::HTML last_response.body
+  doc = Nokogiri::HTML page.body
   trs = doc / '#results tr'
   (trs.reject { |tr| tr % 'th'}).size.should == count.to_i
 end
@@ -98,11 +98,11 @@ When /^I select status "([^"]*)"$/ do |status|
 end
 
 Then /^the latest activity should be "([^"]*)"$/ do |activity|
-  last_response.should have_selector("td:contains('#{activity}')")
+  page.should have_selector("td:contains('#{activity}')")
 end
 
 Then /^the timestamp should be "([^"]*)"$/ do |timestamp|
-  last_response.should have_selector("td:contains('#{timestamp}')")
+ page.should have_selector("td:contains('#{timestamp}')")
 end
 
 When /^I search for the package$/ do

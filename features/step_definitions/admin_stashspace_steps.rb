@@ -3,7 +3,7 @@ Given /^a stash bin named "([^\"]*)"$/ do |name|
   step %Q(I fill in "name" with "default bin")
   step %Q(I press "Create")
   step 'I should be redirected to "/stashspace"'
-  last_response.should be_ok
+  (200..399).should include(page.status_code)
   @the_bin = Daitss.archive.stashspace.find { |b| b.name == name }
   @the_bin.should_not be_nil
 end
@@ -21,9 +21,9 @@ Then /^there should (be|not be) a stash bin named "([^\"]*)"$/ do |presence, nam
 
   case presence
   when 'be'
-    last_response.should have_selector("td:contains('#{name}')")
+    page.should have_selector("td:contains('#{name}')")
   when 'not be'
-    last_response.should_not have_selector("td:contains('#{name}')")
+    page.should_not have_selector("td:contains('#{name}')")
   end
 
 end
@@ -49,7 +49,7 @@ Given /^that stash bin is (empty|not empty)$/ do |contents|
 end
 
 Then /^the stashspace should have (\d+) wips$/ do |count|
-  doc = Nokogiri::HTML last_response.body
+  doc = Nokogiri::HTML page.body
   trs = doc / '#results tr'
   (trs.reject { |tr| tr % 'th'}).size.should == count.to_i
 end

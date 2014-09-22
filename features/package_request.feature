@@ -26,7 +26,7 @@ Feature: package requests
     And a disseminate request
     When I goto its package page
     And I fill in cancel note with "cancelling request"
-    And I press "Cancel" for the request
+    And I press "Cancel"
     Then I should see a disseminate request with status "cancelled"
     And there should be an "disseminate request cancelled" event
     And the "disseminate request cancelled" event should have note "cancelling request"
@@ -37,7 +37,7 @@ Feature: package requests
     When I goto its package page
     And I fill in cancel note with "cancelling request"
     And the request is picked up by pulse and sent to workspace
-    And I press "Cancel" for the request
+    And I press "Cancel"
     Then the response code should be 400
 
   Scenario: creating request without a note results in 400
@@ -51,7 +51,7 @@ Feature: package requests
     Given an archived package
     And a disseminate request
     When I goto its package page
-    And I press "Cancel" for the request
+    And I press "Cancel"
     Then the response code should be 400
 
   Scenario: duplicate requests result in 400 returned
