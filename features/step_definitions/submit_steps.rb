@@ -93,9 +93,10 @@ When "I select a sip to upload" do
   step "I select \"haskell-nums-pdf\" to upload"
 end
 
-When /^I select "([^\"]*)" to upload$/ do |name|
+When /^I select "(.*?)" to upload$/ do |name|
   pending if name == "multiple-agreements"
   pending if name == "lower-level-special-characters"
+  pending if name == "FD\"A" #difficult time escaping FD"A in test case as implemented
   case name
   when "non-package-text" then name = name + ".xyz"
   when "non-package-tar" then name = name + ".tar"

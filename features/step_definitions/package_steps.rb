@@ -30,7 +30,7 @@ Then /^in the jobs summary I should see an ingest wip$/ do
   page.should have_selector("a[href='/workspace/#{last_package_id}']", :text => 'ingesting')
 end
 
-Then /^in the events I should see a "([^\"]*)" event with "([^"]*)" in the notes$/ do |event, notes|
+Then /^in the events I should see a "(.*?)" event with "(.*?)" in the notes$/ do |event, notes|
   pending notes if notes =~ %r{\?$}
   page.should have_selector(%Q{td:contains("#{event}")})
   page.should have_selector(%Q{td:contains("#{notes}")})
