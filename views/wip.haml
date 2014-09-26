@@ -39,11 +39,11 @@
   %h2 package details
   %table
     %tr
-      %th datafiles
       %th size (MB)
+      %th datafiles
     %tr
-      %td= Package.get(@wip.id).sip.submitted_datafiles rescue "n/a"
-      %td= sprintf('%.2f',Package.get(@wip.id).sip.size_in_bytes.to_f / 1000000) rescue "n/a"
+      %td= sprintf('%.2f',@wip.package.sip.size_in_bytes.to_f / 1000000) rescue "n/a"
+      %td= @wip.package.sip.submitted_datafiles rescue "n/a"
 
   %h2 progress
   = partial :wip_progress

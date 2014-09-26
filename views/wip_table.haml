@@ -17,6 +17,8 @@
     %th package
     %th task
     %th status
+    %th size (MB)
+    %th # of files
     %th time
   - wips.each do |w|
     %tr
@@ -27,9 +29,11 @@
       %td= w.package.sip.name
       %td= w.task
       %td= w.state.to_s.gsub 'snafu', 'error'
+      %td= sprintf('%.2f',w.package.sip.size_in_bytes.to_f / 1000000) rescue "n/a"
+      %td= w.package.sip.submitted_datafiles rescue "n/a"
       - if File.directory?(w.path)
         %td= File.ctime(w.path)
       - else
         %td
           &nbsp;
-
+          
