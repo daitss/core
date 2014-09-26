@@ -278,3 +278,13 @@
       %tr
         %td
           %a{:href=>"/package/#{@package.id}/dip/#{dip}"}= dip
+
+- else
+  %h2 package details
+  %table
+    %tr
+      %th datafiles
+      %th size (MB)
+    %tr
+      %td= @package.sip.submitted_datafiles rescue "n/a"
+      %td= sprintf('%.2f',@package.sip.size_in_bytes.to_f / 1000000) rescue "n/a"

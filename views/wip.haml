@@ -35,6 +35,15 @@
       %input{:type => 'submit', :value => "Update"}
 
   %hr/
+  
+  %h2 package details
+  %table
+    %tr
+      %th datafiles
+      %th size (MB)
+    %tr
+      %td= Package.get(@wip.id).sip.submitted_datafiles rescue "n/a"
+      %td= sprintf('%.2f',Package.get(@wip.id).sip.size_in_bytes.to_f / 1000000) rescue "n/a"
 
   %h2 progress
   = partial :wip_progress
