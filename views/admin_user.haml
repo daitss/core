@@ -81,6 +81,17 @@
 
 %br
 
+- if @the_user.deleted?
+  %h3 
+    Reactivate User
+  %form{:action => '/admin', :method => 'POST'}
+    %table
+      %tr
+        %td
+          %input{:type => 'hidden', :name => 'task', :value => 'reactivate-user'}
+          %input{:type => 'hidden', :name => 'id', :value => @the_user.id }
+          %input{:type => 'submit', :value => "reactivate user"}
+          
 %a{:href => "/admin/users"}
   back to users
 

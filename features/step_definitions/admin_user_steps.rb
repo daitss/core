@@ -128,7 +128,9 @@ When /^I press "([^"]*)" for the user$/ do |button|
 end
 
 Then /^there should not be a user "([^"]*)"$/ do |id|
-  last_response.should_not have_selector("td:contains('#{id}')")
+  #last_response.should_not have_selector("td:contains('#{id}')")
+  #perform test on DB... not GUI, since we can now reactivate users
+  expect(User.get(id)).to be_nil
 end
 
 Then /^user "([^"]*)" should authenticate with password "([^"]*)"$/ do |user, pass|

@@ -132,3 +132,39 @@
           %td &nbsp;
           %td &nbsp;
 
+%h2
+  inactive (deleted) users
+
+- if @users.any?
+  %table
+    %tr
+      %th type
+      %th account
+      %th username
+      %th last name
+      %th first name
+      %th permissions
+      %th email
+      %th phone
+      %th address
+      %th designations
+      %th{:colspan => 4} actions
+
+    - @users.each do |u|
+      - next if !u.deleted?
+      %tr
+        %td= u.type.name[ /^Daitss::(\w+)$/, 1].downcase rescue u.type.name
+        %td&= u.account.id
+        %td&= u.id
+        %td&= u.last_name
+        %td&= u.first_name
+        %td= u.type == Contact ? u.permissions.join(" ") : "N/A"
+        %td&= u.email
+        %td&= u.phone
+        %td&= u.address
+        %td= (u.is_tech_contact ? "Technical Contact\n" : "") + (u.is_admin_contact ? "Admin Contact" : "")
+        %td
+          %a{:href => "/admin/users/#{u.id}"}
+            modify
+
+

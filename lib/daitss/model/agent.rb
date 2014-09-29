@@ -34,6 +34,10 @@ module Daitss
     def deleted?
       !self.deleted_at.nil?
     end
+    
+    def reactivate
+      self.deleted_at = nil
+    end
 
   end
 

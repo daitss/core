@@ -57,6 +57,19 @@ Feature: admin of users
     And there should be an admin log entry:
       | user | message               |
       | foo  | delete user: usermagee |
+      
+  Scenario: Reactivate a deleted user
+    Given a pending test case
+    Given a user "usermagee"
+    And that user is not empty
+    And I goto "/admin/users"
+    When I press "Delete" for the user
+    Then I should be redirected
+    And there should not be a user "usermagee"
+    When I press "modify" for the user
+    Then I should be redirected
+    When I press "reactivate user"
+    Then there should be a user "usermagee"
 
   Scenario: Make admin contact
     Given a contact "admin"

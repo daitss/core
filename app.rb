@@ -1332,7 +1332,20 @@ post '/admin' do
     end
 
     redirect '/admin/users'
-
+    
+  when 'reactivate-user'
+    id = require_param 'id'
+    u = User.get(id) or not_found
+    u.reactivate
+    
+    if u.save 
+      archive.log "Reactivated user: #{u.id}", @user
+    else
+      error "could not reactivate user"
+    end
+    
+    redirect '/admin/users'
+    
   when 'make-admin-contact'
     id = require_param 'id'
     u = Contact.get(id) or not_found
