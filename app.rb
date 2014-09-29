@@ -1229,7 +1229,13 @@ post '/admin' do
     redirect '/admin/projects'
 
   when 'new-user'
-    error 400 if User.get(require_param('id'))
+    if User.get(require_param('id'))
+      if User.get(params['id']).deleted?
+        error 400, "User previously deleted. Choose a different id."
+      else 
+        error 400, "User exists. Choose a different id." 
+      end
+    end
 
     type = require_param 'type'
 

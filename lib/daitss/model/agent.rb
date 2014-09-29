@@ -30,6 +30,10 @@ module Daitss
     def authenticate pass
       self.auth_key == Digest::SHA1.hexdigest("#{self.salt}:#{pass}") and self.deleted_at.nil?
     end
+    
+    def deleted?
+      !self.deleted_at.nil?
+    end
 
   end
 
