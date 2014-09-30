@@ -247,6 +247,12 @@ end
 
 post '/packages?/?' do
   require_param 'sip'
+  
+  # check if user is not an op or not an operator with submit permissions
+  if !(is_op || (is_affiliate && (@user.permissions.include? :submit)))
+    error 400, "User not authorized to submit"
+  end
+  
   p = begin
     filename = params['sip'][:filename]
     data = params['sip'][:tempfile].read
