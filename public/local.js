@@ -1,4 +1,14 @@
 $(document).ready(function(){
+  
+  $("#user-type").change(function() {
+    var selection = $("#user-type option:selected").text();
+    if (selection == "operator") {
+      $(".affiliate").hide();
+      //alert(selection);
+    } else {
+      $(".affiliate").show();
+    }
+  });
 
   // highlight the link at the top with the current location
   if (location.pathname == "/") {
@@ -16,5 +26,4 @@ $(document).ready(function(){
 function confirmClick() {
   return confirm("Are you sure?");
 };
-
 

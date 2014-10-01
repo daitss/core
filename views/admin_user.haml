@@ -124,23 +124,18 @@
 - if !@the_user.deleted?
   %h3
     Delete User
-  %table
-    %td
-      %form{:action => '/admin', :method => 'POST'}
-        %input{:type => 'hidden', :name => 'task', :value => 'delete-user'}
-        %input{:type => 'hidden', :name => 'id', :value => @the_user.id }
-        %input{:type => 'submit', :value => "Delete", :onClick => "return confirmClick();" }
+  %form{:action => '/admin', :method => 'POST'}
+    %input{:type => 'hidden', :name => 'task', :value => 'delete-user'}
+    %input{:type => 'hidden', :name => 'id', :value => @the_user.id }
+    %input{:type => 'submit', :value => "Delete", :onClick => "return confirmClick();" }
 
 - if @the_user.deleted?
   %h3 
     Reactivate User
-  %table
-    %tr
-      %td
-        %form{:action => '/admin', :method => 'POST'}
-          %input{:type => 'hidden', :name => 'task', :value => 'reactivate-user'}
-          %input{:type => 'hidden', :name => 'id', :value => @the_user.id }
-          %input{:type => 'submit', :value => "reactivate user"}
+  %form{:action => '/admin', :method => 'POST'}
+    %input{:type => 'hidden', :name => 'task', :value => 'reactivate-user'}
+    %input{:type => 'hidden', :name => 'id', :value => @the_user.id }
+    %input{:type => 'submit', :value => "reactivate user"}
           
 %a{:href => "/admin/users"}
   back to users

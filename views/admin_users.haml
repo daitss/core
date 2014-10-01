@@ -18,7 +18,7 @@
           - @accounts.each do |p|
             %option= p.id
 
-    %tr
+    %tr.affiliate
       %th permissions (affiliate only)
       %td
         %input{:name => 'disseminate_perm', :type => 'checkbox'} disseminate
@@ -26,7 +26,7 @@
         %input{:name => 'peek_perm', :type => 'checkbox'} peek
         %input{:name => 'submit_perm', :type => 'checkbox'} submit
         %input{:name => 'report_perm', :type => 'checkbox'} report
-    %tr
+    %tr.affiliate
       %th designation (affiliate only)
       %td
         %input{:name => 'is_admin', :type => 'checkbox'} admin contact
