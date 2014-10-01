@@ -1,5 +1,9 @@
-%h2 
-  modify user #{@the_user.id} (#{@the_user.class})
+- if @the_user.deleted?
+  %h2 
+    user #{@the_user.id} (#{@the_user.class}) is DEACTIVATED
+- else
+  %h2 
+    modify user #{@the_user.id} (#{@the_user.class})
 
 %h3
   user details
@@ -50,6 +54,42 @@
   %input{:type => 'hidden', :name => 'type', :value => @the_user.class == Operator ? "operator" : "contact" }
   %input{:type => 'submit', :value => 'modify user'}
 
+- if @the_user.type == Contact
+  %br
+  
+  %table
+    %tr
+      %th current designations
+      %td= (@the_user.is_admin_contact ? "Admin Contact" : "")
+      %td= (@the_user.is_tech_contact ? "Technical Contact\n" : "")
+    %tr
+      %th set designations
+      - unless @the_user.is_admin_contact
+        %td
+          %form{:action => '/admin', :method => 'POST'}
+            %input{:type => 'hidden', :name => 'task', :value => 'make-admin-contact'}
+            %input{:type => 'hidden', :name => 'id', :value => @the_user.id }
+            %input{:type => 'submit', :value => "Make admin contact"}
+      - else
+        %td
+          %form{:action => '/admin', :method => 'POST'}
+            %input{:type => 'hidden', :name => 'task', :value => 'unmake-admin-contact'}
+            %input{:type => 'hidden', :name => 'id', :value => @the_user.id }
+            %input{:type => 'submit', :value => "Unmake admin contact"}
+      - unless @the_user.is_tech_contact
+        %td
+          %form{:action => '/admin', :method => 'POST'}
+            %input{:type => 'hidden', :name => 'task', :value => 'make-tech-contact'}
+            %input{:type => 'hidden', :name => 'id', :value => @the_user.id }
+            %input{:type => 'submit', :value => "Make technical contact"}
+      - else
+        %td
+          %form{:action => '/admin', :method => 'POST'}
+            %input{:type => 'hidden', :name => 'task', :value => 'unmake-tech-contact'}
+            %input{:type => 'hidden', :name => 'id', :value => @the_user.id }
+            %input{:type => 'submit', :value => "Unmake technical contact"}
+
+%br
 
 %h3
   change password
@@ -81,13 +121,23 @@
 
 %br
 
+- if !@the_user.deleted?
+  %h3
+    Delete User
+  %table
+    %td
+      %form{:action => '/admin', :method => 'POST'}
+        %input{:type => 'hidden', :name => 'task', :value => 'delete-user'}
+        %input{:type => 'hidden', :name => 'id', :value => @the_user.id }
+        %input{:type => 'submit', :value => "Delete", :onClick => "return confirmClick();" }
+
 - if @the_user.deleted?
   %h3 
     Reactivate User
-  %form{:action => '/admin', :method => 'POST'}
-    %table
-      %tr
-        %td
+  %table
+    %tr
+      %td
+        %form{:action => '/admin', :method => 'POST'}
           %input{:type => 'hidden', :name => 'task', :value => 'reactivate-user'}
           %input{:type => 'hidden', :name => 'id', :value => @the_user.id }
           %input{:type => 'submit', :value => "reactivate user"}

@@ -248,7 +248,7 @@ end
 post '/packages?/?' do
   require_param 'sip'
   
-  # check if user is not an op or not an operator with submit permissions
+  # check if user is not an op or not an affiliate with submit permissions
   if !(is_op || (is_affiliate && (@user.permissions.include? :submit)))
     error 400, "User not authorized to submit"
   end
@@ -1257,8 +1257,8 @@ post '/admin' do
           perms.push :peek if params['peek_perm'] == "on"
           perms.push :submit if params['submit_perm'] == "on"
           perms.push :report if params['report_perm'] == "on"
-
-          Contact.new :account => a, :permissions => perms
+          
+          Contact.new :account => a, :permissions => perms, :is_admin_contact => params['is_admin'] == "on" ? true : false, :is_tech_contact => params['is_tech'] == "on" ? true : false
         end
 
     u.id = require_param 'id'
@@ -1294,6 +1294,7 @@ post '/admin' do
       perms.push :report if params['report_perm'] == "on"
 
       u.permissions = perms
+      
     end
 
     u.first_name = require_param 'first_name'
@@ -1363,7 +1364,7 @@ post '/admin' do
       error "could not save user, errors: #{u.errors}"
     end
 
-    redirect '/admin/users'
+    redirect "/admin/users/#{u.id}"
 
   when 'make-tech-contact'
     id = require_param 'id'
@@ -1376,7 +1377,7 @@ post '/admin' do
       error "could not save user, errors: #{u.errors}"
     end
 
-    redirect '/admin/users'
+    redirect "/admin/users/#{u.id}"
 
   when 'unmake-admin-contact'
     id = require_param 'id'
@@ -1389,7 +1390,7 @@ post '/admin' do
       error "could not save user, errors: #{u.errors}"
     end
 
-    redirect '/admin/users'
+    redirect "/admin/users/#{u.id}"
 
   when 'unmake-tech-contact'
     id = require_param 'id'
@@ -1402,7 +1403,7 @@ post '/admin' do
       error "could not save user, errors: #{u.errors}"
     end
 
-    redirect '/admin/users'
+    redirect "/admin/users/#{u.id}"
 
   else raise "unknown task: #{params['task']}"
   end

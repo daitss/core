@@ -6,6 +6,10 @@ $(document).ready(function(){
   } else {
     $("nav a[href^='" + location.pathname + "']").addClass("active");
   }
+  
+  // set user type and account to default as blank
+  document.getElementById("user-type").selectedIndex = -1;
+  document.getElementById("user-account").selectedIndex = -1;
 
 });
 

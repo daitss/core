@@ -7,26 +7,31 @@
     %tr
       %th type
       %td
-        %select{:name=>'type'}
+        %select{:name=>'type', :id=>'user-type'}
           %option= 'operator'
           %option= 'affiliate'
 
     %tr
       %th account
       %td
-        %select{:name=>'account_id'}
+        %select{:name=>'account_id', :id=>'user-account'}
           - @accounts.each do |p|
             %option= p.id
 
     %tr
-      %th permissions
+      %th permissions (affiliate only)
       %td
-        %input{:name => 'disseminate_perm', :type => 'checkbox', :checked => 'true'} disseminate
-        %input{:name => 'withdraw_perm', :type => 'checkbox', :checked => 'true'} withdraw
-        %input{:name => 'peek_perm', :type => 'checkbox', :checked => 'true'} peek
-        %input{:name => 'submit_perm', :type => 'checkbox', :checked => 'true'} submit
-        %input{:name => 'report_perm', :type => 'checkbox', :checked => 'true'} report
-
+        %input{:name => 'disseminate_perm', :type => 'checkbox'} disseminate
+        %input{:name => 'withdraw_perm', :type => 'checkbox'} withdraw
+        %input{:name => 'peek_perm', :type => 'checkbox'} peek
+        %input{:name => 'submit_perm', :type => 'checkbox'} submit
+        %input{:name => 'report_perm', :type => 'checkbox'} report
+    %tr
+      %th designation (affiliate only)
+      %td
+        %input{:name => 'is_admin', :type => 'checkbox'} admin contact
+        %input{:name => 'is_tech', :type => 'checkbox'} tech contact
+      
     %tr
       %th id
       %td
@@ -80,7 +85,7 @@
       %th phone
       %th address
       %th designations
-      %th{:colspan => 4} actions
+      %th{:colspan => 1} actions
 
     - @users.each do |u|
       - next if u.deleted_at
@@ -98,39 +103,6 @@
         %td
           %a{:href => "/admin/users/#{u.id}"}
             modify
-        %td
-          %form{:action => '/admin', :method => 'POST'}
-            %input{:type => 'hidden', :name => 'task', :value => 'delete-user'}
-            %input{:type => 'hidden', :name => 'id', :value => u.id }
-            %input{:type => 'submit', :value => "Delete", :onClick => "return confirmClick();" }
-        - if u.type == Contact
-          - unless u.is_admin_contact
-            %td
-              %form{:action => '/admin', :method => 'POST'}
-                %input{:type => 'hidden', :name => 'task', :value => 'make-admin-contact'}
-                %input{:type => 'hidden', :name => 'id', :value => u.id }
-                %input{:type => 'submit', :value => "Make admin contact"}
-          - else
-            %td
-              %form{:action => '/admin', :method => 'POST'}
-                %input{:type => 'hidden', :name => 'task', :value => 'unmake-admin-contact'}
-                %input{:type => 'hidden', :name => 'id', :value => u.id }
-                %input{:type => 'submit', :value => "Unmake admin contact"}
-          - unless u.is_tech_contact
-            %td
-              %form{:action => '/admin', :method => 'POST'}
-                %input{:type => 'hidden', :name => 'task', :value => 'make-tech-contact'}
-                %input{:type => 'hidden', :name => 'id', :value => u.id }
-                %input{:type => 'submit', :value => "Make technical contact"}
-          - else
-            %td
-              %form{:action => '/admin', :method => 'POST'}
-                %input{:type => 'hidden', :name => 'task', :value => 'unmake-tech-contact'}
-                %input{:type => 'hidden', :name => 'id', :value => u.id }
-                %input{:type => 'submit', :value => "Unmake technical contact"}
-        - else
-          %td &nbsp;
-          %td &nbsp;
 
 %h2
   inactive (deleted) users

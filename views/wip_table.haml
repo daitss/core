@@ -1,4 +1,4 @@
-- total = wips.inject(0) {|sum, w| sum + Sip.first(:package_id => w.id).size_in_bytes }
+- total = wips.inject(0) {|sum, w| sum + Sip.first(:package_id => w.id).size_in_bytes rescue 0 }
 - if total > 1_000_000_000_000
   %h2= sprintf("size: %5.2f TB",  total / 1_000_000_000_000.0)
 - elsif total > 1_000_000_000
@@ -26,7 +26,7 @@
         %code
           %a{:href => "/#{space}/#{w.id}"}= w.id
 
-      %td= w.package.sip.name
+      %td= w.package.sip.name rescue "n/a"
       %td= w.task
       %td= w.state.to_s.gsub 'snafu', 'error'
       %td= sprintf('%.2f',w.package.sip.size_in_bytes.to_f / 1000000) rescue "n/a"

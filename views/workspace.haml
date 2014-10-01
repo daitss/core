@@ -45,7 +45,7 @@
     idle jobs: 
     = idle_wips.length
 
-  - total = idle_wips.inject(0) {|sum, w| sum + Sip.first(:package_id => w.id).size_in_bytes }
+  - total = idle_wips.inject(0) {|sum, w| sum + Sip.first(:package_id => w.id).size_in_bytes rescue "n/a"}
   - if total > 1_000_000_000_000
     %h2= sprintf("size: %5.2f TB",  total / 1_000_000_000_000.0)
   - elsif total > 1_000_000_000
