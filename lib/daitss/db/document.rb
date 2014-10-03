@@ -42,11 +42,15 @@ module Daitss
       attribute_set(:language, lang.content) unless lang.nil?
 
       # set all features associated with this document
+      features = []
       nodes = premis.find("doc:Features", NAMESPACES)
       nodes.each do |node|
-        attribute_set(:features, FEATURES[node.content])
+        features.push(FEATURES[node.content])
+        #attribute_set(:features, FEATURES[node.content])
       end
-
+      
+      attribute_set(:features, features)
+      
       # extract all fonts encoded in the document
       nodes = premis.find("doc:Font", NAMESPACES)
       nodes.each do |node|
