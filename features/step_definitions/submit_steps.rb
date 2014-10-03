@@ -68,10 +68,6 @@ Given /^(\d+) packages snafued under batch "([^"]*)"$/ do |count, batch|
   b.save
 end
 
-
-
-
-
 Given /^I submit a package$/ do
   step %q(I submit "haskell-nums-pdf")
 end

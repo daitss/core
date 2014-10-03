@@ -42,3 +42,8 @@ end
 When /^I wait for "([^"]*)" seconds$/ do |n|
   sleep n.to_f
 end
+
+Then /^it should have a datafile with multiple features$/ do
+  datafiles = Package.first(last_package_id).intentity.datafiles
+  Document.first(:datafile_id => datafiles[1].id).features.should include(:isTagged, :hasOutline, :hasAnnotations)
+end

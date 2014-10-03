@@ -106,7 +106,7 @@ Before do
   a = Account.get("ACT") or raise "Project ACT not found"
 
   # affiliate
-  aff = User.new :id => 'affiliate', :account => a
+  aff = Contact.new :id => 'affiliate', :account => a, :permissions => :submit
   aff.encrypt_auth('pass')
   aff.save or raise 'cannot save aff'
 

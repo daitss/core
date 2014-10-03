@@ -154,3 +154,6 @@ Feature: overview of a package
       | original path | origin | size | flags |
       | Haskell98numbers.pdf | DEPOSITOR | 27.92 KB | |
 
+  Scenario: should see multiple features on a document
+    Given "doc-features" is archived
+    Then it should have a datafile with multiple features

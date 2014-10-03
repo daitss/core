@@ -40,7 +40,9 @@ Feature: admin of users
     Given a user "usermagee"
     And that user is empty
     And I goto "/admin/users"
-    When I press "Delete" for the user
+    When I click "modify" for the user
+    Then I should see "modify user usermagee"
+    When I press "Delete"
     Then I should be redirected
     And there should not be a user "usermagee"
     And there should be an admin log entry:
@@ -51,7 +53,9 @@ Feature: admin of users
     Given a user "usermagee"
     And that user is not empty
     And I goto "/admin/users"
-    When I press "Delete" for the user
+    When I click "modify" for the user
+    Then I should see "modify user usermagee"
+    When I press "Delete"
     Then I should be redirected
     And there should not be a user "usermagee"
     And there should be an admin log entry:
@@ -59,71 +63,79 @@ Feature: admin of users
       | foo  | delete user: usermagee |
       
   Scenario: Reactivate a deleted user
-    Given a pending test case
     Given a user "usermagee"
     And that user is not empty
     And I goto "/admin/users"
-    When I press "Delete" for the user
+    When I click "modify" for the user
+    Then I should see "modify user usermagee"
+    When I press "Delete"
     Then I should be redirected
     And there should not be a user "usermagee"
-    When I press "modify" for the user
-    Then I should be redirected
+    When I click "modify" for the user
+    Then I should see "is DEACTIVATED"
     When I press "reactivate user"
-    Then there should be a user "usermagee"
+    Then I should be redirected
+    And there should be a user "usermagee"
 
   Scenario: Make admin contact
-    Given a contact "admin"
+    Given a contact "admincontact"
     And I goto "/admin/users"
-    When I press "Make admin contact" for the user
-    Then I should be redirected
+    When I click "modify" for the user
+    Then I should see "modify user admincontact"
+    When I press "Make admin contact"
+    And I goto "/admin/users"
     Then there should be a user with:
       | account flags |
       | Admin Contact |
     Then there should be an admin log entry:
       | user | message               |
-      | foo  | made admin contact: admin |
+      | foo  | made admin contact: admincontact |
 
   Scenario: Make tech contact
-    Given a contact "admin"
+    Given a contact "techcontact"
     And I goto "/admin/users"
-    When I press "Make technical contact" for the user
-    Then I should be redirected
+    When I click "modify" for the user
+    Then I should see "modify user techcontact"
+    When I press "Make technical contact"
+    And I goto "/admin/users"
     Then there should be a user with:
       | account flags |
       | Technical Contact |
     Then there should be an admin log entry:
       | user | message               |
-      | foo  | made tech contact: admin |
+      | foo  | made tech contact: techcontact |
 
   Scenario: Unmake admin contact
-    Given a contact "admin"
+    Given a contact "admincontact"
     And I goto "/admin/users"
-    When I press "Make admin contact" for the user
+    When I click "modify" for the user
+    Then I should see "modify user admincontact"
+    When I press "Make admin contact"
     Then I should be redirected
+    When I press "Unmake admin contact"
     And I goto "/admin/users"
-    When I press "Unmake admin contact" for the user
-    Then I should be redirected
     Then there should not be a user with:
       | account flags |
       | Admin Contact |
     Then there should be an admin log entry:
       | user | message               |
-      | foo  | unmade admin contact: admin |
+      | foo  | unmade admin contact: admincontact |
 
   Scenario: Unmake tech contact
-    Given a contact "admin"
+    Given a contact "techcontact"
     And I goto "/admin/users"
-    When I press "Make technical contact" for the user
+    When I click "modify" for the user
+    Then I should see "modify user techcontact"
+    When I press "Make technical contact"
     Then I should be redirected
+    When I press "Unmake technical contact"
     And I goto "/admin/users"
-    When I press "Unmake technical contact" for the user
-    Then I should be redirected
     Then there should not be a user with:
       | account flags |
       | Technical Contact |
     Then there should be an admin log entry:
       | user | message               |
-      | foo  | unmade tech contact: admin |
+      | foo  | unmade tech contact: techcontact |
 
   Scenario: Update user should work
     Given I goto "/admin/users"

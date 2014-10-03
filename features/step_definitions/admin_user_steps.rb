@@ -127,10 +127,21 @@ When /^I press "([^"]*)" for the user$/ do |button|
 
 end
 
+When /^I click "([^"]*)" for the user$/ do |link|
+  within "tr:contains('#{@the_user.id}')" do
+    click_link link
+  end
+  
+end
+
 Then /^there should not be a user "([^"]*)"$/ do |id|
-  #last_response.should_not have_selector("td:contains('#{id}')")
   #perform test on DB... not GUI, since we can now reactivate users
-  expect(User.get(id)).to be_nil
+  expect(User.get(id).deleted_at).to_not be_nil
+end
+
+Then /^there should be a user "([^"]*)"$/ do |id|
+  #perform test on DB... not GUI, since we can now reactivate users
+  expect(User.get(id).deleted_at).to be_nil
 end
 
 Then /^user "([^"]*)" should authenticate with password "([^"]*)"$/ do |user, pass|

@@ -10,25 +10,24 @@ DESCRIPTOR_DIR = File.join File.dirname(__FILE__), '..', 'descriptors'
 
 def submit name
   file_name = "#{name}.zip"
+  
+  begin
+    #switch to using online harness files
+    zip_path = fixture(file_name)
 
-  # locate the zipped sip
-  original_zip_path = File.join SIP_ARCHIVE_DIR, file_name
-  raise "sip not found: #{name}.zip" unless File.file? original_zip_path
+    raise "sip not found: #{name}.zip" unless File.file? zip_path
 
-  # submit the thing
-  zip_path = File.join Dir.tmpdir, file_name
-  FileUtils.cp original_zip_path, zip_path
-  raise "sip not copied: #{name}.zip" unless File.file? zip_path
-  agent = Operator.get(Daitss::Archive::ROOT_OPERATOR_ID) or raise 'cannot get root account'
-  a = Daitss.archive
-  package = a.submit zip_path, agent
+    agent = Operator.get(Daitss::Archive::ROOT_OPERATOR_ID) or raise 'cannot get root account'
+    a = Daitss.archive
+    package = a.submit zip_path, agent
 
-  if package.events.first :name => 'reject'
-    raise "test submit failed for #{name}:\n\n#{package.events.last.notes}"
+    if package.events.first :name => 'reject'
+      raise "test submit failed for #{name}:\n\n#{package.events.last.notes}"
+    end
+  ensure
+    FileUtils.rm zip_path
   end
-
-  FileUtils.rm zip_path
-
+  
   a.workspace[package.id]
 end
 
