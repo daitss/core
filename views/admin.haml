@@ -1,5 +1,20 @@
 %h1 admin
 
+%h2 GUI Submission
+%form{:action => '/toggle_submit', :method => 'POST'}
+  %table
+    %tr
+      %th Status
+      %th Toggle
+    %tr
+      %td
+        - if settings.allow_submissions
+          "Submissions Enabled"
+        - else
+          "Submissions Disabled"
+      %td
+        %input{:type => 'submit', :value => 'toggle'}
+
 %ul
   %li
     %a{:href => "/admin/accounts"} accounts

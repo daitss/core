@@ -127,7 +127,8 @@ configure do
   disable :dump_errors    # Normally set to true in 'classic' style apps (of which this is one) regardless of :environment; it adds a backtrace to STDERR on all raised errors (even those we properly handle). Not so good.
   set :environment,  :production  # Get some exceptional defaults.
   set :raise_errors, false        # Handle our own exceptions.
-
+  set :allow_submissions, true    # submission toggle for GUI
+  
   Datyl::Logger.setup('Core', ENV['VIRTUAL_HOSTNAME'])
 
   if not (archive.log_syslog_facility or archive.log_filename)
@@ -245,8 +246,18 @@ post '/log' do
   redirect '/log'
 end
 
+#turn submission on or off for GUI
+post '/toggle_submit' do
+  error 400, "User not authorized" unless is_op
+  settings.allow_submissions = !settings.allow_submissions
+  redirect '/admin'
+end
+
 post '/packages?/?' do
   require_param 'sip'
+  
+  #check is submissions are disabled through GUI
+  error 400, "Submissions disabled" unless settings.allow_submissions
   
   # check if user is not an op or not an affiliate with submit permissions
   if !(is_op || (is_affiliate && (@user.permissions.include? :submit)))
