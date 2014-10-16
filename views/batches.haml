@@ -31,7 +31,7 @@
       - @batches.each do |b|
         %tr
           %td
-            %a{:href => "/batches/#{CGI::escape(b.id)}"}= b.id
+            %a{:href => "/batches/#{URI::escape(b.id)}"}= b.id
           %td= b.packages.length
           %td= sprintf('%.2f',b.size_in_bytes.to_f / 1000000) rescue "n/a"
           %td= b.submitted_datafiles rescue "n/a"
