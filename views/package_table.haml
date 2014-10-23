@@ -25,7 +25,7 @@
       %td= p.project.account.id
       %td= p.project.id
       - if p.sip
-        %td= sprintf('%.2f', p.sip.size_in_bytes.to_f / 1000000)
+        %td= sprintf('%.2f', p.sip.size_in_bytes.to_f / (1024 * 1024))
       - else
         %td= 'N/A'
       - if p.sip
