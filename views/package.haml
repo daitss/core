@@ -260,7 +260,7 @@
 
       %tr
         %th aip size
-        %td= aip.copy ? aip.copy.size : "N/A"
+        %td= aip.copy ? sprintf('%.2f MB',aip.copy.size.to_f / (1024 * 1024)) : "N/A"
 
       - if @is_op
         %tr
@@ -276,9 +276,12 @@
     %tr
  
     - @package.dips.each do |dip|
+      - dip_size = File.size(File.join archive.disseminate_path+'/'+@package.project_account_id, dip)
       %tr
         %td
           %a{:href=>"/package/#{@package.id}/dip/#{dip}"}= dip
+        %td= sprintf('%.2f MB',dip_size.to_f / (1024*1024)) rescue "N/A"
+          
 
 - else
   %h2 package details
