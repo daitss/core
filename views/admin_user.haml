@@ -129,7 +129,7 @@
     %input{:type => 'hidden', :name => 'id', :value => @the_user.id }
     %input{:type => 'submit', :value => "Delete", :onClick => "return confirmClick();" }
 
-- if @the_user.deleted?
+-# if @the_user.deleted?
   %h3 
     Reactivate User
   %form{:action => '/admin', :method => 'POST'}

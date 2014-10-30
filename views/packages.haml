@@ -20,14 +20,10 @@
           %th File
           %td
             %input{:type => 'file', :name => 'sip', :size => 50}
-
-        - if @is_op
-          %tr
-            %th Batch
-            %td
-              %input{:name => 'batch_id'}
-        - else
-          %input{:type => "hidden", :name => 'batch_id'}
+        %tr
+          %th Batch
+          %td
+            %input{:name => 'batch_id'}
 
         %tr
           %th Note

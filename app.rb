@@ -257,7 +257,7 @@ post '/packages?/?' do
   require_param 'sip'
   
   #check is submissions are disabled through GUI
-  error 400, "Submissions disabled" unless settings.allow_submissions
+  error 400, "Submissions via user interface temporarily disabled by the DAITSS operator.  Contact the operator for further assistance." unless settings.allow_submissions
   
   # check if user is not an op or not an affiliate with submit permissions
   if !(is_op || (is_affiliate && (@user.permissions.include? :submit)))
@@ -341,6 +341,11 @@ get '/packages?/?' do
                            else
                              Time.now
                            end
+                # ignore date range if batch filter set
+                if params['batch-scope'] and !params['batch-scope'].empty?
+                  start_date = Time.at 0
+                  end_date = Time.now
+                end
 
                 end_date += 1
                 range = (start_date..end_date)
@@ -1350,13 +1355,14 @@ post '/admin' do
     end
 
     redirect '/admin/users'
-    
+  
+  # disabled feature
   when 'reactivate-user'
     id = require_param 'id'
     u = User.get(id) or not_found
     u.reactivate
     
-    if u.save 
+    if false #u.save
       archive.log "Reactivated user: #{u.id}", @user
     else
       error "could not reactivate user"
