@@ -3,21 +3,12 @@
     %input{:type => 'hidden', :name => 'account-scope', :value => user.account.id }
   %table
     %tr
-      %th batch
       %th project
       %th start date
       %th end date
       %th activity
       %th set scope
     %tr
-      %td
-        %select{:name => 'batch-scope'}
-          %option
-          - user.packages.batches.each do |b|
-            - if params["batch-scope"] == b.id
-              %option{:selected => true}= b.id
-            - else
-              %option= b.id
       %td
         %select{:name => 'project-scope'}
           %option
