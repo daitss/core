@@ -20,10 +20,10 @@ module Daitss
       size
     end
     
-    def submitted_datafiles
+    def num_datafiles
       num = 0
       self.packages.each do |p|
-        num += p.sip.submitted_datafiles
+        num += p.sip.number_of_datafiles | p.sip.submitted_datafiles
       end
       num
     end

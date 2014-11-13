@@ -34,7 +34,7 @@
             %a{:href => "/batches/#{URI::escape(b.id)}"}= b.id
           %td= b.packages.length
           %td= sprintf('%.2f',b.size_in_bytes.to_f / 1000000) rescue "n/a"
-          %td= b.submitted_datafiles rescue "n/a"
+          %td= b.num_datafiles rescue "n/a"
           %td
             %form{:action => "/batches/#{b.id}", :method => 'post'}
               %input{:type => 'hidden', :name => 'task', :value => 'request-batch'}

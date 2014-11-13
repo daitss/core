@@ -454,7 +454,9 @@ get '/errors' do
     batch = Batch.get(params['batch-scope'])
     
     if batch
-      es = es.find_all { |p| p.batches.include? batch } 
+      require 'debugger'
+      debugger
+      es = batch.packages & es
     end
 
     # filter on status
