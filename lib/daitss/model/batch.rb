@@ -12,10 +12,12 @@ module Daitss
     has n, :batch_assignments
     has n, :packages, :through => :batch_assignments
     
+    # helper methods - calculating the size and number of files is a best guess based on available package information
+    # since batches can contain packages that errored out, rejected or are simply missing information. ex. daitss1 sips vs daitss2 sips
     def size_in_bytes
       size = 0
       self.packages.each do |p|
-        size += p.sip.size_in_bytes
+        size += p.sip.size_in_bytes || 0
       end
       size
     end
