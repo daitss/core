@@ -377,8 +377,10 @@ get '/packages?/?' do
                 # filter on batches
                 batch = Batch.get(params['batch-scope'])
 
-                if batch
-                  ps = ps.find_all { |p| p.batches.include? batch } 
+                if batch && is_op
+                  ps = batch.packages 
+                elsif batch
+                  ps = batch.packages(:project_account_id => @user.account_id)
                 end
 
                 ps
