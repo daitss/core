@@ -454,8 +454,6 @@ get '/errors' do
     batch = Batch.get(params['batch-scope'])
     
     if batch
-      require 'debugger'
-      debugger
       es = batch.packages & es
     end
 

@@ -23,7 +23,7 @@ module Daitss
     def num_datafiles
       num = 0
       self.packages.each do |p|
-        num += p.sip.number_of_datafiles | p.sip.submitted_datafiles
+        num += p.sip.number_of_datafiles
       end
       num
     end
