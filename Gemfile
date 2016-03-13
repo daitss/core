@@ -24,7 +24,7 @@ gem 'ruby-prof'
 case `uname`.chomp
 
 when 'Darwin'
-  gem 'sys-proctable', :path => '~/.rvm/gems/ruby-1.9.3-p429/gems/sys-proctable-0.9.3-universal-darwin'
+  gem 'sys-proctable', :path => '~/.rvm/gems/ruby-1.9.3-p551/gems/sys-proctable-0.9.3-universal-darwin'
 
 else
   gem 'sys-proctable'

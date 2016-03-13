@@ -40,7 +40,7 @@ module Daitss
       event_doc << event
 
       event_doc.remove_namespaces! 
-      event_doc.root["xmlns"] = "info:lc/xmlns/premis-v2"
+      event_doc.root["xmlns"] = "http://www.loc.gov/premis/v3"
 
       event_xml = event_doc.root.serialize
 
@@ -51,7 +51,7 @@ module Daitss
       agent_doc << agent
 
       agent_doc.remove_namespaces!
-      agent_doc.root["xmlns"] = "info:lc/xmlns/premis-v2"
+      agent_doc.root["xmlns"] = "http://www.loc.gov/premis/v3"
 
       agent_xml = agent_doc.root.serialize
 

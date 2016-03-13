@@ -81,7 +81,7 @@ module Daitss
         rep_id = obj.find_first("premis:objectIdentifier/premis:objectIdentifierValue", NAMESPACES).content
         files = obj.find("premis:relationship", NAMESPACES)
         files.each do |f|
-          dfid = f.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
+          dfid = f.find_first("premis:relatedObjectIdentifier/premis:relatedObjectIdentifierValue", NAMESPACES).content
           df = @datafiles[dfid]
           df.setRepresentations(rep_id)  unless df.nil?
         end
@@ -189,7 +189,7 @@ module Daitss
         s_relationships = file_obj.find("premis:relationship[premis:relationshipType = 'structural' and premis:relationshipSubType = 'includes']", NAMESPACES)
 
         d_relationships.each do |relationship|
-          event_id = relationship.find_first("premis:relatedEventIdentification/premis:relatedEventIdentifierValue", NAMESPACES)
+          event_id = relationship.find_first("premis:relatedEventIdentifier/premis:relatedEventIdentifierValue", NAMESPACES)
           event = @events[event_id.content] unless event_id.nil?
           unless (event.nil?)
             relationshipObj = Relationship.new
@@ -199,7 +199,7 @@ module Daitss
         end
 
         s_relationships.each do |relationship|
-          bsid = relationship.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content
+          bsid = relationship.find_first("premis:relatedObjectIdentifier/premis:relatedObjectIdentifierValue", NAMESPACES).content
           @datafiles[dfid].bitstreams << @bitstreams[bsid] if @bitstreams[bsid]
         end
       end

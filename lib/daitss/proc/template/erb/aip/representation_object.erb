@@ -1,4 +1,4 @@
-<object xsi:type='representation' xmlns='info:lc/xmlns/premis-v2'>
+<object xsi:type='representation' xmlns='http://www.loc.gov/premis/v3'>
   <objectIdentifier>
     <objectIdentifierType>URI</objectIdentifierType>
     <objectIdentifierValue><%= options[:uri]  %></objectIdentifierValue>
@@ -7,10 +7,10 @@
   <relationship>
     <relationshipType>structural</relationshipType>
     <relationshipSubType>includes</relationshipSubType>
-    <relatedObjectIdentification>
+    <relatedObjectIdentifier>
       <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
       <relatedObjectIdentifierValue><%= df.uri %></relatedObjectIdentifierValue>
-    </relatedObjectIdentification>
+    </relatedObjectIdentifier>
   </relationship>
 <% end %>
 </object>

@@ -1,19 +1,19 @@
-<relationship xmlns="info:lc/xmlns/premis-v2">
+<relationship xmlns="http://www.loc.gov/premis/v3">
   <relationshipType><%= options[:type] %></relationshipType>
   <relationshipSubType><%= options[:sub_type] %></relationshipSubType>
 
 <% options[:related_objects].each do |uri| %>
-  <relatedObjectIdentification>
+  <relatedObjectIdentifier>
     <relatedObjectIdentifierType>URI</relatedObjectIdentifierType>
     <relatedObjectIdentifierValue><%= uri %></relatedObjectIdentifierValue>
-  </relatedObjectIdentification>
+  </relatedObjectIdentifier>
 <% end %>
 
 <% options[:related_events].each do |uri| %>
-  <relatedEventIdentification>
+  <relatedEventIdentifier>
     <relatedEventIdentifierType>URI</relatedEventIdentifierType>
     <relatedEventIdentifierValue><%= uri %></relatedEventIdentifierValue>
-  </relatedEventIdentification>
+  </relatedEventIdentifier>
 <% end %>
 
 </relationship>

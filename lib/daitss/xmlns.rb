@@ -3,7 +3,7 @@
 module Daitss
 
   NS_PREFIX = {
-    'P' => 'info:lc/xmlns/premis-v2',
+    'P' => 'http://www.loc.gov/premis/v3',
     'M' => 'http://www.loc.gov/METS/',
     'xlink' => 'http://www.w3.org/1999/xlink',
     'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
@@ -18,7 +18,7 @@ module Daitss
   NAMESPACES = {
     'mets' => 'http://www.loc.gov/METS/',
     'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-    'premis' => 'info:lc/xmlns/premis-v2',
+    'premis' => 'http://www.loc.gov/premis/v3',
     'mix' => 'http://www.loc.gov/mix/v20',
     'aes' => 'http://www.aes.org/audioObject',
     'tcf' => 'http://www.aes.org/tcf',

@@ -5,7 +5,7 @@
   <title>DAITSS v2 AIP descriptor</title>
 
   <ns prefix="M" uri="http://www.loc.gov/METS/"/>
-  <ns prefix="P" uri="info:lc/xmlns/premis-v2"/>
+  <ns prefix="P" uri="http://www.loc.gov/premis/v3"/>
   <ns prefix="daitss" uri="http://www.fcla.edu/dls/md/daitss/"/>
   <ns prefix="beta" uri="info:lc/xmlns/premis-v2-beta"/>
   <ns prefix="xsi" uri="http://www.w3.org/2001/XMLSchema-instance"/>
