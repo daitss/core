@@ -6,7 +6,7 @@
   <eventType><%= options[:type] %></eventType>
   <eventDateTime><%= options[:time] || Time.now.xmlschema %></eventDateTime>
 	<% if options[:detail] %>
-		<eventDetail><%= options[:detail] %></eventDetail>
+		<eventDetailInformation><%= options[:detail] %></eventDetailInformation>
     <% end %>
   <eventOutcomeInformation>
     <eventOutcome><%= options[:outcome] %></eventOutcome>
