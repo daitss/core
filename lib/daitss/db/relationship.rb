@@ -32,11 +32,11 @@ module Daitss
     end
 
     def fromPremis(toObj, event_type, premis)
-      attribute_set(:object1, premis.find_first("premis:relatedObjectIdentification/premis:relatedObjectIdentifierValue", NAMESPACES).content)
+      attribute_set(:object1, premis.find_first("premis:relatedObjectIdentifier/premis:relatedObjectIdentifierValue", NAMESPACES).content)
       attribute_set(:type, Relationship_Map[event_type])
       validateType
       attribute_set(:object2, toObj)
-      attribute_set(:premis_event_id, premis.find_first("premis:relatedEventIdentification/premis:relatedEventIdentifierValue", NAMESPACES).content)
+      attribute_set(:premis_event_id, premis.find_first("premis:relatedEventIdentifier/premis:relatedEventIdentifierValue", NAMESPACES).content)
     end
   end
 end

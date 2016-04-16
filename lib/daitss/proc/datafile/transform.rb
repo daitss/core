@@ -165,7 +165,7 @@ module Daitss
 
       date_time = d.find_first("//P:eventDateTime", NS_PREFIX)
 
-      detailInfo = XML::NodeSet.new 'eventDetailInformation'
+      detailInfo = XML::Node.new 'eventDetailInformation'
       detail = XML::Node.new 'eventDetail'
       detail << ap_data.map { |k,v| "#{k}: #{v}" }.join("\n")
       detailInfo << detail
