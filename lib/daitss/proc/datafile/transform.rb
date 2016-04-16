@@ -94,7 +94,7 @@ module Daitss
 
     # skip the undefined transformation identifier if skip_undefined is true
     def skip_transformation_service xform_id, skip_undefined
-      url_location =  archive.transform_url + '/transform/' + xform_id
+      url_location =  archive.transform_url + '/transform_instruction/' + xform_id
       url = URI.parse url_location
       c = Curl::Easy.new url_location
       c.perform
