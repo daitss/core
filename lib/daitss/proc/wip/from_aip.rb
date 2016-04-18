@@ -128,28 +128,54 @@ module Daitss
           df['aip-path'] = aip_path
         end
 
-        # load the premis objects
+        # load the premis objects (v3 xpath)
         uri = file_node['OWNERID']
         object_node = doc.find_first(%Q{
             //P:object [@xsi:type='file']
                        [P:objectIdentifier/P:objectIdentifierValue = '#{uri}']
         }, NS_PREFIX)
-        df['describe-file-object'] = object_node.to_s if object_node
 
-        bs_uris = object_node.find(%Q{
+        #check for premis v2 object if cannot find premis v3 object
+        if object_node.nil?
+          object_node = doc.find_first(%Q{
+            //P:object [@xsi:type='file']
+                       [P:objectIdentification/P:objectIdentifierValue = '#{uri}']
+          }, NS_PREFIX)
+
+          bs_uris = object_node.find(%Q{
+          P:relationship
+            [ P:relationshipType = 'structural' ]
+            [ P:relationshipSubType = 'includes' ] /
+              P:relatedObjectIdentification /
+                P:relatedObjectIdentifierValue
+          }, NS_PREFIX).map { |node| node.content }
+
+          bs_nodes = bs_uris.map do |bs_uri|
+            doc.find_first(%Q{
+              //P:object [@xsi:type='bitstream']
+                         [P:objectIdentification/P:objectIdentifierValue = '#{bs_uri}']
+            }, NS_PREFIX)
+          end
+
+        else
+          bs_uris = object_node.find(%Q{
           P:relationship
             [ P:relationshipType = 'structural' ]
             [ P:relationshipSubType = 'includes' ] /
               P:relatedObjectIdentifier /
                 P:relatedObjectIdentifierValue
-        }, NS_PREFIX).map { |node| node.content }
+          }, NS_PREFIX).map { |node| node.content }
 
-        bs_nodes = bs_uris.map do |bs_uri|
-          doc.find_first(%Q{
+          bs_nodes = bs_uris.map do |bs_uri|
+            doc.find_first(%Q{
               //P:object [@xsi:type='bitstream']
                          [P:objectIdentifier/P:objectIdentifierValue = '#{bs_uri}']
-          }, NS_PREFIX)
+            }, NS_PREFIX)
+          end
+          
         end
+
+        df['describe-file-object'] = object_node.to_s if object_node
 
         df['describe-bitstream-objects'] = bs_nodes.join
       end
