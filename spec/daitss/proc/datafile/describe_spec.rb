@@ -112,7 +112,7 @@ describe 'describing a datafile' do
       @df['transformation-strategy'] = 'migrate'
       @df['migrate-agent'] = 'foo bar'
       @df['migrate-event'] = XML::Document.string %Q{
-        <event xmlns="info:lc/xmlns/premis-v2">
+        <event xmlns="http://www.loc.gov/premis/v3">
           <eventIdentifier>
             <eventIdentifierType>URI</eventIdentifierType>
             <eventIdentifierValue>foo</eventIdentifierValue>
@@ -141,14 +141,14 @@ describe 'describing a datafile' do
       object_doc = XML::Document.string @df['describe-file-object']
       relationship = object_doc.find_first(%Q{
         P:relationship[
-          P:relatedObjectIdentification/
+          P:relatedObjectIdentifier/
             P:relatedObjectIdentifierValue = '#{ @df['transformation-source'] }']
       } , NS_PREFIX)
       relationship.should_not be_nil
 
       # the event
       rel_event = relationship.find_first(%Q{
-        P:relatedEventIdentification /
+        P:relatedEventIdentifier /
           P:relatedEventIdentifierValue
       }, NS_PREFIX)
       rel_event.should_not be_nil

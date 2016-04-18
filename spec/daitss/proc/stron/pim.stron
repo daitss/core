@@ -5,7 +5,7 @@
   <title>Florida Digital Archive PiM Validation</title>
   
   <ns prefix="mets" uri="http://www.loc.gov/METS/"/>
-  <ns prefix="pre" uri="info:lc/xmlns/premis-v2"/>
+  <ns prefix="pre" uri="http://www.loc.gov/premis/v3"/>
   <ns prefix="dts" uri="http://www.fcla.edu/dls/md/daitss/"/>
   <ns prefix="xsi" uri="http://www.w3.org/2001/XMLSchema-instance"/>
 

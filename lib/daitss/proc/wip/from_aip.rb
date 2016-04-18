@@ -140,7 +140,7 @@ module Daitss
           P:relationship
             [ P:relationshipType = 'structural' ]
             [ P:relationshipSubType = 'includes' ] /
-              P:relatedObjectIdentification /
+              P:relatedObjectIdentifier /
                 P:relatedObjectIdentifierValue
         }, NS_PREFIX).map { |node| node.content }
 
