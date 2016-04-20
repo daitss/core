@@ -4,6 +4,7 @@ module Daitss
 
   NS_PREFIX = {
     'P' => 'http://www.loc.gov/premis/v3',
+    'PV2' => 'info:lc/xmlns/premis-v2',   
     'M' => 'http://www.loc.gov/METS/',
     'xlink' => 'http://www.w3.org/1999/xlink',
     'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',

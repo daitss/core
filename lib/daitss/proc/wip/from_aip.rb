@@ -3,7 +3,7 @@ require 'daitss/proc/wip/tarball'
 require 'daitss/proc/datafile/obsolete'
 require 'digest/sha1'
 require 'uri'
-
+require 'ruby-debug'
 module Daitss
 
   class Wip
@@ -70,7 +70,15 @@ module Daitss
 
     # transfer datafiles into the wip
     def load_datafiles
+      @premisNS = "P"
       doc = XML::Document.string self.package.aip.xml
+      # check if the aip descriptor is using premis-v2 namespace prefix
+      attrs =  doc.root.attributes
+      attrs.each do |name|
+        if name.to_s.include? "info:lc/xmlns/premis-v2"
+          @premisNS = "PV2"
+        end
+      end
 
       tdir = Dir.mktmpdir nil, ENV['TMPDIR']
 
@@ -130,49 +138,25 @@ module Daitss
 
         # load the premis objects (v3 xpath)
         uri = file_node['OWNERID']
+        ns = @premisNS
         object_node = doc.find_first(%Q{
-            //P:object [@xsi:type='file']
-                       [P:objectIdentifier/P:objectIdentifierValue = '#{uri}']
+            //#{ns}:object[@xsi:type='file']
+                       [#{ns}:objectIdentifier/#{ns}:objectIdentifierValue = '#{uri}']
         }, NS_PREFIX)
 
-        #check for premis v2 object if cannot find premis v3 object
-        if object_node.nil?
-          object_node = doc.find_first(%Q{
-            //P:object [@xsi:type='file']
-                       [P:objectIdentification/P:objectIdentifierValue = '#{uri}']
+        bs_uris = object_node.find(%Q{
+          #{@premisNS}:relationship
+            [ #{@premisNS}:relationshipType = 'structural' ]
+            [ #{@premisNS}:relationshipSubType = 'includes' ] /
+              #{@premisNS}:relatedObjectIdentifier /
+                #{@premisNS}:relatedObjectIdentifierValue
+        }, NS_PREFIX).map { |node| node.content }
+
+        bs_nodes = bs_uris.map do |bs_uri|
+          doc.find_first(%Q{
+              //#{@premisNS}:object [@xsi:type='bitstream']
+                         [#{@premisNS}:objectIdentifier/#{@premisNS}:objectIdentifierValue = '#{bs_uri}']
           }, NS_PREFIX)
-
-          bs_uris = object_node.find(%Q{
-          P:relationship
-            [ P:relationshipType = 'structural' ]
-            [ P:relationshipSubType = 'includes' ] /
-              P:relatedObjectIdentification /
-                P:relatedObjectIdentifierValue
-          }, NS_PREFIX).map { |node| node.content }
-
-          bs_nodes = bs_uris.map do |bs_uri|
-            doc.find_first(%Q{
-              //P:object [@xsi:type='bitstream']
-                         [P:objectIdentification/P:objectIdentifierValue = '#{bs_uri}']
-            }, NS_PREFIX)
-          end
-
-        else
-          bs_uris = object_node.find(%Q{
-          P:relationship
-            [ P:relationshipType = 'structural' ]
-            [ P:relationshipSubType = 'includes' ] /
-              P:relatedObjectIdentifier /
-                P:relatedObjectIdentifierValue
-          }, NS_PREFIX).map { |node| node.content }
-
-          bs_nodes = bs_uris.map do |bs_uri|
-            doc.find_first(%Q{
-              //P:object [@xsi:type='bitstream']
-                         [P:objectIdentifier/P:objectIdentifierValue = '#{bs_uri}']
-            }, NS_PREFIX)
-          end
-          
         end
 
         df['describe-file-object'] = object_node.to_s if object_node
@@ -194,7 +178,7 @@ module Daitss
     ensure
       FileUtils.rm_r tdir if tdir
     end
-
+    end
     # transfer sip descriptor
     def load_sip_descriptor
       name = File.join Wip::SIP_FILES_DIR, "#{self.package.sip.name}.xml"
@@ -227,13 +211,13 @@ module Daitss
 
         dfs.each do |df|
           source_uri = doc.find_first(%Q{
-        // P:event [ P:eventType = '#{ name }' ]
+        // #{@premisNS}:event [ #{@premisNS}:eventType = '#{ name }' ]
                    [
-                     P:linkingObjectIdentifier [ P:linkingObjectRole = 'outcome']
-                                               [ P:linkingObjectIdentifierValue = '#{ df.uri }' ]
+                     #{@premisNS}:linkingObjectIdentifier [ #{@premisNS}:linkingObjectRole = 'outcome']
+                                               [ #{@premisNS}:linkingObjectIdentifierValue = '#{ df.uri }' ]
                    ]/
-          P:linkingObjectIdentifier [ P:linkingObjectRole = 'source' ] /
-            P:linkingObjectIdentifierValue
+          #{@premisNS}:linkingObjectIdentifier [ #{@premisNS}:linkingObjectRole = 'source' ] /
+            #{@premisNS}:linkingObjectIdentifierValue
           }, NS_PREFIX)
 
           df['transformation-source'] = source_uri.content if source_uri
@@ -246,16 +230,18 @@ module Daitss
     # transfer package wide events and agents
     def load_old_package_digiprov
       doc = XML::Document.string self.package.aip.xml
-      es = doc.find("//P:event[P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = '#{uri}']", NS_PREFIX)
+
+      es = doc.find("//#{@premisNS}:event[#{@premisNS}:linkingObjectIdentifier/#{@premisNS}:linkingObjectIdentifierValue = '#{uri}']", NS_PREFIX)
+
       metadata['old-digiprov-events'] = es.map { |e| e.to_s }.join "\n"
 
       as = es.map do |event|
 
-        xpath = "P:linkingAgentIdentifier/P:linkingAgentIdentifierValue"
+        xpath = "#{@premisNS}:linkingAgentIdentifier/#{@premisNS}:linkingAgentIdentifierValue"
         agent_ids = event.find(xpath, NS_PREFIX).map { |agent_id| agent_id.content }
 
         agent_ids.map do |agent_id|
-          xpath = "//P:agent[P:agentIdentifier/P:agentIdentifierValue = '#{agent_id}']"
+          xpath = "//#{@premisNS}:agent[#{@premisNS}:agentIdentifier/#{@premisNS}:agentIdentifierValue = '#{agent_id}']"
           doc.find_first(xpath, NS_PREFIX)
         end
 
@@ -266,16 +252,16 @@ module Daitss
 
     # transfer events and the respective agents for each datafile
     def load_old_datafile_digiprov
-      doc = XML::Document.string self.package.aip.xml
+       doc = XML::Document.string self.package.aip.xml
 
       # Buffer all agents into a local hash and look it up later
       # instead of looking it up everytime from the 'doc'
-      xpath = "//P:agent"
+      xpath = "//#{@premisNS}:agent"
       agents_pool = doc.find(xpath, NS_PREFIX);
 
       agents_hash = Hash.new
       agents_pool.each do |agent|
-            id_value = agent.find_first("P:agentIdentifier/P:agentIdentifierValue", NS_PREFIX).content
+            id_value = agent.find_first("#{@premisNS}:agentIdentifier/#{@premisNS}:agentIdentifierValue", NS_PREFIX).content
             agents_hash[id_value] = agent
       end
 
@@ -283,8 +269,8 @@ module Daitss
 
         # transfer old events
         xpath = %Q{
-          //P:event
-          [P:linkingObjectIdentifier/P:linkingObjectIdentifierValue = '#{df.uri}']
+          //#{@premisNS}:event
+          [#{@premisNS}:linkingObjectIdentifier/#{@premisNS}:linkingObjectIdentifierValue = '#{df.uri}']
         }
 
         es_obj = doc.find(xpath, NS_PREFIX)
@@ -295,11 +281,11 @@ module Daitss
         as = es.map do |event|
 
           # Filter out all events which do not match the criteria
-          check1_xpath = "P:eventType = 'normalize' or P:eventType = 'migrate'"
+          check1_xpath = "#{@premisNS}:eventType = 'normalize' or #{@premisNS}:eventType = 'migrate'"
           if true == event.find(check1_xpath, NS_PREFIX)
-            check2_xpath = "P:linkingObjectIdentifier
-            [P:linkingObjectIdentifierValue = '#{df.uri}']
-            [P:linkingObjectRole = 'outcome']"
+            check2_xpath = "#{@premisNS}:linkingObjectIdentifier
+            [#{@premisNS}:linkingObjectIdentifierValue = '#{df.uri}']
+            [#{@premisNS}:linkingObjectRole = 'outcome']"
             if event.find(check2_xpath, NS_PREFIX).size == 0
               next
             end
@@ -307,7 +293,7 @@ module Daitss
 
           events_temp << event.to_s
 
-          xpath = "P:linkingAgentIdentifier/P:linkingAgentIdentifierValue"
+          xpath = "#{@premisNS}:linkingAgentIdentifier/#{@premisNS}:linkingAgentIdentifierValue"
           agent_ids = event.find(xpath, NS_PREFIX).map { |agent_id| agent_id.content }
 
           agent_ids.map do |agent_id|
@@ -319,10 +305,10 @@ module Daitss
 
         df['old-digiprov-events'] = events_temp.map { |e| e.to_s }.join "\n"
         df['old-digiprov-agents'] = as.flatten.map { |a| a.to_s }.join "\n"
+       
       end
 
     end
 
   end
 
-end

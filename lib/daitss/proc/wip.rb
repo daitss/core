@@ -36,6 +36,7 @@ module Daitss
     attr_reader :id, :path, :metadata
 
     attr_accessor :file_group
+    attr_accessor :premisNS
 
     def_delegators :@metadata, :[]=, :[], :has_key?, :delete
 
@@ -92,10 +93,9 @@ module Daitss
       @path = File.expand_path path
       @id = File.basename @path
       @metadata_path = File.join @path, METADATA_DIR
-
+      @premisNS = "P"
       @metadata = FsHash.new File.join(@path, METADATA_DIR)
       @cached_max_id = {}
-
       File.lock @path, :shared => true do
         load_info
         load_journal
