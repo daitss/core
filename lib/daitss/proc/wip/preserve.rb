@@ -44,12 +44,10 @@ module Daitss
         xmlres = XmlRes.new
         xmlres.put_collection id
 
-        all_datafiles.select(&:xmlresolution).each do |df| 
-          unless df.obsolete? 
-            event, agent = xmlres.resolve_file df
-            df['xml-resolution-event'] = event
-            df['xml-resolution-agent'] = agent
-          end
+        original_datafiles.select(&:xmlresolution).each do |df| 
+          event, agent = xmlres.resolve_file df
+          df['xml-resolution-event'] = event
+          df['xml-resolution-agent'] = agent
         end
 
         xmlres.save_tarball xmlres_file
