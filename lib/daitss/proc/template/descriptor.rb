@@ -18,9 +18,11 @@ module Daitss
       save_aip_descriptor descriptor.to_s
     end
 
+    # %r{file} - exclude the validation error in the xsi:file due to incorporating the premis-v2 snippet back into the aip descriptor
     VALIDATION_EXCEPTIONS = [
       %r{(tcf|aes)\:},
-      %r{mix:dateTimeCreated}
+      %r{mix:dateTimeCreated},
+      %r{file}
     ]
 
     def validate_aip_descriptor
