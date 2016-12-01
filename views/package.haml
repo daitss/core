@@ -156,16 +156,17 @@
     %h2 aip
 
     %table
-      %tr
-        %th title
-        %td= @package.intentity.title
+      - if @package.intentity
+        %tr
+          %th title
+          %td= @package.intentity.title
         
-      - if @package.intentity.volume != ""
+      - if @package.intentity && @package.intentity.volume != ""
         %tr
           %th volume
           %td= @package.intentity.volume
 
-      - if @package.intentity.issue != ""
+      - if @package.intentity && @package.intentity.issue != ""
         %tr
           %th issue
           %td= @package.intentity.issue

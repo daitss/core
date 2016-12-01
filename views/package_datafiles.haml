@@ -7,50 +7,51 @@
 
 %hr
 
-%table
-  %tr
-    %th
-      AIP file ID
-    %th
-      Datafile name
-    %th
-      Origin
-    %th
-      Size 
-    %th
-      Flags
-    %th
-      Create date
-
-  - datafiles = @package.intentity.datafiles.sort do |a, b|
-    - if a.is_sip_descriptor
-      - -1
-    - elsif b.is_sip_descriptor 
-      - 1
-    - else
-      - a.original_path <=> b.original_path
- 
-
-  - datafiles.each do |df|
+- if @package.intentity
+  %table
     %tr
-      %td= df.id
-      %td= df.original_path.gsub!(/^sip-files\//, '')
-      %td= df.origin
+      %th
+        AIP file ID
+      %th
+        Datafile name
+      %th
+        Origin
+      %th
+        Size 
+      %th
+        Flags
+      %th
+        Create date
 
-      - if df.size > 1_000_000_000_000
-        - size = sprintf("%5.2f TB",  df.size / 1_000_000_000_000.0)
-      - elsif df.size > 1_000_000_000
-        - size = sprintf("%5.2f GB",  df.size / 1_000_000_000.0)
-      - elsif df.size > 1_000_000
-        - size = sprintf("%5.2f MB",  df.size / 1_000_000.0)
-      - elsif df.size > 1_000
-        - size = sprintf("%5.2f KB",  df.size / 1_000.0)
+    - datafiles = @package.intentity.datafiles.sort do |a, b|
+      - if a.is_sip_descriptor
+        - -1
+      - elsif b.is_sip_descriptor 
+        - 1
       - else
-        - size = sprintf("%5.2f B",   df.size)     
- 
-      %td= size.strip
+        - a.original_path <=> b.original_path
+   
 
-      %td= "SIP Descriptor" if df.is_sip_descriptor
+    - datafiles.each do |df|
+      %tr
+        %td= df.id
+        %td= df.original_path.gsub!(/^sip-files\//, '')
+        %td= df.origin
 
-      %td= df.create_date
+        - if df.size > 1_000_000_000_000
+          - size = sprintf("%5.2f TB",  df.size / 1_000_000_000_000.0)
+        - elsif df.size > 1_000_000_000
+          - size = sprintf("%5.2f GB",  df.size / 1_000_000_000.0)
+        - elsif df.size > 1_000_000
+          - size = sprintf("%5.2f MB",  df.size / 1_000_000.0)
+        - elsif df.size > 1_000
+          - size = sprintf("%5.2f KB",  df.size / 1_000.0)
+        - else
+          - size = sprintf("%5.2f B",   df.size)     
+   
+        %td= size.strip
+
+        %td= "SIP Descriptor" if df.is_sip_descriptor
+
+        %td= df.create_date
 
