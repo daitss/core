@@ -163,6 +163,7 @@ if @config.path
       submit_package pkg_path
     rescue => e
       Datyl::Logger.err "Error submitting #{pkg_path}: #{e.message}"
+      e.backtrace.each { |line| Datyl::Logger.err line }  
     end
   end
 elsif @config.package

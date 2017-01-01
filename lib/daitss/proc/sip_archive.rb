@@ -364,7 +364,11 @@ MSG
       ns = descriptor_doc.find "//M:file", NS_PREFIX
 
       ns.map do |n|
-        href = n.find_first("M:FLocat/@xlink:href", NS_PREFIX).value
+        href_element = n.find_first("M:FLocat/@xlink:href", NS_PREFIX)
+        if href_element.nil?
+          raise "error in METS file section, missing xlink:href in element " + n.to_s
+        end
+        href = href_element.value
         path = URI.unescape href
         cs = n['CHECKSUM']
         cst = n['CHECKSUMTYPE']
