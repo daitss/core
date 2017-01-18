@@ -148,7 +148,8 @@ module Daitss
 
         Dir.chdir @path do
 
-          content_files_with_checksums.each do |f_uri, expected, expected_type|
+          begin
+            content_files_with_checksums.each do |f_uri, expected, expected_type|
             f = URI.unescape f_uri
             # try to infer expected type if not provided
             if expected_type.nil? or expected_type.empty?
@@ -172,6 +173,9 @@ module Daitss
 MSG
               es[:content_file_fixity] << "\n" << message
             end
+            end
+          rescue => e
+            es[:content_file_missing_xlink] << "\n METS file missing xlink element #{e.message} "
           end
         end
       end
