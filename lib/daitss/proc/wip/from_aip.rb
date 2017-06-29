@@ -71,12 +71,14 @@ module Daitss
     # transfer datafiles into the wip
     def load_datafiles
       @premisNS = "P"
+      @secondaryNS = "PV2"
       doc = XML::Document.string self.package.aip.xml
       # check if the aip descriptor is using premis-v2 namespace prefix
       attrs =  doc.root.attributes
       attrs.each do |name|
         if name.to_s.include? "info:lc/xmlns/premis-v2"
           @premisNS = "PV2"
+          @secondaryNS = "P"
         end
       end
 
@@ -144,18 +146,26 @@ module Daitss
                        [#{ns}:objectIdentifier/#{ns}:objectIdentifierValue = '#{uri}']
         }, NS_PREFIX)
 
+        if object_node.nil? 
+          ns = @secondaryNS
+          object_node = doc.find_first(%Q{
+            //#{ns}:object[@xsi:type='file']
+                       [#{ns}:objectIdentifier/#{ns}:objectIdentifierValue = '#{uri}']
+        }, NS_PREFIX)
+        end
+
         bs_uris = object_node.find(%Q{
-          #{@premisNS}:relationship
-            [ #{@premisNS}:relationshipType = 'structural' ]
-            [ #{@premisNS}:relationshipSubType = 'includes' ] /
-              #{@premisNS}:relatedObjectIdentifier /
-                #{@premisNS}:relatedObjectIdentifierValue
-        }, NS_PREFIX).map { |node| node.content }
+          #{ns}:relationship
+            [ #{ns}:relationshipType = 'structural' ]
+            [ #{ns}:relationshipSubType = 'includes' ] /
+              #{ns}:relatedObjectIdentifier /
+                #{ns}:relatedObjectIdentifierValue
+        }, NS_PREFIX).map { |node| node.content if node}
 
         bs_nodes = bs_uris.map do |bs_uri|
           doc.find_first(%Q{
-              //#{@premisNS}:object [@xsi:type='bitstream']
-                         [#{@premisNS}:objectIdentifier/#{@premisNS}:objectIdentifierValue = '#{bs_uri}']
+              //#{ns}:object [@xsi:type='bitstream']
+                         [#{ns}:objectIdentifier/#{ns}:objectIdentifierValue = '#{bs_uri}']
           }, NS_PREFIX)
         end
 
@@ -231,23 +241,32 @@ module Daitss
     def load_old_package_digiprov
       doc = XML::Document.string self.package.aip.xml
 
-      es = doc.find("//#{@premisNS}:event[#{@premisNS}:linkingObjectIdentifier/#{@premisNS}:linkingObjectIdentifierValue = '#{uri}']", NS_PREFIX)
+      events  = []
+      agents   = []
 
-      metadata['old-digiprov-events'] = es.map { |e| e.to_s }.join "\n"
+      namespaces = ['P', 'PV2']
 
-      as = es.map do |event|
+      namespaces.each do |ns|
+        es = doc.find("//#{ns}:event[#{ns}:linkingObjectIdentifier/#{ns}:linkingObjectIdentifierValue = '#{uri}']", NS_PREFIX)
+        events << es.map { |e| e.to_s }
+  
+        as = es.map do |event|
 
-        xpath = "#{@premisNS}:linkingAgentIdentifier/#{@premisNS}:linkingAgentIdentifierValue"
-        agent_ids = event.find(xpath, NS_PREFIX).map { |agent_id| agent_id.content }
+          xpath = "#{ns}:linkingAgentIdentifier/#{ns}:linkingAgentIdentifierValue"
+          agent_ids = event.find(xpath, NS_PREFIX).map { |agent_id| agent_id.content }
 
-        agent_ids.map do |agent_id|
-          xpath = "//#{@premisNS}:agent[#{@premisNS}:agentIdentifier/#{@premisNS}:agentIdentifierValue = '#{agent_id}']"
-          doc.find_first(xpath, NS_PREFIX)
+          agent_ids.map do |agent_id|
+            xpath = "//#{ns}:agent[#{ns}:agentIdentifier/#{ns}:agentIdentifierValue = '#{agent_id}']"
+            doc.find_first(xpath, NS_PREFIX)
+          end
         end
-
+        agents << as.flatten.map { |a| a.to_s }
+        
       end
 
-      metadata['old-digiprov-agents'] = as.flatten.map { |a| a.to_s }.join "\n"
+      metadata['old-digiprov-events'] = events.join "\n"
+
+      metadata['old-digiprov-agents'] = agents.join "\n"
     end
 
     # transfer events and the respective agents for each datafile
