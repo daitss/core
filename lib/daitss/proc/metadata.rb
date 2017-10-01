@@ -37,7 +37,9 @@ module Daitss
 
       if metadata.has_key? 'old-digiprov-events'
         raw_events = metadata['old-digiprov-events'].split %r{\n(?=<event)}
-        raw_events.map { |s| XML::Document.string s }
+        #remove empty element
+        clean_events = raw_events.reject { |e| e.empty? }
+        clean_events.map { |s| XML::Document.string s }
       else
         []
       end
@@ -49,7 +51,9 @@ module Daitss
 
       if metadata.has_key? 'old-digiprov-agents'
         raw_agents = metadata['old-digiprov-agents'].split %r{\n(?=<agent)}
-        raw_agents.map { |s| XML::Document.string s }
+        #remove empty element
+        clean_agents = raw_agents.reject { |a| a.empty? }
+        clean_agents.map { |s| XML::Document.string s }
       else
         []
       end
