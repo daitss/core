@@ -44,12 +44,13 @@ doc = LibXML::XML::Document.file f
 attrs =  doc.root.attributes
 #puts attrs.to_a
 ns = "premis"
-
+secNS = "pv2"
 attrs.each do |name|
 	puts name.to_s
 
 	if name.to_s.include? "info:lc/xmlns/premis-v2"
 		ns = "pv2"
+		secNS = "premis"
 		puts ns
 	end	
 end
@@ -64,7 +65,35 @@ df_paths = doc.find("//mets:file", NAMESPACES).map do |file_node|
 				[#{ns}:objectIdentifier/#{ns}:objectIdentifierValue = '#{uri}']
 	}, NAMESPACES)
 	#puts object_node.namespaces.to_a
-	puts object_node if object_node
+	#puts object_node if object_node?
+	if object_node
+		puts "object_node not nil" 
+		bs_uris = object_node.find(%Q{
+          #{ns}:relationship
+            [ #{ns}:relationshipType = 'structural' ]
+            [ #{ns}:relationshipSubType = 'includes' ] /
+              #{ns}:relatedObjectIdentifier /
+                #{ns}:relatedObjectIdentifierValue
+        }, NAMESPACES).map { |node| node.content if node}
+
+	else
+
+		puts "object_node nil" 
+		object_node = doc.find_first(%Q{
+				//#{secNS}:object[@xsi:type='file']
+						[#{secNS}:objectIdentifier/#{secNS}:objectIdentifierValue = '#{uri}']
+			}, NAMESPACES)
+		#puts object_node
+		bs_uris = object_node.find(%Q{
+          #{secNS}:relationship
+            [ #{secNS}:relationshipType = 'structural' ]
+            [ #{secNS}:relationshipSubType = 'includes' ] /
+              #{secNS}:relatedObjectIdentifier /
+                #{secNS}:relatedObjectIdentifierValue
+        }, NAMESPACES).map { |node| node.content if node}
+		puts "bs_uris"
+        puts bs_uris
+	end
 end
 
 rs = find_all_premis_objects doc

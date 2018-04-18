@@ -55,7 +55,7 @@ begin
   end
 rescue => e
   puts p.inspect
-  puts aip.inspect
+  #puts aip.inspect
   puts e.inspect  
   puts "Caught exception #{e.class}: '#{e.message}' updating database"
   e.backtrace.each { |line| puts line}        
