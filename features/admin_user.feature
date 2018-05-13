@@ -62,20 +62,22 @@ Feature: admin of users
       | user | message               |
       | foo  | delete user: usermagee |
       
-  Scenario: Reactivate a deleted user
-    Given a user "usermagee"
-    And that user is not empty
-    And I goto "/admin/users"
-    When I click "modify" for the user
-    Then I should see "modify user usermagee"
-    When I press "Delete"
-    Then I should be redirected
-    And there should not be a user "usermagee"
-    When I click "modify" for the user
-    Then I should see "is DEACTIVATED"
-    When I press "reactivate user"
-    Then I should be redirected
-    And there should be a user "usermagee"
+ # comment out scenario since the reactive feature is disabled in DAITSS 
+ # https://github.com/daitss/core/commit/2f623f5312e428b477975d942402773dadfa9f31#diff-31b23beda6ac916df452835c35f2d5b1
+ # Scenario: Reactivate a deleted user
+ #   Given a user "usermagee"
+ #  And that user is not empty
+ #   And I goto "/admin/users"
+ #   When I click "modify" for the user
+ #   Then I should see "modify user usermagee"
+ #   When I press "Delete"
+ #   Then I should be redirected
+ #   And there should not be a user "usermagee"
+ #   When I click "modify" for the user
+ #   Then I should see "is DEACTIVATED"
+ #   When I press "reactivate user"
+ #   Then I should be redirected
+ #   And there should be a user "usermagee"
 
   Scenario: Make admin contact
     Given a contact "admincontact"
