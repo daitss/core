@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 
-# reads IEIDs from a file and adds them to a D2 batch
+# Reads a list of IEIDs (e.g. E20070925_AAAADU) from a file, one or
+# more per line, and add them to the DAITSS db as new batch of
+# packages to process. They will be processed later via the DAITSS
+# console as determined by our staff.
 
 require 'rubygems'
 require 'bundler/setup'
@@ -12,46 +15,47 @@ load_archive
 
 def error msg
   STDERR.puts msg
-  exit 1
+  exit -1
 end
 
-unless ARGV[0] and ARGV[1]
-  error "Usage: refresh-batch BATCH_NAME FILE_NAME"
-else
-  file = ARGV[1]
-  batch_name = ARGV[0]
+batch_name, file_name = ARGV[0], ARGV[1]
+unless batch_name and file_name
+  error [ "Usage: #{File.basename(__FILE__)} batch-name file-name", "       batch-name is a new unique name, file-name is a plain text file with a list of IEIDS" ]
 end
 
-error "#{file} does not exist or is not a file" unless File.file? file
-error "A batch with name #{batch_name} already exists" if Batch.get(batch_name)
+error "'#{file_name}' does not exist or is not a plain text file." unless File.file? file_name
+error "A batch with name '#{batch_name}' already exists. Choose a unique name." if Batch.get(batch_name)
 
 b = Batch.new :id => batch_name
-b.save or error "Could not save batch with name #{batch_name}"
+b.save or error "Could not save batch with name '#{batch_name}'"
 
-# figure out the number of lines
-ieids = File.open("test1", "r").read.split(" ")
+ieids = File.read(file_name).strip.split
 
-line_num = 0
-added = 0
-skipped = 0
+added = []
+skipped = []
+
 ieids.each do |ieid|
-  line_num += 1
+  p = repository(:default).adapter.select("SELECT * FROM packages where id = ?", ieid)
 
-  puts "Attempting to add #{ieid} to batch #{batch_name} (#{line_num}/#{ieids.size})"
-  p = repository(:default).adapter.select("SELECT * FROM packages where id = '#{ieid}'")
-
-  unless p.length == 1
-    puts "    #{ieid} does not denote a valid package, skipping" 
-    skipped += 1
+  if p.length != 1
+    skipped.push ieid
     next
   end
 
-  repository(:default).adapter.execute("INSERT INTO batch_assignments (batch_id, package_id) VALUES ('#{b.id}', '#{ieid}')")
+  repository(:default).adapter.execute("INSERT INTO batch_assignments (batch_id, package_id) VALUES (?, ?)", b.id, ieid)
 
-  added += 1
-  puts "    #{ieid} added to batch #{batch_name}" 
+  added.push ieid
   b.save
 end
 
-puts "\nPackages added to batch #{batch_name}: #{added}\nPackages skipped: #{skipped}"
- 
+if not added.empty?
+  puts "#{added.length} package#{added.length == 1 ? '' : 's'} added to batch #{batch_name}:"
+  puts added.sort.map { |t| "  " + t}
+else
+  puts "No packages added to batch #{batch_name}."
+end
+
+if not skipped.empty?
+  puts "#{skipped.length} non-existant package#{skipped.length == 1 ? '' : 's'}:"
+  puts skipped.sort.map { |t| "  " + t }
+end
