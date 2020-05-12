@@ -26,7 +26,7 @@ Installation
 ----------
 The process of installing core service is the process of setting up a DAITSS repository. 
 
-Instructions for installing a DAITSS repository from scratch are available here: [DAITSS installation manual](www.fcla.edu/daitss-test/installmanual.pdf)
+Instructions for installing a DAITSS repository from scratch are available here: [DAITSS installation manual](readMeInstallManual/DAITSSinstallManual.md)
 
 Alternatively, a virtual machine can be downloaded that includes a fully installed and configured DAITSS repositoty here: [DAITSS demonstration virtual machine download](https://daitss.fcla.edu/content/download)
 
